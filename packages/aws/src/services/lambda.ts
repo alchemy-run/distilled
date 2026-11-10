@@ -715,12 +715,12 @@ export interface AddLayerVersionPermissionRequest {
   StatementId: string;
   Action: string;
   Principal: string;
-  OrganizationId?: string;
-  RevisionId?: string;
+  OrganizationId?: string | undefined;
+  RevisionId?: string | undefined;
 }
 export interface AddLayerVersionPermissionResponse {
-  Statement?: string;
-  RevisionId?: string;
+  Statement?: string | undefined;
+  RevisionId?: string | undefined;
 }
 export type NamespacedFunctionName = string;
 export type Action = string;
@@ -737,17 +737,17 @@ export interface AddPermissionRequest {
   StatementId: string;
   Action: string;
   Principal: string;
-  SourceArn?: string;
-  FunctionUrlAuthType?: FunctionUrlAuthType;
-  InvokedViaFunctionUrl?: boolean;
-  SourceAccount?: string;
-  EventSourceToken?: string;
-  Qualifier?: string;
-  RevisionId?: string;
-  PrincipalOrgID?: string;
+  SourceArn?: string | undefined;
+  FunctionUrlAuthType?: FunctionUrlAuthType | undefined;
+  InvokedViaFunctionUrl?: boolean | undefined;
+  SourceAccount?: string | undefined;
+  EventSourceToken?: string | undefined;
+  Qualifier?: string | undefined;
+  RevisionId?: string | undefined;
+  PrincipalOrgID?: string | undefined;
 }
 export interface AddPermissionResponse {
-  Statement?: string;
+  Statement?: string | undefined;
 }
 export type DurableExecutionArn = string;
 export type CheckpointToken = string;
@@ -770,53 +770,53 @@ export type ErrorData = string | redacted.Redacted<string>;
 export type StackTraceEntry = string | redacted.Redacted<string>;
 export type StackTraceEntries = (string | redacted.Redacted<string>)[];
 export interface ErrorObject {
-  ErrorMessage?: string | redacted.Redacted<string>;
-  ErrorType?: string | redacted.Redacted<string>;
-  ErrorData?: string | redacted.Redacted<string>;
-  StackTrace?: (string | redacted.Redacted<string>)[];
+  ErrorMessage?: string | redacted.Redacted<string> | undefined;
+  ErrorType?: string | redacted.Redacted<string> | undefined;
+  ErrorData?: string | redacted.Redacted<string> | undefined;
+  StackTrace?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type ReplayChildren = boolean;
 export interface ContextOptions {
-  ReplayChildren?: boolean;
+  ReplayChildren?: boolean | undefined;
 }
 export type DurationSeconds = number;
 export interface StepOptions {
-  NextAttemptDelaySeconds?: number;
+  NextAttemptDelaySeconds?: number | undefined;
 }
 export interface WaitOptions {
-  WaitSeconds?: number;
+  WaitSeconds?: number | undefined;
 }
 export interface CallbackOptions {
-  TimeoutSeconds?: number;
-  HeartbeatTimeoutSeconds?: number;
+  TimeoutSeconds?: number | undefined;
+  HeartbeatTimeoutSeconds?: number | undefined;
 }
 export type TenantId = string;
 export interface ChainedInvokeOptions {
   FunctionName: string;
-  TenantId?: string;
+  TenantId?: string | undefined;
 }
 export interface OperationUpdate {
   Id: string;
-  ParentId?: string;
-  Name?: string;
+  ParentId?: string | undefined;
+  Name?: string | undefined;
   Type: OperationType;
-  SubType?: string;
+  SubType?: string | undefined;
   Action: OperationAction;
-  Payload?: string | redacted.Redacted<string>;
-  Error?: ErrorObject;
-  ContextOptions?: ContextOptions;
-  StepOptions?: StepOptions;
-  WaitOptions?: WaitOptions;
-  CallbackOptions?: CallbackOptions;
-  ChainedInvokeOptions?: ChainedInvokeOptions;
+  Payload?: string | redacted.Redacted<string> | undefined;
+  Error?: ErrorObject | undefined;
+  ContextOptions?: ContextOptions | undefined;
+  StepOptions?: StepOptions | undefined;
+  WaitOptions?: WaitOptions | undefined;
+  CallbackOptions?: CallbackOptions | undefined;
+  ChainedInvokeOptions?: ChainedInvokeOptions | undefined;
 }
 export type OperationUpdates = OperationUpdate[];
 export type ClientToken = string;
 export interface CheckpointDurableExecutionRequest {
   DurableExecutionArn: string;
   CheckpointToken: string;
-  Updates?: OperationUpdate[];
-  ClientToken?: string;
+  Updates?: OperationUpdate[] | undefined;
+  ClientToken?: string | undefined;
 }
 export type ExecutionTimestamp = Date;
 export type OperationStatus =
@@ -831,56 +831,56 @@ export type OperationStatus =
   | (string & {});
 export type InputPayload = string | redacted.Redacted<string>;
 export interface ExecutionDetails {
-  InputPayload?: string | redacted.Redacted<string>;
+  InputPayload?: string | redacted.Redacted<string> | undefined;
 }
 export interface ContextDetails {
-  ReplayChildren?: boolean;
-  Result?: string | redacted.Redacted<string>;
-  Error?: ErrorObject;
+  ReplayChildren?: boolean | undefined;
+  Result?: string | redacted.Redacted<string> | undefined;
+  Error?: ErrorObject | undefined;
 }
 export type AttemptCount = number;
 export interface StepDetails {
-  Attempt?: number;
-  NextAttemptTimestamp?: Date;
-  Result?: string | redacted.Redacted<string>;
-  Error?: ErrorObject;
+  Attempt?: number | undefined;
+  NextAttemptTimestamp?: Date | undefined;
+  Result?: string | redacted.Redacted<string> | undefined;
+  Error?: ErrorObject | undefined;
 }
 export interface WaitDetails {
-  ScheduledEndTimestamp?: Date;
+  ScheduledEndTimestamp?: Date | undefined;
 }
 export type CallbackId = string;
 export interface CallbackDetails {
-  CallbackId?: string;
-  Result?: string | redacted.Redacted<string>;
-  Error?: ErrorObject;
+  CallbackId?: string | undefined;
+  Result?: string | redacted.Redacted<string> | undefined;
+  Error?: ErrorObject | undefined;
 }
 export interface ChainedInvokeDetails {
-  Result?: string | redacted.Redacted<string>;
-  Error?: ErrorObject;
+  Result?: string | redacted.Redacted<string> | undefined;
+  Error?: ErrorObject | undefined;
 }
 export interface Operation {
   Id: string;
-  ParentId?: string;
-  Name?: string;
+  ParentId?: string | undefined;
+  Name?: string | undefined;
   Type: OperationType;
-  SubType?: string;
+  SubType?: string | undefined;
   StartTimestamp: Date;
-  EndTimestamp?: Date;
+  EndTimestamp?: Date | undefined;
   Status: OperationStatus;
-  ExecutionDetails?: ExecutionDetails;
-  ContextDetails?: ContextDetails;
-  StepDetails?: StepDetails;
-  WaitDetails?: WaitDetails;
-  CallbackDetails?: CallbackDetails;
-  ChainedInvokeDetails?: ChainedInvokeDetails;
+  ExecutionDetails?: ExecutionDetails | undefined;
+  ContextDetails?: ContextDetails | undefined;
+  StepDetails?: StepDetails | undefined;
+  WaitDetails?: WaitDetails | undefined;
+  CallbackDetails?: CallbackDetails | undefined;
+  ChainedInvokeDetails?: ChainedInvokeDetails | undefined;
 }
 export type Operations = Operation[];
 export interface CheckpointUpdatedExecutionState {
-  Operations?: Operation[];
-  NextMarker?: string;
+  Operations?: Operation[] | undefined;
+  NextMarker?: string | undefined;
 }
 export interface CheckpointDurableExecutionResponse {
-  CheckpointToken?: string;
+  CheckpointToken?: string | undefined;
   NewExecutionState: CheckpointUpdatedExecutionState;
 }
 export type FunctionName = string;
@@ -891,24 +891,24 @@ export type AdditionalVersion = string;
 export type Weight = number;
 export type AdditionalVersionWeights = { [key: string]: number | undefined };
 export interface AliasRoutingConfiguration {
-  AdditionalVersionWeights?: { [key: string]: number | undefined };
+  AdditionalVersionWeights?: { [key: string]: number | undefined } | undefined;
 }
 export interface CreateAliasRequest {
   FunctionName: string;
   Name: string;
   FunctionVersion: string;
-  Description?: string;
-  RoutingConfig?: AliasRoutingConfiguration;
+  Description?: string | undefined;
+  RoutingConfig?: AliasRoutingConfiguration | undefined;
 }
 export type FunctionArn = string;
 export type Version = string;
 export interface AliasConfiguration {
-  AliasArn?: string;
-  Name?: string;
-  FunctionVersion?: string;
-  Description?: string;
-  RoutingConfig?: AliasRoutingConfiguration;
-  RevisionId?: string;
+  AliasArn?: string | undefined;
+  Name?: string | undefined;
+  FunctionVersion?: string | undefined;
+  Description?: string | undefined;
+  RoutingConfig?: AliasRoutingConfiguration | undefined;
+  RevisionId?: string | undefined;
 }
 export type CapacityProviderName = string;
 export type SubnetId = string;
@@ -928,9 +928,9 @@ export type ArchitecturesList = Architecture[];
 export type InstanceType = string;
 export type InstanceTypeSet = string[];
 export interface InstanceRequirements {
-  Architectures?: Architecture[];
-  AllowedInstanceTypes?: string[];
-  ExcludedInstanceTypes?: string[];
+  Architectures?: Architecture[] | undefined;
+  AllowedInstanceTypes?: string[] | undefined;
+  ExcludedInstanceTypes?: string[] | undefined;
 }
 export type CapacityProviderMaxVCpuCount = number;
 export type CapacityProviderScalingMode = "Auto" | "Manual" | (string & {});
@@ -944,9 +944,9 @@ export interface TargetTrackingScalingPolicy {
 }
 export type CapacityProviderScalingPoliciesList = TargetTrackingScalingPolicy[];
 export interface CapacityProviderScalingConfig {
-  MaxVCpuCount?: number;
-  ScalingMode?: CapacityProviderScalingMode;
-  ScalingPolicies?: TargetTrackingScalingPolicy[];
+  MaxVCpuCount?: number | undefined;
+  ScalingMode?: CapacityProviderScalingMode | undefined;
+  ScalingPolicies?: TargetTrackingScalingPolicy[] | undefined;
 }
 export type KMSKeyArnNonEmpty = string;
 export type TagKey = string;
@@ -954,28 +954,28 @@ export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
 export type PropagateTagsMode = "None" | "Explicit" | (string & {});
 export interface PropagateTags {
-  Mode?: PropagateTagsMode;
-  ExplicitTags?: { [key: string]: string | undefined };
+  Mode?: PropagateTagsMode | undefined;
+  ExplicitTags?: { [key: string]: string | undefined } | undefined;
 }
 export type SystemLogLevel = "DEBUG" | "INFO" | "WARN" | (string & {});
 export type LogGroup = string;
 export interface CapacityProviderLoggingConfig {
-  SystemLogLevel?: SystemLogLevel;
-  LogGroup?: string;
+  SystemLogLevel?: SystemLogLevel | undefined;
+  LogGroup?: string | undefined;
 }
 export interface CapacityProviderTelemetryConfig {
-  LoggingConfig?: CapacityProviderLoggingConfig;
+  LoggingConfig?: CapacityProviderLoggingConfig | undefined;
 }
 export interface CreateCapacityProviderRequest {
   CapacityProviderName: string;
   VpcConfig: CapacityProviderVpcConfig;
   PermissionsConfig: CapacityProviderPermissionsConfig;
-  InstanceRequirements?: InstanceRequirements;
-  CapacityProviderScalingConfig?: CapacityProviderScalingConfig;
-  KmsKeyArn?: string;
-  Tags?: { [key: string]: string | undefined };
-  PropagateTags?: PropagateTags;
-  TelemetryConfig?: CapacityProviderTelemetryConfig;
+  InstanceRequirements?: InstanceRequirements | undefined;
+  CapacityProviderScalingConfig?: CapacityProviderScalingConfig | undefined;
+  KmsKeyArn?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  PropagateTags?: PropagateTags | undefined;
+  TelemetryConfig?: CapacityProviderTelemetryConfig | undefined;
 }
 export type CapacityProviderArn = string;
 export type CapacityProviderState = "Pending" | "Active" | "Failed" | "Deleting" | (string & {});
@@ -985,12 +985,12 @@ export interface CapacityProvider {
   State: CapacityProviderState;
   VpcConfig: CapacityProviderVpcConfig;
   PermissionsConfig: CapacityProviderPermissionsConfig;
-  InstanceRequirements?: InstanceRequirements;
-  CapacityProviderScalingConfig?: CapacityProviderScalingConfig;
-  KmsKeyArn?: string;
-  LastModified?: string;
-  PropagateTags?: PropagateTags;
-  TelemetryConfig?: CapacityProviderTelemetryConfig;
+  InstanceRequirements?: InstanceRequirements | undefined;
+  CapacityProviderScalingConfig?: CapacityProviderScalingConfig | undefined;
+  KmsKeyArn?: string | undefined;
+  LastModified?: string | undefined;
+  PropagateTags?: PropagateTags | undefined;
+  TelemetryConfig?: CapacityProviderTelemetryConfig | undefined;
 }
 export interface CreateCapacityProviderResponse {
   CapacityProvider: CapacityProvider;
@@ -1001,20 +1001,20 @@ export interface AllowedPublishers {
 }
 export type CodeSigningPolicy = "Warn" | "Enforce" | (string & {});
 export interface CodeSigningPolicies {
-  UntrustedArtifactOnDeployment?: CodeSigningPolicy;
+  UntrustedArtifactOnDeployment?: CodeSigningPolicy | undefined;
 }
 export interface CreateCodeSigningConfigRequest {
-  Description?: string;
+  Description?: string | undefined;
   AllowedPublishers: AllowedPublishers;
-  CodeSigningPolicies?: CodeSigningPolicies;
-  Tags?: { [key: string]: string | undefined };
+  CodeSigningPolicies?: CodeSigningPolicies | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type CodeSigningConfigId = string;
 export type CodeSigningConfigArn = string;
 export interface CodeSigningConfig {
   CodeSigningConfigId: string;
   CodeSigningConfigArn: string;
-  Description?: string;
+  Description?: string | undefined;
   AllowedPublishers: AllowedPublishers;
   CodeSigningPolicies: CodeSigningPolicies;
   LastModified: string;
@@ -1026,38 +1026,38 @@ export type Enabled = boolean;
 export type BatchSize = number;
 export type Pattern = string;
 export interface Filter {
-  Pattern?: string;
+  Pattern?: string | undefined;
 }
 export type FilterList = Filter[];
 export interface FilterCriteria {
-  Filters?: Filter[];
+  Filters?: Filter[] | undefined;
 }
 export type EventSourceMappingMetric = "EventCount" | "ErrorCount" | "KafkaMetrics" | (string & {});
 export type EventSourceMappingMetricList = EventSourceMappingMetric[];
 export interface EventSourceMappingMetricsConfig {
-  Metrics?: EventSourceMappingMetric[];
+  Metrics?: EventSourceMappingMetric[] | undefined;
 }
 export type EventSourceMappingSystemLogLevel = "DEBUG" | "INFO" | "WARN" | (string & {});
 export interface EventSourceMappingLoggingConfig {
-  SystemLogLevel?: EventSourceMappingSystemLogLevel;
+  SystemLogLevel?: EventSourceMappingSystemLogLevel | undefined;
 }
 export type MaximumConcurrency = number;
 export interface ScalingConfig {
-  MaximumConcurrency?: number;
+  MaximumConcurrency?: number | undefined;
 }
 export type MaximumBatchingWindowInSeconds = number;
 export type ParallelizationFactor = number;
 export type EventSourcePosition = "TRIM_HORIZON" | "LATEST" | "AT_TIMESTAMP" | (string & {});
 export type DestinationArn = string;
 export interface OnSuccess {
-  Destination?: string;
+  Destination?: string | undefined;
 }
 export interface OnFailure {
-  Destination?: string;
+  Destination?: string | undefined;
 }
 export interface DestinationConfig {
-  OnSuccess?: OnSuccess;
-  OnFailure?: OnFailure;
+  OnSuccess?: OnSuccess | undefined;
+  OnFailure?: OnFailure | undefined;
 }
 export type MaximumRecordAgeInSeconds = number;
 export type BisectBatchOnFunctionError = boolean;
@@ -1086,16 +1086,16 @@ export type SourceAccessType =
   | (string & {});
 export type URI = string;
 export interface SourceAccessConfiguration {
-  Type?: SourceAccessType;
-  URI?: string;
+  Type?: SourceAccessType | undefined;
+  URI?: string | undefined;
 }
 export type SourceAccessConfigurations = SourceAccessConfiguration[];
 export type EndPointType = "KAFKA_BOOTSTRAP_SERVERS" | (string & {});
 export type Endpoint = string;
 export type EndpointLists = string[];
-export type Endpoints = { [key in EndPointType]?: string[] };
+export type Endpoints = { [key in EndPointType]?: string[] | undefined };
 export interface SelfManagedEventSource {
-  Endpoints?: { [key: string]: string[] | undefined };
+  Endpoints?: { [key: string]: string[] | undefined } | undefined;
 }
 export type FunctionResponseType = "ReportBatchItemFailures" | (string & {});
 export type FunctionResponseTypeList = FunctionResponseType[];
@@ -1108,117 +1108,117 @@ export type KafkaSchemaRegistryAuthType =
   | "OAUTHBEARER_AUTH"
   | (string & {});
 export interface KafkaSchemaRegistryAccessConfig {
-  Type?: KafkaSchemaRegistryAuthType;
-  URI?: string;
+  Type?: KafkaSchemaRegistryAuthType | undefined;
+  URI?: string | undefined;
 }
 export type KafkaSchemaRegistryAccessConfigList = KafkaSchemaRegistryAccessConfig[];
 export type KafkaSchemaValidationAttribute = "KEY" | "VALUE" | (string & {});
 export interface KafkaSchemaValidationConfig {
-  Attribute?: KafkaSchemaValidationAttribute;
+  Attribute?: KafkaSchemaValidationAttribute | undefined;
 }
 export type KafkaSchemaValidationConfigList = KafkaSchemaValidationConfig[];
 export interface KafkaSchemaRegistryConfig {
-  SchemaRegistryURI?: string;
-  EventRecordFormat?: SchemaRegistryEventRecordFormat;
-  AccessConfigs?: KafkaSchemaRegistryAccessConfig[];
-  SchemaValidationConfigs?: KafkaSchemaValidationConfig[];
+  SchemaRegistryURI?: string | undefined;
+  EventRecordFormat?: SchemaRegistryEventRecordFormat | undefined;
+  AccessConfigs?: KafkaSchemaRegistryAccessConfig[] | undefined;
+  SchemaValidationConfigs?: KafkaSchemaValidationConfig[] | undefined;
 }
 export interface AmazonManagedKafkaEventSourceConfig {
-  ConsumerGroupId?: string;
-  SchemaRegistryConfig?: KafkaSchemaRegistryConfig;
+  ConsumerGroupId?: string | undefined;
+  SchemaRegistryConfig?: KafkaSchemaRegistryConfig | undefined;
 }
 export interface SelfManagedKafkaEventSourceConfig {
-  ConsumerGroupId?: string;
-  SchemaRegistryConfig?: KafkaSchemaRegistryConfig;
+  ConsumerGroupId?: string | undefined;
+  SchemaRegistryConfig?: KafkaSchemaRegistryConfig | undefined;
 }
 export type DatabaseName = string;
 export type CollectionName = string;
 export type FullDocument = "UpdateLookup" | "Default" | (string & {});
 export interface DocumentDBEventSourceConfig {
-  DatabaseName?: string;
-  CollectionName?: string;
-  FullDocument?: FullDocument;
+  DatabaseName?: string | undefined;
+  CollectionName?: string | undefined;
+  FullDocument?: FullDocument | undefined;
 }
 export type MinimumNumberOfPollers = number;
 export type MaximumNumberOfPollers = number;
 export type ProvisionedPollerGroupName = string;
 export interface ProvisionedPollerConfig {
-  MinimumPollers?: number;
-  MaximumPollers?: number;
-  PollerGroupName?: string;
+  MinimumPollers?: number | undefined;
+  MaximumPollers?: number | undefined;
+  PollerGroupName?: string | undefined;
 }
 export interface CreateEventSourceMappingRequest {
-  EventSourceArn?: string;
+  EventSourceArn?: string | undefined;
   FunctionName: string;
-  Enabled?: boolean;
-  BatchSize?: number;
-  FilterCriteria?: FilterCriteria;
-  KMSKeyArn?: string;
-  MetricsConfig?: EventSourceMappingMetricsConfig;
-  LoggingConfig?: EventSourceMappingLoggingConfig;
-  ScalingConfig?: ScalingConfig;
-  MaximumBatchingWindowInSeconds?: number;
-  ParallelizationFactor?: number;
-  StartingPosition?: EventSourcePosition;
-  StartingPositionTimestamp?: Date;
-  DestinationConfig?: DestinationConfig;
-  MaximumRecordAgeInSeconds?: number;
-  BisectBatchOnFunctionError?: boolean;
-  MaximumRetryAttempts?: number;
-  Tags?: { [key: string]: string | undefined };
-  TumblingWindowInSeconds?: number;
-  Topics?: string[];
-  Queues?: string[];
-  SourceAccessConfigurations?: SourceAccessConfiguration[];
-  SelfManagedEventSource?: SelfManagedEventSource;
-  FunctionResponseTypes?: FunctionResponseType[];
-  AmazonManagedKafkaEventSourceConfig?: AmazonManagedKafkaEventSourceConfig;
-  SelfManagedKafkaEventSourceConfig?: SelfManagedKafkaEventSourceConfig;
-  DocumentDBEventSourceConfig?: DocumentDBEventSourceConfig;
-  ProvisionedPollerConfig?: ProvisionedPollerConfig;
+  Enabled?: boolean | undefined;
+  BatchSize?: number | undefined;
+  FilterCriteria?: FilterCriteria | undefined;
+  KMSKeyArn?: string | undefined;
+  MetricsConfig?: EventSourceMappingMetricsConfig | undefined;
+  LoggingConfig?: EventSourceMappingLoggingConfig | undefined;
+  ScalingConfig?: ScalingConfig | undefined;
+  MaximumBatchingWindowInSeconds?: number | undefined;
+  ParallelizationFactor?: number | undefined;
+  StartingPosition?: EventSourcePosition | undefined;
+  StartingPositionTimestamp?: Date | undefined;
+  DestinationConfig?: DestinationConfig | undefined;
+  MaximumRecordAgeInSeconds?: number | undefined;
+  BisectBatchOnFunctionError?: boolean | undefined;
+  MaximumRetryAttempts?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  TumblingWindowInSeconds?: number | undefined;
+  Topics?: string[] | undefined;
+  Queues?: string[] | undefined;
+  SourceAccessConfigurations?: SourceAccessConfiguration[] | undefined;
+  SelfManagedEventSource?: SelfManagedEventSource | undefined;
+  FunctionResponseTypes?: FunctionResponseType[] | undefined;
+  AmazonManagedKafkaEventSourceConfig?: AmazonManagedKafkaEventSourceConfig | undefined;
+  SelfManagedKafkaEventSourceConfig?: SelfManagedKafkaEventSourceConfig | undefined;
+  DocumentDBEventSourceConfig?: DocumentDBEventSourceConfig | undefined;
+  ProvisionedPollerConfig?: ProvisionedPollerConfig | undefined;
 }
 export type UUIDString = string;
 export type FilterCriteriaErrorCode = string;
 export type FilterCriteriaErrorMessage = string;
 export interface FilterCriteriaError {
-  ErrorCode?: string;
-  Message?: string;
+  ErrorCode?: string | undefined;
+  Message?: string | undefined;
 }
 export type EventSourceMappingArn = string;
 export interface EventSourceMappingConfiguration {
-  UUID?: string;
-  StartingPosition?: EventSourcePosition;
-  StartingPositionTimestamp?: Date;
-  BatchSize?: number;
-  MaximumBatchingWindowInSeconds?: number;
-  ParallelizationFactor?: number;
-  EventSourceArn?: string;
-  FilterCriteria?: FilterCriteria;
-  FilterCriteriaError?: FilterCriteriaError;
-  KMSKeyArn?: string;
-  MetricsConfig?: EventSourceMappingMetricsConfig;
-  LoggingConfig?: EventSourceMappingLoggingConfig;
-  ScalingConfig?: ScalingConfig;
-  FunctionArn?: string;
-  LastModified?: Date;
-  LastProcessingResult?: string;
-  State?: string;
-  StateTransitionReason?: string;
-  DestinationConfig?: DestinationConfig;
-  Topics?: string[];
-  Queues?: string[];
-  SourceAccessConfigurations?: SourceAccessConfiguration[];
-  SelfManagedEventSource?: SelfManagedEventSource;
-  MaximumRecordAgeInSeconds?: number;
-  BisectBatchOnFunctionError?: boolean;
-  MaximumRetryAttempts?: number;
-  TumblingWindowInSeconds?: number;
-  FunctionResponseTypes?: FunctionResponseType[];
-  AmazonManagedKafkaEventSourceConfig?: AmazonManagedKafkaEventSourceConfig;
-  SelfManagedKafkaEventSourceConfig?: SelfManagedKafkaEventSourceConfig;
-  DocumentDBEventSourceConfig?: DocumentDBEventSourceConfig;
-  EventSourceMappingArn?: string;
-  ProvisionedPollerConfig?: ProvisionedPollerConfig;
+  UUID?: string | undefined;
+  StartingPosition?: EventSourcePosition | undefined;
+  StartingPositionTimestamp?: Date | undefined;
+  BatchSize?: number | undefined;
+  MaximumBatchingWindowInSeconds?: number | undefined;
+  ParallelizationFactor?: number | undefined;
+  EventSourceArn?: string | undefined;
+  FilterCriteria?: FilterCriteria | undefined;
+  FilterCriteriaError?: FilterCriteriaError | undefined;
+  KMSKeyArn?: string | undefined;
+  MetricsConfig?: EventSourceMappingMetricsConfig | undefined;
+  LoggingConfig?: EventSourceMappingLoggingConfig | undefined;
+  ScalingConfig?: ScalingConfig | undefined;
+  FunctionArn?: string | undefined;
+  LastModified?: Date | undefined;
+  LastProcessingResult?: string | undefined;
+  State?: string | undefined;
+  StateTransitionReason?: string | undefined;
+  DestinationConfig?: DestinationConfig | undefined;
+  Topics?: string[] | undefined;
+  Queues?: string[] | undefined;
+  SourceAccessConfigurations?: SourceAccessConfiguration[] | undefined;
+  SelfManagedEventSource?: SelfManagedEventSource | undefined;
+  MaximumRecordAgeInSeconds?: number | undefined;
+  BisectBatchOnFunctionError?: boolean | undefined;
+  MaximumRetryAttempts?: number | undefined;
+  TumblingWindowInSeconds?: number | undefined;
+  FunctionResponseTypes?: FunctionResponseType[] | undefined;
+  AmazonManagedKafkaEventSourceConfig?: AmazonManagedKafkaEventSourceConfig | undefined;
+  SelfManagedKafkaEventSourceConfig?: SelfManagedKafkaEventSourceConfig | undefined;
+  DocumentDBEventSourceConfig?: DocumentDBEventSourceConfig | undefined;
+  EventSourceMappingArn?: string | undefined;
+  ProvisionedPollerConfig?: ProvisionedPollerConfig | undefined;
 }
 export type Runtime =
   | "nodejs"
@@ -1279,13 +1279,13 @@ export type S3Key = string;
 export type S3ObjectVersion = string;
 export type S3ObjectStorageMode = "COPY" | "REFERENCE" | (string & {});
 export interface FunctionCode {
-  ZipFile?: Uint8Array | redacted.Redacted<Uint8Array>;
-  S3Bucket?: string;
-  S3Key?: string;
-  S3ObjectVersion?: string;
-  S3ObjectStorageMode?: S3ObjectStorageMode;
-  ImageUri?: string;
-  SourceKMSKeyArn?: string;
+  ZipFile?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  S3Bucket?: string | undefined;
+  S3Key?: string | undefined;
+  S3ObjectVersion?: string | undefined;
+  S3ObjectStorageMode?: S3ObjectStorageMode | undefined;
+  ImageUri?: string | undefined;
+  SourceKMSKeyArn?: string | undefined;
 }
 export type Timeout = number;
 export type MemorySize = number;
@@ -1293,14 +1293,14 @@ export type FunctionVersionLatestPublished = "LATEST_PUBLISHED" | (string & {});
 export type SubnetIds = string[];
 export type SecurityGroupIds = string[];
 export interface VpcConfig {
-  SubnetIds?: string[];
-  SecurityGroupIds?: string[];
-  Ipv6AllowedForDualStack?: boolean;
+  SubnetIds?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  Ipv6AllowedForDualStack?: boolean | undefined;
 }
 export type PackageType = "Zip" | "Image" | (string & {});
 export type ResourceArn = string;
 export interface DeadLetterConfig {
-  TargetArn?: string;
+  TargetArn?: string | undefined;
 }
 export type EnvironmentVariableName = string | redacted.Redacted<string>;
 export type EnvironmentVariableValue = string | redacted.Redacted<string>;
@@ -1308,11 +1308,11 @@ export type EnvironmentVariables = {
   [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export interface Environment {
-  Variables?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  Variables?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
 }
 export type TracingMode = "Active" | "PassThrough" | (string & {});
 export interface TracingConfig {
-  Mode?: TracingMode;
+  Mode?: TracingMode | undefined;
 }
 export type LayerVersionArn = string;
 export type LayerList = string[];
@@ -1320,20 +1320,20 @@ export type FileSystemArn = string;
 export type LocalMountPath = string;
 export type DirectS3Read = "ENABLED" | "DISABLED" | "AUTO" | (string & {});
 export interface S3FilesConfig {
-  DirectS3Read?: DirectS3Read;
+  DirectS3Read?: DirectS3Read | undefined;
 }
 export interface FileSystemConfig {
   Arn: string;
   LocalMountPath: string;
-  S3FilesConfig?: S3FilesConfig;
+  S3FilesConfig?: S3FilesConfig | undefined;
 }
 export type FileSystemConfigList = FileSystemConfig[];
 export type StringList = string[];
 export type WorkingDirectory = string;
 export interface ImageConfig {
-  EntryPoint?: string[];
-  Command?: string[];
-  WorkingDirectory?: string;
+  EntryPoint?: string[] | undefined;
+  Command?: string[] | undefined;
+  WorkingDirectory?: string | undefined;
 }
 export type EphemeralStorageSize = number;
 export interface EphemeralStorage {
@@ -1341,7 +1341,7 @@ export interface EphemeralStorage {
 }
 export type SnapStartApplyOn = "PublishedVersions" | "None" | (string & {});
 export interface SnapStart {
-  ApplyOn?: SnapStartApplyOn;
+  ApplyOn?: SnapStartApplyOn | undefined;
 }
 export type LogFormat = "JSON" | "Text" | (string & {});
 export type ApplicationLogLevel =
@@ -1353,10 +1353,10 @@ export type ApplicationLogLevel =
   | "FATAL"
   | (string & {});
 export interface LoggingConfig {
-  LogFormat?: LogFormat;
-  ApplicationLogLevel?: ApplicationLogLevel;
-  SystemLogLevel?: SystemLogLevel;
-  LogGroup?: string;
+  LogFormat?: LogFormat | undefined;
+  ApplicationLogLevel?: ApplicationLogLevel | undefined;
+  SystemLogLevel?: SystemLogLevel | undefined;
+  LogGroup?: string | undefined;
 }
 export type TenantIsolationMode = "PER_TENANT" | (string & {});
 export interface TenancyConfig {
@@ -1366,8 +1366,8 @@ export type PerExecutionEnvironmentMaxConcurrency = number;
 export type ExecutionEnvironmentMemoryGiBPerVCpu = number;
 export interface LambdaManagedInstancesCapacityProviderConfig {
   CapacityProviderArn: string;
-  PerExecutionEnvironmentMaxConcurrency?: number;
-  ExecutionEnvironmentMemoryGiBPerVCpu?: number;
+  PerExecutionEnvironmentMaxConcurrency?: number | undefined;
+  ExecutionEnvironmentMemoryGiBPerVCpu?: number | undefined;
 }
 export interface CapacityProviderConfig {
   LambdaManagedInstancesCapacityProviderConfig: LambdaManagedInstancesCapacityProviderConfig;
@@ -1375,65 +1375,65 @@ export interface CapacityProviderConfig {
 export type RetentionPeriodInDays = number;
 export type ExecutionTimeout = number;
 export interface DurableConfig {
-  KMSKeyArn?: string;
-  RetentionPeriodInDays?: number;
-  ExecutionTimeout?: number;
+  KMSKeyArn?: string | undefined;
+  RetentionPeriodInDays?: number | undefined;
+  ExecutionTimeout?: number | undefined;
 }
 export interface CreateFunctionRequest {
   FunctionName: string;
-  Runtime?: Runtime;
+  Runtime?: Runtime | undefined;
   Role: string;
-  Handler?: string;
+  Handler?: string | undefined;
   Code: FunctionCode;
-  Description?: string;
-  Timeout?: number;
-  MemorySize?: number;
-  Publish?: boolean;
-  PublishTo?: FunctionVersionLatestPublished;
-  VpcConfig?: VpcConfig;
-  PackageType?: PackageType;
-  DeadLetterConfig?: DeadLetterConfig;
-  Environment?: Environment;
-  KMSKeyArn?: string;
-  TracingConfig?: TracingConfig;
-  Tags?: { [key: string]: string | undefined };
-  Layers?: string[];
-  FileSystemConfigs?: FileSystemConfig[];
-  CodeSigningConfigArn?: string;
-  ImageConfig?: ImageConfig;
-  Architectures?: Architecture[];
-  EphemeralStorage?: EphemeralStorage;
-  SnapStart?: SnapStart;
-  LoggingConfig?: LoggingConfig;
-  TenancyConfig?: TenancyConfig;
-  CapacityProviderConfig?: CapacityProviderConfig;
-  DurableConfig?: DurableConfig;
+  Description?: string | undefined;
+  Timeout?: number | undefined;
+  MemorySize?: number | undefined;
+  Publish?: boolean | undefined;
+  PublishTo?: FunctionVersionLatestPublished | undefined;
+  VpcConfig?: VpcConfig | undefined;
+  PackageType?: PackageType | undefined;
+  DeadLetterConfig?: DeadLetterConfig | undefined;
+  Environment?: Environment | undefined;
+  KMSKeyArn?: string | undefined;
+  TracingConfig?: TracingConfig | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Layers?: string[] | undefined;
+  FileSystemConfigs?: FileSystemConfig[] | undefined;
+  CodeSigningConfigArn?: string | undefined;
+  ImageConfig?: ImageConfig | undefined;
+  Architectures?: Architecture[] | undefined;
+  EphemeralStorage?: EphemeralStorage | undefined;
+  SnapStart?: SnapStart | undefined;
+  LoggingConfig?: LoggingConfig | undefined;
+  TenancyConfig?: TenancyConfig | undefined;
+  CapacityProviderConfig?: CapacityProviderConfig | undefined;
+  DurableConfig?: DurableConfig | undefined;
 }
 export type NameSpacedFunctionArn = string;
 export type VpcId = string;
 export interface VpcConfigResponse {
-  SubnetIds?: string[];
-  SecurityGroupIds?: string[];
-  VpcId?: string;
-  Ipv6AllowedForDualStack?: boolean;
+  SubnetIds?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  VpcId?: string | undefined;
+  Ipv6AllowedForDualStack?: boolean | undefined;
 }
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface EnvironmentError {
-  ErrorCode?: string;
-  Message?: string | redacted.Redacted<string>;
+  ErrorCode?: string | undefined;
+  Message?: string | redacted.Redacted<string> | undefined;
 }
 export interface EnvironmentResponse {
-  Variables?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  Error?: EnvironmentError;
+  Variables?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  Error?: EnvironmentError | undefined;
 }
 export interface TracingConfigResponse {
-  Mode?: TracingMode;
+  Mode?: TracingMode | undefined;
 }
 export interface Layer {
-  Arn?: string;
-  CodeSize?: number;
-  SigningProfileVersionArn?: string;
-  SigningJobArn?: string;
+  Arn?: string | undefined;
+  CodeSize?: number | undefined;
+  SigningProfileVersionArn?: string | undefined;
+  SigningJobArn?: string | undefined;
 }
 export type LayersReferenceList = Layer[];
 export type State =
@@ -1531,68 +1531,68 @@ export type LastUpdateStatusReasonCode =
   | "Creating"
   | (string & {});
 export interface ImageConfigError {
-  ErrorCode?: string;
-  Message?: string | redacted.Redacted<string>;
+  ErrorCode?: string | undefined;
+  Message?: string | redacted.Redacted<string> | undefined;
 }
 export interface ImageConfigResponse {
-  ImageConfig?: ImageConfig;
-  Error?: ImageConfigError;
+  ImageConfig?: ImageConfig | undefined;
+  Error?: ImageConfigError | undefined;
 }
 export type SnapStartOptimizationStatus = "On" | "Off" | (string & {});
 export interface SnapStartResponse {
-  ApplyOn?: SnapStartApplyOn;
-  OptimizationStatus?: SnapStartOptimizationStatus;
+  ApplyOn?: SnapStartApplyOn | undefined;
+  OptimizationStatus?: SnapStartOptimizationStatus | undefined;
 }
 export type RuntimeVersionArn = string;
 export interface RuntimeVersionError {
-  ErrorCode?: string;
-  Message?: string | redacted.Redacted<string>;
+  ErrorCode?: string | undefined;
+  Message?: string | redacted.Redacted<string> | undefined;
 }
 export interface RuntimeVersionConfig {
-  RuntimeVersionArn?: string;
-  Error?: RuntimeVersionError;
+  RuntimeVersionArn?: string | undefined;
+  Error?: RuntimeVersionError | undefined;
 }
 export interface FunctionConfiguration {
-  FunctionName?: string;
-  FunctionArn?: string;
-  Runtime?: Runtime;
-  Role?: string;
-  Handler?: string;
-  CodeSize?: number;
-  Description?: string;
-  Timeout?: number;
-  MemorySize?: number;
-  LastModified?: string;
-  CodeSha256?: string;
-  Version?: string;
-  VpcConfig?: VpcConfigResponse;
-  DeadLetterConfig?: DeadLetterConfig;
-  Environment?: EnvironmentResponse;
-  KMSKeyArn?: string;
-  TracingConfig?: TracingConfigResponse;
-  MasterArn?: string;
-  RevisionId?: string;
-  Layers?: Layer[];
-  State?: State;
-  StateReason?: string;
-  StateReasonCode?: StateReasonCode;
-  LastUpdateStatus?: LastUpdateStatus;
-  LastUpdateStatusReason?: string;
-  LastUpdateStatusReasonCode?: LastUpdateStatusReasonCode;
-  FileSystemConfigs?: FileSystemConfig[];
-  SigningProfileVersionArn?: string;
-  SigningJobArn?: string;
-  PackageType?: PackageType;
-  ImageConfigResponse?: ImageConfigResponse;
-  Architectures?: Architecture[];
-  EphemeralStorage?: EphemeralStorage;
-  SnapStart?: SnapStartResponse;
-  RuntimeVersionConfig?: RuntimeVersionConfig;
-  LoggingConfig?: LoggingConfig;
-  TenancyConfig?: TenancyConfig;
-  CapacityProviderConfig?: CapacityProviderConfig;
-  ConfigSha256?: string;
-  DurableConfig?: DurableConfig;
+  FunctionName?: string | undefined;
+  FunctionArn?: string | undefined;
+  Runtime?: Runtime | undefined;
+  Role?: string | undefined;
+  Handler?: string | undefined;
+  CodeSize?: number | undefined;
+  Description?: string | undefined;
+  Timeout?: number | undefined;
+  MemorySize?: number | undefined;
+  LastModified?: string | undefined;
+  CodeSha256?: string | undefined;
+  Version?: string | undefined;
+  VpcConfig?: VpcConfigResponse | undefined;
+  DeadLetterConfig?: DeadLetterConfig | undefined;
+  Environment?: EnvironmentResponse | undefined;
+  KMSKeyArn?: string | undefined;
+  TracingConfig?: TracingConfigResponse | undefined;
+  MasterArn?: string | undefined;
+  RevisionId?: string | undefined;
+  Layers?: Layer[] | undefined;
+  State?: State | undefined;
+  StateReason?: string | undefined;
+  StateReasonCode?: StateReasonCode | undefined;
+  LastUpdateStatus?: LastUpdateStatus | undefined;
+  LastUpdateStatusReason?: string | undefined;
+  LastUpdateStatusReasonCode?: LastUpdateStatusReasonCode | undefined;
+  FileSystemConfigs?: FileSystemConfig[] | undefined;
+  SigningProfileVersionArn?: string | undefined;
+  SigningJobArn?: string | undefined;
+  PackageType?: PackageType | undefined;
+  ImageConfigResponse?: ImageConfigResponse | undefined;
+  Architectures?: Architecture[] | undefined;
+  EphemeralStorage?: EphemeralStorage | undefined;
+  SnapStart?: SnapStartResponse | undefined;
+  RuntimeVersionConfig?: RuntimeVersionConfig | undefined;
+  LoggingConfig?: LoggingConfig | undefined;
+  TenancyConfig?: TenancyConfig | undefined;
+  CapacityProviderConfig?: CapacityProviderConfig | undefined;
+  ConfigSha256?: string | undefined;
+  DurableConfig?: DurableConfig | undefined;
 }
 export type FunctionUrlFunctionName = string;
 export type FunctionUrlQualifier = string;
@@ -1605,29 +1605,29 @@ export type Origin = string;
 export type AllowOriginsList = string[];
 export type MaxAge = number;
 export interface Cors {
-  AllowCredentials?: boolean;
-  AllowHeaders?: string[];
-  AllowMethods?: string[];
-  AllowOrigins?: string[];
-  ExposeHeaders?: string[];
-  MaxAge?: number;
+  AllowCredentials?: boolean | undefined;
+  AllowHeaders?: string[] | undefined;
+  AllowMethods?: string[] | undefined;
+  AllowOrigins?: string[] | undefined;
+  ExposeHeaders?: string[] | undefined;
+  MaxAge?: number | undefined;
 }
 export type InvokeMode = "BUFFERED" | "RESPONSE_STREAM" | (string & {});
 export interface CreateFunctionUrlConfigRequest {
   FunctionName: string;
-  Qualifier?: string;
+  Qualifier?: string | undefined;
   AuthType: FunctionUrlAuthType;
-  Cors?: Cors;
-  InvokeMode?: InvokeMode;
+  Cors?: Cors | undefined;
+  InvokeMode?: InvokeMode | undefined;
 }
 export type FunctionUrl = string;
 export interface CreateFunctionUrlConfigResponse {
   FunctionUrl: string;
   FunctionArn: string;
   AuthType: FunctionUrlAuthType;
-  Cors?: Cors;
+  Cors?: Cors | undefined;
   CreationTime: string;
-  InvokeMode?: InvokeMode;
+  InvokeMode?: InvokeMode | undefined;
 }
 export interface DeleteAliasRequest {
   FunctionName: string;
@@ -1649,10 +1649,10 @@ export interface DeleteEventSourceMappingRequest {
 }
 export interface DeleteFunctionRequest {
   FunctionName: string;
-  Qualifier?: string;
+  Qualifier?: string | undefined;
 }
 export interface DeleteFunctionResponse {
-  StatusCode?: number;
+  StatusCode?: number | undefined;
 }
 export interface DeleteFunctionCodeSigningConfigRequest {
   FunctionName: string;
@@ -1664,12 +1664,12 @@ export interface DeleteFunctionConcurrencyRequest {
 export interface DeleteFunctionConcurrencyResponse {}
 export interface DeleteFunctionEventInvokeConfigRequest {
   FunctionName: string;
-  Qualifier?: string;
+  Qualifier?: string | undefined;
 }
 export interface DeleteFunctionEventInvokeConfigResponse {}
 export interface DeleteFunctionUrlConfigRequest {
   FunctionName: string;
-  Qualifier?: string;
+  Qualifier?: string | undefined;
 }
 export interface DeleteFunctionUrlConfigResponse {}
 export interface DeleteLayerVersionRequest {
@@ -1687,25 +1687,25 @@ export type PolicyResourceArn = string;
 export type RevisionId = string;
 export interface DeleteResourcePolicyRequest {
   ResourceArn: string;
-  RevisionId?: string;
+  RevisionId?: string | undefined;
 }
 export interface DeleteResourcePolicyResponse {}
 export interface GetAccountSettingsRequest {}
 export type UnreservedConcurrentExecutions = number;
 export interface AccountLimit {
-  TotalCodeSize?: number;
-  CodeSizeUnzipped?: number;
-  CodeSizeZipped?: number;
-  ConcurrentExecutions?: number;
-  UnreservedConcurrentExecutions?: number;
+  TotalCodeSize?: number | undefined;
+  CodeSizeUnzipped?: number | undefined;
+  CodeSizeZipped?: number | undefined;
+  ConcurrentExecutions?: number | undefined;
+  UnreservedConcurrentExecutions?: number | undefined;
 }
 export interface AccountUsage {
-  TotalCodeSize?: number;
-  FunctionCount?: number;
+  TotalCodeSize?: number | undefined;
+  FunctionCount?: number | undefined;
 }
 export interface GetAccountSettingsResponse {
-  AccountLimit?: AccountLimit;
-  AccountUsage?: AccountUsage;
+  AccountLimit?: AccountLimit | undefined;
+  AccountUsage?: AccountUsage | undefined;
 }
 export interface GetAliasRequest {
   FunctionName: string;
@@ -1726,7 +1726,7 @@ export interface GetCodeSigningConfigResponse {
 export type IncludeExecutionData = boolean;
 export interface GetDurableExecutionRequest {
   DurableExecutionArn: string;
-  IncludeExecutionData?: boolean;
+  IncludeExecutionData?: boolean | undefined;
 }
 export type DurableExecutionName = string;
 export type OutputPayload = string | redacted.Redacted<string>;
@@ -1739,32 +1739,32 @@ export type ExecutionStatus =
   | (string & {});
 export type XAmznTraceId = string;
 export interface TraceHeader {
-  XAmznTraceId?: string;
+  XAmznTraceId?: string | undefined;
 }
 export type ExecutionDataIncluded = boolean;
 export interface GetDurableExecutionResponse {
   DurableExecutionArn: string;
   DurableExecutionName: string;
   FunctionArn: string;
-  InputPayload?: string | redacted.Redacted<string>;
-  Result?: string | redacted.Redacted<string>;
-  Error?: ErrorObject;
+  InputPayload?: string | redacted.Redacted<string> | undefined;
+  Result?: string | redacted.Redacted<string> | undefined;
+  Error?: ErrorObject | undefined;
   StartTimestamp: Date;
   Status: ExecutionStatus;
-  EndTimestamp?: Date;
-  Version?: string;
-  TraceHeader?: TraceHeader;
-  ExecutionDataIncluded?: boolean;
-  DurableConfig?: DurableConfig;
+  EndTimestamp?: Date | undefined;
+  Version?: string | undefined;
+  TraceHeader?: TraceHeader | undefined;
+  ExecutionDataIncluded?: boolean | undefined;
+  DurableConfig?: DurableConfig | undefined;
 }
 export type ItemCount = number;
 export type ReverseOrder = boolean;
 export interface GetDurableExecutionHistoryRequest {
   DurableExecutionArn: string;
-  IncludeExecutionData?: boolean;
-  MaxItems?: number;
-  Marker?: string;
-  ReverseOrder?: boolean;
+  IncludeExecutionData?: boolean | undefined;
+  MaxItems?: number | undefined;
+  Marker?: string | undefined;
+  ReverseOrder?: boolean | undefined;
 }
 export type EventType =
   | "ExecutionStarted"
@@ -1795,29 +1795,29 @@ export type EventType =
 export type EventId = number;
 export type Truncated = boolean;
 export interface EventInput {
-  Payload?: string | redacted.Redacted<string>;
-  Truncated?: boolean;
+  Payload?: string | redacted.Redacted<string> | undefined;
+  Truncated?: boolean | undefined;
 }
 export interface ExecutionStartedDetails {
   Input: EventInput;
   ExecutionTimeout: number;
 }
 export interface EventResult {
-  Payload?: string | redacted.Redacted<string>;
-  Truncated?: boolean;
+  Payload?: string | redacted.Redacted<string> | undefined;
+  Truncated?: boolean | undefined;
 }
 export interface ExecutionSucceededDetails {
   Result: EventResult;
 }
 export interface EventError {
-  Payload?: ErrorObject;
-  Truncated?: boolean;
+  Payload?: ErrorObject | undefined;
+  Truncated?: boolean | undefined;
 }
 export interface ExecutionFailedDetails {
   Error: EventError;
 }
 export interface ExecutionTimedOutDetails {
-  Error?: EventError;
+  Error?: EventError | undefined;
 }
 export interface ExecutionStoppedDetails {
   Error: EventError;
@@ -1834,15 +1834,15 @@ export interface WaitStartedDetails {
   ScheduledEndTimestamp: Date;
 }
 export interface WaitSucceededDetails {
-  Duration?: number;
+  Duration?: number | undefined;
 }
 export interface WaitCancelledDetails {
-  Error?: EventError;
+  Error?: EventError | undefined;
 }
 export interface StepStartedDetails {}
 export interface RetryDetails {
-  CurrentAttempt?: number;
-  NextAttemptDelaySeconds?: number;
+  CurrentAttempt?: number | undefined;
+  NextAttemptDelaySeconds?: number | undefined;
 }
 export interface StepSucceededDetails {
   Result: EventResult;
@@ -1854,10 +1854,10 @@ export interface StepFailedDetails {
 }
 export interface ChainedInvokeStartedDetails {
   FunctionName: string;
-  TenantId?: string;
-  Input?: EventInput;
-  ExecutedVersion?: string;
-  DurableExecutionArn?: string;
+  TenantId?: string | undefined;
+  Input?: EventInput | undefined;
+  ExecutedVersion?: string | undefined;
+  DurableExecutionArn?: string | undefined;
 }
 export interface ChainedInvokeSucceededDetails {
   Result: EventResult;
@@ -1873,8 +1873,8 @@ export interface ChainedInvokeStoppedDetails {
 }
 export interface CallbackStartedDetails {
   CallbackId: string;
-  HeartbeatTimeout?: number;
-  Timeout?: number;
+  HeartbeatTimeout?: number | undefined;
+  Timeout?: number | undefined;
 }
 export interface CallbackSucceededDetails {
   Result: EventResult;
@@ -1889,81 +1889,81 @@ export interface InvocationCompletedDetails {
   StartTimestamp: Date;
   EndTimestamp: Date;
   RequestId: string;
-  Error?: EventError;
+  Error?: EventError | undefined;
 }
 export interface Event {
-  EventType?: EventType;
-  SubType?: string;
-  EventId?: number;
-  Id?: string;
-  Name?: string;
-  EventTimestamp?: Date;
-  ParentId?: string;
-  ExecutionStartedDetails?: ExecutionStartedDetails;
-  ExecutionSucceededDetails?: ExecutionSucceededDetails;
-  ExecutionFailedDetails?: ExecutionFailedDetails;
-  ExecutionTimedOutDetails?: ExecutionTimedOutDetails;
-  ExecutionStoppedDetails?: ExecutionStoppedDetails;
-  ContextStartedDetails?: ContextStartedDetails;
-  ContextSucceededDetails?: ContextSucceededDetails;
-  ContextFailedDetails?: ContextFailedDetails;
-  WaitStartedDetails?: WaitStartedDetails;
-  WaitSucceededDetails?: WaitSucceededDetails;
-  WaitCancelledDetails?: WaitCancelledDetails;
-  StepStartedDetails?: StepStartedDetails;
-  StepSucceededDetails?: StepSucceededDetails;
-  StepFailedDetails?: StepFailedDetails;
-  ChainedInvokeStartedDetails?: ChainedInvokeStartedDetails;
-  ChainedInvokeSucceededDetails?: ChainedInvokeSucceededDetails;
-  ChainedInvokeFailedDetails?: ChainedInvokeFailedDetails;
-  ChainedInvokeTimedOutDetails?: ChainedInvokeTimedOutDetails;
-  ChainedInvokeStoppedDetails?: ChainedInvokeStoppedDetails;
-  CallbackStartedDetails?: CallbackStartedDetails;
-  CallbackSucceededDetails?: CallbackSucceededDetails;
-  CallbackFailedDetails?: CallbackFailedDetails;
-  CallbackTimedOutDetails?: CallbackTimedOutDetails;
-  InvocationCompletedDetails?: InvocationCompletedDetails;
+  EventType?: EventType | undefined;
+  SubType?: string | undefined;
+  EventId?: number | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  EventTimestamp?: Date | undefined;
+  ParentId?: string | undefined;
+  ExecutionStartedDetails?: ExecutionStartedDetails | undefined;
+  ExecutionSucceededDetails?: ExecutionSucceededDetails | undefined;
+  ExecutionFailedDetails?: ExecutionFailedDetails | undefined;
+  ExecutionTimedOutDetails?: ExecutionTimedOutDetails | undefined;
+  ExecutionStoppedDetails?: ExecutionStoppedDetails | undefined;
+  ContextStartedDetails?: ContextStartedDetails | undefined;
+  ContextSucceededDetails?: ContextSucceededDetails | undefined;
+  ContextFailedDetails?: ContextFailedDetails | undefined;
+  WaitStartedDetails?: WaitStartedDetails | undefined;
+  WaitSucceededDetails?: WaitSucceededDetails | undefined;
+  WaitCancelledDetails?: WaitCancelledDetails | undefined;
+  StepStartedDetails?: StepStartedDetails | undefined;
+  StepSucceededDetails?: StepSucceededDetails | undefined;
+  StepFailedDetails?: StepFailedDetails | undefined;
+  ChainedInvokeStartedDetails?: ChainedInvokeStartedDetails | undefined;
+  ChainedInvokeSucceededDetails?: ChainedInvokeSucceededDetails | undefined;
+  ChainedInvokeFailedDetails?: ChainedInvokeFailedDetails | undefined;
+  ChainedInvokeTimedOutDetails?: ChainedInvokeTimedOutDetails | undefined;
+  ChainedInvokeStoppedDetails?: ChainedInvokeStoppedDetails | undefined;
+  CallbackStartedDetails?: CallbackStartedDetails | undefined;
+  CallbackSucceededDetails?: CallbackSucceededDetails | undefined;
+  CallbackFailedDetails?: CallbackFailedDetails | undefined;
+  CallbackTimedOutDetails?: CallbackTimedOutDetails | undefined;
+  InvocationCompletedDetails?: InvocationCompletedDetails | undefined;
 }
 export type Events = Event[];
 export interface GetDurableExecutionHistoryResponse {
   Events: Event[];
-  NextMarker?: string;
+  NextMarker?: string | undefined;
 }
 export interface GetDurableExecutionStateRequest {
   DurableExecutionArn: string;
   CheckpointToken: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface GetDurableExecutionStateResponse {
   Operations: Operation[];
-  NextMarker?: string;
+  NextMarker?: string | undefined;
 }
 export interface GetEventSourceMappingRequest {
   UUID: string;
 }
 export interface GetFunctionRequest {
   FunctionName: string;
-  Qualifier?: string;
+  Qualifier?: string | undefined;
 }
 export type SensitiveStringOnServerOnly = string;
 export interface ResolvedS3Object {
-  S3Bucket?: string;
-  S3Key?: string;
-  S3ObjectVersion?: string;
+  S3Bucket?: string | undefined;
+  S3Key?: string | undefined;
+  S3ObjectVersion?: string | undefined;
 }
 export interface FunctionCodeLocationError {
-  ErrorCode?: string;
-  Message?: string | redacted.Redacted<string>;
+  ErrorCode?: string | undefined;
+  Message?: string | redacted.Redacted<string> | undefined;
 }
 export interface FunctionCodeLocation {
-  RepositoryType?: string;
-  Location?: string;
-  ImageUri?: string;
-  ResolvedImageUri?: string;
-  ResolvedS3Object?: ResolvedS3Object;
-  SourceKMSKeyArn?: string;
-  Error?: FunctionCodeLocationError;
+  RepositoryType?: string | undefined;
+  Location?: string | undefined;
+  ImageUri?: string | undefined;
+  ResolvedImageUri?: string | undefined;
+  ResolvedS3Object?: ResolvedS3Object | undefined;
+  SourceKMSKeyArn?: string | undefined;
+  Error?: FunctionCodeLocationError | undefined;
 }
 export type TagsErrorCode = string;
 export type TagsErrorMessage = string;
@@ -1973,14 +1973,14 @@ export interface TagsError {
 }
 export type ReservedConcurrentExecutions = number;
 export interface Concurrency {
-  ReservedConcurrentExecutions?: number;
+  ReservedConcurrentExecutions?: number | undefined;
 }
 export interface GetFunctionResponse {
-  Configuration?: FunctionConfiguration;
-  Code?: FunctionCodeLocation;
-  Tags?: { [key: string]: string | undefined };
-  TagsError?: TagsError;
-  Concurrency?: Concurrency;
+  Configuration?: FunctionConfiguration | undefined;
+  Code?: FunctionCodeLocation | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  TagsError?: TagsError | undefined;
+  Concurrency?: Concurrency | undefined;
 }
 export interface GetFunctionCodeSigningConfigRequest {
   FunctionName: string;
@@ -1993,24 +1993,24 @@ export interface GetFunctionConcurrencyRequest {
   FunctionName: string;
 }
 export interface GetFunctionConcurrencyResponse {
-  ReservedConcurrentExecutions?: number;
+  ReservedConcurrentExecutions?: number | undefined;
 }
 export interface GetFunctionConfigurationRequest {
   FunctionName: string;
-  Qualifier?: string;
+  Qualifier?: string | undefined;
 }
 export interface GetFunctionEventInvokeConfigRequest {
   FunctionName: string;
-  Qualifier?: string;
+  Qualifier?: string | undefined;
 }
 export type MaximumRetryAttempts = number;
 export type MaximumEventAgeInSeconds = number;
 export interface FunctionEventInvokeConfig {
-  LastModified?: Date;
-  FunctionArn?: string;
-  MaximumRetryAttempts?: number;
-  MaximumEventAgeInSeconds?: number;
-  DestinationConfig?: DestinationConfig;
+  LastModified?: Date | undefined;
+  FunctionArn?: string | undefined;
+  MaximumRetryAttempts?: number | undefined;
+  MaximumEventAgeInSeconds?: number | undefined;
+  DestinationConfig?: DestinationConfig | undefined;
 }
 export type UnqualifiedFunctionName = string;
 export interface GetFunctionRecursionConfigRequest {
@@ -2018,7 +2018,7 @@ export interface GetFunctionRecursionConfigRequest {
 }
 export type RecursiveLoop = "Allow" | "Terminate" | (string & {});
 export interface GetFunctionRecursionConfigResponse {
-  RecursiveLoop?: RecursiveLoop;
+  RecursiveLoop?: RecursiveLoop | undefined;
 }
 export type PublishedFunctionQualifier = string;
 export interface GetFunctionScalingConfigRequest {
@@ -2027,53 +2027,53 @@ export interface GetFunctionScalingConfigRequest {
 }
 export type FunctionScalingConfigExecutionEnvironments = number;
 export interface FunctionScalingConfig {
-  MinExecutionEnvironments?: number;
-  MaxExecutionEnvironments?: number;
+  MinExecutionEnvironments?: number | undefined;
+  MaxExecutionEnvironments?: number | undefined;
 }
 export interface GetFunctionScalingConfigResponse {
-  FunctionArn?: string;
-  AppliedFunctionScalingConfig?: FunctionScalingConfig;
-  RequestedFunctionScalingConfig?: FunctionScalingConfig;
+  FunctionArn?: string | undefined;
+  AppliedFunctionScalingConfig?: FunctionScalingConfig | undefined;
+  RequestedFunctionScalingConfig?: FunctionScalingConfig | undefined;
 }
 export interface GetFunctionUrlConfigRequest {
   FunctionName: string;
-  Qualifier?: string;
+  Qualifier?: string | undefined;
 }
 export interface GetFunctionUrlConfigResponse {
   FunctionUrl: string;
   FunctionArn: string;
   AuthType: FunctionUrlAuthType;
-  Cors?: Cors;
+  Cors?: Cors | undefined;
   CreationTime: string;
   LastModifiedTime: string;
-  InvokeMode?: InvokeMode;
+  InvokeMode?: InvokeMode | undefined;
 }
 export interface GetLayerVersionRequest {
   LayerName: string;
   VersionNumber: number;
 }
 export interface LayerVersionContentOutput {
-  Location?: string;
-  CodeSha256?: string;
-  CodeSize?: number;
-  SigningProfileVersionArn?: string;
-  SigningJobArn?: string;
-  ResolvedS3Object?: ResolvedS3Object;
+  Location?: string | undefined;
+  CodeSha256?: string | undefined;
+  CodeSize?: number | undefined;
+  SigningProfileVersionArn?: string | undefined;
+  SigningJobArn?: string | undefined;
+  ResolvedS3Object?: ResolvedS3Object | undefined;
 }
 export type LayerArn = string;
 export type CompatibleArchitectures = Architecture[];
 export type CompatibleRuntimes = Runtime[];
 export type LicenseInfo = string;
 export interface GetLayerVersionResponse {
-  Content?: LayerVersionContentOutput;
-  LayerArn?: string;
-  LayerVersionArn?: string;
-  Description?: string;
-  CreatedDate?: string;
-  Version?: number;
-  CompatibleArchitectures?: Architecture[];
-  CompatibleRuntimes?: Runtime[];
-  LicenseInfo?: string;
+  Content?: LayerVersionContentOutput | undefined;
+  LayerArn?: string | undefined;
+  LayerVersionArn?: string | undefined;
+  Description?: string | undefined;
+  CreatedDate?: string | undefined;
+  Version?: number | undefined;
+  CompatibleArchitectures?: Architecture[] | undefined;
+  CompatibleRuntimes?: Runtime[] | undefined;
+  LicenseInfo?: string | undefined;
 }
 export interface GetLayerVersionByArnRequest {
   Arn: string;
@@ -2083,16 +2083,16 @@ export interface GetLayerVersionPolicyRequest {
   VersionNumber: number;
 }
 export interface GetLayerVersionPolicyResponse {
-  Policy?: string;
-  RevisionId?: string;
+  Policy?: string | undefined;
+  RevisionId?: string | undefined;
 }
 export interface GetPolicyRequest {
   FunctionName: string;
-  Qualifier?: string;
+  Qualifier?: string | undefined;
 }
 export interface GetPolicyResponse {
-  Policy?: string;
-  RevisionId?: string;
+  Policy?: string | undefined;
+  RevisionId?: string | undefined;
 }
 export interface GetProvisionedConcurrencyConfigRequest {
   FunctionName: string;
@@ -2102,50 +2102,50 @@ export type PositiveInteger = number;
 export type NonNegativeInteger = number;
 export type ProvisionedConcurrencyStatusEnum = "IN_PROGRESS" | "READY" | "FAILED" | (string & {});
 export interface GetProvisionedConcurrencyConfigResponse {
-  RequestedProvisionedConcurrentExecutions?: number;
-  AvailableProvisionedConcurrentExecutions?: number;
-  AllocatedProvisionedConcurrentExecutions?: number;
-  Status?: ProvisionedConcurrencyStatusEnum;
-  StatusReason?: string;
-  LastModified?: string;
+  RequestedProvisionedConcurrentExecutions?: number | undefined;
+  AvailableProvisionedConcurrentExecutions?: number | undefined;
+  AllocatedProvisionedConcurrentExecutions?: number | undefined;
+  Status?: ProvisionedConcurrencyStatusEnum | undefined;
+  StatusReason?: string | undefined;
+  LastModified?: string | undefined;
 }
 export interface GetResourcePolicyRequest {
   ResourceArn: string;
 }
 export type ResourcePolicy = string;
 export interface GetResourcePolicyResponse {
-  Policy?: string;
-  RevisionId?: string;
+  Policy?: string | undefined;
+  RevisionId?: string | undefined;
 }
 export interface GetRuntimeManagementConfigRequest {
   FunctionName: string;
-  Qualifier?: string;
+  Qualifier?: string | undefined;
 }
 export type UpdateRuntimeOn = "Auto" | "Manual" | "FunctionUpdate" | (string & {});
 export interface GetRuntimeManagementConfigResponse {
-  UpdateRuntimeOn?: UpdateRuntimeOn;
-  FunctionArn?: string;
-  RuntimeVersionArn?: string;
+  UpdateRuntimeOn?: UpdateRuntimeOn | undefined;
+  FunctionArn?: string | undefined;
+  RuntimeVersionArn?: string | undefined;
 }
 export type InvocationType = "Event" | "RequestResponse" | "DryRun" | (string & {});
 export type LogType = "None" | "Tail" | (string & {});
 export interface InvocationRequest {
   FunctionName: string;
-  InvocationType?: InvocationType;
-  LogType?: LogType;
-  ClientContext?: string;
-  DurableExecutionName?: string;
-  Payload?: T.StreamingInputBody;
-  Qualifier?: string;
-  TenantId?: string;
+  InvocationType?: InvocationType | undefined;
+  LogType?: LogType | undefined;
+  ClientContext?: string | undefined;
+  DurableExecutionName?: string | undefined;
+  Payload?: T.StreamingInputBody | undefined;
+  Qualifier?: string | undefined;
+  TenantId?: string | undefined;
 }
 export interface InvocationResponse {
-  StatusCode?: number;
-  FunctionError?: string;
-  LogResult?: string;
-  Payload?: T.StreamingOutputBody;
-  ExecutedVersion?: string;
-  DurableExecutionArn?: string;
+  StatusCode?: number | undefined;
+  FunctionError?: string | undefined;
+  LogResult?: string | undefined;
+  Payload?: T.StreamingOutputBody | undefined;
+  ExecutedVersion?: string | undefined;
+  DurableExecutionArn?: string | undefined;
 }
 export interface InvokeAsyncRequest {
   FunctionName: string;
@@ -2153,78 +2153,78 @@ export interface InvokeAsyncRequest {
 }
 export type HttpStatus = number;
 export interface InvokeAsyncResponse {
-  Status?: number;
+  Status?: number | undefined;
 }
 export type ResponseStreamingInvocationType = "RequestResponse" | "DryRun" | (string & {});
 export interface InvokeWithResponseStreamRequest {
   FunctionName: string;
-  LogType?: LogType;
-  ClientContext?: string;
-  Qualifier?: string;
-  Payload?: T.StreamingInputBody;
-  TenantId?: string;
-  InvocationType?: ResponseStreamingInvocationType;
+  LogType?: LogType | undefined;
+  ClientContext?: string | undefined;
+  Qualifier?: string | undefined;
+  Payload?: T.StreamingInputBody | undefined;
+  TenantId?: string | undefined;
+  InvocationType?: ResponseStreamingInvocationType | undefined;
 }
 export interface InvokeResponseStreamUpdate {
-  Payload?: Uint8Array | redacted.Redacted<Uint8Array>;
+  Payload?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
 }
 export interface InvokeWithResponseStreamCompleteEvent {
-  ErrorCode?: string;
-  ErrorDetails?: string;
-  LogResult?: string;
+  ErrorCode?: string | undefined;
+  ErrorDetails?: string | undefined;
+  LogResult?: string | undefined;
 }
 export type InvokeWithResponseStreamResponseEvent =
-  | { PayloadChunk: InvokeResponseStreamUpdate; InvokeComplete?: never }
-  | { PayloadChunk?: never; InvokeComplete: InvokeWithResponseStreamCompleteEvent };
+  | { PayloadChunk: InvokeResponseStreamUpdate; InvokeComplete?: undefined }
+  | { PayloadChunk?: undefined; InvokeComplete: InvokeWithResponseStreamCompleteEvent };
 export interface InvokeWithResponseStreamResponse {
-  StatusCode?: number;
-  ExecutedVersion?: string;
-  EventStream?: stream.Stream<InvokeWithResponseStreamResponseEvent, Error, never>;
-  ResponseStreamContentType?: string;
+  StatusCode?: number | undefined;
+  ExecutedVersion?: string | undefined;
+  EventStream?: stream.Stream<InvokeWithResponseStreamResponseEvent, Error, never> | undefined;
+  ResponseStreamContentType?: string | undefined;
 }
 export type MaxListItems = number;
 export interface ListAliasesRequest {
   FunctionName: string;
-  FunctionVersion?: string;
-  Marker?: string;
-  MaxItems?: number;
+  FunctionVersion?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type AliasList = AliasConfiguration[];
 export interface ListAliasesResponse {
-  NextMarker?: string;
-  Aliases?: AliasConfiguration[];
+  NextMarker?: string | undefined;
+  Aliases?: AliasConfiguration[] | undefined;
 }
 export type MaxFiftyListItems = number;
 export interface ListCapacityProvidersRequest {
-  State?: CapacityProviderState;
-  Marker?: string;
-  MaxItems?: number;
+  State?: CapacityProviderState | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type CapacityProvidersList = CapacityProvider[];
 export interface ListCapacityProvidersResponse {
   CapacityProviders: CapacityProvider[];
-  NextMarker?: string;
+  NextMarker?: string | undefined;
 }
 export interface ListCodeSigningConfigsRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type CodeSigningConfigList = CodeSigningConfig[];
 export interface ListCodeSigningConfigsResponse {
-  NextMarker?: string;
-  CodeSigningConfigs?: CodeSigningConfig[];
+  NextMarker?: string | undefined;
+  CodeSigningConfigs?: CodeSigningConfig[] | undefined;
 }
 export type ExecutionStatusList = ExecutionStatus[];
 export interface ListDurableExecutionsByFunctionRequest {
   FunctionName: string;
-  Qualifier?: string;
-  DurableExecutionName?: string;
-  Statuses?: ExecutionStatus[];
-  StartedAfter?: Date;
-  StartedBefore?: Date;
-  ReverseOrder?: boolean;
-  Marker?: string;
-  MaxItems?: number;
+  Qualifier?: string | undefined;
+  DurableExecutionName?: string | undefined;
+  Statuses?: ExecutionStatus[] | undefined;
+  StartedAfter?: Date | undefined;
+  StartedBefore?: Date | undefined;
+  ReverseOrder?: boolean | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface Execution {
   DurableExecutionArn: string;
@@ -2232,83 +2232,83 @@ export interface Execution {
   FunctionArn: string;
   Status: ExecutionStatus;
   StartTimestamp: Date;
-  EndTimestamp?: Date;
-  KMSKeyArn?: string;
+  EndTimestamp?: Date | undefined;
+  KMSKeyArn?: string | undefined;
 }
 export type DurableExecutions = Execution[];
 export interface ListDurableExecutionsByFunctionResponse {
-  DurableExecutions?: Execution[];
-  NextMarker?: string;
+  DurableExecutions?: Execution[] | undefined;
+  NextMarker?: string | undefined;
 }
 export interface ListEventSourceMappingsRequest {
-  EventSourceArn?: string;
-  FunctionName?: string;
-  Marker?: string;
-  MaxItems?: number;
+  EventSourceArn?: string | undefined;
+  FunctionName?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type EventSourceMappingsList = EventSourceMappingConfiguration[];
 export interface ListEventSourceMappingsResponse {
-  NextMarker?: string;
-  EventSourceMappings?: EventSourceMappingConfiguration[];
+  NextMarker?: string | undefined;
+  EventSourceMappings?: EventSourceMappingConfiguration[] | undefined;
 }
 export type MaxFunctionEventInvokeConfigListItems = number;
 export interface ListFunctionEventInvokeConfigsRequest {
   FunctionName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type FunctionEventInvokeConfigList = FunctionEventInvokeConfig[];
 export interface ListFunctionEventInvokeConfigsResponse {
-  FunctionEventInvokeConfigs?: FunctionEventInvokeConfig[];
-  NextMarker?: string;
+  FunctionEventInvokeConfigs?: FunctionEventInvokeConfig[] | undefined;
+  NextMarker?: string | undefined;
 }
 export type MasterRegion = string;
 export type FunctionVersion = "ALL" | (string & {});
 export interface ListFunctionsRequest {
-  MasterRegion?: string;
-  FunctionVersion?: FunctionVersion;
-  Marker?: string;
-  MaxItems?: number;
+  MasterRegion?: string | undefined;
+  FunctionVersion?: FunctionVersion | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type FunctionList = FunctionConfiguration[];
 export interface ListFunctionsResponse {
-  NextMarker?: string;
-  Functions?: FunctionConfiguration[];
+  NextMarker?: string | undefined;
+  Functions?: FunctionConfiguration[] | undefined;
 }
 export interface ListFunctionsByCodeSigningConfigRequest {
   CodeSigningConfigArn: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type FunctionArnList = string[];
 export interface ListFunctionsByCodeSigningConfigResponse {
-  NextMarker?: string;
-  FunctionArns?: string[];
+  NextMarker?: string | undefined;
+  FunctionArns?: string[] | undefined;
 }
 export type MaxItems = number;
 export interface ListFunctionUrlConfigsRequest {
   FunctionName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface FunctionUrlConfig {
   FunctionUrl: string;
   FunctionArn: string;
   CreationTime: string;
   LastModifiedTime: string;
-  Cors?: Cors;
+  Cors?: Cors | undefined;
   AuthType: FunctionUrlAuthType;
-  InvokeMode?: InvokeMode;
+  InvokeMode?: InvokeMode | undefined;
 }
 export type FunctionUrlConfigList = FunctionUrlConfig[];
 export interface ListFunctionUrlConfigsResponse {
   FunctionUrlConfigs: FunctionUrlConfig[];
-  NextMarker?: string;
+  NextMarker?: string | undefined;
 }
 export interface ListFunctionVersionsByCapacityProviderRequest {
   CapacityProviderName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface FunctionVersionsByCapacityProviderListItem {
   FunctionArn: string;
@@ -2318,114 +2318,114 @@ export type FunctionVersionsByCapacityProviderList = FunctionVersionsByCapacityP
 export interface ListFunctionVersionsByCapacityProviderResponse {
   CapacityProviderArn: string;
   FunctionVersions: FunctionVersionsByCapacityProviderListItem[];
-  NextMarker?: string;
+  NextMarker?: string | undefined;
 }
 export type MaxLayerListItems = number;
 export interface ListLayersRequest {
-  CompatibleArchitecture?: Architecture;
-  CompatibleRuntime?: Runtime;
-  Marker?: string;
-  MaxItems?: number;
+  CompatibleArchitecture?: Architecture | undefined;
+  CompatibleRuntime?: Runtime | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface LayerVersionsListItem {
-  LayerVersionArn?: string;
-  Version?: number;
-  Description?: string;
-  CreatedDate?: string;
-  CompatibleArchitectures?: Architecture[];
-  CompatibleRuntimes?: Runtime[];
-  LicenseInfo?: string;
+  LayerVersionArn?: string | undefined;
+  Version?: number | undefined;
+  Description?: string | undefined;
+  CreatedDate?: string | undefined;
+  CompatibleArchitectures?: Architecture[] | undefined;
+  CompatibleRuntimes?: Runtime[] | undefined;
+  LicenseInfo?: string | undefined;
 }
 export interface LayersListItem {
-  LayerName?: string;
-  LayerArn?: string;
-  LatestMatchingVersion?: LayerVersionsListItem;
+  LayerName?: string | undefined;
+  LayerArn?: string | undefined;
+  LatestMatchingVersion?: LayerVersionsListItem | undefined;
 }
 export type LayersList = LayersListItem[];
 export interface ListLayersResponse {
-  NextMarker?: string;
-  Layers?: LayersListItem[];
+  NextMarker?: string | undefined;
+  Layers?: LayersListItem[] | undefined;
 }
 export interface ListLayerVersionsRequest {
-  CompatibleArchitecture?: Architecture;
-  CompatibleRuntime?: Runtime;
+  CompatibleArchitecture?: Architecture | undefined;
+  CompatibleRuntime?: Runtime | undefined;
   LayerName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type LayerVersionsList = LayerVersionsListItem[];
 export interface ListLayerVersionsResponse {
-  NextMarker?: string;
-  LayerVersions?: LayerVersionsListItem[];
+  NextMarker?: string | undefined;
+  LayerVersions?: LayerVersionsListItem[] | undefined;
 }
 export type MaxProvisionedConcurrencyConfigListItems = number;
 export interface ListProvisionedConcurrencyConfigsRequest {
   FunctionName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ProvisionedConcurrencyConfigListItem {
-  FunctionArn?: string;
-  RequestedProvisionedConcurrentExecutions?: number;
-  AvailableProvisionedConcurrentExecutions?: number;
-  AllocatedProvisionedConcurrentExecutions?: number;
-  Status?: ProvisionedConcurrencyStatusEnum;
-  StatusReason?: string;
-  LastModified?: string;
+  FunctionArn?: string | undefined;
+  RequestedProvisionedConcurrentExecutions?: number | undefined;
+  AvailableProvisionedConcurrentExecutions?: number | undefined;
+  AllocatedProvisionedConcurrentExecutions?: number | undefined;
+  Status?: ProvisionedConcurrencyStatusEnum | undefined;
+  StatusReason?: string | undefined;
+  LastModified?: string | undefined;
 }
 export type ProvisionedConcurrencyConfigList = ProvisionedConcurrencyConfigListItem[];
 export interface ListProvisionedConcurrencyConfigsResponse {
-  ProvisionedConcurrencyConfigs?: ProvisionedConcurrencyConfigListItem[];
-  NextMarker?: string;
+  ProvisionedConcurrencyConfigs?: ProvisionedConcurrencyConfigListItem[] | undefined;
+  NextMarker?: string | undefined;
 }
 export type TaggableResource = string;
 export interface ListTagsRequest {
   Resource: string;
 }
 export interface ListTagsResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListVersionsByFunctionRequest {
   FunctionName: string;
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListVersionsByFunctionResponse {
-  NextMarker?: string;
-  Versions?: FunctionConfiguration[];
+  NextMarker?: string | undefined;
+  Versions?: FunctionConfiguration[] | undefined;
 }
 export interface LayerVersionContentInput {
-  S3Bucket?: string;
-  S3Key?: string;
-  S3ObjectVersion?: string;
-  S3ObjectStorageMode?: S3ObjectStorageMode;
-  ZipFile?: Uint8Array | redacted.Redacted<Uint8Array>;
+  S3Bucket?: string | undefined;
+  S3Key?: string | undefined;
+  S3ObjectVersion?: string | undefined;
+  S3ObjectStorageMode?: S3ObjectStorageMode | undefined;
+  ZipFile?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
 }
 export interface PublishLayerVersionRequest {
   LayerName: string;
-  Description?: string;
+  Description?: string | undefined;
   Content: LayerVersionContentInput;
-  CompatibleArchitectures?: Architecture[];
-  CompatibleRuntimes?: Runtime[];
-  LicenseInfo?: string;
+  CompatibleArchitectures?: Architecture[] | undefined;
+  CompatibleRuntimes?: Runtime[] | undefined;
+  LicenseInfo?: string | undefined;
 }
 export interface PublishLayerVersionResponse {
-  Content?: LayerVersionContentOutput;
-  LayerArn?: string;
-  LayerVersionArn?: string;
-  Description?: string;
-  CreatedDate?: string;
-  Version?: number;
-  CompatibleArchitectures?: Architecture[];
-  CompatibleRuntimes?: Runtime[];
-  LicenseInfo?: string;
+  Content?: LayerVersionContentOutput | undefined;
+  LayerArn?: string | undefined;
+  LayerVersionArn?: string | undefined;
+  Description?: string | undefined;
+  CreatedDate?: string | undefined;
+  Version?: number | undefined;
+  CompatibleArchitectures?: Architecture[] | undefined;
+  CompatibleRuntimes?: Runtime[] | undefined;
+  LicenseInfo?: string | undefined;
 }
 export interface PublishVersionRequest {
   FunctionName: string;
-  CodeSha256?: string;
-  Description?: string;
-  RevisionId?: string;
-  PublishTo?: FunctionVersionLatestPublished;
+  CodeSha256?: string | undefined;
+  Description?: string | undefined;
+  RevisionId?: string | undefined;
+  PublishTo?: FunctionVersionLatestPublished | undefined;
 }
 export interface PutFunctionCodeSigningConfigRequest {
   CodeSigningConfigArn: string;
@@ -2441,25 +2441,25 @@ export interface PutFunctionConcurrencyRequest {
 }
 export interface PutFunctionEventInvokeConfigRequest {
   FunctionName: string;
-  Qualifier?: string;
-  MaximumRetryAttempts?: number;
-  MaximumEventAgeInSeconds?: number;
-  DestinationConfig?: DestinationConfig;
+  Qualifier?: string | undefined;
+  MaximumRetryAttempts?: number | undefined;
+  MaximumEventAgeInSeconds?: number | undefined;
+  DestinationConfig?: DestinationConfig | undefined;
 }
 export interface PutFunctionRecursionConfigRequest {
   FunctionName: string;
   RecursiveLoop: RecursiveLoop;
 }
 export interface PutFunctionRecursionConfigResponse {
-  RecursiveLoop?: RecursiveLoop;
+  RecursiveLoop?: RecursiveLoop | undefined;
 }
 export interface PutFunctionScalingConfigRequest {
   FunctionName: string;
   Qualifier: string;
-  FunctionScalingConfig?: FunctionScalingConfig;
+  FunctionScalingConfig?: FunctionScalingConfig | undefined;
 }
 export interface PutFunctionScalingConfigResponse {
-  FunctionState?: State;
+  FunctionState?: State | undefined;
 }
 export interface PutProvisionedConcurrencyConfigRequest {
   FunctionName: string;
@@ -2467,51 +2467,51 @@ export interface PutProvisionedConcurrencyConfigRequest {
   ProvisionedConcurrentExecutions: number;
 }
 export interface PutProvisionedConcurrencyConfigResponse {
-  RequestedProvisionedConcurrentExecutions?: number;
-  AllocatedProvisionedConcurrentExecutions?: number;
-  AvailableProvisionedConcurrentExecutions?: number;
-  Status?: ProvisionedConcurrencyStatusEnum;
-  StatusReason?: string;
-  LastModified?: string;
+  RequestedProvisionedConcurrentExecutions?: number | undefined;
+  AllocatedProvisionedConcurrentExecutions?: number | undefined;
+  AvailableProvisionedConcurrentExecutions?: number | undefined;
+  Status?: ProvisionedConcurrencyStatusEnum | undefined;
+  StatusReason?: string | undefined;
+  LastModified?: string | undefined;
 }
 export interface PutResourcePolicyRequest {
   ResourceArn: string;
   Policy: string;
-  RevisionId?: string;
+  RevisionId?: string | undefined;
 }
 export interface PutResourcePolicyResponse {
-  Policy?: string;
-  RevisionId?: string;
+  Policy?: string | undefined;
+  RevisionId?: string | undefined;
 }
 export interface PutRuntimeManagementConfigRequest {
   FunctionName: string;
-  Qualifier?: string;
+  Qualifier?: string | undefined;
   UpdateRuntimeOn: UpdateRuntimeOn;
-  RuntimeVersionArn?: string;
+  RuntimeVersionArn?: string | undefined;
 }
 export interface PutRuntimeManagementConfigResponse {
   UpdateRuntimeOn: UpdateRuntimeOn;
   FunctionArn: string;
-  RuntimeVersionArn?: string;
+  RuntimeVersionArn?: string | undefined;
 }
 export interface RemoveLayerVersionPermissionRequest {
   LayerName: string;
   VersionNumber: number;
   StatementId: string;
-  RevisionId?: string;
+  RevisionId?: string | undefined;
 }
 export interface RemoveLayerVersionPermissionResponse {}
 export type NamespacedStatementId = string;
 export interface RemovePermissionRequest {
   FunctionName: string;
   StatementId: string;
-  Qualifier?: string;
-  RevisionId?: string;
+  Qualifier?: string | undefined;
+  RevisionId?: string | undefined;
 }
 export interface RemovePermissionResponse {}
 export interface SendDurableExecutionCallbackFailureRequest {
   CallbackId: string;
-  Error?: ErrorObject;
+  Error?: ErrorObject | undefined;
 }
 export interface SendDurableExecutionCallbackFailureResponse {}
 export interface SendDurableExecutionCallbackHeartbeatRequest {
@@ -2520,12 +2520,12 @@ export interface SendDurableExecutionCallbackHeartbeatRequest {
 export interface SendDurableExecutionCallbackHeartbeatResponse {}
 export interface SendDurableExecutionCallbackSuccessRequest {
   CallbackId: string;
-  Result?: T.StreamingInputBody;
+  Result?: T.StreamingInputBody | undefined;
 }
 export interface SendDurableExecutionCallbackSuccessResponse {}
 export interface StopDurableExecutionRequest {
   DurableExecutionArn: string;
-  Error?: ErrorObject;
+  Error?: ErrorObject | undefined;
 }
 export interface StopDurableExecutionResponse {
   StopTimestamp: Date;
@@ -2544,113 +2544,113 @@ export interface UntagResourceResponse {}
 export interface UpdateAliasRequest {
   FunctionName: string;
   Name: string;
-  FunctionVersion?: string;
-  Description?: string;
-  RoutingConfig?: AliasRoutingConfiguration;
-  RevisionId?: string;
+  FunctionVersion?: string | undefined;
+  Description?: string | undefined;
+  RoutingConfig?: AliasRoutingConfiguration | undefined;
+  RevisionId?: string | undefined;
 }
 export interface UpdateCapacityProviderRequest {
   CapacityProviderName: string;
-  CapacityProviderScalingConfig?: CapacityProviderScalingConfig;
-  PropagateTags?: PropagateTags;
-  TelemetryConfig?: CapacityProviderTelemetryConfig;
+  CapacityProviderScalingConfig?: CapacityProviderScalingConfig | undefined;
+  PropagateTags?: PropagateTags | undefined;
+  TelemetryConfig?: CapacityProviderTelemetryConfig | undefined;
 }
 export interface UpdateCapacityProviderResponse {
   CapacityProvider: CapacityProvider;
 }
 export interface UpdateCodeSigningConfigRequest {
   CodeSigningConfigArn: string;
-  Description?: string;
-  AllowedPublishers?: AllowedPublishers;
-  CodeSigningPolicies?: CodeSigningPolicies;
+  Description?: string | undefined;
+  AllowedPublishers?: AllowedPublishers | undefined;
+  CodeSigningPolicies?: CodeSigningPolicies | undefined;
 }
 export interface UpdateCodeSigningConfigResponse {
   CodeSigningConfig: CodeSigningConfig;
 }
 export interface UpdateEventSourceMappingRequest {
   UUID: string;
-  FunctionName?: string;
-  Enabled?: boolean;
-  BatchSize?: number;
-  FilterCriteria?: FilterCriteria;
-  KMSKeyArn?: string;
-  MetricsConfig?: EventSourceMappingMetricsConfig;
-  LoggingConfig?: EventSourceMappingLoggingConfig;
-  ScalingConfig?: ScalingConfig;
-  MaximumBatchingWindowInSeconds?: number;
-  ParallelizationFactor?: number;
-  DestinationConfig?: DestinationConfig;
-  MaximumRecordAgeInSeconds?: number;
-  BisectBatchOnFunctionError?: boolean;
-  MaximumRetryAttempts?: number;
-  TumblingWindowInSeconds?: number;
-  SourceAccessConfigurations?: SourceAccessConfiguration[];
-  FunctionResponseTypes?: FunctionResponseType[];
-  AmazonManagedKafkaEventSourceConfig?: AmazonManagedKafkaEventSourceConfig;
-  SelfManagedKafkaEventSourceConfig?: SelfManagedKafkaEventSourceConfig;
-  DocumentDBEventSourceConfig?: DocumentDBEventSourceConfig;
-  ProvisionedPollerConfig?: ProvisionedPollerConfig;
+  FunctionName?: string | undefined;
+  Enabled?: boolean | undefined;
+  BatchSize?: number | undefined;
+  FilterCriteria?: FilterCriteria | undefined;
+  KMSKeyArn?: string | undefined;
+  MetricsConfig?: EventSourceMappingMetricsConfig | undefined;
+  LoggingConfig?: EventSourceMappingLoggingConfig | undefined;
+  ScalingConfig?: ScalingConfig | undefined;
+  MaximumBatchingWindowInSeconds?: number | undefined;
+  ParallelizationFactor?: number | undefined;
+  DestinationConfig?: DestinationConfig | undefined;
+  MaximumRecordAgeInSeconds?: number | undefined;
+  BisectBatchOnFunctionError?: boolean | undefined;
+  MaximumRetryAttempts?: number | undefined;
+  TumblingWindowInSeconds?: number | undefined;
+  SourceAccessConfigurations?: SourceAccessConfiguration[] | undefined;
+  FunctionResponseTypes?: FunctionResponseType[] | undefined;
+  AmazonManagedKafkaEventSourceConfig?: AmazonManagedKafkaEventSourceConfig | undefined;
+  SelfManagedKafkaEventSourceConfig?: SelfManagedKafkaEventSourceConfig | undefined;
+  DocumentDBEventSourceConfig?: DocumentDBEventSourceConfig | undefined;
+  ProvisionedPollerConfig?: ProvisionedPollerConfig | undefined;
 }
 export interface UpdateFunctionCodeRequest {
   FunctionName: string;
-  ZipFile?: Uint8Array | redacted.Redacted<Uint8Array>;
-  S3Bucket?: string;
-  S3Key?: string;
-  S3ObjectVersion?: string;
-  S3ObjectStorageMode?: S3ObjectStorageMode;
-  ImageUri?: string;
-  Architectures?: Architecture[];
-  Publish?: boolean;
-  PublishTo?: FunctionVersionLatestPublished;
-  DryRun?: boolean;
-  RevisionId?: string;
-  SourceKMSKeyArn?: string;
+  ZipFile?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  S3Bucket?: string | undefined;
+  S3Key?: string | undefined;
+  S3ObjectVersion?: string | undefined;
+  S3ObjectStorageMode?: S3ObjectStorageMode | undefined;
+  ImageUri?: string | undefined;
+  Architectures?: Architecture[] | undefined;
+  Publish?: boolean | undefined;
+  PublishTo?: FunctionVersionLatestPublished | undefined;
+  DryRun?: boolean | undefined;
+  RevisionId?: string | undefined;
+  SourceKMSKeyArn?: string | undefined;
 }
 export interface UpdateFunctionConfigurationRequest {
   FunctionName: string;
-  Role?: string;
-  Handler?: string;
-  Description?: string;
-  Timeout?: number;
-  MemorySize?: number;
-  VpcConfig?: VpcConfig;
-  Environment?: Environment;
-  Runtime?: Runtime;
-  DeadLetterConfig?: DeadLetterConfig;
-  KMSKeyArn?: string;
-  TracingConfig?: TracingConfig;
-  RevisionId?: string;
-  Layers?: string[];
-  FileSystemConfigs?: FileSystemConfig[];
-  ImageConfig?: ImageConfig;
-  EphemeralStorage?: EphemeralStorage;
-  SnapStart?: SnapStart;
-  LoggingConfig?: LoggingConfig;
-  CapacityProviderConfig?: CapacityProviderConfig;
-  DurableConfig?: DurableConfig;
+  Role?: string | undefined;
+  Handler?: string | undefined;
+  Description?: string | undefined;
+  Timeout?: number | undefined;
+  MemorySize?: number | undefined;
+  VpcConfig?: VpcConfig | undefined;
+  Environment?: Environment | undefined;
+  Runtime?: Runtime | undefined;
+  DeadLetterConfig?: DeadLetterConfig | undefined;
+  KMSKeyArn?: string | undefined;
+  TracingConfig?: TracingConfig | undefined;
+  RevisionId?: string | undefined;
+  Layers?: string[] | undefined;
+  FileSystemConfigs?: FileSystemConfig[] | undefined;
+  ImageConfig?: ImageConfig | undefined;
+  EphemeralStorage?: EphemeralStorage | undefined;
+  SnapStart?: SnapStart | undefined;
+  LoggingConfig?: LoggingConfig | undefined;
+  CapacityProviderConfig?: CapacityProviderConfig | undefined;
+  DurableConfig?: DurableConfig | undefined;
 }
 export interface UpdateFunctionEventInvokeConfigRequest {
   FunctionName: string;
-  Qualifier?: string;
-  MaximumRetryAttempts?: number;
-  MaximumEventAgeInSeconds?: number;
-  DestinationConfig?: DestinationConfig;
+  Qualifier?: string | undefined;
+  MaximumRetryAttempts?: number | undefined;
+  MaximumEventAgeInSeconds?: number | undefined;
+  DestinationConfig?: DestinationConfig | undefined;
 }
 export interface UpdateFunctionUrlConfigRequest {
   FunctionName: string;
-  Qualifier?: string;
-  AuthType?: FunctionUrlAuthType;
-  Cors?: Cors;
-  InvokeMode?: InvokeMode;
+  Qualifier?: string | undefined;
+  AuthType?: FunctionUrlAuthType | undefined;
+  Cors?: Cors | undefined;
+  InvokeMode?: InvokeMode | undefined;
 }
 export interface UpdateFunctionUrlConfigResponse {
   FunctionUrl: string;
   FunctionArn: string;
   AuthType: FunctionUrlAuthType;
-  Cors?: Cors;
+  Cors?: Cors | undefined;
   CreationTime: string;
   LastModifiedTime: string;
-  InvokeMode?: InvokeMode;
+  InvokeMode?: InvokeMode | undefined;
 }
 export type ThrottleReason =
   | "ConcurrentInvocationLimitExceeded"

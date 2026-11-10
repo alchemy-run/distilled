@@ -75,7 +75,7 @@ export const ResultInfo: S.Schema<ResultInfo> = /*@__PURE__*/ S.Struct({
 const paginatePageByItems: Pagination.PaginationStrategy = (operation, input, pagination) => {
   const inputToken = pagination.inputToken;
   if (!inputToken) {
-    return Stream.die(new Error("Cloudflare page pagination requires an inputToken"));
+    return Pagination.missingPaginationConfig("Cloudflare page pagination requires an inputToken");
   }
 
   type State = { page: number; seen: number; done: boolean };

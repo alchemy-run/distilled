@@ -67,187 +67,187 @@ export type GetMetricRequestAdIdsList = Array<string>;
 export type GetMetricRequestSnapshotWindow = "7d" | "28d" | "30d";
 export interface FunnelStep {
   /** The Whop app build ID attached to the event. Comma-separated alternatives are ORed; different filters are ANDed. */
-  app_build_id?: string;
+  app_build_id?: string | undefined;
   /** The event's app id. Comma-separated alternatives are ORed; different filters are ANDed. */
-  app_id?: string;
+  app_id?: string | undefined;
   /** The event's browser. Comma-separated alternatives are ORed; different filters are ANDed. */
-  browser?: string;
+  browser?: string | undefined;
   /** The event's city. Comma-separated alternatives are ORed; different filters are ANDed. */
-  city?: string;
+  city?: string | undefined;
   /** The event's country. Comma-separated alternatives are ORed; different filters are ANDed. */
-  country?: string;
+  country?: string | undefined;
   /** The custom event name. Requires event=pixel.custom. Comma-separated alternatives are ORed; different filters are ANDed. */
-  custom_name?: string;
+  custom_name?: string | undefined;
   /** The event's device. Comma-separated alternatives are ORed; different filters are ANDed. */
-  device?: string;
+  device?: string | undefined;
   /** The event name, such as pixel.page, pixel.custom, experiment.exposure, or payment.completed. Exactly one event per step. */
   event: string;
   /** An experiment ID owned by account_id. Requires event=experiment.exposure. Comma-separated alternatives are ORed; different filters are ANDed. */
-  experiment_id?: string;
+  experiment_id?: string | undefined;
   /** The event's hostname. Comma-separated alternatives are ORed; different filters are ANDed. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** The event's os. Comma-separated alternatives are ORed; different filters are ANDed. */
-  os?: string;
+  os?: string | undefined;
   /** The URL pathname. Use * to match zero or more characters, including slashes. Other characters match literally. Missing pages do not match. Comma-separated alternatives are ORed; different filters are ANDed. */
-  page?: string;
+  page?: string | undefined;
   /** The plan ID attached to the event. Comma-separated alternatives are ORed; different filters are ANDed. */
-  plan_id?: string;
+  plan_id?: string | undefined;
   /** The product ID attached to the event. Comma-separated alternatives are ORed; different filters are ANDed. */
-  product_id?: string;
+  product_id?: string | undefined;
   /** The Whop ad-click source of this page view, not conversion attribution. Use whop:* for any Whop ad click, whop:<campaign>:* for a campaign, or whop:<campaign>:<group>:<ad> for an exact ad. Only ad-click page-view events support source. With breakdown_by=source, trailing :* levels select campaign, ad-group, or ad detail. Comma-separated alternatives are ORed; different filters are ANDed. */
-  source?: string;
+  source?: string | undefined;
   /** The event's utm source. Comma-separated alternatives are ORed; different filters are ANDed. */
-  utm_source?: string;
+  utm_source?: string | undefined;
   /** The exposed variant name. Requires event=experiment.exposure. Comma-separated alternatives are ORed; different filters are ANDed. */
-  variant?: string;
+  variant?: string | undefined;
 }
 export interface GetMetricRequestSteps {
   _1: FunnelStep;
   _2: FunnelStep;
-  _3?: FunnelStep;
-  _4?: FunnelStep;
-  _5?: FunnelStep;
-  _6?: FunnelStep;
-  _7?: FunnelStep;
-  _8?: FunnelStep;
-  _9?: FunnelStep;
-  _10?: FunnelStep;
+  _3?: FunnelStep | undefined;
+  _4?: FunnelStep | undefined;
+  _5?: FunnelStep | undefined;
+  _6?: FunnelStep | undefined;
+  _7?: FunnelStep | undefined;
+  _8?: FunnelStep | undefined;
+  _9?: FunnelStep | undefined;
+  _10?: FunnelStep | undefined;
 }
 export interface GetMetricRequest {
   /** The metric to retrieve, for example net_revenue. Use GET /stats to see every metric key. The metric sets the unit and the properties you can filter or break down by. */
   metric: string;
   /** The account this query concerns, for example biz_AbC123. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The user this query concerns, for example user_AbC123. Available on metrics that support user subjects, such as account_balance. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Start of the range -- a date (YYYY-MM-DD), expanded to the start of that day, or an ISO 8601 timestamp (for example 2026-07-16T16:37:00Z), used exactly. */
   from: string;
   /** End of the range -- a date (YYYY-MM-DD), expanded to the end of that day, or an ISO 8601 timestamp (for example 2026-07-17T16:37:00Z), used exactly. Funnel entry ranges cannot exceed 90 days. */
   to: string;
   /** How wide each point is. Defaults to day. Snapshot metrics are day-only. Funnels support at most 2,000 first-entry cohort buckets. */
-  interval?: GetMetricRequestInterval | (string & {});
+  interval?: GetMetricRequestInterval | (string & {}) | undefined;
   /** Split the metric out by one of its properties -- each point gets a breakdown array. For example breakdown_by=currency returns an entry for usd, an entry for eur, and so on. Funnels use a property of the first matched event, with at most 300 groups. experiment_id and variant require an exposure as step 1. For funnel source breakdowns, steps[1][source]=whop:* groups by campaign, whop:<campaign>:* by ad group, and whop:<campaign>:<group>:* by ad. See the metric catalog for supported breakdowns. */
-  breakdown_by?: string;
+  breakdown_by?: string | undefined;
   /** Display currency for money metrics -- every amount is converted into this ISO currency using the exchange rate on each period's date. Defaults to usd. For the ads metrics (ad_spend, ad_delivery), pass the account's ads reporting currency to match the ad entity endpoints. On transaction metrics, it is ignored when you filter or break down by currency (those report the original transaction currency, unconverted). */
-  convert_to?: string;
+  convert_to?: string | undefined;
   /** Select the source currency or asset on metrics that list currency. For transaction metrics, for example currency=eur, values are reported without conversion. For market_prices, use btc or xaut and convert_to=usd. Pair with breakdown_by=currency to split a metric by currency. */
-  currency?: string;
+  currency?: string | undefined;
   /** IANA time zone to bucket the series in, for example America/New_York. Defaults to UTC. Not accepted by snapshot metrics, which are UTC only. */
-  time_zone?: string;
+  time_zone?: string | undefined;
   /** Filter to a single payment method, for example card or crypto. Available on metrics that list payment_method. */
-  payment_method?: string;
+  payment_method?: string | undefined;
   /** Filter to a single card brand, for example visa. A refinement of payment_method=card. Available on metrics that list card_network. */
-  card_network?: string;
+  card_network?: string | undefined;
   /** Filter disputes to a normalized reason, for example product_not_received. Pair with breakdown_by=dispute_reason to split dispute counts by reason. */
-  dispute_reason?: string;
+  dispute_reason?: string | undefined;
   /** Filter to a single GMV source, for example payments -- or, on the traffic metrics, a visit source (whop_ads, direct, or a utm_source value). Pair with breakdown_by=source to split by source. Available on metrics that list source. */
-  source?: string;
+  source?: string | undefined;
   /** Filter traffic metrics to one website hostname, for example shop.example.com. Pair with breakdown_by=hostname to split by website. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Filter traffic metrics to one page -- a hostname plus normalized path, for example shop.example.com/pricing. Pair with breakdown_by=page to split by page. */
-  page?: string;
+  page?: string | undefined;
   /** Filter traffic metrics to one device type: desktop, mobile, tablet, or unknown. Pair with breakdown_by=device_type to split by device. */
-  device_type?: string;
+  device_type?: string | undefined;
   /** Filter traffic metrics to one visitor country (uppercase ISO 3166-1 alpha-2, for example US). Pair with breakdown_by=country_code to split by country. */
-  country_code?: string;
+  country_code?: string | undefined;
   /** Filter the events metric to one tracked event name, for example pixel.page or pixel.custom. Pair with breakdown_by=event_name to split by event. */
-  event_name?: string;
+  event_name?: string | undefined;
   /** Filter the events metric to a canonical group of events: page_view (pixel page views plus whop.com store views), checkout_start (hosted and embedded checkout views), or other. Pair with breakdown_by=event_type to split by group. */
-  event_type?: GetMetricRequestEventType | (string & {});
+  event_type?: GetMetricRequestEventType | (string & {}) | undefined;
   /** Filter the events metric to one merchant-defined custom event name. Only valid alongside event_name=pixel.custom. Pair with breakdown_by=custom_name to split custom events by name. */
-  custom_name?: string;
+  custom_name?: string | undefined;
   /** Filter to a single wallet-balance segment, for example available. Pair with breakdown_by=segment to split the balance. Available on metrics that list segment. */
-  segment?: string;
+  segment?: string | undefined;
   /** Filter to a single balance-activity category, for example payments. Pair with breakdown_by=category to split the activity. Available on metrics that list category. */
-  category?: string;
+  category?: string | undefined;
   /** Filter to a single cashback merchant bucket, for example whop-ads. Pair with breakdown_by=merchant to split cashback by merchant. Available on metrics that list merchant. */
-  merchant?: string;
+  merchant?: string | undefined;
   /** Filter to a single fee type. Pair with breakdown_by=fee_type to split fees by type. Available on metrics that list fee_type. */
-  fee_type?: string;
+  fee_type?: string | undefined;
   /** Filter to a single product (access pass id), for example prod_AbC123. Pair with breakdown_by=product. Available on metrics that list product. */
-  product?: string;
+  product?: string | undefined;
   /** Filter to a single membership status. Pair with breakdown_by=status. Available on metrics that list status. */
-  status?: string;
+  status?: string | undefined;
   /** Filter to a single access level. Pair with breakdown_by=access_level. Available on metrics that list access_level. */
-  access_level?: string;
+  access_level?: string | undefined;
   /** Filter to a single most-recent member action. Pair with breakdown_by=most_recent_action. Available on metrics that list most_recent_action. */
-  most_recent_action?: string;
+  most_recent_action?: string | undefined;
   /** Filter a referral metric to the businesses attributed to one person you referred, for example user_AbC123. Available on metrics that list referred_user_id. */
-  referred_user_id?: string;
+  referred_user_id?: string | undefined;
   /** Ad campaign ids (adcamp_...) to scope the report to; stats are summed across them. Available on metrics that list ad_campaign_ids. */
-  ad_campaign_ids?: GetMetricRequestAdCampaignIdsList;
+  ad_campaign_ids?: GetMetricRequestAdCampaignIdsList | undefined;
   /** Ad group ids (adgrp_...) to scope the report to; stats are summed across them. Available on metrics that list ad_group_ids. */
-  ad_group_ids?: GetMetricRequestAdGroupIdsList;
+  ad_group_ids?: GetMetricRequestAdGroupIdsList | undefined;
   /** Ad ids (ad_...) to scope the report to; stats are summed across them. Available on metrics that list ad_ids. */
-  ad_ids?: GetMetricRequestAdIdsList;
+  ad_ids?: GetMetricRequestAdIdsList | undefined;
   /** Window used by a snapshot metric. Ordinary snapshots accept 30d as their trailing activity window. Cohorted dispute metrics accept 7d or 28d as the sales-transaction pool; their attribution window is fixed in the metric name. Each metric lists its accepted values in the catalog. */
-  snapshot_window?: GetMetricRequestSnapshotWindow | (string & {});
+  snapshot_window?: GetMetricRequestSnapshotWindow | (string & {}) | undefined;
   /** Filter the events metric to one or more full event names, for example payment.completed or pixel.lead. Comma-separated names match any listed event. Use group_by=event for separate groups. Available on metrics that list event. */
-  event?: string;
+  event?: string | undefined;
   /** Funnel only. Time allowed from the first event to the final event: integer minutes, hours, or days, up to 30d. */
-  conversion_window?: string;
+  conversion_window?: string | undefined;
   /** Funnel only. Include only entrants whose full conversion window has elapsed. Required for confidence intervals and comparisons. */
-  mature_only?: boolean;
+  mature_only?: boolean | undefined;
   /** Funnel only. Required when metric=funnel. Consecutive one-based steps encoded as steps[1][event], steps[1][page], steps[2][event], and so on. Values are scalar strings, never JSON. */
-  steps?: GetMetricRequestSteps;
+  steps?: GetMetricRequestSteps | undefined;
   /** Funnel only. The breakdown value to use as baseline for whole-window final conversion. Requires breakdown_by and mature_only=true; defaults confidence_level to 0.95. */
-  compare_to?: string;
+  compare_to?: string | undefined;
   /** Funnel only. Confidence level for whole-window final conversion intervals, for example 0.95. Requires mature_only=true. Exposure steps must each filter one user-randomized experiment. */
-  confidence_level?: number;
+  confidence_level?: number | undefined;
   /** People metric only: contactable equals this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  contactable?: boolean;
+  contactable?: boolean | undefined;
   /** People metric only: has_purchased equals this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  has_purchased?: boolean;
+  has_purchased?: boolean | undefined;
   /** People metric only: first_seen_at greater than or equal this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  first_seen_after?: string;
+  first_seen_after?: string | undefined;
   /** People metric only: first_seen_at less than this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  first_seen_before?: string;
+  first_seen_before?: string | undefined;
   /** People metric only: last_seen_at greater than or equal this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  last_seen_after?: string;
+  last_seen_after?: string | undefined;
   /** People metric only: last_seen_at less than this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  last_seen_before?: string;
+  last_seen_before?: string | undefined;
   /** People metric only: first_seen_at within this many days of now. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  first_seen_within_days?: number;
+  first_seen_within_days?: number | undefined;
   /** People metric only: last_seen_at within this many days of now. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  last_seen_within_days?: number;
+  last_seen_within_days?: number | undefined;
   /** People metric only: known equals this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  known?: boolean;
+  known?: boolean | undefined;
   /** People metric only: has_email equals this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  has_email?: boolean;
+  has_email?: boolean | undefined;
   /** People metric only: has_phone equals this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  has_phone?: boolean;
+  has_phone?: boolean | undefined;
   /** People metric only: ltv greater than this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  ltv_gt?: number;
+  ltv_gt?: number | undefined;
   /** People metric only: ltv greater than or equal this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  ltv_gte?: number;
+  ltv_gte?: number | undefined;
   /** People metric only: ltv less than this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  ltv_lt?: number;
+  ltv_lt?: number | undefined;
   /** People metric only: ltv less than or equal this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  ltv_lte?: number;
+  ltv_lte?: number | undefined;
   /** People metric only: aov greater than this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  aov_gt?: number;
+  aov_gt?: number | undefined;
   /** People metric only: aov greater than or equal this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  aov_gte?: number;
+  aov_gte?: number | undefined;
   /** People metric only: aov less than this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  aov_lt?: number;
+  aov_lt?: number | undefined;
   /** People metric only: aov less than or equal this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  aov_lte?: number;
+  aov_lte?: number | undefined;
   /** People metric only: purchase_count greater than this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  purchase_count_gt?: number;
+  purchase_count_gt?: number | undefined;
   /** People metric only: purchase_count greater than or equal this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  purchase_count_gte?: number;
+  purchase_count_gte?: number | undefined;
   /** People metric only: purchase_count less than this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  purchase_count_lt?: number;
+  purchase_count_lt?: number | undefined;
   /** People metric only: purchase_count less than or equal this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  purchase_count_lte?: number;
+  purchase_count_lte?: number | undefined;
   /** People metric only: event_count greater than this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  event_count_gt?: number;
+  event_count_gt?: number | undefined;
   /** People metric only: event_count greater than or equal this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  event_count_gte?: number;
+  event_count_gte?: number | undefined;
   /** People metric only: event_count less than this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  event_count_lt?: number;
+  event_count_lt?: number | undefined;
   /** People metric only: event_count less than or equal this value. Applies to the current person profile for every time bucket. LTV and AOV are in USD. Not accepted by the Events metric. */
-  event_count_lte?: number;
+  event_count_lte?: number | undefined;
 }
 export interface FunnelStepResult {
   /** The percentage of first-step entrants reaching this step; null when there are no entrants. */
@@ -263,7 +263,7 @@ export interface GetMetricResponseDataPointsItemBreakdownItem {
   /** The property value, for example usd or visa. */
   name: string;
   /** Present for the funnel metric. People reaching each step in order, starting with the entry step. */
-  steps?: GetMetricResponseDataPointsItemBreakdownItemStepsList;
+  steps?: GetMetricResponseDataPointsItemBreakdownItemStepsList | undefined;
   /** The metric's value for this entry. */
   value: number | null;
 }
@@ -274,9 +274,9 @@ export type GetMetricResponseDataPointsItemBreakdownList =
 export type GetMetricResponseDataPointsItemStepsList = Array<FunnelStepResult>;
 export interface GetMetricResponseDataPointsItem {
   /** Present only when broken down: one entry per property value in this period. */
-  breakdown?: GetMetricResponseDataPointsItemBreakdownList;
+  breakdown?: GetMetricResponseDataPointsItemBreakdownList | undefined;
   /** Present for the funnel metric. People reaching each step in order, starting with the entry step. */
-  steps?: GetMetricResponseDataPointsItemStepsList;
+  steps?: GetMetricResponseDataPointsItemStepsList | undefined;
   /** Unix timestamp (seconds) of the period start. */
   timestamp: number;
   /** The metric's value for this period, in the metric's unit. */
@@ -303,13 +303,13 @@ export interface FunnelComparison {
 /** Present for the funnel metric. People reaching each step in order, starting with the entry step. */
 export type GetMetricResponseDataTotalsItemStepsList = Array<FunnelStepResult>;
 export interface GetMetricResponseDataTotalsItem {
-  comparison?: FunnelComparison | null;
+  comparison?: FunnelComparison | null | undefined;
   /** Funnel only. The Wilson interval for final conversion, present when confidence_level or compare_to is supplied. */
-  confidence_interval?: FunnelConfidenceInterval | null;
+  confidence_interval?: FunnelConfidenceInterval | null | undefined;
   /** The property value this total is for, or the metric's name when it isn't split by a property. */
   name: string;
   /** Present for the funnel metric. People reaching each step in order, starting with the entry step. */
-  steps?: GetMetricResponseDataTotalsItemStepsList;
+  steps?: GetMetricResponseDataTotalsItemStepsList | undefined;
   /** The metric's whole-window value for this entry. */
   value: number | null;
 }
@@ -317,11 +317,11 @@ export interface GetMetricResponseDataTotalsItem {
 export type GetMetricResponseDataTotalsList = Array<GetMetricResponseDataTotalsItem>;
 export interface GetMetricResponseData {
   /** ISO currency the values are denominated in. Present for currency-unit metrics: the convert_to currency, or usd. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** One entry per period, oldest first. */
   points: GetMetricResponseDataPointsList;
   /** Whole-window aggregates, present when the metric computes them. Don't derive these from `points`: a rate is measured across the whole window, not averaged across its points, and whole-window unique people are distinct across every bucket. */
-  totals?: GetMetricResponseDataTotalsList | null;
+  totals?: GetMetricResponseDataTotalsList | null | undefined;
 }
 export interface GetMetricResponse {
   data: GetMetricResponseData;
@@ -337,7 +337,7 @@ export type ListMetricsResponseDataItemUnit = "count" | "currency" | "percent";
 export type ListMetricsResponseDataItemWindowsList = Array<string>;
 export interface ListMetricsResponseDataItem {
   /** Supported breakdown_by values when they differ from the filter properties. */
-  breakdowns?: ListMetricsResponseDataItemBreakdownsList;
+  breakdowns?: ListMetricsResponseDataItemBreakdownsList | undefined;
   /** A short description of what the metric measures. */
   description: string;
   /** The metric's key. Pass it to GET /stats/{metric} to query its values. */
@@ -349,7 +349,7 @@ export interface ListMetricsResponseDataItem {
   /** How to read the metric's values: count is an integer, currency is a decimal amount, and percent is a number where 1.6 means 1.6%. */
   unit: ListMetricsResponseDataItemUnit;
   /** Snapshot metrics only: the trailing windows you can pass as snapshot_window, for example 30d. Absent on live metrics, which use from/to instead. */
-  windows?: ListMetricsResponseDataItemWindowsList;
+  windows?: ListMetricsResponseDataItemWindowsList | undefined;
 }
 /** The available metrics. */
 export type ListMetricsResponseDataList = Array<ListMetricsResponseDataItem>;

@@ -102,11 +102,11 @@ export type UserPropertiesPreferredOsType = "Windows" | "Linux";
 /** The storage profile of the user settings. */
 export interface StorageProfile {
   /** Full resource ID of storage account. */
-  storageAccountResourceId?: string;
+  storageAccountResourceId?: string | undefined;
   /** Name of the mounted file share. 63 characters or less, lowercase alphabet, numbers, and - */
-  fileShareName?: string;
+  fileShareName?: string | undefined;
   /** Size of file share */
-  diskSizeInGB?: number;
+  diskSizeInGB?: number | undefined;
 }
 /** Size of terminal font. */
 export type TerminalSettingsFontSize = "NotSpecified" | "Small" | "Medium" | "Large";
@@ -115,9 +115,9 @@ export type TerminalSettingsFontStyle = "NotSpecified" | "Monospace" | "Courier"
 /** Settings for terminal appearance. */
 export interface TerminalSettings {
   /** Size of terminal font. */
-  fontSize?: TerminalSettingsFontSize | (string & {});
+  fontSize?: TerminalSettingsFontSize | (string & {}) | undefined;
   /** Style of terminal font. */
-  fontStyle?: TerminalSettingsFontStyle | (string & {});
+  fontStyle?: TerminalSettingsFontStyle | (string & {}) | undefined;
 }
 /** The shell type of the cloud shell. */
 export type UserPropertiesPreferredShellType = "bash" | "pwsh" | "powershell";
@@ -159,7 +159,7 @@ export interface KeepAliveWithLocationResponse {}
 export interface PatchUserSettingsRequest {
   /** The name of the user settings */
   userSettingsName: string;
-  properties?: UserProperties;
+  properties?: UserProperties | undefined;
 }
 export interface PatchUserSettingsResponse {
   properties: UserProperties;
@@ -169,7 +169,7 @@ export interface PatchUserSettingsWithLocationRequest {
   location: string;
   /** The name of the user settings */
   userSettingsName: string;
-  properties?: UserProperties;
+  properties?: UserProperties | undefined;
 }
 export interface PatchUserSettingsWithLocationResponse {
   properties: UserProperties;
@@ -192,9 +192,9 @@ export interface ConsoleCreateProperties {
   /** The operating system type of the cloud shell. */
   osType: ConsoleCreatePropertiesOsType | (string & {});
   /** Provisioning state of the console. */
-  provisioningState?: ConsoleCreatePropertiesProvisioningState | (string & {});
+  provisioningState?: ConsoleCreatePropertiesProvisioningState | (string & {}) | undefined;
   /** Uri of the console. */
-  uri?: string;
+  uri?: string | undefined;
 }
 export interface PutConsoleRequest {
   /** The name of the console */

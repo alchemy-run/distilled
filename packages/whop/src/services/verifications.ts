@@ -62,17 +62,17 @@ export class NotFound
 
 /** Every value accepts `null`, so a form seeded from a previous response can round-trip unset fields unchanged. */
 export interface CreateVerificationRequestBodyCase0Address {
-  city?: string | null;
+  city?: string | null | undefined;
   /** Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** First line of the street address. */
-  line1?: string | null;
+  line1?: string | null | undefined;
   /** Second line of the street address. */
-  line2?: string | null;
+  line2?: string | null | undefined;
   /** Postal or ZIP code. */
-  postal_code?: string | null;
+  postal_code?: string | null | undefined;
   /** State, province, or region code, for example `CA`. */
-  state?: string | null;
+  state?: string | null | undefined;
 }
 /** Identity document being sent, when verifying with `documents`. Decides exactly which file slots to send: `ID_CARD` -> `id_card_front` + `id_card_back` + `selfie`; `DRIVERS` -> `drivers_front` + `drivers_back` + `selfie`; `RESIDENCE_PERMIT` -> `residence_permit_front` + `residence_permit_back` + `selfie`; `PASSPORT` -> `passport_front` + `selfie`. See [Identity documents](/developer/verification/identity-documents). */
 export type CreateVerificationRequestBodyCase0DocumentType =
@@ -83,55 +83,55 @@ export type CreateVerificationRequestBodyCase0DocumentType =
 /** Identity document files, each value the file's raw bytes base64-encoded (JPEG, PNG, or PDF, up to 5MB per file before encoding). Sending this object verifies the person from the files in this request instead of a hosted session -- individual verifications only, and the request must also carry `document_type`, `first_name`, `last_name`, `date_of_birth`, `country`, `phone`, `tax_identification_number`, and an `address` with `line1`, `city`, `state`, and `postal_code`. Send every slot for your `document_type` -- a missing or rejected file fails the whole request and nothing is submitted; review starts automatically once every document is accepted. See [Identity documents](/developer/verification/identity-documents) for a full walkthrough. */
 export interface CreateVerificationRequestBodyCase0Documents {
   /** Back of the driver's license, base64-encoded. Required when `document_type` is `DRIVERS`. */
-  drivers_back?: string;
+  drivers_back?: string | undefined;
   /** Front of the driver's license, base64-encoded. Required when `document_type` is `DRIVERS`. */
-  drivers_front?: string;
+  drivers_front?: string | undefined;
   /** Back of the ID card, base64-encoded. Required when `document_type` is `ID_CARD`. */
-  id_card_back?: string;
+  id_card_back?: string | undefined;
   /** Front of the ID card, base64-encoded. Required when `document_type` is `ID_CARD`. */
-  id_card_front?: string;
+  id_card_front?: string | undefined;
   /** Photo page of the passport, base64-encoded. Required when `document_type` is `PASSPORT`. */
-  passport_front?: string;
+  passport_front?: string | undefined;
   /** Back of the residence permit, base64-encoded. Required when `document_type` is `RESIDENCE_PERMIT`. */
-  residence_permit_back?: string;
+  residence_permit_back?: string | undefined;
   /** Front of the residence permit, base64-encoded. Required when `document_type` is `RESIDENCE_PERMIT`. */
-  residence_permit_front?: string;
+  residence_permit_front?: string | undefined;
   /** Photo of the person's face, base64-encoded. Always required, with every document type. Must be JPEG or PNG. */
-  selfie?: string;
+  selfie?: string | undefined;
 }
 /** Verification type. Defaults to `individual`. */
 export type CreateVerificationRequestBodyCase0Kind = "individual";
 /** Request body for an individual (KYC) verification. Omit `kind` or set it to `individual`. KYC is required to pay out funds and is a prerequisite for Whop Card access. Accepting payments does not require verification until a business reaches $5000 in payments. Add `business_name` and `business_structure` if the individual operates under a business entity -- this enables payouts to be received by a business bank account. `country` is always the individual's own country, and the supported `business_structure` values vary by it -- see [Business structures](/developer/verification/business-structures). */
 export interface CreateVerificationRequestBodyCase0 {
   /** Every value accepts `null`, so a form seeded from a previous response can round-trip unset fields unchanged. */
-  address?: CreateVerificationRequestBodyCase0Address;
+  address?: CreateVerificationRequestBodyCase0Address | undefined;
   /** Legal business name for a sole proprietor or single-member LLC. */
-  business_name?: string;
+  business_name?: string | undefined;
   /** Entity type for sole proprietors, such as `single_member_llc`. Supported values vary by country of incorporation -- see [Business structures](/developer/verification/business-structures). */
-  business_structure?: string;
+  business_structure?: string | undefined;
   /** The business ID number of the company, as appropriate for the company's country. Examples are an Employer Identification Number (EIN) in the US, a Business Number in Canada, or a Company Number in the UK. */
-  business_tax_identification_number?: string;
+  business_tax_identification_number?: string | undefined;
   /** Business website URL. Whop store pages are not accepted. */
-  business_website?: string;
+  business_website?: string | undefined;
   /** Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`. */
-  country?: string;
+  country?: string | undefined;
   /** Formatted as `YYYY-MM-DD`. */
-  date_of_birth?: string;
+  date_of_birth?: string | undefined;
   /** Identity document being sent, when verifying with `documents`. Decides exactly which file slots to send: `ID_CARD` -> `id_card_front` + `id_card_back` + `selfie`; `DRIVERS` -> `drivers_front` + `drivers_back` + `selfie`; `RESIDENCE_PERMIT` -> `residence_permit_front` + `residence_permit_back` + `selfie`; `PASSPORT` -> `passport_front` + `selfie`. See [Identity documents](/developer/verification/identity-documents). */
-  document_type?: CreateVerificationRequestBodyCase0DocumentType | (string & {});
+  document_type?: CreateVerificationRequestBodyCase0DocumentType | (string & {}) | undefined;
   /** Identity document files, each value the file's raw bytes base64-encoded (JPEG, PNG, or PDF, up to 5MB per file before encoding). Sending this object verifies the person from the files in this request instead of a hosted session -- individual verifications only, and the request must also carry `document_type`, `first_name`, `last_name`, `date_of_birth`, `country`, `phone`, `tax_identification_number`, and an `address` with `line1`, `city`, `state`, and `postal_code`. Send every slot for your `document_type` -- a missing or rejected file fails the whole request and nothing is submitted; review starts automatically once every document is accepted. See [Identity documents](/developer/verification/identity-documents) for a full walkthrough. */
-  documents?: CreateVerificationRequestBodyCase0Documents;
-  first_name?: string;
+  documents?: CreateVerificationRequestBodyCase0Documents | undefined;
+  first_name?: string | undefined;
   /** Verification type. Defaults to `individual`. */
-  kind?: CreateVerificationRequestBodyCase0Kind | (string & {});
-  last_name?: string;
-  phone?: string;
+  kind?: CreateVerificationRequestBodyCase0Kind | (string & {}) | undefined;
+  last_name?: string | undefined;
+  phone?: string | undefined;
   /** Sumsub share token for a person a partner has already verified, generated by their Sumsub account for Whop's client ID. Reuses that verification instead of collecting anything: Whop imports the shared identity, rechecks it against its own requirements, and returns `approved` when it satisfies them, or `pending` with a `session_url` covering only what is still missing. Requires a Reusable KYC agreement between the partner's Sumsub account and Whop's. Each token works once, and cannot be combined with `documents` or `document_type`. */
-  share_token?: string;
+  share_token?: string | undefined;
   /** The government-issued ID number of the person being verified -- the individual for a KYC verification, or the business representative for a KYB verification -- as appropriate for their country. Examples are a Social Security Number (SSN) in the US, or a Social Insurance Number in Canada. */
-  tax_identification_number?: string;
+  tax_identification_number?: string | undefined;
   /** ID of an `approved` verification to reuse on this account instead of verifying the person again, for example `idpf_XXXXXXXX`. The verification becomes this account's current one for its kind -- replacing whichever verification of that kind the account already has, and carrying its payout account across -- and the response is that same verification, unchanged. Only the signed-in Whop user who started the original verification can reuse it: API keys, OAuth tokens, and onboarding links are refused. `kind` is the only other field it accepts, and must match the reused verification. An account whose verification was denied or is still under review cannot reuse one. */
-  verification_id?: string;
+  verification_id?: string | undefined;
 }
 /** Every value accepts `null`, so a form seeded from a previous response can round-trip unset fields unchanged. */
 export type CreateVerificationRequestBodyCase1Address = CreateVerificationRequestBodyCase0Address;
@@ -140,68 +140,68 @@ export type CreateVerificationRequestBodyCase1Kind = "business";
 /** Request body for a business entity (KYB) verification. Set `kind` to `business`. KYB includes everything KYC provides and additionally unlocks financing options for payments and business Whop Cards. */
 export interface CreateVerificationRequestBodyCase1 {
   /** Every value accepts `null`, so a form seeded from a previous response can round-trip unset fields unchanged. */
-  address?: CreateVerificationRequestBodyCase0Address;
+  address?: CreateVerificationRequestBodyCase0Address | undefined;
   /** Legal business name. */
-  business_name?: string;
+  business_name?: string | undefined;
   /** Legal entity structure of the business, such as `private_corporation` or `sole_proprietorship`. Supported values vary by country of incorporation -- see [Business structures](/developer/verification/business-structures). */
-  business_structure?: string;
+  business_structure?: string | undefined;
   /** The business ID number of the company, as appropriate for the company's country. Examples are an Employer Identification Number (EIN) in the US, a Business Number in Canada, or a Company Number in the UK. */
-  business_tax_identification_number?: string;
+  business_tax_identification_number?: string | undefined;
   /** Business website URL. Whop store pages are not accepted. */
-  business_website?: string;
+  business_website?: string | undefined;
   /** Country of incorporation as a two-letter ISO 3166-1 country code. */
-  country?: string;
+  country?: string | undefined;
   /** Business representative's date of birth, formatted as `YYYY-MM-DD`. */
-  date_of_birth?: string;
+  date_of_birth?: string | undefined;
   /** First name of the business representative, used to prefill the verification session. */
-  first_name?: string;
+  first_name?: string | undefined;
   /** Must be `business` to start a KYB verification. */
-  kind?: CreateVerificationRequestBodyCase1Kind | (string & {});
+  kind?: CreateVerificationRequestBodyCase1Kind | (string & {}) | undefined;
   /** Last name of the business representative, used to prefill the verification session. */
-  last_name?: string;
+  last_name?: string | undefined;
   /** State or region where the business is incorporated. */
-  place_of_incorporation?: string;
+  place_of_incorporation?: string | undefined;
   /** Sumsub share token for a person a partner has already verified, generated by their Sumsub account for Whop's client ID. Reuses that verification instead of collecting anything: Whop imports the shared identity, rechecks it against its own requirements, and returns `approved` when it satisfies them, or `pending` with a `session_url` covering only what is still missing. Requires a Reusable KYC agreement between the partner's Sumsub account and Whop's. Each token works once, and cannot be combined with `documents` or `document_type`. */
-  share_token?: string;
+  share_token?: string | undefined;
   /** The government-issued ID number of the person being verified -- the individual for a KYC verification, or the business representative for a KYB verification -- as appropriate for their country. Examples are a Social Security Number (SSN) in the US, or a Social Insurance Number in Canada. */
-  tax_identification_number?: string;
+  tax_identification_number?: string | undefined;
   /** ID of an `approved` verification to reuse on this account instead of verifying the person again, for example `idpf_XXXXXXXX`. The verification becomes this account's current one for its kind -- replacing whichever verification of that kind the account already has, and carrying its payout account across -- and the response is that same verification, unchanged. Only the signed-in Whop user who started the original verification can reuse it: API keys, OAuth tokens, and onboarding links are refused. `kind` is the only other field it accepts, and must match the reused verification. An account whose verification was denied or is still under review cannot reuse one. */
-  verification_id?: string;
+  verification_id?: string | undefined;
 }
 export type CreateVerificationRequestBody =
   | CreateVerificationRequestBodyCase0
   | CreateVerificationRequestBodyCase1;
 export interface CreateVerificationRequest {
   /** Business account whose identity you want to verify, prefixed `biz_`. Provide this or `user_id`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The caller's own user ID, prefixed `user_`, for a personal verification. Provide this or `account_id`. */
-  user_id?: string;
-  body?: CreateVerificationRequestBody;
+  user_id?: string | undefined;
+  body?: CreateVerificationRequestBody | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Address on the verification profile. `null` when no address is set. */
 export interface CreateVerificationResponseAddress {
-  city?: string | null;
+  city?: string | null | undefined;
   /** Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** First line of the street address. */
-  line1?: string;
+  line1?: string | undefined;
   /** Second line of the street address. */
-  line2?: string | null;
+  line2?: string | null | undefined;
   /** Postal or ZIP code. */
-  postal_code?: string | null;
+  postal_code?: string | null | undefined;
   /** State, province, or region code, for example `CA`. */
-  state?: string | null;
+  state?: string | null | undefined;
 }
 export type CreateVerificationResponseKind = "individual" | "business";
 /** Selected option values that make the follow-up prompt visible. */
 export type CreateVerificationResponseRequestedInformationItemDetailsVisibleForList = Array<string>;
 export interface CreateVerificationResponseRequestedInformationItemErrorsItem {
   /** Stable error code. */
-  code?: string;
+  code?: string | undefined;
   /** Why it was rejected. */
-  reason?: string;
+  reason?: string | undefined;
 }
 /** Present after a rejected submission. */
 export type CreateVerificationResponseRequestedInformationItemErrorsList =
@@ -239,20 +239,20 @@ export interface File {
   /** The file's ID, prefixed `file_`. */
   id: string;
   /** The byte size each part (except the last) must be. Present only on create, and only for multipart uploads. */
-  multipart_chunk_size?: number | null;
+  multipart_chunk_size?: number | null | undefined;
   /** The ID of the multipart upload, passed back to `complete`. Present only on create, and only for multipart uploads. */
-  multipart_upload_id?: string | null;
-  multipart_upload_urls?: FileMultipartUploadUrlsList | null;
+  multipart_upload_id?: string | null | undefined;
+  multipart_upload_urls?: FileMultipartUploadUrlsList | null | undefined;
   /** The type of this object, always `file`. */
   object: string;
   /** The file size in bytes. `null` until the upload has finished. */
   size: number | null;
   /** Headers to send with the upload PUT. Present only on create. */
-  upload_headers?: unknown;
+  upload_headers?: unknown | undefined;
   /** Where the file is in its upload lifecycle. */
   upload_status: FileUploadStatus;
   /** Presigned URL to PUT the file's bytes to. Present only on create, and only for single-part uploads. */
-  upload_url?: string | null;
+  upload_url?: string | null | undefined;
   /** A URL to download the file: a permanent CDN URL for public files, a signed expiring URL for private ones. `null` until the upload has finished. */
   url: string | null;
   /** `public` files are served via an unsigned CDN URL; `private` files via a signed, expiring URL. */
@@ -265,37 +265,43 @@ export type CreateVerificationResponseRequestedInformationItemSupportingFilesVis
   Array<string>;
 export interface CreateVerificationResponseRequestedInformationItem {
   /** URL for a related action, such as completing liveness verification or viewing a payment. Absent when no action is available. */
-  action_url?: string;
+  action_url?: string | undefined;
   /** Follow-up prompt shown with this requirement. */
-  details_label?: string;
+  details_label?: string | undefined;
   /** Whether the follow-up response is required when visible. */
-  details_required?: boolean;
+  details_required?: boolean | undefined;
   /** Selected option values that make the follow-up prompt visible. */
-  details_visible_for?: CreateVerificationResponseRequestedInformationItemDetailsVisibleForList;
+  details_visible_for?:
+    | CreateVerificationResponseRequestedInformationItemDetailsVisibleForList
+    | undefined;
   /** Present after a rejected submission. */
-  errors?: CreateVerificationResponseRequestedInformationItemErrorsList;
+  errors?: CreateVerificationResponseRequestedInformationItemErrorsList | undefined;
   /** Requested information item ID, prefixed `inrqi_`. */
   id: string;
   /** Instruction to show the user. Carries the reviewer's note verbatim when there is one. */
   label: string;
   /** `true` when the item can be skipped. */
-  optional?: boolean;
+  optional?: boolean | undefined;
   /** The values `value` may take on a `select` item. On an `id_document` item these are the ID types accepted, and the chosen one decides which `documents` slots to send. Absent when the item has no choice to make. */
-  options?: CreateVerificationResponseRequestedInformationItemOptionsList;
+  options?: CreateVerificationResponseRequestedInformationItemOptionsList | undefined;
   /** What is needed: a document name such as `bank_statement`, or a field key such as `ssn` or `identity_document`. Handle unrecognized values by `type`. */
   requirement: string;
   /** Optional native input format for a text response. */
-  response_type?: CreateVerificationResponseRequestedInformationItemResponseType;
+  response_type?: CreateVerificationResponseRequestedInformationItemResponseType | undefined;
   /** Whether a question with `options` accepts one value or multiple values. */
-  selection_mode?: CreateVerificationResponseRequestedInformationItemSelectionMode;
+  selection_mode?: CreateVerificationResponseRequestedInformationItemSelectionMode | undefined;
   /** Documents supplied with the requirement for context. */
-  supporting_documents?: CreateVerificationResponseRequestedInformationItemSupportingDocumentsList;
+  supporting_documents?:
+    | CreateVerificationResponseRequestedInformationItemSupportingDocumentsList
+    | undefined;
   /** Whether a written explanation may replace required supporting files. */
-  supporting_files_explanation_allowed?: boolean;
+  supporting_files_explanation_allowed?: boolean | undefined;
   /** Whether this requirement also needs supporting files. */
-  supporting_files_required?: boolean;
+  supporting_files_required?: boolean | undefined;
   /** Selected option values that make the supporting-file input visible. */
-  supporting_files_visible_for?: CreateVerificationResponseRequestedInformationItemSupportingFilesVisibleForList;
+  supporting_files_visible_for?:
+    | CreateVerificationResponseRequestedInformationItemSupportingFilesVisibleForList
+    | undefined;
   /** What to send as the answer, so you never have to infer it: `files` (a document, as a list of its pages), `id_document` (send `documents` with the slot keys for the ID you are uploading), `text`, `date`, `phone` or `select` (send `value`), `text_with_files` (send `value` and optional `files`), `address` (send `address`), or `liveness` (open `action_url`, then send `value` as `true` after completion). */
   type: string;
 }
@@ -306,11 +312,11 @@ export type CreateVerificationResponseRequestedInformationList =
 export type CreateVerificationResponseRequiredDocumentsItemStatus = "pending_upload" | "submitted";
 export interface CreateVerificationResponseRequiredDocumentsItem {
   /** Document slot key, such as `id_card_front`, `id_card_back`, or `selfie`. */
-  document?: string;
+  document?: string | undefined;
   /** Why the previous submission was rejected, when the provider requested new documents or declined the verification. */
-  rejection_reason?: string | null;
+  rejection_reason?: string | null | undefined;
   /** `pending_upload` until the document has been relayed for review; `submitted` afterwards. */
-  status?: CreateVerificationResponseRequiredDocumentsItemStatus;
+  status?: CreateVerificationResponseRequiredDocumentsItemStatus | undefined;
 }
 /** Documents for a document-upload verification and their progress. Present only on verifications created by sending `documents`. `pending_upload` documents were not accepted yet -- send the full set again with another Create Verification call. */
 export type CreateVerificationResponseRequiredDocumentsList =
@@ -326,36 +332,36 @@ export type CreateVerificationResponseStatus =
   | "action_required";
 export interface CreateVerificationResponse {
   /** Address on the verification profile. `null` when no address is set. */
-  address?: CreateVerificationResponseAddress | null;
+  address?: CreateVerificationResponseAddress | null | undefined;
   /** Legal business name. */
-  business_name?: string | null;
+  business_name?: string | null | undefined;
   /** Legal entity structure of the business, such as `private_corporation` or `sole_proprietorship`. Supported values vary by country of incorporation -- see [Business structures](/developer/verification/business-structures). */
-  business_structure?: string | null;
+  business_structure?: string | null | undefined;
   /** Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** When the verification profile was created, as an ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Formatted as `YYYY-MM-DD`. */
-  date_of_birth?: string | null;
+  date_of_birth?: string | null | undefined;
   /** Email address on the verification profile. */
-  email?: string | null;
-  first_name?: string | null;
+  email?: string | null | undefined;
+  first_name?: string | null | undefined;
   /** Verification profile ID, prefixed `idpf_`. */
-  id?: string;
-  kind?: CreateVerificationResponseKind;
-  last_name?: string | null;
+  id?: string | undefined;
+  kind?: CreateVerificationResponseKind | undefined;
+  last_name?: string | null | undefined;
   /** Phone number on the verification profile. */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** What Whop still needs before review can continue -- one requirement per entry. Answer with Update Verification; nothing from the response is echoed back. Keys that don't apply are omitted. */
-  requested_information?: CreateVerificationResponseRequestedInformationList;
+  requested_information?: CreateVerificationResponseRequestedInformationList | undefined;
   /** Documents for a document-upload verification and their progress. Present only on verifications created by sending `documents`. `pending_upload` documents were not accepted yet -- send the full set again with another Create Verification call. */
-  required_documents?: CreateVerificationResponseRequiredDocumentsList;
+  required_documents?: CreateVerificationResponseRequiredDocumentsList | undefined;
   /** Hosted verification session URL for the user to complete identity checks. Expires 7 days after creation. */
-  session_url?: string | null;
+  session_url?: string | null | undefined;
   /** Current verification state. `not_started` before any session exists; `pending` while a session needs the user's input; `processing` while the provider's automated checks run on a fresh submission; `action_required` when `requested_information` needs answers; `manual_review` while information already sent is under review -- an audit answer, or a document the payout provider holds -- nothing to submit, usually done within 3 business days; `approved` on success; `rejected` on failure. Call Create Verification again to start a new session. */
-  status?: CreateVerificationResponseStatus;
+  status?: CreateVerificationResponseStatus | undefined;
   /** When the verification profile was last updated, as an ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface GetVerificationRequest {
   /** Verification profile ID, prefixed `idpf_`. */
@@ -390,37 +396,43 @@ export type GetVerificationResponseRequestedInformationItemSupportingFilesVisibl
   Array<string>;
 export interface GetVerificationResponseRequestedInformationItem {
   /** URL for a related action, such as completing liveness verification or viewing a payment. Absent when no action is available. */
-  action_url?: string;
+  action_url?: string | undefined;
   /** Follow-up prompt shown with this requirement. */
-  details_label?: string;
+  details_label?: string | undefined;
   /** Whether the follow-up response is required when visible. */
-  details_required?: boolean;
+  details_required?: boolean | undefined;
   /** Selected option values that make the follow-up prompt visible. */
-  details_visible_for?: GetVerificationResponseRequestedInformationItemDetailsVisibleForList;
+  details_visible_for?:
+    | GetVerificationResponseRequestedInformationItemDetailsVisibleForList
+    | undefined;
   /** Present after a rejected submission. */
-  errors?: GetVerificationResponseRequestedInformationItemErrorsList;
+  errors?: GetVerificationResponseRequestedInformationItemErrorsList | undefined;
   /** Requested information item ID, prefixed `inrqi_`. */
   id: string;
   /** Instruction to show the user. Carries the reviewer's note verbatim when there is one. */
   label: string;
   /** `true` when the item can be skipped. */
-  optional?: boolean;
+  optional?: boolean | undefined;
   /** The values `value` may take on a `select` item. On an `id_document` item these are the ID types accepted, and the chosen one decides which `documents` slots to send. Absent when the item has no choice to make. */
-  options?: GetVerificationResponseRequestedInformationItemOptionsList;
+  options?: GetVerificationResponseRequestedInformationItemOptionsList | undefined;
   /** What is needed: a document name such as `bank_statement`, or a field key such as `ssn` or `identity_document`. Handle unrecognized values by `type`. */
   requirement: string;
   /** Optional native input format for a text response. */
-  response_type?: GetVerificationResponseRequestedInformationItemResponseType;
+  response_type?: GetVerificationResponseRequestedInformationItemResponseType | undefined;
   /** Whether a question with `options` accepts one value or multiple values. */
-  selection_mode?: GetVerificationResponseRequestedInformationItemSelectionMode;
+  selection_mode?: GetVerificationResponseRequestedInformationItemSelectionMode | undefined;
   /** Documents supplied with the requirement for context. */
-  supporting_documents?: GetVerificationResponseRequestedInformationItemSupportingDocumentsList;
+  supporting_documents?:
+    | GetVerificationResponseRequestedInformationItemSupportingDocumentsList
+    | undefined;
   /** Whether a written explanation may replace required supporting files. */
-  supporting_files_explanation_allowed?: boolean;
+  supporting_files_explanation_allowed?: boolean | undefined;
   /** Whether this requirement also needs supporting files. */
-  supporting_files_required?: boolean;
+  supporting_files_required?: boolean | undefined;
   /** Selected option values that make the supporting-file input visible. */
-  supporting_files_visible_for?: GetVerificationResponseRequestedInformationItemSupportingFilesVisibleForList;
+  supporting_files_visible_for?:
+    | GetVerificationResponseRequestedInformationItemSupportingFilesVisibleForList
+    | undefined;
   /** What to send as the answer, so you never have to infer it: `files` (a document, as a list of its pages), `id_document` (send `documents` with the slot keys for the ID you are uploading), `text`, `date`, `phone` or `select` (send `value`), `text_with_files` (send `value` and optional `files`), `address` (send `address`), or `liveness` (open `action_url`, then send `value` as `true` after completion). */
   type: string;
 }
@@ -431,11 +443,11 @@ export type GetVerificationResponseRequestedInformationList =
 export type GetVerificationResponseRequiredDocumentsItemStatus = "pending_upload" | "submitted";
 export interface GetVerificationResponseRequiredDocumentsItem {
   /** Document slot key, such as `id_card_front`, `id_card_back`, or `selfie`. */
-  document?: string;
+  document?: string | undefined;
   /** Why the previous submission was rejected, when the provider requested new documents or declined the verification. */
-  rejection_reason?: string | null;
+  rejection_reason?: string | null | undefined;
   /** `pending_upload` until the document has been relayed for review; `submitted` afterwards. */
-  status?: GetVerificationResponseRequiredDocumentsItemStatus;
+  status?: GetVerificationResponseRequiredDocumentsItemStatus | undefined;
 }
 /** Documents for a document-upload verification and their progress. Present only on verifications created by sending `documents`. `pending_upload` documents were not accepted yet -- send the full set again with another Create Verification call. */
 export type GetVerificationResponseRequiredDocumentsList =
@@ -451,48 +463,48 @@ export type GetVerificationResponseStatus =
   | "action_required";
 export interface GetVerificationResponse {
   /** Address on the verification profile. `null` when no address is set. */
-  address?: CreateVerificationResponseAddress | null;
+  address?: CreateVerificationResponseAddress | null | undefined;
   /** Legal business name. */
-  business_name?: string | null;
+  business_name?: string | null | undefined;
   /** Legal entity structure of the business, such as `private_corporation` or `sole_proprietorship`. Supported values vary by country of incorporation -- see [Business structures](/developer/verification/business-structures). */
-  business_structure?: string | null;
+  business_structure?: string | null | undefined;
   /** Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** When the verification profile was created, as an ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Formatted as `YYYY-MM-DD`. */
-  date_of_birth?: string | null;
+  date_of_birth?: string | null | undefined;
   /** Email address on the verification profile. */
-  email?: string | null;
-  first_name?: string | null;
+  email?: string | null | undefined;
+  first_name?: string | null | undefined;
   /** Verification profile ID, prefixed `idpf_`. */
-  id?: string;
-  kind?: GetVerificationResponseKind;
-  last_name?: string | null;
+  id?: string | undefined;
+  kind?: GetVerificationResponseKind | undefined;
+  last_name?: string | null | undefined;
   /** Phone number on the verification profile. */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** What Whop still needs before review can continue -- one requirement per entry. Answer with Update Verification; nothing from the response is echoed back. Keys that don't apply are omitted. */
-  requested_information?: GetVerificationResponseRequestedInformationList;
+  requested_information?: GetVerificationResponseRequestedInformationList | undefined;
   /** Documents for a document-upload verification and their progress. Present only on verifications created by sending `documents`. `pending_upload` documents were not accepted yet -- send the full set again with another Create Verification call. */
-  required_documents?: GetVerificationResponseRequiredDocumentsList;
+  required_documents?: GetVerificationResponseRequiredDocumentsList | undefined;
   /** Hosted verification session URL for the user to complete identity checks. Expires 7 days after creation. */
-  session_url?: string | null;
+  session_url?: string | null | undefined;
   /** Current verification state. `not_started` before any session exists; `pending` while a session needs the user's input; `processing` while the provider's automated checks run on a fresh submission; `action_required` when `requested_information` needs answers; `manual_review` while information already sent is under review -- an audit answer, or a document the payout provider holds -- nothing to submit, usually done within 3 business days; `approved` on success; `rejected` on failure. Call Create Verification again to start a new session. */
-  status?: GetVerificationResponseStatus;
+  status?: GetVerificationResponseStatus | undefined;
   /** When the verification profile was last updated, as an ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export type ListVerificationsRequestOrder = "updated_at" | "created_at";
 export type ListVerificationsRequestDirection = "asc" | "desc";
 export interface ListVerificationsRequest {
   /** Business account whose verifications you want to list, prefixed `biz_`. Provide this or `user_id`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The caller's own user ID, prefixed `user_`, to list personal verifications. Provide this or `account_id`. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Field used to sort returned verifications. */
-  order?: ListVerificationsRequestOrder | (string & {});
+  order?: ListVerificationsRequestOrder | (string & {}) | undefined;
   /** Sort direction for returned verifications. */
-  direction?: ListVerificationsRequestDirection | (string & {});
+  direction?: ListVerificationsRequestDirection | (string & {}) | undefined;
 }
 /** Address on the verification profile. `null` when no address is set. */
 export type ListVerificationsResponseDataItemAddress = CreateVerificationResponseAddress;
@@ -527,37 +539,45 @@ export type ListVerificationsResponseDataItemRequestedInformationItemSupportingF
   Array<string>;
 export interface ListVerificationsResponseDataItemRequestedInformationItem {
   /** URL for a related action, such as completing liveness verification or viewing a payment. Absent when no action is available. */
-  action_url?: string;
+  action_url?: string | undefined;
   /** Follow-up prompt shown with this requirement. */
-  details_label?: string;
+  details_label?: string | undefined;
   /** Whether the follow-up response is required when visible. */
-  details_required?: boolean;
+  details_required?: boolean | undefined;
   /** Selected option values that make the follow-up prompt visible. */
-  details_visible_for?: ListVerificationsResponseDataItemRequestedInformationItemDetailsVisibleForList;
+  details_visible_for?:
+    | ListVerificationsResponseDataItemRequestedInformationItemDetailsVisibleForList
+    | undefined;
   /** Present after a rejected submission. */
-  errors?: ListVerificationsResponseDataItemRequestedInformationItemErrorsList;
+  errors?: ListVerificationsResponseDataItemRequestedInformationItemErrorsList | undefined;
   /** Requested information item ID, prefixed `inrqi_`. */
   id: string;
   /** Instruction to show the user. Carries the reviewer's note verbatim when there is one. */
   label: string;
   /** `true` when the item can be skipped. */
-  optional?: boolean;
+  optional?: boolean | undefined;
   /** The values `value` may take on a `select` item. On an `id_document` item these are the ID types accepted, and the chosen one decides which `documents` slots to send. Absent when the item has no choice to make. */
-  options?: ListVerificationsResponseDataItemRequestedInformationItemOptionsList;
+  options?: ListVerificationsResponseDataItemRequestedInformationItemOptionsList | undefined;
   /** What is needed: a document name such as `bank_statement`, or a field key such as `ssn` or `identity_document`. Handle unrecognized values by `type`. */
   requirement: string;
   /** Optional native input format for a text response. */
-  response_type?: ListVerificationsResponseDataItemRequestedInformationItemResponseType;
+  response_type?: ListVerificationsResponseDataItemRequestedInformationItemResponseType | undefined;
   /** Whether a question with `options` accepts one value or multiple values. */
-  selection_mode?: ListVerificationsResponseDataItemRequestedInformationItemSelectionMode;
+  selection_mode?:
+    | ListVerificationsResponseDataItemRequestedInformationItemSelectionMode
+    | undefined;
   /** Documents supplied with the requirement for context. */
-  supporting_documents?: ListVerificationsResponseDataItemRequestedInformationItemSupportingDocumentsList;
+  supporting_documents?:
+    | ListVerificationsResponseDataItemRequestedInformationItemSupportingDocumentsList
+    | undefined;
   /** Whether a written explanation may replace required supporting files. */
-  supporting_files_explanation_allowed?: boolean;
+  supporting_files_explanation_allowed?: boolean | undefined;
   /** Whether this requirement also needs supporting files. */
-  supporting_files_required?: boolean;
+  supporting_files_required?: boolean | undefined;
   /** Selected option values that make the supporting-file input visible. */
-  supporting_files_visible_for?: ListVerificationsResponseDataItemRequestedInformationItemSupportingFilesVisibleForList;
+  supporting_files_visible_for?:
+    | ListVerificationsResponseDataItemRequestedInformationItemSupportingFilesVisibleForList
+    | undefined;
   /** What to send as the answer, so you never have to infer it: `files` (a document, as a list of its pages), `id_document` (send `documents` with the slot keys for the ID you are uploading), `text`, `date`, `phone` or `select` (send `value`), `text_with_files` (send `value` and optional `files`), `address` (send `address`), or `liveness` (open `action_url`, then send `value` as `true` after completion). */
   type: string;
 }
@@ -570,11 +590,11 @@ export type ListVerificationsResponseDataItemRequiredDocumentsItemStatus =
   | "submitted";
 export interface ListVerificationsResponseDataItemRequiredDocumentsItem {
   /** Document slot key, such as `id_card_front`, `id_card_back`, or `selfie`. */
-  document?: string;
+  document?: string | undefined;
   /** Why the previous submission was rejected, when the provider requested new documents or declined the verification. */
-  rejection_reason?: string | null;
+  rejection_reason?: string | null | undefined;
   /** `pending_upload` until the document has been relayed for review; `submitted` afterwards. */
-  status?: ListVerificationsResponseDataItemRequiredDocumentsItemStatus;
+  status?: ListVerificationsResponseDataItemRequiredDocumentsItemStatus | undefined;
 }
 /** Documents for a document-upload verification and their progress. Present only on verifications created by sending `documents`. `pending_upload` documents were not accepted yet -- send the full set again with another Create Verification call. */
 export type ListVerificationsResponseDataItemRequiredDocumentsList =
@@ -590,40 +610,40 @@ export type ListVerificationsResponseDataItemStatus =
   | "action_required";
 export interface ListVerificationsResponseDataItem {
   /** Address on the verification profile. `null` when no address is set. */
-  address?: CreateVerificationResponseAddress | null;
+  address?: CreateVerificationResponseAddress | null | undefined;
   /** Legal business name. */
-  business_name?: string | null;
+  business_name?: string | null | undefined;
   /** Legal entity structure of the business, such as `private_corporation` or `sole_proprietorship`. Supported values vary by country of incorporation -- see [Business structures](/developer/verification/business-structures). */
-  business_structure?: string | null;
+  business_structure?: string | null | undefined;
   /** Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** When the verification profile was created, as an ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Formatted as `YYYY-MM-DD`. */
-  date_of_birth?: string | null;
+  date_of_birth?: string | null | undefined;
   /** Email address on the verification profile. */
-  email?: string | null;
-  first_name?: string | null;
+  email?: string | null | undefined;
+  first_name?: string | null | undefined;
   /** Verification profile ID, prefixed `idpf_`. */
-  id?: string;
-  kind?: ListVerificationsResponseDataItemKind;
-  last_name?: string | null;
+  id?: string | undefined;
+  kind?: ListVerificationsResponseDataItemKind | undefined;
+  last_name?: string | null | undefined;
   /** Phone number on the verification profile. */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** What Whop still needs before review can continue -- one requirement per entry. Answer with Update Verification; nothing from the response is echoed back. Keys that don't apply are omitted. */
-  requested_information?: ListVerificationsResponseDataItemRequestedInformationList;
+  requested_information?: ListVerificationsResponseDataItemRequestedInformationList | undefined;
   /** Documents for a document-upload verification and their progress. Present only on verifications created by sending `documents`. `pending_upload` documents were not accepted yet -- send the full set again with another Create Verification call. */
-  required_documents?: ListVerificationsResponseDataItemRequiredDocumentsList;
+  required_documents?: ListVerificationsResponseDataItemRequiredDocumentsList | undefined;
   /** Hosted verification session URL for the user to complete identity checks. Expires 7 days after creation. */
-  session_url?: string | null;
+  session_url?: string | null | undefined;
   /** Current verification state. `not_started` before any session exists; `pending` while a session needs the user's input; `processing` while the provider's automated checks run on a fresh submission; `action_required` when `requested_information` needs answers; `manual_review` while information already sent is under review -- an audit answer, or a document the payout provider holds -- nothing to submit, usually done within 3 business days; `approved` on success; `rejected` on failure. Call Create Verification again to start a new session. */
-  status?: ListVerificationsResponseDataItemStatus;
+  status?: ListVerificationsResponseDataItemStatus | undefined;
   /** When the verification profile was last updated, as an ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export type ListVerificationsResponseDataList = Array<ListVerificationsResponseDataItem>;
 export interface ListVerificationsResponse {
-  data?: ListVerificationsResponseDataList;
+  data?: ListVerificationsResponseDataList | undefined;
 }
 /** Personal address for the individual. */
 export type UpdateVerificationRequestBodyCase0PersonalAddress =
@@ -634,19 +654,19 @@ export type UpdateVerificationRequestBodyCase0RequestedInformationItemAddress =
 /** Answer for an `id_document` item: the same slot keys Create Verification takes, so the key names both the document and the side. Send every slot for the ID you are uploading -- `PASSPORT` is `passport_front`; `ID_CARD`, `DRIVERS` and `RESIDENCE_PERMIT` take a front and a back. Each value is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document. */
 export interface UpdateVerificationRequestBodyCase0RequestedInformationItemDocuments {
   /** Back of the driver's license. */
-  drivers_back?: string;
+  drivers_back?: string | undefined;
   /** Front of the driver's license. */
-  drivers_front?: string;
+  drivers_front?: string | undefined;
   /** Back of the ID card. */
-  id_card_back?: string;
+  id_card_back?: string | undefined;
   /** Front of the ID card. */
-  id_card_front?: string;
+  id_card_front?: string | undefined;
   /** Photo page of the passport. */
-  passport_front?: string;
+  passport_front?: string | undefined;
   /** Back of the residence permit. */
-  residence_permit_back?: string;
+  residence_permit_back?: string | undefined;
   /** Front of the residence permit. */
-  residence_permit_front?: string;
+  residence_permit_front?: string | undefined;
 }
 /** Answer for a `files` item, or optional supporting documents for `text_with_files` -- a list of pages, first page first. Each entry is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document. */
 export type UpdateVerificationRequestBodyCase0RequestedInformationItemFilesList = Array<string>;
@@ -658,23 +678,26 @@ export type UpdateVerificationRequestBodyCase0RequestedInformationItemValueType 
 export type UpdateVerificationRequestBodyCase0RequestedInformationItemValuesList = Array<string>;
 export interface UpdateVerificationRequestBodyCase0RequestedInformationItem {
   /** Answer for `address` items. */
-  address?: CreateVerificationRequestBodyCase0Address;
+  address?: CreateVerificationRequestBodyCase0Address | undefined;
   /** Identity number for an `id_document` answer. */
-  document_number?: string;
+  document_number?: string | undefined;
   /** Answer for an `id_document` item: the same slot keys Create Verification takes, so the key names both the document and the side. Send every slot for the ID you are uploading -- `PASSPORT` is `passport_front`; `ID_CARD`, `DRIVERS` and `RESIDENCE_PERMIT` take a front and a back. Each value is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document. */
-  documents?: UpdateVerificationRequestBodyCase0RequestedInformationItemDocuments;
+  documents?: UpdateVerificationRequestBodyCase0RequestedInformationItemDocuments | undefined;
   /** Answer for a `files` item, or optional supporting documents for `text_with_files` -- a list of pages, first page first. Each entry is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document. */
-  files?: UpdateVerificationRequestBodyCase0RequestedInformationItemFilesList;
+  files?: UpdateVerificationRequestBodyCase0RequestedInformationItemFilesList | undefined;
   /** Item ID from `requested_information`. */
   id: string;
   /** Two-letter ISO 3166-1 issuing country for an `id_document` answer. */
-  issuing_country?: string;
+  issuing_country?: string | undefined;
   /** Answer for `text`, `text_with_files`, `date`, `phone`, and `select` items, and the chosen document type for a `file` item that lists `options`. */
-  value?: string;
+  value?: string | undefined;
   /** Whether `value` is raw input or a vault token. */
-  value_type?: UpdateVerificationRequestBodyCase0RequestedInformationItemValueType | (string & {});
+  value_type?:
+    | UpdateVerificationRequestBodyCase0RequestedInformationItemValueType
+    | (string & {})
+    | undefined;
   /** Every chosen option for a `select` item that accepts more than one answer, such as the countries an advertising certification covers. Use `value` for every other item. */
-  values?: UpdateVerificationRequestBodyCase0RequestedInformationItemValuesList;
+  values?: UpdateVerificationRequestBodyCase0RequestedInformationItemValuesList | undefined;
 }
 /** Answers to items in `requested_information`. Each entry pairs the item `id` with one answer payload matching its `type`. */
 export type UpdateVerificationRequestBodyCase0RequestedInformationList =
@@ -682,23 +705,23 @@ export type UpdateVerificationRequestBodyCase0RequestedInformationList =
 /** Fields that can be updated on an individual (KYC) verification. At least one field is required. */
 export interface UpdateVerificationRequestBodyCase0 {
   /** Legal business name for a sole proprietor or single-member LLC. */
-  business_name?: string;
+  business_name?: string | undefined;
   /** Entity type for sole proprietors, such as `single_member_llc`. Supported values vary by country of incorporation -- see [Business structures](/developer/verification/business-structures). */
-  business_structure?: string;
+  business_structure?: string | undefined;
   /** The business ID number of the company, as appropriate for the company's country. Examples are an Employer Identification Number (EIN) in the US, a Business Number in Canada, or a Company Number in the UK. */
-  business_tax_identification_number?: string;
+  business_tax_identification_number?: string | undefined;
   /** Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`. */
-  country?: string;
+  country?: string | undefined;
   /** Formatted as `YYYY-MM-DD`. */
-  date_of_birth?: string;
-  first_name?: string;
-  last_name?: string;
+  date_of_birth?: string | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
   /** Personal address for the individual. */
-  personal_address?: CreateVerificationRequestBodyCase0Address;
+  personal_address?: CreateVerificationRequestBodyCase0Address | undefined;
   /** Answers to items in `requested_information`. Each entry pairs the item `id` with one answer payload matching its `type`. */
-  requested_information?: UpdateVerificationRequestBodyCase0RequestedInformationList;
+  requested_information?: UpdateVerificationRequestBodyCase0RequestedInformationList | undefined;
   /** The government-issued ID number of the person being verified -- the individual for a KYC verification, or the business representative for a KYB verification -- as appropriate for their country. Examples are a Social Security Number (SSN) in the US, or a Social Insurance Number in Canada. */
-  tax_identification_number?: string;
+  tax_identification_number?: string | undefined;
 }
 /** Business address. */
 export type UpdateVerificationRequestBodyCase1BusinessAddress =
@@ -719,23 +742,26 @@ export type UpdateVerificationRequestBodyCase1RequestedInformationItemValueType 
 export type UpdateVerificationRequestBodyCase1RequestedInformationItemValuesList = Array<string>;
 export interface UpdateVerificationRequestBodyCase1RequestedInformationItem {
   /** Answer for `address` items. */
-  address?: CreateVerificationRequestBodyCase0Address;
+  address?: CreateVerificationRequestBodyCase0Address | undefined;
   /** Identity number for an `id_document` answer. */
-  document_number?: string;
+  document_number?: string | undefined;
   /** Answer for an `id_document` item: the same slot keys Create Verification takes, so the key names both the document and the side. Send every slot for the ID you are uploading -- `PASSPORT` is `passport_front`; `ID_CARD`, `DRIVERS` and `RESIDENCE_PERMIT` take a front and a back. Each value is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document. */
-  documents?: UpdateVerificationRequestBodyCase0RequestedInformationItemDocuments;
+  documents?: UpdateVerificationRequestBodyCase0RequestedInformationItemDocuments | undefined;
   /** Answer for a `files` item, or optional supporting documents for `text_with_files` -- a list of pages, first page first. Each entry is a direct upload ID, or a `file_`-prefixed attachment ID to reuse an uploaded document. */
-  files?: UpdateVerificationRequestBodyCase1RequestedInformationItemFilesList;
+  files?: UpdateVerificationRequestBodyCase1RequestedInformationItemFilesList | undefined;
   /** Item ID from `requested_information`. */
   id: string;
   /** Two-letter ISO 3166-1 issuing country for an `id_document` answer. */
-  issuing_country?: string;
+  issuing_country?: string | undefined;
   /** Answer for `text`, `text_with_files`, `date`, `phone`, and `select` items, and the chosen document type for a `file` item that lists `options`. */
-  value?: string;
+  value?: string | undefined;
   /** Whether `value` is raw input or a vault token. */
-  value_type?: UpdateVerificationRequestBodyCase1RequestedInformationItemValueType | (string & {});
+  value_type?:
+    | UpdateVerificationRequestBodyCase1RequestedInformationItemValueType
+    | (string & {})
+    | undefined;
   /** Every chosen option for a `select` item that accepts more than one answer, such as the countries an advertising certification covers. Use `value` for every other item. */
-  values?: UpdateVerificationRequestBodyCase1RequestedInformationItemValuesList;
+  values?: UpdateVerificationRequestBodyCase1RequestedInformationItemValuesList | undefined;
 }
 /** Answers to items in `requested_information`. Each entry pairs the item `id` with one answer payload matching its `type`. */
 export type UpdateVerificationRequestBodyCase1RequestedInformationList =
@@ -743,25 +769,25 @@ export type UpdateVerificationRequestBodyCase1RequestedInformationList =
 /** Fields that can be updated on a business entity (KYB) verification. At least one field is required. */
 export interface UpdateVerificationRequestBodyCase1 {
   /** Business address. */
-  business_address?: CreateVerificationRequestBodyCase0Address;
+  business_address?: CreateVerificationRequestBodyCase0Address | undefined;
   /** Legal business name. */
-  business_name?: string;
+  business_name?: string | undefined;
   /** Legal entity structure of the business, such as `private_corporation` or `sole_proprietorship`. Supported values vary by country of incorporation -- see [Business structures](/developer/verification/business-structures). */
-  business_structure?: string;
+  business_structure?: string | undefined;
   /** The business ID number of the company, as appropriate for the company's country. Examples are an Employer Identification Number (EIN) in the US, a Business Number in Canada, or a Company Number in the UK. */
-  business_tax_identification_number?: string;
+  business_tax_identification_number?: string | undefined;
   /** Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`. */
-  country?: string;
+  country?: string | undefined;
   /** Business representative's date of birth, formatted as `YYYY-MM-DD`. */
-  date_of_birth?: string;
+  date_of_birth?: string | undefined;
   /** First name of the business representative. */
-  first_name?: string;
+  first_name?: string | undefined;
   /** Last name of the business representative. */
-  last_name?: string;
+  last_name?: string | undefined;
   /** Answers to items in `requested_information`. Each entry pairs the item `id` with one answer payload matching its `type`. */
-  requested_information?: UpdateVerificationRequestBodyCase1RequestedInformationList;
+  requested_information?: UpdateVerificationRequestBodyCase1RequestedInformationList | undefined;
   /** The government-issued ID number of the person being verified -- the individual for a KYC verification, or the business representative for a KYB verification -- as appropriate for their country. Examples are a Social Security Number (SSN) in the US, or a Social Insurance Number in Canada. */
-  tax_identification_number?: string;
+  tax_identification_number?: string | undefined;
 }
 export type UpdateVerificationRequestBody =
   | UpdateVerificationRequestBodyCase0
@@ -800,37 +826,43 @@ export type UpdateVerificationResponseRequestedInformationItemSupportingFilesVis
   Array<string>;
 export interface UpdateVerificationResponseRequestedInformationItem {
   /** URL for a related action, such as completing liveness verification or viewing a payment. Absent when no action is available. */
-  action_url?: string;
+  action_url?: string | undefined;
   /** Follow-up prompt shown with this requirement. */
-  details_label?: string;
+  details_label?: string | undefined;
   /** Whether the follow-up response is required when visible. */
-  details_required?: boolean;
+  details_required?: boolean | undefined;
   /** Selected option values that make the follow-up prompt visible. */
-  details_visible_for?: UpdateVerificationResponseRequestedInformationItemDetailsVisibleForList;
+  details_visible_for?:
+    | UpdateVerificationResponseRequestedInformationItemDetailsVisibleForList
+    | undefined;
   /** Present after a rejected submission. */
-  errors?: UpdateVerificationResponseRequestedInformationItemErrorsList;
+  errors?: UpdateVerificationResponseRequestedInformationItemErrorsList | undefined;
   /** Requested information item ID, prefixed `inrqi_`. */
   id: string;
   /** Instruction to show the user. Carries the reviewer's note verbatim when there is one. */
   label: string;
   /** `true` when the item can be skipped. */
-  optional?: boolean;
+  optional?: boolean | undefined;
   /** The values `value` may take on a `select` item. On an `id_document` item these are the ID types accepted, and the chosen one decides which `documents` slots to send. Absent when the item has no choice to make. */
-  options?: UpdateVerificationResponseRequestedInformationItemOptionsList;
+  options?: UpdateVerificationResponseRequestedInformationItemOptionsList | undefined;
   /** What is needed: a document name such as `bank_statement`, or a field key such as `ssn` or `identity_document`. Handle unrecognized values by `type`. */
   requirement: string;
   /** Optional native input format for a text response. */
-  response_type?: UpdateVerificationResponseRequestedInformationItemResponseType;
+  response_type?: UpdateVerificationResponseRequestedInformationItemResponseType | undefined;
   /** Whether a question with `options` accepts one value or multiple values. */
-  selection_mode?: UpdateVerificationResponseRequestedInformationItemSelectionMode;
+  selection_mode?: UpdateVerificationResponseRequestedInformationItemSelectionMode | undefined;
   /** Documents supplied with the requirement for context. */
-  supporting_documents?: UpdateVerificationResponseRequestedInformationItemSupportingDocumentsList;
+  supporting_documents?:
+    | UpdateVerificationResponseRequestedInformationItemSupportingDocumentsList
+    | undefined;
   /** Whether a written explanation may replace required supporting files. */
-  supporting_files_explanation_allowed?: boolean;
+  supporting_files_explanation_allowed?: boolean | undefined;
   /** Whether this requirement also needs supporting files. */
-  supporting_files_required?: boolean;
+  supporting_files_required?: boolean | undefined;
   /** Selected option values that make the supporting-file input visible. */
-  supporting_files_visible_for?: UpdateVerificationResponseRequestedInformationItemSupportingFilesVisibleForList;
+  supporting_files_visible_for?:
+    | UpdateVerificationResponseRequestedInformationItemSupportingFilesVisibleForList
+    | undefined;
   /** What to send as the answer, so you never have to infer it: `files` (a document, as a list of its pages), `id_document` (send `documents` with the slot keys for the ID you are uploading), `text`, `date`, `phone` or `select` (send `value`), `text_with_files` (send `value` and optional `files`), `address` (send `address`), or `liveness` (open `action_url`, then send `value` as `true` after completion). */
   type: string;
 }
@@ -841,11 +873,11 @@ export type UpdateVerificationResponseRequestedInformationList =
 export type UpdateVerificationResponseRequiredDocumentsItemStatus = "pending_upload" | "submitted";
 export interface UpdateVerificationResponseRequiredDocumentsItem {
   /** Document slot key, such as `id_card_front`, `id_card_back`, or `selfie`. */
-  document?: string;
+  document?: string | undefined;
   /** Why the previous submission was rejected, when the provider requested new documents or declined the verification. */
-  rejection_reason?: string | null;
+  rejection_reason?: string | null | undefined;
   /** `pending_upload` until the document has been relayed for review; `submitted` afterwards. */
-  status?: UpdateVerificationResponseRequiredDocumentsItemStatus;
+  status?: UpdateVerificationResponseRequiredDocumentsItemStatus | undefined;
 }
 /** Documents for a document-upload verification and their progress. Present only on verifications created by sending `documents`. `pending_upload` documents were not accepted yet -- send the full set again with another Create Verification call. */
 export type UpdateVerificationResponseRequiredDocumentsList =
@@ -861,36 +893,36 @@ export type UpdateVerificationResponseStatus =
   | "action_required";
 export interface UpdateVerificationResponse {
   /** Address on the verification profile. `null` when no address is set. */
-  address?: CreateVerificationResponseAddress | null;
+  address?: CreateVerificationResponseAddress | null | undefined;
   /** Legal business name. */
-  business_name?: string | null;
+  business_name?: string | null | undefined;
   /** Legal entity structure of the business, such as `private_corporation` or `sole_proprietorship`. Supported values vary by country of incorporation -- see [Business structures](/developer/verification/business-structures). */
-  business_structure?: string | null;
+  business_structure?: string | null | undefined;
   /** Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** When the verification profile was created, as an ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Formatted as `YYYY-MM-DD`. */
-  date_of_birth?: string | null;
+  date_of_birth?: string | null | undefined;
   /** Email address on the verification profile. */
-  email?: string | null;
-  first_name?: string | null;
+  email?: string | null | undefined;
+  first_name?: string | null | undefined;
   /** Verification profile ID, prefixed `idpf_`. */
-  id?: string;
-  kind?: UpdateVerificationResponseKind;
-  last_name?: string | null;
+  id?: string | undefined;
+  kind?: UpdateVerificationResponseKind | undefined;
+  last_name?: string | null | undefined;
   /** Phone number on the verification profile. */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** What Whop still needs before review can continue -- one requirement per entry. Answer with Update Verification; nothing from the response is echoed back. Keys that don't apply are omitted. */
-  requested_information?: UpdateVerificationResponseRequestedInformationList;
+  requested_information?: UpdateVerificationResponseRequestedInformationList | undefined;
   /** Documents for a document-upload verification and their progress. Present only on verifications created by sending `documents`. `pending_upload` documents were not accepted yet -- send the full set again with another Create Verification call. */
-  required_documents?: UpdateVerificationResponseRequiredDocumentsList;
+  required_documents?: UpdateVerificationResponseRequiredDocumentsList | undefined;
   /** Hosted verification session URL for the user to complete identity checks. Expires 7 days after creation. */
-  session_url?: string | null;
+  session_url?: string | null | undefined;
   /** Current verification state. `not_started` before any session exists; `pending` while a session needs the user's input; `processing` while the provider's automated checks run on a fresh submission; `action_required` when `requested_information` needs answers; `manual_review` while information already sent is under review -- an audit answer, or a document the payout provider holds -- nothing to submit, usually done within 3 business days; `approved` on success; `rejected` on failure. Call Create Verification again to start a new session. */
-  status?: UpdateVerificationResponseStatus;
+  status?: UpdateVerificationResponseStatus | undefined;
   /** When the verification profile was last updated, as an ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export type CreateVerificationError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
 /** Create Verification Starts a hosted verification session for an account or user, or returns the active session when one already exists. Any fields you include in the request body are used to prefill the session. Send `documents` (with `document_type`) to instead verify the person from identity documents included in this request -- no hosted session involved. Send `share_token` to reuse a verification another Sumsub account has already completed for this person, instead of verifying them again. Send `verification_id` to reuse a verification the signed-in user already completed on Whop. Every mode except `verification_id` is rejected once the account has an `approved` verification -- unlink it first to start a new one -- while `verification_id` replaces whichever verification of that kind the account currently has. */

@@ -101,7 +101,7 @@ export type EntitlementsGetResponseCustomEntitlementsItemAllocationOrganizations
   "";
 export interface EntitlementsGetResponseCustomEntitlementsItemAllocationOrganizationsAPINullAllocation {
   type: EntitlementsGetResponseCustomEntitlementsItemAllocationOrganizationsAPINullAllocationType;
-  value?: unknown | null;
+  value?: unknown | null | undefined;
 }
 export type EntitlementsGetResponseCustomEntitlementsItemAllocation =
   | EntitlementsGetResponseCustomEntitlementsItemAllocationOrganizationsAPIMaxCountAllocation
@@ -139,19 +139,19 @@ export interface GetTenantRequest {
   tenantId: string;
 }
 export interface GetResponseTenantContacts {
-  email?: string | null;
-  website?: string | null;
+  email?: string | null | undefined;
+  website?: string | null | undefined;
 }
 export type GetResponseTenantLabelsList = Array<string>;
 export interface GetResponseTenantMetadataDnsNsPool {
-  primary?: string | null;
-  secondary?: string | null;
+  primary?: string | null | undefined;
+  secondary?: string | null | undefined;
 }
 export interface GetResponseTenantMetadataDns {
   nsPool: GetResponseTenantMetadataDnsNsPool;
 }
 export interface GetResponseTenantMetadata {
-  dns?: GetResponseTenantMetadataDns | null;
+  dns?: GetResponseTenantMetadataDns | null | undefined;
 }
 export type GetResponseTenantUnitsItemUnitMembershipsList = Array<unknown>;
 export interface GetResponseTenantUnitsItem {
@@ -175,7 +175,7 @@ export interface GetTenantResponse {
   tenantTag: string;
   tenantType: string;
   tenantUnits: GetResponseTenantUnitsList;
-  customerId?: string | null;
+  customerId?: string | null | undefined;
 }
 export interface ListAccountsRequest {
   tenantId: string;
@@ -199,14 +199,14 @@ export interface AccountsListResultItem {
   settings: AccountsListResultItemSettings;
   type: AccountsListResultItemType;
   /** Account tags, present only when `include_tags=true` is requested. */
-  tags?: AccountsListResultItemTagsMap | null;
+  tags?: AccountsListResultItemTagsMap | null | undefined;
 }
 export type AccountsListResultList = Array<AccountsListResultItem>;
 export interface ListAccountsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccountsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAccountTypesRequest {
   tenantId: string;
@@ -216,7 +216,7 @@ export interface ListAccountTypesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccountTypesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListMembershipsRequest {
   tenantId: string;
@@ -231,7 +231,7 @@ export interface ListMembershipsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: MembershipsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type GetEntitlementError = CloudflareOpError;
 /** Retrieves the innate and custom entitlement allocations available to this tenant. */

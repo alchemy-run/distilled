@@ -64,7 +64,7 @@ export interface ListResultManagedRequestHeadersItem {
   /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
   hasConflict: boolean;
   /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: ListResultManagedRequestHeadersItemConflictsWithList | null;
+  conflictsWith?: ListResultManagedRequestHeadersItemConflictsWithList | null | undefined;
 }
 export type ListResultManagedRequestHeadersList = Array<ListResultManagedRequestHeadersItem>;
 export type ListResultManagedResponseHeadersItemConflictsWithList = Array<string>;
@@ -76,7 +76,7 @@ export interface ListResultManagedResponseHeadersItem {
   /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
   hasConflict: boolean;
   /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: ListResultManagedResponseHeadersItemConflictsWithList | null;
+  conflictsWith?: ListResultManagedResponseHeadersItemConflictsWithList | null | undefined;
 }
 export type ListResultManagedResponseHeadersList = Array<ListResultManagedResponseHeadersItem>;
 export interface ListResult {
@@ -93,9 +93,9 @@ export interface EditRequestManagedRequestHeadersItem {
   /** Whether the Managed Transform is enabled. */
   enabled: boolean;
   /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
-  hasConflict?: boolean;
+  hasConflict?: boolean | undefined;
   /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: EditRequestManagedRequestHeadersItemConflictsWithList;
+  conflictsWith?: EditRequestManagedRequestHeadersItemConflictsWithList | undefined;
 }
 export type EditRequestManagedRequestHeadersList = Array<EditRequestManagedRequestHeadersItem>;
 export type EditRequestManagedResponseHeadersItemConflictsWithList = Array<string>;
@@ -105,18 +105,18 @@ export interface EditRequestManagedResponseHeadersItem {
   /** Whether the Managed Transform is enabled. */
   enabled: boolean;
   /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
-  hasConflict?: boolean;
+  hasConflict?: boolean | undefined;
   /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: EditRequestManagedResponseHeadersItemConflictsWithList;
+  conflictsWith?: EditRequestManagedResponseHeadersItemConflictsWithList | undefined;
 }
 export type EditRequestManagedResponseHeadersList = Array<EditRequestManagedResponseHeadersItem>;
 export interface PatchManagedTransformRequest {
   /** The unique ID of the zone. */
   zoneId: string;
   /** The list of Managed Request Transforms. */
-  managedRequestHeaders?: EditRequestManagedRequestHeadersList;
+  managedRequestHeaders?: EditRequestManagedRequestHeadersList | undefined;
   /** The list of Managed Response Transforms. */
-  managedResponseHeaders?: EditRequestManagedResponseHeadersList;
+  managedResponseHeaders?: EditRequestManagedResponseHeadersList | undefined;
 }
 export type EditResultManagedRequestHeadersItemConflictsWithList = Array<string>;
 export interface EditResultManagedRequestHeadersItem {
@@ -127,7 +127,7 @@ export interface EditResultManagedRequestHeadersItem {
   /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
   hasConflict: boolean;
   /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: EditResultManagedRequestHeadersItemConflictsWithList | null;
+  conflictsWith?: EditResultManagedRequestHeadersItemConflictsWithList | null | undefined;
 }
 export type EditResultManagedRequestHeadersList = Array<EditResultManagedRequestHeadersItem>;
 export type EditResultManagedResponseHeadersItemConflictsWithList = Array<string>;
@@ -139,7 +139,7 @@ export interface EditResultManagedResponseHeadersItem {
   /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
   hasConflict: boolean;
   /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: EditResultManagedResponseHeadersItemConflictsWithList | null;
+  conflictsWith?: EditResultManagedResponseHeadersItemConflictsWithList | null | undefined;
 }
 export type EditResultManagedResponseHeadersList = Array<EditResultManagedResponseHeadersItem>;
 export interface EditResult {

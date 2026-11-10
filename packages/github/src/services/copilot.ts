@@ -69,9 +69,11 @@ export interface AddOrganizationsToEnterpriseCodingAgentPolicyRequest {
   /** The slug version of the enterprise name. */
   enterprise: string;
   /** List of organization logins within the enterprise to enable Copilot cloud agent for. */
-  organizations?: AddOrganizationsToEnterpriseCodingAgentPolicyRequestOrganizationsList;
+  organizations?: AddOrganizationsToEnterpriseCodingAgentPolicyRequestOrganizationsList | undefined;
   /** List of custom property filters to match organizations. Organizations matching any of the specified property name/value pairs will be included. This is a one-time operation, setting the property on an organization in the future will not automatically update its coding agent policy. */
-  custom_properties?: AddOrganizationsToEnterpriseCodingAgentPolicyRequestCustomPropertiesList;
+  custom_properties?:
+    | AddOrganizationsToEnterpriseCodingAgentPolicyRequestCustomPropertiesList
+    | undefined;
 }
 export interface AddOrganizationsToEnterpriseCodingAgentPolicyResponse {}
 /** The names of teams from which to revoke access to GitHub Copilot. */
@@ -259,7 +261,7 @@ export interface GetCopilotCodingAgentPermissionsOrganizationResponse {
   /** The policy for which repositories can use Copilot cloud agent. Can be one of `all`, `selected`, or `none`. */
   enabled_repositories: GetCopilotCodingAgentPermissionsOrganizationResponseEnabledRepositories;
   /** The URL for the selected repositories endpoint. Only present when `enabled_repositories` is `selected`. */
-  selected_repositories_url?: string;
+  selected_repositories_url?: string | undefined;
 }
 export interface GetCopilotOrganizationDetailsRequest {
   /** The organization name. The name is not case sensitive. */
@@ -268,17 +270,17 @@ export interface GetCopilotOrganizationDetailsRequest {
 /** The breakdown of Copilot Business seats for the organization. */
 export interface CopilotOrganizationSeatBreakdown {
   /** The total number of seats being billed for the organization as of the current billing cycle. */
-  total?: number;
+  total?: number | undefined;
   /** Seats added during the current billing cycle. */
-  added_this_cycle?: number;
+  added_this_cycle?: number | undefined;
   /** The number of seats that are pending cancellation at the end of the current billing cycle. */
-  pending_cancellation?: number;
+  pending_cancellation?: number | undefined;
   /** The number of users who have been invited to receive a Copilot seat through this organization. */
-  pending_invitation?: number;
+  pending_invitation?: number | undefined;
   /** The number of seats that have used Copilot during the current billing cycle. */
-  active_this_cycle?: number;
+  active_this_cycle?: number | undefined;
   /** The number of seats that have not used Copilot during the current billing cycle. */
-  inactive_this_cycle?: number;
+  inactive_this_cycle?: number | undefined;
 }
 /** The organization policy for allowing or blocking suggestions matching public code (duplication detection filter). */
 export type CopilotOrganizationDetailsPublicCodeSuggestions = "allow" | "block" | "unconfigured";
@@ -302,15 +304,15 @@ export interface CopilotOrganizationDetails {
   /** The organization policy for allowing or blocking suggestions matching public code (duplication detection filter). */
   public_code_suggestions: CopilotOrganizationDetailsPublicCodeSuggestions;
   /** The organization policy for allowing or disallowing Copilot Chat in the IDE. */
-  ide_chat?: CopilotOrganizationDetailsIdeChat;
+  ide_chat?: CopilotOrganizationDetailsIdeChat | undefined;
   /** The organization policy for allowing or disallowing Copilot features on GitHub.com. */
-  platform_chat?: CopilotOrganizationDetailsPlatformChat;
+  platform_chat?: CopilotOrganizationDetailsPlatformChat | undefined;
   /** The organization policy for allowing or disallowing Copilot CLI. */
-  cli?: CopilotOrganizationDetailsCli;
+  cli?: CopilotOrganizationDetailsCli | undefined;
   /** The mode of assigning new seats. */
   seat_management_setting: CopilotOrganizationDetailsSeatManagementSetting;
   /** The Copilot plan of the organization, or the parent enterprise, when applicable. */
-  plan_type?: CopilotOrganizationDetailsPlanType;
+  plan_type?: CopilotOrganizationDetailsPlanType | undefined;
   [key: string]: unknown;
 }
 export interface GetCopilotSeatDetailsForUserRequest {
@@ -321,8 +323,8 @@ export interface GetCopilotSeatDetailsForUserRequest {
 }
 /** A GitHub user. */
 export interface NullableSimpleUser {
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -341,8 +343,8 @@ export interface NullableSimpleUser {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
 }
 /** A GitHub organization. */
 export interface NullableOrganizationSimple {
@@ -387,20 +389,20 @@ export interface NullableTeamSimple {
   /** Permission that the team will have for its repositories */
   permission: string;
   /** The level of privacy this team should have */
-  privacy?: string;
+  privacy?: string | undefined;
   /** The notification setting the team has set */
-  notification_setting?: string;
+  notification_setting?: string | undefined;
   html_url: string;
   repositories_url: string;
   slug: string;
   /** Distinguished Name (DN) that team maps to within LDAP environment */
-  ldap_dn?: string;
+  ldap_dn?: string | undefined;
   /** The ownership type of the team */
   type: NullableTeamSimpleType;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
 }
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface Team {
@@ -409,10 +411,10 @@ export interface Team {
   name: string;
   slug: string;
   description: string | null;
-  privacy?: string;
-  notification_setting?: string;
+  privacy?: string | undefined;
+  notification_setting?: string | undefined;
   permission: string;
-  permissions?: TeamPermissions;
+  permissions?: TeamPermissions | undefined;
   url: string;
   html_url: string;
   members_url: string;
@@ -420,11 +422,11 @@ export interface Team {
   /** The ownership type of the team */
   type: TeamType;
   /** How the team's access to the repository was granted. This property is only present when the team is returned in a repository context, such as `GET /repos/{owner}/{repo}/teams`. */
-  access_source?: TeamAccessSource;
+  access_source?: TeamAccessSource | undefined;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
   parent: NullableTeamSimple | null;
 }
 /** Whether team members will receive notifications when the team is mentioned. */
@@ -433,21 +435,21 @@ export type EnterpriseTeamNotificationSetting = "notifications_enabled" | "notif
 export interface EnterpriseTeam {
   id: number;
   name: string;
-  description?: string;
+  description?: string | undefined;
   slug: string;
   url: string;
   /** Retired: this field will not be returned with GHEC enterprise teams. */
-  sync_to_organizations?: string;
-  organization_selection_type?: string;
+  sync_to_organizations?: string | undefined;
+  organization_selection_type?: string | undefined;
   group_id: string | null;
   /** Retired: this field will not be returned with GHEC enterprise teams. */
-  group_name?: string | null;
+  group_name?: string | null | undefined;
   html_url: string;
   members_url: string;
   created_at: string;
   updated_at: string;
   /** Whether team members will receive notifications when the team is mentioned. */
-  notification_setting?: EnterpriseTeamNotificationSetting;
+  notification_setting?: EnterpriseTeamNotificationSetting | undefined;
 }
 /** The team through which the assignee is granted access to GitHub Copilot, if applicable. */
 export type CopilotSeatDetailsAssigningTeam = Team | EnterpriseTeam;
@@ -455,32 +457,32 @@ export type CopilotSeatDetailsAssigningTeam = Team | EnterpriseTeam;
 export type CopilotSeatDetailsPlanType = "business" | "enterprise" | "unknown";
 /** Information about a Copilot Business seat assignment for a user, team, or organization. */
 export interface CopilotSeatDetails {
-  assignee?: NullableSimpleUser | null;
-  organization?: NullableOrganizationSimple | null;
+  assignee?: NullableSimpleUser | null | undefined;
+  organization?: NullableOrganizationSimple | null | undefined;
   /** The team through which the assignee is granted access to GitHub Copilot, if applicable. */
-  assigning_team?: CopilotSeatDetailsAssigningTeam | null;
+  assigning_team?: CopilotSeatDetailsAssigningTeam | null | undefined;
   /** The pending cancellation date for the seat, in `YYYY-MM-DD` format. This will be null unless the assignee's Copilot access has been canceled during the current billing cycle. If the seat has been cancelled, this corresponds to the start of the organization's next billing cycle. */
-  pending_cancellation_date?: string | null;
+  pending_cancellation_date?: string | null | undefined;
   /** Timestamp of user's last GitHub Copilot activity, in ISO 8601 format. */
-  last_activity_at?: string | null;
+  last_activity_at?: string | null | undefined;
   /** Last editor that was used by the user for a GitHub Copilot completion. */
-  last_activity_editor?: string | null;
+  last_activity_editor?: string | null | undefined;
   /** Timestamp of the last time the user authenticated with GitHub Copilot, in ISO 8601 format. */
-  last_authenticated_at?: string | null;
+  last_authenticated_at?: string | null | undefined;
   /** Timestamp of when the assignee was last granted access to GitHub Copilot, in ISO 8601 format. */
   created_at: string;
   /** **Closing down notice:** This field is no longer relevant and is closing down. Use the `created_at` field to determine when the assignee was last granted access to GitHub Copilot. Timestamp of when the assignee's GitHub Copilot access was last updated, in ISO 8601 format. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The Copilot plan of the organization, or the parent enterprise, when applicable. */
-  plan_type?: CopilotSeatDetailsPlanType;
+  plan_type?: CopilotSeatDetailsPlanType | undefined;
 }
 export interface ListCopilotCodingAgentSelectedRepositoriesForOrganizationRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 /** A GitHub user. */
 export type SimpleUser = NullableSimpleUser;
@@ -488,66 +490,66 @@ export type MinimalRepositoryTopicsList = Array<string>;
 /** The policy controlling who can create pull requests: all or collaborators_only. */
 export type MinimalRepositoryPullRequestCreationPolicy = "all" | "collaborators_only";
 export interface MinimalRepositoryPermissions {
-  admin?: boolean;
-  maintain?: boolean;
-  push?: boolean;
-  triage?: boolean;
-  pull?: boolean;
+  admin?: boolean | undefined;
+  maintain?: boolean | undefined;
+  push?: boolean | undefined;
+  triage?: boolean | undefined;
+  pull?: boolean | undefined;
 }
 /** Code Of Conduct */
 export interface CodeOfConduct {
   key: string;
   name: string;
   url: string;
-  body?: string;
+  body?: string | undefined;
   html_url: string | null;
 }
 export interface MinimalRepositoryLicense {
-  key?: string;
-  name?: string;
-  spdx_id?: string;
-  url?: string | null;
-  node_id?: string;
+  key?: string | undefined;
+  name?: string | undefined;
+  spdx_id?: string | undefined;
+  url?: string | null | undefined;
+  node_id?: string | undefined;
 }
 export type SecurityAndAnalysisAdvancedSecurityStatus = "enabled" | "disabled";
 /** Enable or disable GitHub Advanced Security for the repository. For standalone Code Scanning or Secret Protection products, this parameter cannot be used. */
 export interface SecurityAndAnalysisAdvancedSecurity {
-  status?: SecurityAndAnalysisAdvancedSecurityStatus;
+  status?: SecurityAndAnalysisAdvancedSecurityStatus | undefined;
 }
 export type SecurityAndAnalysisCodeSecurityStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisCodeSecurity {
-  status?: SecurityAndAnalysisCodeSecurityStatus;
+  status?: SecurityAndAnalysisCodeSecurityStatus | undefined;
 }
 /** The enablement status of Dependabot security updates for the repository. */
 export type SecurityAndAnalysisDependabotSecurityUpdatesStatus = "enabled" | "disabled";
 /** Enable or disable Dependabot security updates for the repository. */
 export interface SecurityAndAnalysisDependabotSecurityUpdates {
   /** The enablement status of Dependabot security updates for the repository. */
-  status?: SecurityAndAnalysisDependabotSecurityUpdatesStatus;
+  status?: SecurityAndAnalysisDependabotSecurityUpdatesStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanning {
-  status?: SecurityAndAnalysisSecretScanningStatus;
+  status?: SecurityAndAnalysisSecretScanningStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningPushProtectionStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningPushProtection {
-  status?: SecurityAndAnalysisSecretScanningPushProtectionStatus;
+  status?: SecurityAndAnalysisSecretScanningPushProtectionStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningNonProviderPatternsStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningNonProviderPatterns {
-  status?: SecurityAndAnalysisSecretScanningNonProviderPatternsStatus;
+  status?: SecurityAndAnalysisSecretScanningNonProviderPatternsStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningAiDetectionStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningAiDetection {
-  status?: SecurityAndAnalysisSecretScanningAiDetectionStatus;
+  status?: SecurityAndAnalysisSecretScanningAiDetectionStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningDelegatedAlertDismissal {
-  status?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus;
+  status?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningDelegatedBypassStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningDelegatedBypass {
-  status?: SecurityAndAnalysisSecretScanningDelegatedBypassStatus;
+  status?: SecurityAndAnalysisSecretScanningDelegatedBypassStatus | undefined;
 }
 /** The type of the bypass reviewer */
 export type SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemReviewerType =
@@ -563,28 +565,34 @@ export interface SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewer
   /** The type of the bypass reviewer */
   reviewer_type: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemReviewerType;
   /** The bypass mode for the reviewer */
-  mode?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemMode;
+  mode?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemMode | undefined;
 }
 /** The bypass reviewers for secret scanning delegated bypass */
 export type SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList =
   Array<SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItem>;
 export interface SecurityAndAnalysisSecretScanningDelegatedBypassOptions {
   /** The bypass reviewers for secret scanning delegated bypass */
-  reviewers?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList;
+  reviewers?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList | undefined;
 }
 export interface SecurityAndAnalysis {
   /** Enable or disable GitHub Advanced Security for the repository. For standalone Code Scanning or Secret Protection products, this parameter cannot be used. */
-  advanced_security?: SecurityAndAnalysisAdvancedSecurity;
-  code_security?: SecurityAndAnalysisCodeSecurity;
+  advanced_security?: SecurityAndAnalysisAdvancedSecurity | undefined;
+  code_security?: SecurityAndAnalysisCodeSecurity | undefined;
   /** Enable or disable Dependabot security updates for the repository. */
-  dependabot_security_updates?: SecurityAndAnalysisDependabotSecurityUpdates;
-  secret_scanning?: SecurityAndAnalysisSecretScanning;
-  secret_scanning_push_protection?: SecurityAndAnalysisSecretScanningPushProtection;
-  secret_scanning_non_provider_patterns?: SecurityAndAnalysisSecretScanningNonProviderPatterns;
-  secret_scanning_ai_detection?: SecurityAndAnalysisSecretScanningAiDetection;
-  secret_scanning_delegated_alert_dismissal?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissal;
-  secret_scanning_delegated_bypass?: SecurityAndAnalysisSecretScanningDelegatedBypass;
-  secret_scanning_delegated_bypass_options?: SecurityAndAnalysisSecretScanningDelegatedBypassOptions;
+  dependabot_security_updates?: SecurityAndAnalysisDependabotSecurityUpdates | undefined;
+  secret_scanning?: SecurityAndAnalysisSecretScanning | undefined;
+  secret_scanning_push_protection?: SecurityAndAnalysisSecretScanningPushProtection | undefined;
+  secret_scanning_non_provider_patterns?:
+    | SecurityAndAnalysisSecretScanningNonProviderPatterns
+    | undefined;
+  secret_scanning_ai_detection?: SecurityAndAnalysisSecretScanningAiDetection | undefined;
+  secret_scanning_delegated_alert_dismissal?:
+    | SecurityAndAnalysisSecretScanningDelegatedAlertDismissal
+    | undefined;
+  secret_scanning_delegated_bypass?: SecurityAndAnalysisSecretScanningDelegatedBypass | undefined;
+  secret_scanning_delegated_bypass_options?:
+    | SecurityAndAnalysisSecretScanningDelegatedBypassOptions
+    | undefined;
 }
 /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
 export type MinimalRepositoryCustomPropertiesMap = { [key: string]: unknown | undefined };
@@ -617,7 +625,7 @@ export interface MinimalRepository {
   git_commits_url: string;
   git_refs_url: string;
   git_tags_url: string;
-  git_url?: string;
+  git_url?: string | undefined;
   issue_comment_url: string;
   issue_events_url: string;
   issues_url: string;
@@ -629,7 +637,7 @@ export interface MinimalRepository {
   notifications_url: string;
   pulls_url: string;
   releases_url: string;
-  ssh_url?: string;
+  ssh_url?: string | undefined;
   stargazers_url: string;
   statuses_url: string;
   subscribers_url: string;
@@ -637,52 +645,52 @@ export interface MinimalRepository {
   tags_url: string;
   teams_url: string;
   trees_url: string;
-  clone_url?: string;
-  mirror_url?: string | null;
+  clone_url?: string | undefined;
+  mirror_url?: string | null | undefined;
   hooks_url: string;
-  svn_url?: string;
-  homepage?: string | null;
-  language?: string | null;
-  forks_count?: number;
-  stargazers_count?: number;
-  watchers_count?: number;
+  svn_url?: string | undefined;
+  homepage?: string | null | undefined;
+  language?: string | null | undefined;
+  forks_count?: number | undefined;
+  stargazers_count?: number | undefined;
+  watchers_count?: number | undefined;
   /** The size of the repository, in kilobytes. Size is calculated hourly. When a repository is initially created, the size is 0. */
-  size?: number;
-  default_branch?: string;
-  open_issues_count?: number;
-  is_template?: boolean;
-  topics?: MinimalRepositoryTopicsList;
-  has_issues?: boolean;
-  has_projects?: boolean;
-  has_wiki?: boolean;
-  has_pages?: boolean;
-  has_downloads?: boolean;
-  has_discussions?: boolean;
-  has_pull_requests?: boolean;
+  size?: number | undefined;
+  default_branch?: string | undefined;
+  open_issues_count?: number | undefined;
+  is_template?: boolean | undefined;
+  topics?: MinimalRepositoryTopicsList | undefined;
+  has_issues?: boolean | undefined;
+  has_projects?: boolean | undefined;
+  has_wiki?: boolean | undefined;
+  has_pages?: boolean | undefined;
+  has_downloads?: boolean | undefined;
+  has_discussions?: boolean | undefined;
+  has_pull_requests?: boolean | undefined;
   /** The policy controlling who can create pull requests: all or collaborators_only. */
-  pull_request_creation_policy?: MinimalRepositoryPullRequestCreationPolicy;
-  archived?: boolean;
-  disabled?: boolean;
-  visibility?: string;
-  pushed_at?: string | null;
-  created_at?: string | null;
-  updated_at?: string | null;
-  permissions?: MinimalRepositoryPermissions;
-  role_name?: string;
-  temp_clone_token?: string;
-  delete_branch_on_merge?: boolean;
-  subscribers_count?: number;
-  network_count?: number;
-  code_of_conduct?: CodeOfConduct;
-  license?: MinimalRepositoryLicense | null;
-  forks?: number;
-  open_issues?: number;
-  watchers?: number;
-  allow_forking?: boolean;
-  web_commit_signoff_required?: boolean;
-  security_and_analysis?: SecurityAndAnalysis | null;
+  pull_request_creation_policy?: MinimalRepositoryPullRequestCreationPolicy | undefined;
+  archived?: boolean | undefined;
+  disabled?: boolean | undefined;
+  visibility?: string | undefined;
+  pushed_at?: string | null | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
+  permissions?: MinimalRepositoryPermissions | undefined;
+  role_name?: string | undefined;
+  temp_clone_token?: string | undefined;
+  delete_branch_on_merge?: boolean | undefined;
+  subscribers_count?: number | undefined;
+  network_count?: number | undefined;
+  code_of_conduct?: CodeOfConduct | undefined;
+  license?: MinimalRepositoryLicense | null | undefined;
+  forks?: number | undefined;
+  open_issues?: number | undefined;
+  watchers?: number | undefined;
+  allow_forking?: boolean | undefined;
+  web_commit_signoff_required?: boolean | undefined;
+  security_and_analysis?: SecurityAndAnalysis | null | undefined;
   /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
-  custom_properties?: MinimalRepositoryCustomPropertiesMap;
+  custom_properties?: MinimalRepositoryCustomPropertiesMap | undefined;
 }
 export type ListCopilotCodingAgentSelectedRepositoriesForOrganizationResponseRepositoriesList =
   Array<MinimalRepository>;
@@ -694,14 +702,14 @@ export interface ListCopilotSeatsRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListCopilotSeatsResponseSeatsList = Array<CopilotSeatDetails>;
 export interface ListCopilotSeatsResponse {
   /** Total number of Copilot seats for the organization currently being billed. */
-  total_seats?: number;
+  total_seats?: number | undefined;
   seats: ListCopilotSeatsResponseSeatsList;
 }
 /** List of organization logins within the enterprise to disable Copilot cloud agent for. */
@@ -723,9 +731,13 @@ export interface RemoveOrganizationsFromEnterpriseCodingAgentPolicyRequest {
   /** The slug version of the enterprise name. */
   enterprise: string;
   /** List of organization logins within the enterprise to disable Copilot cloud agent for. */
-  organizations?: RemoveOrganizationsFromEnterpriseCodingAgentPolicyRequestOrganizationsList;
+  organizations?:
+    | RemoveOrganizationsFromEnterpriseCodingAgentPolicyRequestOrganizationsList
+    | undefined;
   /** List of custom property filters to match organizations. Organizations matching any of the specified property name/value pairs will be included. This is a one-time operation, setting the property on an organization in the future will not automatically update its coding agent policy. */
-  custom_properties?: RemoveOrganizationsFromEnterpriseCodingAgentPolicyRequestCustomPropertiesList;
+  custom_properties?:
+    | RemoveOrganizationsFromEnterpriseCodingAgentPolicyRequestCustomPropertiesList
+    | undefined;
 }
 export interface RemoveOrganizationsFromEnterpriseCodingAgentPolicyResponse {}
 /** The policy for which repositories can use Copilot cloud agent. Can be one of `all`, `selected`, or `none`. */
@@ -777,7 +789,7 @@ export interface SetCopilotContentExclusionForOrganizationRequest {
   body: SetCopilotContentExclusionForOrganizationRequestBodyMap;
 }
 export interface SetCopilotContentExclusionForOrganizationResponse {
-  message?: string;
+  message?: string | undefined;
 }
 /** The policy state for Copilot cloud agent in the enterprise. Can be one of `enabled_for_all_orgs`, `disabled_for_all_orgs`, `enabled_for_selected_orgs`, or `configured_by_org_admins`. */
 export type SetEnterpriseCodingAgentPolicyRequestPolicyState =

@@ -102,11 +102,11 @@ export interface CheckReadinessProjectsLocationsConnectionsRequest {
 }
 /** Response containing status of the connector for readiness prober. */
 export interface CheckReadinessResponse {
-  status?: string;
+  status?: string | undefined;
 }
 export interface CheckStatusProjectsLocationsConnectionsRequest {
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string;
+  "executionConfig.headers"?: string | undefined;
   name: string;
 }
 export type CheckStatusResponseStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "ERROR" | "AUTH_ERROR";
@@ -115,34 +115,34 @@ export type DocumentMapMap = { [key: string]: DocumentMap | undefined };
 /** The status of the connector. */
 export interface CheckStatusResponse {
   /** State of the connector. */
-  state?: CheckStatusResponseStateEnum;
+  state?: CheckStatusResponseStateEnum | undefined;
   /** When the connector is not in ACTIVE state, the description must be populated to specify the reason why it's not in ACTIVE state. */
-  description?: string;
+  description?: string | undefined;
   /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap;
+  metadata?: DocumentMapMap | undefined;
 }
 /** 'Entity row'/ 'Entity' refers to a single row of an entity type. */
 export interface Entity {
   /** Output only. Resource name of the Entity. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type}/entities/{id} */
-  name?: string;
+  name?: string | undefined;
   /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap;
+  metadata?: DocumentMapMap | undefined;
   /** Fields of the entity. The key is name of the field and the value contains the applicable `google.protobuf.Value` entry for this field. */
-  fields?: DocumentMap;
+  fields?: DocumentMap | undefined;
 }
 export interface CreateProjectsLocationsConnectionsEntityTypesEntitiesRequest {
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string;
+  "executionConfig.headers"?: string | undefined;
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type} */
   parent: string;
   /** Request body */
-  body?: Entity;
+  body?: Entity | undefined;
 }
 export interface DeleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesRequest {
   /** Required. Conditions to be used when deleting entities. From a proto standpoint, There are no restrictions on what can be passed using this field. The connector documentation should have information about what format of filters/conditions are supported. Note: If this conditions field is left empty, an exception is thrown. We don't want to consider 'empty conditions' to be a match-all case. Connector developers can determine and document what a match-all case constraint would be. */
-  conditions?: string;
+  conditions?: string | undefined;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string;
+  "executionConfig.headers"?: string | undefined;
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type} */
   entityType: string;
 }
@@ -150,62 +150,62 @@ export interface DeleteEntitiesWithConditionsProjectsLocationsConnectionsEntityT
 export interface Empty {}
 export interface DeleteProjectsLocationsConnectionsEntityTypesEntitiesRequest {
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string;
+  "executionConfig.headers"?: string | undefined;
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type}/entities/{id} */
   name: string;
 }
 export interface ExecutionConfig {
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  headers?: string;
+  headers?: string | undefined;
 }
 export interface OAuth2Config {
   /** Client secret for the OAuth2 flow. */
-  clientSecret?: string;
+  clientSecret?: string | undefined;
   /** Client ID for the OAuth2 flow. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Authorization Server URL/Token Endpoint for Authorization Code Flow */
-  authUri?: string;
+  authUri?: string | undefined;
 }
 export type StringList = Array<string>;
 /** AuthCodeData contains the data the runtime plane will give the connector backend in exchange for access and refresh tokens. */
 export interface AuthCodeData {
   /** Scopes the connection will request when the user performs the auth code flow. */
-  scopes?: StringList;
+  scopes?: StringList | undefined;
   /** OAuth authorization code. */
-  authCode?: string;
+  authCode?: string | undefined;
   /** OAuth redirect URI passed in during the auth code flow, required by some OAuth backends. */
-  redirectUri?: string;
+  redirectUri?: string | undefined;
   /** OAuth PKCE verifier, needed if PKCE is enabled for this particular connection. */
-  pkceVerifier?: string;
+  pkceVerifier?: string | undefined;
 }
 /** ExchangeAuthCodeRequest currently includes the auth code data. */
 export interface ExchangeAuthCodeRequest {
   /** ExecutionConfig contains the configuration for the execution of the request. */
-  executionConfig?: ExecutionConfig;
+  executionConfig?: ExecutionConfig | undefined;
   /** OAuth2Config contains the OAuth2 config for the connection. */
-  oauth2Config?: OAuth2Config;
+  oauth2Config?: OAuth2Config | undefined;
   /** Optional. AuthCodeData contains the data the runtime requires to exchange for access and refresh tokens. If the data is not provided, the runtime will read the data from the secret manager. */
-  authCodeData?: AuthCodeData;
+  authCodeData?: AuthCodeData | undefined;
 }
 export interface ExchangeAuthCodeProjectsLocationsConnectionsRequest {
   name: string;
   /** Request body */
-  body?: ExchangeAuthCodeRequest;
+  body?: ExchangeAuthCodeRequest | undefined;
 }
 /** AccessCredentials includes the OAuth access token, and the other fields returned along with it. */
 export interface AccessCredentials {
   /** OAuth refresh token. */
-  refreshToken?: string;
+  refreshToken?: string | undefined;
   /** OAuth access token. */
-  accessToken?: string;
+  accessToken?: string | undefined;
   /** Duration till the access token expires. */
-  expiresIn?: string;
+  expiresIn?: string | undefined;
 }
 /** ExchangeAuthCodeResponse includes the returned access token and its associated credentials. */
 export interface ExchangeAuthCodeResponse {
-  accessCredentials?: AccessCredentials;
+  accessCredentials?: AccessCredentials | undefined;
   /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap;
+  metadata?: DocumentMapMap | undefined;
 }
 export type ExecuteHttpRequestRequestHttpMethodEnum =
   | "HTTP_METHOD_UNSPECIFIED"
@@ -219,81 +219,81 @@ export type ExecuteHttpRequestRequestHttpMethodEnum =
 /** A single HTTP header. Keys are case-insensitive. Multiple headers with the same key may be present. */
 export interface HttpHeader {
   /** The header value. */
-  value?: string;
+  value?: string | undefined;
   /** The header name. */
-  key?: string;
+  key?: string | undefined;
 }
 export type HttpHeaderList = Array<HttpHeader>;
 export interface ExecuteHttpRequestRequest {
   /** Required. The HTTP method to use for the request. */
-  httpMethod?: ExecuteHttpRequestRequestHttpMethodEnum | (string & {});
+  httpMethod?: ExecuteHttpRequestRequestHttpMethodEnum | (string & {}) | undefined;
   /** Required. The fully resolved absolute target URL. Callers must pre-encode any query parameters. */
-  url?: string;
+  url?: string | undefined;
   /** Raw byte payload. Used for all pre-serialized formats including JSON, XML, GraphQL, and Multipart. */
-  rawBody?: string;
+  rawBody?: string | undefined;
   /** HTTP headers to send with the request (e.g., Content-Type: application/json). Order is preserved and duplicate keys are allowed. */
-  headers?: HttpHeaderList;
+  headers?: HttpHeaderList | undefined;
 }
 export interface ExecuteHttpRequestProjectsLocationsConnectionsRequest {
   /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
   name: string;
   /** Request body */
-  body?: ExecuteHttpRequestRequest;
+  body?: ExecuteHttpRequestRequest | undefined;
 }
 export interface ExecuteHttpRequestResponse {
   /** HTTP headers received in the response. Order is preserved and duplicate keys are allowed (e.g., multiple Set-Cookie headers). */
-  headers?: HttpHeaderList;
+  headers?: HttpHeaderList | undefined;
   /** The HTTP status reason phrase received from the backend (e.g., "Not Found"). May be empty if the backend did not provide one. */
-  reason?: string;
+  reason?: string | undefined;
   /** The raw response body. */
-  body?: string;
+  body?: string | undefined;
   /** The HTTP status code received from the backend. */
-  statusCode?: number;
+  statusCode?: number | undefined;
 }
 /** Request message for ActionService.ExecuteAction */
 export interface ExecuteActionRequest {
   /** Execution config for the request. */
-  executionConfig?: ExecutionConfig;
+  executionConfig?: ExecutionConfig | undefined;
   /** Parameters for executing the action. The parameters can be key/value pairs or nested structs. */
-  parameters?: DocumentMap;
+  parameters?: DocumentMap | undefined;
 }
 export interface ExecuteProjectsLocationsConnectionsActionsRequest {
   /** Required. Resource name of the Action. Format: projects/{project}/locations/{location}/connections/{connection}/actions/{action} */
   name: string;
   /** Request body */
-  body?: ExecuteActionRequest;
+  body?: ExecuteActionRequest | undefined;
 }
 export type DocumentMapList = Array<DocumentMap>;
 /** Response message for ActionService.ExecuteAction */
 export interface ExecuteActionResponse {
   /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap;
+  metadata?: DocumentMapMap | undefined;
   /** In the case of successful invocation of the specified action, the results Struct contains values based on the response of the action invoked. 1. If the action execution produces any entities as a result, they are returned as an array of Structs with the 'key' being the field name and the 'value' being the value of that field in each result row. { 'results': [{'key': 'value'}, ...] } */
-  results?: DocumentMapList;
+  results?: DocumentMapList | undefined;
 }
 /** Request message for ConnectorAgentService.ExecuteTool */
 export interface ExecuteToolRequest {
   /** execution config for the request. */
-  executionConfig?: ExecutionConfig;
+  executionConfig?: ExecutionConfig | undefined;
   /** Input parameters for the tool. */
-  parameters?: DocumentMap;
+  parameters?: DocumentMap | undefined;
   /** Tool definition for the tool to be executed. */
-  toolDefinition?: DocumentMap;
+  toolDefinition?: DocumentMap | undefined;
 }
 export interface ExecuteProjectsLocationsConnectionsToolsRequest {
   /** Required. Resource name of the Tool. Format: projects/{project}/locations/{location}/connections/{connection}/tools/{tool} */
   name: string;
   /** Request body */
-  body?: ExecuteToolRequest;
+  body?: ExecuteToolRequest | undefined;
 }
 /** Response message for ConnectorAgentService.ExecuteTool */
 export interface ExecuteToolResponse {
   /** Output from the tool execution. */
-  result?: DocumentMap;
+  result?: DocumentMap | undefined;
   /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap;
+  metadata?: DocumentMapMap | undefined;
   /** Metadata for the tool execution result. */
-  _meta?: DocumentMap;
+  _meta?: DocumentMap | undefined;
 }
 export type QueryParameterDataTypeEnum =
   | "DATA_TYPE_UNSPECIFIED"
@@ -343,36 +343,36 @@ export type QueryParameterDataTypeEnum =
   | "TIMESTAMP_WITH_TIMEZONE";
 /** Query parameter definition */
 export interface QueryParameter {
-  value?: unknown;
-  dataType?: QueryParameterDataTypeEnum | (string & {});
+  value?: unknown | undefined;
+  dataType?: QueryParameterDataTypeEnum | (string & {}) | undefined;
 }
 export type QueryParameterList = Array<QueryParameter>;
 /** A wrapper around the SQL query statement. This is needed so that the JSON representation of ExecuteSqlQueryRequest has the following format: `{"query":"select *"}`. */
 export interface Query {
   /** Required. Sql query to execute. */
-  query?: string;
+  query?: string | undefined;
   /** In the struct, the value corresponds to the value of query parameter and date type corresponds to the date type of the query parameter. */
-  queryParameters?: QueryParameterList;
+  queryParameters?: QueryParameterList | undefined;
   /** Sets the number of seconds the driver will wait for a query to execute. */
-  timeout?: string;
+  timeout?: string | undefined;
   /** Sets the limit for the maximum number of rows returned after the query execution. */
-  maxRows?: string;
+  maxRows?: string | undefined;
 }
 /** An execute sql query request containing the query and the connection to execute it on. */
 export interface ExecuteSqlQueryRequest {
   /** Required. SQL statement passed by clients like Integration Platform, the query is passed as-is to the driver used for interfacing with external systems. */
-  query?: Query;
+  query?: Query | undefined;
 }
 export interface ExecuteSqlQueryProjectsLocationsConnectionsRequest {
   /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
   connection: string;
   /** Request body */
-  body?: ExecuteSqlQueryRequest;
+  body?: ExecuteSqlQueryRequest | undefined;
 }
 /** A response returned by the connection after executing the sql query. */
 export interface ExecuteSqlQueryResponse {
   /** In the case of successful execution of the query the response contains results returned by the external system. For example, the result rows of the query are contained in the 'results' Struct list - "results": [ { "field1": "val1", "field2": "val2",.. },.. ] Each Struct row can contain fields any type of like nested Structs or lists. */
-  results?: DocumentMapList;
+  results?: DocumentMapList | undefined;
 }
 export type ToolNameOperationEnum =
   | "OPERATION_UNSPECIFIED"
@@ -383,32 +383,32 @@ export type ToolNameOperationEnum =
   | "DELETE";
 export interface ToolName {
   /** Operation for which the tool was generated. */
-  operation?: ToolNameOperationEnum | (string & {});
+  operation?: ToolNameOperationEnum | (string & {}) | undefined;
   /** Tool name that was generated in the list tools call. */
-  name?: string;
+  name?: string | undefined;
   /** Entity name for which the tool was generated. */
-  entityName?: string;
+  entityName?: string | undefined;
 }
 export type ToolNameList = Array<ToolName>;
 export interface GenerateCustomToolspecRequest {
   /** list of tools to be generated. */
-  toolNames?: ToolNameList;
+  toolNames?: ToolNameList | undefined;
 }
 export interface GenerateConnectionToolspecOverrideProjectsLocationsConnectionsRequest {
   /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
   name: string;
   /** Request body */
-  body?: GenerateCustomToolspecRequest;
+  body?: GenerateCustomToolspecRequest | undefined;
 }
 export interface ToolSpec {
   /** List of tool definitions. */
-  toolDefinitions?: DocumentMapList;
+  toolDefinitions?: DocumentMapList | undefined;
   /** Version of the tool spec. Format: providerId/connectorId/versionId/toolSpecId */
-  toolSpecVersion?: string;
+  toolSpecVersion?: string | undefined;
 }
 export interface GenerateCustomToolspecResponse {
   /** tool spec that has tool_defitions array containing the tools for all sted tool_names. */
-  toolSpec?: ToolSpec;
+  toolSpec?: ToolSpec | undefined;
 }
 export type GetProjectsLocationsConnectionsActionsViewEnum =
   | "ACTION_SCHEMA_VIEW_UNSPECIFIED"
@@ -416,11 +416,11 @@ export type GetProjectsLocationsConnectionsActionsViewEnum =
   | "ACTION_SCHEMA_VIEW_ENRICHED";
 export interface GetProjectsLocationsConnectionsActionsRequest {
   /** Specified view of the action schema. */
-  view?: GetProjectsLocationsConnectionsActionsViewEnum | (string & {});
+  view?: GetProjectsLocationsConnectionsActionsViewEnum | (string & {}) | undefined;
   /** Required. Resource name of the Action. Format: projects/{project}/locations/{location}/connections/{connection}/actions/{action} */
   name: string;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string;
+  "executionConfig.headers"?: string | undefined;
 }
 export type JsonSchemaMap = { [key: string]: JsonSchema | undefined };
 export type JsonSchemaList = Array<JsonSchema>;
@@ -474,103 +474,103 @@ export type DocumentList = Array<unknown>;
 /** JsonSchema representation of schema metadata */
 export interface JsonSchema {
   /** A description of this schema. */
-  description?: string;
+  description?: string | undefined;
   /** The URI defining the core schema meta-schema. */
-  $id?: string;
+  $id?: string | undefined;
   /** Schema that applies to array values, applicable only if this is of type `array`. */
-  items?: JsonSchema;
+  items?: JsonSchema | undefined;
   /** The child schemas, applicable only if this is of type `object`. The key is the name of the property and the value is the json schema that describes that property */
-  properties?: JsonSchemaMap;
+  properties?: JsonSchemaMap | undefined;
   /** Schema for additional properties. */
-  additionalProperties?: JsonSchema;
+  additionalProperties?: JsonSchema | undefined;
   /** Regex pattern of the string field. This is a string value that describes the regular expression that the string value should match. */
-  pattern?: string;
+  pattern?: string | undefined;
   /** Definitions for the schema. */
-  definitions?: JsonSchemaMap;
+  definitions?: JsonSchemaMap | undefined;
   /** Minimum number of items in the array field. */
-  minItems?: number;
+  minItems?: number | undefined;
   /** Format of the value as per https://json-schema.org/understanding-json-schema/reference/string.html#format */
-  format?: string;
+  format?: string | undefined;
   /** JSON Schema Validation: A Vocabulary for Structural Validation of JSON */
-  type?: StringList;
+  type?: StringList | undefined;
   /** Maximum value of the number field. */
-  maximum?: unknown;
+  maximum?: unknown | undefined;
   /** The default value of the field or object described by this schema. */
-  default?: unknown;
+  default?: unknown | undefined;
   /** Schema that must be valid if the "if" schema is invalid. */
-  else?: JsonSchema;
+  else?: JsonSchema | undefined;
   /** A reference to another schema. */
-  $ref?: string;
+  $ref?: string | undefined;
   /** Whether the value is read-only. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** Schema that must not be valid. */
-  not?: JsonSchema;
+  not?: JsonSchema | undefined;
   /** Schema that must be valid against at least one of the sub-schemas. */
-  oneOf?: JsonSchemaList;
+  oneOf?: JsonSchemaList | undefined;
   /** Dependencies for the schema. */
-  dependencies?: DocumentMap;
+  dependencies?: DocumentMap | undefined;
   /** Minimum value of the number field. */
-  minimum?: unknown;
+  minimum?: unknown | undefined;
   /** Definitions for the schema. */
-  $defs?: JsonSchemaMap;
+  $defs?: JsonSchemaMap | undefined;
   /** Whether the minimum number value is exclusive. */
-  exclusiveMinimum?: unknown;
+  exclusiveMinimum?: unknown | undefined;
   /** Encoding of the content. */
-  contentEncoding?: string;
+  contentEncoding?: string | undefined;
   /** Maximum number of properties. */
-  maxProperties?: number;
+  maxProperties?: number | undefined;
   /** Schema that must be valid against all of the sub-schemas. */
-  allOf?: JsonSchemaList;
+  allOf?: JsonSchemaList | undefined;
   /** Maximum number of items in the array field. */
-  maxItems?: number;
+  maxItems?: number | undefined;
   /** A title of the schema. */
-  title?: string;
+  title?: string | undefined;
   /** Schema that must be valid if the "if" schema is valid. */
-  if?: JsonSchema;
+  if?: JsonSchema | undefined;
   /** Schema that must be valid if the "if" schema is valid. */
-  then?: JsonSchema;
+  then?: JsonSchema | undefined;
   /** Pattern properties for the schema. */
-  patternProperties?: JsonSchemaMap;
+  patternProperties?: JsonSchemaMap | undefined;
   /** JDBC datatype of the field. */
-  jdbcType?: JsonSchemaJdbcTypeEnum;
+  jdbcType?: JsonSchemaJdbcTypeEnum | undefined;
   /** Maximum length of the string field. */
-  maxLength?: number;
+  maxLength?: number | undefined;
   /** Schema that must be valid against at least one of the sub-schemas. */
-  anyOf?: JsonSchemaList;
+  anyOf?: JsonSchemaList | undefined;
   /** Possible values for an enumeration. This works in conjunction with `type` to represent types with a fixed set of legal values */
-  enum?: DocumentList;
+  enum?: DocumentList | undefined;
   /** Whether the value is write-only. */
-  writeOnly?: boolean;
+  writeOnly?: boolean | undefined;
   /** Additional details apart from standard json schema fields, this gives flexibility to store metadata about the schema */
-  additionalDetails?: DocumentMap;
+  additionalDetails?: DocumentMap | undefined;
   /** Schema for property names. */
-  propertyNames?: JsonSchema;
+  propertyNames?: JsonSchema | undefined;
   /** Examples of the value. */
-  examples?: DocumentList;
+  examples?: DocumentList | undefined;
   /** A comment on the schema. */
-  $comment?: string;
+  $comment?: string | undefined;
   /** Whether the items in the array field are unique. */
-  uniqueItems?: boolean;
+  uniqueItems?: boolean | undefined;
   /** Whether the maximum number value is exclusive. */
-  exclusiveMaximum?: unknown;
+  exclusiveMaximum?: unknown | undefined;
   /** The URI defining the schema. */
-  $schema?: string;
+  $schema?: string | undefined;
   /** Minimum number of properties. */
-  minProperties?: number;
+  minProperties?: number | undefined;
   /** Const value that the data must match. */
-  const?: unknown;
+  const?: unknown | undefined;
   /** Whether this property is required. */
-  required?: StringList;
+  required?: StringList | undefined;
   /** Schema that applies to at least one item in an array. */
-  contains?: JsonSchema;
+  contains?: JsonSchema | undefined;
   /** Number must be a multiple of this value. */
-  multipleOf?: number;
+  multipleOf?: number | undefined;
   /** Media type of the content. */
-  contentMediaType?: string;
+  contentMediaType?: string | undefined;
   /** Schema for additional items. */
-  additionalItems?: JsonSchema;
+  additionalItems?: JsonSchema | undefined;
   /** Minimum length of the string field. */
-  minLength?: number;
+  minLength?: number | undefined;
 }
 export type ResultMetadataDataTypeEnum =
   | "DATA_TYPE_UNSPECIFIED"
@@ -621,17 +621,17 @@ export type ResultMetadataDataTypeEnum =
 /** Result Metadata message contains metadata about the result returned after executing an Action. */
 export interface ResultMetadata {
   /** The following field specifies the default value of the Parameter provided by the external system if a value is not provided. */
-  defaultValue?: unknown;
+  defaultValue?: unknown | undefined;
   /** JsonSchema of the result, applicable only if parameter is of type `STRUCT` */
-  jsonSchema?: JsonSchema;
+  jsonSchema?: JsonSchema | undefined;
   /** The data type of the metadata field */
-  dataType?: ResultMetadataDataTypeEnum;
+  dataType?: ResultMetadataDataTypeEnum | undefined;
   /** A brief description of the metadata field. */
-  description?: string;
+  description?: string | undefined;
   /** Specifies whether a null value is allowed. */
-  nullable?: boolean;
+  nullable?: boolean | undefined;
   /** Name of the metadata field. */
-  name?: string;
+  name?: string | undefined;
 }
 export type ResultMetadataList = Array<ResultMetadata>;
 export type InputParameterDataTypeEnum =
@@ -683,39 +683,39 @@ export type InputParameterDataTypeEnum =
 /** Input Parameter message contains metadata about the parameters required for executing an Action. */
 export interface InputParameter {
   /** Specifies whether a null value is allowed. */
-  nullable?: boolean;
+  nullable?: boolean | undefined;
   /** The following field specifies the default value of the Parameter provided by the external system if a value is not provided. */
-  defaultValue?: unknown;
+  defaultValue?: unknown | undefined;
   /** A brief description of the Parameter. */
-  description?: string;
+  description?: string | undefined;
   /** The data type of the Parameter */
-  dataType?: InputParameterDataTypeEnum;
+  dataType?: InputParameterDataTypeEnum | undefined;
   /** Name of the Parameter. */
-  name?: string;
+  name?: string | undefined;
   /** The following map contains fields that are not explicitly mentioned above,this give connectors the flexibility to add new metadata fields. */
-  additionalDetails?: DocumentMap;
+  additionalDetails?: DocumentMap | undefined;
   /** JsonSchema of the parameter, applicable only if parameter is of type `STRUCT` */
-  jsonSchema?: JsonSchema;
+  jsonSchema?: JsonSchema | undefined;
 }
 export type InputParameterList = Array<InputParameter>;
 /** Action message contains metadata information about a single action present in the external system. */
 export interface Action {
   /** List containing the metadata of result fields. */
-  resultMetadata?: ResultMetadataList;
+  resultMetadata?: ResultMetadataList | undefined;
   /** JsonSchema representation of this actions's result schema */
-  resultJsonSchema?: JsonSchema;
+  resultJsonSchema?: JsonSchema | undefined;
   /** JsonSchema representation of this actions's input schema */
-  inputJsonSchema?: JsonSchema;
+  inputJsonSchema?: JsonSchema | undefined;
   /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap;
+  metadata?: DocumentMapMap | undefined;
   /** Brief Description of action */
-  description?: string;
+  description?: string | undefined;
   /** Name of the action. */
-  name?: string;
+  name?: string | undefined;
   /** List containing input parameter metadata. */
-  inputParameters?: InputParameterList;
+  inputParameters?: InputParameterList | undefined;
   /** Display Name of action to be shown on client side */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export type GetProjectsLocationsConnectionsEntityTypesViewEnum =
   | "ENTITY_TYPE_SCHEMA_VIEW_UNSPECIFIED"
@@ -723,13 +723,13 @@ export type GetProjectsLocationsConnectionsEntityTypesViewEnum =
   | "ENTITY_TYPE_SCHEMA_VIEW_ENRICHED";
 export interface GetProjectsLocationsConnectionsEntityTypesRequest {
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string;
+  "executionConfig.headers"?: string | undefined;
   /** Specifies view for entity type schema. */
-  view?: GetProjectsLocationsConnectionsEntityTypesViewEnum | (string & {});
+  view?: GetProjectsLocationsConnectionsEntityTypesViewEnum | (string & {}) | undefined;
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{entityType} */
   name: string;
   /** Context metadata for request could be used to fetch customization of entity type schema. */
-  contextMetadata?: string;
+  contextMetadata?: string | undefined;
 }
 export type EntityTypeOperationsItemEnum =
   | "OPERATION_UNSPECIFIED"
@@ -787,48 +787,48 @@ export type FieldDataTypeEnum =
   | "TIMESTAMP_WITH_TIMEZONE";
 export interface Reference {
   /** Name of reference entity type. */
-  type?: string;
+  type?: string | undefined;
   /** Name of the reference field. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Message contains EntityType's Field metadata. */
 export interface Field {
   /** The following boolean field specifies if the current Field acts as a primary key or id if the parent is of type entity. */
-  key?: boolean;
+  key?: boolean | undefined;
   /** Name of the Field. */
-  name?: string;
+  name?: string | undefined;
   /** The data type of the Field. */
-  dataType?: FieldDataTypeEnum;
+  dataType?: FieldDataTypeEnum | undefined;
   /** Specifies whether a null value is allowed. */
-  nullable?: boolean;
+  nullable?: boolean | undefined;
   /** JsonSchema of the field, applicable only if field is of type `STRUCT` */
-  jsonSchema?: JsonSchema;
+  jsonSchema?: JsonSchema | undefined;
   /** The following field specifies the default value of the Field provided by the external system if a value is not provided. */
-  defaultValue?: unknown;
+  defaultValue?: unknown | undefined;
   /** A brief description of the Field. */
-  description?: string;
+  description?: string | undefined;
   /** The following map contains fields that are not explicitly mentioned above,this give connectors the flexibility to add new metadata fields. */
-  additionalDetails?: DocumentMap;
+  additionalDetails?: DocumentMap | undefined;
   /** Reference captures the association between two different entity types. Value links to the reference of another entity type. */
-  reference?: Reference;
+  reference?: Reference | undefined;
 }
 export type FieldList = Array<Field>;
 /** EntityType message contains metadata information about a single entity type present in the external system. */
 export interface EntityType {
-  operations?: EntityTypeOperationsItemEnumList;
+  operations?: EntityTypeOperationsItemEnumList | undefined;
   /** List containing metadata information about each field of the entity type. */
-  fields?: FieldList;
+  fields?: FieldList | undefined;
   /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap;
+  metadata?: DocumentMapMap | undefined;
   /** The name of the entity type. */
-  name?: string;
-  defaultSortBy?: string;
+  name?: string | undefined;
+  defaultSortBy?: string | undefined;
   /** JsonSchema representation of this entity's schema */
-  jsonSchema?: JsonSchema;
+  jsonSchema?: JsonSchema | undefined;
 }
 export interface GetProjectsLocationsConnectionsEntityTypesEntitiesRequest {
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string;
+  "executionConfig.headers"?: string | undefined;
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type}/entities/{id} */
   name: string;
 }
@@ -836,30 +836,30 @@ export interface GetProjectsLocationsConnectionsResourcesRequest {
   /** Required. Resource name of the Resource. Format: projects/{project}/locations/{location}/connections/{connection}/resources/{resource} */
   name: string;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string;
+  "executionConfig.headers"?: string | undefined;
 }
 export interface GetResourceResponse {
   /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap;
+  metadata?: DocumentMapMap | undefined;
   /** The MIME type of the resource. */
-  mimeType?: string;
+  mimeType?: string | undefined;
   /** The content of the resource. */
-  data?: string;
+  data?: string | undefined;
   /** Metadata for the resource. */
-  _meta?: DocumentMap;
+  _meta?: DocumentMap | undefined;
 }
 /** Request message for ConnectorAgentService.GetResourcePost */
 export interface GetResourcePostRequest {
   /** List of tool specifications. */
-  toolSpec?: ToolSpec;
+  toolSpec?: ToolSpec | undefined;
   /** execution config for the request. */
-  executionConfig?: ExecutionConfig;
+  executionConfig?: ExecutionConfig | undefined;
 }
 export interface GetResourcePostProjectsLocationsConnectionsResourcesRequest {
   /** Required. Resource name of the Resource. Format: projects/{project}/locations/{location}/connections/{connection}/resources/{resource} */
   name: string;
   /** Request body */
-  body?: GetResourcePostRequest;
+  body?: GetResourcePostRequest | undefined;
 }
 export interface ListCustomToolNamesProjectsLocationsConnectionsRequest {
   /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
@@ -867,7 +867,7 @@ export interface ListCustomToolNamesProjectsLocationsConnectionsRequest {
 }
 export interface ListCustomToolNamesResponse {
   /** List of custom tools. */
-  toolNames?: ToolNameList;
+  toolNames?: ToolNameList | undefined;
 }
 export type ListProjectsLocationsConnectionsActionsViewEnum =
   | "ACTION_VIEW_UNSPECIFIED"
@@ -875,27 +875,27 @@ export type ListProjectsLocationsConnectionsActionsViewEnum =
   | "ACTION_VIEW_FULL";
 export interface ListProjectsLocationsConnectionsActionsRequest {
   /** Number of Actions to return. Defaults to 25. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Page token, return from a previous ListActions call, that can be used retrieve the next page of content. If unspecified, the request returns the first page of actions. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Parent resource name of the Action. Format: projects/{project}/locations/{location}/connections/{connection} */
   parent: string;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string;
+  "executionConfig.headers"?: string | undefined;
   /** Specifies which fields of the Action are returned in the response. */
-  view?: ListProjectsLocationsConnectionsActionsViewEnum | (string & {});
+  view?: ListProjectsLocationsConnectionsActionsViewEnum | (string & {}) | undefined;
 }
 export type ActionList = Array<Action>;
 /** Response message for ActionService.ListActions */
 export interface ListActionsResponse {
   /** Next page token if more actions available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap;
+  metadata?: DocumentMapMap | undefined;
   /** List of actions which contain unsupported Datatypes. Check datatype.proto for more information. */
-  unsupportedActionNames?: StringList;
+  unsupportedActionNames?: StringList | undefined;
   /** List of action metadata. */
-  actions?: ActionList;
+  actions?: ActionList | undefined;
 }
 export type ListProjectsLocationsConnectionsEntityTypesViewEnum =
   | "ENTITY_TYPE_VIEW_UNSPECIFIED"
@@ -903,41 +903,41 @@ export type ListProjectsLocationsConnectionsEntityTypesViewEnum =
   | "ENTITY_TYPE_VIEW_FULL";
 export interface ListProjectsLocationsConnectionsEntityTypesRequest {
   /** Number of entity types to return. Defaults to 25. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection} */
   parent: string;
   /** Specifies which fields of the Entity Type are returned in the response. */
-  view?: ListProjectsLocationsConnectionsEntityTypesViewEnum | (string & {});
+  view?: ListProjectsLocationsConnectionsEntityTypesViewEnum | (string & {}) | undefined;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string;
+  "executionConfig.headers"?: string | undefined;
   /** Page token, return from a previous ListEntityTypes call, that can be used retrieve the next page of content. If unspecified, the request returns the first page of entity types. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type EntityTypeList = Array<EntityType>;
 /** Response message for EntityService.ListEntityTypes */
 export interface ListEntityTypesResponse {
   /** List of entity type names which contain unsupported Datatypes. Check datatype.proto for more information. */
-  unsupportedTypeNames?: StringList;
+  unsupportedTypeNames?: StringList | undefined;
   /** List of metadata related to all entity types. */
-  types?: EntityTypeList;
+  types?: EntityTypeList | undefined;
   /** Next page token if more entity types available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap;
+  metadata?: DocumentMapMap | undefined;
 }
 export interface ListProjectsLocationsConnectionsEntityTypesEntitiesRequest {
   /** Conditions to be used when listing entities. From a proto standpoint, There are no restrictions on what can be passed using this field. The connector documentation should have information about what format of filters/conditions are supported. */
-  conditions?: string;
+  conditions?: string | undefined;
   /** List of 'sort_by' columns to use when returning the results. */
-  sortBy?: StringList;
+  sortBy?: StringList | undefined;
   /** List of 'sort_order' columns to use when returning the results. */
-  sortOrder?: StringList;
+  sortOrder?: StringList | undefined;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string;
+  "executionConfig.headers"?: string | undefined;
   /** Page token value if available from a previous request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Number of entity rows to return. Defaults page size = 25. Max page size = 200. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type} */
   parent: string;
 }
@@ -945,160 +945,160 @@ export type EntityList = Array<Entity>;
 /** Response message for EntityService.ListEntities */
 export interface ListEntitiesResponse {
   /** Next page token if more records are available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List containing entity rows. */
-  entities?: EntityList;
+  entities?: EntityList | undefined;
   /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap;
+  metadata?: DocumentMapMap | undefined;
 }
 export interface ListProjectsLocationsConnectionsResourcesRequest {
   /** Required. Resource name of the connection. Format: projects/{project}/locations/{location}/connections/{connection} */
   parent: string;
   /** Optional. Page size for the request. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Page token for the request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string;
+  "executionConfig.headers"?: string | undefined;
 }
 export interface Resource {
   /** A description of what this resource represents. */
-  description?: string;
+  description?: string | undefined;
   /** The size of the raw resource content, in bytes, if known. */
-  size?: string;
+  size?: string | undefined;
   /** The MIME type of this resource, if known. */
-  mimeType?: string;
+  mimeType?: string | undefined;
   /** The URI of this resource. */
-  uri?: string;
+  uri?: string | undefined;
   /** A human-readable name for this resource. */
-  name?: string;
+  name?: string | undefined;
   /** Metadata for the resource. */
-  _meta?: DocumentMap;
+  _meta?: DocumentMap | undefined;
 }
 export type ResourceList = Array<Resource>;
 export interface ListResourcesResponse {
   /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap;
+  metadata?: DocumentMapMap | undefined;
   /** List of available resources. */
-  resources?: ResourceList;
+  resources?: ResourceList | undefined;
   /** Next page token if more resources available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsConnectionsToolsRequest {
   /** Page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** List of tool names for selective tool fetching. */
-  toolNames?: StringList;
+  toolNames?: StringList | undefined;
   /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
   parent: string;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string;
+  "executionConfig.headers"?: string | undefined;
 }
 /** ToolAnnotations holds annotations for a tool. */
 export interface ToolAnnotations {
   /** If true, the tool may perform destructive updates to its environment. If false, the tool performs only additive updates. (This property is meaningful only when `read_only_hint == false`) */
-  destructiveHint?: boolean;
+  destructiveHint?: boolean | undefined;
   /** If true, the tool does not modify its environment. */
-  readOnlyHint?: boolean;
+  readOnlyHint?: boolean | undefined;
   /** If true, this tool may interact with an "open world" of external entities. If false, the tool's domain of interaction is closed. For example, the world of a web search tool is open, whereas that of a memory tool is not. */
-  openWorldHint?: boolean;
+  openWorldHint?: boolean | undefined;
   /** A human-readable title for the tool. */
-  title?: string;
+  title?: string | undefined;
   /** If true, calling the tool repeatedly with the same arguments will have no additional effect on the environment. (This property is meaningful only when `read_only_hint == false`) */
-  idempotentHint?: boolean;
+  idempotentHint?: boolean | undefined;
 }
 /** Message representing a single tool. */
 export interface Tool {
   /** Description of the tool. */
-  description?: string;
+  description?: string | undefined;
   /** Metadata for the tool. */
-  _meta?: DocumentMap;
+  _meta?: DocumentMap | undefined;
   /** Name of the tool. */
-  name?: string;
+  name?: string | undefined;
   /** Annotations for the tool. */
-  annotations?: ToolAnnotations;
+  annotations?: ToolAnnotations | undefined;
   /** List of tool names that this tool depends on. */
-  dependsOn?: StringList;
+  dependsOn?: StringList | undefined;
   /** JSON schema for the output of the tool. */
-  outputSchema?: JsonSchema;
+  outputSchema?: JsonSchema | undefined;
   /** JSON schema for the input parameters of the tool. */
-  inputSchema?: JsonSchema;
+  inputSchema?: JsonSchema | undefined;
 }
 export type ToolList = Array<Tool>;
 /** Response message for ConnectorAgentService.ListTools */
 export interface ListToolsResponse {
   /** List of available tools. */
-  tools?: ToolList;
+  tools?: ToolList | undefined;
   /** Next page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap;
+  metadata?: DocumentMapMap | undefined;
 }
 export interface PatchProjectsLocationsConnectionsEntityTypesEntitiesRequest {
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string;
+  "executionConfig.headers"?: string | undefined;
   /** Output only. Resource name of the Entity. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type}/entities/{id} */
   name: string;
   /** Request body */
-  body?: Entity;
+  body?: Entity | undefined;
 }
 /** RefreshAccessTokenRequest includes the refresh token. */
 export interface RefreshAccessTokenRequest {
   /** Optional. Refresh Token String. If the Refresh Token is not provided, the runtime will read the data from the secret manager. */
-  refreshToken?: string;
+  refreshToken?: string | undefined;
   /** ExecutionConfig contains the configuration for the execution of the request. */
-  executionConfig?: ExecutionConfig;
+  executionConfig?: ExecutionConfig | undefined;
   /** OAuth2Config contains the OAuth2 config for the connection. */
-  oauth2Config?: OAuth2Config;
+  oauth2Config?: OAuth2Config | undefined;
 }
 export interface RefreshAccessTokenProjectsLocationsConnectionsRequest {
   name: string;
   /** Request body */
-  body?: RefreshAccessTokenRequest;
+  body?: RefreshAccessTokenRequest | undefined;
 }
 /** RefreshAccessTokenResponse includes the returned access token and its associated credentials. */
 export interface RefreshAccessTokenResponse {
-  accessCredentials?: AccessCredentials;
+  accessCredentials?: AccessCredentials | undefined;
   /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap;
+  metadata?: DocumentMapMap | undefined;
 }
 /** Request message for ConnectorAgentService.ListToolsPost */
 export interface ListToolsPostRequest {
   /** Page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** List of tool names to for selective tool fetching. */
-  toolNames?: StringList;
+  toolNames?: StringList | undefined;
   /** List of tool specifications. */
-  toolSpec?: ToolSpec;
+  toolSpec?: ToolSpec | undefined;
   /** execution config for the request. */
-  executionConfig?: ExecutionConfig;
+  executionConfig?: ExecutionConfig | undefined;
   /** Page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface ToolsProjectsLocationsConnectionsRequest {
   /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
   parent: string;
   /** Request body */
-  body?: ListToolsPostRequest;
+  body?: ListToolsPostRequest | undefined;
 }
 export interface UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesRequest {
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type} */
   entityType: string;
   /** Required. Conditions to be used when updating entities. From a proto standpoint, There are no restrictions on what can be passed using this field. The connector documentation should have information about what format of filters/conditions are supported. Note: If this conditions field is left empty, an exception is thrown. We don't want to consider 'empty conditions' to be a match-all case. Connector developers can determine and document what a match-all case constraint would be. */
-  conditions?: string;
+  conditions?: string | undefined;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string;
+  "executionConfig.headers"?: string | undefined;
   /** Request body */
-  body?: Entity;
+  body?: Entity | undefined;
 }
 /** Response message for EntityService.UpdateEntitiesWithConditions */
 export interface UpdateEntitiesWithConditionsResponse {
   /** Response returned by the external system. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap;
+  metadata?: DocumentMapMap | undefined;
 }
 export type CheckReadinessProjectsLocationsConnectionsError = NotFound | Forbidden | GcpOpError;
 /** Reports readiness status of the connector. Similar logic to GetStatus but modified for kubernetes health check to understand. */

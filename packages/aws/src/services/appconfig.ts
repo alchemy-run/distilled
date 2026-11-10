@@ -161,14 +161,14 @@ export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateApplicationRequest {
   Name: string;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type Id = string;
 export interface Application {
-  Id?: string;
-  Name?: string;
-  Description?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export type LongName = string;
 export type Uri = string;
@@ -185,26 +185,26 @@ export type KmsKeyIdentifier = string;
 export interface CreateConfigurationProfileRequest {
   ApplicationId: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   LocationUri: string;
-  RetrievalRoleArn?: string;
-  Validators?: Validator[];
-  Tags?: { [key: string]: string | undefined };
-  Type?: string;
-  KmsKeyIdentifier?: string;
+  RetrievalRoleArn?: string | undefined;
+  Validators?: Validator[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Type?: string | undefined;
+  KmsKeyIdentifier?: string | undefined;
 }
 export type Arn = string;
 export interface ConfigurationProfile {
-  ApplicationId?: string;
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  LocationUri?: string;
-  RetrievalRoleArn?: string;
-  Validators?: Validator[];
-  Type?: string;
-  KmsKeyArn?: string;
-  KmsKeyIdentifier?: string;
+  ApplicationId?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  LocationUri?: string | undefined;
+  RetrievalRoleArn?: string | undefined;
+  Validators?: Validator[] | undefined;
+  Type?: string | undefined;
+  KmsKeyArn?: string | undefined;
+  KmsKeyIdentifier?: string | undefined;
 }
 export type MinutesBetween0And24Hours = number;
 export type GrowthFactor = number;
@@ -212,37 +212,37 @@ export type GrowthType = "LINEAR" | "EXPONENTIAL" | (string & {});
 export type ReplicateTo = "NONE" | "SSM_DOCUMENT" | (string & {});
 export interface CreateDeploymentStrategyRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   DeploymentDurationInMinutes: number;
-  FinalBakeTimeInMinutes?: number;
+  FinalBakeTimeInMinutes?: number | undefined;
   GrowthFactor: number;
-  GrowthType?: GrowthType;
-  ReplicateTo?: ReplicateTo;
-  Tags?: { [key: string]: string | undefined };
+  GrowthType?: GrowthType | undefined;
+  ReplicateTo?: ReplicateTo | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type Percentage = number;
 export interface DeploymentStrategy {
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  DeploymentDurationInMinutes?: number;
-  GrowthType?: GrowthType;
-  GrowthFactor?: number;
-  FinalBakeTimeInMinutes?: number;
-  ReplicateTo?: ReplicateTo;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  DeploymentDurationInMinutes?: number | undefined;
+  GrowthType?: GrowthType | undefined;
+  GrowthFactor?: number | undefined;
+  FinalBakeTimeInMinutes?: number | undefined;
+  ReplicateTo?: ReplicateTo | undefined;
 }
 export type StringWithLengthBetween1And2048 = string;
 export interface Monitor {
   AlarmArn: string;
-  AlarmRoleArn?: string;
+  AlarmRoleArn?: string | undefined;
 }
 export type MonitorList = Monitor[];
 export interface CreateEnvironmentRequest {
   ApplicationId: string;
   Name: string;
-  Description?: string;
-  Monitors?: Monitor[];
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  Monitors?: Monitor[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type EnvironmentState =
   | "READY_FOR_DEPLOYMENT"
@@ -252,12 +252,12 @@ export type EnvironmentState =
   | "REVERTED"
   | (string & {});
 export interface Environment {
-  ApplicationId?: string;
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  State?: EnvironmentState;
-  Monitors?: Monitor[];
+  ApplicationId?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  State?: EnvironmentState | undefined;
+  Monitors?: Monitor[] | undefined;
 }
 export type Identifier = string;
 export type NameWithReservedAwsPrefix = string;
@@ -270,47 +270,47 @@ export type NumberList = number[];
 export type AttributeValue =
   | {
       StringValue: string;
-      NumberValue?: never;
-      BooleanValue?: never;
-      StringArray?: never;
-      NumberArray?: never;
+      NumberValue?: undefined;
+      BooleanValue?: undefined;
+      StringArray?: undefined;
+      NumberArray?: undefined;
     }
   | {
-      StringValue?: never;
+      StringValue?: undefined;
       NumberValue: number;
-      BooleanValue?: never;
-      StringArray?: never;
-      NumberArray?: never;
+      BooleanValue?: undefined;
+      StringArray?: undefined;
+      NumberArray?: undefined;
     }
   | {
-      StringValue?: never;
-      NumberValue?: never;
+      StringValue?: undefined;
+      NumberValue?: undefined;
       BooleanValue: boolean;
-      StringArray?: never;
-      NumberArray?: never;
+      StringArray?: undefined;
+      NumberArray?: undefined;
     }
   | {
-      StringValue?: never;
-      NumberValue?: never;
-      BooleanValue?: never;
+      StringValue?: undefined;
+      NumberValue?: undefined;
+      BooleanValue?: undefined;
       StringArray: string[];
-      NumberArray?: never;
+      NumberArray?: undefined;
     }
   | {
-      StringValue?: never;
-      NumberValue?: never;
-      BooleanValue?: never;
-      StringArray?: never;
+      StringValue?: undefined;
+      NumberValue?: undefined;
+      BooleanValue?: undefined;
+      StringArray?: undefined;
       NumberArray: number[];
     };
 export type AttributeValueMap = { [key: string]: AttributeValue | undefined };
 export interface FlagValue {
   Enabled: boolean;
-  AttributeValues?: { [key: string]: AttributeValue | undefined };
+  AttributeValues?: { [key: string]: AttributeValue | undefined } | undefined;
 }
 export interface TreatmentInput {
   Weight: number;
-  Description?: string;
+  Description?: string | undefined;
   FlagValue: FlagValue;
 }
 export type TreatmentInputList = TreatmentInput[];
@@ -324,38 +324,38 @@ export interface CreateExperimentDefinitionRequest {
   Treatments: TreatmentInput[];
   Control: TreatmentInput;
   AudienceRule: string;
-  Hypothesis?: string;
-  AudienceDescription?: string;
-  LaunchCriteria?: string;
-  Tags?: { [key: string]: string | undefined };
+  Hypothesis?: string | undefined;
+  AudienceDescription?: string | undefined;
+  LaunchCriteria?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ExperimentDefinitionStatus = "ACTIVE" | "IDLE" | "ARCHIVED" | (string & {});
 export type TreatmentKey = string;
 export interface Treatment {
-  Key?: string;
+  Key?: string | undefined;
   Weight: number;
-  Description?: string;
+  Description?: string | undefined;
   FlagValue: FlagValue;
 }
 export type TreatmentList = Treatment[];
 export type Iso8601DateTime = Date;
 export interface ExperimentDefinition {
-  ApplicationId?: string;
-  Id?: string;
-  Name?: string;
-  Hypothesis?: string;
-  Status?: ExperimentDefinitionStatus;
-  ConfigurationProfileId?: string;
-  EnvironmentId?: string;
-  FlagKey?: string;
-  AudienceRule?: string;
-  AudienceDescription?: string;
-  LaunchCriteria?: string;
-  Treatments?: Treatment[];
-  Control?: Treatment;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  KmsKeyIdentifier?: string;
+  ApplicationId?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Hypothesis?: string | undefined;
+  Status?: ExperimentDefinitionStatus | undefined;
+  ConfigurationProfileId?: string | undefined;
+  EnvironmentId?: string | undefined;
+  FlagKey?: string | undefined;
+  AudienceRule?: string | undefined;
+  AudienceDescription?: string | undefined;
+  LaunchCriteria?: string | undefined;
+  Treatments?: Treatment[] | undefined;
+  Control?: Treatment | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  KmsKeyIdentifier?: string | undefined;
 }
 export type ExtensionOrParameterName = string;
 export type ActionPoint =
@@ -369,72 +369,72 @@ export type ActionPoint =
   | "ON_DEPLOYMENT_ROLLED_BACK"
   | (string & {});
 export interface Action {
-  Name?: string;
-  Description?: string;
-  Uri?: string;
-  RoleArn?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Uri?: string | undefined;
+  RoleArn?: string | undefined;
 }
 export type ActionList = Action[];
-export type ActionsMap = { [key in ActionPoint]?: Action[] };
+export type ActionsMap = { [key in ActionPoint]?: Action[] | undefined };
 export interface Parameter {
-  Description?: string;
-  Required?: boolean;
-  Dynamic?: boolean;
+  Description?: string | undefined;
+  Required?: boolean | undefined;
+  Dynamic?: boolean | undefined;
 }
 export type ParameterMap = { [key: string]: Parameter | undefined };
 export interface CreateExtensionRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Actions: { [key: string]: Action[] | undefined };
-  Parameters?: { [key: string]: Parameter | undefined };
-  Tags?: { [key: string]: string | undefined };
-  LatestVersionNumber?: number;
+  Parameters?: { [key: string]: Parameter | undefined } | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  LatestVersionNumber?: number | undefined;
 }
 export interface Extension {
-  Id?: string;
-  Name?: string;
-  VersionNumber?: number;
-  Arn?: string;
-  Description?: string;
-  Actions?: { [key: string]: Action[] | undefined };
-  Parameters?: { [key: string]: Parameter | undefined };
+  Id?: string | undefined;
+  Name?: string | undefined;
+  VersionNumber?: number | undefined;
+  Arn?: string | undefined;
+  Description?: string | undefined;
+  Actions?: { [key: string]: Action[] | undefined } | undefined;
+  Parameters?: { [key: string]: Parameter | undefined } | undefined;
 }
 export type ParameterValueMap = { [key: string]: string | undefined };
 export interface CreateExtensionAssociationRequest {
   ExtensionIdentifier: string;
-  ExtensionVersionNumber?: number;
+  ExtensionVersionNumber?: number | undefined;
   ResourceIdentifier: string;
-  Parameters?: { [key: string]: string | undefined };
-  Tags?: { [key: string]: string | undefined };
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ExtensionAssociation {
-  Id?: string;
-  ExtensionArn?: string;
-  ResourceArn?: string;
-  Arn?: string;
-  Parameters?: { [key: string]: string | undefined };
-  ExtensionVersionNumber?: number;
+  Id?: string | undefined;
+  ExtensionArn?: string | undefined;
+  ResourceArn?: string | undefined;
+  Arn?: string | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  ExtensionVersionNumber?: number | undefined;
 }
 export type StringWithLengthBetween1And255 = string;
 export type VersionLabel = string;
 export interface CreateHostedConfigurationVersionRequest {
   ApplicationId: string;
   ConfigurationProfileId: string;
-  Description?: string;
+  Description?: string | undefined;
   Content: T.StreamingInputBody;
   ContentType: string;
-  LatestVersionNumber?: number;
-  VersionLabel?: string;
+  LatestVersionNumber?: number | undefined;
+  VersionLabel?: string | undefined;
 }
 export interface HostedConfigurationVersion {
-  ApplicationId?: string;
-  ConfigurationProfileId?: string;
-  VersionNumber?: number;
-  Description?: string;
-  Content?: T.StreamingOutputBody;
-  ContentType?: string;
-  VersionLabel?: string;
-  KmsKeyArn?: string;
+  ApplicationId?: string | undefined;
+  ConfigurationProfileId?: string | undefined;
+  VersionNumber?: number | undefined;
+  Description?: string | undefined;
+  Content?: T.StreamingOutputBody | undefined;
+  ContentType?: string | undefined;
+  VersionLabel?: string | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export interface DeleteApplicationRequest {
   ApplicationId: string;
@@ -444,7 +444,7 @@ export type DeletionProtectionCheck = "ACCOUNT_DEFAULT" | "APPLY" | "BYPASS" | (
 export interface DeleteConfigurationProfileRequest {
   ApplicationId: string;
   ConfigurationProfileId: string;
-  DeletionProtectionCheck?: DeletionProtectionCheck;
+  DeletionProtectionCheck?: DeletionProtectionCheck | undefined;
 }
 export interface DeleteConfigurationProfileResponse {}
 export type DeploymentStrategyId = string;
@@ -455,19 +455,19 @@ export interface DeleteDeploymentStrategyResponse {}
 export interface DeleteEnvironmentRequest {
   EnvironmentId: string;
   ApplicationId: string;
-  DeletionProtectionCheck?: DeletionProtectionCheck;
+  DeletionProtectionCheck?: DeletionProtectionCheck | undefined;
 }
 export interface DeleteEnvironmentResponse {}
 export type DeleteType = "ARCHIVE" | "DESTROY" | (string & {});
 export interface DeleteExperimentDefinitionRequest {
   ApplicationIdentifier: string;
   ExperimentDefinitionIdentifier: string;
-  DeleteType?: DeleteType;
+  DeleteType?: DeleteType | undefined;
 }
 export interface DeleteExperimentDefinitionResponse {}
 export interface DeleteExtensionRequest {
   ExtensionIdentifier: string;
-  VersionNumber?: number;
+  VersionNumber?: number | undefined;
 }
 export interface DeleteExtensionResponse {}
 export interface DeleteExtensionAssociationRequest {
@@ -483,15 +483,15 @@ export interface DeleteHostedConfigurationVersionResponse {}
 export interface GetAccountSettingsRequest {}
 export type DeletionProtectionDuration = number;
 export interface DeletionProtectionSettings {
-  Enabled?: boolean;
-  ProtectionPeriodInMinutes?: number;
+  Enabled?: boolean | undefined;
+  ProtectionPeriodInMinutes?: number | undefined;
 }
 export interface VendedMetricsSettings {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface AccountSettings {
-  DeletionProtection?: DeletionProtectionSettings;
-  VendedMetrics?: VendedMetricsSettings;
+  DeletionProtection?: DeletionProtectionSettings | undefined;
+  VendedMetrics?: VendedMetricsSettings | undefined;
 }
 export interface GetApplicationRequest {
   ApplicationId: string;
@@ -503,12 +503,12 @@ export interface GetConfigurationRequest {
   Environment: string;
   Configuration: string;
   ClientId: string;
-  ClientConfigurationVersion?: string;
+  ClientConfigurationVersion?: string | undefined;
 }
 export interface Configuration {
-  Content?: T.StreamingOutputBody;
-  ConfigurationVersion?: string;
-  ContentType?: string;
+  Content?: T.StreamingOutputBody | undefined;
+  ConfigurationVersion?: string | undefined;
+  ContentType?: string | undefined;
 }
 export interface GetConfigurationProfileRequest {
   ApplicationId: string;
@@ -544,53 +544,53 @@ export type TriggeredBy =
   | "INTERNAL_ERROR"
   | (string & {});
 export interface ActionInvocation {
-  ExtensionIdentifier?: string;
-  ActionName?: string;
-  Uri?: string;
-  RoleArn?: string;
-  ErrorMessage?: string;
-  ErrorCode?: string;
-  InvocationId?: string;
+  ExtensionIdentifier?: string | undefined;
+  ActionName?: string | undefined;
+  Uri?: string | undefined;
+  RoleArn?: string | undefined;
+  ErrorMessage?: string | undefined;
+  ErrorCode?: string | undefined;
+  InvocationId?: string | undefined;
 }
 export type ActionInvocations = ActionInvocation[];
 export interface DeploymentEvent {
-  EventType?: DeploymentEventType;
-  TriggeredBy?: TriggeredBy;
-  Description?: string;
-  ActionInvocations?: ActionInvocation[];
-  OccurredAt?: Date;
+  EventType?: DeploymentEventType | undefined;
+  TriggeredBy?: TriggeredBy | undefined;
+  Description?: string | undefined;
+  ActionInvocations?: ActionInvocation[] | undefined;
+  OccurredAt?: Date | undefined;
 }
 export type DeploymentEvents = DeploymentEvent[];
 export interface AppliedExtension {
-  ExtensionId?: string;
-  ExtensionAssociationId?: string;
-  VersionNumber?: number;
-  Parameters?: { [key: string]: string | undefined };
+  ExtensionId?: string | undefined;
+  ExtensionAssociationId?: string | undefined;
+  VersionNumber?: number | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
 }
 export type AppliedExtensions = AppliedExtension[];
 export interface Deployment {
-  ApplicationId?: string;
-  EnvironmentId?: string;
-  DeploymentStrategyId?: string;
-  ConfigurationProfileId?: string;
-  DeploymentNumber?: number;
-  ConfigurationName?: string;
-  ConfigurationLocationUri?: string;
-  ConfigurationVersion?: string;
-  Description?: string;
-  DeploymentDurationInMinutes?: number;
-  GrowthType?: GrowthType;
-  GrowthFactor?: number;
-  FinalBakeTimeInMinutes?: number;
-  State?: DeploymentState;
-  EventLog?: DeploymentEvent[];
-  PercentageComplete?: number;
-  StartedAt?: Date;
-  CompletedAt?: Date;
-  AppliedExtensions?: AppliedExtension[];
-  KmsKeyArn?: string;
-  KmsKeyIdentifier?: string;
-  VersionLabel?: string;
+  ApplicationId?: string | undefined;
+  EnvironmentId?: string | undefined;
+  DeploymentStrategyId?: string | undefined;
+  ConfigurationProfileId?: string | undefined;
+  DeploymentNumber?: number | undefined;
+  ConfigurationName?: string | undefined;
+  ConfigurationLocationUri?: string | undefined;
+  ConfigurationVersion?: string | undefined;
+  Description?: string | undefined;
+  DeploymentDurationInMinutes?: number | undefined;
+  GrowthType?: GrowthType | undefined;
+  GrowthFactor?: number | undefined;
+  FinalBakeTimeInMinutes?: number | undefined;
+  State?: DeploymentState | undefined;
+  EventLog?: DeploymentEvent[] | undefined;
+  PercentageComplete?: number | undefined;
+  StartedAt?: Date | undefined;
+  CompletedAt?: Date | undefined;
+  AppliedExtensions?: AppliedExtension[] | undefined;
+  KmsKeyArn?: string | undefined;
+  KmsKeyIdentifier?: string | undefined;
+  VersionLabel?: string | undefined;
 }
 export interface GetDeploymentStrategyRequest {
   DeploymentStrategyId: string;
@@ -615,41 +615,41 @@ export type EntityId = string;
 export type TreatmentOverrideMap = { [key: string]: string | undefined };
 export type TreatmentOverrides = { Inline: { [key: string]: string | undefined } };
 export interface ExperimentRunResult {
-  ExecutiveSummary?: string;
-  ReasonsToLaunch?: string;
-  ReasonsNotToLaunch?: string;
+  ExecutiveSummary?: string | undefined;
+  ReasonsToLaunch?: string | undefined;
+  ReasonsNotToLaunch?: string | undefined;
 }
 export interface ExperimentDefinitionSnapshot {
-  ApplicationId?: string;
-  Id?: string;
-  Name?: string;
-  Hypothesis?: string;
-  ConfigurationProfileId?: string;
-  EnvironmentId?: string;
-  FlagKey?: string;
-  AudienceRule?: string;
-  AudienceDescription?: string;
-  LaunchCriteria?: string;
-  Treatments?: Treatment[];
-  Control?: Treatment;
+  ApplicationId?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Hypothesis?: string | undefined;
+  ConfigurationProfileId?: string | undefined;
+  EnvironmentId?: string | undefined;
+  FlagKey?: string | undefined;
+  AudienceRule?: string | undefined;
+  AudienceDescription?: string | undefined;
+  LaunchCriteria?: string | undefined;
+  Treatments?: Treatment[] | undefined;
+  Control?: Treatment | undefined;
 }
 export interface ExperimentRun {
-  ApplicationId?: string;
-  ExperimentDefinitionId?: string;
-  Run?: number;
-  Description?: string;
-  Status?: ExperimentRunStatus;
-  ExposurePercentage?: number;
-  TreatmentOverrides?: TreatmentOverrides;
-  Result?: ExperimentRunResult;
-  StartedAt?: Date;
-  UpdatedAt?: Date;
-  EndedAt?: Date;
-  ExperimentDefinitionSnapshot?: ExperimentDefinitionSnapshot;
+  ApplicationId?: string | undefined;
+  ExperimentDefinitionId?: string | undefined;
+  Run?: number | undefined;
+  Description?: string | undefined;
+  Status?: ExperimentRunStatus | undefined;
+  ExposurePercentage?: number | undefined;
+  TreatmentOverrides?: TreatmentOverrides | undefined;
+  Result?: ExperimentRunResult | undefined;
+  StartedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  EndedAt?: Date | undefined;
+  ExperimentDefinitionSnapshot?: ExperimentDefinitionSnapshot | undefined;
 }
 export interface GetExtensionRequest {
   ExtensionIdentifier: string;
-  VersionNumber?: number;
+  VersionNumber?: number | undefined;
 }
 export interface GetExtensionAssociationRequest {
   ExtensionAssociationId: string;
@@ -662,112 +662,112 @@ export interface GetHostedConfigurationVersionRequest {
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListApplicationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ApplicationList = Application[];
 export interface Applications {
-  Items?: Application[];
-  NextToken?: string;
+  Items?: Application[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListConfigurationProfilesRequest {
   ApplicationId: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Type?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Type?: string | undefined;
 }
 export type ValidatorTypeList = ValidatorType[];
 export interface ConfigurationProfileSummary {
-  ApplicationId?: string;
-  Id?: string;
-  Name?: string;
-  LocationUri?: string;
-  ValidatorTypes?: ValidatorType[];
-  Type?: string;
+  ApplicationId?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  LocationUri?: string | undefined;
+  ValidatorTypes?: ValidatorType[] | undefined;
+  Type?: string | undefined;
 }
 export type ConfigurationProfileSummaryList = ConfigurationProfileSummary[];
 export interface ConfigurationProfiles {
-  Items?: ConfigurationProfileSummary[];
-  NextToken?: string;
+  Items?: ConfigurationProfileSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDeploymentsRequest {
   ApplicationId: string;
   EnvironmentId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type DeploymentType = "USER" | "MANAGED" | (string & {});
 export interface DeploymentSummary {
-  DeploymentNumber?: number;
-  ConfigurationProfileId?: string;
-  ConfigurationName?: string;
-  ConfigurationVersion?: string;
-  DeploymentDurationInMinutes?: number;
-  GrowthType?: GrowthType;
-  GrowthFactor?: number;
-  FinalBakeTimeInMinutes?: number;
-  State?: DeploymentState;
-  PercentageComplete?: number;
-  StartedAt?: Date;
-  CompletedAt?: Date;
-  VersionLabel?: string;
-  Type?: DeploymentType;
+  DeploymentNumber?: number | undefined;
+  ConfigurationProfileId?: string | undefined;
+  ConfigurationName?: string | undefined;
+  ConfigurationVersion?: string | undefined;
+  DeploymentDurationInMinutes?: number | undefined;
+  GrowthType?: GrowthType | undefined;
+  GrowthFactor?: number | undefined;
+  FinalBakeTimeInMinutes?: number | undefined;
+  State?: DeploymentState | undefined;
+  PercentageComplete?: number | undefined;
+  StartedAt?: Date | undefined;
+  CompletedAt?: Date | undefined;
+  VersionLabel?: string | undefined;
+  Type?: DeploymentType | undefined;
 }
 export type DeploymentList = DeploymentSummary[];
 export interface Deployments {
-  Items?: DeploymentSummary[];
-  NextToken?: string;
+  Items?: DeploymentSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDeploymentStrategiesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type DeploymentStrategyList = DeploymentStrategy[];
 export interface DeploymentStrategies {
-  Items?: DeploymentStrategy[];
-  NextToken?: string;
+  Items?: DeploymentStrategy[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListEnvironmentsRequest {
   ApplicationId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type EnvironmentList = Environment[];
 export interface Environments {
-  Items?: Environment[];
-  NextToken?: string;
+  Items?: Environment[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListExperimentDefinitionsRequest {
-  ApplicationIdentifier?: string;
-  ConfigurationProfileIdentifier?: string;
-  EnvironmentIdentifier?: string;
-  Status?: ExperimentDefinitionStatus;
-  MaxResults?: number;
-  NextToken?: string;
+  ApplicationIdentifier?: string | undefined;
+  ConfigurationProfileIdentifier?: string | undefined;
+  EnvironmentIdentifier?: string | undefined;
+  Status?: ExperimentDefinitionStatus | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ExperimentDefinitionSummary {
-  ApplicationId?: string;
-  Id?: string;
-  Name?: string;
-  Hypothesis?: string;
-  Status?: ExperimentDefinitionStatus;
-  ConfigurationProfileId?: string;
-  EnvironmentId?: string;
-  FlagKey?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  ApplicationId?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Hypothesis?: string | undefined;
+  Status?: ExperimentDefinitionStatus | undefined;
+  ConfigurationProfileId?: string | undefined;
+  EnvironmentId?: string | undefined;
+  FlagKey?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type ExperimentDefinitionList = ExperimentDefinitionSummary[];
 export interface ExperimentDefinitions {
-  Items?: ExperimentDefinitionSummary[];
-  NextToken?: string;
+  Items?: ExperimentDefinitionSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListExperimentRunEventsRequest {
   ApplicationIdentifier: string;
   ExperimentDefinitionIdentifier: string;
   Run: number;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ExperimentRunEventType =
   | "RUN_STARTED"
@@ -776,101 +776,101 @@ export type ExperimentRunEventType =
   | "RUN_STOPPED"
   | (string & {});
 export interface ExperimentRunEvent {
-  Description?: string;
-  AssociatedDeployment?: string;
-  EventType?: ExperimentRunEventType;
-  OccurredAt?: Date;
-  TriggeredBy?: TriggeredBy;
-  ExposurePercentage?: number;
-  TreatmentOverrides?: TreatmentOverrides;
+  Description?: string | undefined;
+  AssociatedDeployment?: string | undefined;
+  EventType?: ExperimentRunEventType | undefined;
+  OccurredAt?: Date | undefined;
+  TriggeredBy?: TriggeredBy | undefined;
+  ExposurePercentage?: number | undefined;
+  TreatmentOverrides?: TreatmentOverrides | undefined;
 }
 export type ExperimentRunEventList = ExperimentRunEvent[];
 export interface ExperimentRunEvents {
-  Items?: ExperimentRunEvent[];
-  NextToken?: string;
+  Items?: ExperimentRunEvent[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListExperimentRunsRequest {
   ApplicationIdentifier: string;
   ExperimentDefinitionIdentifier: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Status?: ExperimentRunStatus;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Status?: ExperimentRunStatus | undefined;
 }
 export interface ExperimentRunSummary {
-  ExperimentDefinitionId?: string;
-  Run?: number;
-  Description?: string;
-  Status?: ExperimentRunStatus;
-  StartedAt?: Date;
-  UpdatedAt?: Date;
-  EndedAt?: Date;
+  ExperimentDefinitionId?: string | undefined;
+  Run?: number | undefined;
+  Description?: string | undefined;
+  Status?: ExperimentRunStatus | undefined;
+  StartedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  EndedAt?: Date | undefined;
 }
 export type ExperimentRunSummaryList = ExperimentRunSummary[];
 export interface ExperimentRuns {
-  Items?: ExperimentRunSummary[];
-  NextToken?: string;
+  Items?: ExperimentRunSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListExtensionAssociationsRequest {
-  ResourceIdentifier?: string;
-  ExtensionIdentifier?: string;
-  ExtensionVersionNumber?: number;
-  MaxResults?: number;
-  NextToken?: string;
+  ResourceIdentifier?: string | undefined;
+  ExtensionIdentifier?: string | undefined;
+  ExtensionVersionNumber?: number | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ExtensionAssociationSummary {
-  Id?: string;
-  ExtensionArn?: string;
-  ResourceArn?: string;
+  Id?: string | undefined;
+  ExtensionArn?: string | undefined;
+  ResourceArn?: string | undefined;
 }
 export type ExtensionAssociationSummaries = ExtensionAssociationSummary[];
 export interface ExtensionAssociations {
-  Items?: ExtensionAssociationSummary[];
-  NextToken?: string;
+  Items?: ExtensionAssociationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type QueryName = string;
 export interface ListExtensionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Name?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Name?: string | undefined;
 }
 export interface ExtensionSummary {
-  Id?: string;
-  Name?: string;
-  VersionNumber?: number;
-  Arn?: string;
-  Description?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  VersionNumber?: number | undefined;
+  Arn?: string | undefined;
+  Description?: string | undefined;
 }
 export type ExtensionSummaries = ExtensionSummary[];
 export interface Extensions {
-  Items?: ExtensionSummary[];
-  NextToken?: string;
+  Items?: ExtensionSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListHostedConfigurationVersionsRequest {
   ApplicationId: string;
   ConfigurationProfileId: string;
-  MaxResults?: number;
-  NextToken?: string;
-  VersionLabel?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  VersionLabel?: string | undefined;
 }
 export interface HostedConfigurationVersionSummary {
-  ApplicationId?: string;
-  ConfigurationProfileId?: string;
-  VersionNumber?: number;
-  Description?: string;
-  ContentType?: string;
-  VersionLabel?: string;
-  KmsKeyArn?: string;
+  ApplicationId?: string | undefined;
+  ConfigurationProfileId?: string | undefined;
+  VersionNumber?: number | undefined;
+  Description?: string | undefined;
+  ContentType?: string | undefined;
+  VersionLabel?: string | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export type HostedConfigurationVersionSummaryList = HostedConfigurationVersionSummary[];
 export interface HostedConfigurationVersions {
-  Items?: HostedConfigurationVersionSummary[];
-  NextToken?: string;
+  Items?: HostedConfigurationVersionSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ResourceTags {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DynamicParameterKey = string;
 export type DynamicParameterMap = { [key: string]: string | undefined };
@@ -880,37 +880,37 @@ export interface StartDeploymentRequest {
   DeploymentStrategyId: string;
   ConfigurationProfileId: string;
   ConfigurationVersion: string;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
-  KmsKeyIdentifier?: string;
-  DynamicExtensionParameters?: { [key: string]: string | undefined };
-  LatestDeploymentNumber?: number;
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  KmsKeyIdentifier?: string | undefined;
+  DynamicExtensionParameters?: { [key: string]: string | undefined } | undefined;
+  LatestDeploymentNumber?: number | undefined;
 }
 export interface DeploymentParameters {
-  DynamicExtensionParameters?: { [key: string]: string | undefined };
-  Tags?: { [key: string]: string | undefined };
+  DynamicExtensionParameters?: { [key: string]: string | undefined } | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartExperimentRunRequest {
   ApplicationIdentifier: string;
   ExperimentDefinitionIdentifier: string;
-  Description?: string;
-  ExposurePercentage?: number;
-  TreatmentOverrides?: TreatmentOverrides;
-  Tags?: { [key: string]: string | undefined };
-  DeploymentParameters?: DeploymentParameters;
+  Description?: string | undefined;
+  ExposurePercentage?: number | undefined;
+  TreatmentOverrides?: TreatmentOverrides | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  DeploymentParameters?: DeploymentParameters | undefined;
 }
 export interface StopDeploymentRequest {
   ApplicationId: string;
   EnvironmentId: string;
   DeploymentNumber: number;
-  AllowRevert?: boolean;
+  AllowRevert?: boolean | undefined;
 }
 export interface StopExperimentRunRequest {
   ApplicationIdentifier: string;
   ExperimentDefinitionIdentifier: string;
   Run: number;
-  Result?: ExperimentRunResult;
-  DeploymentParameters?: DeploymentParameters;
+  Result?: ExperimentRunResult | undefined;
+  DeploymentParameters?: DeploymentParameters | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -924,68 +924,68 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {}
 export interface UpdateAccountSettingsRequest {
-  DeletionProtection?: DeletionProtectionSettings;
-  VendedMetrics?: VendedMetricsSettings;
+  DeletionProtection?: DeletionProtectionSettings | undefined;
+  VendedMetrics?: VendedMetricsSettings | undefined;
 }
 export interface UpdateApplicationRequest {
   ApplicationId: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export type KmsKeyIdentifierOrEmpty = string;
 export interface UpdateConfigurationProfileRequest {
   ApplicationId: string;
   ConfigurationProfileId: string;
-  Name?: string;
-  Description?: string;
-  RetrievalRoleArn?: string;
-  Validators?: Validator[];
-  KmsKeyIdentifier?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  RetrievalRoleArn?: string | undefined;
+  Validators?: Validator[] | undefined;
+  KmsKeyIdentifier?: string | undefined;
 }
 export interface UpdateDeploymentStrategyRequest {
   DeploymentStrategyId: string;
-  Description?: string;
-  DeploymentDurationInMinutes?: number;
-  FinalBakeTimeInMinutes?: number;
-  GrowthFactor?: number;
-  GrowthType?: GrowthType;
+  Description?: string | undefined;
+  DeploymentDurationInMinutes?: number | undefined;
+  FinalBakeTimeInMinutes?: number | undefined;
+  GrowthFactor?: number | undefined;
+  GrowthType?: GrowthType | undefined;
 }
 export interface UpdateEnvironmentRequest {
   ApplicationId: string;
   EnvironmentId: string;
-  Name?: string;
-  Description?: string;
-  Monitors?: Monitor[];
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Monitors?: Monitor[] | undefined;
 }
 export interface UpdateExperimentDefinitionRequest {
   ApplicationIdentifier: string;
   ExperimentDefinitionIdentifier: string;
-  Treatments?: TreatmentInput[];
-  Control?: TreatmentInput;
-  Hypothesis?: string;
-  AudienceRule?: string;
-  AudienceDescription?: string;
-  LaunchCriteria?: string;
+  Treatments?: TreatmentInput[] | undefined;
+  Control?: TreatmentInput | undefined;
+  Hypothesis?: string | undefined;
+  AudienceRule?: string | undefined;
+  AudienceDescription?: string | undefined;
+  LaunchCriteria?: string | undefined;
 }
 export interface UpdateExperimentRunRequest {
   ApplicationIdentifier: string;
   ExperimentDefinitionIdentifier: string;
   Run: number;
-  Description?: string;
-  ExposurePercentage?: number;
-  TreatmentOverrides?: TreatmentOverrides;
-  DeploymentParameters?: DeploymentParameters;
+  Description?: string | undefined;
+  ExposurePercentage?: number | undefined;
+  TreatmentOverrides?: TreatmentOverrides | undefined;
+  DeploymentParameters?: DeploymentParameters | undefined;
 }
 export interface UpdateExtensionRequest {
   ExtensionIdentifier: string;
-  Description?: string;
-  Actions?: { [key: string]: Action[] | undefined };
-  Parameters?: { [key: string]: Parameter | undefined };
-  VersionNumber?: number;
+  Description?: string | undefined;
+  Actions?: { [key: string]: Action[] | undefined } | undefined;
+  Parameters?: { [key: string]: Parameter | undefined } | undefined;
+  VersionNumber?: number | undefined;
 }
 export interface UpdateExtensionAssociationRequest {
   ExtensionAssociationId: string;
-  Parameters?: { [key: string]: string | undefined };
+  Parameters?: { [key: string]: string | undefined } | undefined;
 }
 export interface ValidateConfigurationRequest {
   ApplicationId: string;
@@ -995,11 +995,11 @@ export interface ValidateConfigurationRequest {
 export interface ValidateConfigurationResponse {}
 export type BadRequestReason = "InvalidConfiguration" | (string & {});
 export interface InvalidConfigurationDetail {
-  Constraint?: string;
-  Location?: string;
-  Reason?: string;
-  Type?: string;
-  Value?: string;
+  Constraint?: string | undefined;
+  Location?: string | undefined;
+  Reason?: string | undefined;
+  Type?: string | undefined;
+  Value?: string | undefined;
 }
 export type InvalidConfigurationDetailList = InvalidConfigurationDetail[];
 export type BadRequestDetails = { InvalidConfiguration: InvalidConfigurationDetail[] };

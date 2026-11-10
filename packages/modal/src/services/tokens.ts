@@ -40,7 +40,7 @@ export interface ListTokensResponseToken {
   identityProviderType: IdentityProviderType;
   memberAvatarUrl: string;
   name: string;
-  expiresAt?: number;
+  expiresAt?: number | undefined;
 }
 export type ListTokensResponseTokenList = Array<ListTokensResponseToken>;
 export interface ListTokensResponse {

@@ -28,33 +28,33 @@ const TELEMETRY = {
 
 export interface FullTextSearchDocsRequest {
   q: string;
-  limit?: number;
-  domain?: string;
+  limit?: number | undefined;
+  domain?: string | undefined;
 }
 export interface FullTextSearchDocsResponseHitsItemFormatted {
-  url?: string;
-  hierarchy_lvl0?: string;
-  hierarchy_lvl1?: string;
-  hierarchy_lvl2?: string;
-  hierarchy_lvl3?: string;
-  hierarchy_lvl4?: string;
-  hierarchy_lvl5?: string;
-  hierarchy_lvl6?: string;
-  content?: string;
-  anchor?: string;
+  url?: string | undefined;
+  hierarchy_lvl0?: string | undefined;
+  hierarchy_lvl1?: string | undefined;
+  hierarchy_lvl2?: string | undefined;
+  hierarchy_lvl3?: string | undefined;
+  hierarchy_lvl4?: string | undefined;
+  hierarchy_lvl5?: string | undefined;
+  hierarchy_lvl6?: string | undefined;
+  content?: string | undefined;
+  anchor?: string | undefined;
 }
 export interface FullTextSearchDocsResponseHitsItem {
   url: string;
-  hierarchy_lvl0?: string;
-  hierarchy_lvl1?: string;
-  hierarchy_lvl2?: string;
-  hierarchy_lvl3?: string;
-  hierarchy_lvl4?: string;
-  hierarchy_lvl5?: string;
-  hierarchy_lvl6?: string;
-  content?: string;
-  anchor?: string;
-  _formatted?: FullTextSearchDocsResponseHitsItemFormatted;
+  hierarchy_lvl0?: string | undefined;
+  hierarchy_lvl1?: string | undefined;
+  hierarchy_lvl2?: string | undefined;
+  hierarchy_lvl3?: string | undefined;
+  hierarchy_lvl4?: string | undefined;
+  hierarchy_lvl5?: string | undefined;
+  hierarchy_lvl6?: string | undefined;
+  content?: string | undefined;
+  anchor?: string | undefined;
+  _formatted?: FullTextSearchDocsResponseHitsItemFormatted | undefined;
 }
 export type FullTextSearchDocsResponseHitsList = Array<FullTextSearchDocsResponseHitsItem>;
 export interface FullTextSearchDocsResponse {
@@ -64,7 +64,7 @@ export interface ListDocsRequest {}
 export interface ListDocsResponseBodyItem {
   id: string;
   url: string;
-  category?: string;
+  category?: string | undefined;
 }
 export type ListDocsResponseBodyList = Array<ListDocsResponseBodyItem>;
 export type ListDocsResponse = ListDocsResponseBodyList;
@@ -132,8 +132,8 @@ export type SearchDocsRequestProduct =
   | "xet";
 export interface SearchDocsRequest {
   q: string;
-  product?: SearchDocsRequestProduct | (string & {});
-  limit?: number;
+  product?: SearchDocsRequestProduct | (string & {}) | undefined;
+  limit?: number | undefined;
 }
 export type SearchDocsResponseBodyItemVectorsEmbeddingsList = Array<number>;
 export interface SearchDocsResponseBodyItemVectors {
@@ -147,10 +147,10 @@ export interface SearchDocsResponseBodyItem {
   product: string;
   source_page_url: string;
   source_page_title: string;
-  heading2?: string;
-  heading3?: string;
-  heading4?: string;
-  heading5?: string;
+  heading2?: string | undefined;
+  heading3?: string | undefined;
+  heading4?: string | undefined;
+  heading5?: string | undefined;
 }
 export type SearchDocsResponseBodyList = Array<SearchDocsResponseBodyItem>;
 export type SearchDocsResponse = SearchDocsResponseBodyList;

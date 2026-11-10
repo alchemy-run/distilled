@@ -370,10 +370,10 @@ export type TopicTimeGranularity =
   | "YEAR"
   | (string & {});
 export interface AggFunction {
-  Aggregation?: AggType;
-  AggregationFunctionParameters?: { [key: string]: string | undefined };
-  Period?: TopicTimeGranularity;
-  PeriodField?: string;
+  Aggregation?: AggType | undefined;
+  AggregationFunctionParameters?: { [key: string]: string | undefined } | undefined;
+  Period?: TopicTimeGranularity | undefined;
+  PeriodField?: string | undefined;
 }
 export type OperandList = Identifier[];
 export type ComparisonMethodType =
@@ -389,9 +389,9 @@ export type ComparisonMethodType =
   | "MOVING_AVERAGE"
   | (string & {});
 export interface TopicIRComparisonMethod {
-  Type?: ComparisonMethodType;
-  Period?: TopicTimeGranularity;
-  WindowSize?: number;
+  Type?: ComparisonMethodType | undefined;
+  Period?: TopicTimeGranularity | undefined;
+  WindowSize?: number | undefined;
 }
 export type Expression = string | redacted.Redacted<string>;
 export type CalculatedFieldReferenceList = Identifier[];
@@ -415,50 +415,50 @@ export type NumberScale =
   | "CRORES"
   | (string & {});
 export interface NegativeFormat {
-  Prefix?: string;
-  Suffix?: string;
+  Prefix?: string | undefined;
+  Suffix?: string | undefined;
 }
 export interface DisplayFormatOptions {
-  UseBlankCellFormat?: boolean;
-  BlankCellFormat?: string;
-  DateFormat?: string;
-  DecimalSeparator?: TopicNumericSeparatorSymbol;
-  GroupingSeparator?: string;
-  UseGrouping?: boolean;
-  FractionDigits?: number;
-  Prefix?: string;
-  Suffix?: string;
-  UnitScaler?: NumberScale;
-  NegativeFormat?: NegativeFormat;
-  CurrencySymbol?: string;
+  UseBlankCellFormat?: boolean | undefined;
+  BlankCellFormat?: string | undefined;
+  DateFormat?: string | undefined;
+  DecimalSeparator?: TopicNumericSeparatorSymbol | undefined;
+  GroupingSeparator?: string | undefined;
+  UseGrouping?: boolean | undefined;
+  FractionDigits?: number | undefined;
+  Prefix?: string | undefined;
+  Suffix?: string | undefined;
+  UnitScaler?: NumberScale | undefined;
+  NegativeFormat?: NegativeFormat | undefined;
+  CurrencySymbol?: string | undefined;
 }
 export interface NamedEntityRef {
-  NamedEntityName?: string;
+  NamedEntityName?: string | undefined;
 }
 export interface TopicIRMetric {
-  MetricId?: Identifier;
-  Function?: AggFunction;
-  Operands?: Identifier[];
-  ComparisonMethod?: TopicIRComparisonMethod;
-  Expression?: string | redacted.Redacted<string>;
-  CalculatedFieldReferences?: Identifier[];
-  DisplayFormat?: DisplayFormat;
-  DisplayFormatOptions?: DisplayFormatOptions;
-  NamedEntity?: NamedEntityRef;
+  MetricId?: Identifier | undefined;
+  Function?: AggFunction | undefined;
+  Operands?: Identifier[] | undefined;
+  ComparisonMethod?: TopicIRComparisonMethod | undefined;
+  Expression?: string | redacted.Redacted<string> | undefined;
+  CalculatedFieldReferences?: Identifier[] | undefined;
+  DisplayFormat?: DisplayFormat | undefined;
+  DisplayFormatOptions?: DisplayFormatOptions | undefined;
+  NamedEntity?: NamedEntityRef | undefined;
 }
 export type TopicIRMetricList = TopicIRMetric[];
 export type TopicSortDirection = "ASCENDING" | "DESCENDING" | (string & {});
 export interface TopicSortClause {
-  Operand?: Identifier;
-  SortDirection?: TopicSortDirection;
+  Operand?: Identifier | undefined;
+  SortDirection?: TopicSortDirection | undefined;
 }
 export interface TopicIRGroupBy {
-  FieldName?: Identifier;
-  TimeGranularity?: TopicTimeGranularity;
-  Sort?: TopicSortClause;
-  DisplayFormat?: DisplayFormat;
-  DisplayFormatOptions?: DisplayFormatOptions;
-  NamedEntity?: NamedEntityRef;
+  FieldName?: Identifier | undefined;
+  TimeGranularity?: TopicTimeGranularity | undefined;
+  Sort?: TopicSortClause | undefined;
+  DisplayFormat?: DisplayFormat | undefined;
+  DisplayFormatOptions?: DisplayFormatOptions | undefined;
+  NamedEntity?: NamedEntityRef | undefined;
 }
 export type TopicIRGroupByList = TopicIRGroupBy[];
 export type TopicIRFilterType =
@@ -493,16 +493,16 @@ export type TopicIRFilterFunction =
 export type ConstantType = "SINGULAR" | "RANGE" | "COLLECTIVE" | (string & {});
 export type ConstantValueString = string;
 export interface CollectiveConstantEntry {
-  ConstantType?: ConstantType;
-  Value?: string;
+  ConstantType?: ConstantType | undefined;
+  Value?: string | undefined;
 }
 export type CollectiveConstantEntryList = CollectiveConstantEntry[];
 export interface TopicConstantValue {
-  ConstantType?: ConstantType;
-  Value?: string;
-  Minimum?: string;
-  Maximum?: string;
-  ValueList?: CollectiveConstantEntry[];
+  ConstantType?: ConstantType | undefined;
+  Value?: string | undefined;
+  Minimum?: string | undefined;
+  Maximum?: string | undefined;
+  ValueList?: CollectiveConstantEntry[] | undefined;
 }
 export type NullFilterOption = "ALL_VALUES" | "NON_NULLS_ONLY" | "NULLS_ONLY" | (string & {});
 export type TimeGranularity =
@@ -517,51 +517,51 @@ export type TimeGranularity =
   | "MILLISECOND"
   | (string & {});
 export interface AggregationPartitionBy {
-  FieldName?: string;
-  TimeGranularity?: TimeGranularity;
+  FieldName?: string | undefined;
+  TimeGranularity?: TimeGranularity | undefined;
 }
 export type AggregationPartitionByList = AggregationPartitionBy[];
 export interface FilterAggMetrics {
-  MetricOperand?: Identifier;
-  Function?: AggType;
-  SortDirection?: TopicSortDirection;
+  MetricOperand?: Identifier | undefined;
+  Function?: AggType | undefined;
+  SortDirection?: TopicSortDirection | undefined;
 }
 export type FilterAggMetricsList = FilterAggMetrics[];
 export type AnchorType = "TODAY" | (string & {});
 export interface Anchor {
-  AnchorType?: AnchorType;
-  TimeGranularity?: TimeGranularity;
-  Offset?: number;
+  AnchorType?: AnchorType | undefined;
+  TimeGranularity?: TimeGranularity | undefined;
+  Offset?: number | undefined;
 }
 export interface TopicIRFilterOption {
-  FilterType?: TopicIRFilterType;
-  FilterClass?: FilterClass;
-  OperandField?: Identifier;
-  Function?: TopicIRFilterFunction;
-  Constant?: TopicConstantValue;
-  Inverse?: boolean;
-  NullFilter?: NullFilterOption;
-  Aggregation?: AggType;
-  AggregationFunctionParameters?: { [key: string]: string | undefined };
-  AggregationPartitionBy?: AggregationPartitionBy[];
-  Range?: TopicConstantValue;
-  Inclusive?: boolean;
-  TimeGranularity?: TimeGranularity;
-  LastNextOffset?: TopicConstantValue;
-  AggMetrics?: FilterAggMetrics[];
-  TopBottomLimit?: TopicConstantValue;
-  SortDirection?: TopicSortDirection;
-  Anchor?: Anchor;
+  FilterType?: TopicIRFilterType | undefined;
+  FilterClass?: FilterClass | undefined;
+  OperandField?: Identifier | undefined;
+  Function?: TopicIRFilterFunction | undefined;
+  Constant?: TopicConstantValue | undefined;
+  Inverse?: boolean | undefined;
+  NullFilter?: NullFilterOption | undefined;
+  Aggregation?: AggType | undefined;
+  AggregationFunctionParameters?: { [key: string]: string | undefined } | undefined;
+  AggregationPartitionBy?: AggregationPartitionBy[] | undefined;
+  Range?: TopicConstantValue | undefined;
+  Inclusive?: boolean | undefined;
+  TimeGranularity?: TimeGranularity | undefined;
+  LastNextOffset?: TopicConstantValue | undefined;
+  AggMetrics?: FilterAggMetrics[] | undefined;
+  TopBottomLimit?: TopicConstantValue | undefined;
+  SortDirection?: TopicSortDirection | undefined;
+  Anchor?: Anchor | undefined;
 }
 export type TopicIRFilterEntry = TopicIRFilterOption[];
 export type TopicIRFilterList = TopicIRFilterOption[][];
 export interface ContributionAnalysisFactor {
-  FieldName?: string;
+  FieldName?: string | undefined;
 }
 export type ContributionAnalysisFactorsList = ContributionAnalysisFactor[];
 export interface ContributionAnalysisTimeRanges {
-  StartRange?: TopicIRFilterOption;
-  EndRange?: TopicIRFilterOption;
+  StartRange?: TopicIRFilterOption | undefined;
+  EndRange?: TopicIRFilterOption | undefined;
 }
 export type ContributionAnalysisDirection = "INCREASE" | "DECREASE" | "NEUTRAL" | (string & {});
 export type ContributionAnalysisSortType =
@@ -571,21 +571,21 @@ export type ContributionAnalysisSortType =
   | "PERCENTAGE_DIFFERENCE"
   | (string & {});
 export interface TopicIRContributionAnalysis {
-  Factors?: ContributionAnalysisFactor[];
-  TimeRanges?: ContributionAnalysisTimeRanges;
-  Direction?: ContributionAnalysisDirection;
-  SortType?: ContributionAnalysisSortType;
+  Factors?: ContributionAnalysisFactor[] | undefined;
+  TimeRanges?: ContributionAnalysisTimeRanges | undefined;
+  Direction?: ContributionAnalysisDirection | undefined;
+  SortType?: ContributionAnalysisSortType | undefined;
 }
 export interface VisualOptions {
-  type?: string;
+  type?: string | undefined;
 }
 export interface TopicIR {
-  Metrics?: TopicIRMetric[];
-  GroupByList?: TopicIRGroupBy[];
-  Filters?: TopicIRFilterOption[][];
-  Sort?: TopicSortClause;
-  ContributionAnalysis?: TopicIRContributionAnalysis;
-  Visual?: VisualOptions;
+  Metrics?: TopicIRMetric[] | undefined;
+  GroupByList?: TopicIRGroupBy[] | undefined;
+  Filters?: TopicIRFilterOption[][] | undefined;
+  Sort?: TopicSortClause | undefined;
+  ContributionAnalysis?: TopicIRContributionAnalysis | undefined;
+  Visual?: VisualOptions | undefined;
 }
 export type VisualRole =
   | "PRIMARY"
@@ -596,27 +596,27 @@ export type VisualRole =
   | (string & {});
 export type TopicVisuals = TopicVisual[];
 export interface TopicVisual {
-  VisualId?: string;
-  Role?: VisualRole;
-  Ir?: TopicIR;
-  SupportingVisuals?: TopicVisual[];
+  VisualId?: string | undefined;
+  Role?: VisualRole | undefined;
+  Ir?: TopicIR | undefined;
+  SupportingVisuals?: TopicVisual[] | undefined;
 }
 export interface Slot {
-  SlotId?: string;
-  VisualId?: string;
+  SlotId?: string | undefined;
+  VisualId?: string | undefined;
 }
 export type Slots = Slot[];
 export interface TopicTemplate {
-  TemplateType?: string;
-  Slots?: Slot[];
+  TemplateType?: string | undefined;
+  Slots?: Slot[] | undefined;
 }
 export interface CreateTopicReviewedAnswer {
   AnswerId: string;
   DatasetArn: string;
   Question: string | redacted.Redacted<string>;
-  Mir?: TopicIR;
-  PrimaryVisual?: TopicVisual;
-  Template?: TopicTemplate;
+  Mir?: TopicIR | undefined;
+  PrimaryVisual?: TopicVisual | undefined;
+  Template?: TopicTemplate | undefined;
 }
 export type CreateTopicReviewedAnswers = CreateTopicReviewedAnswer[];
 export interface BatchCreateTopicReviewedAnswerRequest {
@@ -625,7 +625,7 @@ export interface BatchCreateTopicReviewedAnswerRequest {
   Answers: CreateTopicReviewedAnswer[];
 }
 export interface SucceededTopicReviewedAnswer {
-  AnswerId?: string;
+  AnswerId?: string | undefined;
 }
 export type SucceededTopicReviewedAnswers = SucceededTopicReviewedAnswer[];
 export type ReviewedAnswerErrorCode =
@@ -638,18 +638,18 @@ export type ReviewedAnswerErrorCode =
   | "MISSING_REQUIRED_FIELDS"
   | (string & {});
 export interface InvalidTopicReviewedAnswer {
-  AnswerId?: string;
-  Error?: ReviewedAnswerErrorCode;
+  AnswerId?: string | undefined;
+  Error?: ReviewedAnswerErrorCode | undefined;
 }
 export type InvalidTopicReviewedAnswers = InvalidTopicReviewedAnswer[];
 export type StatusCode = number;
 export interface BatchCreateTopicReviewedAnswerResponse {
-  TopicId?: string;
-  TopicArn?: string;
-  SucceededAnswers?: SucceededTopicReviewedAnswer[];
-  InvalidAnswers?: InvalidTopicReviewedAnswer[];
-  Status?: number;
-  RequestId?: string;
+  TopicId?: string | undefined;
+  TopicArn?: string | undefined;
+  SucceededAnswers?: SucceededTopicReviewedAnswer[] | undefined;
+  InvalidAnswers?: InvalidTopicReviewedAnswer[] | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export type KbAwsAccountId = string;
 export type KnowledgeBaseId = string;
@@ -673,22 +673,22 @@ export type BatchDeleteKnowledgeBaseFailureList = BatchDeleteKnowledgeBaseFailur
 export interface BatchDeleteKnowledgeBaseResponse {
   Deleted: BatchDeleteKnowledgeBaseSuccess[];
   Errors: BatchDeleteKnowledgeBaseFailure[];
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type AnswerIds = string[];
 export interface BatchDeleteTopicReviewedAnswerRequest {
   AwsAccountId: string;
   TopicId: string;
-  AnswerIds?: string[];
+  AnswerIds?: string[] | undefined;
 }
 export interface BatchDeleteTopicReviewedAnswerResponse {
-  TopicId?: string;
-  TopicArn?: string;
-  SucceededAnswers?: SucceededTopicReviewedAnswer[];
-  InvalidAnswers?: InvalidTopicReviewedAnswer[];
-  RequestId?: string;
-  Status?: number;
+  TopicId?: string | undefined;
+  TopicArn?: string | undefined;
+  SucceededAnswers?: SucceededTopicReviewedAnswer[] | undefined;
+  InvalidAnswers?: InvalidTopicReviewedAnswer[] | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UserLimitsEntry {
   userName: string;
@@ -699,8 +699,8 @@ export type ResourceType = "INDEX_STORAGE" | "AGENT_HOURS" | (string & {});
 export type ResourceTypeList = ResourceType[];
 export interface BatchDescribeUserLimitsRequest {
   accountId: string;
-  users?: UserLimitsEntry[];
-  resourceTypes?: ResourceType[];
+  users?: UserLimitsEntry[] | undefined;
+  resourceTypes?: ResourceType[] | undefined;
 }
 export type EffectiveLimitLimitValueLong = number;
 export type LimitUnit = "MB" | "GB" | "HOURS" | "DAYS" | (string & {});
@@ -727,9 +727,9 @@ export interface UserLimits {
 }
 export type UserLimitsList = UserLimits[];
 export interface BatchDescribeUserLimitsError_ {
-  userName?: string;
-  namespace?: string;
-  userArn?: string;
+  userName?: string | undefined;
+  namespace?: string | undefined;
+  userArn?: string | undefined;
   errorCode: string;
   message: string;
 }
@@ -745,15 +745,15 @@ export interface CancelIngestionRequest {
   IngestionId: string;
 }
 export interface CancelIngestionResponse {
-  Arn?: string;
-  IngestionId?: string;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  IngestionId?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type Namespace = string;
 export interface AccountCustomization {
-  DefaultTheme?: string;
-  DefaultEmailCustomizationTemplate?: string;
+  DefaultTheme?: string | undefined;
+  DefaultEmailCustomizationTemplate?: string | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -764,17 +764,17 @@ export interface Tag {
 export type TagList = Tag[];
 export interface CreateAccountCustomizationRequest {
   AwsAccountId: string;
-  Namespace?: string;
+  Namespace?: string | undefined;
   AccountCustomization: AccountCustomization;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CreateAccountCustomizationResponse {
-  Arn?: string;
-  AwsAccountId?: string;
-  Namespace?: string;
-  AccountCustomization?: AccountCustomization;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  AwsAccountId?: string | undefined;
+  Namespace?: string | undefined;
+  AccountCustomization?: AccountCustomization | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type Edition = "STANDARD" | "ENTERPRISE" | "ENTERPRISE_AND_Q" | (string & {});
 export type AuthenticationMethodOption =
@@ -786,36 +786,36 @@ export type AuthenticationMethodOption =
 export type AccountName = string;
 export type GroupsList = string[];
 export interface CreateAccountSubscriptionRequest {
-  Edition?: Edition;
+  Edition?: Edition | undefined;
   AuthenticationMethod: AuthenticationMethodOption;
   AwsAccountId: string;
   AccountName: string;
   NotificationEmail: string;
-  ActiveDirectoryName?: string;
-  Realm?: string;
-  DirectoryId?: string;
-  AdminGroup?: string[];
-  AuthorGroup?: string[];
-  ReaderGroup?: string[];
-  AdminProGroup?: string[];
-  AuthorProGroup?: string[];
-  ReaderProGroup?: string[];
-  FirstName?: string;
-  LastName?: string;
-  EmailAddress?: string;
-  ContactNumber?: string;
-  IAMIdentityCenterInstanceArn?: string;
+  ActiveDirectoryName?: string | undefined;
+  Realm?: string | undefined;
+  DirectoryId?: string | undefined;
+  AdminGroup?: string[] | undefined;
+  AuthorGroup?: string[] | undefined;
+  ReaderGroup?: string[] | undefined;
+  AdminProGroup?: string[] | undefined;
+  AuthorProGroup?: string[] | undefined;
+  ReaderProGroup?: string[] | undefined;
+  FirstName?: string | undefined;
+  LastName?: string | undefined;
+  EmailAddress?: string | undefined;
+  ContactNumber?: string | undefined;
+  IAMIdentityCenterInstanceArn?: string | undefined;
 }
 export interface SignupResponse {
-  IAMUser?: boolean;
-  userLoginName?: string;
-  accountName?: string;
-  directoryType?: string;
+  IAMUser?: boolean | undefined;
+  userLoginName?: string | undefined;
+  accountName?: string | undefined;
+  directoryType?: string | undefined;
 }
 export interface CreateAccountSubscriptionResponse {
-  SignupResponse?: SignupResponse;
-  Status?: number;
-  RequestId?: string;
+  SignupResponse?: SignupResponse | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export type ShortRestrictiveResourceId = string;
 export type ActionConnectorName = string | redacted.Redacted<string>;
@@ -872,8 +872,8 @@ export type AuthorizationCodeGrantCredentialsDetails = {
 export interface AuthorizationCodeGrantMetadata {
   BaseEndpoint: string;
   RedirectUrl: string;
-  AuthorizationCodeGrantCredentialsSource?: AuthorizationCodeGrantCredentialsSource;
-  AuthorizationCodeGrantCredentialsDetails?: AuthorizationCodeGrantCredentialsDetails;
+  AuthorizationCodeGrantCredentialsSource?: AuthorizationCodeGrantCredentialsSource | undefined;
+  AuthorizationCodeGrantCredentialsDetails?: AuthorizationCodeGrantCredentialsDetails | undefined;
 }
 export type ClientCredentialsSource = "PLAIN_CREDENTIALS" | (string & {});
 export interface ClientCredentialsGrantDetails {
@@ -886,8 +886,8 @@ export type ClientCredentialsDetails = {
 };
 export interface ClientCredentialsGrantMetadata {
   BaseEndpoint: string;
-  ClientCredentialsSource?: ClientCredentialsSource;
-  ClientCredentialsDetails?: ClientCredentialsDetails;
+  ClientCredentialsSource?: ClientCredentialsSource | undefined;
+  ClientCredentialsDetails?: ClientCredentialsDetails | undefined;
 }
 export type ActionUserName = string | redacted.Redacted<string>;
 export type ActionPassword = string | redacted.Redacted<string>;
@@ -901,7 +901,7 @@ export type Email = string | redacted.Redacted<string>;
 export interface APIKeyConnectionMetadata {
   BaseEndpoint: string;
   ApiKey: string | redacted.Redacted<string>;
-  Email?: string | redacted.Redacted<string>;
+  Email?: string | redacted.Redacted<string> | undefined;
 }
 export interface NoneConnectionMetadata {
   BaseEndpoint: string;
@@ -913,50 +913,50 @@ export interface IAMConnectionMetadata {
 export type AuthenticationMetadata =
   | {
       AuthorizationCodeGrantMetadata: AuthorizationCodeGrantMetadata;
-      ClientCredentialsGrantMetadata?: never;
-      BasicAuthConnectionMetadata?: never;
-      ApiKeyConnectionMetadata?: never;
-      NoneConnectionMetadata?: never;
-      IamConnectionMetadata?: never;
+      ClientCredentialsGrantMetadata?: undefined;
+      BasicAuthConnectionMetadata?: undefined;
+      ApiKeyConnectionMetadata?: undefined;
+      NoneConnectionMetadata?: undefined;
+      IamConnectionMetadata?: undefined;
     }
   | {
-      AuthorizationCodeGrantMetadata?: never;
+      AuthorizationCodeGrantMetadata?: undefined;
       ClientCredentialsGrantMetadata: ClientCredentialsGrantMetadata;
-      BasicAuthConnectionMetadata?: never;
-      ApiKeyConnectionMetadata?: never;
-      NoneConnectionMetadata?: never;
-      IamConnectionMetadata?: never;
+      BasicAuthConnectionMetadata?: undefined;
+      ApiKeyConnectionMetadata?: undefined;
+      NoneConnectionMetadata?: undefined;
+      IamConnectionMetadata?: undefined;
     }
   | {
-      AuthorizationCodeGrantMetadata?: never;
-      ClientCredentialsGrantMetadata?: never;
+      AuthorizationCodeGrantMetadata?: undefined;
+      ClientCredentialsGrantMetadata?: undefined;
       BasicAuthConnectionMetadata: BasicAuthConnectionMetadata;
-      ApiKeyConnectionMetadata?: never;
-      NoneConnectionMetadata?: never;
-      IamConnectionMetadata?: never;
+      ApiKeyConnectionMetadata?: undefined;
+      NoneConnectionMetadata?: undefined;
+      IamConnectionMetadata?: undefined;
     }
   | {
-      AuthorizationCodeGrantMetadata?: never;
-      ClientCredentialsGrantMetadata?: never;
-      BasicAuthConnectionMetadata?: never;
+      AuthorizationCodeGrantMetadata?: undefined;
+      ClientCredentialsGrantMetadata?: undefined;
+      BasicAuthConnectionMetadata?: undefined;
       ApiKeyConnectionMetadata: APIKeyConnectionMetadata;
-      NoneConnectionMetadata?: never;
-      IamConnectionMetadata?: never;
+      NoneConnectionMetadata?: undefined;
+      IamConnectionMetadata?: undefined;
     }
   | {
-      AuthorizationCodeGrantMetadata?: never;
-      ClientCredentialsGrantMetadata?: never;
-      BasicAuthConnectionMetadata?: never;
-      ApiKeyConnectionMetadata?: never;
+      AuthorizationCodeGrantMetadata?: undefined;
+      ClientCredentialsGrantMetadata?: undefined;
+      BasicAuthConnectionMetadata?: undefined;
+      ApiKeyConnectionMetadata?: undefined;
       NoneConnectionMetadata: NoneConnectionMetadata;
-      IamConnectionMetadata?: never;
+      IamConnectionMetadata?: undefined;
     }
   | {
-      AuthorizationCodeGrantMetadata?: never;
-      ClientCredentialsGrantMetadata?: never;
-      BasicAuthConnectionMetadata?: never;
-      ApiKeyConnectionMetadata?: never;
-      NoneConnectionMetadata?: never;
+      AuthorizationCodeGrantMetadata?: undefined;
+      ClientCredentialsGrantMetadata?: undefined;
+      BasicAuthConnectionMetadata?: undefined;
+      ApiKeyConnectionMetadata?: undefined;
+      NoneConnectionMetadata?: undefined;
       IamConnectionMetadata: IAMConnectionMetadata;
     };
 export interface AuthConfig {
@@ -977,10 +977,10 @@ export interface CreateActionConnectorRequest {
   Name: string | redacted.Redacted<string>;
   Type: ActionConnectorType;
   AuthenticationConfig: AuthConfig;
-  Description?: string | redacted.Redacted<string>;
-  Permissions?: ResourcePermission[];
-  VpcConnectionArn?: string;
-  Tags?: Tag[];
+  Description?: string | redacted.Redacted<string> | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  VpcConnectionArn?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type ResourceStatus =
   | "CREATION_IN_PROGRESS"
@@ -992,11 +992,11 @@ export type ResourceStatus =
   | "DELETED"
   | (string & {});
 export interface CreateActionConnectorResponse {
-  Arn?: string;
-  CreationStatus?: ResourceStatus;
-  ActionConnectorId?: string;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  CreationStatus?: ResourceStatus | undefined;
+  ActionConnectorId?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type CreateAgentRequestSpacesList = string[];
 export type CreateAgentRequestActionConnectorsList = string[];
@@ -1018,27 +1018,27 @@ export interface CustomPromptProfile {
 }
 export type StyleDescription = string | redacted.Redacted<string>;
 export interface CustomPromptInputParameters {
-  ResponseLength?: string | redacted.Redacted<string>;
-  OutputStyle?: string | redacted.Redacted<string>;
-  Identity?: string | redacted.Redacted<string>;
-  Tone?: string | redacted.Redacted<string>;
-  CustomInstructions?: string | redacted.Redacted<string>;
+  ResponseLength?: string | redacted.Redacted<string> | undefined;
+  OutputStyle?: string | redacted.Redacted<string> | undefined;
+  Identity?: string | redacted.Redacted<string> | undefined;
+  Tone?: string | redacted.Redacted<string> | undefined;
+  CustomInstructions?: string | redacted.Redacted<string> | undefined;
 }
 export type CustomPromptInput =
-  | { ExistingPrompt: CustomPromptProfile; NewPrompt?: never }
-  | { ExistingPrompt?: never; NewPrompt: CustomPromptInputParameters };
+  | { ExistingPrompt: CustomPromptProfile; NewPrompt?: undefined }
+  | { ExistingPrompt?: undefined; NewPrompt: CustomPromptInputParameters };
 export interface CreateAgentRequest {
-  Spaces?: string[];
-  ActionConnectors?: string[];
+  Spaces?: string[] | undefined;
+  ActionConnectors?: string[] | undefined;
   AwsAccountId: string;
   AgentId: string;
   Name: string;
-  Description?: string;
-  IconId?: string;
-  StarterPrompts?: string[];
-  WelcomeMessage?: string | redacted.Redacted<string>;
-  AgentLifecycle?: AgentLifecycle;
-  CustomPromptInput?: CustomPromptInput;
+  Description?: string | undefined;
+  IconId?: string | undefined;
+  StarterPrompts?: string[] | undefined;
+  WelcomeMessage?: string | redacted.Redacted<string> | undefined;
+  AgentLifecycle?: AgentLifecycle | undefined;
+  CustomPromptInput?: CustomPromptInput | undefined;
 }
 export type AgentArn = string;
 export type AgentStatus = "ACTIVE" | "UPDATING" | "FAILED" | "CREATING" | (string & {});
@@ -1047,7 +1047,7 @@ export interface CreateAgentResponse {
   AgentId: string;
   AgentStatus: AgentStatus;
   AgentName: string;
-  RequestId?: string;
+  RequestId?: string | undefined;
 }
 export type AnalysisName = string;
 export type NonEmptyString = string;
@@ -1080,10 +1080,10 @@ export interface DateTimeParameter {
 }
 export type DateTimeParameterList = DateTimeParameter[];
 export interface Parameters {
-  StringParameters?: StringParameter[];
-  IntegerParameters?: IntegerParameter[];
-  DecimalParameters?: DecimalParameter[];
-  DateTimeParameters?: DateTimeParameter[];
+  StringParameters?: StringParameter[] | undefined;
+  IntegerParameters?: IntegerParameter[] | undefined;
+  DecimalParameters?: DecimalParameter[] | undefined;
+  DateTimeParameters?: DateTimeParameter[] | undefined;
 }
 export interface DataSetReference {
   DataSetPlaceholder: string;
@@ -1098,11 +1098,11 @@ export interface TopicReference {
 export type TopicReferenceList = TopicReference[];
 export interface AnalysisSourceTemplate {
   DataSetReferences: DataSetReference[];
-  TopicReferences?: TopicReference[];
+  TopicReferences?: TopicReference[] | undefined;
   Arn: string;
 }
 export interface AnalysisSourceEntity {
-  SourceTemplate?: AnalysisSourceTemplate;
+  SourceTemplate?: AnalysisSourceTemplate | undefined;
 }
 export type DataSetIdentifier = string;
 export interface DataSetIdentifierDeclaration {
@@ -1130,86 +1130,86 @@ export type RelativeFontSize =
   | (string & {});
 export type PixelLength = string;
 export interface FontSize {
-  Relative?: RelativeFontSize;
-  Absolute?: string;
+  Relative?: RelativeFontSize | undefined;
+  Absolute?: string | undefined;
 }
 export type FontDecoration = "UNDERLINE" | "NONE" | (string & {});
 export type HexColor = string;
 export type FontWeightName = "NORMAL" | "BOLD" | (string & {});
 export interface FontWeight {
-  Name?: FontWeightName;
+  Name?: FontWeightName | undefined;
 }
 export type FontStyle = "NORMAL" | "ITALIC" | (string & {});
 export interface FontConfiguration {
-  FontSize?: FontSize;
-  FontDecoration?: FontDecoration;
-  FontColor?: string;
-  FontWeight?: FontWeight;
-  FontStyle?: FontStyle;
-  FontFamily?: string;
+  FontSize?: FontSize | undefined;
+  FontDecoration?: FontDecoration | undefined;
+  FontColor?: string | undefined;
+  FontWeight?: FontWeight | undefined;
+  FontStyle?: FontStyle | undefined;
+  FontFamily?: string | undefined;
 }
 export interface LabelOptions {
-  Visibility?: Visibility;
-  FontConfiguration?: FontConfiguration;
-  CustomLabel?: string;
+  Visibility?: Visibility | undefined;
+  FontConfiguration?: FontConfiguration | undefined;
+  CustomLabel?: string | undefined;
 }
 export type DateTimeFormat = string;
 export type SheetControlInfoIconText = string;
 export interface SheetControlInfoIconLabelOptions {
-  Visibility?: Visibility;
-  InfoIconText?: string;
+  Visibility?: Visibility | undefined;
+  InfoIconText?: string | undefined;
 }
 export interface DateTimePickerControlDisplayOptions {
-  TitleOptions?: LabelOptions;
-  DateTimeFormat?: string;
-  InfoIconLabelOptions?: SheetControlInfoIconLabelOptions;
-  HelperTextVisibility?: Visibility;
-  DateIconVisibility?: Visibility;
+  TitleOptions?: LabelOptions | undefined;
+  DateTimeFormat?: string | undefined;
+  InfoIconLabelOptions?: SheetControlInfoIconLabelOptions | undefined;
+  HelperTextVisibility?: Visibility | undefined;
+  DateIconVisibility?: Visibility | undefined;
 }
 export type ControlTitlePlainText = string;
 export type ControlTitleRichText = string;
 export interface ControlTitleFormatText {
-  PlainText?: string;
-  RichText?: string;
+  PlainText?: string | undefined;
+  RichText?: string | undefined;
 }
 export interface ParameterDateTimePickerControl {
   ParameterControlId: string;
-  Title?: string;
+  Title?: string | undefined;
   SourceParameterName: string;
-  DisplayOptions?: DateTimePickerControlDisplayOptions;
-  ControlTitleFormatText?: ControlTitleFormatText;
+  DisplayOptions?: DateTimePickerControlDisplayOptions | undefined;
+  ControlTitleFormatText?: ControlTitleFormatText | undefined;
 }
 export interface ListControlSearchOptions {
-  Visibility?: Visibility;
+  Visibility?: Visibility | undefined;
 }
 export interface ListControlSelectAllOptions {
-  Visibility?: Visibility;
+  Visibility?: Visibility | undefined;
 }
 export interface ListControlDisplayOptions {
-  SearchOptions?: ListControlSearchOptions;
-  SelectAllOptions?: ListControlSelectAllOptions;
-  TitleOptions?: LabelOptions;
-  InfoIconLabelOptions?: SheetControlInfoIconLabelOptions;
+  SearchOptions?: ListControlSearchOptions | undefined;
+  SelectAllOptions?: ListControlSelectAllOptions | undefined;
+  TitleOptions?: LabelOptions | undefined;
+  InfoIconLabelOptions?: SheetControlInfoIconLabelOptions | undefined;
 }
 export type SheetControlListType = "MULTI_SELECT" | "SINGLE_SELECT" | (string & {});
 export type ParameterSelectableValueList = string[];
 export type ColumnName = string;
 export interface ColumnIdentifier {
-  DataSetIdentifier?: string;
-  TopicIdentifier?: string;
+  DataSetIdentifier?: string | undefined;
+  TopicIdentifier?: string | undefined;
   ColumnName: string;
 }
 export interface ParameterSelectableValues {
-  Values?: string[];
-  LinkToDataSetColumn?: ColumnIdentifier;
+  Values?: string[] | undefined;
+  LinkToDataSetColumn?: ColumnIdentifier | undefined;
 }
 export interface CascadingControlSource {
-  SourceSheetControlId?: string;
-  ColumnToMatch?: ColumnIdentifier;
+  SourceSheetControlId?: string | undefined;
+  ColumnToMatch?: ColumnIdentifier | undefined;
 }
 export type CascadingControlSourceList = CascadingControlSource[];
 export interface CascadingControlConfiguration {
-  SourceControls?: CascadingControlSource[];
+  SourceControls?: CascadingControlSource[] | undefined;
 }
 export type ControlSortDirection = "ASC" | "DESC" | "USER_DEFINED_ORDER" | (string & {});
 export interface SelectableValuesSort {
@@ -1231,261 +1231,261 @@ export type SimpleNumericalAggregationFunction =
   | (string & {});
 export type PercentileValue = number;
 export interface PercentileAggregation {
-  PercentileValue?: number;
+  PercentileValue?: number | undefined;
 }
 export interface NumericalAggregationFunction {
-  SimpleNumericalAggregation?: SimpleNumericalAggregationFunction;
-  PercentileAggregation?: PercentileAggregation;
+  SimpleNumericalAggregation?: SimpleNumericalAggregationFunction | undefined;
+  PercentileAggregation?: PercentileAggregation | undefined;
 }
 export type CategoricalAggregationFunction = "COUNT" | "DISTINCT_COUNT" | (string & {});
 export type DateAggregationFunction = "COUNT" | "DISTINCT_COUNT" | "MIN" | "MAX" | (string & {});
 export type SimpleAttributeAggregationFunction = "UNIQUE_VALUE" | (string & {});
 export interface AttributeAggregationFunction {
-  SimpleAttributeAggregation?: SimpleAttributeAggregationFunction;
-  ValueForMultipleValues?: string;
+  SimpleAttributeAggregation?: SimpleAttributeAggregationFunction | undefined;
+  ValueForMultipleValues?: string | undefined;
 }
 export interface AggregationFunction {
-  NumericalAggregationFunction?: NumericalAggregationFunction;
-  CategoricalAggregationFunction?: CategoricalAggregationFunction;
-  DateAggregationFunction?: DateAggregationFunction;
-  AttributeAggregationFunction?: AttributeAggregationFunction;
+  NumericalAggregationFunction?: NumericalAggregationFunction | undefined;
+  CategoricalAggregationFunction?: CategoricalAggregationFunction | undefined;
+  DateAggregationFunction?: DateAggregationFunction | undefined;
+  AttributeAggregationFunction?: AttributeAggregationFunction | undefined;
 }
 export interface AggregationSortConfiguration {
   Column: ColumnIdentifier;
   SortDirection: SortDirection;
-  AggregationFunction?: AggregationFunction;
+  AggregationFunction?: AggregationFunction | undefined;
 }
 export interface ControlSortConfiguration {
-  SelectableValuesSort?: SelectableValuesSort;
-  ControlColumnSort?: AggregationSortConfiguration;
+  SelectableValuesSort?: SelectableValuesSort | undefined;
+  ControlColumnSort?: AggregationSortConfiguration | undefined;
 }
 export type ControlSortConfigurationList = ControlSortConfiguration[];
 export interface ParameterListControl {
   ParameterControlId: string;
-  Title?: string;
+  Title?: string | undefined;
   SourceParameterName: string;
-  DisplayOptions?: ListControlDisplayOptions;
-  Type?: SheetControlListType;
-  SelectableValues?: ParameterSelectableValues;
-  CascadingControlConfiguration?: CascadingControlConfiguration;
-  ControlSortConfigurations?: ControlSortConfiguration[];
-  ControlTitleFormatText?: ControlTitleFormatText;
+  DisplayOptions?: ListControlDisplayOptions | undefined;
+  Type?: SheetControlListType | undefined;
+  SelectableValues?: ParameterSelectableValues | undefined;
+  CascadingControlConfiguration?: CascadingControlConfiguration | undefined;
+  ControlSortConfigurations?: ControlSortConfiguration[] | undefined;
+  ControlTitleFormatText?: ControlTitleFormatText | undefined;
 }
 export interface DropDownControlDisplayOptions {
-  SelectAllOptions?: ListControlSelectAllOptions;
-  TitleOptions?: LabelOptions;
-  InfoIconLabelOptions?: SheetControlInfoIconLabelOptions;
+  SelectAllOptions?: ListControlSelectAllOptions | undefined;
+  TitleOptions?: LabelOptions | undefined;
+  InfoIconLabelOptions?: SheetControlInfoIconLabelOptions | undefined;
 }
 export type CommitMode = "AUTO" | "MANUAL" | (string & {});
 export interface ParameterDropDownControl {
   ParameterControlId: string;
-  Title?: string;
+  Title?: string | undefined;
   SourceParameterName: string;
-  DisplayOptions?: DropDownControlDisplayOptions;
-  Type?: SheetControlListType;
-  SelectableValues?: ParameterSelectableValues;
-  CascadingControlConfiguration?: CascadingControlConfiguration;
-  CommitMode?: CommitMode;
-  ControlSortConfigurations?: ControlSortConfiguration[];
-  ControlTitleFormatText?: ControlTitleFormatText;
+  DisplayOptions?: DropDownControlDisplayOptions | undefined;
+  Type?: SheetControlListType | undefined;
+  SelectableValues?: ParameterSelectableValues | undefined;
+  CascadingControlConfiguration?: CascadingControlConfiguration | undefined;
+  CommitMode?: CommitMode | undefined;
+  ControlSortConfigurations?: ControlSortConfiguration[] | undefined;
+  ControlTitleFormatText?: ControlTitleFormatText | undefined;
 }
 export interface TextControlPlaceholderOptions {
-  Visibility?: Visibility;
+  Visibility?: Visibility | undefined;
 }
 export interface TextFieldControlDisplayOptions {
-  TitleOptions?: LabelOptions;
-  PlaceholderOptions?: TextControlPlaceholderOptions;
-  InfoIconLabelOptions?: SheetControlInfoIconLabelOptions;
+  TitleOptions?: LabelOptions | undefined;
+  PlaceholderOptions?: TextControlPlaceholderOptions | undefined;
+  InfoIconLabelOptions?: SheetControlInfoIconLabelOptions | undefined;
 }
 export interface ParameterTextFieldControl {
   ParameterControlId: string;
-  Title?: string;
+  Title?: string | undefined;
   SourceParameterName: string;
-  DisplayOptions?: TextFieldControlDisplayOptions;
-  ControlTitleFormatText?: ControlTitleFormatText;
+  DisplayOptions?: TextFieldControlDisplayOptions | undefined;
+  ControlTitleFormatText?: ControlTitleFormatText | undefined;
 }
 export type TextAreaControlDelimiter = string;
 export interface TextAreaControlDisplayOptions {
-  TitleOptions?: LabelOptions;
-  PlaceholderOptions?: TextControlPlaceholderOptions;
-  InfoIconLabelOptions?: SheetControlInfoIconLabelOptions;
+  TitleOptions?: LabelOptions | undefined;
+  PlaceholderOptions?: TextControlPlaceholderOptions | undefined;
+  InfoIconLabelOptions?: SheetControlInfoIconLabelOptions | undefined;
 }
 export interface ParameterTextAreaControl {
   ParameterControlId: string;
-  Title?: string;
+  Title?: string | undefined;
   SourceParameterName: string;
-  Delimiter?: string;
-  DisplayOptions?: TextAreaControlDisplayOptions;
-  ControlTitleFormatText?: ControlTitleFormatText;
+  Delimiter?: string | undefined;
+  DisplayOptions?: TextAreaControlDisplayOptions | undefined;
+  ControlTitleFormatText?: ControlTitleFormatText | undefined;
 }
 export interface SliderControlDisplayOptions {
-  TitleOptions?: LabelOptions;
-  InfoIconLabelOptions?: SheetControlInfoIconLabelOptions;
+  TitleOptions?: LabelOptions | undefined;
+  InfoIconLabelOptions?: SheetControlInfoIconLabelOptions | undefined;
 }
 export interface ParameterSliderControl {
   ParameterControlId: string;
-  Title?: string;
+  Title?: string | undefined;
   SourceParameterName: string;
-  DisplayOptions?: SliderControlDisplayOptions;
+  DisplayOptions?: SliderControlDisplayOptions | undefined;
   MaximumValue: number;
   MinimumValue: number;
   StepSize: number;
-  ControlTitleFormatText?: ControlTitleFormatText;
+  ControlTitleFormatText?: ControlTitleFormatText | undefined;
 }
 export interface ParameterControl {
-  DateTimePicker?: ParameterDateTimePickerControl;
-  List?: ParameterListControl;
-  Dropdown?: ParameterDropDownControl;
-  TextField?: ParameterTextFieldControl;
-  TextArea?: ParameterTextAreaControl;
-  Slider?: ParameterSliderControl;
+  DateTimePicker?: ParameterDateTimePickerControl | undefined;
+  List?: ParameterListControl | undefined;
+  Dropdown?: ParameterDropDownControl | undefined;
+  TextField?: ParameterTextFieldControl | undefined;
+  TextArea?: ParameterTextAreaControl | undefined;
+  Slider?: ParameterSliderControl | undefined;
 }
 export type ParameterControlList = ParameterControl[];
 export type SheetControlDateTimePickerType = "SINGLE_VALUED" | "DATE_RANGE" | (string & {});
 export interface FilterDateTimePickerControl {
   FilterControlId: string;
-  Title?: string;
+  Title?: string | undefined;
   SourceFilterId: string;
-  DisplayOptions?: DateTimePickerControlDisplayOptions;
-  Type?: SheetControlDateTimePickerType;
-  CommitMode?: CommitMode;
-  ControlTitleFormatText?: ControlTitleFormatText;
+  DisplayOptions?: DateTimePickerControlDisplayOptions | undefined;
+  Type?: SheetControlDateTimePickerType | undefined;
+  CommitMode?: CommitMode | undefined;
+  ControlTitleFormatText?: ControlTitleFormatText | undefined;
 }
 export interface FilterSelectableValues {
-  Values?: string[];
+  Values?: string[] | undefined;
 }
 export interface FilterListControl {
   FilterControlId: string;
-  Title?: string;
+  Title?: string | undefined;
   SourceFilterId: string;
-  DisplayOptions?: ListControlDisplayOptions;
-  Type?: SheetControlListType;
-  SelectableValues?: FilterSelectableValues;
-  CascadingControlConfiguration?: CascadingControlConfiguration;
-  ControlSortConfigurations?: ControlSortConfiguration[];
-  ControlTitleFormatText?: ControlTitleFormatText;
+  DisplayOptions?: ListControlDisplayOptions | undefined;
+  Type?: SheetControlListType | undefined;
+  SelectableValues?: FilterSelectableValues | undefined;
+  CascadingControlConfiguration?: CascadingControlConfiguration | undefined;
+  ControlSortConfigurations?: ControlSortConfiguration[] | undefined;
+  ControlTitleFormatText?: ControlTitleFormatText | undefined;
 }
 export interface FilterDropDownControl {
   FilterControlId: string;
-  Title?: string;
+  Title?: string | undefined;
   SourceFilterId: string;
-  DisplayOptions?: DropDownControlDisplayOptions;
-  Type?: SheetControlListType;
-  SelectableValues?: FilterSelectableValues;
-  CascadingControlConfiguration?: CascadingControlConfiguration;
-  CommitMode?: CommitMode;
-  ControlSortConfigurations?: ControlSortConfiguration[];
-  ControlTitleFormatText?: ControlTitleFormatText;
+  DisplayOptions?: DropDownControlDisplayOptions | undefined;
+  Type?: SheetControlListType | undefined;
+  SelectableValues?: FilterSelectableValues | undefined;
+  CascadingControlConfiguration?: CascadingControlConfiguration | undefined;
+  CommitMode?: CommitMode | undefined;
+  ControlSortConfigurations?: ControlSortConfiguration[] | undefined;
+  ControlTitleFormatText?: ControlTitleFormatText | undefined;
 }
 export interface FilterTextFieldControl {
   FilterControlId: string;
-  Title?: string;
+  Title?: string | undefined;
   SourceFilterId: string;
-  DisplayOptions?: TextFieldControlDisplayOptions;
-  ControlTitleFormatText?: ControlTitleFormatText;
+  DisplayOptions?: TextFieldControlDisplayOptions | undefined;
+  ControlTitleFormatText?: ControlTitleFormatText | undefined;
 }
 export interface FilterTextAreaControl {
   FilterControlId: string;
-  Title?: string;
+  Title?: string | undefined;
   SourceFilterId: string;
-  Delimiter?: string;
-  DisplayOptions?: TextAreaControlDisplayOptions;
-  ControlTitleFormatText?: ControlTitleFormatText;
+  Delimiter?: string | undefined;
+  DisplayOptions?: TextAreaControlDisplayOptions | undefined;
+  ControlTitleFormatText?: ControlTitleFormatText | undefined;
 }
 export type SheetControlSliderType = "SINGLE_POINT" | "RANGE" | (string & {});
 export interface FilterSliderControl {
   FilterControlId: string;
-  Title?: string;
+  Title?: string | undefined;
   SourceFilterId: string;
-  DisplayOptions?: SliderControlDisplayOptions;
-  Type?: SheetControlSliderType;
+  DisplayOptions?: SliderControlDisplayOptions | undefined;
+  Type?: SheetControlSliderType | undefined;
   MaximumValue: number;
   MinimumValue: number;
   StepSize: number;
-  ControlTitleFormatText?: ControlTitleFormatText;
+  ControlTitleFormatText?: ControlTitleFormatText | undefined;
 }
 export interface RelativeDateTimeControlDisplayOptions {
-  TitleOptions?: LabelOptions;
-  DateTimeFormat?: string;
-  InfoIconLabelOptions?: SheetControlInfoIconLabelOptions;
+  TitleOptions?: LabelOptions | undefined;
+  DateTimeFormat?: string | undefined;
+  InfoIconLabelOptions?: SheetControlInfoIconLabelOptions | undefined;
 }
 export interface FilterRelativeDateTimeControl {
   FilterControlId: string;
-  Title?: string;
+  Title?: string | undefined;
   SourceFilterId: string;
-  DisplayOptions?: RelativeDateTimeControlDisplayOptions;
-  CommitMode?: CommitMode;
-  ControlTitleFormatText?: ControlTitleFormatText;
+  DisplayOptions?: RelativeDateTimeControlDisplayOptions | undefined;
+  CommitMode?: CommitMode | undefined;
+  ControlTitleFormatText?: ControlTitleFormatText | undefined;
 }
 export interface FilterCrossSheetControl {
   FilterControlId: string;
   SourceFilterId: string;
-  CascadingControlConfiguration?: CascadingControlConfiguration;
+  CascadingControlConfiguration?: CascadingControlConfiguration | undefined;
 }
 export interface HierarchyFilterListControlSearchOptions {
-  Visibility?: Visibility;
+  Visibility?: Visibility | undefined;
 }
 export interface HierarchyFilterListControlDisplayOptions {
-  TitleOptions?: LabelOptions;
-  InfoIconLabelOptions?: SheetControlInfoIconLabelOptions;
-  SearchOptions?: HierarchyFilterListControlSearchOptions;
+  TitleOptions?: LabelOptions | undefined;
+  InfoIconLabelOptions?: SheetControlInfoIconLabelOptions | undefined;
+  SearchOptions?: HierarchyFilterListControlSearchOptions | undefined;
 }
 export interface HierarchyFilterListControl {
   FilterControlId: string;
   SourceFilterId: string;
-  Title?: string;
-  DisplayOptions?: HierarchyFilterListControlDisplayOptions;
-  Type?: SheetControlListType;
-  CommitMode?: CommitMode;
-  ControlSortConfigurations?: ControlSortConfiguration[];
-  ControlTitleFormatText?: ControlTitleFormatText;
+  Title?: string | undefined;
+  DisplayOptions?: HierarchyFilterListControlDisplayOptions | undefined;
+  Type?: SheetControlListType | undefined;
+  CommitMode?: CommitMode | undefined;
+  ControlSortConfigurations?: ControlSortConfiguration[] | undefined;
+  ControlTitleFormatText?: ControlTitleFormatText | undefined;
 }
 export interface HierarchyFilterDropDownControlDisplayOptions {
-  TitleOptions?: LabelOptions;
-  InfoIconLabelOptions?: SheetControlInfoIconLabelOptions;
+  TitleOptions?: LabelOptions | undefined;
+  InfoIconLabelOptions?: SheetControlInfoIconLabelOptions | undefined;
 }
 export interface HierarchyFilterDropDownControl {
   FilterControlId: string;
   SourceFilterId: string;
-  Title?: string;
-  DisplayOptions?: HierarchyFilterDropDownControlDisplayOptions;
-  Type?: SheetControlListType;
-  CommitMode?: CommitMode;
-  ControlSortConfigurations?: ControlSortConfiguration[];
-  ControlTitleFormatText?: ControlTitleFormatText;
+  Title?: string | undefined;
+  DisplayOptions?: HierarchyFilterDropDownControlDisplayOptions | undefined;
+  Type?: SheetControlListType | undefined;
+  CommitMode?: CommitMode | undefined;
+  ControlSortConfigurations?: ControlSortConfiguration[] | undefined;
+  ControlTitleFormatText?: ControlTitleFormatText | undefined;
 }
 export interface FilterControl {
-  DateTimePicker?: FilterDateTimePickerControl;
-  List?: FilterListControl;
-  Dropdown?: FilterDropDownControl;
-  TextField?: FilterTextFieldControl;
-  TextArea?: FilterTextAreaControl;
-  Slider?: FilterSliderControl;
-  RelativeDateTime?: FilterRelativeDateTimeControl;
-  CrossSheet?: FilterCrossSheetControl;
-  HierarchyList?: HierarchyFilterListControl;
-  HierarchyDropdown?: HierarchyFilterDropDownControl;
+  DateTimePicker?: FilterDateTimePickerControl | undefined;
+  List?: FilterListControl | undefined;
+  Dropdown?: FilterDropDownControl | undefined;
+  TextField?: FilterTextFieldControl | undefined;
+  TextArea?: FilterTextAreaControl | undefined;
+  Slider?: FilterSliderControl | undefined;
+  RelativeDateTime?: FilterRelativeDateTimeControl | undefined;
+  CrossSheet?: FilterCrossSheetControl | undefined;
+  HierarchyList?: HierarchyFilterListControl | undefined;
+  HierarchyDropdown?: HierarchyFilterDropDownControl | undefined;
 }
 export type FilterControlList = FilterControl[];
 export type ShortPlainText = string;
 export type ShortRichText = string;
 export interface ShortFormatText {
-  PlainText?: string;
-  RichText?: string;
+  PlainText?: string | undefined;
+  RichText?: string | undefined;
 }
 export interface VisualTitleLabelOptions {
-  Visibility?: Visibility;
-  FormatText?: ShortFormatText;
+  Visibility?: Visibility | undefined;
+  FormatText?: ShortFormatText | undefined;
 }
 export type LongPlainText = string;
 export type LongRichText = string;
 export interface LongFormatText {
-  PlainText?: string;
-  RichText?: string;
+  PlainText?: string | undefined;
+  RichText?: string | undefined;
 }
 export interface VisualSubtitleLabelOptions {
-  Visibility?: Visibility;
-  FormatText?: LongFormatText;
+  Visibility?: Visibility | undefined;
+  FormatText?: LongFormatText | undefined;
 }
 export type FieldId = string;
 export type HierarchyId = string;
@@ -1494,13 +1494,13 @@ export type Suffix = string | redacted.Redacted<string>;
 export type NumericSeparatorSymbol = "COMMA" | "DOT" | "SPACE" | (string & {});
 export type DigitGroupingStyle = "DEFAULT" | "LAKHS" | (string & {});
 export interface ThousandSeparatorOptions {
-  Symbol?: NumericSeparatorSymbol;
-  Visibility?: Visibility;
-  GroupingStyle?: DigitGroupingStyle;
+  Symbol?: NumericSeparatorSymbol | undefined;
+  Visibility?: Visibility | undefined;
+  GroupingStyle?: DigitGroupingStyle | undefined;
 }
 export interface NumericSeparatorConfiguration {
-  DecimalSeparator?: NumericSeparatorSymbol;
-  ThousandsSeparator?: ThousandSeparatorOptions;
+  DecimalSeparator?: NumericSeparatorSymbol | undefined;
+  ThousandsSeparator?: ThousandSeparatorOptions | undefined;
 }
 export type DecimalPlaces = number;
 export interface DecimalPlacesConfiguration {
@@ -1515,125 +1515,125 @@ export interface NullValueFormatConfiguration {
   NullString: string | redacted.Redacted<string>;
 }
 export interface NumberDisplayFormatConfiguration {
-  Prefix?: string | redacted.Redacted<string>;
-  Suffix?: string | redacted.Redacted<string>;
-  SeparatorConfiguration?: NumericSeparatorConfiguration;
-  DecimalPlacesConfiguration?: DecimalPlacesConfiguration;
-  NumberScale?: NumberScale;
-  NegativeValueConfiguration?: NegativeValueConfiguration;
-  NullValueFormatConfiguration?: NullValueFormatConfiguration;
+  Prefix?: string | redacted.Redacted<string> | undefined;
+  Suffix?: string | redacted.Redacted<string> | undefined;
+  SeparatorConfiguration?: NumericSeparatorConfiguration | undefined;
+  DecimalPlacesConfiguration?: DecimalPlacesConfiguration | undefined;
+  NumberScale?: NumberScale | undefined;
+  NegativeValueConfiguration?: NegativeValueConfiguration | undefined;
+  NullValueFormatConfiguration?: NullValueFormatConfiguration | undefined;
 }
 export type CurrencyCode = string;
 export interface CurrencyDisplayFormatConfiguration {
-  Prefix?: string | redacted.Redacted<string>;
-  Suffix?: string | redacted.Redacted<string>;
-  SeparatorConfiguration?: NumericSeparatorConfiguration;
-  Symbol?: string;
-  DecimalPlacesConfiguration?: DecimalPlacesConfiguration;
-  NumberScale?: NumberScale;
-  NegativeValueConfiguration?: NegativeValueConfiguration;
-  NullValueFormatConfiguration?: NullValueFormatConfiguration;
+  Prefix?: string | redacted.Redacted<string> | undefined;
+  Suffix?: string | redacted.Redacted<string> | undefined;
+  SeparatorConfiguration?: NumericSeparatorConfiguration | undefined;
+  Symbol?: string | undefined;
+  DecimalPlacesConfiguration?: DecimalPlacesConfiguration | undefined;
+  NumberScale?: NumberScale | undefined;
+  NegativeValueConfiguration?: NegativeValueConfiguration | undefined;
+  NullValueFormatConfiguration?: NullValueFormatConfiguration | undefined;
 }
 export interface PercentageDisplayFormatConfiguration {
-  Prefix?: string | redacted.Redacted<string>;
-  Suffix?: string | redacted.Redacted<string>;
-  SeparatorConfiguration?: NumericSeparatorConfiguration;
-  DecimalPlacesConfiguration?: DecimalPlacesConfiguration;
-  NegativeValueConfiguration?: NegativeValueConfiguration;
-  NullValueFormatConfiguration?: NullValueFormatConfiguration;
+  Prefix?: string | redacted.Redacted<string> | undefined;
+  Suffix?: string | redacted.Redacted<string> | undefined;
+  SeparatorConfiguration?: NumericSeparatorConfiguration | undefined;
+  DecimalPlacesConfiguration?: DecimalPlacesConfiguration | undefined;
+  NegativeValueConfiguration?: NegativeValueConfiguration | undefined;
+  NullValueFormatConfiguration?: NullValueFormatConfiguration | undefined;
 }
 export interface NumericFormatConfiguration {
-  NumberDisplayFormatConfiguration?: NumberDisplayFormatConfiguration;
-  CurrencyDisplayFormatConfiguration?: CurrencyDisplayFormatConfiguration;
-  PercentageDisplayFormatConfiguration?: PercentageDisplayFormatConfiguration;
+  NumberDisplayFormatConfiguration?: NumberDisplayFormatConfiguration | undefined;
+  CurrencyDisplayFormatConfiguration?: CurrencyDisplayFormatConfiguration | undefined;
+  PercentageDisplayFormatConfiguration?: PercentageDisplayFormatConfiguration | undefined;
 }
 export interface NumberFormatConfiguration {
-  FormatConfiguration?: NumericFormatConfiguration;
+  FormatConfiguration?: NumericFormatConfiguration | undefined;
 }
 export interface NumericalDimensionField {
   FieldId: string;
   Column: ColumnIdentifier;
-  HierarchyId?: string;
-  FormatConfiguration?: NumberFormatConfiguration;
+  HierarchyId?: string | undefined;
+  FormatConfiguration?: NumberFormatConfiguration | undefined;
 }
 export interface StringFormatConfiguration {
-  NullValueFormatConfiguration?: NullValueFormatConfiguration;
-  NumericFormatConfiguration?: NumericFormatConfiguration;
+  NullValueFormatConfiguration?: NullValueFormatConfiguration | undefined;
+  NumericFormatConfiguration?: NumericFormatConfiguration | undefined;
 }
 export interface CategoricalDimensionField {
   FieldId: string;
   Column: ColumnIdentifier;
-  HierarchyId?: string;
-  FormatConfiguration?: StringFormatConfiguration;
+  HierarchyId?: string | undefined;
+  FormatConfiguration?: StringFormatConfiguration | undefined;
 }
 export interface DateTimeFormatConfiguration {
-  DateTimeFormat?: string;
-  NullValueFormatConfiguration?: NullValueFormatConfiguration;
-  NumericFormatConfiguration?: NumericFormatConfiguration;
+  DateTimeFormat?: string | undefined;
+  NullValueFormatConfiguration?: NullValueFormatConfiguration | undefined;
+  NumericFormatConfiguration?: NumericFormatConfiguration | undefined;
 }
 export interface DateDimensionField {
   FieldId: string;
   Column: ColumnIdentifier;
-  DateGranularity?: TimeGranularity;
-  HierarchyId?: string;
-  FormatConfiguration?: DateTimeFormatConfiguration;
+  DateGranularity?: TimeGranularity | undefined;
+  HierarchyId?: string | undefined;
+  FormatConfiguration?: DateTimeFormatConfiguration | undefined;
 }
 export interface DimensionField {
-  NumericalDimensionField?: NumericalDimensionField;
-  CategoricalDimensionField?: CategoricalDimensionField;
-  DateDimensionField?: DateDimensionField;
+  NumericalDimensionField?: NumericalDimensionField | undefined;
+  CategoricalDimensionField?: CategoricalDimensionField | undefined;
+  DateDimensionField?: DateDimensionField | undefined;
 }
 export type DimensionFieldList = DimensionField[];
 export interface NumericalMeasureField {
   FieldId: string;
   Column: ColumnIdentifier;
-  AggregationFunction?: NumericalAggregationFunction;
-  FormatConfiguration?: NumberFormatConfiguration;
+  AggregationFunction?: NumericalAggregationFunction | undefined;
+  FormatConfiguration?: NumberFormatConfiguration | undefined;
 }
 export interface CategoricalMeasureField {
   FieldId: string;
   Column: ColumnIdentifier;
-  AggregationFunction?: CategoricalAggregationFunction;
-  FormatConfiguration?: StringFormatConfiguration;
+  AggregationFunction?: CategoricalAggregationFunction | undefined;
+  FormatConfiguration?: StringFormatConfiguration | undefined;
 }
 export interface DateMeasureField {
   FieldId: string;
   Column: ColumnIdentifier;
-  AggregationFunction?: DateAggregationFunction;
-  FormatConfiguration?: DateTimeFormatConfiguration;
+  AggregationFunction?: DateAggregationFunction | undefined;
+  FormatConfiguration?: DateTimeFormatConfiguration | undefined;
 }
 export interface CalculatedMeasureField {
   FieldId: string;
   Expression: string | redacted.Redacted<string>;
 }
 export interface MeasureField {
-  NumericalMeasureField?: NumericalMeasureField;
-  CategoricalMeasureField?: CategoricalMeasureField;
-  DateMeasureField?: DateMeasureField;
-  CalculatedMeasureField?: CalculatedMeasureField;
+  NumericalMeasureField?: NumericalMeasureField | undefined;
+  CategoricalMeasureField?: CategoricalMeasureField | undefined;
+  DateMeasureField?: DateMeasureField | undefined;
+  CalculatedMeasureField?: CalculatedMeasureField | undefined;
 }
 export type MeasureFieldList = MeasureField[];
 export interface TableAggregatedFieldWells {
-  GroupBy?: DimensionField[];
-  Values?: MeasureField[];
+  GroupBy?: DimensionField[] | undefined;
+  Values?: MeasureField[] | undefined;
 }
 export interface FormatConfiguration {
-  StringFormatConfiguration?: StringFormatConfiguration;
-  NumberFormatConfiguration?: NumberFormatConfiguration;
-  DateTimeFormatConfiguration?: DateTimeFormatConfiguration;
+  StringFormatConfiguration?: StringFormatConfiguration | undefined;
+  NumberFormatConfiguration?: NumberFormatConfiguration | undefined;
+  DateTimeFormatConfiguration?: DateTimeFormatConfiguration | undefined;
 }
 export interface UnaggregatedField {
   FieldId: string;
   Column: ColumnIdentifier;
-  FormatConfiguration?: FormatConfiguration;
+  FormatConfiguration?: FormatConfiguration | undefined;
 }
 export type TableUnaggregatedFieldList = UnaggregatedField[];
 export interface TableUnaggregatedFieldWells {
-  Values?: UnaggregatedField[];
+  Values?: UnaggregatedField[] | undefined;
 }
 export interface TableFieldWells {
-  TableAggregatedFieldWells?: TableAggregatedFieldWells;
-  TableUnaggregatedFieldWells?: TableUnaggregatedFieldWells;
+  TableAggregatedFieldWells?: TableAggregatedFieldWells | undefined;
+  TableUnaggregatedFieldWells?: TableUnaggregatedFieldWells | undefined;
 }
 export interface FieldSort {
   FieldId: string;
@@ -1642,11 +1642,11 @@ export interface FieldSort {
 export interface ColumnSort {
   SortBy: ColumnIdentifier;
   Direction: SortDirection;
-  AggregationFunction?: AggregationFunction;
+  AggregationFunction?: AggregationFunction | undefined;
 }
 export interface FieldSortOptions {
-  FieldSort?: FieldSort;
-  ColumnSort?: ColumnSort;
+  FieldSort?: FieldSort | undefined;
+  ColumnSort?: ColumnSort | undefined;
 }
 export type RowSortList = FieldSortOptions[];
 export type PageNumber = number;
@@ -1655,8 +1655,8 @@ export interface PaginationConfiguration {
   PageNumber: number;
 }
 export interface TableSortConfiguration {
-  RowSort?: FieldSortOptions[];
-  PaginationConfiguration?: PaginationConfiguration;
+  RowSort?: FieldSortOptions[] | undefined;
+  PaginationConfiguration?: PaginationConfiguration | undefined;
 }
 export type TableOrientation = "VERTICAL" | "HORIZONTAL" | (string & {});
 export type TextWrap = "NONE" | "WRAP" | (string & {});
@@ -1666,44 +1666,44 @@ export type TableFieldHeight = number;
 export type TableBorderThickness = number;
 export type TableBorderStyle = "NONE" | "SOLID" | (string & {});
 export interface TableBorderOptions {
-  Color?: string;
-  Thickness?: number;
-  Style?: TableBorderStyle;
+  Color?: string | undefined;
+  Thickness?: number | undefined;
+  Style?: TableBorderStyle | undefined;
 }
 export interface TableSideBorderOptions {
-  InnerVertical?: TableBorderOptions;
-  InnerHorizontal?: TableBorderOptions;
-  Left?: TableBorderOptions;
-  Right?: TableBorderOptions;
-  Top?: TableBorderOptions;
-  Bottom?: TableBorderOptions;
+  InnerVertical?: TableBorderOptions | undefined;
+  InnerHorizontal?: TableBorderOptions | undefined;
+  Left?: TableBorderOptions | undefined;
+  Right?: TableBorderOptions | undefined;
+  Top?: TableBorderOptions | undefined;
+  Bottom?: TableBorderOptions | undefined;
 }
 export interface GlobalTableBorderOptions {
-  UniformBorder?: TableBorderOptions;
-  SideSpecificBorder?: TableSideBorderOptions;
+  UniformBorder?: TableBorderOptions | undefined;
+  SideSpecificBorder?: TableSideBorderOptions | undefined;
 }
 export interface TableCellStyle {
-  Visibility?: Visibility;
-  FontConfiguration?: FontConfiguration;
-  TextWrap?: TextWrap;
-  HorizontalTextAlignment?: HorizontalTextAlignment;
-  VerticalTextAlignment?: VerticalTextAlignment;
-  BackgroundColor?: string;
-  Height?: number;
-  Border?: GlobalTableBorderOptions;
+  Visibility?: Visibility | undefined;
+  FontConfiguration?: FontConfiguration | undefined;
+  TextWrap?: TextWrap | undefined;
+  HorizontalTextAlignment?: HorizontalTextAlignment | undefined;
+  VerticalTextAlignment?: VerticalTextAlignment | undefined;
+  BackgroundColor?: string | undefined;
+  Height?: number | undefined;
+  Border?: GlobalTableBorderOptions | undefined;
 }
 export type WidgetStatus = "ENABLED" | "DISABLED" | (string & {});
 export type RowAlternateColorList = string[];
 export interface RowAlternateColorOptions {
-  Status?: WidgetStatus;
-  RowAlternateColors?: string[];
-  UsePrimaryBackgroundColor?: WidgetStatus;
+  Status?: WidgetStatus | undefined;
+  RowAlternateColors?: string[] | undefined;
+  UsePrimaryBackgroundColor?: WidgetStatus | undefined;
 }
 export interface TableOptions {
-  Orientation?: TableOrientation;
-  HeaderStyle?: TableCellStyle;
-  CellStyle?: TableCellStyle;
-  RowAlternateColorOptions?: RowAlternateColorOptions;
+  Orientation?: TableOrientation | undefined;
+  HeaderStyle?: TableCellStyle | undefined;
+  CellStyle?: TableCellStyle | undefined;
+  RowAlternateColorOptions?: RowAlternateColorOptions | undefined;
 }
 export type TableTotalsPlacement = "START" | "END" | "AUTO" | (string & {});
 export type TableTotalsScrollStatus = "PINNED" | "SCROLLED" | (string & {});
@@ -1716,7 +1716,7 @@ export type SimpleTotalAggregationFunction =
   | "NONE"
   | (string & {});
 export interface TotalAggregationFunction {
-  SimpleTotalAggregationFunction?: SimpleTotalAggregationFunction;
+  SimpleTotalAggregationFunction?: SimpleTotalAggregationFunction | undefined;
 }
 export interface TotalAggregationOption {
   FieldId: string;
@@ -1724,26 +1724,26 @@ export interface TotalAggregationOption {
 }
 export type TotalAggregationOptionList = TotalAggregationOption[];
 export interface TotalOptions {
-  TotalsVisibility?: Visibility;
-  Placement?: TableTotalsPlacement;
-  ScrollStatus?: TableTotalsScrollStatus;
-  CustomLabel?: string;
-  TotalCellStyle?: TableCellStyle;
-  TotalAggregationOptions?: TotalAggregationOption[];
+  TotalsVisibility?: Visibility | undefined;
+  Placement?: TableTotalsPlacement | undefined;
+  ScrollStatus?: TableTotalsScrollStatus | undefined;
+  CustomLabel?: string | undefined;
+  TotalCellStyle?: TableCellStyle | undefined;
+  TotalAggregationOptions?: TotalAggregationOption[] | undefined;
 }
 export type CustomLabel = string;
 export type URLTargetConfiguration = "NEW_TAB" | "NEW_WINDOW" | "SAME_TAB" | (string & {});
 export interface TableFieldCustomTextContent {
-  Value?: string;
+  Value?: string | undefined;
   FontConfiguration: FontConfiguration;
 }
 export type TableFieldIconSetType = "LINK" | (string & {});
 export interface TableFieldCustomIconContent {
-  Icon?: TableFieldIconSetType;
+  Icon?: TableFieldIconSetType | undefined;
 }
 export interface TableFieldLinkContentConfiguration {
-  CustomTextContent?: TableFieldCustomTextContent;
-  CustomIconContent?: TableFieldCustomIconContent;
+  CustomTextContent?: TableFieldCustomTextContent | undefined;
+  CustomIconContent?: TableFieldCustomIconContent | undefined;
 }
 export interface TableFieldLinkConfiguration {
   Target: URLTargetConfiguration;
@@ -1755,50 +1755,50 @@ export type TableCellImageScalingConfiguration =
   | "DO_NOT_SCALE"
   | (string & {});
 export interface TableCellImageSizingConfiguration {
-  TableCellImageScalingConfiguration?: TableCellImageScalingConfiguration;
+  TableCellImageScalingConfiguration?: TableCellImageScalingConfiguration | undefined;
 }
 export interface TableFieldImageConfiguration {
-  SizingOptions?: TableCellImageSizingConfiguration;
+  SizingOptions?: TableCellImageSizingConfiguration | undefined;
 }
 export interface TableFieldURLConfiguration {
-  LinkConfiguration?: TableFieldLinkConfiguration;
-  ImageConfiguration?: TableFieldImageConfiguration;
+  LinkConfiguration?: TableFieldLinkConfiguration | undefined;
+  ImageConfiguration?: TableFieldImageConfiguration | undefined;
 }
 export interface TableFieldOption {
   FieldId: string;
-  Width?: string;
-  CustomLabel?: string;
-  Visibility?: Visibility;
-  URLStyling?: TableFieldURLConfiguration;
+  Width?: string | undefined;
+  CustomLabel?: string | undefined;
+  Visibility?: Visibility | undefined;
+  URLStyling?: TableFieldURLConfiguration | undefined;
 }
 export type TableFieldOptionList = TableFieldOption[];
 export type FieldOrderList = string[];
 export type TableFieldOrderList = string[];
 export interface TablePinnedFieldOptions {
-  PinnedLeftFields?: string[];
+  PinnedLeftFields?: string[] | undefined;
 }
 export type TransposedColumnIndex = number;
 export type TransposedColumnType = "ROW_HEADER_COLUMN" | "VALUE_COLUMN" | (string & {});
 export interface TransposedTableOption {
-  ColumnIndex?: number;
-  ColumnWidth?: string;
+  ColumnIndex?: number | undefined;
+  ColumnWidth?: string | undefined;
   ColumnType: TransposedColumnType;
 }
 export type TransposedTableOptionList = TransposedTableOption[];
 export interface TableFieldOptions {
-  SelectedFieldOptions?: TableFieldOption[];
-  Order?: string[];
-  PinnedFieldOptions?: TablePinnedFieldOptions;
-  TransposedTableOptions?: TransposedTableOption[];
+  SelectedFieldOptions?: TableFieldOption[] | undefined;
+  Order?: string[] | undefined;
+  PinnedFieldOptions?: TablePinnedFieldOptions | undefined;
+  TransposedTableOptions?: TransposedTableOption[] | undefined;
 }
 export interface TablePaginatedReportOptions {
-  VerticalOverflowVisibility?: Visibility;
-  OverflowColumnHeaderVisibility?: Visibility;
+  VerticalOverflowVisibility?: Visibility | undefined;
+  OverflowColumnHeaderVisibility?: Visibility | undefined;
 }
 export interface DataBarsOptions {
   FieldId: string;
-  PositiveColor?: string;
-  NegativeColor?: string;
+  PositiveColor?: string | undefined;
+  NegativeColor?: string | undefined;
 }
 export type SparklineAxisBehavior = "SHARED" | "INDEPENDENT" | (string & {});
 export type SparklineVisualType = "LINE" | "AREA_LINE" | (string & {});
@@ -1811,25 +1811,25 @@ export type LineChartMarkerShape =
   | "ROUNDED_SQUARE"
   | (string & {});
 export interface LineChartMarkerStyleSettings {
-  MarkerVisibility?: Visibility;
-  MarkerShape?: LineChartMarkerShape;
-  MarkerSize?: string;
-  MarkerColor?: string;
+  MarkerVisibility?: Visibility | undefined;
+  MarkerShape?: LineChartMarkerShape | undefined;
+  MarkerSize?: string | undefined;
+  MarkerColor?: string | undefined;
 }
 export interface SparklinesOptions {
   FieldId: string;
   XAxisField: DimensionField;
-  YAxisBehavior?: SparklineAxisBehavior;
-  VisualType?: SparklineVisualType;
-  LineColor?: string;
-  LineInterpolation?: LineInterpolation;
-  AllPointsMarker?: LineChartMarkerStyleSettings;
-  MaxValueMarker?: LineChartMarkerStyleSettings;
-  MinValueMarker?: LineChartMarkerStyleSettings;
+  YAxisBehavior?: SparklineAxisBehavior | undefined;
+  VisualType?: SparklineVisualType | undefined;
+  LineColor?: string | undefined;
+  LineInterpolation?: LineInterpolation | undefined;
+  AllPointsMarker?: LineChartMarkerStyleSettings | undefined;
+  MaxValueMarker?: LineChartMarkerStyleSettings | undefined;
+  MinValueMarker?: LineChartMarkerStyleSettings | undefined;
 }
 export interface TableInlineVisualization {
-  DataBars?: DataBarsOptions;
-  Sparklines?: SparklinesOptions;
+  DataBars?: DataBarsOptions | undefined;
+  Sparklines?: SparklinesOptions | undefined;
 }
 export type TableInlineVisualizationList = TableInlineVisualization[];
 export type SelectedTooltipType = "BASIC" | "DETAILED" | "SHEET" | (string & {});
@@ -1837,88 +1837,88 @@ export type TooltipTitleType = "NONE" | "PRIMARY_VALUE" | (string & {});
 export type TooltipTarget = "BOTH" | "BAR" | "LINE" | (string & {});
 export interface FieldTooltipItem {
   FieldId: string;
-  Label?: string;
-  Visibility?: Visibility;
-  TooltipTarget?: TooltipTarget;
+  Label?: string | undefined;
+  Visibility?: Visibility | undefined;
+  TooltipTarget?: TooltipTarget | undefined;
 }
 export interface ColumnTooltipItem {
   Column: ColumnIdentifier;
-  Label?: string;
-  Visibility?: Visibility;
-  Aggregation?: AggregationFunction;
-  TooltipTarget?: TooltipTarget;
+  Label?: string | undefined;
+  Visibility?: Visibility | undefined;
+  Aggregation?: AggregationFunction | undefined;
+  TooltipTarget?: TooltipTarget | undefined;
 }
 export interface TooltipItem {
-  FieldTooltipItem?: FieldTooltipItem;
-  ColumnTooltipItem?: ColumnTooltipItem;
+  FieldTooltipItem?: FieldTooltipItem | undefined;
+  ColumnTooltipItem?: ColumnTooltipItem | undefined;
 }
 export type TooltipItemList = TooltipItem[];
 export interface FieldBasedTooltip {
-  AggregationVisibility?: Visibility;
-  TooltipTitleType?: TooltipTitleType;
-  TooltipFields?: TooltipItem[];
+  AggregationVisibility?: Visibility | undefined;
+  TooltipTitleType?: TooltipTitleType | undefined;
+  TooltipFields?: TooltipItem[] | undefined;
 }
 export interface SheetTooltip {
-  SheetId?: string;
+  SheetId?: string | undefined;
 }
 export interface TooltipOptions {
-  TooltipVisibility?: Visibility;
-  SelectedTooltipType?: SelectedTooltipType;
-  FieldBasedTooltip?: FieldBasedTooltip;
-  SheetTooltip?: SheetTooltip;
+  TooltipVisibility?: Visibility | undefined;
+  SelectedTooltipType?: SelectedTooltipType | undefined;
+  FieldBasedTooltip?: FieldBasedTooltip | undefined;
+  SheetTooltip?: SheetTooltip | undefined;
 }
 export type DashboardCustomizationStatus = "ENABLED" | "DISABLED" | (string & {});
 export type VisualCustomizationAdditionalFieldsList = ColumnIdentifier[];
 export interface VisualCustomizationFieldsConfiguration {
-  Status?: DashboardCustomizationStatus;
-  AdditionalFields?: ColumnIdentifier[];
+  Status?: DashboardCustomizationStatus | undefined;
+  AdditionalFields?: ColumnIdentifier[] | undefined;
 }
 export interface DashboardCustomizationVisualOptions {
-  FieldsConfiguration?: VisualCustomizationFieldsConfiguration;
+  FieldsConfiguration?: VisualCustomizationFieldsConfiguration | undefined;
 }
 export type DashboardBehavior = "ENABLED" | "DISABLED" | (string & {});
 export interface VisualMenuOption {
-  AvailabilityStatus?: DashboardBehavior;
+  AvailabilityStatus?: DashboardBehavior | undefined;
 }
 export interface ContextMenuOption {
-  AvailabilityStatus?: DashboardBehavior;
+  AvailabilityStatus?: DashboardBehavior | undefined;
 }
 export interface VisualInteractionOptions {
-  VisualMenuOption?: VisualMenuOption;
-  ContextMenuOption?: ContextMenuOption;
+  VisualMenuOption?: VisualMenuOption | undefined;
+  ContextMenuOption?: ContextMenuOption | undefined;
 }
 export interface TableConfiguration {
-  FieldWells?: TableFieldWells;
-  SortConfiguration?: TableSortConfiguration;
-  TableOptions?: TableOptions;
-  TotalOptions?: TotalOptions;
-  FieldOptions?: TableFieldOptions;
-  PaginatedReportOptions?: TablePaginatedReportOptions;
-  TableInlineVisualizations?: TableInlineVisualization[];
-  Tooltip?: TooltipOptions;
-  DashboardCustomizationVisualOptions?: DashboardCustomizationVisualOptions;
-  Interactions?: VisualInteractionOptions;
+  FieldWells?: TableFieldWells | undefined;
+  SortConfiguration?: TableSortConfiguration | undefined;
+  TableOptions?: TableOptions | undefined;
+  TotalOptions?: TotalOptions | undefined;
+  FieldOptions?: TableFieldOptions | undefined;
+  PaginatedReportOptions?: TablePaginatedReportOptions | undefined;
+  TableInlineVisualizations?: TableInlineVisualization[] | undefined;
+  Tooltip?: TooltipOptions | undefined;
+  DashboardCustomizationVisualOptions?: DashboardCustomizationVisualOptions | undefined;
+  Interactions?: VisualInteractionOptions | undefined;
 }
 export interface ConditionalFormattingSolidColor {
   Expression: string | redacted.Redacted<string>;
-  Color?: string;
+  Color?: string | undefined;
 }
 export interface GradientStop {
   GradientOffset: number;
-  DataValue?: number;
-  Color?: string;
+  DataValue?: number | undefined;
+  Color?: string | undefined;
 }
 export type GradientStopList = GradientStop[];
 export interface GradientColor {
-  Stops?: GradientStop[];
+  Stops?: GradientStop[] | undefined;
 }
 export interface ConditionalFormattingGradientColor {
   Expression: string | redacted.Redacted<string>;
   Color: GradientColor;
 }
 export interface ConditionalFormattingColor {
-  Solid?: ConditionalFormattingSolidColor;
-  Gradient?: ConditionalFormattingGradientColor;
+  Solid?: ConditionalFormattingSolidColor | undefined;
+  Gradient?: ConditionalFormattingGradientColor | undefined;
 }
 export type ConditionalFormattingIconSetType =
   | "PLUS_MINUS"
@@ -1935,7 +1935,7 @@ export type ConditionalFormattingIconSetType =
   | (string & {});
 export interface ConditionalFormattingIconSet {
   Expression: string | redacted.Redacted<string>;
-  IconSetType?: ConditionalFormattingIconSetType;
+  IconSetType?: ConditionalFormattingIconSetType | undefined;
 }
 export type Icon =
   | "CARET_UP"
@@ -1967,43 +1967,43 @@ export type Icon =
   | (string & {});
 export type UnicodeIcon = string;
 export interface ConditionalFormattingCustomIconOptions {
-  Icon?: Icon;
-  UnicodeIcon?: string;
+  Icon?: Icon | undefined;
+  UnicodeIcon?: string | undefined;
 }
 export type ConditionalFormattingIconDisplayOption = "ICON_ONLY" | (string & {});
 export interface ConditionalFormattingIconDisplayConfiguration {
-  IconDisplayOption?: ConditionalFormattingIconDisplayOption;
+  IconDisplayOption?: ConditionalFormattingIconDisplayOption | undefined;
 }
 export interface ConditionalFormattingCustomIconCondition {
   Expression: string | redacted.Redacted<string>;
   IconOptions: ConditionalFormattingCustomIconOptions;
-  Color?: string;
-  DisplayConfiguration?: ConditionalFormattingIconDisplayConfiguration;
+  Color?: string | undefined;
+  DisplayConfiguration?: ConditionalFormattingIconDisplayConfiguration | undefined;
 }
 export interface ConditionalFormattingIcon {
-  IconSet?: ConditionalFormattingIconSet;
-  CustomCondition?: ConditionalFormattingCustomIconCondition;
+  IconSet?: ConditionalFormattingIconSet | undefined;
+  CustomCondition?: ConditionalFormattingCustomIconCondition | undefined;
 }
 export interface TextConditionalFormat {
-  BackgroundColor?: ConditionalFormattingColor;
-  TextColor?: ConditionalFormattingColor;
-  Icon?: ConditionalFormattingIcon;
+  BackgroundColor?: ConditionalFormattingColor | undefined;
+  TextColor?: ConditionalFormattingColor | undefined;
+  Icon?: ConditionalFormattingIcon | undefined;
 }
 export interface TableCellConditionalFormatting {
   FieldId: string;
-  TextFormat?: TextConditionalFormat;
+  TextFormat?: TextConditionalFormat | undefined;
 }
 export interface TableRowConditionalFormatting {
-  BackgroundColor?: ConditionalFormattingColor;
-  TextColor?: ConditionalFormattingColor;
+  BackgroundColor?: ConditionalFormattingColor | undefined;
+  TextColor?: ConditionalFormattingColor | undefined;
 }
 export interface TableConditionalFormattingOption {
-  Cell?: TableCellConditionalFormatting;
-  Row?: TableRowConditionalFormatting;
+  Cell?: TableCellConditionalFormatting | undefined;
+  Row?: TableRowConditionalFormatting | undefined;
 }
 export type TableConditionalFormattingOptionList = TableConditionalFormattingOption[];
 export interface TableConditionalFormatting {
-  ConditionalFormattingOptions?: TableConditionalFormattingOption[];
+  ConditionalFormattingOptions?: TableConditionalFormattingOption[] | undefined;
 }
 export type VisualCustomActionName = string;
 export type VisualCustomActionTrigger = "DATA_POINT_CLICK" | "DATA_POINT_MENU" | (string & {});
@@ -2011,18 +2011,18 @@ export type SelectedFieldList = string[];
 export type SelectedFieldOptions = "ALL_FIELDS" | (string & {});
 export type CustomActionColumnList = ColumnIdentifier[];
 export interface FilterOperationSelectedFieldsConfiguration {
-  SelectedFields?: string[];
-  SelectedFieldOptions?: SelectedFieldOptions;
-  SelectedColumns?: ColumnIdentifier[];
+  SelectedFields?: string[] | undefined;
+  SelectedFieldOptions?: SelectedFieldOptions | undefined;
+  SelectedColumns?: ColumnIdentifier[] | undefined;
 }
 export type TargetVisualList = string[];
 export type TargetVisualOptions = "ALL_VISUALS" | (string & {});
 export interface SameSheetTargetVisualConfiguration {
-  TargetVisuals?: string[];
-  TargetVisualOptions?: TargetVisualOptions;
+  TargetVisuals?: string[] | undefined;
+  TargetVisualOptions?: TargetVisualOptions | undefined;
 }
 export interface FilterOperationTargetVisualsConfiguration {
-  SameSheetTargetVisualConfiguration?: SameSheetTargetVisualConfiguration;
+  SameSheetTargetVisualConfiguration?: SameSheetTargetVisualConfiguration | undefined;
 }
 export interface CustomActionFilterOperation {
   SelectedFieldsConfiguration: FilterOperationSelectedFieldsConfiguration;
@@ -2032,7 +2032,7 @@ export interface LocalNavigationConfiguration {
   TargetSheetId: string;
 }
 export interface CustomActionNavigationOperation {
-  LocalNavigationConfiguration?: LocalNavigationConfiguration;
+  LocalNavigationConfiguration?: LocalNavigationConfiguration | undefined;
 }
 export type URLOperationTemplate = string;
 export interface CustomActionURLOperation {
@@ -2047,22 +2047,22 @@ export type SensitiveDoubleObject = number;
 export type DecimalDefaultValueList = number[];
 export type DateTimeDefaultValueList = Date[];
 export interface CustomParameterValues {
-  StringValues?: (string | redacted.Redacted<string>)[];
-  IntegerValues?: number[];
-  DecimalValues?: number[];
-  DateTimeValues?: Date[];
+  StringValues?: (string | redacted.Redacted<string>)[] | undefined;
+  IntegerValues?: number[] | undefined;
+  DecimalValues?: number[] | undefined;
+  DateTimeValues?: Date[] | undefined;
 }
 export interface CustomValuesConfiguration {
-  IncludeNullValue?: boolean;
+  IncludeNullValue?: boolean | undefined;
   CustomValues: CustomParameterValues;
 }
 export type SelectAllValueOptions = "ALL_VALUES" | (string & {});
 export interface DestinationParameterValueConfiguration {
-  CustomValuesConfiguration?: CustomValuesConfiguration;
-  SelectAllValueOptions?: SelectAllValueOptions;
-  SourceParameterName?: string;
-  SourceField?: string;
-  SourceColumn?: ColumnIdentifier;
+  CustomValuesConfiguration?: CustomValuesConfiguration | undefined;
+  SelectAllValueOptions?: SelectAllValueOptions | undefined;
+  SourceParameterName?: string | undefined;
+  SourceField?: string | undefined;
+  SourceColumn?: ColumnIdentifier | undefined;
 }
 export interface SetParameterValueConfiguration {
   DestinationParameterName: string;
@@ -2073,38 +2073,38 @@ export interface CustomActionSetParametersOperation {
   ParameterValueConfigurations: SetParameterValueConfiguration[];
 }
 export interface VisualCustomActionOperation {
-  FilterOperation?: CustomActionFilterOperation;
-  NavigationOperation?: CustomActionNavigationOperation;
-  URLOperation?: CustomActionURLOperation;
-  SetParametersOperation?: CustomActionSetParametersOperation;
+  FilterOperation?: CustomActionFilterOperation | undefined;
+  NavigationOperation?: CustomActionNavigationOperation | undefined;
+  URLOperation?: CustomActionURLOperation | undefined;
+  SetParametersOperation?: CustomActionSetParametersOperation | undefined;
 }
 export type VisualCustomActionOperationList = VisualCustomActionOperation[];
 export interface VisualCustomAction {
   CustomActionId: string;
   Name: string;
-  Status?: WidgetStatus;
+  Status?: WidgetStatus | undefined;
   Trigger: VisualCustomActionTrigger;
   ActionOperations: VisualCustomActionOperation[];
 }
 export type VisualCustomActionList = VisualCustomAction[];
 export interface TableVisual {
   VisualId: string;
-  Title?: VisualTitleLabelOptions;
-  Subtitle?: VisualSubtitleLabelOptions;
-  ChartConfiguration?: TableConfiguration;
-  ConditionalFormatting?: TableConditionalFormatting;
-  Actions?: VisualCustomAction[];
-  VisualContentAltText?: string;
+  Title?: VisualTitleLabelOptions | undefined;
+  Subtitle?: VisualSubtitleLabelOptions | undefined;
+  ChartConfiguration?: TableConfiguration | undefined;
+  ConditionalFormatting?: TableConditionalFormatting | undefined;
+  Actions?: VisualCustomAction[] | undefined;
+  VisualContentAltText?: string | undefined;
 }
 export type PivotTableDimensionList = DimensionField[];
 export type PivotMeasureFieldList = MeasureField[];
 export interface PivotTableAggregatedFieldWells {
-  Rows?: DimensionField[];
-  Columns?: DimensionField[];
-  Values?: MeasureField[];
+  Rows?: DimensionField[] | undefined;
+  Columns?: DimensionField[] | undefined;
+  Values?: MeasureField[] | undefined;
 }
 export interface PivotTableFieldWells {
-  PivotTableAggregatedFieldWells?: PivotTableAggregatedFieldWells;
+  PivotTableAggregatedFieldWells?: PivotTableAggregatedFieldWells | undefined;
 }
 export type FieldValue = string | redacted.Redacted<string>;
 export type PivotTableDataPathType =
@@ -2114,12 +2114,12 @@ export type PivotTableDataPathType =
   | "COUNT_METRIC_COLUMN"
   | (string & {});
 export interface DataPathType {
-  PivotTableDataPathType?: PivotTableDataPathType;
+  PivotTableDataPathType?: PivotTableDataPathType | undefined;
 }
 export interface DataPathValue {
-  FieldId?: string;
-  FieldValue?: string | redacted.Redacted<string>;
-  DataPathType?: DataPathType;
+  FieldId?: string | undefined;
+  FieldValue?: string | redacted.Redacted<string> | undefined;
+  DataPathType?: DataPathType | undefined;
 }
 export type DataPathValueList = DataPathValue[];
 export interface DataPathSort {
@@ -2127,9 +2127,9 @@ export interface DataPathSort {
   SortPaths: DataPathValue[];
 }
 export interface PivotTableSortBy {
-  Field?: FieldSort;
-  Column?: ColumnSort;
-  DataPath?: DataPathSort;
+  Field?: FieldSort | undefined;
+  Column?: ColumnSort | undefined;
+  DataPath?: DataPathSort | undefined;
 }
 export interface PivotFieldSortOptions {
   FieldId: string;
@@ -2137,33 +2137,33 @@ export interface PivotFieldSortOptions {
 }
 export type PivotFieldSortOptionsList = PivotFieldSortOptions[];
 export interface PivotTableSortConfiguration {
-  FieldSortOptions?: PivotFieldSortOptions[];
+  FieldSortOptions?: PivotFieldSortOptions[] | undefined;
 }
 export type PivotTableMetricPlacement = "ROW" | "COLUMN" | (string & {});
 export type PivotTableRowsLayout = "TABULAR" | "HIERARCHY" | (string & {});
 export type PivotTableRowsLabelText = string;
 export interface PivotTableRowsLabelOptions {
-  Visibility?: Visibility;
-  CustomLabel?: string;
+  Visibility?: Visibility | undefined;
+  CustomLabel?: string | undefined;
 }
 export interface PivotTableOptions {
-  MetricPlacement?: PivotTableMetricPlacement;
-  SingleMetricVisibility?: Visibility;
-  ColumnNamesVisibility?: Visibility;
-  ToggleButtonsVisibility?: Visibility;
-  ColumnHeaderStyle?: TableCellStyle;
-  RowHeaderStyle?: TableCellStyle;
-  CellStyle?: TableCellStyle;
-  RowFieldNamesStyle?: TableCellStyle;
-  RowAlternateColorOptions?: RowAlternateColorOptions;
-  CollapsedRowDimensionsVisibility?: Visibility;
-  RowsLayout?: PivotTableRowsLayout;
-  RowsLabelOptions?: PivotTableRowsLabelOptions;
-  DefaultCellWidth?: string;
+  MetricPlacement?: PivotTableMetricPlacement | undefined;
+  SingleMetricVisibility?: Visibility | undefined;
+  ColumnNamesVisibility?: Visibility | undefined;
+  ToggleButtonsVisibility?: Visibility | undefined;
+  ColumnHeaderStyle?: TableCellStyle | undefined;
+  RowHeaderStyle?: TableCellStyle | undefined;
+  CellStyle?: TableCellStyle | undefined;
+  RowFieldNamesStyle?: TableCellStyle | undefined;
+  RowAlternateColorOptions?: RowAlternateColorOptions | undefined;
+  CollapsedRowDimensionsVisibility?: Visibility | undefined;
+  RowsLayout?: PivotTableRowsLayout | undefined;
+  RowsLabelOptions?: PivotTableRowsLabelOptions | undefined;
+  DefaultCellWidth?: string | undefined;
 }
 export type PivotTableSubtotalLevel = "ALL" | "CUSTOM" | "LAST" | (string & {});
 export interface PivotTableFieldSubtotalOptions {
-  FieldId?: string;
+  FieldId?: string | undefined;
 }
 export type PivotTableFieldSubtotalOptionsList = PivotTableFieldSubtotalOptions[];
 export type StyledCellType = "TOTAL" | "METRIC_HEADER" | "VALUE" | (string & {});
@@ -2172,71 +2172,71 @@ export interface TableStyleTarget {
 }
 export type TableStyleTargetList = TableStyleTarget[];
 export interface SubtotalOptions {
-  TotalsVisibility?: Visibility;
-  CustomLabel?: string;
-  FieldLevel?: PivotTableSubtotalLevel;
-  FieldLevelOptions?: PivotTableFieldSubtotalOptions[];
-  TotalCellStyle?: TableCellStyle;
-  ValueCellStyle?: TableCellStyle;
-  MetricHeaderCellStyle?: TableCellStyle;
-  StyleTargets?: TableStyleTarget[];
+  TotalsVisibility?: Visibility | undefined;
+  CustomLabel?: string | undefined;
+  FieldLevel?: PivotTableSubtotalLevel | undefined;
+  FieldLevelOptions?: PivotTableFieldSubtotalOptions[] | undefined;
+  TotalCellStyle?: TableCellStyle | undefined;
+  ValueCellStyle?: TableCellStyle | undefined;
+  MetricHeaderCellStyle?: TableCellStyle | undefined;
+  StyleTargets?: TableStyleTarget[] | undefined;
 }
 export interface PivotTotalOptions {
-  TotalsVisibility?: Visibility;
-  Placement?: TableTotalsPlacement;
-  ScrollStatus?: TableTotalsScrollStatus;
-  CustomLabel?: string;
-  TotalCellStyle?: TableCellStyle;
-  ValueCellStyle?: TableCellStyle;
-  MetricHeaderCellStyle?: TableCellStyle;
-  TotalAggregationOptions?: TotalAggregationOption[];
+  TotalsVisibility?: Visibility | undefined;
+  Placement?: TableTotalsPlacement | undefined;
+  ScrollStatus?: TableTotalsScrollStatus | undefined;
+  CustomLabel?: string | undefined;
+  TotalCellStyle?: TableCellStyle | undefined;
+  ValueCellStyle?: TableCellStyle | undefined;
+  MetricHeaderCellStyle?: TableCellStyle | undefined;
+  TotalAggregationOptions?: TotalAggregationOption[] | undefined;
 }
 export interface PivotTableTotalOptions {
-  RowSubtotalOptions?: SubtotalOptions;
-  ColumnSubtotalOptions?: SubtotalOptions;
-  RowTotalOptions?: PivotTotalOptions;
-  ColumnTotalOptions?: PivotTotalOptions;
+  RowSubtotalOptions?: SubtotalOptions | undefined;
+  ColumnSubtotalOptions?: SubtotalOptions | undefined;
+  RowTotalOptions?: PivotTotalOptions | undefined;
+  ColumnTotalOptions?: PivotTotalOptions | undefined;
 }
 export interface PivotTableFieldOption {
   FieldId: string;
-  CustomLabel?: string;
-  Visibility?: Visibility;
+  CustomLabel?: string | undefined;
+  Visibility?: Visibility | undefined;
 }
 export type PivotTableFieldOptionList = PivotTableFieldOption[];
 export interface PivotTableDataPathOption {
   DataPathList: DataPathValue[];
-  Width?: string;
+  Width?: string | undefined;
 }
 export type PivotTableDataPathOptionList = PivotTableDataPathOption[];
 export interface PivotTableFieldCollapseStateTarget {
-  FieldId?: string;
-  FieldDataPathValues?: DataPathValue[];
+  FieldId?: string | undefined;
+  FieldDataPathValues?: DataPathValue[] | undefined;
 }
 export type PivotTableFieldCollapseState = "COLLAPSED" | "EXPANDED" | (string & {});
 export interface PivotTableFieldCollapseStateOption {
   Target: PivotTableFieldCollapseStateTarget;
-  State?: PivotTableFieldCollapseState;
+  State?: PivotTableFieldCollapseState | undefined;
 }
 export type PivotTableFieldCollapseStateOptionList = PivotTableFieldCollapseStateOption[];
 export interface PivotTableFieldOptions {
-  SelectedFieldOptions?: PivotTableFieldOption[];
-  DataPathOptions?: PivotTableDataPathOption[];
-  CollapseStateOptions?: PivotTableFieldCollapseStateOption[];
+  SelectedFieldOptions?: PivotTableFieldOption[] | undefined;
+  DataPathOptions?: PivotTableDataPathOption[] | undefined;
+  CollapseStateOptions?: PivotTableFieldCollapseStateOption[] | undefined;
 }
 export interface PivotTablePaginatedReportOptions {
-  VerticalOverflowVisibility?: Visibility;
-  OverflowColumnHeaderVisibility?: Visibility;
+  VerticalOverflowVisibility?: Visibility | undefined;
+  OverflowColumnHeaderVisibility?: Visibility | undefined;
 }
 export interface PivotTableConfiguration {
-  FieldWells?: PivotTableFieldWells;
-  SortConfiguration?: PivotTableSortConfiguration;
-  TableOptions?: PivotTableOptions;
-  TotalOptions?: PivotTableTotalOptions;
-  FieldOptions?: PivotTableFieldOptions;
-  PaginatedReportOptions?: PivotTablePaginatedReportOptions;
-  Tooltip?: TooltipOptions;
-  DashboardCustomizationVisualOptions?: DashboardCustomizationVisualOptions;
-  Interactions?: VisualInteractionOptions;
+  FieldWells?: PivotTableFieldWells | undefined;
+  SortConfiguration?: PivotTableSortConfiguration | undefined;
+  TableOptions?: PivotTableOptions | undefined;
+  TotalOptions?: PivotTableTotalOptions | undefined;
+  FieldOptions?: PivotTableFieldOptions | undefined;
+  PaginatedReportOptions?: PivotTablePaginatedReportOptions | undefined;
+  Tooltip?: TooltipOptions | undefined;
+  DashboardCustomizationVisualOptions?: DashboardCustomizationVisualOptions | undefined;
+  Interactions?: VisualInteractionOptions | undefined;
 }
 export type PivotTableConditionalFormattingScopeRole =
   | "FIELD"
@@ -2244,169 +2244,169 @@ export type PivotTableConditionalFormattingScopeRole =
   | "GRAND_TOTAL"
   | (string & {});
 export interface PivotTableConditionalFormattingScope {
-  Role?: PivotTableConditionalFormattingScopeRole;
+  Role?: PivotTableConditionalFormattingScopeRole | undefined;
 }
 export type PivotTableConditionalFormattingScopeList = PivotTableConditionalFormattingScope[];
 export interface PivotTableCellConditionalFormatting {
   FieldId: string;
-  TextFormat?: TextConditionalFormat;
-  Scope?: PivotTableConditionalFormattingScope;
-  Scopes?: PivotTableConditionalFormattingScope[];
+  TextFormat?: TextConditionalFormat | undefined;
+  Scope?: PivotTableConditionalFormattingScope | undefined;
+  Scopes?: PivotTableConditionalFormattingScope[] | undefined;
 }
 export interface PivotTableConditionalFormattingOption {
-  Cell?: PivotTableCellConditionalFormatting;
+  Cell?: PivotTableCellConditionalFormatting | undefined;
 }
 export type PivotTableConditionalFormattingOptionList = PivotTableConditionalFormattingOption[];
 export interface PivotTableConditionalFormatting {
-  ConditionalFormattingOptions?: PivotTableConditionalFormattingOption[];
+  ConditionalFormattingOptions?: PivotTableConditionalFormattingOption[] | undefined;
 }
 export interface PivotTableVisual {
   VisualId: string;
-  Title?: VisualTitleLabelOptions;
-  Subtitle?: VisualSubtitleLabelOptions;
-  ChartConfiguration?: PivotTableConfiguration;
-  ConditionalFormatting?: PivotTableConditionalFormatting;
-  Actions?: VisualCustomAction[];
-  VisualContentAltText?: string;
+  Title?: VisualTitleLabelOptions | undefined;
+  Subtitle?: VisualSubtitleLabelOptions | undefined;
+  ChartConfiguration?: PivotTableConfiguration | undefined;
+  ConditionalFormatting?: PivotTableConditionalFormatting | undefined;
+  Actions?: VisualCustomAction[] | undefined;
+  VisualContentAltText?: string | undefined;
 }
 export type SmallMultiplesDimensionFieldList = DimensionField[];
 export interface BarChartAggregatedFieldWells {
-  Category?: DimensionField[];
-  Values?: MeasureField[];
-  Colors?: DimensionField[];
-  SmallMultiples?: DimensionField[];
+  Category?: DimensionField[] | undefined;
+  Values?: MeasureField[] | undefined;
+  Colors?: DimensionField[] | undefined;
+  SmallMultiples?: DimensionField[] | undefined;
 }
 export interface BarChartFieldWells {
-  BarChartAggregatedFieldWells?: BarChartAggregatedFieldWells;
+  BarChartAggregatedFieldWells?: BarChartAggregatedFieldWells | undefined;
 }
 export type FieldSortOptionsList = FieldSortOptions[];
 export type OtherCategories = "INCLUDE" | "EXCLUDE" | (string & {});
 export interface ItemsLimitConfiguration {
-  ItemsLimit?: number;
-  OtherCategories?: OtherCategories;
+  ItemsLimit?: number | undefined;
+  OtherCategories?: OtherCategories | undefined;
 }
 export interface BarChartSortConfiguration {
-  CategorySort?: FieldSortOptions[];
-  CategoryItemsLimit?: ItemsLimitConfiguration;
-  ColorSort?: FieldSortOptions[];
-  ColorItemsLimit?: ItemsLimitConfiguration;
-  SmallMultiplesSort?: FieldSortOptions[];
-  SmallMultiplesLimitConfiguration?: ItemsLimitConfiguration;
+  CategorySort?: FieldSortOptions[] | undefined;
+  CategoryItemsLimit?: ItemsLimitConfiguration | undefined;
+  ColorSort?: FieldSortOptions[] | undefined;
+  ColorItemsLimit?: ItemsLimitConfiguration | undefined;
+  SmallMultiplesSort?: FieldSortOptions[] | undefined;
+  SmallMultiplesLimitConfiguration?: ItemsLimitConfiguration | undefined;
 }
 export type BarChartOrientation = "HORIZONTAL" | "VERTICAL" | (string & {});
 export type BarsArrangement = "CLUSTERED" | "STACKED" | "STACKED_PERCENT" | (string & {});
 export interface DataPathColor {
   Element: DataPathValue;
   Color: string;
-  TimeGranularity?: TimeGranularity;
+  TimeGranularity?: TimeGranularity | undefined;
 }
 export type DataPathColorList = DataPathColor[];
 export interface VisualPalette {
-  ChartColor?: string;
-  ColorMap?: DataPathColor[];
+  ChartColor?: string | undefined;
+  ColorMap?: DataPathColor[] | undefined;
 }
 export type VisiblePanelRows = number;
 export type VisiblePanelColumns = number;
 export interface PanelTitleOptions {
-  Visibility?: Visibility;
-  FontConfiguration?: FontConfiguration;
-  HorizontalTextAlignment?: HorizontalTextAlignment;
+  Visibility?: Visibility | undefined;
+  FontConfiguration?: FontConfiguration | undefined;
+  HorizontalTextAlignment?: HorizontalTextAlignment | undefined;
 }
 export type PanelBorderStyle = "SOLID" | "DASHED" | "DOTTED" | (string & {});
 export type HexColorWithTransparency = string;
 export interface PanelConfiguration {
-  Title?: PanelTitleOptions;
-  BorderVisibility?: Visibility;
-  BorderThickness?: string;
-  BorderStyle?: PanelBorderStyle;
-  BorderColor?: string;
-  GutterVisibility?: Visibility;
-  GutterSpacing?: string;
-  BackgroundVisibility?: Visibility;
-  BackgroundColor?: string;
+  Title?: PanelTitleOptions | undefined;
+  BorderVisibility?: Visibility | undefined;
+  BorderThickness?: string | undefined;
+  BorderStyle?: PanelBorderStyle | undefined;
+  BorderColor?: string | undefined;
+  GutterVisibility?: Visibility | undefined;
+  GutterSpacing?: string | undefined;
+  BackgroundVisibility?: Visibility | undefined;
+  BackgroundColor?: string | undefined;
 }
 export type SmallMultiplesAxisScale = "SHARED" | "INDEPENDENT" | (string & {});
 export type SmallMultiplesAxisPlacement = "OUTSIDE" | "INSIDE" | (string & {});
 export interface SmallMultiplesAxisProperties {
-  Scale?: SmallMultiplesAxisScale;
-  Placement?: SmallMultiplesAxisPlacement;
+  Scale?: SmallMultiplesAxisScale | undefined;
+  Placement?: SmallMultiplesAxisPlacement | undefined;
 }
 export interface SmallMultiplesOptions {
-  MaxVisibleRows?: number;
-  MaxVisibleColumns?: number;
-  PanelConfiguration?: PanelConfiguration;
-  XAxis?: SmallMultiplesAxisProperties;
-  YAxis?: SmallMultiplesAxisProperties;
+  MaxVisibleRows?: number | undefined;
+  MaxVisibleColumns?: number | undefined;
+  PanelConfiguration?: PanelConfiguration | undefined;
+  XAxis?: SmallMultiplesAxisProperties | undefined;
+  YAxis?: SmallMultiplesAxisProperties | undefined;
 }
 export interface AxisTickLabelOptions {
-  LabelOptions?: LabelOptions;
-  RotationAngle?: number;
+  LabelOptions?: LabelOptions | undefined;
+  RotationAngle?: number | undefined;
 }
 export interface AxisLinearScale {
-  StepCount?: number;
-  StepSize?: number;
+  StepCount?: number | undefined;
+  StepSize?: number | undefined;
 }
 export interface AxisLogarithmicScale {
-  Base?: number;
+  Base?: number | undefined;
 }
 export interface AxisScale {
-  Linear?: AxisLinearScale;
-  Logarithmic?: AxisLogarithmicScale;
+  Linear?: AxisLinearScale | undefined;
+  Logarithmic?: AxisLogarithmicScale | undefined;
 }
 export interface AxisDisplayMinMaxRange {
-  Minimum?: number;
-  Maximum?: number;
+  Minimum?: number | undefined;
+  Maximum?: number | undefined;
 }
 export interface AxisDisplayDataDrivenRange {}
 export interface AxisDisplayRange {
-  MinMax?: AxisDisplayMinMaxRange;
-  DataDriven?: AxisDisplayDataDrivenRange;
+  MinMax?: AxisDisplayMinMaxRange | undefined;
+  DataDriven?: AxisDisplayDataDrivenRange | undefined;
 }
 export interface NumericAxisOptions {
-  Scale?: AxisScale;
-  Range?: AxisDisplayRange;
+  Scale?: AxisScale | undefined;
+  Range?: AxisDisplayRange | undefined;
 }
 export interface DateAxisOptions {
-  MissingDateVisibility?: Visibility;
+  MissingDateVisibility?: Visibility | undefined;
 }
 export interface AxisDataOptions {
-  NumericAxisOptions?: NumericAxisOptions;
-  DateAxisOptions?: DateAxisOptions;
+  NumericAxisOptions?: NumericAxisOptions | undefined;
+  DateAxisOptions?: DateAxisOptions | undefined;
 }
 export type PercentNumber = number;
 export interface PercentVisibleRange {
-  From?: number;
-  To?: number;
+  From?: number | undefined;
+  To?: number | undefined;
 }
 export interface VisibleRangeOptions {
-  PercentRange?: PercentVisibleRange;
+  PercentRange?: PercentVisibleRange | undefined;
 }
 export interface ScrollBarOptions {
-  Visibility?: Visibility;
-  VisibleRange?: VisibleRangeOptions;
+  Visibility?: Visibility | undefined;
+  VisibleRange?: VisibleRangeOptions | undefined;
 }
 export interface AxisDisplayOptions {
-  TickLabelOptions?: AxisTickLabelOptions;
-  AxisLineVisibility?: Visibility;
-  GridLineVisibility?: Visibility;
-  DataOptions?: AxisDataOptions;
-  ScrollbarOptions?: ScrollBarOptions;
-  AxisOffset?: string;
+  TickLabelOptions?: AxisTickLabelOptions | undefined;
+  AxisLineVisibility?: Visibility | undefined;
+  GridLineVisibility?: Visibility | undefined;
+  DataOptions?: AxisDataOptions | undefined;
+  ScrollbarOptions?: ScrollBarOptions | undefined;
+  AxisOffset?: string | undefined;
 }
 export interface AxisLabelReferenceOptions {
   FieldId: string;
   Column: ColumnIdentifier;
 }
 export interface AxisLabelOptions {
-  FontConfiguration?: FontConfiguration;
-  CustomLabel?: string;
-  ApplyTo?: AxisLabelReferenceOptions;
+  FontConfiguration?: FontConfiguration | undefined;
+  CustomLabel?: string | undefined;
+  ApplyTo?: AxisLabelReferenceOptions | undefined;
 }
 export type AxisLabelOptionsList = AxisLabelOptions[];
 export interface ChartAxisLabelOptions {
-  Visibility?: Visibility;
-  SortIconVisibility?: Visibility;
-  AxisLabelOptions?: AxisLabelOptions[];
+  Visibility?: Visibility | undefined;
+  SortIconVisibility?: Visibility | undefined;
+  AxisLabelOptions?: AxisLabelOptions[] | undefined;
 }
 export type ElementValue = string;
 export type DecalPatternType =
@@ -2435,72 +2435,72 @@ export type DecalPatternType =
   | (string & {});
 export type DecalStyleType = "Manual" | "Auto" | (string & {});
 export interface DecalSettings {
-  ElementValue?: string;
-  DecalVisibility?: Visibility;
-  DecalColor?: string;
-  DecalPatternType?: DecalPatternType;
-  DecalStyleType?: DecalStyleType;
+  ElementValue?: string | undefined;
+  DecalVisibility?: Visibility | undefined;
+  DecalColor?: string | undefined;
+  DecalPatternType?: DecalPatternType | undefined;
+  DecalStyleType?: DecalStyleType | undefined;
 }
 export interface BorderSettings {
-  BorderVisibility?: Visibility;
-  BorderWidth?: string;
-  BorderColor?: string;
+  BorderVisibility?: Visibility | undefined;
+  BorderWidth?: string | undefined;
+  BorderColor?: string | undefined;
 }
 export interface BarChartDefaultSeriesSettings {
-  DecalSettings?: DecalSettings;
-  BorderSettings?: BorderSettings;
+  DecalSettings?: DecalSettings | undefined;
+  BorderSettings?: BorderSettings | undefined;
 }
 export interface BarChartSeriesSettings {
-  DecalSettings?: DecalSettings;
-  BorderSettings?: BorderSettings;
+  DecalSettings?: DecalSettings | undefined;
+  BorderSettings?: BorderSettings | undefined;
 }
 export interface FieldBarSeriesItem {
   FieldId: string;
-  Settings?: BarChartSeriesSettings;
+  Settings?: BarChartSeriesSettings | undefined;
 }
 export interface DataFieldBarSeriesItem {
   FieldId: string;
-  FieldValue?: string | redacted.Redacted<string>;
-  Settings?: BarChartSeriesSettings;
+  FieldValue?: string | redacted.Redacted<string> | undefined;
+  Settings?: BarChartSeriesSettings | undefined;
 }
 export interface BarSeriesItem {
-  FieldBarSeriesItem?: FieldBarSeriesItem;
-  DataFieldBarSeriesItem?: DataFieldBarSeriesItem;
+  FieldBarSeriesItem?: FieldBarSeriesItem | undefined;
+  DataFieldBarSeriesItem?: DataFieldBarSeriesItem | undefined;
 }
 export type BarSeriesItemList = BarSeriesItem[];
 export type LegendPosition = "AUTO" | "RIGHT" | "BOTTOM" | "TOP" | (string & {});
 export interface LegendOptions {
-  Visibility?: Visibility;
-  Title?: LabelOptions;
-  Position?: LegendPosition;
-  Width?: string;
-  Height?: string;
-  ValueFontConfiguration?: FontConfiguration;
+  Visibility?: Visibility | undefined;
+  Title?: LabelOptions | undefined;
+  Position?: LegendPosition | undefined;
+  Width?: string | undefined;
+  Height?: string | undefined;
+  ValueFontConfiguration?: FontConfiguration | undefined;
 }
 export interface FieldLabelType {
-  FieldId?: string;
-  Visibility?: Visibility;
+  FieldId?: string | undefined;
+  Visibility?: Visibility | undefined;
 }
 export interface DataPathLabelType {
-  FieldId?: string;
-  FieldValue?: string | redacted.Redacted<string>;
-  Visibility?: Visibility;
+  FieldId?: string | undefined;
+  FieldValue?: string | redacted.Redacted<string> | undefined;
+  Visibility?: Visibility | undefined;
 }
 export interface RangeEndsLabelType {
-  Visibility?: Visibility;
+  Visibility?: Visibility | undefined;
 }
 export interface MinimumLabelType {
-  Visibility?: Visibility;
+  Visibility?: Visibility | undefined;
 }
 export interface MaximumLabelType {
-  Visibility?: Visibility;
+  Visibility?: Visibility | undefined;
 }
 export interface DataLabelType {
-  FieldLabelType?: FieldLabelType;
-  DataPathLabelType?: DataPathLabelType;
-  RangeEndsLabelType?: RangeEndsLabelType;
-  MinimumLabelType?: MinimumLabelType;
-  MaximumLabelType?: MaximumLabelType;
+  FieldLabelType?: FieldLabelType | undefined;
+  DataPathLabelType?: DataPathLabelType | undefined;
+  RangeEndsLabelType?: RangeEndsLabelType | undefined;
+  MinimumLabelType?: MinimumLabelType | undefined;
+  MaximumLabelType?: MaximumLabelType | undefined;
 }
 export type DataLabelTypes = DataLabelType[];
 export type DataLabelPosition =
@@ -2514,45 +2514,45 @@ export type DataLabelPosition =
 export type DataLabelContent = "VALUE" | "PERCENT" | "VALUE_AND_PERCENT" | (string & {});
 export type DataLabelOverlap = "DISABLE_OVERLAP" | "ENABLE_OVERLAP" | (string & {});
 export interface DataLabelOptions {
-  Visibility?: Visibility;
-  CategoryLabelVisibility?: Visibility;
-  MeasureLabelVisibility?: Visibility;
-  DataLabelTypes?: DataLabelType[];
-  Position?: DataLabelPosition;
-  LabelContent?: DataLabelContent;
-  LabelFontConfiguration?: FontConfiguration;
-  LabelColor?: string;
-  Overlap?: DataLabelOverlap;
-  TotalsVisibility?: Visibility;
+  Visibility?: Visibility | undefined;
+  CategoryLabelVisibility?: Visibility | undefined;
+  MeasureLabelVisibility?: Visibility | undefined;
+  DataLabelTypes?: DataLabelType[] | undefined;
+  Position?: DataLabelPosition | undefined;
+  LabelContent?: DataLabelContent | undefined;
+  LabelFontConfiguration?: FontConfiguration | undefined;
+  LabelColor?: string | undefined;
+  Overlap?: DataLabelOverlap | undefined;
+  TotalsVisibility?: Visibility | undefined;
 }
 export interface ReferenceLineStaticDataConfiguration {
   Value: number;
 }
 export interface ReferenceLineDynamicDataConfiguration {
   Column: ColumnIdentifier;
-  MeasureAggregationFunction?: AggregationFunction;
+  MeasureAggregationFunction?: AggregationFunction | undefined;
   Calculation: NumericalAggregationFunction;
 }
 export type AxisBinding = "PRIMARY_YAXIS" | "SECONDARY_YAXIS" | (string & {});
 export type ReferenceLineSeriesType = "BAR" | "LINE" | (string & {});
 export interface ReferenceLineDataConfiguration {
-  StaticConfiguration?: ReferenceLineStaticDataConfiguration;
-  DynamicConfiguration?: ReferenceLineDynamicDataConfiguration;
-  AxisBinding?: AxisBinding;
-  SeriesType?: ReferenceLineSeriesType;
+  StaticConfiguration?: ReferenceLineStaticDataConfiguration | undefined;
+  DynamicConfiguration?: ReferenceLineDynamicDataConfiguration | undefined;
+  AxisBinding?: AxisBinding | undefined;
+  SeriesType?: ReferenceLineSeriesType | undefined;
 }
 export type ReferenceLinePatternType = "SOLID" | "DASHED" | "DOTTED" | (string & {});
 export interface ReferenceLineStyleConfiguration {
-  Pattern?: ReferenceLinePatternType;
-  Color?: string;
+  Pattern?: ReferenceLinePatternType | undefined;
+  Color?: string | undefined;
 }
 export type ReferenceLineValueLabelRelativePosition =
   | "BEFORE_CUSTOM_LABEL"
   | "AFTER_CUSTOM_LABEL"
   | (string & {});
 export interface ReferenceLineValueLabelConfiguration {
-  RelativePosition?: ReferenceLineValueLabelRelativePosition;
-  FormatConfiguration?: NumericFormatConfiguration;
+  RelativePosition?: ReferenceLineValueLabelRelativePosition | undefined;
+  FormatConfiguration?: NumericFormatConfiguration | undefined;
 }
 export interface ReferenceLineCustomLabelConfiguration {
   CustomLabel: string;
@@ -2560,18 +2560,18 @@ export interface ReferenceLineCustomLabelConfiguration {
 export type ReferenceLineLabelHorizontalPosition = "LEFT" | "CENTER" | "RIGHT" | (string & {});
 export type ReferenceLineLabelVerticalPosition = "ABOVE" | "BELOW" | (string & {});
 export interface ReferenceLineLabelConfiguration {
-  ValueLabelConfiguration?: ReferenceLineValueLabelConfiguration;
-  CustomLabelConfiguration?: ReferenceLineCustomLabelConfiguration;
-  FontConfiguration?: FontConfiguration;
-  FontColor?: string;
-  HorizontalPosition?: ReferenceLineLabelHorizontalPosition;
-  VerticalPosition?: ReferenceLineLabelVerticalPosition;
+  ValueLabelConfiguration?: ReferenceLineValueLabelConfiguration | undefined;
+  CustomLabelConfiguration?: ReferenceLineCustomLabelConfiguration | undefined;
+  FontConfiguration?: FontConfiguration | undefined;
+  FontColor?: string | undefined;
+  HorizontalPosition?: ReferenceLineLabelHorizontalPosition | undefined;
+  VerticalPosition?: ReferenceLineLabelVerticalPosition | undefined;
 }
 export interface ReferenceLine {
-  Status?: WidgetStatus;
+  Status?: WidgetStatus | undefined;
   DataConfiguration: ReferenceLineDataConfiguration;
-  StyleConfiguration?: ReferenceLineStyleConfiguration;
-  LabelConfiguration?: ReferenceLineLabelConfiguration;
+  StyleConfiguration?: ReferenceLineStyleConfiguration | undefined;
+  LabelConfiguration?: ReferenceLineLabelConfiguration | undefined;
 }
 export type ReferenceLineList = ReferenceLine[];
 export type ContributorDimensionList = ColumnIdentifier[];
@@ -2581,25 +2581,25 @@ export interface ContributionAnalysisDefault {
 }
 export type ContributionAnalysisDefaultList = ContributionAnalysisDefault[];
 export interface BarChartConfiguration {
-  FieldWells?: BarChartFieldWells;
-  SortConfiguration?: BarChartSortConfiguration;
-  Orientation?: BarChartOrientation;
-  BarsArrangement?: BarsArrangement;
-  VisualPalette?: VisualPalette;
-  SmallMultiplesOptions?: SmallMultiplesOptions;
-  CategoryAxis?: AxisDisplayOptions;
-  CategoryLabelOptions?: ChartAxisLabelOptions;
-  ValueAxis?: AxisDisplayOptions;
-  ValueLabelOptions?: ChartAxisLabelOptions;
-  ColorLabelOptions?: ChartAxisLabelOptions;
-  DefaultSeriesSettings?: BarChartDefaultSeriesSettings;
-  Series?: BarSeriesItem[];
-  Legend?: LegendOptions;
-  DataLabels?: DataLabelOptions;
-  Tooltip?: TooltipOptions;
-  ReferenceLines?: ReferenceLine[];
-  ContributionAnalysisDefaults?: ContributionAnalysisDefault[];
-  Interactions?: VisualInteractionOptions;
+  FieldWells?: BarChartFieldWells | undefined;
+  SortConfiguration?: BarChartSortConfiguration | undefined;
+  Orientation?: BarChartOrientation | undefined;
+  BarsArrangement?: BarsArrangement | undefined;
+  VisualPalette?: VisualPalette | undefined;
+  SmallMultiplesOptions?: SmallMultiplesOptions | undefined;
+  CategoryAxis?: AxisDisplayOptions | undefined;
+  CategoryLabelOptions?: ChartAxisLabelOptions | undefined;
+  ValueAxis?: AxisDisplayOptions | undefined;
+  ValueLabelOptions?: ChartAxisLabelOptions | undefined;
+  ColorLabelOptions?: ChartAxisLabelOptions | undefined;
+  DefaultSeriesSettings?: BarChartDefaultSeriesSettings | undefined;
+  Series?: BarSeriesItem[] | undefined;
+  Legend?: LegendOptions | undefined;
+  DataLabels?: DataLabelOptions | undefined;
+  Tooltip?: TooltipOptions | undefined;
+  ReferenceLines?: ReferenceLine[] | undefined;
+  ContributionAnalysisDefaults?: ContributionAnalysisDefault[] | undefined;
+  Interactions?: VisualInteractionOptions | undefined;
 }
 export type ExplicitHierarchyColumnList = ColumnIdentifier[];
 export interface NumericEqualityDrillDownFilter {
@@ -2619,270 +2619,270 @@ export interface TimeRangeDrillDownFilter {
   TimeGranularity: TimeGranularity;
 }
 export interface DrillDownFilter {
-  NumericEqualityFilter?: NumericEqualityDrillDownFilter;
-  CategoryFilter?: CategoryDrillDownFilter;
-  TimeRangeFilter?: TimeRangeDrillDownFilter;
+  NumericEqualityFilter?: NumericEqualityDrillDownFilter | undefined;
+  CategoryFilter?: CategoryDrillDownFilter | undefined;
+  TimeRangeFilter?: TimeRangeDrillDownFilter | undefined;
 }
 export type DrillDownFilterList = DrillDownFilter[];
 export interface ExplicitHierarchy {
   HierarchyId: string;
   Columns: ColumnIdentifier[];
-  DrillDownFilters?: DrillDownFilter[];
+  DrillDownFilters?: DrillDownFilter[] | undefined;
 }
 export interface DateTimeHierarchy {
   HierarchyId: string;
-  DrillDownFilters?: DrillDownFilter[];
+  DrillDownFilters?: DrillDownFilter[] | undefined;
 }
 export type PredefinedHierarchyColumnList = ColumnIdentifier[];
 export interface PredefinedHierarchy {
   HierarchyId: string;
   Columns: ColumnIdentifier[];
-  DrillDownFilters?: DrillDownFilter[];
+  DrillDownFilters?: DrillDownFilter[] | undefined;
 }
 export interface ColumnHierarchy {
-  ExplicitHierarchy?: ExplicitHierarchy;
-  DateTimeHierarchy?: DateTimeHierarchy;
-  PredefinedHierarchy?: PredefinedHierarchy;
+  ExplicitHierarchy?: ExplicitHierarchy | undefined;
+  DateTimeHierarchy?: DateTimeHierarchy | undefined;
+  PredefinedHierarchy?: PredefinedHierarchy | undefined;
 }
 export type ColumnHierarchyList = ColumnHierarchy[];
 export interface BarChartVisual {
   VisualId: string;
-  Title?: VisualTitleLabelOptions;
-  Subtitle?: VisualSubtitleLabelOptions;
-  ChartConfiguration?: BarChartConfiguration;
-  Actions?: VisualCustomAction[];
-  ColumnHierarchies?: ColumnHierarchy[];
-  VisualContentAltText?: string;
+  Title?: VisualTitleLabelOptions | undefined;
+  Subtitle?: VisualSubtitleLabelOptions | undefined;
+  ChartConfiguration?: BarChartConfiguration | undefined;
+  Actions?: VisualCustomAction[] | undefined;
+  ColumnHierarchies?: ColumnHierarchy[] | undefined;
+  VisualContentAltText?: string | undefined;
 }
 export interface KPIFieldWells {
-  Values?: MeasureField[];
-  TargetValues?: MeasureField[];
-  TrendGroups?: DimensionField[];
+  Values?: MeasureField[] | undefined;
+  TargetValues?: MeasureField[] | undefined;
+  TrendGroups?: DimensionField[] | undefined;
 }
 export interface KPISortConfiguration {
-  TrendGroupSort?: FieldSortOptions[];
+  TrendGroupSort?: FieldSortOptions[] | undefined;
 }
 export interface ProgressBarOptions {
-  Visibility?: Visibility;
+  Visibility?: Visibility | undefined;
 }
 export interface TrendArrowOptions {
-  Visibility?: Visibility;
+  Visibility?: Visibility | undefined;
 }
 export interface SecondaryValueOptions {
-  Visibility?: Visibility;
+  Visibility?: Visibility | undefined;
 }
 export type ComparisonMethod = "DIFFERENCE" | "PERCENT_DIFFERENCE" | "PERCENT" | (string & {});
 export interface ComparisonFormatConfiguration {
-  NumberDisplayFormatConfiguration?: NumberDisplayFormatConfiguration;
-  PercentageDisplayFormatConfiguration?: PercentageDisplayFormatConfiguration;
+  NumberDisplayFormatConfiguration?: NumberDisplayFormatConfiguration | undefined;
+  PercentageDisplayFormatConfiguration?: PercentageDisplayFormatConfiguration | undefined;
 }
 export interface ComparisonConfiguration {
-  ComparisonMethod?: ComparisonMethod;
-  ComparisonFormat?: ComparisonFormatConfiguration;
+  ComparisonMethod?: ComparisonMethod | undefined;
+  ComparisonFormat?: ComparisonFormatConfiguration | undefined;
 }
 export type PrimaryValueDisplayType = "HIDDEN" | "COMPARISON" | "ACTUAL" | (string & {});
 export type KPISparklineType = "LINE" | "AREA" | (string & {});
 export interface KPISparklineOptions {
-  Visibility?: Visibility;
+  Visibility?: Visibility | undefined;
   Type: KPISparklineType;
-  Color?: string;
-  TooltipVisibility?: Visibility;
+  Color?: string | undefined;
+  TooltipVisibility?: Visibility | undefined;
 }
 export type KPIVisualStandardLayoutType = "CLASSIC" | "VERTICAL" | (string & {});
 export interface KPIVisualStandardLayout {
   Type: KPIVisualStandardLayoutType;
 }
 export interface KPIVisualLayoutOptions {
-  StandardLayout?: KPIVisualStandardLayout;
+  StandardLayout?: KPIVisualStandardLayout | undefined;
 }
 export interface KPIOptions {
-  ProgressBar?: ProgressBarOptions;
-  TrendArrows?: TrendArrowOptions;
-  SecondaryValue?: SecondaryValueOptions;
-  Comparison?: ComparisonConfiguration;
-  PrimaryValueDisplayType?: PrimaryValueDisplayType;
-  PrimaryValueFontConfiguration?: FontConfiguration;
-  SecondaryValueFontConfiguration?: FontConfiguration;
-  Sparkline?: KPISparklineOptions;
-  VisualLayoutOptions?: KPIVisualLayoutOptions;
+  ProgressBar?: ProgressBarOptions | undefined;
+  TrendArrows?: TrendArrowOptions | undefined;
+  SecondaryValue?: SecondaryValueOptions | undefined;
+  Comparison?: ComparisonConfiguration | undefined;
+  PrimaryValueDisplayType?: PrimaryValueDisplayType | undefined;
+  PrimaryValueFontConfiguration?: FontConfiguration | undefined;
+  SecondaryValueFontConfiguration?: FontConfiguration | undefined;
+  Sparkline?: KPISparklineOptions | undefined;
+  VisualLayoutOptions?: KPIVisualLayoutOptions | undefined;
 }
 export interface KPIConfiguration {
-  FieldWells?: KPIFieldWells;
-  SortConfiguration?: KPISortConfiguration;
-  KPIOptions?: KPIOptions;
-  Interactions?: VisualInteractionOptions;
+  FieldWells?: KPIFieldWells | undefined;
+  SortConfiguration?: KPISortConfiguration | undefined;
+  KPIOptions?: KPIOptions | undefined;
+  Interactions?: VisualInteractionOptions | undefined;
 }
 export interface KPIPrimaryValueConditionalFormatting {
-  TextColor?: ConditionalFormattingColor;
-  Icon?: ConditionalFormattingIcon;
+  TextColor?: ConditionalFormattingColor | undefined;
+  Icon?: ConditionalFormattingIcon | undefined;
 }
 export interface KPIProgressBarConditionalFormatting {
-  ForegroundColor?: ConditionalFormattingColor;
+  ForegroundColor?: ConditionalFormattingColor | undefined;
 }
 export interface KPIActualValueConditionalFormatting {
-  TextColor?: ConditionalFormattingColor;
-  Icon?: ConditionalFormattingIcon;
+  TextColor?: ConditionalFormattingColor | undefined;
+  Icon?: ConditionalFormattingIcon | undefined;
 }
 export interface KPIComparisonValueConditionalFormatting {
-  TextColor?: ConditionalFormattingColor;
-  Icon?: ConditionalFormattingIcon;
+  TextColor?: ConditionalFormattingColor | undefined;
+  Icon?: ConditionalFormattingIcon | undefined;
 }
 export interface KPIConditionalFormattingOption {
-  PrimaryValue?: KPIPrimaryValueConditionalFormatting;
-  ProgressBar?: KPIProgressBarConditionalFormatting;
-  ActualValue?: KPIActualValueConditionalFormatting;
-  ComparisonValue?: KPIComparisonValueConditionalFormatting;
+  PrimaryValue?: KPIPrimaryValueConditionalFormatting | undefined;
+  ProgressBar?: KPIProgressBarConditionalFormatting | undefined;
+  ActualValue?: KPIActualValueConditionalFormatting | undefined;
+  ComparisonValue?: KPIComparisonValueConditionalFormatting | undefined;
 }
 export type KPIConditionalFormattingOptionList = KPIConditionalFormattingOption[];
 export interface KPIConditionalFormatting {
-  ConditionalFormattingOptions?: KPIConditionalFormattingOption[];
+  ConditionalFormattingOptions?: KPIConditionalFormattingOption[] | undefined;
 }
 export interface KPIVisual {
   VisualId: string;
-  Title?: VisualTitleLabelOptions;
-  Subtitle?: VisualSubtitleLabelOptions;
-  ChartConfiguration?: KPIConfiguration;
-  ConditionalFormatting?: KPIConditionalFormatting;
-  Actions?: VisualCustomAction[];
-  ColumnHierarchies?: ColumnHierarchy[];
-  VisualContentAltText?: string;
+  Title?: VisualTitleLabelOptions | undefined;
+  Subtitle?: VisualSubtitleLabelOptions | undefined;
+  ChartConfiguration?: KPIConfiguration | undefined;
+  ConditionalFormatting?: KPIConditionalFormatting | undefined;
+  Actions?: VisualCustomAction[] | undefined;
+  ColumnHierarchies?: ColumnHierarchy[] | undefined;
+  VisualContentAltText?: string | undefined;
 }
 export interface PieChartAggregatedFieldWells {
-  Category?: DimensionField[];
-  Values?: MeasureField[];
-  SmallMultiples?: DimensionField[];
+  Category?: DimensionField[] | undefined;
+  Values?: MeasureField[] | undefined;
+  SmallMultiples?: DimensionField[] | undefined;
 }
 export interface PieChartFieldWells {
-  PieChartAggregatedFieldWells?: PieChartAggregatedFieldWells;
+  PieChartAggregatedFieldWells?: PieChartAggregatedFieldWells | undefined;
 }
 export interface PieChartSortConfiguration {
-  CategorySort?: FieldSortOptions[];
-  CategoryItemsLimit?: ItemsLimitConfiguration;
-  SmallMultiplesSort?: FieldSortOptions[];
-  SmallMultiplesLimitConfiguration?: ItemsLimitConfiguration;
+  CategorySort?: FieldSortOptions[] | undefined;
+  CategoryItemsLimit?: ItemsLimitConfiguration | undefined;
+  SmallMultiplesSort?: FieldSortOptions[] | undefined;
+  SmallMultiplesLimitConfiguration?: ItemsLimitConfiguration | undefined;
 }
 export type ArcThickness = "SMALL" | "MEDIUM" | "LARGE" | "WHOLE" | (string & {});
 export interface ArcOptions {
-  ArcThickness?: ArcThickness;
+  ArcThickness?: ArcThickness | undefined;
 }
 export interface DonutCenterOptions {
-  LabelVisibility?: Visibility;
+  LabelVisibility?: Visibility | undefined;
 }
 export interface DonutOptions {
-  ArcOptions?: ArcOptions;
-  DonutCenterOptions?: DonutCenterOptions;
+  ArcOptions?: ArcOptions | undefined;
+  DonutCenterOptions?: DonutCenterOptions | undefined;
 }
 export interface PieChartConfiguration {
-  FieldWells?: PieChartFieldWells;
-  SortConfiguration?: PieChartSortConfiguration;
-  DonutOptions?: DonutOptions;
-  SmallMultiplesOptions?: SmallMultiplesOptions;
-  CategoryLabelOptions?: ChartAxisLabelOptions;
-  ValueLabelOptions?: ChartAxisLabelOptions;
-  Legend?: LegendOptions;
-  DataLabels?: DataLabelOptions;
-  Tooltip?: TooltipOptions;
-  VisualPalette?: VisualPalette;
-  ContributionAnalysisDefaults?: ContributionAnalysisDefault[];
-  Interactions?: VisualInteractionOptions;
+  FieldWells?: PieChartFieldWells | undefined;
+  SortConfiguration?: PieChartSortConfiguration | undefined;
+  DonutOptions?: DonutOptions | undefined;
+  SmallMultiplesOptions?: SmallMultiplesOptions | undefined;
+  CategoryLabelOptions?: ChartAxisLabelOptions | undefined;
+  ValueLabelOptions?: ChartAxisLabelOptions | undefined;
+  Legend?: LegendOptions | undefined;
+  DataLabels?: DataLabelOptions | undefined;
+  Tooltip?: TooltipOptions | undefined;
+  VisualPalette?: VisualPalette | undefined;
+  ContributionAnalysisDefaults?: ContributionAnalysisDefault[] | undefined;
+  Interactions?: VisualInteractionOptions | undefined;
 }
 export interface PieChartVisual {
   VisualId: string;
-  Title?: VisualTitleLabelOptions;
-  Subtitle?: VisualSubtitleLabelOptions;
-  ChartConfiguration?: PieChartConfiguration;
-  Actions?: VisualCustomAction[];
-  ColumnHierarchies?: ColumnHierarchy[];
-  VisualContentAltText?: string;
+  Title?: VisualTitleLabelOptions | undefined;
+  Subtitle?: VisualSubtitleLabelOptions | undefined;
+  ChartConfiguration?: PieChartConfiguration | undefined;
+  Actions?: VisualCustomAction[] | undefined;
+  ColumnHierarchies?: ColumnHierarchy[] | undefined;
+  VisualContentAltText?: string | undefined;
 }
 export interface GaugeChartFieldWells {
-  Values?: MeasureField[];
-  TargetValues?: MeasureField[];
+  Values?: MeasureField[] | undefined;
+  TargetValues?: MeasureField[] | undefined;
 }
 export interface ArcAxisDisplayRange {
-  Min?: number;
-  Max?: number;
+  Min?: number | undefined;
+  Max?: number | undefined;
 }
 export interface ArcAxisConfiguration {
-  Range?: ArcAxisDisplayRange;
-  ReserveRange?: number;
+  Range?: ArcAxisDisplayRange | undefined;
+  ReserveRange?: number | undefined;
 }
 export type ArcThicknessOptions = "SMALL" | "MEDIUM" | "LARGE" | (string & {});
 export interface ArcConfiguration {
-  ArcAngle?: number;
-  ArcThickness?: ArcThicknessOptions;
+  ArcAngle?: number | undefined;
+  ArcThickness?: ArcThicknessOptions | undefined;
 }
 export interface GaugeChartOptions {
-  PrimaryValueDisplayType?: PrimaryValueDisplayType;
-  Comparison?: ComparisonConfiguration;
-  ArcAxis?: ArcAxisConfiguration;
-  Arc?: ArcConfiguration;
-  PrimaryValueFontConfiguration?: FontConfiguration;
+  PrimaryValueDisplayType?: PrimaryValueDisplayType | undefined;
+  Comparison?: ComparisonConfiguration | undefined;
+  ArcAxis?: ArcAxisConfiguration | undefined;
+  Arc?: ArcConfiguration | undefined;
+  PrimaryValueFontConfiguration?: FontConfiguration | undefined;
 }
 export interface GaugeChartColorConfiguration {
-  ForegroundColor?: string;
-  BackgroundColor?: string;
+  ForegroundColor?: string | undefined;
+  BackgroundColor?: string | undefined;
 }
 export interface GaugeChartConfiguration {
-  FieldWells?: GaugeChartFieldWells;
-  GaugeChartOptions?: GaugeChartOptions;
-  DataLabels?: DataLabelOptions;
-  TooltipOptions?: TooltipOptions;
-  VisualPalette?: VisualPalette;
-  ColorConfiguration?: GaugeChartColorConfiguration;
-  Interactions?: VisualInteractionOptions;
+  FieldWells?: GaugeChartFieldWells | undefined;
+  GaugeChartOptions?: GaugeChartOptions | undefined;
+  DataLabels?: DataLabelOptions | undefined;
+  TooltipOptions?: TooltipOptions | undefined;
+  VisualPalette?: VisualPalette | undefined;
+  ColorConfiguration?: GaugeChartColorConfiguration | undefined;
+  Interactions?: VisualInteractionOptions | undefined;
 }
 export interface GaugeChartPrimaryValueConditionalFormatting {
-  TextColor?: ConditionalFormattingColor;
-  Icon?: ConditionalFormattingIcon;
+  TextColor?: ConditionalFormattingColor | undefined;
+  Icon?: ConditionalFormattingIcon | undefined;
 }
 export interface GaugeChartArcConditionalFormatting {
-  ForegroundColor?: ConditionalFormattingColor;
+  ForegroundColor?: ConditionalFormattingColor | undefined;
 }
 export interface GaugeChartConditionalFormattingOption {
-  PrimaryValue?: GaugeChartPrimaryValueConditionalFormatting;
-  Arc?: GaugeChartArcConditionalFormatting;
+  PrimaryValue?: GaugeChartPrimaryValueConditionalFormatting | undefined;
+  Arc?: GaugeChartArcConditionalFormatting | undefined;
 }
 export type GaugeChartConditionalFormattingOptionList = GaugeChartConditionalFormattingOption[];
 export interface GaugeChartConditionalFormatting {
-  ConditionalFormattingOptions?: GaugeChartConditionalFormattingOption[];
+  ConditionalFormattingOptions?: GaugeChartConditionalFormattingOption[] | undefined;
 }
 export interface GaugeChartVisual {
   VisualId: string;
-  Title?: VisualTitleLabelOptions;
-  Subtitle?: VisualSubtitleLabelOptions;
-  ChartConfiguration?: GaugeChartConfiguration;
-  ConditionalFormatting?: GaugeChartConditionalFormatting;
-  Actions?: VisualCustomAction[];
-  VisualContentAltText?: string;
+  Title?: VisualTitleLabelOptions | undefined;
+  Subtitle?: VisualSubtitleLabelOptions | undefined;
+  ChartConfiguration?: GaugeChartConfiguration | undefined;
+  ConditionalFormatting?: GaugeChartConditionalFormatting | undefined;
+  Actions?: VisualCustomAction[] | undefined;
+  VisualContentAltText?: string | undefined;
 }
 export interface LineChartAggregatedFieldWells {
-  Category?: DimensionField[];
-  Values?: MeasureField[];
-  Colors?: DimensionField[];
-  SmallMultiples?: DimensionField[];
+  Category?: DimensionField[] | undefined;
+  Values?: MeasureField[] | undefined;
+  Colors?: DimensionField[] | undefined;
+  SmallMultiples?: DimensionField[] | undefined;
 }
 export interface LineChartFieldWells {
-  LineChartAggregatedFieldWells?: LineChartAggregatedFieldWells;
+  LineChartAggregatedFieldWells?: LineChartAggregatedFieldWells | undefined;
 }
 export interface LineChartSortConfiguration {
-  CategorySort?: FieldSortOptions[];
-  CategoryItemsLimitConfiguration?: ItemsLimitConfiguration;
-  ColorItemsLimitConfiguration?: ItemsLimitConfiguration;
-  SmallMultiplesSort?: FieldSortOptions[];
-  SmallMultiplesLimitConfiguration?: ItemsLimitConfiguration;
+  CategorySort?: FieldSortOptions[] | undefined;
+  CategoryItemsLimitConfiguration?: ItemsLimitConfiguration | undefined;
+  ColorItemsLimitConfiguration?: ItemsLimitConfiguration | undefined;
+  SmallMultiplesSort?: FieldSortOptions[] | undefined;
+  SmallMultiplesLimitConfiguration?: ItemsLimitConfiguration | undefined;
 }
 export type PeriodsForward = number;
 export type PeriodsBackward = number;
 export type PredictionInterval = number;
 export type Seasonality = number;
 export interface TimeBasedForecastProperties {
-  PeriodsForward?: number;
-  PeriodsBackward?: number;
-  UpperBoundary?: number;
-  LowerBoundary?: number;
-  PredictionInterval?: number;
-  Seasonality?: number;
+  PeriodsForward?: number | undefined;
+  PeriodsBackward?: number | undefined;
+  UpperBoundary?: number | undefined;
+  LowerBoundary?: number | undefined;
+  PredictionInterval?: number | undefined;
+  Seasonality?: number | undefined;
 }
 export interface WhatIfPointScenario {
   Date: Date;
@@ -2894,12 +2894,12 @@ export interface WhatIfRangeScenario {
   Value: number;
 }
 export interface ForecastScenario {
-  WhatIfPointScenario?: WhatIfPointScenario;
-  WhatIfRangeScenario?: WhatIfRangeScenario;
+  WhatIfPointScenario?: WhatIfPointScenario | undefined;
+  WhatIfRangeScenario?: WhatIfRangeScenario | undefined;
 }
 export interface ForecastConfiguration {
-  ForecastProperties?: TimeBasedForecastProperties;
-  Scenario?: ForecastScenario;
+  ForecastProperties?: TimeBasedForecastProperties | undefined;
+  Scenario?: ForecastScenario | undefined;
 }
 export type ForecastConfigurationList = ForecastConfiguration[];
 export type LineChartType = "LINE" | "AREA" | "STACKED_AREA" | (string & {});
@@ -2909,177 +2909,177 @@ export type MissingDataTreatmentOption =
   | "SHOW_AS_BLANK"
   | (string & {});
 export interface MissingDataConfiguration {
-  TreatmentOption?: MissingDataTreatmentOption;
+  TreatmentOption?: MissingDataTreatmentOption | undefined;
 }
 export type MissingDataConfigurationList = MissingDataConfiguration[];
 export interface LineSeriesAxisDisplayOptions {
-  AxisOptions?: AxisDisplayOptions;
-  MissingDataConfigurations?: MissingDataConfiguration[];
+  AxisOptions?: AxisDisplayOptions | undefined;
+  MissingDataConfigurations?: MissingDataConfiguration[] | undefined;
 }
 export type SingleYAxisOption = "PRIMARY_Y_AXIS" | (string & {});
 export interface YAxisOptions {
   YAxis: SingleYAxisOption;
 }
 export interface SingleAxisOptions {
-  YAxisOptions?: YAxisOptions;
+  YAxisOptions?: YAxisOptions | undefined;
 }
 export type LineChartLineStyle = "SOLID" | "DOTTED" | "DASHED" | (string & {});
 export interface LineChartLineStyleSettings {
-  LineVisibility?: Visibility;
-  LineInterpolation?: LineInterpolation;
-  LineStyle?: LineChartLineStyle;
-  LineWidth?: string;
+  LineVisibility?: Visibility | undefined;
+  LineInterpolation?: LineInterpolation | undefined;
+  LineStyle?: LineChartLineStyle | undefined;
+  LineWidth?: string | undefined;
 }
 export interface LineChartDefaultSeriesSettings {
-  AxisBinding?: AxisBinding;
-  LineStyleSettings?: LineChartLineStyleSettings;
-  MarkerStyleSettings?: LineChartMarkerStyleSettings;
-  DecalSettings?: DecalSettings;
+  AxisBinding?: AxisBinding | undefined;
+  LineStyleSettings?: LineChartLineStyleSettings | undefined;
+  MarkerStyleSettings?: LineChartMarkerStyleSettings | undefined;
+  DecalSettings?: DecalSettings | undefined;
 }
 export interface LineChartSeriesSettings {
-  LineStyleSettings?: LineChartLineStyleSettings;
-  MarkerStyleSettings?: LineChartMarkerStyleSettings;
-  DecalSettings?: DecalSettings;
+  LineStyleSettings?: LineChartLineStyleSettings | undefined;
+  MarkerStyleSettings?: LineChartMarkerStyleSettings | undefined;
+  DecalSettings?: DecalSettings | undefined;
 }
 export interface FieldSeriesItem {
   FieldId: string;
   AxisBinding: AxisBinding;
-  Settings?: LineChartSeriesSettings;
+  Settings?: LineChartSeriesSettings | undefined;
 }
 export interface DataFieldSeriesItem {
   FieldId: string;
-  FieldValue?: string | redacted.Redacted<string>;
+  FieldValue?: string | redacted.Redacted<string> | undefined;
   AxisBinding: AxisBinding;
-  Settings?: LineChartSeriesSettings;
+  Settings?: LineChartSeriesSettings | undefined;
 }
 export interface SeriesItem {
-  FieldSeriesItem?: FieldSeriesItem;
-  DataFieldSeriesItem?: DataFieldSeriesItem;
+  FieldSeriesItem?: FieldSeriesItem | undefined;
+  DataFieldSeriesItem?: DataFieldSeriesItem | undefined;
 }
 export type SeriesItemList = SeriesItem[];
 export interface LineChartConfiguration {
-  FieldWells?: LineChartFieldWells;
-  SortConfiguration?: LineChartSortConfiguration;
-  ForecastConfigurations?: ForecastConfiguration[];
-  Type?: LineChartType;
-  SmallMultiplesOptions?: SmallMultiplesOptions;
-  XAxisDisplayOptions?: AxisDisplayOptions;
-  XAxisLabelOptions?: ChartAxisLabelOptions;
-  PrimaryYAxisDisplayOptions?: LineSeriesAxisDisplayOptions;
-  PrimaryYAxisLabelOptions?: ChartAxisLabelOptions;
-  SecondaryYAxisDisplayOptions?: LineSeriesAxisDisplayOptions;
-  SecondaryYAxisLabelOptions?: ChartAxisLabelOptions;
-  SingleAxisOptions?: SingleAxisOptions;
-  DefaultSeriesSettings?: LineChartDefaultSeriesSettings;
-  Series?: SeriesItem[];
-  Legend?: LegendOptions;
-  DataLabels?: DataLabelOptions;
-  ReferenceLines?: ReferenceLine[];
-  Tooltip?: TooltipOptions;
-  ContributionAnalysisDefaults?: ContributionAnalysisDefault[];
-  VisualPalette?: VisualPalette;
-  Interactions?: VisualInteractionOptions;
+  FieldWells?: LineChartFieldWells | undefined;
+  SortConfiguration?: LineChartSortConfiguration | undefined;
+  ForecastConfigurations?: ForecastConfiguration[] | undefined;
+  Type?: LineChartType | undefined;
+  SmallMultiplesOptions?: SmallMultiplesOptions | undefined;
+  XAxisDisplayOptions?: AxisDisplayOptions | undefined;
+  XAxisLabelOptions?: ChartAxisLabelOptions | undefined;
+  PrimaryYAxisDisplayOptions?: LineSeriesAxisDisplayOptions | undefined;
+  PrimaryYAxisLabelOptions?: ChartAxisLabelOptions | undefined;
+  SecondaryYAxisDisplayOptions?: LineSeriesAxisDisplayOptions | undefined;
+  SecondaryYAxisLabelOptions?: ChartAxisLabelOptions | undefined;
+  SingleAxisOptions?: SingleAxisOptions | undefined;
+  DefaultSeriesSettings?: LineChartDefaultSeriesSettings | undefined;
+  Series?: SeriesItem[] | undefined;
+  Legend?: LegendOptions | undefined;
+  DataLabels?: DataLabelOptions | undefined;
+  ReferenceLines?: ReferenceLine[] | undefined;
+  Tooltip?: TooltipOptions | undefined;
+  ContributionAnalysisDefaults?: ContributionAnalysisDefault[] | undefined;
+  VisualPalette?: VisualPalette | undefined;
+  Interactions?: VisualInteractionOptions | undefined;
 }
 export interface LineChartVisual {
   VisualId: string;
-  Title?: VisualTitleLabelOptions;
-  Subtitle?: VisualSubtitleLabelOptions;
-  ChartConfiguration?: LineChartConfiguration;
-  Actions?: VisualCustomAction[];
-  ColumnHierarchies?: ColumnHierarchy[];
-  VisualContentAltText?: string;
+  Title?: VisualTitleLabelOptions | undefined;
+  Subtitle?: VisualSubtitleLabelOptions | undefined;
+  ChartConfiguration?: LineChartConfiguration | undefined;
+  Actions?: VisualCustomAction[] | undefined;
+  ColumnHierarchies?: ColumnHierarchy[] | undefined;
+  VisualContentAltText?: string | undefined;
 }
 export type HeatMapDimensionFieldList = DimensionField[];
 export type HeatMapMeasureFieldList = MeasureField[];
 export interface HeatMapAggregatedFieldWells {
-  Rows?: DimensionField[];
-  Columns?: DimensionField[];
-  Values?: MeasureField[];
+  Rows?: DimensionField[] | undefined;
+  Columns?: DimensionField[] | undefined;
+  Values?: MeasureField[] | undefined;
 }
 export interface HeatMapFieldWells {
-  HeatMapAggregatedFieldWells?: HeatMapAggregatedFieldWells;
+  HeatMapAggregatedFieldWells?: HeatMapAggregatedFieldWells | undefined;
 }
 export interface HeatMapSortConfiguration {
-  HeatMapRowSort?: FieldSortOptions[];
-  HeatMapColumnSort?: FieldSortOptions[];
-  HeatMapRowItemsLimitConfiguration?: ItemsLimitConfiguration;
-  HeatMapColumnItemsLimitConfiguration?: ItemsLimitConfiguration;
+  HeatMapRowSort?: FieldSortOptions[] | undefined;
+  HeatMapColumnSort?: FieldSortOptions[] | undefined;
+  HeatMapRowItemsLimitConfiguration?: ItemsLimitConfiguration | undefined;
+  HeatMapColumnItemsLimitConfiguration?: ItemsLimitConfiguration | undefined;
 }
 export interface DataColor {
-  Color?: string;
-  DataValue?: number;
+  Color?: string | undefined;
+  DataValue?: number | undefined;
 }
 export type ColorScaleColorList = DataColor[];
 export type ColorFillType = "DISCRETE" | "GRADIENT" | (string & {});
 export interface ColorScale {
   Colors: DataColor[];
   ColorFillType: ColorFillType;
-  NullValueColor?: DataColor;
+  NullValueColor?: DataColor | undefined;
 }
 export interface HeatMapConfiguration {
-  FieldWells?: HeatMapFieldWells;
-  SortConfiguration?: HeatMapSortConfiguration;
-  RowAxisDisplayOptions?: AxisDisplayOptions;
-  RowLabelOptions?: ChartAxisLabelOptions;
-  ColumnAxisDisplayOptions?: AxisDisplayOptions;
-  ColumnLabelOptions?: ChartAxisLabelOptions;
-  ColorScale?: ColorScale;
-  Legend?: LegendOptions;
-  DataLabels?: DataLabelOptions;
-  Tooltip?: TooltipOptions;
-  Interactions?: VisualInteractionOptions;
+  FieldWells?: HeatMapFieldWells | undefined;
+  SortConfiguration?: HeatMapSortConfiguration | undefined;
+  RowAxisDisplayOptions?: AxisDisplayOptions | undefined;
+  RowLabelOptions?: ChartAxisLabelOptions | undefined;
+  ColumnAxisDisplayOptions?: AxisDisplayOptions | undefined;
+  ColumnLabelOptions?: ChartAxisLabelOptions | undefined;
+  ColorScale?: ColorScale | undefined;
+  Legend?: LegendOptions | undefined;
+  DataLabels?: DataLabelOptions | undefined;
+  Tooltip?: TooltipOptions | undefined;
+  Interactions?: VisualInteractionOptions | undefined;
 }
 export interface HeatMapVisual {
   VisualId: string;
-  Title?: VisualTitleLabelOptions;
-  Subtitle?: VisualSubtitleLabelOptions;
-  ChartConfiguration?: HeatMapConfiguration;
-  ColumnHierarchies?: ColumnHierarchy[];
-  Actions?: VisualCustomAction[];
-  VisualContentAltText?: string;
+  Title?: VisualTitleLabelOptions | undefined;
+  Subtitle?: VisualSubtitleLabelOptions | undefined;
+  ChartConfiguration?: HeatMapConfiguration | undefined;
+  ColumnHierarchies?: ColumnHierarchy[] | undefined;
+  Actions?: VisualCustomAction[] | undefined;
+  VisualContentAltText?: string | undefined;
 }
 export type TreeMapDimensionFieldList = DimensionField[];
 export type TreeMapMeasureFieldList = MeasureField[];
 export interface TreeMapAggregatedFieldWells {
-  Groups?: DimensionField[];
-  Sizes?: MeasureField[];
-  Colors?: MeasureField[];
+  Groups?: DimensionField[] | undefined;
+  Sizes?: MeasureField[] | undefined;
+  Colors?: MeasureField[] | undefined;
 }
 export interface TreeMapFieldWells {
-  TreeMapAggregatedFieldWells?: TreeMapAggregatedFieldWells;
+  TreeMapAggregatedFieldWells?: TreeMapAggregatedFieldWells | undefined;
 }
 export interface TreeMapSortConfiguration {
-  TreeMapSort?: FieldSortOptions[];
-  TreeMapGroupItemsLimitConfiguration?: ItemsLimitConfiguration;
+  TreeMapSort?: FieldSortOptions[] | undefined;
+  TreeMapGroupItemsLimitConfiguration?: ItemsLimitConfiguration | undefined;
 }
 export interface TreeMapConfiguration {
-  FieldWells?: TreeMapFieldWells;
-  SortConfiguration?: TreeMapSortConfiguration;
-  GroupLabelOptions?: ChartAxisLabelOptions;
-  SizeLabelOptions?: ChartAxisLabelOptions;
-  ColorLabelOptions?: ChartAxisLabelOptions;
-  ColorScale?: ColorScale;
-  Legend?: LegendOptions;
-  DataLabels?: DataLabelOptions;
-  Tooltip?: TooltipOptions;
-  Interactions?: VisualInteractionOptions;
+  FieldWells?: TreeMapFieldWells | undefined;
+  SortConfiguration?: TreeMapSortConfiguration | undefined;
+  GroupLabelOptions?: ChartAxisLabelOptions | undefined;
+  SizeLabelOptions?: ChartAxisLabelOptions | undefined;
+  ColorLabelOptions?: ChartAxisLabelOptions | undefined;
+  ColorScale?: ColorScale | undefined;
+  Legend?: LegendOptions | undefined;
+  DataLabels?: DataLabelOptions | undefined;
+  Tooltip?: TooltipOptions | undefined;
+  Interactions?: VisualInteractionOptions | undefined;
 }
 export interface TreeMapVisual {
   VisualId: string;
-  Title?: VisualTitleLabelOptions;
-  Subtitle?: VisualSubtitleLabelOptions;
-  ChartConfiguration?: TreeMapConfiguration;
-  Actions?: VisualCustomAction[];
-  ColumnHierarchies?: ColumnHierarchy[];
-  VisualContentAltText?: string;
+  Title?: VisualTitleLabelOptions | undefined;
+  Subtitle?: VisualSubtitleLabelOptions | undefined;
+  ChartConfiguration?: TreeMapConfiguration | undefined;
+  Actions?: VisualCustomAction[] | undefined;
+  ColumnHierarchies?: ColumnHierarchy[] | undefined;
+  VisualContentAltText?: string | undefined;
 }
 export interface GeospatialMapAggregatedFieldWells {
-  Geospatial?: DimensionField[];
-  Values?: MeasureField[];
-  Colors?: DimensionField[];
+  Geospatial?: DimensionField[] | undefined;
+  Values?: MeasureField[] | undefined;
+  Colors?: DimensionField[] | undefined;
 }
 export interface GeospatialMapFieldWells {
-  GeospatialMapAggregatedFieldWells?: GeospatialMapAggregatedFieldWells;
+  GeospatialMapAggregatedFieldWells?: GeospatialMapAggregatedFieldWells | undefined;
 }
 export type Latitude = number;
 export type Longitude = number;
@@ -3091,47 +3091,47 @@ export interface GeospatialCoordinateBounds {
 }
 export type MapZoomMode = "AUTO" | "MANUAL" | (string & {});
 export interface GeospatialWindowOptions {
-  Bounds?: GeospatialCoordinateBounds;
-  MapZoomMode?: MapZoomMode;
+  Bounds?: GeospatialCoordinateBounds | undefined;
+  MapZoomMode?: MapZoomMode | undefined;
 }
 export type BaseMapStyleType = "LIGHT_GRAY" | "DARK_GRAY" | "STREET" | "IMAGERY" | (string & {});
 export interface GeospatialMapStyleOptions {
-  BaseMapStyle?: BaseMapStyleType;
+  BaseMapStyle?: BaseMapStyleType | undefined;
 }
 export type GeospatialSelectedPointStyle = "POINT" | "CLUSTER" | "HEATMAP" | (string & {});
 export interface SimpleClusterMarker {
-  Color?: string;
+  Color?: string | undefined;
 }
 export interface ClusterMarker {
-  SimpleClusterMarker?: SimpleClusterMarker;
+  SimpleClusterMarker?: SimpleClusterMarker | undefined;
 }
 export interface ClusterMarkerConfiguration {
-  ClusterMarker?: ClusterMarker;
+  ClusterMarker?: ClusterMarker | undefined;
 }
 export interface GeospatialHeatmapDataColor {
   Color: string;
 }
 export type GeospatialHeatmapDataColorList = GeospatialHeatmapDataColor[];
 export interface GeospatialHeatmapColorScale {
-  Colors?: GeospatialHeatmapDataColor[];
+  Colors?: GeospatialHeatmapDataColor[] | undefined;
 }
 export interface GeospatialHeatmapConfiguration {
-  HeatmapColor?: GeospatialHeatmapColorScale;
+  HeatmapColor?: GeospatialHeatmapColorScale | undefined;
 }
 export interface GeospatialPointStyleOptions {
-  SelectedPointStyle?: GeospatialSelectedPointStyle;
-  ClusterMarkerConfiguration?: ClusterMarkerConfiguration;
-  HeatmapConfiguration?: GeospatialHeatmapConfiguration;
+  SelectedPointStyle?: GeospatialSelectedPointStyle | undefined;
+  ClusterMarkerConfiguration?: ClusterMarkerConfiguration | undefined;
+  HeatmapConfiguration?: GeospatialHeatmapConfiguration | undefined;
 }
 export interface GeospatialMapConfiguration {
-  FieldWells?: GeospatialMapFieldWells;
-  Legend?: LegendOptions;
-  Tooltip?: TooltipOptions;
-  WindowOptions?: GeospatialWindowOptions;
-  MapStyleOptions?: GeospatialMapStyleOptions;
-  PointStyleOptions?: GeospatialPointStyleOptions;
-  VisualPalette?: VisualPalette;
-  Interactions?: VisualInteractionOptions;
+  FieldWells?: GeospatialMapFieldWells | undefined;
+  Legend?: LegendOptions | undefined;
+  Tooltip?: TooltipOptions | undefined;
+  WindowOptions?: GeospatialWindowOptions | undefined;
+  MapStyleOptions?: GeospatialMapStyleOptions | undefined;
+  PointStyleOptions?: GeospatialPointStyleOptions | undefined;
+  VisualPalette?: VisualPalette | undefined;
+  Interactions?: VisualInteractionOptions | undefined;
 }
 export type GeocoderHierarchyCountryString = string;
 export type GeocoderHierarchyStateString = string;
@@ -3139,11 +3139,11 @@ export type GeocoderHierarchyCountyString = string;
 export type GeocoderHierarchyCityString = string;
 export type GeocoderHierarchyPostCodeString = string;
 export interface GeocoderHierarchy {
-  Country?: string;
-  State?: string;
-  County?: string;
-  City?: string;
-  PostCode?: string;
+  Country?: string | undefined;
+  State?: string | undefined;
+  County?: string | undefined;
+  City?: string | undefined;
+  PostCode?: string | undefined;
 }
 export type CoordinateLatitudeDouble = number;
 export type CoordinateLongitudeDouble = number;
@@ -3152,8 +3152,8 @@ export interface Coordinate {
   Longitude: number;
 }
 export type GeocodePreferenceValue =
-  | { GeocoderHierarchy: GeocoderHierarchy; Coordinate?: never }
-  | { GeocoderHierarchy?: never; Coordinate: Coordinate };
+  | { GeocoderHierarchy: GeocoderHierarchy; Coordinate?: undefined }
+  | { GeocoderHierarchy?: undefined; Coordinate: Coordinate };
 export interface GeocodePreference {
   RequestKey: GeocoderHierarchy;
   Preference: GeocodePreferenceValue;
@@ -3161,41 +3161,41 @@ export interface GeocodePreference {
 export type GeocodePreferenceList = GeocodePreference[];
 export interface GeospatialMapVisual {
   VisualId: string;
-  Title?: VisualTitleLabelOptions;
-  Subtitle?: VisualSubtitleLabelOptions;
-  ChartConfiguration?: GeospatialMapConfiguration;
-  ColumnHierarchies?: ColumnHierarchy[];
-  Actions?: VisualCustomAction[];
-  VisualContentAltText?: string;
-  GeocodingPreferences?: GeocodePreference[];
+  Title?: VisualTitleLabelOptions | undefined;
+  Subtitle?: VisualSubtitleLabelOptions | undefined;
+  ChartConfiguration?: GeospatialMapConfiguration | undefined;
+  ColumnHierarchies?: ColumnHierarchy[] | undefined;
+  Actions?: VisualCustomAction[] | undefined;
+  VisualContentAltText?: string | undefined;
+  GeocodingPreferences?: GeocodePreference[] | undefined;
 }
 export type FilledMapDimensionFieldList = DimensionField[];
 export type FilledMapMeasureFieldList = MeasureField[];
 export interface FilledMapAggregatedFieldWells {
-  Geospatial?: DimensionField[];
-  Values?: MeasureField[];
+  Geospatial?: DimensionField[] | undefined;
+  Values?: MeasureField[] | undefined;
 }
 export interface FilledMapFieldWells {
-  FilledMapAggregatedFieldWells?: FilledMapAggregatedFieldWells;
+  FilledMapAggregatedFieldWells?: FilledMapAggregatedFieldWells | undefined;
 }
 export interface FilledMapSortConfiguration {
-  CategorySort?: FieldSortOptions[];
+  CategorySort?: FieldSortOptions[] | undefined;
 }
 export interface FilledMapConfiguration {
-  FieldWells?: FilledMapFieldWells;
-  SortConfiguration?: FilledMapSortConfiguration;
-  Legend?: LegendOptions;
-  Tooltip?: TooltipOptions;
-  WindowOptions?: GeospatialWindowOptions;
-  MapStyleOptions?: GeospatialMapStyleOptions;
-  Interactions?: VisualInteractionOptions;
+  FieldWells?: FilledMapFieldWells | undefined;
+  SortConfiguration?: FilledMapSortConfiguration | undefined;
+  Legend?: LegendOptions | undefined;
+  Tooltip?: TooltipOptions | undefined;
+  WindowOptions?: GeospatialWindowOptions | undefined;
+  MapStyleOptions?: GeospatialMapStyleOptions | undefined;
+  Interactions?: VisualInteractionOptions | undefined;
 }
 export interface ShapeConditionalFormat {
   BackgroundColor: ConditionalFormattingColor;
 }
 export interface FilledMapShapeConditionalFormatting {
   FieldId: string;
-  Format?: ShapeConditionalFormat;
+  Format?: ShapeConditionalFormat | undefined;
 }
 export interface FilledMapConditionalFormattingOption {
   Shape: FilledMapShapeConditionalFormatting;
@@ -3206,26 +3206,26 @@ export interface FilledMapConditionalFormatting {
 }
 export interface FilledMapVisual {
   VisualId: string;
-  Title?: VisualTitleLabelOptions;
-  Subtitle?: VisualSubtitleLabelOptions;
-  ChartConfiguration?: FilledMapConfiguration;
-  ConditionalFormatting?: FilledMapConditionalFormatting;
-  ColumnHierarchies?: ColumnHierarchy[];
-  Actions?: VisualCustomAction[];
-  VisualContentAltText?: string;
-  GeocodingPreferences?: GeocodePreference[];
+  Title?: VisualTitleLabelOptions | undefined;
+  Subtitle?: VisualSubtitleLabelOptions | undefined;
+  ChartConfiguration?: FilledMapConfiguration | undefined;
+  ConditionalFormatting?: FilledMapConditionalFormatting | undefined;
+  ColumnHierarchies?: ColumnHierarchy[] | undefined;
+  Actions?: VisualCustomAction[] | undefined;
+  VisualContentAltText?: string | undefined;
+  GeocodingPreferences?: GeocodePreference[] | undefined;
 }
 export type GeospatialLayerType = "POINT" | "LINE" | "POLYGON" | (string & {});
 export interface GeospatialStaticFileSource {
   StaticFileId: string;
 }
 export interface GeospatialDataSourceItem {
-  StaticFileDataSource?: GeospatialStaticFileSource;
+  StaticFileDataSource?: GeospatialStaticFileSource | undefined;
 }
 export type GeospatialColorState = "ENABLED" | "DISABLED" | (string & {});
 export interface GeospatialSolidColor {
   Color: string;
-  State?: GeospatialColorState;
+  State?: GeospatialColorState | undefined;
 }
 export interface GeospatialGradientStepColor {
   Color: string;
@@ -3234,9 +3234,9 @@ export interface GeospatialGradientStepColor {
 export type GeospatialGradientStepColorList = GeospatialGradientStepColor[];
 export type GeospatialWidth = number;
 export interface GeospatialNullSymbolStyle {
-  FillColor?: string;
-  StrokeColor?: string;
-  StrokeWidth?: number;
+  FillColor?: string | undefined;
+  StrokeColor?: string | undefined;
+  StrokeWidth?: number | undefined;
 }
 export interface GeospatialNullDataSettings {
   SymbolStyle: GeospatialNullSymbolStyle;
@@ -3244,9 +3244,9 @@ export interface GeospatialNullDataSettings {
 export type Opacity = number;
 export interface GeospatialGradientColor {
   StepColors: GeospatialGradientStepColor[];
-  NullDataVisibility?: Visibility;
-  NullDataSettings?: GeospatialNullDataSettings;
-  DefaultOpacity?: number;
+  NullDataVisibility?: Visibility | undefined;
+  NullDataSettings?: GeospatialNullDataSettings | undefined;
+  DefaultOpacity?: number | undefined;
 }
 export interface GeospatialCategoricalDataColor {
   Color: string;
@@ -3255,138 +3255,138 @@ export interface GeospatialCategoricalDataColor {
 export type GeospatialCategoricalDataColorList = GeospatialCategoricalDataColor[];
 export interface GeospatialCategoricalColor {
   CategoryDataColors: GeospatialCategoricalDataColor[];
-  NullDataVisibility?: Visibility;
-  NullDataSettings?: GeospatialNullDataSettings;
-  DefaultOpacity?: number;
+  NullDataVisibility?: Visibility | undefined;
+  NullDataSettings?: GeospatialNullDataSettings | undefined;
+  DefaultOpacity?: number | undefined;
 }
 export interface GeospatialColor {
-  Solid?: GeospatialSolidColor;
-  Gradient?: GeospatialGradientColor;
-  Categorical?: GeospatialCategoricalColor;
+  Solid?: GeospatialSolidColor | undefined;
+  Gradient?: GeospatialGradientColor | undefined;
+  Categorical?: GeospatialCategoricalColor | undefined;
 }
 export interface GeospatialLineWidth {
-  LineWidth?: number;
+  LineWidth?: number | undefined;
 }
 export type GeospatialRadius = number;
 export interface GeospatialCircleRadius {
-  Radius?: number;
+  Radius?: number | undefined;
 }
 export interface GeospatialCircleSymbolStyle {
-  FillColor?: GeospatialColor;
-  StrokeColor?: GeospatialColor;
-  StrokeWidth?: GeospatialLineWidth;
-  CircleRadius?: GeospatialCircleRadius;
+  FillColor?: GeospatialColor | undefined;
+  StrokeColor?: GeospatialColor | undefined;
+  StrokeWidth?: GeospatialLineWidth | undefined;
+  CircleRadius?: GeospatialCircleRadius | undefined;
 }
 export interface GeospatialPointStyle {
-  CircleSymbolStyle?: GeospatialCircleSymbolStyle;
+  CircleSymbolStyle?: GeospatialCircleSymbolStyle | undefined;
 }
 export interface GeospatialPointLayer {
   Style: GeospatialPointStyle;
 }
 export interface GeospatialLineSymbolStyle {
-  FillColor?: GeospatialColor;
-  LineWidth?: GeospatialLineWidth;
+  FillColor?: GeospatialColor | undefined;
+  LineWidth?: GeospatialLineWidth | undefined;
 }
 export interface GeospatialLineStyle {
-  LineSymbolStyle?: GeospatialLineSymbolStyle;
+  LineSymbolStyle?: GeospatialLineSymbolStyle | undefined;
 }
 export interface GeospatialLineLayer {
   Style: GeospatialLineStyle;
 }
 export interface GeospatialPolygonSymbolStyle {
-  FillColor?: GeospatialColor;
-  StrokeColor?: GeospatialColor;
-  StrokeWidth?: GeospatialLineWidth;
+  FillColor?: GeospatialColor | undefined;
+  StrokeColor?: GeospatialColor | undefined;
+  StrokeWidth?: GeospatialLineWidth | undefined;
 }
 export interface GeospatialPolygonStyle {
-  PolygonSymbolStyle?: GeospatialPolygonSymbolStyle;
+  PolygonSymbolStyle?: GeospatialPolygonSymbolStyle | undefined;
 }
 export interface GeospatialPolygonLayer {
   Style: GeospatialPolygonStyle;
 }
 export interface GeospatialLayerDefinition {
-  PointLayer?: GeospatialPointLayer;
-  LineLayer?: GeospatialLineLayer;
-  PolygonLayer?: GeospatialPolygonLayer;
+  PointLayer?: GeospatialPointLayer | undefined;
+  LineLayer?: GeospatialLineLayer | undefined;
+  PolygonLayer?: GeospatialPolygonLayer | undefined;
 }
 export type GeospatialLayerDimensionFieldList = DimensionField[];
 export type GeospatialLayerMeasureFieldList = MeasureField[];
 export interface GeospatialLayerColorField {
-  ColorDimensionsFields?: DimensionField[];
-  ColorValuesFields?: MeasureField[];
+  ColorDimensionsFields?: DimensionField[] | undefined;
+  ColorValuesFields?: MeasureField[] | undefined;
 }
 export interface GeospatialLayerJoinDefinition {
-  ShapeKeyField?: string;
-  DatasetKeyField?: UnaggregatedField;
-  ColorField?: GeospatialLayerColorField;
+  ShapeKeyField?: string | undefined;
+  DatasetKeyField?: UnaggregatedField | undefined;
+  ColorField?: GeospatialLayerColorField | undefined;
 }
 export type LayerCustomActionName = string;
 export type LayerCustomActionTrigger = "DATA_POINT_CLICK" | "DATA_POINT_MENU" | (string & {});
 export interface LayerCustomActionOperation {
-  FilterOperation?: CustomActionFilterOperation;
-  NavigationOperation?: CustomActionNavigationOperation;
-  URLOperation?: CustomActionURLOperation;
-  SetParametersOperation?: CustomActionSetParametersOperation;
+  FilterOperation?: CustomActionFilterOperation | undefined;
+  NavigationOperation?: CustomActionNavigationOperation | undefined;
+  URLOperation?: CustomActionURLOperation | undefined;
+  SetParametersOperation?: CustomActionSetParametersOperation | undefined;
 }
 export type LayerCustomActionOperationList = LayerCustomActionOperation[];
 export interface LayerCustomAction {
   CustomActionId: string;
   Name: string;
-  Status?: WidgetStatus;
+  Status?: WidgetStatus | undefined;
   Trigger: LayerCustomActionTrigger;
   ActionOperations: LayerCustomActionOperation[];
 }
 export type LayerCustomActionList = LayerCustomAction[];
 export interface GeospatialLayerItem {
   LayerId: string;
-  LayerType?: GeospatialLayerType;
-  DataSource?: GeospatialDataSourceItem;
-  Label?: string;
-  Visibility?: Visibility;
-  LayerDefinition?: GeospatialLayerDefinition;
-  Tooltip?: TooltipOptions;
-  JoinDefinition?: GeospatialLayerJoinDefinition;
-  Actions?: LayerCustomAction[];
+  LayerType?: GeospatialLayerType | undefined;
+  DataSource?: GeospatialDataSourceItem | undefined;
+  Label?: string | undefined;
+  Visibility?: Visibility | undefined;
+  LayerDefinition?: GeospatialLayerDefinition | undefined;
+  Tooltip?: TooltipOptions | undefined;
+  JoinDefinition?: GeospatialLayerJoinDefinition | undefined;
+  Actions?: LayerCustomAction[] | undefined;
 }
 export type GeospatialMapLayerList = GeospatialLayerItem[];
 export type GeospatialMapNavigation = "ENABLED" | "DISABLED" | (string & {});
 export interface GeospatialMapState {
-  Bounds?: GeospatialCoordinateBounds;
-  MapNavigation?: GeospatialMapNavigation;
+  Bounds?: GeospatialCoordinateBounds | undefined;
+  MapNavigation?: GeospatialMapNavigation | undefined;
 }
 export interface GeospatialMapStyle {
-  BaseMapStyle?: BaseMapStyleType;
-  BackgroundColor?: string;
-  BaseMapVisibility?: Visibility;
+  BaseMapStyle?: BaseMapStyleType | undefined;
+  BackgroundColor?: string | undefined;
+  BaseMapVisibility?: Visibility | undefined;
 }
 export interface GeospatialLayerMapConfiguration {
-  Legend?: LegendOptions;
-  MapLayers?: GeospatialLayerItem[];
-  MapState?: GeospatialMapState;
-  MapStyle?: GeospatialMapStyle;
-  Interactions?: VisualInteractionOptions;
+  Legend?: LegendOptions | undefined;
+  MapLayers?: GeospatialLayerItem[] | undefined;
+  MapState?: GeospatialMapState | undefined;
+  MapStyle?: GeospatialMapStyle | undefined;
+  Interactions?: VisualInteractionOptions | undefined;
 }
 export interface LayerMapVisual {
   VisualId: string;
-  Title?: VisualTitleLabelOptions;
-  Subtitle?: VisualSubtitleLabelOptions;
-  ChartConfiguration?: GeospatialLayerMapConfiguration;
-  DataSetIdentifier?: string;
-  TopicIdentifier?: string;
-  VisualContentAltText?: string;
+  Title?: VisualTitleLabelOptions | undefined;
+  Subtitle?: VisualSubtitleLabelOptions | undefined;
+  ChartConfiguration?: GeospatialLayerMapConfiguration | undefined;
+  DataSetIdentifier?: string | undefined;
+  TopicIdentifier?: string | undefined;
+  VisualContentAltText?: string | undefined;
 }
 export type FunnelChartDimensionFieldList = DimensionField[];
 export type FunnelChartMeasureFieldList = MeasureField[];
 export interface FunnelChartAggregatedFieldWells {
-  Category?: DimensionField[];
-  Values?: MeasureField[];
+  Category?: DimensionField[] | undefined;
+  Values?: MeasureField[] | undefined;
 }
 export interface FunnelChartFieldWells {
-  FunnelChartAggregatedFieldWells?: FunnelChartAggregatedFieldWells;
+  FunnelChartAggregatedFieldWells?: FunnelChartAggregatedFieldWells | undefined;
 }
 export interface FunnelChartSortConfiguration {
-  CategorySort?: FieldSortOptions[];
-  CategoryItemsLimit?: ItemsLimitConfiguration;
+  CategorySort?: FieldSortOptions[] | undefined;
+  CategoryItemsLimit?: ItemsLimitConfiguration | undefined;
 }
 export type FunnelChartMeasureDataLabelStyle =
   | "VALUE_ONLY"
@@ -3396,294 +3396,296 @@ export type FunnelChartMeasureDataLabelStyle =
   | "VALUE_AND_PERCENTAGE_BY_PREVIOUS_STAGE"
   | (string & {});
 export interface FunnelChartDataLabelOptions {
-  Visibility?: Visibility;
-  CategoryLabelVisibility?: Visibility;
-  MeasureLabelVisibility?: Visibility;
-  Position?: DataLabelPosition;
-  LabelFontConfiguration?: FontConfiguration;
-  LabelColor?: string;
-  MeasureDataLabelStyle?: FunnelChartMeasureDataLabelStyle;
+  Visibility?: Visibility | undefined;
+  CategoryLabelVisibility?: Visibility | undefined;
+  MeasureLabelVisibility?: Visibility | undefined;
+  Position?: DataLabelPosition | undefined;
+  LabelFontConfiguration?: FontConfiguration | undefined;
+  LabelColor?: string | undefined;
+  MeasureDataLabelStyle?: FunnelChartMeasureDataLabelStyle | undefined;
 }
 export interface FunnelChartConfiguration {
-  FieldWells?: FunnelChartFieldWells;
-  SortConfiguration?: FunnelChartSortConfiguration;
-  CategoryLabelOptions?: ChartAxisLabelOptions;
-  ValueLabelOptions?: ChartAxisLabelOptions;
-  Tooltip?: TooltipOptions;
-  DataLabelOptions?: FunnelChartDataLabelOptions;
-  VisualPalette?: VisualPalette;
-  Interactions?: VisualInteractionOptions;
+  FieldWells?: FunnelChartFieldWells | undefined;
+  SortConfiguration?: FunnelChartSortConfiguration | undefined;
+  CategoryLabelOptions?: ChartAxisLabelOptions | undefined;
+  ValueLabelOptions?: ChartAxisLabelOptions | undefined;
+  Tooltip?: TooltipOptions | undefined;
+  DataLabelOptions?: FunnelChartDataLabelOptions | undefined;
+  VisualPalette?: VisualPalette | undefined;
+  Interactions?: VisualInteractionOptions | undefined;
 }
 export interface FunnelChartVisual {
   VisualId: string;
-  Title?: VisualTitleLabelOptions;
-  Subtitle?: VisualSubtitleLabelOptions;
-  ChartConfiguration?: FunnelChartConfiguration;
-  Actions?: VisualCustomAction[];
-  ColumnHierarchies?: ColumnHierarchy[];
-  VisualContentAltText?: string;
+  Title?: VisualTitleLabelOptions | undefined;
+  Subtitle?: VisualSubtitleLabelOptions | undefined;
+  ChartConfiguration?: FunnelChartConfiguration | undefined;
+  Actions?: VisualCustomAction[] | undefined;
+  ColumnHierarchies?: ColumnHierarchy[] | undefined;
+  VisualContentAltText?: string | undefined;
 }
 export interface ScatterPlotCategoricallyAggregatedFieldWells {
-  XAxis?: MeasureField[];
-  YAxis?: MeasureField[];
-  Category?: DimensionField[];
-  Size?: MeasureField[];
-  Label?: DimensionField[];
+  XAxis?: MeasureField[] | undefined;
+  YAxis?: MeasureField[] | undefined;
+  Category?: DimensionField[] | undefined;
+  Size?: MeasureField[] | undefined;
+  Label?: DimensionField[] | undefined;
 }
 export interface ScatterPlotUnaggregatedFieldWells {
-  XAxis?: DimensionField[];
-  YAxis?: DimensionField[];
-  Size?: MeasureField[];
-  Category?: DimensionField[];
-  Label?: DimensionField[];
+  XAxis?: DimensionField[] | undefined;
+  YAxis?: DimensionField[] | undefined;
+  Size?: MeasureField[] | undefined;
+  Category?: DimensionField[] | undefined;
+  Label?: DimensionField[] | undefined;
 }
 export interface ScatterPlotFieldWells {
-  ScatterPlotCategoricallyAggregatedFieldWells?: ScatterPlotCategoricallyAggregatedFieldWells;
-  ScatterPlotUnaggregatedFieldWells?: ScatterPlotUnaggregatedFieldWells;
+  ScatterPlotCategoricallyAggregatedFieldWells?:
+    | ScatterPlotCategoricallyAggregatedFieldWells
+    | undefined;
+  ScatterPlotUnaggregatedFieldWells?: ScatterPlotUnaggregatedFieldWells | undefined;
 }
 export interface ScatterPlotSortConfiguration {
-  ScatterPlotLimitConfiguration?: ItemsLimitConfiguration;
+  ScatterPlotLimitConfiguration?: ItemsLimitConfiguration | undefined;
 }
 export interface ScatterPlotConfiguration {
-  FieldWells?: ScatterPlotFieldWells;
-  SortConfiguration?: ScatterPlotSortConfiguration;
-  XAxisLabelOptions?: ChartAxisLabelOptions;
-  XAxisDisplayOptions?: AxisDisplayOptions;
-  YAxisLabelOptions?: ChartAxisLabelOptions;
-  YAxisDisplayOptions?: AxisDisplayOptions;
-  Legend?: LegendOptions;
-  DataLabels?: DataLabelOptions;
-  Tooltip?: TooltipOptions;
-  VisualPalette?: VisualPalette;
-  Interactions?: VisualInteractionOptions;
+  FieldWells?: ScatterPlotFieldWells | undefined;
+  SortConfiguration?: ScatterPlotSortConfiguration | undefined;
+  XAxisLabelOptions?: ChartAxisLabelOptions | undefined;
+  XAxisDisplayOptions?: AxisDisplayOptions | undefined;
+  YAxisLabelOptions?: ChartAxisLabelOptions | undefined;
+  YAxisDisplayOptions?: AxisDisplayOptions | undefined;
+  Legend?: LegendOptions | undefined;
+  DataLabels?: DataLabelOptions | undefined;
+  Tooltip?: TooltipOptions | undefined;
+  VisualPalette?: VisualPalette | undefined;
+  Interactions?: VisualInteractionOptions | undefined;
 }
 export interface ScatterPlotVisual {
   VisualId: string;
-  Title?: VisualTitleLabelOptions;
-  Subtitle?: VisualSubtitleLabelOptions;
-  ChartConfiguration?: ScatterPlotConfiguration;
-  Actions?: VisualCustomAction[];
-  ColumnHierarchies?: ColumnHierarchy[];
-  VisualContentAltText?: string;
+  Title?: VisualTitleLabelOptions | undefined;
+  Subtitle?: VisualSubtitleLabelOptions | undefined;
+  ChartConfiguration?: ScatterPlotConfiguration | undefined;
+  Actions?: VisualCustomAction[] | undefined;
+  ColumnHierarchies?: ColumnHierarchy[] | undefined;
+  VisualContentAltText?: string | undefined;
 }
 export interface ComboChartAggregatedFieldWells {
-  Category?: DimensionField[];
-  BarValues?: MeasureField[];
-  Colors?: DimensionField[];
-  LineValues?: MeasureField[];
+  Category?: DimensionField[] | undefined;
+  BarValues?: MeasureField[] | undefined;
+  Colors?: DimensionField[] | undefined;
+  LineValues?: MeasureField[] | undefined;
 }
 export interface ComboChartFieldWells {
-  ComboChartAggregatedFieldWells?: ComboChartAggregatedFieldWells;
+  ComboChartAggregatedFieldWells?: ComboChartAggregatedFieldWells | undefined;
 }
 export interface ComboChartSortConfiguration {
-  CategorySort?: FieldSortOptions[];
-  CategoryItemsLimit?: ItemsLimitConfiguration;
-  ColorSort?: FieldSortOptions[];
-  ColorItemsLimit?: ItemsLimitConfiguration;
+  CategorySort?: FieldSortOptions[] | undefined;
+  CategoryItemsLimit?: ItemsLimitConfiguration | undefined;
+  ColorSort?: FieldSortOptions[] | undefined;
+  ColorItemsLimit?: ItemsLimitConfiguration | undefined;
 }
 export interface ComboChartDefaultSeriesSettings {
-  LineStyleSettings?: LineChartLineStyleSettings;
-  MarkerStyleSettings?: LineChartMarkerStyleSettings;
-  DecalSettings?: DecalSettings;
-  BorderSettings?: BorderSettings;
+  LineStyleSettings?: LineChartLineStyleSettings | undefined;
+  MarkerStyleSettings?: LineChartMarkerStyleSettings | undefined;
+  DecalSettings?: DecalSettings | undefined;
+  BorderSettings?: BorderSettings | undefined;
 }
 export interface ComboChartSeriesSettings {
-  LineStyleSettings?: LineChartLineStyleSettings;
-  MarkerStyleSettings?: LineChartMarkerStyleSettings;
-  DecalSettings?: DecalSettings;
-  BorderSettings?: BorderSettings;
+  LineStyleSettings?: LineChartLineStyleSettings | undefined;
+  MarkerStyleSettings?: LineChartMarkerStyleSettings | undefined;
+  DecalSettings?: DecalSettings | undefined;
+  BorderSettings?: BorderSettings | undefined;
 }
 export interface FieldComboSeriesItem {
   FieldId: string;
-  Settings?: ComboChartSeriesSettings;
+  Settings?: ComboChartSeriesSettings | undefined;
 }
 export interface DataFieldComboSeriesItem {
   FieldId: string;
-  FieldValue?: string | redacted.Redacted<string>;
-  Settings?: ComboChartSeriesSettings;
+  FieldValue?: string | redacted.Redacted<string> | undefined;
+  Settings?: ComboChartSeriesSettings | undefined;
 }
 export interface ComboSeriesItem {
-  FieldComboSeriesItem?: FieldComboSeriesItem;
-  DataFieldComboSeriesItem?: DataFieldComboSeriesItem;
+  FieldComboSeriesItem?: FieldComboSeriesItem | undefined;
+  DataFieldComboSeriesItem?: DataFieldComboSeriesItem | undefined;
 }
 export type ComboSeriesItemList = ComboSeriesItem[];
 export interface ComboChartConfiguration {
-  FieldWells?: ComboChartFieldWells;
-  SortConfiguration?: ComboChartSortConfiguration;
-  BarsArrangement?: BarsArrangement;
-  CategoryAxis?: AxisDisplayOptions;
-  CategoryLabelOptions?: ChartAxisLabelOptions;
-  PrimaryYAxisDisplayOptions?: AxisDisplayOptions;
-  PrimaryYAxisLabelOptions?: ChartAxisLabelOptions;
-  SecondaryYAxisDisplayOptions?: AxisDisplayOptions;
-  SecondaryYAxisLabelOptions?: ChartAxisLabelOptions;
-  SingleAxisOptions?: SingleAxisOptions;
-  ColorLabelOptions?: ChartAxisLabelOptions;
-  DefaultSeriesSettings?: ComboChartDefaultSeriesSettings;
-  Series?: ComboSeriesItem[];
-  Legend?: LegendOptions;
-  BarDataLabels?: DataLabelOptions;
-  LineDataLabels?: DataLabelOptions;
-  Tooltip?: TooltipOptions;
-  ReferenceLines?: ReferenceLine[];
-  VisualPalette?: VisualPalette;
-  Interactions?: VisualInteractionOptions;
+  FieldWells?: ComboChartFieldWells | undefined;
+  SortConfiguration?: ComboChartSortConfiguration | undefined;
+  BarsArrangement?: BarsArrangement | undefined;
+  CategoryAxis?: AxisDisplayOptions | undefined;
+  CategoryLabelOptions?: ChartAxisLabelOptions | undefined;
+  PrimaryYAxisDisplayOptions?: AxisDisplayOptions | undefined;
+  PrimaryYAxisLabelOptions?: ChartAxisLabelOptions | undefined;
+  SecondaryYAxisDisplayOptions?: AxisDisplayOptions | undefined;
+  SecondaryYAxisLabelOptions?: ChartAxisLabelOptions | undefined;
+  SingleAxisOptions?: SingleAxisOptions | undefined;
+  ColorLabelOptions?: ChartAxisLabelOptions | undefined;
+  DefaultSeriesSettings?: ComboChartDefaultSeriesSettings | undefined;
+  Series?: ComboSeriesItem[] | undefined;
+  Legend?: LegendOptions | undefined;
+  BarDataLabels?: DataLabelOptions | undefined;
+  LineDataLabels?: DataLabelOptions | undefined;
+  Tooltip?: TooltipOptions | undefined;
+  ReferenceLines?: ReferenceLine[] | undefined;
+  VisualPalette?: VisualPalette | undefined;
+  Interactions?: VisualInteractionOptions | undefined;
 }
 export interface ComboChartVisual {
   VisualId: string;
-  Title?: VisualTitleLabelOptions;
-  Subtitle?: VisualSubtitleLabelOptions;
-  ChartConfiguration?: ComboChartConfiguration;
-  Actions?: VisualCustomAction[];
-  ColumnHierarchies?: ColumnHierarchy[];
-  VisualContentAltText?: string;
+  Title?: VisualTitleLabelOptions | undefined;
+  Subtitle?: VisualSubtitleLabelOptions | undefined;
+  ChartConfiguration?: ComboChartConfiguration | undefined;
+  Actions?: VisualCustomAction[] | undefined;
+  ColumnHierarchies?: ColumnHierarchy[] | undefined;
+  VisualContentAltText?: string | undefined;
 }
 export type BoxPlotDimensionFieldList = DimensionField[];
 export type BoxPlotMeasureFieldList = MeasureField[];
 export interface BoxPlotAggregatedFieldWells {
-  GroupBy?: DimensionField[];
-  Values?: MeasureField[];
+  GroupBy?: DimensionField[] | undefined;
+  Values?: MeasureField[] | undefined;
 }
 export interface BoxPlotFieldWells {
-  BoxPlotAggregatedFieldWells?: BoxPlotAggregatedFieldWells;
+  BoxPlotAggregatedFieldWells?: BoxPlotAggregatedFieldWells | undefined;
 }
 export interface BoxPlotSortConfiguration {
-  CategorySort?: FieldSortOptions[];
-  PaginationConfiguration?: PaginationConfiguration;
+  CategorySort?: FieldSortOptions[] | undefined;
+  PaginationConfiguration?: PaginationConfiguration | undefined;
 }
 export type BoxPlotFillStyle = "SOLID" | "TRANSPARENT" | (string & {});
 export interface BoxPlotStyleOptions {
-  FillStyle?: BoxPlotFillStyle;
+  FillStyle?: BoxPlotFillStyle | undefined;
 }
 export interface BoxPlotOptions {
-  StyleOptions?: BoxPlotStyleOptions;
-  OutlierVisibility?: Visibility;
-  AllDataPointsVisibility?: Visibility;
+  StyleOptions?: BoxPlotStyleOptions | undefined;
+  OutlierVisibility?: Visibility | undefined;
+  AllDataPointsVisibility?: Visibility | undefined;
 }
 export interface BoxPlotChartConfiguration {
-  FieldWells?: BoxPlotFieldWells;
-  SortConfiguration?: BoxPlotSortConfiguration;
-  BoxPlotOptions?: BoxPlotOptions;
-  CategoryAxis?: AxisDisplayOptions;
-  CategoryLabelOptions?: ChartAxisLabelOptions;
-  PrimaryYAxisDisplayOptions?: AxisDisplayOptions;
-  PrimaryYAxisLabelOptions?: ChartAxisLabelOptions;
-  Legend?: LegendOptions;
-  Tooltip?: TooltipOptions;
-  ReferenceLines?: ReferenceLine[];
-  VisualPalette?: VisualPalette;
-  Interactions?: VisualInteractionOptions;
+  FieldWells?: BoxPlotFieldWells | undefined;
+  SortConfiguration?: BoxPlotSortConfiguration | undefined;
+  BoxPlotOptions?: BoxPlotOptions | undefined;
+  CategoryAxis?: AxisDisplayOptions | undefined;
+  CategoryLabelOptions?: ChartAxisLabelOptions | undefined;
+  PrimaryYAxisDisplayOptions?: AxisDisplayOptions | undefined;
+  PrimaryYAxisLabelOptions?: ChartAxisLabelOptions | undefined;
+  Legend?: LegendOptions | undefined;
+  Tooltip?: TooltipOptions | undefined;
+  ReferenceLines?: ReferenceLine[] | undefined;
+  VisualPalette?: VisualPalette | undefined;
+  Interactions?: VisualInteractionOptions | undefined;
 }
 export interface BoxPlotVisual {
   VisualId: string;
-  Title?: VisualTitleLabelOptions;
-  Subtitle?: VisualSubtitleLabelOptions;
-  ChartConfiguration?: BoxPlotChartConfiguration;
-  Actions?: VisualCustomAction[];
-  ColumnHierarchies?: ColumnHierarchy[];
-  VisualContentAltText?: string;
+  Title?: VisualTitleLabelOptions | undefined;
+  Subtitle?: VisualSubtitleLabelOptions | undefined;
+  ChartConfiguration?: BoxPlotChartConfiguration | undefined;
+  Actions?: VisualCustomAction[] | undefined;
+  ColumnHierarchies?: ColumnHierarchy[] | undefined;
+  VisualContentAltText?: string | undefined;
 }
 export interface WaterfallChartAggregatedFieldWells {
-  Categories?: DimensionField[];
-  Values?: MeasureField[];
-  Breakdowns?: DimensionField[];
+  Categories?: DimensionField[] | undefined;
+  Values?: MeasureField[] | undefined;
+  Breakdowns?: DimensionField[] | undefined;
 }
 export interface WaterfallChartFieldWells {
-  WaterfallChartAggregatedFieldWells?: WaterfallChartAggregatedFieldWells;
+  WaterfallChartAggregatedFieldWells?: WaterfallChartAggregatedFieldWells | undefined;
 }
 export interface WaterfallChartSortConfiguration {
-  CategorySort?: FieldSortOptions[];
-  BreakdownItemsLimit?: ItemsLimitConfiguration;
+  CategorySort?: FieldSortOptions[] | undefined;
+  BreakdownItemsLimit?: ItemsLimitConfiguration | undefined;
 }
 export interface WaterfallChartOptions {
-  TotalBarLabel?: string;
+  TotalBarLabel?: string | undefined;
 }
 export interface WaterfallChartGroupColorConfiguration {
-  PositiveBarColor?: string;
-  NegativeBarColor?: string;
-  TotalBarColor?: string;
+  PositiveBarColor?: string | undefined;
+  NegativeBarColor?: string | undefined;
+  TotalBarColor?: string | undefined;
 }
 export interface WaterfallChartColorConfiguration {
-  GroupColorConfiguration?: WaterfallChartGroupColorConfiguration;
+  GroupColorConfiguration?: WaterfallChartGroupColorConfiguration | undefined;
 }
 export interface WaterfallChartConfiguration {
-  FieldWells?: WaterfallChartFieldWells;
-  SortConfiguration?: WaterfallChartSortConfiguration;
-  WaterfallChartOptions?: WaterfallChartOptions;
-  CategoryAxisLabelOptions?: ChartAxisLabelOptions;
-  CategoryAxisDisplayOptions?: AxisDisplayOptions;
-  PrimaryYAxisLabelOptions?: ChartAxisLabelOptions;
-  PrimaryYAxisDisplayOptions?: AxisDisplayOptions;
-  Legend?: LegendOptions;
-  DataLabels?: DataLabelOptions;
-  VisualPalette?: VisualPalette;
-  ColorConfiguration?: WaterfallChartColorConfiguration;
-  Interactions?: VisualInteractionOptions;
+  FieldWells?: WaterfallChartFieldWells | undefined;
+  SortConfiguration?: WaterfallChartSortConfiguration | undefined;
+  WaterfallChartOptions?: WaterfallChartOptions | undefined;
+  CategoryAxisLabelOptions?: ChartAxisLabelOptions | undefined;
+  CategoryAxisDisplayOptions?: AxisDisplayOptions | undefined;
+  PrimaryYAxisLabelOptions?: ChartAxisLabelOptions | undefined;
+  PrimaryYAxisDisplayOptions?: AxisDisplayOptions | undefined;
+  Legend?: LegendOptions | undefined;
+  DataLabels?: DataLabelOptions | undefined;
+  VisualPalette?: VisualPalette | undefined;
+  ColorConfiguration?: WaterfallChartColorConfiguration | undefined;
+  Interactions?: VisualInteractionOptions | undefined;
 }
 export interface WaterfallVisual {
   VisualId: string;
-  Title?: VisualTitleLabelOptions;
-  Subtitle?: VisualSubtitleLabelOptions;
-  ChartConfiguration?: WaterfallChartConfiguration;
-  Actions?: VisualCustomAction[];
-  ColumnHierarchies?: ColumnHierarchy[];
-  VisualContentAltText?: string;
+  Title?: VisualTitleLabelOptions | undefined;
+  Subtitle?: VisualSubtitleLabelOptions | undefined;
+  ChartConfiguration?: WaterfallChartConfiguration | undefined;
+  Actions?: VisualCustomAction[] | undefined;
+  ColumnHierarchies?: ColumnHierarchy[] | undefined;
+  VisualContentAltText?: string | undefined;
 }
 export type HistogramMeasureFieldList = MeasureField[];
 export interface HistogramAggregatedFieldWells {
-  Values?: MeasureField[];
+  Values?: MeasureField[] | undefined;
 }
 export interface HistogramFieldWells {
-  HistogramAggregatedFieldWells?: HistogramAggregatedFieldWells;
+  HistogramAggregatedFieldWells?: HistogramAggregatedFieldWells | undefined;
 }
 export type HistogramBinType = "BIN_COUNT" | "BIN_WIDTH" | (string & {});
 export type BinCountValue = number;
 export interface BinCountOptions {
-  Value?: number;
+  Value?: number | undefined;
 }
 export type BinWidthValue = number;
 export type BinCountLimit = number;
 export interface BinWidthOptions {
-  Value?: number;
-  BinCountLimit?: number;
+  Value?: number | undefined;
+  BinCountLimit?: number | undefined;
 }
 export interface HistogramBinOptions {
-  SelectedBinType?: HistogramBinType;
-  BinCount?: BinCountOptions;
-  BinWidth?: BinWidthOptions;
-  StartValue?: number;
+  SelectedBinType?: HistogramBinType | undefined;
+  BinCount?: BinCountOptions | undefined;
+  BinWidth?: BinWidthOptions | undefined;
+  StartValue?: number | undefined;
 }
 export interface HistogramConfiguration {
-  FieldWells?: HistogramFieldWells;
-  XAxisDisplayOptions?: AxisDisplayOptions;
-  XAxisLabelOptions?: ChartAxisLabelOptions;
-  YAxisDisplayOptions?: AxisDisplayOptions;
-  BinOptions?: HistogramBinOptions;
-  DataLabels?: DataLabelOptions;
-  Tooltip?: TooltipOptions;
-  VisualPalette?: VisualPalette;
-  Interactions?: VisualInteractionOptions;
+  FieldWells?: HistogramFieldWells | undefined;
+  XAxisDisplayOptions?: AxisDisplayOptions | undefined;
+  XAxisLabelOptions?: ChartAxisLabelOptions | undefined;
+  YAxisDisplayOptions?: AxisDisplayOptions | undefined;
+  BinOptions?: HistogramBinOptions | undefined;
+  DataLabels?: DataLabelOptions | undefined;
+  Tooltip?: TooltipOptions | undefined;
+  VisualPalette?: VisualPalette | undefined;
+  Interactions?: VisualInteractionOptions | undefined;
 }
 export interface HistogramVisual {
   VisualId: string;
-  Title?: VisualTitleLabelOptions;
-  Subtitle?: VisualSubtitleLabelOptions;
-  ChartConfiguration?: HistogramConfiguration;
-  Actions?: VisualCustomAction[];
-  VisualContentAltText?: string;
+  Title?: VisualTitleLabelOptions | undefined;
+  Subtitle?: VisualSubtitleLabelOptions | undefined;
+  ChartConfiguration?: HistogramConfiguration | undefined;
+  Actions?: VisualCustomAction[] | undefined;
+  VisualContentAltText?: string | undefined;
 }
 export type WordCloudDimensionFieldList = DimensionField[];
 export type WordCloudMeasureFieldList = MeasureField[];
 export interface WordCloudAggregatedFieldWells {
-  GroupBy?: DimensionField[];
-  Size?: MeasureField[];
+  GroupBy?: DimensionField[] | undefined;
+  Size?: MeasureField[] | undefined;
 }
 export interface WordCloudFieldWells {
-  WordCloudAggregatedFieldWells?: WordCloudAggregatedFieldWells;
+  WordCloudAggregatedFieldWells?: WordCloudAggregatedFieldWells | undefined;
 }
 export interface WordCloudSortConfiguration {
-  CategoryItemsLimit?: ItemsLimitConfiguration;
-  CategorySort?: FieldSortOptions[];
+  CategoryItemsLimit?: ItemsLimitConfiguration | undefined;
+  CategorySort?: FieldSortOptions[] | undefined;
 }
 export type WordCloudWordOrientation = "HORIZONTAL" | "HORIZONTAL_AND_VERTICAL" | (string & {});
 export type WordCloudWordScaling = "EMPHASIZE" | "NORMAL" | (string & {});
@@ -3692,123 +3694,123 @@ export type WordCloudWordCasing = "LOWER_CASE" | "EXISTING_CASE" | (string & {})
 export type WordCloudWordPadding = "NONE" | "SMALL" | "MEDIUM" | "LARGE" | (string & {});
 export type WordCloudMaximumStringLength = number;
 export interface WordCloudOptions {
-  WordOrientation?: WordCloudWordOrientation;
-  WordScaling?: WordCloudWordScaling;
-  CloudLayout?: WordCloudCloudLayout;
-  WordCasing?: WordCloudWordCasing;
-  WordPadding?: WordCloudWordPadding;
-  MaximumStringLength?: number;
+  WordOrientation?: WordCloudWordOrientation | undefined;
+  WordScaling?: WordCloudWordScaling | undefined;
+  CloudLayout?: WordCloudCloudLayout | undefined;
+  WordCasing?: WordCloudWordCasing | undefined;
+  WordPadding?: WordCloudWordPadding | undefined;
+  MaximumStringLength?: number | undefined;
 }
 export interface WordCloudChartConfiguration {
-  FieldWells?: WordCloudFieldWells;
-  SortConfiguration?: WordCloudSortConfiguration;
-  CategoryLabelOptions?: ChartAxisLabelOptions;
-  WordCloudOptions?: WordCloudOptions;
-  Interactions?: VisualInteractionOptions;
+  FieldWells?: WordCloudFieldWells | undefined;
+  SortConfiguration?: WordCloudSortConfiguration | undefined;
+  CategoryLabelOptions?: ChartAxisLabelOptions | undefined;
+  WordCloudOptions?: WordCloudOptions | undefined;
+  Interactions?: VisualInteractionOptions | undefined;
 }
 export interface WordCloudVisual {
   VisualId: string;
-  Title?: VisualTitleLabelOptions;
-  Subtitle?: VisualSubtitleLabelOptions;
-  ChartConfiguration?: WordCloudChartConfiguration;
-  Actions?: VisualCustomAction[];
-  ColumnHierarchies?: ColumnHierarchy[];
-  VisualContentAltText?: string;
+  Title?: VisualTitleLabelOptions | undefined;
+  Subtitle?: VisualSubtitleLabelOptions | undefined;
+  ChartConfiguration?: WordCloudChartConfiguration | undefined;
+  Actions?: VisualCustomAction[] | undefined;
+  ColumnHierarchies?: ColumnHierarchy[] | undefined;
+  VisualContentAltText?: string | undefined;
 }
 export type TopBottomRankedComputationResultSize = number;
 export type TopBottomComputationType = "TOP" | "BOTTOM" | (string & {});
 export interface TopBottomRankedComputation {
   ComputationId: string;
-  Name?: string;
-  Category?: DimensionField;
-  Value?: MeasureField;
-  ResultSize?: number;
+  Name?: string | undefined;
+  Category?: DimensionField | undefined;
+  Value?: MeasureField | undefined;
+  ResultSize?: number | undefined;
   Type: TopBottomComputationType;
 }
 export type TopBottomMoversComputationMoverSize = number;
 export type TopBottomSortOrder = "PERCENT_DIFFERENCE" | "ABSOLUTE_DIFFERENCE" | (string & {});
 export interface TopBottomMoversComputation {
   ComputationId: string;
-  Name?: string;
-  Time?: DimensionField;
-  Category?: DimensionField;
-  Value?: MeasureField;
-  MoverSize?: number;
-  SortOrder?: TopBottomSortOrder;
+  Name?: string | undefined;
+  Time?: DimensionField | undefined;
+  Category?: DimensionField | undefined;
+  Value?: MeasureField | undefined;
+  MoverSize?: number | undefined;
+  SortOrder?: TopBottomSortOrder | undefined;
   Type: TopBottomComputationType;
 }
 export interface TotalAggregationComputation {
   ComputationId: string;
-  Name?: string;
-  Value?: MeasureField;
+  Name?: string | undefined;
+  Value?: MeasureField | undefined;
 }
 export type MaximumMinimumComputationType = "MAXIMUM" | "MINIMUM" | (string & {});
 export interface MaximumMinimumComputation {
   ComputationId: string;
-  Name?: string;
-  Time?: DimensionField;
-  Value?: MeasureField;
+  Name?: string | undefined;
+  Time?: DimensionField | undefined;
+  Value?: MeasureField | undefined;
   Type: MaximumMinimumComputationType;
 }
 export interface MetricComparisonComputation {
   ComputationId: string;
-  Name?: string;
-  Time?: DimensionField;
-  FromValue?: MeasureField;
-  TargetValue?: MeasureField;
+  Name?: string | undefined;
+  Time?: DimensionField | undefined;
+  FromValue?: MeasureField | undefined;
+  TargetValue?: MeasureField | undefined;
 }
 export interface PeriodOverPeriodComputation {
   ComputationId: string;
-  Name?: string;
-  Time?: DimensionField;
-  Value?: MeasureField;
+  Name?: string | undefined;
+  Time?: DimensionField | undefined;
+  Value?: MeasureField | undefined;
 }
 export interface PeriodToDateComputation {
   ComputationId: string;
-  Name?: string;
-  Time?: DimensionField;
-  Value?: MeasureField;
-  PeriodTimeGranularity?: TimeGranularity;
+  Name?: string | undefined;
+  Time?: DimensionField | undefined;
+  Value?: MeasureField | undefined;
+  PeriodTimeGranularity?: TimeGranularity | undefined;
 }
 export type GrowthRatePeriodSize = number;
 export interface GrowthRateComputation {
   ComputationId: string;
-  Name?: string;
-  Time?: DimensionField;
-  Value?: MeasureField;
-  PeriodSize?: number;
+  Name?: string | undefined;
+  Time?: DimensionField | undefined;
+  Value?: MeasureField | undefined;
+  PeriodSize?: number | undefined;
 }
 export interface UniqueValuesComputation {
   ComputationId: string;
-  Name?: string;
-  Category?: DimensionField;
+  Name?: string | undefined;
+  Category?: DimensionField | undefined;
 }
 export type ForecastComputationSeasonality = "AUTOMATIC" | "CUSTOM" | (string & {});
 export type ForecastComputationCustomSeasonalityValue = number;
 export interface ForecastComputation {
   ComputationId: string;
-  Name?: string;
-  Time?: DimensionField;
-  Value?: MeasureField;
-  PeriodsForward?: number;
-  PeriodsBackward?: number;
-  UpperBoundary?: number;
-  LowerBoundary?: number;
-  PredictionInterval?: number;
-  Seasonality?: ForecastComputationSeasonality;
-  CustomSeasonalityValue?: number;
+  Name?: string | undefined;
+  Time?: DimensionField | undefined;
+  Value?: MeasureField | undefined;
+  PeriodsForward?: number | undefined;
+  PeriodsBackward?: number | undefined;
+  UpperBoundary?: number | undefined;
+  LowerBoundary?: number | undefined;
+  PredictionInterval?: number | undefined;
+  Seasonality?: ForecastComputationSeasonality | undefined;
+  CustomSeasonalityValue?: number | undefined;
 }
 export interface Computation {
-  TopBottomRanked?: TopBottomRankedComputation;
-  TopBottomMovers?: TopBottomMoversComputation;
-  TotalAggregation?: TotalAggregationComputation;
-  MaximumMinimum?: MaximumMinimumComputation;
-  MetricComparison?: MetricComparisonComputation;
-  PeriodOverPeriod?: PeriodOverPeriodComputation;
-  PeriodToDate?: PeriodToDateComputation;
-  GrowthRate?: GrowthRateComputation;
-  UniqueValues?: UniqueValuesComputation;
-  Forecast?: ForecastComputation;
+  TopBottomRanked?: TopBottomRankedComputation | undefined;
+  TopBottomMovers?: TopBottomMoversComputation | undefined;
+  TotalAggregation?: TotalAggregationComputation | undefined;
+  MaximumMinimum?: MaximumMinimumComputation | undefined;
+  MetricComparison?: MetricComparisonComputation | undefined;
+  PeriodOverPeriod?: PeriodOverPeriodComputation | undefined;
+  PeriodToDate?: PeriodToDateComputation | undefined;
+  GrowthRate?: GrowthRateComputation | undefined;
+  UniqueValues?: UniqueValuesComputation | undefined;
+  Forecast?: ForecastComputation | undefined;
 }
 export type ComputationList = Computation[];
 export type NarrativeString = string;
@@ -3816,46 +3818,46 @@ export interface CustomNarrativeOptions {
   Narrative: string;
 }
 export interface InsightConfiguration {
-  Computations?: Computation[];
-  CustomNarrative?: CustomNarrativeOptions;
-  Interactions?: VisualInteractionOptions;
+  Computations?: Computation[] | undefined;
+  CustomNarrative?: CustomNarrativeOptions | undefined;
+  Interactions?: VisualInteractionOptions | undefined;
 }
 export interface InsightVisual {
   VisualId: string;
-  Title?: VisualTitleLabelOptions;
-  Subtitle?: VisualSubtitleLabelOptions;
-  InsightConfiguration?: InsightConfiguration;
-  Actions?: VisualCustomAction[];
-  DataSetIdentifier?: string;
-  TopicIdentifier?: string;
-  VisualContentAltText?: string;
+  Title?: VisualTitleLabelOptions | undefined;
+  Subtitle?: VisualSubtitleLabelOptions | undefined;
+  InsightConfiguration?: InsightConfiguration | undefined;
+  Actions?: VisualCustomAction[] | undefined;
+  DataSetIdentifier?: string | undefined;
+  TopicIdentifier?: string | undefined;
+  VisualContentAltText?: string | undefined;
 }
 export interface SankeyDiagramAggregatedFieldWells {
-  Source?: DimensionField[];
-  Destination?: DimensionField[];
-  Weight?: MeasureField[];
+  Source?: DimensionField[] | undefined;
+  Destination?: DimensionField[] | undefined;
+  Weight?: MeasureField[] | undefined;
 }
 export interface SankeyDiagramFieldWells {
-  SankeyDiagramAggregatedFieldWells?: SankeyDiagramAggregatedFieldWells;
+  SankeyDiagramAggregatedFieldWells?: SankeyDiagramAggregatedFieldWells | undefined;
 }
 export interface SankeyDiagramSortConfiguration {
-  WeightSort?: FieldSortOptions[];
-  SourceItemsLimit?: ItemsLimitConfiguration;
-  DestinationItemsLimit?: ItemsLimitConfiguration;
+  WeightSort?: FieldSortOptions[] | undefined;
+  SourceItemsLimit?: ItemsLimitConfiguration | undefined;
+  DestinationItemsLimit?: ItemsLimitConfiguration | undefined;
 }
 export interface SankeyDiagramChartConfiguration {
-  FieldWells?: SankeyDiagramFieldWells;
-  SortConfiguration?: SankeyDiagramSortConfiguration;
-  DataLabels?: DataLabelOptions;
-  Interactions?: VisualInteractionOptions;
+  FieldWells?: SankeyDiagramFieldWells | undefined;
+  SortConfiguration?: SankeyDiagramSortConfiguration | undefined;
+  DataLabels?: DataLabelOptions | undefined;
+  Interactions?: VisualInteractionOptions | undefined;
 }
 export interface SankeyDiagramVisual {
   VisualId: string;
-  Title?: VisualTitleLabelOptions;
-  Subtitle?: VisualSubtitleLabelOptions;
-  ChartConfiguration?: SankeyDiagramChartConfiguration;
-  Actions?: VisualCustomAction[];
-  VisualContentAltText?: string;
+  Title?: VisualTitleLabelOptions | undefined;
+  Subtitle?: VisualSubtitleLabelOptions | undefined;
+  ChartConfiguration?: SankeyDiagramChartConfiguration | undefined;
+  Actions?: VisualCustomAction[] | undefined;
+  VisualContentAltText?: string | undefined;
 }
 export type CustomContentType = "IMAGE" | "OTHER_EMBEDDED_CONTENT" | (string & {});
 export type CustomContentImageScalingConfiguration =
@@ -3865,167 +3867,167 @@ export type CustomContentImageScalingConfiguration =
   | "SCALE_TO_VISUAL"
   | (string & {});
 export interface CustomContentConfiguration {
-  ContentUrl?: string;
-  ContentType?: CustomContentType;
-  ImageScaling?: CustomContentImageScalingConfiguration;
-  Interactions?: VisualInteractionOptions;
+  ContentUrl?: string | undefined;
+  ContentType?: CustomContentType | undefined;
+  ImageScaling?: CustomContentImageScalingConfiguration | undefined;
+  Interactions?: VisualInteractionOptions | undefined;
 }
 export interface CustomContentVisual {
   VisualId: string;
-  Title?: VisualTitleLabelOptions;
-  Subtitle?: VisualSubtitleLabelOptions;
-  ChartConfiguration?: CustomContentConfiguration;
-  Actions?: VisualCustomAction[];
-  DataSetIdentifier?: string;
-  TopicIdentifier?: string;
-  VisualContentAltText?: string;
+  Title?: VisualTitleLabelOptions | undefined;
+  Subtitle?: VisualSubtitleLabelOptions | undefined;
+  ChartConfiguration?: CustomContentConfiguration | undefined;
+  Actions?: VisualCustomAction[] | undefined;
+  DataSetIdentifier?: string | undefined;
+  TopicIdentifier?: string | undefined;
+  VisualContentAltText?: string | undefined;
 }
 export interface EmptyVisual {
   VisualId: string;
-  DataSetIdentifier?: string;
-  TopicIdentifier?: string;
-  Actions?: VisualCustomAction[];
+  DataSetIdentifier?: string | undefined;
+  TopicIdentifier?: string | undefined;
+  Actions?: VisualCustomAction[] | undefined;
 }
 export type RadarChartCategoryFieldList = DimensionField[];
 export type RadarChartColorFieldList = DimensionField[];
 export type RadarChartValuesFieldList = MeasureField[];
 export interface RadarChartAggregatedFieldWells {
-  Category?: DimensionField[];
-  Color?: DimensionField[];
-  Values?: MeasureField[];
+  Category?: DimensionField[] | undefined;
+  Color?: DimensionField[] | undefined;
+  Values?: MeasureField[] | undefined;
 }
 export interface RadarChartFieldWells {
-  RadarChartAggregatedFieldWells?: RadarChartAggregatedFieldWells;
+  RadarChartAggregatedFieldWells?: RadarChartAggregatedFieldWells | undefined;
 }
 export interface RadarChartSortConfiguration {
-  CategorySort?: FieldSortOptions[];
-  CategoryItemsLimit?: ItemsLimitConfiguration;
-  ColorSort?: FieldSortOptions[];
-  ColorItemsLimit?: ItemsLimitConfiguration;
+  CategorySort?: FieldSortOptions[] | undefined;
+  CategoryItemsLimit?: ItemsLimitConfiguration | undefined;
+  ColorSort?: FieldSortOptions[] | undefined;
+  ColorItemsLimit?: ItemsLimitConfiguration | undefined;
 }
 export type RadarChartShape = "CIRCLE" | "POLYGON" | (string & {});
 export interface RadarChartAreaStyleSettings {
-  Visibility?: Visibility;
+  Visibility?: Visibility | undefined;
 }
 export interface RadarChartSeriesSettings {
-  AreaStyleSettings?: RadarChartAreaStyleSettings;
+  AreaStyleSettings?: RadarChartAreaStyleSettings | undefined;
 }
 export type RadarChartStartAngle = number;
 export type RadarChartAxesRangeScale = "AUTO" | "INDEPENDENT" | "SHARED" | (string & {});
 export interface RadarChartConfiguration {
-  FieldWells?: RadarChartFieldWells;
-  SortConfiguration?: RadarChartSortConfiguration;
-  Shape?: RadarChartShape;
-  BaseSeriesSettings?: RadarChartSeriesSettings;
-  StartAngle?: number;
-  VisualPalette?: VisualPalette;
-  AlternateBandColorsVisibility?: Visibility;
-  AlternateBandEvenColor?: string;
-  AlternateBandOddColor?: string;
-  CategoryAxis?: AxisDisplayOptions;
-  CategoryLabelOptions?: ChartAxisLabelOptions;
-  ColorAxis?: AxisDisplayOptions;
-  ColorLabelOptions?: ChartAxisLabelOptions;
-  Legend?: LegendOptions;
-  AxesRangeScale?: RadarChartAxesRangeScale;
-  Interactions?: VisualInteractionOptions;
+  FieldWells?: RadarChartFieldWells | undefined;
+  SortConfiguration?: RadarChartSortConfiguration | undefined;
+  Shape?: RadarChartShape | undefined;
+  BaseSeriesSettings?: RadarChartSeriesSettings | undefined;
+  StartAngle?: number | undefined;
+  VisualPalette?: VisualPalette | undefined;
+  AlternateBandColorsVisibility?: Visibility | undefined;
+  AlternateBandEvenColor?: string | undefined;
+  AlternateBandOddColor?: string | undefined;
+  CategoryAxis?: AxisDisplayOptions | undefined;
+  CategoryLabelOptions?: ChartAxisLabelOptions | undefined;
+  ColorAxis?: AxisDisplayOptions | undefined;
+  ColorLabelOptions?: ChartAxisLabelOptions | undefined;
+  Legend?: LegendOptions | undefined;
+  AxesRangeScale?: RadarChartAxesRangeScale | undefined;
+  Interactions?: VisualInteractionOptions | undefined;
 }
 export interface RadarChartVisual {
   VisualId: string;
-  Title?: VisualTitleLabelOptions;
-  Subtitle?: VisualSubtitleLabelOptions;
-  ChartConfiguration?: RadarChartConfiguration;
-  Actions?: VisualCustomAction[];
-  ColumnHierarchies?: ColumnHierarchy[];
-  VisualContentAltText?: string;
+  Title?: VisualTitleLabelOptions | undefined;
+  Subtitle?: VisualSubtitleLabelOptions | undefined;
+  ChartConfiguration?: RadarChartConfiguration | undefined;
+  Actions?: VisualCustomAction[] | undefined;
+  ColumnHierarchies?: ColumnHierarchy[] | undefined;
+  VisualContentAltText?: string | undefined;
 }
 export type PluginVisualAxisName = "GROUP_BY" | "VALUE" | (string & {});
 export type UnaggregatedFieldList = UnaggregatedField[];
 export interface PluginVisualFieldWell {
-  AxisName?: PluginVisualAxisName;
-  Dimensions?: DimensionField[];
-  Measures?: MeasureField[];
-  Unaggregated?: UnaggregatedField[];
+  AxisName?: PluginVisualAxisName | undefined;
+  Dimensions?: DimensionField[] | undefined;
+  Measures?: MeasureField[] | undefined;
+  Unaggregated?: UnaggregatedField[] | undefined;
 }
 export type PluginVisualFieldWells = PluginVisualFieldWell[];
 export interface PluginVisualProperty {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type PluginVisualPropertiesList = PluginVisualProperty[];
 export interface PluginVisualOptions {
-  VisualProperties?: PluginVisualProperty[];
+  VisualProperties?: PluginVisualProperty[] | undefined;
 }
 export interface PluginVisualItemsLimitConfiguration {
-  ItemsLimit?: number;
+  ItemsLimit?: number | undefined;
 }
 export interface PluginVisualTableQuerySort {
-  RowSort?: FieldSortOptions[];
-  ItemsLimitConfiguration?: PluginVisualItemsLimitConfiguration;
+  RowSort?: FieldSortOptions[] | undefined;
+  ItemsLimitConfiguration?: PluginVisualItemsLimitConfiguration | undefined;
 }
 export interface PluginVisualSortConfiguration {
-  PluginVisualTableQuerySort?: PluginVisualTableQuerySort;
+  PluginVisualTableQuerySort?: PluginVisualTableQuerySort | undefined;
 }
 export interface PluginVisualConfiguration {
-  FieldWells?: PluginVisualFieldWell[];
-  VisualOptions?: PluginVisualOptions;
-  SortConfiguration?: PluginVisualSortConfiguration;
+  FieldWells?: PluginVisualFieldWell[] | undefined;
+  VisualOptions?: PluginVisualOptions | undefined;
+  SortConfiguration?: PluginVisualSortConfiguration | undefined;
 }
 export interface PluginVisual {
   VisualId: string;
   PluginArn: string;
-  Title?: VisualTitleLabelOptions;
-  Subtitle?: VisualSubtitleLabelOptions;
-  ChartConfiguration?: PluginVisualConfiguration;
-  Actions?: VisualCustomAction[];
-  VisualContentAltText?: string;
+  Title?: VisualTitleLabelOptions | undefined;
+  Subtitle?: VisualSubtitleLabelOptions | undefined;
+  ChartConfiguration?: PluginVisualConfiguration | undefined;
+  Actions?: VisualCustomAction[] | undefined;
+  VisualContentAltText?: string | undefined;
 }
 export interface Visual {
-  TableVisual?: TableVisual;
-  PivotTableVisual?: PivotTableVisual;
-  BarChartVisual?: BarChartVisual;
-  KPIVisual?: KPIVisual;
-  PieChartVisual?: PieChartVisual;
-  GaugeChartVisual?: GaugeChartVisual;
-  LineChartVisual?: LineChartVisual;
-  HeatMapVisual?: HeatMapVisual;
-  TreeMapVisual?: TreeMapVisual;
-  GeospatialMapVisual?: GeospatialMapVisual;
-  FilledMapVisual?: FilledMapVisual;
-  LayerMapVisual?: LayerMapVisual;
-  FunnelChartVisual?: FunnelChartVisual;
-  ScatterPlotVisual?: ScatterPlotVisual;
-  ComboChartVisual?: ComboChartVisual;
-  BoxPlotVisual?: BoxPlotVisual;
-  WaterfallVisual?: WaterfallVisual;
-  HistogramVisual?: HistogramVisual;
-  WordCloudVisual?: WordCloudVisual;
-  InsightVisual?: InsightVisual;
-  SankeyDiagramVisual?: SankeyDiagramVisual;
-  CustomContentVisual?: CustomContentVisual;
-  EmptyVisual?: EmptyVisual;
-  RadarChartVisual?: RadarChartVisual;
-  PluginVisual?: PluginVisual;
+  TableVisual?: TableVisual | undefined;
+  PivotTableVisual?: PivotTableVisual | undefined;
+  BarChartVisual?: BarChartVisual | undefined;
+  KPIVisual?: KPIVisual | undefined;
+  PieChartVisual?: PieChartVisual | undefined;
+  GaugeChartVisual?: GaugeChartVisual | undefined;
+  LineChartVisual?: LineChartVisual | undefined;
+  HeatMapVisual?: HeatMapVisual | undefined;
+  TreeMapVisual?: TreeMapVisual | undefined;
+  GeospatialMapVisual?: GeospatialMapVisual | undefined;
+  FilledMapVisual?: FilledMapVisual | undefined;
+  LayerMapVisual?: LayerMapVisual | undefined;
+  FunnelChartVisual?: FunnelChartVisual | undefined;
+  ScatterPlotVisual?: ScatterPlotVisual | undefined;
+  ComboChartVisual?: ComboChartVisual | undefined;
+  BoxPlotVisual?: BoxPlotVisual | undefined;
+  WaterfallVisual?: WaterfallVisual | undefined;
+  HistogramVisual?: HistogramVisual | undefined;
+  WordCloudVisual?: WordCloudVisual | undefined;
+  InsightVisual?: InsightVisual | undefined;
+  SankeyDiagramVisual?: SankeyDiagramVisual | undefined;
+  CustomContentVisual?: CustomContentVisual | undefined;
+  EmptyVisual?: EmptyVisual | undefined;
+  RadarChartVisual?: RadarChartVisual | undefined;
+  PluginVisual?: PluginVisual | undefined;
 }
 export type VisualList = Visual[];
 export type SheetTextBoxContent = string;
 export interface TextBoxMenuOption {
-  AvailabilityStatus?: DashboardBehavior;
+  AvailabilityStatus?: DashboardBehavior | undefined;
 }
 export interface TextBoxInteractionOptions {
-  TextBoxMenuOption?: TextBoxMenuOption;
+  TextBoxMenuOption?: TextBoxMenuOption | undefined;
 }
 export interface SheetTextBox {
   SheetTextBoxId: string;
-  Content?: string;
-  Interactions?: TextBoxInteractionOptions;
+  Content?: string | undefined;
+  Interactions?: TextBoxInteractionOptions | undefined;
 }
 export type SheetTextBoxList = SheetTextBox[];
 export interface SheetImageStaticFileSource {
   StaticFileId: string;
 }
 export interface SheetImageSource {
-  SheetImageStaticFileSource?: SheetImageStaticFileSource;
+  SheetImageStaticFileSource?: SheetImageStaticFileSource | undefined;
 }
 export type SheetImageScalingType =
   | "SCALE_TO_WIDTH"
@@ -4034,33 +4036,33 @@ export type SheetImageScalingType =
   | "SCALE_NONE"
   | (string & {});
 export interface SheetImageScalingConfiguration {
-  ScalingType?: SheetImageScalingType;
+  ScalingType?: SheetImageScalingType | undefined;
 }
 export interface SheetImageTooltipText {
-  PlainText?: string;
+  PlainText?: string | undefined;
 }
 export interface SheetImageTooltipConfiguration {
-  TooltipText?: SheetImageTooltipText;
-  Visibility?: Visibility;
+  TooltipText?: SheetImageTooltipText | undefined;
+  Visibility?: Visibility | undefined;
 }
 export interface ImageMenuOption {
-  AvailabilityStatus?: DashboardBehavior;
+  AvailabilityStatus?: DashboardBehavior | undefined;
 }
 export interface ImageInteractionOptions {
-  ImageMenuOption?: ImageMenuOption;
+  ImageMenuOption?: ImageMenuOption | undefined;
 }
 export type ImageCustomActionName = string;
 export type ImageCustomActionTrigger = "CLICK" | "MENU" | (string & {});
 export interface ImageCustomActionOperation {
-  NavigationOperation?: CustomActionNavigationOperation;
-  URLOperation?: CustomActionURLOperation;
-  SetParametersOperation?: CustomActionSetParametersOperation;
+  NavigationOperation?: CustomActionNavigationOperation | undefined;
+  URLOperation?: CustomActionURLOperation | undefined;
+  SetParametersOperation?: CustomActionSetParametersOperation | undefined;
 }
 export type ImageCustomActionOperationList = ImageCustomActionOperation[];
 export interface ImageCustomAction {
   CustomActionId: string;
   Name: string;
-  Status?: WidgetStatus;
+  Status?: WidgetStatus | undefined;
   Trigger: ImageCustomActionTrigger;
   ActionOperations: ImageCustomActionOperation[];
 }
@@ -4068,11 +4070,11 @@ export type ImageCustomActionList = ImageCustomAction[];
 export interface SheetImage {
   SheetImageId: string;
   Source: SheetImageSource;
-  Scaling?: SheetImageScalingConfiguration;
-  Tooltip?: SheetImageTooltipConfiguration;
-  ImageContentAltText?: string;
-  Interactions?: ImageInteractionOptions;
-  Actions?: ImageCustomAction[];
+  Scaling?: SheetImageScalingConfiguration | undefined;
+  Tooltip?: SheetImageTooltipConfiguration | undefined;
+  ImageContentAltText?: string | undefined;
+  Interactions?: ImageInteractionOptions | undefined;
+  Actions?: ImageCustomAction[] | undefined;
 }
 export type SheetImageList = SheetImage[];
 export type LayoutElementType =
@@ -4088,49 +4090,49 @@ export type GridLayoutElementRowIndex = number;
 export type GridLayoutElementRowSpan = number;
 export type Width = string;
 export interface GridLayoutElementBorderStyle {
-  Visibility?: Visibility;
-  Color?: string;
-  Width?: string;
+  Visibility?: Visibility | undefined;
+  Color?: string | undefined;
+  Width?: string | undefined;
 }
 export interface GridLayoutElementBackgroundStyle {
-  Visibility?: Visibility;
-  Color?: string;
+  Visibility?: Visibility | undefined;
+  Color?: string | undefined;
 }
 export interface LoadingAnimation {
-  Visibility?: Visibility;
+  Visibility?: Visibility | undefined;
 }
 export type BorderRadius = string;
 export type Padding = string;
 export interface GridLayoutElement {
   ElementId: string;
   ElementType: LayoutElementType;
-  ColumnIndex?: number;
+  ColumnIndex?: number | undefined;
   ColumnSpan: number;
-  RowIndex?: number;
+  RowIndex?: number | undefined;
   RowSpan: number;
-  BorderStyle?: GridLayoutElementBorderStyle;
-  SelectedBorderStyle?: GridLayoutElementBorderStyle;
-  BackgroundStyle?: GridLayoutElementBackgroundStyle;
-  LoadingAnimation?: LoadingAnimation;
-  BorderRadius?: string;
-  Padding?: string;
+  BorderStyle?: GridLayoutElementBorderStyle | undefined;
+  SelectedBorderStyle?: GridLayoutElementBorderStyle | undefined;
+  BackgroundStyle?: GridLayoutElementBackgroundStyle | undefined;
+  LoadingAnimation?: LoadingAnimation | undefined;
+  BorderRadius?: string | undefined;
+  Padding?: string | undefined;
 }
 export type GridLayoutElementList = GridLayoutElement[];
 export type ResizeOption = "FIXED" | "RESPONSIVE" | (string & {});
 export interface GridLayoutScreenCanvasSizeOptions {
   ResizeOption: ResizeOption;
-  OptimizedViewPortWidth?: string;
+  OptimizedViewPortWidth?: string | undefined;
 }
 export interface GridLayoutCanvasSizeOptions {
-  ScreenCanvasSizeOptions?: GridLayoutScreenCanvasSizeOptions;
+  ScreenCanvasSizeOptions?: GridLayoutScreenCanvasSizeOptions | undefined;
 }
 export interface GridLayoutConfiguration {
   Elements: GridLayoutElement[];
-  CanvasSizeOptions?: GridLayoutCanvasSizeOptions;
+  CanvasSizeOptions?: GridLayoutCanvasSizeOptions | undefined;
 }
 export type UnlimitedPixelLength = string;
 export interface SheetElementConfigurationOverrides {
-  Visibility?: Visibility;
+  Visibility?: Visibility | undefined;
 }
 export interface SheetElementRenderingRule {
   Expression: string | redacted.Redacted<string>;
@@ -4138,13 +4140,13 @@ export interface SheetElementRenderingRule {
 }
 export type SheetElementRenderingRuleList = SheetElementRenderingRule[];
 export interface FreeFormLayoutElementBorderStyle {
-  Visibility?: Visibility;
-  Color?: string;
-  Width?: string;
+  Visibility?: Visibility | undefined;
+  Color?: string | undefined;
+  Width?: string | undefined;
 }
 export interface FreeFormLayoutElementBackgroundStyle {
-  Visibility?: Visibility;
-  Color?: string;
+  Visibility?: Visibility | undefined;
+  Color?: string | undefined;
 }
 export interface FreeFormLayoutElement {
   ElementId: string;
@@ -4153,21 +4155,21 @@ export interface FreeFormLayoutElement {
   YAxisLocation: string;
   Width: string;
   Height: string;
-  Visibility?: Visibility;
-  RenderingRules?: SheetElementRenderingRule[];
-  BorderStyle?: FreeFormLayoutElementBorderStyle;
-  SelectedBorderStyle?: FreeFormLayoutElementBorderStyle;
-  BackgroundStyle?: FreeFormLayoutElementBackgroundStyle;
-  LoadingAnimation?: LoadingAnimation;
-  BorderRadius?: string;
-  Padding?: string;
+  Visibility?: Visibility | undefined;
+  RenderingRules?: SheetElementRenderingRule[] | undefined;
+  BorderStyle?: FreeFormLayoutElementBorderStyle | undefined;
+  SelectedBorderStyle?: FreeFormLayoutElementBorderStyle | undefined;
+  BackgroundStyle?: FreeFormLayoutElementBackgroundStyle | undefined;
+  LoadingAnimation?: LoadingAnimation | undefined;
+  BorderRadius?: string | undefined;
+  Padding?: string | undefined;
 }
 export type FreeFromLayoutElementList = FreeFormLayoutElement[];
 export interface FreeFormLayoutScreenCanvasSizeOptions {
   OptimizedViewPortWidth: string;
 }
 export interface FreeFormLayoutCanvasSizeOptions {
-  ScreenCanvasSizeOptions?: FreeFormLayoutScreenCanvasSizeOptions;
+  ScreenCanvasSizeOptions?: FreeFormLayoutScreenCanvasSizeOptions | undefined;
 }
 export type SheetLayoutGroupMemberType = "ELEMENT" | "GROUP" | (string & {});
 export interface SheetLayoutGroupMember {
@@ -4182,8 +4184,8 @@ export interface SheetLayoutGroup {
 export type SheetLayoutGroupList = SheetLayoutGroup[];
 export interface FreeFormLayoutConfiguration {
   Elements: FreeFormLayoutElement[];
-  CanvasSizeOptions?: FreeFormLayoutCanvasSizeOptions;
-  Groups?: SheetLayoutGroup[];
+  CanvasSizeOptions?: FreeFormLayoutCanvasSizeOptions | undefined;
+  Groups?: SheetLayoutGroup[] | undefined;
 }
 export interface FreeFormSectionLayoutConfiguration {
   Elements: FreeFormLayoutElement[];
@@ -4193,63 +4195,67 @@ export interface SectionLayoutConfiguration {
 }
 export type Length = string;
 export interface Spacing {
-  Top?: string;
-  Bottom?: string;
-  Left?: string;
-  Right?: string;
+  Top?: string | undefined;
+  Bottom?: string | undefined;
+  Left?: string | undefined;
+  Right?: string | undefined;
 }
 export interface SectionStyle {
-  Height?: string;
-  Padding?: Spacing;
+  Height?: string | undefined;
+  Padding?: Spacing | undefined;
 }
 export interface HeaderFooterSectionConfiguration {
   SectionId: string;
   Layout: SectionLayoutConfiguration;
-  Style?: SectionStyle;
+  Style?: SectionStyle | undefined;
 }
 export type HeaderFooterSectionConfigurationList = HeaderFooterSectionConfiguration[];
 export interface BodySectionContent {
-  Layout?: SectionLayoutConfiguration;
+  Layout?: SectionLayoutConfiguration | undefined;
 }
 export type SectionPageBreakStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface SectionAfterPageBreak {
-  Status?: SectionPageBreakStatus;
+  Status?: SectionPageBreakStatus | undefined;
 }
 export interface SectionPageBreakConfiguration {
-  After?: SectionAfterPageBreak;
+  After?: SectionAfterPageBreak | undefined;
 }
 export type BodySectionDynamicDimensionLimit = number;
 export type BodySectionDynamicDimensionSortConfigurationList = ColumnSort[];
 export interface BodySectionDynamicCategoryDimensionConfiguration {
   Column: ColumnIdentifier;
-  Limit?: number;
-  SortByMetrics?: ColumnSort[];
+  Limit?: number | undefined;
+  SortByMetrics?: ColumnSort[] | undefined;
 }
 export interface BodySectionDynamicNumericDimensionConfiguration {
   Column: ColumnIdentifier;
-  Limit?: number;
-  SortByMetrics?: ColumnSort[];
+  Limit?: number | undefined;
+  SortByMetrics?: ColumnSort[] | undefined;
 }
 export interface BodySectionRepeatDimensionConfiguration {
-  DynamicCategoryDimensionConfiguration?: BodySectionDynamicCategoryDimensionConfiguration;
-  DynamicNumericDimensionConfiguration?: BodySectionDynamicNumericDimensionConfiguration;
+  DynamicCategoryDimensionConfiguration?:
+    | BodySectionDynamicCategoryDimensionConfiguration
+    | undefined;
+  DynamicNumericDimensionConfiguration?:
+    | BodySectionDynamicNumericDimensionConfiguration
+    | undefined;
 }
 export type BodySectionRepeatDimensionConfigurationList = BodySectionRepeatDimensionConfiguration[];
 export interface BodySectionRepeatPageBreakConfiguration {
-  After?: SectionAfterPageBreak;
+  After?: SectionAfterPageBreak | undefined;
 }
 export type NonRepeatingVisualsList = string[];
 export interface BodySectionRepeatConfiguration {
-  DimensionConfigurations?: BodySectionRepeatDimensionConfiguration[];
-  PageBreakConfiguration?: BodySectionRepeatPageBreakConfiguration;
-  NonRepeatingVisuals?: string[];
+  DimensionConfigurations?: BodySectionRepeatDimensionConfiguration[] | undefined;
+  PageBreakConfiguration?: BodySectionRepeatPageBreakConfiguration | undefined;
+  NonRepeatingVisuals?: string[] | undefined;
 }
 export interface BodySectionConfiguration {
   SectionId: string;
   Content: BodySectionContent;
-  Style?: SectionStyle;
-  PageBreakConfiguration?: SectionPageBreakConfiguration;
-  RepeatConfiguration?: BodySectionRepeatConfiguration;
+  Style?: SectionStyle | undefined;
+  PageBreakConfiguration?: SectionPageBreakConfiguration | undefined;
+  RepeatConfiguration?: BodySectionRepeatConfiguration | undefined;
 }
 export type BodySectionConfigurationList = BodySectionConfiguration[];
 export type PaperSize =
@@ -4267,12 +4273,12 @@ export type PaperSize =
   | (string & {});
 export type PaperOrientation = "PORTRAIT" | "LANDSCAPE" | (string & {});
 export interface SectionBasedLayoutPaperCanvasSizeOptions {
-  PaperSize?: PaperSize;
-  PaperOrientation?: PaperOrientation;
-  PaperMargin?: Spacing;
+  PaperSize?: PaperSize | undefined;
+  PaperOrientation?: PaperOrientation | undefined;
+  PaperMargin?: Spacing | undefined;
 }
 export interface SectionBasedLayoutCanvasSizeOptions {
-  PaperCanvasSizeOptions?: SectionBasedLayoutPaperCanvasSizeOptions;
+  PaperCanvasSizeOptions?: SectionBasedLayoutPaperCanvasSizeOptions | undefined;
 }
 export interface SectionBasedLayoutConfiguration {
   HeaderSections: HeaderFooterSectionConfiguration[];
@@ -4281,16 +4287,16 @@ export interface SectionBasedLayoutConfiguration {
   CanvasSizeOptions: SectionBasedLayoutCanvasSizeOptions;
 }
 export interface LayoutConfiguration {
-  GridLayout?: GridLayoutConfiguration;
-  FreeFormLayout?: FreeFormLayoutConfiguration;
-  SectionBasedLayout?: SectionBasedLayoutConfiguration;
+  GridLayout?: GridLayoutConfiguration | undefined;
+  FreeFormLayout?: FreeFormLayoutConfiguration | undefined;
+  SectionBasedLayout?: SectionBasedLayoutConfiguration | undefined;
 }
 export interface Layout {
   Configuration: LayoutConfiguration;
 }
 export type LayoutList = Layout[];
 export interface SheetControlLayoutConfiguration {
-  GridLayout?: GridLayoutConfiguration;
+  GridLayout?: GridLayoutConfiguration | undefined;
 }
 export interface SheetControlLayout {
   Configuration: SheetControlLayoutConfiguration;
@@ -4306,22 +4312,22 @@ export interface VisualHighlightOperation {
   Trigger: VisualHighlightTrigger;
 }
 export interface VisualCustomActionDefaults {
-  highlightOperation?: VisualHighlightOperation;
+  highlightOperation?: VisualHighlightOperation | undefined;
 }
 export interface SheetDefinition {
   SheetId: string;
-  Title?: string;
-  Description?: string;
-  Name?: string;
-  ParameterControls?: ParameterControl[];
-  FilterControls?: FilterControl[];
-  Visuals?: Visual[];
-  TextBoxes?: SheetTextBox[];
-  Images?: SheetImage[];
-  Layouts?: Layout[];
-  SheetControlLayouts?: SheetControlLayout[];
-  ContentType?: SheetContentType;
-  CustomActionDefaults?: VisualCustomActionDefaults;
+  Title?: string | undefined;
+  Description?: string | undefined;
+  Name?: string | undefined;
+  ParameterControls?: ParameterControl[] | undefined;
+  FilterControls?: FilterControl[] | undefined;
+  Visuals?: Visual[] | undefined;
+  TextBoxes?: SheetTextBox[] | undefined;
+  Images?: SheetImage[] | undefined;
+  Layouts?: Layout[] | undefined;
+  SheetControlLayouts?: SheetControlLayout[] | undefined;
+  ContentType?: SheetContentType | undefined;
+  CustomActionDefaults?: VisualCustomActionDefaults | undefined;
 }
 export type SheetDefinitionList = SheetDefinition[];
 export type TooltipSheetVisualList = Visual[];
@@ -4329,35 +4335,35 @@ export type TooltipSheetTextBoxList = SheetTextBox[];
 export type TooltipSheetImageList = SheetImage[];
 export interface TooltipSheetDefinition {
   SheetId: string;
-  Name?: string;
-  Visuals?: Visual[];
-  TextBoxes?: SheetTextBox[];
-  Images?: SheetImage[];
-  Layouts?: Layout[];
+  Name?: string | undefined;
+  Visuals?: Visual[] | undefined;
+  TextBoxes?: SheetTextBox[] | undefined;
+  Images?: SheetImage[] | undefined;
+  Layouts?: Layout[] | undefined;
 }
 export type TooltipSheetDefinitionList = TooltipSheetDefinition[];
 export type CalculatedFieldExpression = string | redacted.Redacted<string>;
 export interface CalculatedField {
-  DataSetIdentifier?: string;
-  TopicIdentifier?: string;
+  DataSetIdentifier?: string | undefined;
+  TopicIdentifier?: string | undefined;
   Name: string;
   Expression: string | redacted.Redacted<string>;
 }
 export type CalculatedFields = CalculatedField[];
 export type ParameterValueType = "MULTI_VALUED" | "SINGLE_VALUED" | (string & {});
 export interface DynamicDefaultValue {
-  UserNameColumn?: ColumnIdentifier;
-  GroupNameColumn?: ColumnIdentifier;
+  UserNameColumn?: ColumnIdentifier | undefined;
+  GroupNameColumn?: ColumnIdentifier | undefined;
   DefaultValueColumn: ColumnIdentifier;
 }
 export interface StringDefaultValues {
-  DynamicValue?: DynamicDefaultValue;
-  StaticValues?: (string | redacted.Redacted<string>)[];
+  DynamicValue?: DynamicDefaultValue | undefined;
+  StaticValues?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type ValueWhenUnsetOption = "RECOMMENDED_VALUE" | "NULL" | (string & {});
 export interface StringValueWhenUnsetConfiguration {
-  ValueWhenUnsetOption?: ValueWhenUnsetOption;
-  CustomValue?: string | redacted.Redacted<string>;
+  ValueWhenUnsetOption?: ValueWhenUnsetOption | undefined;
+  CustomValue?: string | redacted.Redacted<string> | undefined;
 }
 export interface MappedDataSetParameter {
   DataSetIdentifier: string;
@@ -4367,65 +4373,65 @@ export type MappedDataSetParameters = MappedDataSetParameter[];
 export interface StringParameterDeclaration {
   ParameterValueType: ParameterValueType;
   Name: string;
-  DefaultValues?: StringDefaultValues;
-  ValueWhenUnset?: StringValueWhenUnsetConfiguration;
-  MappedDataSetParameters?: MappedDataSetParameter[];
+  DefaultValues?: StringDefaultValues | undefined;
+  ValueWhenUnset?: StringValueWhenUnsetConfiguration | undefined;
+  MappedDataSetParameters?: MappedDataSetParameter[] | undefined;
 }
 export interface DecimalDefaultValues {
-  DynamicValue?: DynamicDefaultValue;
-  StaticValues?: number[];
+  DynamicValue?: DynamicDefaultValue | undefined;
+  StaticValues?: number[] | undefined;
 }
 export interface DecimalValueWhenUnsetConfiguration {
-  ValueWhenUnsetOption?: ValueWhenUnsetOption;
-  CustomValue?: number;
+  ValueWhenUnsetOption?: ValueWhenUnsetOption | undefined;
+  CustomValue?: number | undefined;
 }
 export interface DecimalParameterDeclaration {
   ParameterValueType: ParameterValueType;
   Name: string;
-  DefaultValues?: DecimalDefaultValues;
-  ValueWhenUnset?: DecimalValueWhenUnsetConfiguration;
-  MappedDataSetParameters?: MappedDataSetParameter[];
+  DefaultValues?: DecimalDefaultValues | undefined;
+  ValueWhenUnset?: DecimalValueWhenUnsetConfiguration | undefined;
+  MappedDataSetParameters?: MappedDataSetParameter[] | undefined;
 }
 export interface IntegerDefaultValues {
-  DynamicValue?: DynamicDefaultValue;
-  StaticValues?: number[];
+  DynamicValue?: DynamicDefaultValue | undefined;
+  StaticValues?: number[] | undefined;
 }
 export interface IntegerValueWhenUnsetConfiguration {
-  ValueWhenUnsetOption?: ValueWhenUnsetOption;
-  CustomValue?: number;
+  ValueWhenUnsetOption?: ValueWhenUnsetOption | undefined;
+  CustomValue?: number | undefined;
 }
 export interface IntegerParameterDeclaration {
   ParameterValueType: ParameterValueType;
   Name: string;
-  DefaultValues?: IntegerDefaultValues;
-  ValueWhenUnset?: IntegerValueWhenUnsetConfiguration;
-  MappedDataSetParameters?: MappedDataSetParameter[];
+  DefaultValues?: IntegerDefaultValues | undefined;
+  ValueWhenUnset?: IntegerValueWhenUnsetConfiguration | undefined;
+  MappedDataSetParameters?: MappedDataSetParameter[] | undefined;
 }
 export interface RollingDateConfiguration {
-  DataSetIdentifier?: string;
+  DataSetIdentifier?: string | undefined;
   Expression: string | redacted.Redacted<string>;
 }
 export interface DateTimeDefaultValues {
-  DynamicValue?: DynamicDefaultValue;
-  StaticValues?: Date[];
-  RollingDate?: RollingDateConfiguration;
+  DynamicValue?: DynamicDefaultValue | undefined;
+  StaticValues?: Date[] | undefined;
+  RollingDate?: RollingDateConfiguration | undefined;
 }
 export interface DateTimeValueWhenUnsetConfiguration {
-  ValueWhenUnsetOption?: ValueWhenUnsetOption;
-  CustomValue?: Date;
+  ValueWhenUnsetOption?: ValueWhenUnsetOption | undefined;
+  CustomValue?: Date | undefined;
 }
 export interface DateTimeParameterDeclaration {
   Name: string;
-  DefaultValues?: DateTimeDefaultValues;
-  TimeGranularity?: TimeGranularity;
-  ValueWhenUnset?: DateTimeValueWhenUnsetConfiguration;
-  MappedDataSetParameters?: MappedDataSetParameter[];
+  DefaultValues?: DateTimeDefaultValues | undefined;
+  TimeGranularity?: TimeGranularity | undefined;
+  ValueWhenUnset?: DateTimeValueWhenUnsetConfiguration | undefined;
+  MappedDataSetParameters?: MappedDataSetParameter[] | undefined;
 }
 export interface ParameterDeclaration {
-  StringParameterDeclaration?: StringParameterDeclaration;
-  DecimalParameterDeclaration?: DecimalParameterDeclaration;
-  IntegerParameterDeclaration?: IntegerParameterDeclaration;
-  DateTimeParameterDeclaration?: DateTimeParameterDeclaration;
+  StringParameterDeclaration?: StringParameterDeclaration | undefined;
+  DecimalParameterDeclaration?: DecimalParameterDeclaration | undefined;
+  IntegerParameterDeclaration?: IntegerParameterDeclaration | undefined;
+  DateTimeParameterDeclaration?: DateTimeParameterDeclaration | undefined;
 }
 export type ParameterDeclarationList = ParameterDeclaration[];
 export type CategoryFilterMatchOperator =
@@ -4440,196 +4446,196 @@ export type CategoryFilterSelectAllOptions = "FILTER_ALL_VALUES" | (string & {})
 export type FilterNullOption = "ALL_VALUES" | "NULLS_ONLY" | "NON_NULLS_ONLY" | (string & {});
 export interface FilterListConfiguration {
   MatchOperator: CategoryFilterMatchOperator;
-  CategoryValues?: string[];
-  SelectAllOptions?: CategoryFilterSelectAllOptions;
-  NullOption?: FilterNullOption;
+  CategoryValues?: string[] | undefined;
+  SelectAllOptions?: CategoryFilterSelectAllOptions | undefined;
+  NullOption?: FilterNullOption | undefined;
 }
 export interface CustomFilterListConfiguration {
   MatchOperator: CategoryFilterMatchOperator;
-  CategoryValues?: string[];
-  SelectAllOptions?: CategoryFilterSelectAllOptions;
+  CategoryValues?: string[] | undefined;
+  SelectAllOptions?: CategoryFilterSelectAllOptions | undefined;
   NullOption: FilterNullOption;
 }
 export interface CustomFilterConfiguration {
   MatchOperator: CategoryFilterMatchOperator;
-  CategoryValue?: string;
-  SelectAllOptions?: CategoryFilterSelectAllOptions;
-  ParameterName?: string;
+  CategoryValue?: string | undefined;
+  SelectAllOptions?: CategoryFilterSelectAllOptions | undefined;
+  ParameterName?: string | undefined;
   NullOption: FilterNullOption;
 }
 export interface CategoryFilterConfiguration {
-  FilterListConfiguration?: FilterListConfiguration;
-  CustomFilterListConfiguration?: CustomFilterListConfiguration;
-  CustomFilterConfiguration?: CustomFilterConfiguration;
+  FilterListConfiguration?: FilterListConfiguration | undefined;
+  CustomFilterListConfiguration?: CustomFilterListConfiguration | undefined;
+  CustomFilterConfiguration?: CustomFilterConfiguration | undefined;
 }
 export interface DefaultDateTimePickerControlOptions {
-  Type?: SheetControlDateTimePickerType;
-  DisplayOptions?: DateTimePickerControlDisplayOptions;
-  CommitMode?: CommitMode;
+  Type?: SheetControlDateTimePickerType | undefined;
+  DisplayOptions?: DateTimePickerControlDisplayOptions | undefined;
+  CommitMode?: CommitMode | undefined;
 }
 export interface DefaultFilterListControlOptions {
-  DisplayOptions?: ListControlDisplayOptions;
-  Type?: SheetControlListType;
-  SelectableValues?: FilterSelectableValues;
-  ControlSortConfigurations?: ControlSortConfiguration[];
+  DisplayOptions?: ListControlDisplayOptions | undefined;
+  Type?: SheetControlListType | undefined;
+  SelectableValues?: FilterSelectableValues | undefined;
+  ControlSortConfigurations?: ControlSortConfiguration[] | undefined;
 }
 export interface DefaultFilterDropDownControlOptions {
-  DisplayOptions?: DropDownControlDisplayOptions;
-  Type?: SheetControlListType;
-  SelectableValues?: FilterSelectableValues;
-  CommitMode?: CommitMode;
-  ControlSortConfigurations?: ControlSortConfiguration[];
+  DisplayOptions?: DropDownControlDisplayOptions | undefined;
+  Type?: SheetControlListType | undefined;
+  SelectableValues?: FilterSelectableValues | undefined;
+  CommitMode?: CommitMode | undefined;
+  ControlSortConfigurations?: ControlSortConfiguration[] | undefined;
 }
 export interface DefaultTextFieldControlOptions {
-  DisplayOptions?: TextFieldControlDisplayOptions;
+  DisplayOptions?: TextFieldControlDisplayOptions | undefined;
 }
 export interface DefaultTextAreaControlOptions {
-  Delimiter?: string;
-  DisplayOptions?: TextAreaControlDisplayOptions;
+  Delimiter?: string | undefined;
+  DisplayOptions?: TextAreaControlDisplayOptions | undefined;
 }
 export interface DefaultSliderControlOptions {
-  DisplayOptions?: SliderControlDisplayOptions;
-  Type?: SheetControlSliderType;
+  DisplayOptions?: SliderControlDisplayOptions | undefined;
+  Type?: SheetControlSliderType | undefined;
   MaximumValue: number;
   MinimumValue: number;
   StepSize: number;
 }
 export interface DefaultRelativeDateTimeControlOptions {
-  DisplayOptions?: RelativeDateTimeControlDisplayOptions;
-  CommitMode?: CommitMode;
+  DisplayOptions?: RelativeDateTimeControlDisplayOptions | undefined;
+  CommitMode?: CommitMode | undefined;
 }
 export interface DefaultHierarchyFilterListControlOptions {
-  DisplayOptions?: HierarchyFilterListControlDisplayOptions;
-  Type?: SheetControlListType;
-  CommitMode?: CommitMode;
-  ControlSortConfigurations?: ControlSortConfiguration[];
-  ControlTitleFormatText?: ControlTitleFormatText;
+  DisplayOptions?: HierarchyFilterListControlDisplayOptions | undefined;
+  Type?: SheetControlListType | undefined;
+  CommitMode?: CommitMode | undefined;
+  ControlSortConfigurations?: ControlSortConfiguration[] | undefined;
+  ControlTitleFormatText?: ControlTitleFormatText | undefined;
 }
 export interface DefaultHierarchyFilterDropDownControlOptions {
-  DisplayOptions?: HierarchyFilterDropDownControlDisplayOptions;
-  Type?: SheetControlListType;
-  CommitMode?: CommitMode;
-  ControlSortConfigurations?: ControlSortConfiguration[];
-  ControlTitleFormatText?: ControlTitleFormatText;
+  DisplayOptions?: HierarchyFilterDropDownControlDisplayOptions | undefined;
+  Type?: SheetControlListType | undefined;
+  CommitMode?: CommitMode | undefined;
+  ControlSortConfigurations?: ControlSortConfiguration[] | undefined;
+  ControlTitleFormatText?: ControlTitleFormatText | undefined;
 }
 export interface DefaultFilterControlOptions {
-  DefaultDateTimePickerOptions?: DefaultDateTimePickerControlOptions;
-  DefaultListOptions?: DefaultFilterListControlOptions;
-  DefaultDropdownOptions?: DefaultFilterDropDownControlOptions;
-  DefaultTextFieldOptions?: DefaultTextFieldControlOptions;
-  DefaultTextAreaOptions?: DefaultTextAreaControlOptions;
-  DefaultSliderOptions?: DefaultSliderControlOptions;
-  DefaultRelativeDateTimeOptions?: DefaultRelativeDateTimeControlOptions;
-  DefaultHierarchyList?: DefaultHierarchyFilterListControlOptions;
-  DefaultHierarchyDropdown?: DefaultHierarchyFilterDropDownControlOptions;
+  DefaultDateTimePickerOptions?: DefaultDateTimePickerControlOptions | undefined;
+  DefaultListOptions?: DefaultFilterListControlOptions | undefined;
+  DefaultDropdownOptions?: DefaultFilterDropDownControlOptions | undefined;
+  DefaultTextFieldOptions?: DefaultTextFieldControlOptions | undefined;
+  DefaultTextAreaOptions?: DefaultTextAreaControlOptions | undefined;
+  DefaultSliderOptions?: DefaultSliderControlOptions | undefined;
+  DefaultRelativeDateTimeOptions?: DefaultRelativeDateTimeControlOptions | undefined;
+  DefaultHierarchyList?: DefaultHierarchyFilterListControlOptions | undefined;
+  DefaultHierarchyDropdown?: DefaultHierarchyFilterDropDownControlOptions | undefined;
 }
 export interface DefaultFilterControlConfiguration {
-  Title?: string;
+  Title?: string | undefined;
   ControlOptions: DefaultFilterControlOptions;
-  ControlTitleFormatText?: ControlTitleFormatText;
+  ControlTitleFormatText?: ControlTitleFormatText | undefined;
 }
 export interface CategoryFilter {
   FilterId: string;
   Column: ColumnIdentifier;
   Configuration: CategoryFilterConfiguration;
-  DefaultFilterControlConfiguration?: DefaultFilterControlConfiguration;
+  DefaultFilterControlConfiguration?: DefaultFilterControlConfiguration | undefined;
 }
 export interface NumericRangeFilterValue {
-  StaticValue?: number;
-  Parameter?: string;
+  StaticValue?: number | undefined;
+  Parameter?: string | undefined;
 }
 export type NumericFilterSelectAllOptions = "FILTER_ALL_VALUES" | (string & {});
 export interface NumericRangeFilter {
   FilterId: string;
   Column: ColumnIdentifier;
-  IncludeMinimum?: boolean;
-  IncludeMaximum?: boolean;
-  RangeMinimum?: NumericRangeFilterValue;
-  RangeMaximum?: NumericRangeFilterValue;
-  SelectAllOptions?: NumericFilterSelectAllOptions;
-  AggregationFunction?: AggregationFunction;
+  IncludeMinimum?: boolean | undefined;
+  IncludeMaximum?: boolean | undefined;
+  RangeMinimum?: NumericRangeFilterValue | undefined;
+  RangeMaximum?: NumericRangeFilterValue | undefined;
+  SelectAllOptions?: NumericFilterSelectAllOptions | undefined;
+  AggregationFunction?: AggregationFunction | undefined;
   NullOption: FilterNullOption;
-  DefaultFilterControlConfiguration?: DefaultFilterControlConfiguration;
+  DefaultFilterControlConfiguration?: DefaultFilterControlConfiguration | undefined;
 }
 export type NumericEqualityMatchOperator = "EQUALS" | "DOES_NOT_EQUAL" | (string & {});
 export interface NumericEqualityFilter {
   FilterId: string;
   Column: ColumnIdentifier;
-  Value?: number;
-  SelectAllOptions?: NumericFilterSelectAllOptions;
+  Value?: number | undefined;
+  SelectAllOptions?: NumericFilterSelectAllOptions | undefined;
   MatchOperator: NumericEqualityMatchOperator;
-  AggregationFunction?: AggregationFunction;
-  ParameterName?: string;
+  AggregationFunction?: AggregationFunction | undefined;
+  ParameterName?: string | undefined;
   NullOption: FilterNullOption;
-  DefaultFilterControlConfiguration?: DefaultFilterControlConfiguration;
+  DefaultFilterControlConfiguration?: DefaultFilterControlConfiguration | undefined;
 }
 export interface TimeEqualityFilter {
   FilterId: string;
   Column: ColumnIdentifier;
-  Value?: Date;
-  ParameterName?: string;
-  TimeGranularity?: TimeGranularity;
-  RollingDate?: RollingDateConfiguration;
-  DefaultFilterControlConfiguration?: DefaultFilterControlConfiguration;
+  Value?: Date | undefined;
+  ParameterName?: string | undefined;
+  TimeGranularity?: TimeGranularity | undefined;
+  RollingDate?: RollingDateConfiguration | undefined;
+  DefaultFilterControlConfiguration?: DefaultFilterControlConfiguration | undefined;
 }
 export interface TimeRangeFilterValue {
-  StaticValue?: Date;
-  RollingDate?: RollingDateConfiguration;
-  Parameter?: string;
+  StaticValue?: Date | undefined;
+  RollingDate?: RollingDateConfiguration | undefined;
+  Parameter?: string | undefined;
 }
 export interface ExcludePeriodConfiguration {
   Amount: number;
   Granularity: TimeGranularity;
-  Status?: WidgetStatus;
+  Status?: WidgetStatus | undefined;
 }
 export interface TimeRangeFilter {
   FilterId: string;
   Column: ColumnIdentifier;
-  IncludeMinimum?: boolean;
-  IncludeMaximum?: boolean;
-  RangeMinimumValue?: TimeRangeFilterValue;
-  RangeMaximumValue?: TimeRangeFilterValue;
+  IncludeMinimum?: boolean | undefined;
+  IncludeMaximum?: boolean | undefined;
+  RangeMinimumValue?: TimeRangeFilterValue | undefined;
+  RangeMaximumValue?: TimeRangeFilterValue | undefined;
   NullOption: FilterNullOption;
-  ExcludePeriodConfiguration?: ExcludePeriodConfiguration;
-  TimeGranularity?: TimeGranularity;
-  DefaultFilterControlConfiguration?: DefaultFilterControlConfiguration;
+  ExcludePeriodConfiguration?: ExcludePeriodConfiguration | undefined;
+  TimeGranularity?: TimeGranularity | undefined;
+  DefaultFilterControlConfiguration?: DefaultFilterControlConfiguration | undefined;
 }
 export type AnchorOption = "NOW" | (string & {});
 export interface AnchorDateConfiguration {
-  AnchorOption?: AnchorOption;
-  ParameterName?: string;
+  AnchorOption?: AnchorOption | undefined;
+  ParameterName?: string | undefined;
 }
 export type RelativeDateType = "PREVIOUS" | "THIS" | "LAST" | "NOW" | "NEXT" | (string & {});
 export interface RelativeDatesFilter {
   FilterId: string;
   Column: ColumnIdentifier;
   AnchorDateConfiguration: AnchorDateConfiguration;
-  MinimumGranularity?: TimeGranularity;
+  MinimumGranularity?: TimeGranularity | undefined;
   TimeGranularity: TimeGranularity;
   RelativeDateType: RelativeDateType;
-  RelativeDateValue?: number;
-  ParameterName?: string;
+  RelativeDateValue?: number | undefined;
+  ParameterName?: string | undefined;
   NullOption: FilterNullOption;
-  ExcludePeriodConfiguration?: ExcludePeriodConfiguration;
-  DefaultFilterControlConfiguration?: DefaultFilterControlConfiguration;
+  ExcludePeriodConfiguration?: ExcludePeriodConfiguration | undefined;
+  DefaultFilterControlConfiguration?: DefaultFilterControlConfiguration | undefined;
 }
 export type AggregationSortConfigurationList = AggregationSortConfiguration[];
 export interface TopBottomFilter {
   FilterId: string;
   Column: ColumnIdentifier;
-  Limit?: number;
+  Limit?: number | undefined;
   AggregationSortConfigurations: AggregationSortConfiguration[];
-  TimeGranularity?: TimeGranularity;
-  ParameterName?: string;
-  DefaultFilterControlConfiguration?: DefaultFilterControlConfiguration;
+  TimeGranularity?: TimeGranularity | undefined;
+  ParameterName?: string | undefined;
+  DefaultFilterControlConfiguration?: DefaultFilterControlConfiguration | undefined;
 }
 export interface CategoryInnerFilter {
   Column: ColumnIdentifier;
   Configuration: CategoryFilterConfiguration;
-  DefaultFilterControlConfiguration?: DefaultFilterControlConfiguration;
+  DefaultFilterControlConfiguration?: DefaultFilterControlConfiguration | undefined;
 }
 export interface InnerFilter {
-  CategoryInnerFilter?: CategoryInnerFilter;
+  CategoryInnerFilter?: CategoryInnerFilter | undefined;
 }
 export interface NestedFilter {
   FilterId: string;
@@ -4646,30 +4652,30 @@ export type HierarchyValuesList = (string | redacted.Redacted<string>)[];
 export type HierarchyFilterNodeList = HierarchyFilterNode[];
 export interface HierarchyFilterNode {
   Column: ColumnIdentifier;
-  ParentValue?: string | redacted.Redacted<string>;
-  HierarchyValues?: (string | redacted.Redacted<string>)[];
-  Children?: HierarchyFilterNode[];
+  ParentValue?: string | redacted.Redacted<string> | undefined;
+  HierarchyValues?: (string | redacted.Redacted<string>)[] | undefined;
+  Children?: HierarchyFilterNode[] | undefined;
 }
 export type HierarchyFilterMatchOperator = "INCLUDE" | "EXCLUDE" | (string & {});
 export interface HierarchyFilter {
   FilterId: string;
   Column: ColumnIdentifier;
   HierarchyLevels: HierarchyFilterLevel[];
-  HierarchyTree?: HierarchyFilterNode;
+  HierarchyTree?: HierarchyFilterNode | undefined;
   NullOption: FilterNullOption;
   MatchOperator: HierarchyFilterMatchOperator;
-  DefaultFilterControlConfiguration?: DefaultFilterControlConfiguration;
+  DefaultFilterControlConfiguration?: DefaultFilterControlConfiguration | undefined;
 }
 export interface Filter {
-  CategoryFilter?: CategoryFilter;
-  NumericRangeFilter?: NumericRangeFilter;
-  NumericEqualityFilter?: NumericEqualityFilter;
-  TimeEqualityFilter?: TimeEqualityFilter;
-  TimeRangeFilter?: TimeRangeFilter;
-  RelativeDatesFilter?: RelativeDatesFilter;
-  TopBottomFilter?: TopBottomFilter;
-  NestedFilter?: NestedFilter;
-  HierarchyFilter?: HierarchyFilter;
+  CategoryFilter?: CategoryFilter | undefined;
+  NumericRangeFilter?: NumericRangeFilter | undefined;
+  NumericEqualityFilter?: NumericEqualityFilter | undefined;
+  TimeEqualityFilter?: TimeEqualityFilter | undefined;
+  TimeRangeFilter?: TimeRangeFilter | undefined;
+  RelativeDatesFilter?: RelativeDatesFilter | undefined;
+  TopBottomFilter?: TopBottomFilter | undefined;
+  NestedFilter?: NestedFilter | undefined;
+  HierarchyFilter?: HierarchyFilter | undefined;
 }
 export type FilterList = Filter[];
 export type FilterVisualScope = "ALL_VISUALS" | "SELECTED_VISUALS" | (string & {});
@@ -4677,47 +4683,47 @@ export type FilteredVisualsList = string[];
 export interface SheetVisualScopingConfiguration {
   SheetId: string;
   Scope: FilterVisualScope;
-  VisualIds?: string[];
+  VisualIds?: string[] | undefined;
 }
 export type SheetVisualScopingConfigurations = SheetVisualScopingConfiguration[];
 export interface SelectedSheetsFilterScopeConfiguration {
-  SheetVisualScopingConfigurations?: SheetVisualScopingConfiguration[];
+  SheetVisualScopingConfigurations?: SheetVisualScopingConfiguration[] | undefined;
 }
 export interface AllSheetsFilterScopeConfiguration {}
 export interface FilterScopeConfiguration {
-  SelectedSheets?: SelectedSheetsFilterScopeConfiguration;
-  AllSheets?: AllSheetsFilterScopeConfiguration;
+  SelectedSheets?: SelectedSheetsFilterScopeConfiguration | undefined;
+  AllSheets?: AllSheetsFilterScopeConfiguration | undefined;
 }
 export type CrossDatasetTypes = "ALL_DATASETS" | "SINGLE_DATASET" | (string & {});
 export interface FilterGroup {
   FilterGroupId: string;
   Filters: Filter[];
   ScopeConfiguration: FilterScopeConfiguration;
-  Status?: WidgetStatus;
+  Status?: WidgetStatus | undefined;
   CrossDataset: CrossDatasetTypes;
 }
 export type FilterGroupList = FilterGroup[];
 export type ColumnRole = "DIMENSION" | "MEASURE" | (string & {});
 export type SpecialValue = "EMPTY" | "NULL" | "OTHER" | (string & {});
 export interface CustomColor {
-  FieldValue?: string | redacted.Redacted<string>;
+  FieldValue?: string | redacted.Redacted<string> | undefined;
   Color: string;
-  SpecialValue?: SpecialValue;
+  SpecialValue?: SpecialValue | undefined;
 }
 export type CustomColorsList = CustomColor[];
 export interface ColorsConfiguration {
-  CustomColors?: CustomColor[];
+  CustomColors?: CustomColor[] | undefined;
 }
 export type DecalSettingsList = DecalSettings[];
 export interface DecalSettingsConfiguration {
-  CustomDecalSettings?: DecalSettings[];
+  CustomDecalSettings?: DecalSettings[] | undefined;
 }
 export interface ColumnConfiguration {
   Column: ColumnIdentifier;
-  FormatConfiguration?: FormatConfiguration;
-  Role?: ColumnRole;
-  ColorsConfiguration?: ColorsConfiguration;
-  DecalSettingsConfiguration?: DecalSettingsConfiguration;
+  FormatConfiguration?: FormatConfiguration | undefined;
+  Role?: ColumnRole | undefined;
+  ColorsConfiguration?: ColorsConfiguration | undefined;
+  DecalSettingsConfiguration?: DecalSettingsConfiguration | undefined;
 }
 export type ColumnConfigurationList = ColumnConfiguration[];
 export interface DefaultGridLayoutConfiguration {
@@ -4727,19 +4733,19 @@ export interface DefaultFreeFormLayoutConfiguration {
   CanvasSizeOptions: FreeFormLayoutCanvasSizeOptions;
 }
 export interface DefaultInteractiveLayoutConfiguration {
-  Grid?: DefaultGridLayoutConfiguration;
-  FreeForm?: DefaultFreeFormLayoutConfiguration;
+  Grid?: DefaultGridLayoutConfiguration | undefined;
+  FreeForm?: DefaultFreeFormLayoutConfiguration | undefined;
 }
 export interface DefaultSectionBasedLayoutConfiguration {
   CanvasSizeOptions: SectionBasedLayoutCanvasSizeOptions;
 }
 export interface DefaultPaginatedLayoutConfiguration {
-  SectionBased?: DefaultSectionBasedLayoutConfiguration;
+  SectionBased?: DefaultSectionBasedLayoutConfiguration | undefined;
 }
 export interface DefaultNewSheetConfiguration {
-  InteractiveLayoutConfiguration?: DefaultInteractiveLayoutConfiguration;
-  PaginatedLayoutConfiguration?: DefaultPaginatedLayoutConfiguration;
-  SheetContentType?: SheetContentType;
+  InteractiveLayoutConfiguration?: DefaultInteractiveLayoutConfiguration | undefined;
+  PaginatedLayoutConfiguration?: DefaultPaginatedLayoutConfiguration | undefined;
+  SheetContentType?: SheetContentType | undefined;
 }
 export interface AnalysisDefaults {
   DefaultNewSheetConfiguration: DefaultNewSheetConfiguration;
@@ -4758,29 +4764,29 @@ export type DataSetArnsList = string[];
 export type VisualMessageText = string;
 export type VisualMessageLinkUrl = string;
 export interface VisualMessageConfiguration {
-  Enabled?: boolean;
-  Title?: string;
-  TitleVisibility?: Visibility;
-  Description?: string;
-  DescriptionVisibility?: Visibility;
-  LinkText?: string;
-  LinkUrl?: string;
-  LinkVisibility?: Visibility;
+  Enabled?: boolean | undefined;
+  Title?: string | undefined;
+  TitleVisibility?: Visibility | undefined;
+  Description?: string | undefined;
+  DescriptionVisibility?: Visibility | undefined;
+  LinkText?: string | undefined;
+  LinkUrl?: string | undefined;
+  LinkVisibility?: Visibility | undefined;
 }
 export interface VisualMessages {
-  NoDataMessage?: VisualMessageConfiguration;
+  NoDataMessage?: VisualMessageConfiguration | undefined;
 }
 export interface AssetOptions {
-  Timezone?: string;
-  WeekStart?: DayOfTheWeek;
-  QBusinessInsightsStatus?: QBusinessInsightsStatus;
-  ExcludedDataSetArns?: string[];
-  CustomActionDefaults?: VisualCustomActionDefaults;
-  VisualMessages?: VisualMessages;
+  Timezone?: string | undefined;
+  WeekStart?: DayOfTheWeek | undefined;
+  QBusinessInsightsStatus?: QBusinessInsightsStatus | undefined;
+  ExcludedDataSetArns?: string[] | undefined;
+  CustomActionDefaults?: VisualCustomActionDefaults | undefined;
+  VisualMessages?: VisualMessages | undefined;
 }
 export type QueryExecutionMode = "AUTO" | "MANUAL" | (string & {});
 export interface QueryExecutionOptions {
-  QueryExecutionMode?: QueryExecutionMode;
+  QueryExecutionMode?: QueryExecutionMode | undefined;
 }
 export interface StaticFileUrlSourceOptions {
   Url: string;
@@ -4791,35 +4797,35 @@ export interface StaticFileS3SourceOptions {
   Region: string;
 }
 export interface StaticFileSource {
-  UrlOptions?: StaticFileUrlSourceOptions;
-  S3Options?: StaticFileS3SourceOptions;
+  UrlOptions?: StaticFileUrlSourceOptions | undefined;
+  S3Options?: StaticFileS3SourceOptions | undefined;
 }
 export interface ImageStaticFile {
   StaticFileId: string;
-  Source?: StaticFileSource;
+  Source?: StaticFileSource | undefined;
 }
 export interface SpatialStaticFile {
   StaticFileId: string;
-  Source?: StaticFileSource;
+  Source?: StaticFileSource | undefined;
 }
 export interface StaticFile {
-  ImageStaticFile?: ImageStaticFile;
-  SpatialStaticFile?: SpatialStaticFile;
+  ImageStaticFile?: ImageStaticFile | undefined;
+  SpatialStaticFile?: SpatialStaticFile | undefined;
 }
 export type StaticFileList = StaticFile[];
 export interface AnalysisDefinition {
   DataSetIdentifierDeclarations: DataSetIdentifierDeclaration[];
-  TopicIdentifierDeclarations?: TopicIdentifierDeclaration[];
-  Sheets?: SheetDefinition[];
-  TooltipSheets?: TooltipSheetDefinition[];
-  CalculatedFields?: CalculatedField[];
-  ParameterDeclarations?: ParameterDeclaration[];
-  FilterGroups?: FilterGroup[];
-  ColumnConfigurations?: ColumnConfiguration[];
-  AnalysisDefaults?: AnalysisDefaults;
-  Options?: AssetOptions;
-  QueryExecutionOptions?: QueryExecutionOptions;
-  StaticFiles?: StaticFile[];
+  TopicIdentifierDeclarations?: TopicIdentifierDeclaration[] | undefined;
+  Sheets?: SheetDefinition[] | undefined;
+  TooltipSheets?: TooltipSheetDefinition[] | undefined;
+  CalculatedFields?: CalculatedField[] | undefined;
+  ParameterDeclarations?: ParameterDeclaration[] | undefined;
+  FilterGroups?: FilterGroup[] | undefined;
+  ColumnConfigurations?: ColumnConfiguration[] | undefined;
+  AnalysisDefaults?: AnalysisDefaults | undefined;
+  Options?: AssetOptions | undefined;
+  QueryExecutionOptions?: QueryExecutionOptions | undefined;
+  StaticFiles?: StaticFile[] | undefined;
 }
 export type ValidationStrategyMode = "STRICT" | "LENIENT" | (string & {});
 export interface ValidationStrategy {
@@ -4830,21 +4836,21 @@ export interface CreateAnalysisRequest {
   AwsAccountId: string;
   AnalysisId: string;
   Name: string;
-  Parameters?: Parameters;
-  Permissions?: ResourcePermission[];
-  SourceEntity?: AnalysisSourceEntity;
-  ThemeArn?: string;
-  Tags?: Tag[];
-  Definition?: AnalysisDefinition;
-  ValidationStrategy?: ValidationStrategy;
-  FolderArns?: string[];
+  Parameters?: Parameters | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  SourceEntity?: AnalysisSourceEntity | undefined;
+  ThemeArn?: string | undefined;
+  Tags?: Tag[] | undefined;
+  Definition?: AnalysisDefinition | undefined;
+  ValidationStrategy?: ValidationStrategy | undefined;
+  FolderArns?: string[] | undefined;
 }
 export interface CreateAnalysisResponse {
-  Arn?: string;
-  AnalysisId?: string;
-  CreationStatus?: ResourceStatus;
-  Status?: number;
-  RequestId?: string;
+  Arn?: string | undefined;
+  AnalysisId?: string | undefined;
+  CreationStatus?: ResourceStatus | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export type PolicyId = string;
 export type PolicyName = string;
@@ -4857,13 +4863,13 @@ export type ApplicableToType = "GROUP" | (string & {});
 export type GroupArnList = string[];
 export interface ApplicableTo {
   Type: ApplicableToType;
-  GroupArns?: string[];
+  GroupArns?: string[] | undefined;
 }
 export type ApprovalGroupList = string[];
 export interface CreateApprovalPolicyRequest {
   PolicyId: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Actions: GovernedAction[];
   AssetTypes: AssetType[];
   ApplicableTo: ApplicableTo;
@@ -4873,7 +4879,7 @@ export interface ApprovalPolicy {
   PolicyId: string;
   PolicyArn: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Actions: GovernedAction[];
   AssetTypes: AssetType[];
   ApplicableTo: ApplicableTo;
@@ -4887,50 +4893,50 @@ export interface CreateApprovalPolicyResponse {
 export type Name = string;
 export type Description = string;
 export interface Palette {
-  Foreground?: string;
-  Background?: string;
+  Foreground?: string | undefined;
+  Background?: string | undefined;
 }
 export interface BrandColorPalette {
-  Primary?: Palette;
-  Secondary?: Palette;
-  Accent?: Palette;
-  Measure?: Palette;
-  Dimension?: Palette;
-  Success?: Palette;
-  Info?: Palette;
-  Warning?: Palette;
-  Danger?: Palette;
+  Primary?: Palette | undefined;
+  Secondary?: Palette | undefined;
+  Accent?: Palette | undefined;
+  Measure?: Palette | undefined;
+  Dimension?: Palette | undefined;
+  Success?: Palette | undefined;
+  Info?: Palette | undefined;
+  Warning?: Palette | undefined;
+  Danger?: Palette | undefined;
 }
 export interface ContextualAccentPalette {
-  Connection?: Palette;
-  Visualization?: Palette;
-  Insight?: Palette;
-  Automation?: Palette;
+  Connection?: Palette | undefined;
+  Visualization?: Palette | undefined;
+  Insight?: Palette | undefined;
+  Automation?: Palette | undefined;
 }
 export interface NavbarStyle {
-  GlobalNavbar?: Palette;
-  ContextualNavbar?: Palette;
+  GlobalNavbar?: Palette | undefined;
+  ContextualNavbar?: Palette | undefined;
 }
 export interface BrandElementStyle {
-  NavbarStyle?: NavbarStyle;
+  NavbarStyle?: NavbarStyle | undefined;
 }
 export interface ApplicationTheme {
-  BrandColorPalette?: BrandColorPalette;
-  ContextualAccentPalette?: ContextualAccentPalette;
-  BrandElementStyle?: BrandElementStyle;
+  BrandColorPalette?: BrandColorPalette | undefined;
+  ContextualAccentPalette?: ContextualAccentPalette | undefined;
+  BrandElementStyle?: BrandElementStyle | undefined;
 }
 export type ImageSource =
-  | { PublicUrl: string; S3Uri?: never }
-  | { PublicUrl?: never; S3Uri: string };
+  | { PublicUrl: string; S3Uri?: undefined }
+  | { PublicUrl?: undefined; S3Uri: string };
 export interface ImageConfiguration {
-  Source?: ImageSource;
+  Source?: ImageSource | undefined;
 }
 export interface ImageSetConfiguration {
   Original: ImageConfiguration;
 }
 export interface LogoSetConfiguration {
   Primary: ImageSetConfiguration;
-  Favicon?: ImageSetConfiguration;
+  Favicon?: ImageSetConfiguration | undefined;
 }
 export interface LogoConfiguration {
   AltText: string;
@@ -4938,15 +4944,15 @@ export interface LogoConfiguration {
 }
 export interface BrandDefinition {
   BrandName: string;
-  Description?: string;
-  ApplicationTheme?: ApplicationTheme;
-  LogoConfiguration?: LogoConfiguration;
+  Description?: string | undefined;
+  ApplicationTheme?: ApplicationTheme | undefined;
+  LogoConfiguration?: LogoConfiguration | undefined;
 }
 export interface CreateBrandRequest {
   AwsAccountId: string;
   BrandId: string;
-  BrandDefinition?: BrandDefinition;
-  Tags?: Tag[];
+  BrandDefinition?: BrandDefinition | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type BrandStatus =
   | "CREATE_IN_PROGRESS"
@@ -4964,17 +4970,17 @@ export type ErrorMessage = string;
 export type ErrorList = string[];
 export type AltText = string;
 export interface Image {
-  Source?: ImageSource;
-  GeneratedImageUrl?: string;
+  Source?: ImageSource | undefined;
+  GeneratedImageUrl?: string | undefined;
 }
 export interface ImageSet {
   Original: Image;
-  Height64?: Image;
-  Height32?: Image;
+  Height64?: Image | undefined;
+  Height32?: Image | undefined;
 }
 export interface LogoSet {
   Primary: ImageSet;
-  Favicon?: ImageSet;
+  Favicon?: ImageSet | undefined;
 }
 export interface Logo {
   AltText: string;
@@ -4982,521 +4988,705 @@ export interface Logo {
 }
 export interface BrandDetail {
   BrandId: string;
-  Arn?: string;
-  BrandStatus?: BrandStatus;
-  CreatedTime?: Date;
-  LastUpdatedTime?: Date;
-  VersionId?: string;
-  VersionStatus?: BrandVersionStatus;
-  Errors?: string[];
-  Logo?: Logo;
+  Arn?: string | undefined;
+  BrandStatus?: BrandStatus | undefined;
+  CreatedTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  VersionId?: string | undefined;
+  VersionStatus?: BrandVersionStatus | undefined;
+  Errors?: string[] | undefined;
+  Logo?: Logo | undefined;
 }
 export interface CreateBrandResponse {
-  RequestId?: string;
-  BrandDetail?: BrandDetail;
-  BrandDefinition?: BrandDefinition;
+  RequestId?: string | undefined;
+  BrandDetail?: BrandDetail | undefined;
+  BrandDefinition?: BrandDefinition | undefined;
 }
 export type CustomPermissionsName = string;
 export type CapabilityState = "DENY" | "ALLOW" | (string & {});
 export interface Capabilities {
-  ExportToCsv?: CapabilityState;
-  ExportToExcel?: CapabilityState;
-  ExportToPdf?: CapabilityState;
-  PrintReports?: CapabilityState;
-  CreateAndUpdateThemes?: CapabilityState;
-  AddOrRunAnomalyDetectionForAnalyses?: CapabilityState;
-  ShareAnalyses?: CapabilityState;
-  CreateAndUpdateDatasets?: CapabilityState;
-  ShareDatasets?: CapabilityState;
-  SubscribeDashboardEmailReports?: CapabilityState;
-  CreateAndUpdateDashboardEmailReports?: CapabilityState;
-  ShareDashboards?: CapabilityState;
-  CreateAndUpdateThresholdAlerts?: CapabilityState;
-  RenameSharedFolders?: CapabilityState;
-  CreateSharedFolders?: CapabilityState;
-  CreateAndUpdateDataSources?: CapabilityState;
-  ShareDataSources?: CapabilityState;
-  ViewAccountSPICECapacity?: CapabilityState;
-  CreateSPICEDataset?: CapabilityState;
-  ExportToPdfInScheduledReports?: CapabilityState;
-  ExportToCsvInScheduledReports?: CapabilityState;
-  ExportToExcelInScheduledReports?: CapabilityState;
-  IncludeContentInScheduledReportsEmail?: CapabilityState;
-  Dashboard?: CapabilityState;
-  Analysis?: CapabilityState;
-  Automate?: CapabilityState;
-  Flow?: CapabilityState;
-  Apps?: CapabilityState;
-  CreateAndUpdateApps?: CapabilityState;
-  ShareApps?: CapabilityState;
-  InvokeAppsAIInference?: CapabilityState;
-  AccessAppsNativeDataStore?: CapabilityState;
-  PublishWithoutApproval?: CapabilityState;
-  UseBedrockModels?: CapabilityState;
-  PerformFlowUiTask?: CapabilityState;
-  ApproveFlowShareRequests?: CapabilityState;
-  UseAgentWebSearch?: CapabilityState;
-  KnowledgeBase?: CapabilityState;
-  CreateAndUpdateKnowledgeBases?: CapabilityState;
-  ShareKnowledgeBases?: CapabilityState;
-  SharePointKnowledgeBase?: CapabilityState;
-  CreateAndUpdateSharePointKnowledgeBase?: CapabilityState;
-  ShareSharePointKnowledgeBase?: CapabilityState;
-  UseSharePointKnowledgeBase?: CapabilityState;
-  GoogleDriveKnowledgeBase?: CapabilityState;
-  CreateAndUpdateGoogleDriveKnowledgeBase?: CapabilityState;
-  ShareGoogleDriveKnowledgeBase?: CapabilityState;
-  UseGoogleDriveKnowledgeBase?: CapabilityState;
-  WebCrawlerKnowledgeBase?: CapabilityState;
-  CreateAndUpdateWebCrawlerKnowledgeBase?: CapabilityState;
-  ShareWebCrawlerKnowledgeBase?: CapabilityState;
-  UseWebCrawlerKnowledgeBase?: CapabilityState;
-  S3KnowledgeBase?: CapabilityState;
-  CreateAndUpdateS3KnowledgeBase?: CapabilityState;
-  ShareS3KnowledgeBase?: CapabilityState;
-  UseS3KnowledgeBase?: CapabilityState;
-  ConfluenceKnowledgeBase?: CapabilityState;
-  CreateAndUpdateConfluenceKnowledgeBase?: CapabilityState;
-  ShareConfluenceKnowledgeBase?: CapabilityState;
-  UseConfluenceKnowledgeBase?: CapabilityState;
-  OneDriveKnowledgeBase?: CapabilityState;
-  CreateAndUpdateOneDriveKnowledgeBase?: CapabilityState;
-  ShareOneDriveKnowledgeBase?: CapabilityState;
-  UseOneDriveKnowledgeBase?: CapabilityState;
-  QBusinessKnowledgeBase?: CapabilityState;
-  CreateAndUpdateQBusinessKnowledgeBase?: CapabilityState;
-  ShareQBusinessKnowledgeBase?: CapabilityState;
-  UseQBusinessKnowledgeBase?: CapabilityState;
-  BedrockManagedKnowledgeBase?: CapabilityState;
-  CreateAndUpdateBedrockManagedKnowledgeBase?: CapabilityState;
-  ShareBedrockManagedKnowledgeBase?: CapabilityState;
-  UseBedrockManagedKnowledgeBase?: CapabilityState;
-  BoxKnowledgeBase?: CapabilityState;
-  CreateAndUpdateBoxKnowledgeBase?: CapabilityState;
-  ShareBoxKnowledgeBase?: CapabilityState;
-  UseBoxKnowledgeBase?: CapabilityState;
-  IDCKnowledgeBase?: CapabilityState;
-  CreateAndUpdateIDCKnowledgeBase?: CapabilityState;
-  ShareIDCKnowledgeBase?: CapabilityState;
-  UseIDCKnowledgeBase?: CapabilityState;
-  Action?: CapabilityState;
-  GenericHTTPAction?: CapabilityState;
-  CreateAndUpdateGenericHTTPAction?: CapabilityState;
-  ShareGenericHTTPAction?: CapabilityState;
-  UseGenericHTTPAction?: CapabilityState;
-  AsanaAction?: CapabilityState;
-  CreateAndUpdateAsanaAction?: CapabilityState;
-  ShareAsanaAction?: CapabilityState;
-  UseAsanaAction?: CapabilityState;
-  SlackAction?: CapabilityState;
-  CreateAndUpdateSlackAction?: CapabilityState;
-  ShareSlackAction?: CapabilityState;
-  UseSlackAction?: CapabilityState;
-  ServiceNowAction?: CapabilityState;
-  CreateAndUpdateServiceNowAction?: CapabilityState;
-  ShareServiceNowAction?: CapabilityState;
-  UseServiceNowAction?: CapabilityState;
-  SalesforceAction?: CapabilityState;
-  CreateAndUpdateSalesforceAction?: CapabilityState;
-  ShareSalesforceAction?: CapabilityState;
-  UseSalesforceAction?: CapabilityState;
-  MSExchangeAction?: CapabilityState;
-  CreateAndUpdateMSExchangeAction?: CapabilityState;
-  ShareMSExchangeAction?: CapabilityState;
-  UseMSExchangeAction?: CapabilityState;
-  PagerDutyAction?: CapabilityState;
-  CreateAndUpdatePagerDutyAction?: CapabilityState;
-  SharePagerDutyAction?: CapabilityState;
-  UsePagerDutyAction?: CapabilityState;
-  JiraAction?: CapabilityState;
-  CreateAndUpdateJiraAction?: CapabilityState;
-  ShareJiraAction?: CapabilityState;
-  UseJiraAction?: CapabilityState;
-  ConfluenceAction?: CapabilityState;
-  CreateAndUpdateConfluenceAction?: CapabilityState;
-  ShareConfluenceAction?: CapabilityState;
-  UseConfluenceAction?: CapabilityState;
-  OneDriveAction?: CapabilityState;
-  CreateAndUpdateOneDriveAction?: CapabilityState;
-  ShareOneDriveAction?: CapabilityState;
-  UseOneDriveAction?: CapabilityState;
-  SharePointAction?: CapabilityState;
-  CreateAndUpdateSharePointAction?: CapabilityState;
-  ShareSharePointAction?: CapabilityState;
-  UseSharePointAction?: CapabilityState;
-  MSTeamsAction?: CapabilityState;
-  CreateAndUpdateMSTeamsAction?: CapabilityState;
-  ShareMSTeamsAction?: CapabilityState;
-  UseMSTeamsAction?: CapabilityState;
-  GoogleCalendarAction?: CapabilityState;
-  CreateAndUpdateGoogleCalendarAction?: CapabilityState;
-  ShareGoogleCalendarAction?: CapabilityState;
-  UseGoogleCalendarAction?: CapabilityState;
-  ZendeskAction?: CapabilityState;
-  CreateAndUpdateZendeskAction?: CapabilityState;
-  ShareZendeskAction?: CapabilityState;
-  UseZendeskAction?: CapabilityState;
-  SmartsheetAction?: CapabilityState;
-  CreateAndUpdateSmartsheetAction?: CapabilityState;
-  ShareSmartsheetAction?: CapabilityState;
-  UseSmartsheetAction?: CapabilityState;
-  SAPBusinessPartnerAction?: CapabilityState;
-  CreateAndUpdateSAPBusinessPartnerAction?: CapabilityState;
-  ShareSAPBusinessPartnerAction?: CapabilityState;
-  UseSAPBusinessPartnerAction?: CapabilityState;
-  SAPProductMasterDataAction?: CapabilityState;
-  CreateAndUpdateSAPProductMasterDataAction?: CapabilityState;
-  ShareSAPProductMasterDataAction?: CapabilityState;
-  UseSAPProductMasterDataAction?: CapabilityState;
-  SAPPhysicalInventoryAction?: CapabilityState;
-  CreateAndUpdateSAPPhysicalInventoryAction?: CapabilityState;
-  ShareSAPPhysicalInventoryAction?: CapabilityState;
-  UseSAPPhysicalInventoryAction?: CapabilityState;
-  SAPBillOfMaterialAction?: CapabilityState;
-  CreateAndUpdateSAPBillOfMaterialAction?: CapabilityState;
-  ShareSAPBillOfMaterialAction?: CapabilityState;
-  UseSAPBillOfMaterialAction?: CapabilityState;
-  SAPMaterialStockAction?: CapabilityState;
-  CreateAndUpdateSAPMaterialStockAction?: CapabilityState;
-  ShareSAPMaterialStockAction?: CapabilityState;
-  UseSAPMaterialStockAction?: CapabilityState;
-  FactSetAction?: CapabilityState;
-  CreateAndUpdateFactSetAction?: CapabilityState;
-  ShareFactSetAction?: CapabilityState;
-  UseFactSetAction?: CapabilityState;
-  AmazonSThreeAction?: CapabilityState;
-  CreateAndUpdateAmazonSThreeAction?: CapabilityState;
-  ShareAmazonSThreeAction?: CapabilityState;
-  UseAmazonSThreeAction?: CapabilityState;
-  TextractAction?: CapabilityState;
-  CreateAndUpdateTextractAction?: CapabilityState;
-  ShareTextractAction?: CapabilityState;
-  UseTextractAction?: CapabilityState;
-  ComprehendAction?: CapabilityState;
-  CreateAndUpdateComprehendAction?: CapabilityState;
-  ShareComprehendAction?: CapabilityState;
-  UseComprehendAction?: CapabilityState;
-  ComprehendMedicalAction?: CapabilityState;
-  CreateAndUpdateComprehendMedicalAction?: CapabilityState;
-  ShareComprehendMedicalAction?: CapabilityState;
-  UseComprehendMedicalAction?: CapabilityState;
-  AmazonBedrockARSAction?: CapabilityState;
-  CreateAndUpdateAmazonBedrockARSAction?: CapabilityState;
-  ShareAmazonBedrockARSAction?: CapabilityState;
-  UseAmazonBedrockARSAction?: CapabilityState;
-  AmazonBedrockFSAction?: CapabilityState;
-  CreateAndUpdateAmazonBedrockFSAction?: CapabilityState;
-  ShareAmazonBedrockFSAction?: CapabilityState;
-  UseAmazonBedrockFSAction?: CapabilityState;
-  AmazonBedrockKRSAction?: CapabilityState;
-  CreateAndUpdateAmazonBedrockKRSAction?: CapabilityState;
-  ShareAmazonBedrockKRSAction?: CapabilityState;
-  UseAmazonBedrockKRSAction?: CapabilityState;
-  MCPAction?: CapabilityState;
-  CreateAndUpdateMCPAction?: CapabilityState;
-  ShareMCPAction?: CapabilityState;
-  UseMCPAction?: CapabilityState;
-  OpenAPIAction?: CapabilityState;
-  CreateAndUpdateOpenAPIAction?: CapabilityState;
-  ShareOpenAPIAction?: CapabilityState;
-  UseOpenAPIAction?: CapabilityState;
-  SandPGMIAction?: CapabilityState;
-  CreateAndUpdateSandPGMIAction?: CapabilityState;
-  ShareSandPGMIAction?: CapabilityState;
-  UseSandPGMIAction?: CapabilityState;
-  SandPGlobalEnergyAction?: CapabilityState;
-  CreateAndUpdateSandPGlobalEnergyAction?: CapabilityState;
-  ShareSandPGlobalEnergyAction?: CapabilityState;
-  UseSandPGlobalEnergyAction?: CapabilityState;
-  BambooHRAction?: CapabilityState;
-  CreateAndUpdateBambooHRAction?: CapabilityState;
-  ShareBambooHRAction?: CapabilityState;
-  UseBambooHRAction?: CapabilityState;
-  BoxAgentAction?: CapabilityState;
-  CreateAndUpdateBoxAgentAction?: CapabilityState;
-  ShareBoxAgentAction?: CapabilityState;
-  UseBoxAgentAction?: CapabilityState;
-  CanvaAgentAction?: CapabilityState;
-  CreateAndUpdateCanvaAgentAction?: CapabilityState;
-  ShareCanvaAgentAction?: CapabilityState;
-  UseCanvaAgentAction?: CapabilityState;
-  GithubAction?: CapabilityState;
-  CreateAndUpdateGithubAction?: CapabilityState;
-  ShareGithubAction?: CapabilityState;
-  UseGithubAction?: CapabilityState;
-  NotionAction?: CapabilityState;
-  CreateAndUpdateNotionAction?: CapabilityState;
-  ShareNotionAction?: CapabilityState;
-  UseNotionAction?: CapabilityState;
-  LinearAction?: CapabilityState;
-  CreateAndUpdateLinearAction?: CapabilityState;
-  ShareLinearAction?: CapabilityState;
-  UseLinearAction?: CapabilityState;
-  HuggingFaceAction?: CapabilityState;
-  CreateAndUpdateHuggingFaceAction?: CapabilityState;
-  ShareHuggingFaceAction?: CapabilityState;
-  UseHuggingFaceAction?: CapabilityState;
-  MondayAction?: CapabilityState;
-  CreateAndUpdateMondayAction?: CapabilityState;
-  ShareMondayAction?: CapabilityState;
-  UseMondayAction?: CapabilityState;
-  HubspotAction?: CapabilityState;
-  CreateAndUpdateHubspotAction?: CapabilityState;
-  ShareHubspotAction?: CapabilityState;
-  UseHubspotAction?: CapabilityState;
-  IntercomAction?: CapabilityState;
-  CreateAndUpdateIntercomAction?: CapabilityState;
-  ShareIntercomAction?: CapabilityState;
-  UseIntercomAction?: CapabilityState;
-  NewRelicAction?: CapabilityState;
-  CreateAndUpdateNewRelicAction?: CapabilityState;
-  ShareNewRelicAction?: CapabilityState;
-  UseNewRelicAction?: CapabilityState;
-  PagerDutyAgentAction?: CapabilityState;
-  CreateAndUpdatePagerDutyAgentAction?: CapabilityState;
-  SharePagerDutyAgentAction?: CapabilityState;
-  UsePagerDutyAgentAction?: CapabilityState;
-  VisierAgentAction?: CapabilityState;
-  CreateAndUpdateVisierAgentAction?: CapabilityState;
-  ShareVisierAgentAction?: CapabilityState;
-  UseVisierAgentAction?: CapabilityState;
-  ZoomAction?: CapabilityState;
-  CreateAndUpdateZoomAction?: CapabilityState;
-  ShareZoomAction?: CapabilityState;
-  UseZoomAction?: CapabilityState;
-  SnowFlakeAction?: CapabilityState;
-  CreateAndUpdateSnowFlakeAction?: CapabilityState;
-  ShareSnowFlakeAction?: CapabilityState;
-  UseSnowFlakeAction?: CapabilityState;
-  ZapierAction?: CapabilityState;
-  CreateAndUpdateZapierAction?: CapabilityState;
-  ShareZapierAction?: CapabilityState;
-  UseZapierAction?: CapabilityState;
-  AirtableAction?: CapabilityState;
-  CreateAndUpdateAirtableAction?: CapabilityState;
-  ShareAirtableAction?: CapabilityState;
-  UseAirtableAction?: CapabilityState;
-  DropboxAction?: CapabilityState;
-  CreateAndUpdateDropboxAction?: CapabilityState;
-  ShareDropboxAction?: CapabilityState;
-  UseDropboxAction?: CapabilityState;
-  GmailAction?: CapabilityState;
-  CreateAndUpdateGmailAction?: CapabilityState;
-  ShareGmailAction?: CapabilityState;
-  UseGmailAction?: CapabilityState;
-  GoogleAnalyticsAction?: CapabilityState;
-  CreateAndUpdateGoogleAnalyticsAction?: CapabilityState;
-  ShareGoogleAnalyticsAction?: CapabilityState;
-  UseGoogleAnalyticsAction?: CapabilityState;
-  GoogleDocsAction?: CapabilityState;
-  CreateAndUpdateGoogleDocsAction?: CapabilityState;
-  ShareGoogleDocsAction?: CapabilityState;
-  UseGoogleDocsAction?: CapabilityState;
-  GoogleDriveAction?: CapabilityState;
-  CreateAndUpdateGoogleDriveAction?: CapabilityState;
-  ShareGoogleDriveAction?: CapabilityState;
-  UseGoogleDriveAction?: CapabilityState;
-  GoogleMeetAction?: CapabilityState;
-  CreateAndUpdateGoogleMeetAction?: CapabilityState;
-  ShareGoogleMeetAction?: CapabilityState;
-  UseGoogleMeetAction?: CapabilityState;
-  GoogleSheetsAction?: CapabilityState;
-  CreateAndUpdateGoogleSheetsAction?: CapabilityState;
-  ShareGoogleSheetsAction?: CapabilityState;
-  UseGoogleSheetsAction?: CapabilityState;
-  GoogleSlidesAction?: CapabilityState;
-  CreateAndUpdateGoogleSlidesAction?: CapabilityState;
-  ShareGoogleSlidesAction?: CapabilityState;
-  UseGoogleSlidesAction?: CapabilityState;
-  QuickBooksAction?: CapabilityState;
-  CreateAndUpdateQuickBooksAction?: CapabilityState;
-  ShareQuickBooksAction?: CapabilityState;
-  UseQuickBooksAction?: CapabilityState;
-  FigmaAction?: CapabilityState;
-  CreateAndUpdateFigmaAction?: CapabilityState;
-  ShareFigmaAction?: CapabilityState;
-  UseFigmaAction?: CapabilityState;
-  WhatsAppAction?: CapabilityState;
-  CreateAndUpdateWhatsAppAction?: CapabilityState;
-  ShareWhatsAppAction?: CapabilityState;
-  UseWhatsAppAction?: CapabilityState;
-  GoogleChatAction?: CapabilityState;
-  CreateAndUpdateGoogleChatAction?: CapabilityState;
-  ShareGoogleChatAction?: CapabilityState;
-  UseGoogleChatAction?: CapabilityState;
-  OneNoteAction?: CapabilityState;
-  CreateAndUpdateOneNoteAction?: CapabilityState;
-  ShareOneNoteAction?: CapabilityState;
-  UseOneNoteAction?: CapabilityState;
-  ShopifyAction?: CapabilityState;
-  CreateAndUpdateShopifyAction?: CapabilityState;
-  ShareShopifyAction?: CapabilityState;
-  UseShopifyAction?: CapabilityState;
-  AdobeAction?: CapabilityState;
-  CreateAndUpdateAdobeAction?: CapabilityState;
-  ShareAdobeAction?: CapabilityState;
-  UseAdobeAction?: CapabilityState;
-  CiscoWebexVidcastAction?: CapabilityState;
-  CreateAndUpdateCiscoWebexVidcastAction?: CapabilityState;
-  ShareCiscoWebexVidcastAction?: CapabilityState;
-  UseCiscoWebexVidcastAction?: CapabilityState;
-  CiscoWebexMeetingsAction?: CapabilityState;
-  CreateAndUpdateCiscoWebexMeetingsAction?: CapabilityState;
-  ShareCiscoWebexMeetingsAction?: CapabilityState;
-  UseCiscoWebexMeetingsAction?: CapabilityState;
-  DunAndBradstreetAction?: CapabilityState;
-  CreateAndUpdateDunAndBradstreetAction?: CapabilityState;
-  ShareDunAndBradstreetAction?: CapabilityState;
-  UseDunAndBradstreetAction?: CapabilityState;
-  HGInsightsAction?: CapabilityState;
-  CreateAndUpdateHGInsightsAction?: CapabilityState;
-  ShareHGInsightsAction?: CapabilityState;
-  UseHGInsightsAction?: CapabilityState;
-  ZoomInfoAction?: CapabilityState;
-  CreateAndUpdateZoomInfoAction?: CapabilityState;
-  ShareZoomInfoAction?: CapabilityState;
-  UseZoomInfoAction?: CapabilityState;
-  MoodysAction?: CapabilityState;
-  CreateAndUpdateMoodysAction?: CapabilityState;
-  ShareMoodysAction?: CapabilityState;
-  UseMoodysAction?: CapabilityState;
-  BeeAction?: CapabilityState;
-  CreateAndUpdateBeeAction?: CapabilityState;
-  ShareBeeAction?: CapabilityState;
-  UseBeeAction?: CapabilityState;
-  Topic?: CapabilityState;
-  EditVisualWithQ?: CapabilityState;
-  BuildCalculatedFieldWithQ?: CapabilityState;
-  CreateDashboardExecutiveSummaryWithQ?: CapabilityState;
-  Space?: CapabilityState;
-  CreateSpaces?: CapabilityState;
-  ShareSpaces?: CapabilityState;
-  ChatAgent?: CapabilityState;
-  CreateChatAgents?: CapabilityState;
-  ShareChatAgents?: CapabilityState;
-  Research?: CapabilityState;
-  SelfUpgradeUserRole?: CapabilityState;
-  Extension?: CapabilityState;
-  UseBrowserExtension?: CapabilityState;
-  UseWordAddInExtension?: CapabilityState;
-  UseOutlookAddInExtension?: CapabilityState;
-  UseExcelAddInExtension?: CapabilityState;
-  UsePowerpointAddInExtension?: CapabilityState;
-  ManageSharedFolders?: CapabilityState;
-  GenerateAnalyses?: CapabilityState;
-  Story?: CapabilityState;
-  Scenario?: CapabilityState;
-  Trigger?: CapabilityState;
-  ScheduleTrigger?: CapabilityState;
-  InboundEmailTrigger?: CapabilityState;
-  QuickEventTrigger?: CapabilityState;
+  ExportToCsv?: CapabilityState | undefined;
+  ExportToExcel?: CapabilityState | undefined;
+  ExportToPdf?: CapabilityState | undefined;
+  PrintReports?: CapabilityState | undefined;
+  CreateAndUpdateThemes?: CapabilityState | undefined;
+  AddOrRunAnomalyDetectionForAnalyses?: CapabilityState | undefined;
+  ShareAnalyses?: CapabilityState | undefined;
+  CreateAndUpdateDatasets?: CapabilityState | undefined;
+  ShareDatasets?: CapabilityState | undefined;
+  SubscribeDashboardEmailReports?: CapabilityState | undefined;
+  CreateAndUpdateDashboardEmailReports?: CapabilityState | undefined;
+  ShareDashboards?: CapabilityState | undefined;
+  CreateAndUpdateThresholdAlerts?: CapabilityState | undefined;
+  RenameSharedFolders?: CapabilityState | undefined;
+  CreateSharedFolders?: CapabilityState | undefined;
+  CreateAndUpdateDataSources?: CapabilityState | undefined;
+  ShareDataSources?: CapabilityState | undefined;
+  ViewAccountSPICECapacity?: CapabilityState | undefined;
+  CreateSPICEDataset?: CapabilityState | undefined;
+  ExportToPdfInScheduledReports?: CapabilityState | undefined;
+  ExportToCsvInScheduledReports?: CapabilityState | undefined;
+  ExportToExcelInScheduledReports?: CapabilityState | undefined;
+  IncludeContentInScheduledReportsEmail?: CapabilityState | undefined;
+  Dashboard?: CapabilityState | undefined;
+  Analysis?: CapabilityState | undefined;
+  Automate?: CapabilityState | undefined;
+  Flow?: CapabilityState | undefined;
+  Apps?: CapabilityState | undefined;
+  CreateAndUpdateApps?: CapabilityState | undefined;
+  ShareApps?: CapabilityState | undefined;
+  InvokeAppsAIInference?: CapabilityState | undefined;
+  AccessAppsNativeDataStore?: CapabilityState | undefined;
+  PublishWithoutApproval?: CapabilityState | undefined;
+  UseBedrockModels?: CapabilityState | undefined;
+  PerformFlowUiTask?: CapabilityState | undefined;
+  ApproveFlowShareRequests?: CapabilityState | undefined;
+  UseAgentWebSearch?: CapabilityState | undefined;
+  KnowledgeBase?: CapabilityState | undefined;
+  CreateAndUpdateKnowledgeBases?: CapabilityState | undefined;
+  ShareKnowledgeBases?: CapabilityState | undefined;
+  SharePointKnowledgeBase?: CapabilityState | undefined;
+  CreateAndUpdateSharePointKnowledgeBase?: CapabilityState | undefined;
+  ShareSharePointKnowledgeBase?: CapabilityState | undefined;
+  UseSharePointKnowledgeBase?: CapabilityState | undefined;
+  GoogleDriveKnowledgeBase?: CapabilityState | undefined;
+  CreateAndUpdateGoogleDriveKnowledgeBase?: CapabilityState | undefined;
+  ShareGoogleDriveKnowledgeBase?: CapabilityState | undefined;
+  UseGoogleDriveKnowledgeBase?: CapabilityState | undefined;
+  WebCrawlerKnowledgeBase?: CapabilityState | undefined;
+  CreateAndUpdateWebCrawlerKnowledgeBase?: CapabilityState | undefined;
+  ShareWebCrawlerKnowledgeBase?: CapabilityState | undefined;
+  UseWebCrawlerKnowledgeBase?: CapabilityState | undefined;
+  S3KnowledgeBase?: CapabilityState | undefined;
+  CreateAndUpdateS3KnowledgeBase?: CapabilityState | undefined;
+  ShareS3KnowledgeBase?: CapabilityState | undefined;
+  UseS3KnowledgeBase?: CapabilityState | undefined;
+  ConfluenceKnowledgeBase?: CapabilityState | undefined;
+  CreateAndUpdateConfluenceKnowledgeBase?: CapabilityState | undefined;
+  ShareConfluenceKnowledgeBase?: CapabilityState | undefined;
+  UseConfluenceKnowledgeBase?: CapabilityState | undefined;
+  OneDriveKnowledgeBase?: CapabilityState | undefined;
+  CreateAndUpdateOneDriveKnowledgeBase?: CapabilityState | undefined;
+  ShareOneDriveKnowledgeBase?: CapabilityState | undefined;
+  UseOneDriveKnowledgeBase?: CapabilityState | undefined;
+  QBusinessKnowledgeBase?: CapabilityState | undefined;
+  CreateAndUpdateQBusinessKnowledgeBase?: CapabilityState | undefined;
+  ShareQBusinessKnowledgeBase?: CapabilityState | undefined;
+  UseQBusinessKnowledgeBase?: CapabilityState | undefined;
+  BedrockManagedKnowledgeBase?: CapabilityState | undefined;
+  CreateAndUpdateBedrockManagedKnowledgeBase?: CapabilityState | undefined;
+  ShareBedrockManagedKnowledgeBase?: CapabilityState | undefined;
+  UseBedrockManagedKnowledgeBase?: CapabilityState | undefined;
+  BoxKnowledgeBase?: CapabilityState | undefined;
+  CreateAndUpdateBoxKnowledgeBase?: CapabilityState | undefined;
+  ShareBoxKnowledgeBase?: CapabilityState | undefined;
+  UseBoxKnowledgeBase?: CapabilityState | undefined;
+  IDCKnowledgeBase?: CapabilityState | undefined;
+  CreateAndUpdateIDCKnowledgeBase?: CapabilityState | undefined;
+  ShareIDCKnowledgeBase?: CapabilityState | undefined;
+  UseIDCKnowledgeBase?: CapabilityState | undefined;
+  Action?: CapabilityState | undefined;
+  GenericHTTPAction?: CapabilityState | undefined;
+  CreateAndUpdateGenericHTTPAction?: CapabilityState | undefined;
+  ShareGenericHTTPAction?: CapabilityState | undefined;
+  UseGenericHTTPAction?: CapabilityState | undefined;
+  AsanaAction?: CapabilityState | undefined;
+  CreateAndUpdateAsanaAction?: CapabilityState | undefined;
+  ShareAsanaAction?: CapabilityState | undefined;
+  UseAsanaAction?: CapabilityState | undefined;
+  SlackAction?: CapabilityState | undefined;
+  CreateAndUpdateSlackAction?: CapabilityState | undefined;
+  ShareSlackAction?: CapabilityState | undefined;
+  UseSlackAction?: CapabilityState | undefined;
+  ServiceNowAction?: CapabilityState | undefined;
+  CreateAndUpdateServiceNowAction?: CapabilityState | undefined;
+  ShareServiceNowAction?: CapabilityState | undefined;
+  UseServiceNowAction?: CapabilityState | undefined;
+  SalesforceAction?: CapabilityState | undefined;
+  CreateAndUpdateSalesforceAction?: CapabilityState | undefined;
+  ShareSalesforceAction?: CapabilityState | undefined;
+  UseSalesforceAction?: CapabilityState | undefined;
+  MSExchangeAction?: CapabilityState | undefined;
+  CreateAndUpdateMSExchangeAction?: CapabilityState | undefined;
+  ShareMSExchangeAction?: CapabilityState | undefined;
+  UseMSExchangeAction?: CapabilityState | undefined;
+  PagerDutyAction?: CapabilityState | undefined;
+  CreateAndUpdatePagerDutyAction?: CapabilityState | undefined;
+  SharePagerDutyAction?: CapabilityState | undefined;
+  UsePagerDutyAction?: CapabilityState | undefined;
+  JiraAction?: CapabilityState | undefined;
+  CreateAndUpdateJiraAction?: CapabilityState | undefined;
+  ShareJiraAction?: CapabilityState | undefined;
+  UseJiraAction?: CapabilityState | undefined;
+  ConfluenceAction?: CapabilityState | undefined;
+  CreateAndUpdateConfluenceAction?: CapabilityState | undefined;
+  ShareConfluenceAction?: CapabilityState | undefined;
+  UseConfluenceAction?: CapabilityState | undefined;
+  OneDriveAction?: CapabilityState | undefined;
+  CreateAndUpdateOneDriveAction?: CapabilityState | undefined;
+  ShareOneDriveAction?: CapabilityState | undefined;
+  UseOneDriveAction?: CapabilityState | undefined;
+  SharePointAction?: CapabilityState | undefined;
+  CreateAndUpdateSharePointAction?: CapabilityState | undefined;
+  ShareSharePointAction?: CapabilityState | undefined;
+  UseSharePointAction?: CapabilityState | undefined;
+  MSTeamsAction?: CapabilityState | undefined;
+  CreateAndUpdateMSTeamsAction?: CapabilityState | undefined;
+  ShareMSTeamsAction?: CapabilityState | undefined;
+  UseMSTeamsAction?: CapabilityState | undefined;
+  GoogleCalendarAction?: CapabilityState | undefined;
+  CreateAndUpdateGoogleCalendarAction?: CapabilityState | undefined;
+  ShareGoogleCalendarAction?: CapabilityState | undefined;
+  UseGoogleCalendarAction?: CapabilityState | undefined;
+  ZendeskAction?: CapabilityState | undefined;
+  CreateAndUpdateZendeskAction?: CapabilityState | undefined;
+  ShareZendeskAction?: CapabilityState | undefined;
+  UseZendeskAction?: CapabilityState | undefined;
+  SmartsheetAction?: CapabilityState | undefined;
+  CreateAndUpdateSmartsheetAction?: CapabilityState | undefined;
+  ShareSmartsheetAction?: CapabilityState | undefined;
+  UseSmartsheetAction?: CapabilityState | undefined;
+  SAPBusinessPartnerAction?: CapabilityState | undefined;
+  CreateAndUpdateSAPBusinessPartnerAction?: CapabilityState | undefined;
+  ShareSAPBusinessPartnerAction?: CapabilityState | undefined;
+  UseSAPBusinessPartnerAction?: CapabilityState | undefined;
+  SAPProductMasterDataAction?: CapabilityState | undefined;
+  CreateAndUpdateSAPProductMasterDataAction?: CapabilityState | undefined;
+  ShareSAPProductMasterDataAction?: CapabilityState | undefined;
+  UseSAPProductMasterDataAction?: CapabilityState | undefined;
+  SAPPhysicalInventoryAction?: CapabilityState | undefined;
+  CreateAndUpdateSAPPhysicalInventoryAction?: CapabilityState | undefined;
+  ShareSAPPhysicalInventoryAction?: CapabilityState | undefined;
+  UseSAPPhysicalInventoryAction?: CapabilityState | undefined;
+  SAPBillOfMaterialAction?: CapabilityState | undefined;
+  CreateAndUpdateSAPBillOfMaterialAction?: CapabilityState | undefined;
+  ShareSAPBillOfMaterialAction?: CapabilityState | undefined;
+  UseSAPBillOfMaterialAction?: CapabilityState | undefined;
+  SAPMaterialStockAction?: CapabilityState | undefined;
+  CreateAndUpdateSAPMaterialStockAction?: CapabilityState | undefined;
+  ShareSAPMaterialStockAction?: CapabilityState | undefined;
+  UseSAPMaterialStockAction?: CapabilityState | undefined;
+  FactSetAction?: CapabilityState | undefined;
+  CreateAndUpdateFactSetAction?: CapabilityState | undefined;
+  ShareFactSetAction?: CapabilityState | undefined;
+  UseFactSetAction?: CapabilityState | undefined;
+  AmazonSThreeAction?: CapabilityState | undefined;
+  CreateAndUpdateAmazonSThreeAction?: CapabilityState | undefined;
+  ShareAmazonSThreeAction?: CapabilityState | undefined;
+  UseAmazonSThreeAction?: CapabilityState | undefined;
+  TextractAction?: CapabilityState | undefined;
+  CreateAndUpdateTextractAction?: CapabilityState | undefined;
+  ShareTextractAction?: CapabilityState | undefined;
+  UseTextractAction?: CapabilityState | undefined;
+  ComprehendAction?: CapabilityState | undefined;
+  CreateAndUpdateComprehendAction?: CapabilityState | undefined;
+  ShareComprehendAction?: CapabilityState | undefined;
+  UseComprehendAction?: CapabilityState | undefined;
+  ComprehendMedicalAction?: CapabilityState | undefined;
+  CreateAndUpdateComprehendMedicalAction?: CapabilityState | undefined;
+  ShareComprehendMedicalAction?: CapabilityState | undefined;
+  UseComprehendMedicalAction?: CapabilityState | undefined;
+  AmazonBedrockARSAction?: CapabilityState | undefined;
+  CreateAndUpdateAmazonBedrockARSAction?: CapabilityState | undefined;
+  ShareAmazonBedrockARSAction?: CapabilityState | undefined;
+  UseAmazonBedrockARSAction?: CapabilityState | undefined;
+  AmazonBedrockFSAction?: CapabilityState | undefined;
+  CreateAndUpdateAmazonBedrockFSAction?: CapabilityState | undefined;
+  ShareAmazonBedrockFSAction?: CapabilityState | undefined;
+  UseAmazonBedrockFSAction?: CapabilityState | undefined;
+  AmazonBedrockKRSAction?: CapabilityState | undefined;
+  CreateAndUpdateAmazonBedrockKRSAction?: CapabilityState | undefined;
+  ShareAmazonBedrockKRSAction?: CapabilityState | undefined;
+  UseAmazonBedrockKRSAction?: CapabilityState | undefined;
+  MCPAction?: CapabilityState | undefined;
+  CreateAndUpdateMCPAction?: CapabilityState | undefined;
+  ShareMCPAction?: CapabilityState | undefined;
+  UseMCPAction?: CapabilityState | undefined;
+  OpenAPIAction?: CapabilityState | undefined;
+  CreateAndUpdateOpenAPIAction?: CapabilityState | undefined;
+  ShareOpenAPIAction?: CapabilityState | undefined;
+  UseOpenAPIAction?: CapabilityState | undefined;
+  SandPGMIAction?: CapabilityState | undefined;
+  CreateAndUpdateSandPGMIAction?: CapabilityState | undefined;
+  ShareSandPGMIAction?: CapabilityState | undefined;
+  UseSandPGMIAction?: CapabilityState | undefined;
+  SandPGlobalEnergyAction?: CapabilityState | undefined;
+  CreateAndUpdateSandPGlobalEnergyAction?: CapabilityState | undefined;
+  ShareSandPGlobalEnergyAction?: CapabilityState | undefined;
+  UseSandPGlobalEnergyAction?: CapabilityState | undefined;
+  BambooHRAction?: CapabilityState | undefined;
+  CreateAndUpdateBambooHRAction?: CapabilityState | undefined;
+  ShareBambooHRAction?: CapabilityState | undefined;
+  UseBambooHRAction?: CapabilityState | undefined;
+  BoxAgentAction?: CapabilityState | undefined;
+  CreateAndUpdateBoxAgentAction?: CapabilityState | undefined;
+  ShareBoxAgentAction?: CapabilityState | undefined;
+  UseBoxAgentAction?: CapabilityState | undefined;
+  CanvaAgentAction?: CapabilityState | undefined;
+  CreateAndUpdateCanvaAgentAction?: CapabilityState | undefined;
+  ShareCanvaAgentAction?: CapabilityState | undefined;
+  UseCanvaAgentAction?: CapabilityState | undefined;
+  GithubAction?: CapabilityState | undefined;
+  CreateAndUpdateGithubAction?: CapabilityState | undefined;
+  ShareGithubAction?: CapabilityState | undefined;
+  UseGithubAction?: CapabilityState | undefined;
+  NotionAction?: CapabilityState | undefined;
+  CreateAndUpdateNotionAction?: CapabilityState | undefined;
+  ShareNotionAction?: CapabilityState | undefined;
+  UseNotionAction?: CapabilityState | undefined;
+  LinearAction?: CapabilityState | undefined;
+  CreateAndUpdateLinearAction?: CapabilityState | undefined;
+  ShareLinearAction?: CapabilityState | undefined;
+  UseLinearAction?: CapabilityState | undefined;
+  HuggingFaceAction?: CapabilityState | undefined;
+  CreateAndUpdateHuggingFaceAction?: CapabilityState | undefined;
+  ShareHuggingFaceAction?: CapabilityState | undefined;
+  UseHuggingFaceAction?: CapabilityState | undefined;
+  MondayAction?: CapabilityState | undefined;
+  CreateAndUpdateMondayAction?: CapabilityState | undefined;
+  ShareMondayAction?: CapabilityState | undefined;
+  UseMondayAction?: CapabilityState | undefined;
+  HubspotAction?: CapabilityState | undefined;
+  CreateAndUpdateHubspotAction?: CapabilityState | undefined;
+  ShareHubspotAction?: CapabilityState | undefined;
+  UseHubspotAction?: CapabilityState | undefined;
+  IntercomAction?: CapabilityState | undefined;
+  CreateAndUpdateIntercomAction?: CapabilityState | undefined;
+  ShareIntercomAction?: CapabilityState | undefined;
+  UseIntercomAction?: CapabilityState | undefined;
+  NewRelicAction?: CapabilityState | undefined;
+  CreateAndUpdateNewRelicAction?: CapabilityState | undefined;
+  ShareNewRelicAction?: CapabilityState | undefined;
+  UseNewRelicAction?: CapabilityState | undefined;
+  PagerDutyAgentAction?: CapabilityState | undefined;
+  CreateAndUpdatePagerDutyAgentAction?: CapabilityState | undefined;
+  SharePagerDutyAgentAction?: CapabilityState | undefined;
+  UsePagerDutyAgentAction?: CapabilityState | undefined;
+  VisierAgentAction?: CapabilityState | undefined;
+  CreateAndUpdateVisierAgentAction?: CapabilityState | undefined;
+  ShareVisierAgentAction?: CapabilityState | undefined;
+  UseVisierAgentAction?: CapabilityState | undefined;
+  ZoomAction?: CapabilityState | undefined;
+  CreateAndUpdateZoomAction?: CapabilityState | undefined;
+  ShareZoomAction?: CapabilityState | undefined;
+  UseZoomAction?: CapabilityState | undefined;
+  SnowFlakeAction?: CapabilityState | undefined;
+  CreateAndUpdateSnowFlakeAction?: CapabilityState | undefined;
+  ShareSnowFlakeAction?: CapabilityState | undefined;
+  UseSnowFlakeAction?: CapabilityState | undefined;
+  ZapierAction?: CapabilityState | undefined;
+  CreateAndUpdateZapierAction?: CapabilityState | undefined;
+  ShareZapierAction?: CapabilityState | undefined;
+  UseZapierAction?: CapabilityState | undefined;
+  AirtableAction?: CapabilityState | undefined;
+  CreateAndUpdateAirtableAction?: CapabilityState | undefined;
+  ShareAirtableAction?: CapabilityState | undefined;
+  UseAirtableAction?: CapabilityState | undefined;
+  DropboxAction?: CapabilityState | undefined;
+  CreateAndUpdateDropboxAction?: CapabilityState | undefined;
+  ShareDropboxAction?: CapabilityState | undefined;
+  UseDropboxAction?: CapabilityState | undefined;
+  GmailAction?: CapabilityState | undefined;
+  CreateAndUpdateGmailAction?: CapabilityState | undefined;
+  ShareGmailAction?: CapabilityState | undefined;
+  UseGmailAction?: CapabilityState | undefined;
+  GoogleAnalyticsAction?: CapabilityState | undefined;
+  CreateAndUpdateGoogleAnalyticsAction?: CapabilityState | undefined;
+  ShareGoogleAnalyticsAction?: CapabilityState | undefined;
+  UseGoogleAnalyticsAction?: CapabilityState | undefined;
+  GoogleDocsAction?: CapabilityState | undefined;
+  CreateAndUpdateGoogleDocsAction?: CapabilityState | undefined;
+  ShareGoogleDocsAction?: CapabilityState | undefined;
+  UseGoogleDocsAction?: CapabilityState | undefined;
+  GoogleDriveAction?: CapabilityState | undefined;
+  CreateAndUpdateGoogleDriveAction?: CapabilityState | undefined;
+  ShareGoogleDriveAction?: CapabilityState | undefined;
+  UseGoogleDriveAction?: CapabilityState | undefined;
+  GoogleMeetAction?: CapabilityState | undefined;
+  CreateAndUpdateGoogleMeetAction?: CapabilityState | undefined;
+  ShareGoogleMeetAction?: CapabilityState | undefined;
+  UseGoogleMeetAction?: CapabilityState | undefined;
+  GoogleSheetsAction?: CapabilityState | undefined;
+  CreateAndUpdateGoogleSheetsAction?: CapabilityState | undefined;
+  ShareGoogleSheetsAction?: CapabilityState | undefined;
+  UseGoogleSheetsAction?: CapabilityState | undefined;
+  GoogleSlidesAction?: CapabilityState | undefined;
+  CreateAndUpdateGoogleSlidesAction?: CapabilityState | undefined;
+  ShareGoogleSlidesAction?: CapabilityState | undefined;
+  UseGoogleSlidesAction?: CapabilityState | undefined;
+  QuickBooksAction?: CapabilityState | undefined;
+  CreateAndUpdateQuickBooksAction?: CapabilityState | undefined;
+  ShareQuickBooksAction?: CapabilityState | undefined;
+  UseQuickBooksAction?: CapabilityState | undefined;
+  FigmaAction?: CapabilityState | undefined;
+  CreateAndUpdateFigmaAction?: CapabilityState | undefined;
+  ShareFigmaAction?: CapabilityState | undefined;
+  UseFigmaAction?: CapabilityState | undefined;
+  WhatsAppAction?: CapabilityState | undefined;
+  CreateAndUpdateWhatsAppAction?: CapabilityState | undefined;
+  ShareWhatsAppAction?: CapabilityState | undefined;
+  UseWhatsAppAction?: CapabilityState | undefined;
+  GoogleChatAction?: CapabilityState | undefined;
+  CreateAndUpdateGoogleChatAction?: CapabilityState | undefined;
+  ShareGoogleChatAction?: CapabilityState | undefined;
+  UseGoogleChatAction?: CapabilityState | undefined;
+  OneNoteAction?: CapabilityState | undefined;
+  CreateAndUpdateOneNoteAction?: CapabilityState | undefined;
+  ShareOneNoteAction?: CapabilityState | undefined;
+  UseOneNoteAction?: CapabilityState | undefined;
+  ShopifyAction?: CapabilityState | undefined;
+  CreateAndUpdateShopifyAction?: CapabilityState | undefined;
+  ShareShopifyAction?: CapabilityState | undefined;
+  UseShopifyAction?: CapabilityState | undefined;
+  AdobeAction?: CapabilityState | undefined;
+  CreateAndUpdateAdobeAction?: CapabilityState | undefined;
+  ShareAdobeAction?: CapabilityState | undefined;
+  UseAdobeAction?: CapabilityState | undefined;
+  CiscoWebexVidcastAction?: CapabilityState | undefined;
+  CreateAndUpdateCiscoWebexVidcastAction?: CapabilityState | undefined;
+  ShareCiscoWebexVidcastAction?: CapabilityState | undefined;
+  UseCiscoWebexVidcastAction?: CapabilityState | undefined;
+  CiscoWebexMeetingsAction?: CapabilityState | undefined;
+  CreateAndUpdateCiscoWebexMeetingsAction?: CapabilityState | undefined;
+  ShareCiscoWebexMeetingsAction?: CapabilityState | undefined;
+  UseCiscoWebexMeetingsAction?: CapabilityState | undefined;
+  DunAndBradstreetAction?: CapabilityState | undefined;
+  CreateAndUpdateDunAndBradstreetAction?: CapabilityState | undefined;
+  ShareDunAndBradstreetAction?: CapabilityState | undefined;
+  UseDunAndBradstreetAction?: CapabilityState | undefined;
+  HGInsightsAction?: CapabilityState | undefined;
+  CreateAndUpdateHGInsightsAction?: CapabilityState | undefined;
+  ShareHGInsightsAction?: CapabilityState | undefined;
+  UseHGInsightsAction?: CapabilityState | undefined;
+  ZoomInfoAction?: CapabilityState | undefined;
+  CreateAndUpdateZoomInfoAction?: CapabilityState | undefined;
+  ShareZoomInfoAction?: CapabilityState | undefined;
+  UseZoomInfoAction?: CapabilityState | undefined;
+  MoodysAction?: CapabilityState | undefined;
+  CreateAndUpdateMoodysAction?: CapabilityState | undefined;
+  ShareMoodysAction?: CapabilityState | undefined;
+  UseMoodysAction?: CapabilityState | undefined;
+  BeeAction?: CapabilityState | undefined;
+  CreateAndUpdateBeeAction?: CapabilityState | undefined;
+  ShareBeeAction?: CapabilityState | undefined;
+  UseBeeAction?: CapabilityState | undefined;
+  GongAction?: CapabilityState | undefined;
+  CreateAndUpdateGongAction?: CapabilityState | undefined;
+  ShareGongAction?: CapabilityState | undefined;
+  UseGongAction?: CapabilityState | undefined;
+  Topic?: CapabilityState | undefined;
+  EditVisualWithQ?: CapabilityState | undefined;
+  BuildCalculatedFieldWithQ?: CapabilityState | undefined;
+  CreateDashboardExecutiveSummaryWithQ?: CapabilityState | undefined;
+  Space?: CapabilityState | undefined;
+  CreateSpaces?: CapabilityState | undefined;
+  ShareSpaces?: CapabilityState | undefined;
+  ChatAgent?: CapabilityState | undefined;
+  CreateChatAgents?: CapabilityState | undefined;
+  ShareChatAgents?: CapabilityState | undefined;
+  Research?: CapabilityState | undefined;
+  SelfUpgradeUserRole?: CapabilityState | undefined;
+  Extension?: CapabilityState | undefined;
+  UseBrowserExtension?: CapabilityState | undefined;
+  UseWordAddInExtension?: CapabilityState | undefined;
+  UseOutlookAddInExtension?: CapabilityState | undefined;
+  UseExcelAddInExtension?: CapabilityState | undefined;
+  UsePowerpointAddInExtension?: CapabilityState | undefined;
+  ManageSharedFolders?: CapabilityState | undefined;
+  GenerateAnalyses?: CapabilityState | undefined;
+  Story?: CapabilityState | undefined;
+  Scenario?: CapabilityState | undefined;
+  Trigger?: CapabilityState | undefined;
+  ScheduleTrigger?: CapabilityState | undefined;
+  InboundEmailTrigger?: CapabilityState | undefined;
+  QuickEventTrigger?: CapabilityState | undefined;
+  FileDataSource?: CapabilityState | undefined;
+  CreateFileDataSource?: CapabilityState | undefined;
+  UpdateFileDataSource?: CapabilityState | undefined;
+  ShareFileDataSource?: CapabilityState | undefined;
+  S3DataSource?: CapabilityState | undefined;
+  CreateS3DataSource?: CapabilityState | undefined;
+  UpdateS3DataSource?: CapabilityState | undefined;
+  ShareS3DataSource?: CapabilityState | undefined;
+  S3AnalyticsDataSource?: CapabilityState | undefined;
+  CreateS3AnalyticsDataSource?: CapabilityState | undefined;
+  UpdateS3AnalyticsDataSource?: CapabilityState | undefined;
+  ShareS3AnalyticsDataSource?: CapabilityState | undefined;
+  S3TablesDataSource?: CapabilityState | undefined;
+  CreateS3TablesDataSource?: CapabilityState | undefined;
+  UpdateS3TablesDataSource?: CapabilityState | undefined;
+  ShareS3TablesDataSource?: CapabilityState | undefined;
+  AthenaDataSource?: CapabilityState | undefined;
+  CreateAthenaDataSource?: CapabilityState | undefined;
+  UpdateAthenaDataSource?: CapabilityState | undefined;
+  ShareAthenaDataSource?: CapabilityState | undefined;
+  RdsDataSource?: CapabilityState | undefined;
+  CreateRdsDataSource?: CapabilityState | undefined;
+  UpdateRdsDataSource?: CapabilityState | undefined;
+  ShareRdsDataSource?: CapabilityState | undefined;
+  RedshiftAutoDiscoveredDataSource?: CapabilityState | undefined;
+  CreateRedshiftAutoDiscoveredDataSource?: CapabilityState | undefined;
+  UpdateRedshiftAutoDiscoveredDataSource?: CapabilityState | undefined;
+  ShareRedshiftAutoDiscoveredDataSource?: CapabilityState | undefined;
+  RedshiftManualDataSource?: CapabilityState | undefined;
+  CreateRedshiftManualDataSource?: CapabilityState | undefined;
+  UpdateRedshiftManualDataSource?: CapabilityState | undefined;
+  ShareRedshiftManualDataSource?: CapabilityState | undefined;
+  OpenSearchDataSource?: CapabilityState | undefined;
+  CreateOpenSearchDataSource?: CapabilityState | undefined;
+  UpdateOpenSearchDataSource?: CapabilityState | undefined;
+  ShareOpenSearchDataSource?: CapabilityState | undefined;
+  TimestreamDataSource?: CapabilityState | undefined;
+  CreateTimestreamDataSource?: CapabilityState | undefined;
+  UpdateTimestreamDataSource?: CapabilityState | undefined;
+  ShareTimestreamDataSource?: CapabilityState | undefined;
+  AuroraDataSource?: CapabilityState | undefined;
+  CreateAuroraDataSource?: CapabilityState | undefined;
+  UpdateAuroraDataSource?: CapabilityState | undefined;
+  ShareAuroraDataSource?: CapabilityState | undefined;
+  MySqlDataSource?: CapabilityState | undefined;
+  CreateMySqlDataSource?: CapabilityState | undefined;
+  UpdateMySqlDataSource?: CapabilityState | undefined;
+  ShareMySqlDataSource?: CapabilityState | undefined;
+  PostgreSqlDataSource?: CapabilityState | undefined;
+  CreatePostgreSqlDataSource?: CapabilityState | undefined;
+  UpdatePostgreSqlDataSource?: CapabilityState | undefined;
+  SharePostgreSqlDataSource?: CapabilityState | undefined;
+  OracleDataSource?: CapabilityState | undefined;
+  CreateOracleDataSource?: CapabilityState | undefined;
+  UpdateOracleDataSource?: CapabilityState | undefined;
+  ShareOracleDataSource?: CapabilityState | undefined;
+  SqlServerDataSource?: CapabilityState | undefined;
+  CreateSqlServerDataSource?: CapabilityState | undefined;
+  UpdateSqlServerDataSource?: CapabilityState | undefined;
+  ShareSqlServerDataSource?: CapabilityState | undefined;
+  MariaDbDataSource?: CapabilityState | undefined;
+  CreateMariaDbDataSource?: CapabilityState | undefined;
+  UpdateMariaDbDataSource?: CapabilityState | undefined;
+  ShareMariaDbDataSource?: CapabilityState | undefined;
+  SnowflakeDataSource?: CapabilityState | undefined;
+  CreateSnowflakeDataSource?: CapabilityState | undefined;
+  UpdateSnowflakeDataSource?: CapabilityState | undefined;
+  ShareSnowflakeDataSource?: CapabilityState | undefined;
+  GoogleBigQueryDataSource?: CapabilityState | undefined;
+  CreateGoogleBigQueryDataSource?: CapabilityState | undefined;
+  UpdateGoogleBigQueryDataSource?: CapabilityState | undefined;
+  ShareGoogleBigQueryDataSource?: CapabilityState | undefined;
+  DatabricksDataSource?: CapabilityState | undefined;
+  CreateDatabricksDataSource?: CapabilityState | undefined;
+  UpdateDatabricksDataSource?: CapabilityState | undefined;
+  ShareDatabricksDataSource?: CapabilityState | undefined;
+  StarburstDataSource?: CapabilityState | undefined;
+  CreateStarburstDataSource?: CapabilityState | undefined;
+  UpdateStarburstDataSource?: CapabilityState | undefined;
+  ShareStarburstDataSource?: CapabilityState | undefined;
+  TrinoDataSource?: CapabilityState | undefined;
+  CreateTrinoDataSource?: CapabilityState | undefined;
+  UpdateTrinoDataSource?: CapabilityState | undefined;
+  ShareTrinoDataSource?: CapabilityState | undefined;
+  ImpalaDataSource?: CapabilityState | undefined;
+  CreateImpalaDataSource?: CapabilityState | undefined;
+  UpdateImpalaDataSource?: CapabilityState | undefined;
+  ShareImpalaDataSource?: CapabilityState | undefined;
+  TeradataDataSource?: CapabilityState | undefined;
+  CreateTeradataDataSource?: CapabilityState | undefined;
+  UpdateTeradataDataSource?: CapabilityState | undefined;
+  ShareTeradataDataSource?: CapabilityState | undefined;
+  PrestoDataSource?: CapabilityState | undefined;
+  CreatePrestoDataSource?: CapabilityState | undefined;
+  UpdatePrestoDataSource?: CapabilityState | undefined;
+  SharePrestoDataSource?: CapabilityState | undefined;
+  SparkDataSource?: CapabilityState | undefined;
+  CreateSparkDataSource?: CapabilityState | undefined;
+  UpdateSparkDataSource?: CapabilityState | undefined;
+  ShareSparkDataSource?: CapabilityState | undefined;
+  ExasolDataSource?: CapabilityState | undefined;
+  CreateExasolDataSource?: CapabilityState | undefined;
+  UpdateExasolDataSource?: CapabilityState | undefined;
+  ShareExasolDataSource?: CapabilityState | undefined;
+  Db2DataSource?: CapabilityState | undefined;
+  CreateDb2DataSource?: CapabilityState | undefined;
+  UpdateDb2DataSource?: CapabilityState | undefined;
+  ShareDb2DataSource?: CapabilityState | undefined;
+  SapHanaDataSource?: CapabilityState | undefined;
+  CreateSapHanaDataSource?: CapabilityState | undefined;
+  UpdateSapHanaDataSource?: CapabilityState | undefined;
+  ShareSapHanaDataSource?: CapabilityState | undefined;
+  DenodoDataSource?: CapabilityState | undefined;
+  CreateDenodoDataSource?: CapabilityState | undefined;
+  UpdateDenodoDataSource?: CapabilityState | undefined;
+  ShareDenodoDataSource?: CapabilityState | undefined;
+  DremioDataSource?: CapabilityState | undefined;
+  CreateDremioDataSource?: CapabilityState | undefined;
+  UpdateDremioDataSource?: CapabilityState | undefined;
+  ShareDremioDataSource?: CapabilityState | undefined;
+  SalesforceDataSource?: CapabilityState | undefined;
+  CreateSalesforceDataSource?: CapabilityState | undefined;
+  UpdateSalesforceDataSource?: CapabilityState | undefined;
+  ShareSalesforceDataSource?: CapabilityState | undefined;
+  RadiantDataSource?: CapabilityState | undefined;
+  CreateRadiantDataSource?: CapabilityState | undefined;
+  UpdateRadiantDataSource?: CapabilityState | undefined;
+  ShareRadiantDataSource?: CapabilityState | undefined;
+  PayPalDataSource?: CapabilityState | undefined;
+  CreatePayPalDataSource?: CapabilityState | undefined;
+  UpdatePayPalDataSource?: CapabilityState | undefined;
+  SharePayPalDataSource?: CapabilityState | undefined;
+  SquareDataSource?: CapabilityState | undefined;
+  CreateSquareDataSource?: CapabilityState | undefined;
+  UpdateSquareDataSource?: CapabilityState | undefined;
+  ShareSquareDataSource?: CapabilityState | undefined;
+  GitHubDataSource?: CapabilityState | undefined;
+  CreateGitHubDataSource?: CapabilityState | undefined;
+  UpdateGitHubDataSource?: CapabilityState | undefined;
+  ShareGitHubDataSource?: CapabilityState | undefined;
+  TwitterDataSource?: CapabilityState | undefined;
+  CreateTwitterDataSource?: CapabilityState | undefined;
+  UpdateTwitterDataSource?: CapabilityState | undefined;
+  ShareTwitterDataSource?: CapabilityState | undefined;
+  JiraDataSource?: CapabilityState | undefined;
+  CreateJiraDataSource?: CapabilityState | undefined;
+  UpdateJiraDataSource?: CapabilityState | undefined;
+  ShareJiraDataSource?: CapabilityState | undefined;
+  ServiceNowDataSource?: CapabilityState | undefined;
+  CreateServiceNowDataSource?: CapabilityState | undefined;
+  UpdateServiceNowDataSource?: CapabilityState | undefined;
+  ShareServiceNowDataSource?: CapabilityState | undefined;
+  AdobeAnalyticsDataSource?: CapabilityState | undefined;
+  CreateAdobeAnalyticsDataSource?: CapabilityState | undefined;
+  UpdateAdobeAnalyticsDataSource?: CapabilityState | undefined;
+  ShareAdobeAnalyticsDataSource?: CapabilityState | undefined;
+  GoogleAnalyticsDataSource?: CapabilityState | undefined;
+  CreateGoogleAnalyticsDataSource?: CapabilityState | undefined;
+  UpdateGoogleAnalyticsDataSource?: CapabilityState | undefined;
+  ShareGoogleAnalyticsDataSource?: CapabilityState | undefined;
+  GoogleSheetsDataSource?: CapabilityState | undefined;
+  CreateGoogleSheetsDataSource?: CapabilityState | undefined;
+  UpdateGoogleSheetsDataSource?: CapabilityState | undefined;
+  ShareGoogleSheetsDataSource?: CapabilityState | undefined;
+  DocumentDbDataSource?: CapabilityState | undefined;
+  CreateDocumentDbDataSource?: CapabilityState | undefined;
+  UpdateDocumentDbDataSource?: CapabilityState | undefined;
+  ShareDocumentDbDataSource?: CapabilityState | undefined;
+  MongoDbDataSource?: CapabilityState | undefined;
+  CreateMongoDbDataSource?: CapabilityState | undefined;
+  UpdateMongoDbDataSource?: CapabilityState | undefined;
+  ShareMongoDbDataSource?: CapabilityState | undefined;
+  MongoAtlasDataSource?: CapabilityState | undefined;
+  CreateMongoAtlasDataSource?: CapabilityState | undefined;
+  UpdateMongoAtlasDataSource?: CapabilityState | undefined;
+  ShareMongoAtlasDataSource?: CapabilityState | undefined;
+  DynamoDbDataSource?: CapabilityState | undefined;
+  CreateDynamoDbDataSource?: CapabilityState | undefined;
+  UpdateDynamoDbDataSource?: CapabilityState | undefined;
+  ShareDynamoDbDataSource?: CapabilityState | undefined;
 }
 export type GovernanceCategoryName = string;
 export type DefaultCategoryEffect = "DENY_BY_DEFAULT" | (string & {});
 export type DefaultCategoryEffectsMap = { [key: string]: DefaultCategoryEffect | undefined };
 export interface Governance {
-  DefaultCategoryEffects?: { [key: string]: DefaultCategoryEffect | undefined };
+  DefaultCategoryEffects?: { [key: string]: DefaultCategoryEffect | undefined } | undefined;
 }
 export interface CreateCustomPermissionsRequest {
   AwsAccountId: string;
   CustomPermissionsName: string;
-  Capabilities?: Capabilities;
-  Governance?: Governance;
-  Tags?: Tag[];
+  Capabilities?: Capabilities | undefined;
+  Governance?: Governance | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateCustomPermissionsResponse {
-  Status?: number;
-  Arn?: string;
-  RequestId?: string;
+  Status?: number | undefined;
+  Arn?: string | undefined;
+  RequestId?: string | undefined;
 }
 export type DashboardName = string;
 export interface DashboardSourceTemplate {
   DataSetReferences: DataSetReference[];
-  TopicReferences?: TopicReference[];
+  TopicReferences?: TopicReference[] | undefined;
   Arn: string;
 }
 export interface DashboardSourceEntity {
-  SourceTemplate?: DashboardSourceTemplate;
+  SourceTemplate?: DashboardSourceTemplate | undefined;
 }
 export type VersionDescription = string;
 export interface AdHocFilteringOption {
-  AvailabilityStatus?: DashboardBehavior;
+  AvailabilityStatus?: DashboardBehavior | undefined;
 }
 export interface ExportToCSVOption {
-  AvailabilityStatus?: DashboardBehavior;
+  AvailabilityStatus?: DashboardBehavior | undefined;
 }
 export type DashboardUIState = "EXPANDED" | "COLLAPSED" | (string & {});
 export interface SheetControlsOption {
-  VisibilityState?: DashboardUIState;
+  VisibilityState?: DashboardUIState | undefined;
 }
 export interface ExportHiddenFieldsOption {
-  AvailabilityStatus?: DashboardBehavior;
+  AvailabilityStatus?: DashboardBehavior | undefined;
 }
 export interface DashboardVisualPublishOptions {
-  ExportHiddenFieldsOption?: ExportHiddenFieldsOption;
+  ExportHiddenFieldsOption?: ExportHiddenFieldsOption | undefined;
 }
 export interface SheetLayoutElementMaximizationOption {
-  AvailabilityStatus?: DashboardBehavior;
+  AvailabilityStatus?: DashboardBehavior | undefined;
 }
 export interface VisualAxisSortOption {
-  AvailabilityStatus?: DashboardBehavior;
+  AvailabilityStatus?: DashboardBehavior | undefined;
 }
 export interface ExportWithHiddenFieldsOption {
-  AvailabilityStatus?: DashboardBehavior;
+  AvailabilityStatus?: DashboardBehavior | undefined;
 }
 export interface DataPointDrillUpDownOption {
-  AvailabilityStatus?: DashboardBehavior;
+  AvailabilityStatus?: DashboardBehavior | undefined;
 }
 export interface DataPointMenuLabelOption {
-  AvailabilityStatus?: DashboardBehavior;
+  AvailabilityStatus?: DashboardBehavior | undefined;
 }
 export interface DataPointTooltipOption {
-  AvailabilityStatus?: DashboardBehavior;
+  AvailabilityStatus?: DashboardBehavior | undefined;
 }
 export interface DataQAEnabledOption {
-  AvailabilityStatus?: DashboardBehavior;
+  AvailabilityStatus?: DashboardBehavior | undefined;
 }
 export interface QuickSuiteActionsOption {
-  AvailabilityStatus?: DashboardBehavior;
+  AvailabilityStatus?: DashboardBehavior | undefined;
 }
 export interface ExecutiveSummaryOption {
-  AvailabilityStatus?: DashboardBehavior;
+  AvailabilityStatus?: DashboardBehavior | undefined;
 }
 export interface DataStoriesSharingOption {
-  AvailabilityStatus?: DashboardBehavior;
+  AvailabilityStatus?: DashboardBehavior | undefined;
 }
 export interface DashboardPublishOptions {
-  AdHocFilteringOption?: AdHocFilteringOption;
-  ExportToCSVOption?: ExportToCSVOption;
-  SheetControlsOption?: SheetControlsOption;
-  VisualPublishOptions?: DashboardVisualPublishOptions;
-  SheetLayoutElementMaximizationOption?: SheetLayoutElementMaximizationOption;
-  VisualMenuOption?: VisualMenuOption;
-  VisualAxisSortOption?: VisualAxisSortOption;
-  ExportWithHiddenFieldsOption?: ExportWithHiddenFieldsOption;
-  DataPointDrillUpDownOption?: DataPointDrillUpDownOption;
-  DataPointMenuLabelOption?: DataPointMenuLabelOption;
-  DataPointTooltipOption?: DataPointTooltipOption;
-  DataQAEnabledOption?: DataQAEnabledOption;
-  QuickSuiteActionsOption?: QuickSuiteActionsOption;
-  ExecutiveSummaryOption?: ExecutiveSummaryOption;
-  DataStoriesSharingOption?: DataStoriesSharingOption;
+  AdHocFilteringOption?: AdHocFilteringOption | undefined;
+  ExportToCSVOption?: ExportToCSVOption | undefined;
+  SheetControlsOption?: SheetControlsOption | undefined;
+  VisualPublishOptions?: DashboardVisualPublishOptions | undefined;
+  SheetLayoutElementMaximizationOption?: SheetLayoutElementMaximizationOption | undefined;
+  VisualMenuOption?: VisualMenuOption | undefined;
+  VisualAxisSortOption?: VisualAxisSortOption | undefined;
+  ExportWithHiddenFieldsOption?: ExportWithHiddenFieldsOption | undefined;
+  DataPointDrillUpDownOption?: DataPointDrillUpDownOption | undefined;
+  DataPointMenuLabelOption?: DataPointMenuLabelOption | undefined;
+  DataPointTooltipOption?: DataPointTooltipOption | undefined;
+  DataQAEnabledOption?: DataQAEnabledOption | undefined;
+  QuickSuiteActionsOption?: QuickSuiteActionsOption | undefined;
+  ExecutiveSummaryOption?: ExecutiveSummaryOption | undefined;
+  DataStoriesSharingOption?: DataStoriesSharingOption | undefined;
 }
 export interface DashboardVersionDefinition {
   DataSetIdentifierDeclarations: DataSetIdentifierDeclaration[];
-  TopicIdentifierDeclarations?: TopicIdentifierDeclaration[];
-  Sheets?: SheetDefinition[];
-  TooltipSheets?: TooltipSheetDefinition[];
-  CalculatedFields?: CalculatedField[];
-  ParameterDeclarations?: ParameterDeclaration[];
-  FilterGroups?: FilterGroup[];
-  ColumnConfigurations?: ColumnConfiguration[];
-  AnalysisDefaults?: AnalysisDefaults;
-  Options?: AssetOptions;
-  StaticFiles?: StaticFile[];
+  TopicIdentifierDeclarations?: TopicIdentifierDeclaration[] | undefined;
+  Sheets?: SheetDefinition[] | undefined;
+  TooltipSheets?: TooltipSheetDefinition[] | undefined;
+  CalculatedFields?: CalculatedField[] | undefined;
+  ParameterDeclarations?: ParameterDeclaration[] | undefined;
+  FilterGroups?: FilterGroup[] | undefined;
+  ColumnConfigurations?: ColumnConfiguration[] | undefined;
+  AnalysisDefaults?: AnalysisDefaults | undefined;
+  Options?: AssetOptions | undefined;
+  StaticFiles?: StaticFile[] | undefined;
 }
 export interface LinkSharingConfiguration {
-  Permissions?: ResourcePermission[];
+  Permissions?: ResourcePermission[] | undefined;
 }
 export type LinkEntityArn = string;
 export type LinkEntityArnList = string[];
@@ -5504,26 +5694,26 @@ export interface CreateDashboardRequest {
   AwsAccountId: string;
   DashboardId: string;
   Name: string;
-  Parameters?: Parameters;
-  Permissions?: ResourcePermission[];
-  SourceEntity?: DashboardSourceEntity;
-  Tags?: Tag[];
-  VersionDescription?: string;
-  DashboardPublishOptions?: DashboardPublishOptions;
-  ThemeArn?: string;
-  Definition?: DashboardVersionDefinition;
-  ValidationStrategy?: ValidationStrategy;
-  FolderArns?: string[];
-  LinkSharingConfiguration?: LinkSharingConfiguration;
-  LinkEntities?: string[];
+  Parameters?: Parameters | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  SourceEntity?: DashboardSourceEntity | undefined;
+  Tags?: Tag[] | undefined;
+  VersionDescription?: string | undefined;
+  DashboardPublishOptions?: DashboardPublishOptions | undefined;
+  ThemeArn?: string | undefined;
+  Definition?: DashboardVersionDefinition | undefined;
+  ValidationStrategy?: ValidationStrategy | undefined;
+  FolderArns?: string[] | undefined;
+  LinkSharingConfiguration?: LinkSharingConfiguration | undefined;
+  LinkEntities?: string[] | undefined;
 }
 export interface CreateDashboardResponse {
-  Arn?: string;
-  VersionArn?: string;
-  DashboardId?: string;
-  CreationStatus?: ResourceStatus;
-  Status?: number;
-  RequestId?: string;
+  Arn?: string | undefined;
+  VersionArn?: string | undefined;
+  DashboardId?: string | undefined;
+  CreationStatus?: ResourceStatus | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export type ResourceId = string;
 export type ResourceName = string;
@@ -5545,15 +5735,15 @@ export type InputColumnDataType =
 export type ColumnDataSubType = "FLOAT" | "FIXED" | (string & {});
 export interface InputColumn {
   Name: string;
-  Id?: string;
+  Id?: string | undefined;
   Type: InputColumnDataType;
-  SubType?: ColumnDataSubType;
+  SubType?: ColumnDataSubType | undefined;
 }
 export type InputColumnList = InputColumn[];
 export interface RelationalTable {
   DataSourceArn: string;
-  Catalog?: string;
-  Schema?: string;
+  Catalog?: string | undefined;
+  Schema?: string | undefined;
   Name: string;
   InputColumns: InputColumn[];
 }
@@ -5563,30 +5753,30 @@ export interface CustomSql {
   DataSourceArn: string;
   Name: string;
   SqlQuery: string | redacted.Redacted<string>;
-  Columns?: InputColumn[];
+  Columns?: InputColumn[] | undefined;
 }
 export type FileFormat = "CSV" | "TSV" | "CLF" | "ELF" | "XLSX" | "JSON" | (string & {});
 export type PositiveInteger = number;
 export type TextQualifier = "DOUBLE_QUOTE" | "SINGLE_QUOTE" | (string & {});
 export type Delimiter = string;
 export interface UploadSettings {
-  Format?: FileFormat;
-  StartFromRow?: number;
-  ContainsHeader?: boolean;
-  TextQualifier?: TextQualifier;
-  Delimiter?: string;
-  CustomCellAddressRange?: string;
+  Format?: FileFormat | undefined;
+  StartFromRow?: number | undefined;
+  ContainsHeader?: boolean | undefined;
+  TextQualifier?: TextQualifier | undefined;
+  Delimiter?: string | undefined;
+  CustomCellAddressRange?: string | undefined;
 }
 export interface S3Source {
   DataSourceArn: string;
-  UploadSettings?: UploadSettings;
+  UploadSettings?: UploadSettings | undefined;
   InputColumns: InputColumn[];
 }
 export type TablePathElementName = string;
 export type TablePathElementId = string;
 export interface TablePathElement {
-  Name?: string;
-  Id?: string;
+  Name?: string | undefined;
+  Id?: string | undefined;
 }
 export type TablePathElementList = TablePathElement[];
 export interface SaaSTable {
@@ -5596,44 +5786,44 @@ export interface SaaSTable {
 }
 export interface FileSource {
   DataSourceArn: string;
-  UploadSettings?: UploadSettings;
+  UploadSettings?: UploadSettings | undefined;
   SheetIndex: number;
   InputColumns: InputColumn[];
 }
 export type PhysicalTable =
   | {
       RelationalTable: RelationalTable;
-      CustomSql?: never;
-      S3Source?: never;
-      SaaSTable?: never;
-      FileSource?: never;
+      CustomSql?: undefined;
+      S3Source?: undefined;
+      SaaSTable?: undefined;
+      FileSource?: undefined;
     }
   | {
-      RelationalTable?: never;
+      RelationalTable?: undefined;
       CustomSql: CustomSql;
-      S3Source?: never;
-      SaaSTable?: never;
-      FileSource?: never;
+      S3Source?: undefined;
+      SaaSTable?: undefined;
+      FileSource?: undefined;
     }
   | {
-      RelationalTable?: never;
-      CustomSql?: never;
+      RelationalTable?: undefined;
+      CustomSql?: undefined;
       S3Source: S3Source;
-      SaaSTable?: never;
-      FileSource?: never;
+      SaaSTable?: undefined;
+      FileSource?: undefined;
     }
   | {
-      RelationalTable?: never;
-      CustomSql?: never;
-      S3Source?: never;
+      RelationalTable?: undefined;
+      CustomSql?: undefined;
+      S3Source?: undefined;
       SaaSTable: SaaSTable;
-      FileSource?: never;
+      FileSource?: undefined;
     }
   | {
-      RelationalTable?: never;
-      CustomSql?: never;
-      S3Source?: never;
-      SaaSTable?: never;
+      RelationalTable?: undefined;
+      CustomSql?: undefined;
+      S3Source?: undefined;
+      SaaSTable?: undefined;
       FileSource: FileSource;
     };
 export type PhysicalTableMap = { [key: string]: PhysicalTable | undefined };
@@ -5648,12 +5838,12 @@ export interface DataSetColumnIdMapping {
 export type DataSetColumnIdMappingList = DataSetColumnIdMapping[];
 export interface TransformOperationSource {
   TransformOperationId: string;
-  ColumnIdMappings?: DataSetColumnIdMapping[];
+  ColumnIdMappings?: DataSetColumnIdMapping[] | undefined;
 }
 export type ProjectedColumnNameList = string[];
 export interface ProjectOperation {
-  Alias?: string;
-  Source?: TransformOperationSource;
+  Alias?: string | undefined;
+  Source?: TransformOperationSource | undefined;
   ProjectedColumns: string[];
 }
 export type DataSetStringComparisonFilterOperator =
@@ -5666,25 +5856,25 @@ export type DataSetStringComparisonFilterOperator =
   | (string & {});
 export type DataSetStringFilterStaticValue = string | redacted.Redacted<string>;
 export interface DataSetStringFilterValue {
-  StaticValue?: string | redacted.Redacted<string>;
+  StaticValue?: string | redacted.Redacted<string> | undefined;
 }
 export interface DataSetStringComparisonFilterCondition {
   Operator: DataSetStringComparisonFilterOperator;
-  Value?: DataSetStringFilterValue;
+  Value?: DataSetStringFilterValue | undefined;
 }
 export type DataSetStringListFilterOperator = "INCLUDE" | "EXCLUDE" | (string & {});
 export type DataSetStringFilterStaticValueList = (string | redacted.Redacted<string>)[];
 export interface DataSetStringListFilterValue {
-  StaticValues?: (string | redacted.Redacted<string>)[];
+  StaticValues?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export interface DataSetStringListFilterCondition {
   Operator: DataSetStringListFilterOperator;
-  Values?: DataSetStringListFilterValue;
+  Values?: DataSetStringListFilterValue | undefined;
 }
 export interface DataSetStringFilterCondition {
-  ColumnName?: string;
-  ComparisonFilterCondition?: DataSetStringComparisonFilterCondition;
-  ListFilterCondition?: DataSetStringListFilterCondition;
+  ColumnName?: string | undefined;
+  ComparisonFilterCondition?: DataSetStringComparisonFilterCondition | undefined;
+  ListFilterCondition?: DataSetStringListFilterCondition | undefined;
 }
 export type DataSetNumericComparisonFilterOperator =
   | "EQUALS"
@@ -5695,22 +5885,22 @@ export type DataSetNumericComparisonFilterOperator =
   | "LESS_THAN_OR_EQUALS_TO"
   | (string & {});
 export interface DataSetNumericFilterValue {
-  StaticValue?: number;
+  StaticValue?: number | undefined;
 }
 export interface DataSetNumericComparisonFilterCondition {
   Operator: DataSetNumericComparisonFilterOperator;
-  Value?: DataSetNumericFilterValue;
+  Value?: DataSetNumericFilterValue | undefined;
 }
 export interface DataSetNumericRangeFilterCondition {
-  RangeMinimum?: DataSetNumericFilterValue;
-  RangeMaximum?: DataSetNumericFilterValue;
-  IncludeMinimum?: boolean;
-  IncludeMaximum?: boolean;
+  RangeMinimum?: DataSetNumericFilterValue | undefined;
+  RangeMaximum?: DataSetNumericFilterValue | undefined;
+  IncludeMinimum?: boolean | undefined;
+  IncludeMaximum?: boolean | undefined;
 }
 export interface DataSetNumericFilterCondition {
-  ColumnName?: string;
-  ComparisonFilterCondition?: DataSetNumericComparisonFilterCondition;
-  RangeFilterCondition?: DataSetNumericRangeFilterCondition;
+  ColumnName?: string | undefined;
+  ComparisonFilterCondition?: DataSetNumericComparisonFilterCondition | undefined;
+  RangeFilterCondition?: DataSetNumericRangeFilterCondition | undefined;
 }
 export type DataSetDateComparisonFilterOperator =
   | "BEFORE"
@@ -5719,28 +5909,28 @@ export type DataSetDateComparisonFilterOperator =
   | "AFTER_OR_EQUALS_TO"
   | (string & {});
 export interface DataSetDateFilterValue {
-  StaticValue?: Date;
+  StaticValue?: Date | undefined;
 }
 export interface DataSetDateComparisonFilterCondition {
   Operator: DataSetDateComparisonFilterOperator;
-  Value?: DataSetDateFilterValue;
+  Value?: DataSetDateFilterValue | undefined;
 }
 export interface DataSetDateRangeFilterCondition {
-  RangeMinimum?: DataSetDateFilterValue;
-  RangeMaximum?: DataSetDateFilterValue;
-  IncludeMinimum?: boolean;
-  IncludeMaximum?: boolean;
+  RangeMinimum?: DataSetDateFilterValue | undefined;
+  RangeMaximum?: DataSetDateFilterValue | undefined;
+  IncludeMinimum?: boolean | undefined;
+  IncludeMaximum?: boolean | undefined;
 }
 export interface DataSetDateFilterCondition {
-  ColumnName?: string;
-  ComparisonFilterCondition?: DataSetDateComparisonFilterCondition;
-  RangeFilterCondition?: DataSetDateRangeFilterCondition;
+  ColumnName?: string | undefined;
+  ComparisonFilterCondition?: DataSetDateComparisonFilterCondition | undefined;
+  RangeFilterCondition?: DataSetDateRangeFilterCondition | undefined;
 }
 export interface FilterOperation {
-  ConditionExpression?: string | redacted.Redacted<string>;
-  StringFilterCondition?: DataSetStringFilterCondition;
-  NumericFilterCondition?: DataSetNumericFilterCondition;
-  DateFilterCondition?: DataSetDateFilterCondition;
+  ConditionExpression?: string | redacted.Redacted<string> | undefined;
+  StringFilterCondition?: DataSetStringFilterCondition | undefined;
+  NumericFilterCondition?: DataSetNumericFilterCondition | undefined;
+  DateFilterCondition?: DataSetDateFilterCondition | undefined;
 }
 export type DataSetCalculatedFieldExpression = string | redacted.Redacted<string>;
 export interface CalculatedColumn {
@@ -5750,8 +5940,8 @@ export interface CalculatedColumn {
 }
 export type CalculatedColumnList = CalculatedColumn[];
 export interface CreateColumnsOperation {
-  Alias?: string;
-  Source?: TransformOperationSource;
+  Alias?: string | undefined;
+  Source?: TransformOperationSource | undefined;
   Columns: CalculatedColumn[];
 }
 export interface RenameColumnOperation {
@@ -5763,8 +5953,8 @@ export type TypeCastFormat = string;
 export interface CastColumnTypeOperation {
   ColumnName: string;
   NewColumnType: ColumnDataType;
-  SubType?: ColumnDataSubType;
-  Format?: string;
+  SubType?: ColumnDataSubType | undefined;
+  Format?: string | undefined;
 }
 export type GeoSpatialDataRole =
   | "COUNTRY"
@@ -5777,11 +5967,11 @@ export type GeoSpatialDataRole =
   | (string & {});
 export type ColumnDescriptiveText = string | redacted.Redacted<string>;
 export interface ColumnDescription {
-  Text?: string | redacted.Redacted<string>;
+  Text?: string | redacted.Redacted<string> | undefined;
 }
 export interface ColumnTag {
-  ColumnGeographicRole?: GeoSpatialDataRole;
-  ColumnDescription?: ColumnDescription;
+  ColumnGeographicRole?: GeoSpatialDataRole | undefined;
+  ColumnDescription?: ColumnDescription | undefined;
 }
 export type ColumnTagList = ColumnTag[];
 export interface TagColumnOperation {
@@ -5804,119 +5994,119 @@ export type DateTimeDatasetParameterValueList = Date[];
 export type IntegerDatasetParameterDefaultValue = number;
 export type IntegerDatasetParameterValueList = number[];
 export interface NewDefaultValues {
-  StringStaticValues?: string[];
-  DecimalStaticValues?: number[];
-  DateTimeStaticValues?: Date[];
-  IntegerStaticValues?: number[];
+  StringStaticValues?: string[] | undefined;
+  DecimalStaticValues?: number[] | undefined;
+  DateTimeStaticValues?: Date[] | undefined;
+  IntegerStaticValues?: number[] | undefined;
 }
 export interface OverrideDatasetParameterOperation {
   ParameterName: string;
-  NewParameterName?: string;
-  NewDefaultValues?: NewDefaultValues;
+  NewParameterName?: string | undefined;
+  NewDefaultValues?: NewDefaultValues | undefined;
 }
 export type TransformOperation =
   | {
       ProjectOperation: ProjectOperation;
-      FilterOperation?: never;
-      CreateColumnsOperation?: never;
-      RenameColumnOperation?: never;
-      CastColumnTypeOperation?: never;
-      TagColumnOperation?: never;
-      UntagColumnOperation?: never;
-      OverrideDatasetParameterOperation?: never;
+      FilterOperation?: undefined;
+      CreateColumnsOperation?: undefined;
+      RenameColumnOperation?: undefined;
+      CastColumnTypeOperation?: undefined;
+      TagColumnOperation?: undefined;
+      UntagColumnOperation?: undefined;
+      OverrideDatasetParameterOperation?: undefined;
     }
   | {
-      ProjectOperation?: never;
+      ProjectOperation?: undefined;
       FilterOperation: FilterOperation;
-      CreateColumnsOperation?: never;
-      RenameColumnOperation?: never;
-      CastColumnTypeOperation?: never;
-      TagColumnOperation?: never;
-      UntagColumnOperation?: never;
-      OverrideDatasetParameterOperation?: never;
+      CreateColumnsOperation?: undefined;
+      RenameColumnOperation?: undefined;
+      CastColumnTypeOperation?: undefined;
+      TagColumnOperation?: undefined;
+      UntagColumnOperation?: undefined;
+      OverrideDatasetParameterOperation?: undefined;
     }
   | {
-      ProjectOperation?: never;
-      FilterOperation?: never;
+      ProjectOperation?: undefined;
+      FilterOperation?: undefined;
       CreateColumnsOperation: CreateColumnsOperation;
-      RenameColumnOperation?: never;
-      CastColumnTypeOperation?: never;
-      TagColumnOperation?: never;
-      UntagColumnOperation?: never;
-      OverrideDatasetParameterOperation?: never;
+      RenameColumnOperation?: undefined;
+      CastColumnTypeOperation?: undefined;
+      TagColumnOperation?: undefined;
+      UntagColumnOperation?: undefined;
+      OverrideDatasetParameterOperation?: undefined;
     }
   | {
-      ProjectOperation?: never;
-      FilterOperation?: never;
-      CreateColumnsOperation?: never;
+      ProjectOperation?: undefined;
+      FilterOperation?: undefined;
+      CreateColumnsOperation?: undefined;
       RenameColumnOperation: RenameColumnOperation;
-      CastColumnTypeOperation?: never;
-      TagColumnOperation?: never;
-      UntagColumnOperation?: never;
-      OverrideDatasetParameterOperation?: never;
+      CastColumnTypeOperation?: undefined;
+      TagColumnOperation?: undefined;
+      UntagColumnOperation?: undefined;
+      OverrideDatasetParameterOperation?: undefined;
     }
   | {
-      ProjectOperation?: never;
-      FilterOperation?: never;
-      CreateColumnsOperation?: never;
-      RenameColumnOperation?: never;
+      ProjectOperation?: undefined;
+      FilterOperation?: undefined;
+      CreateColumnsOperation?: undefined;
+      RenameColumnOperation?: undefined;
       CastColumnTypeOperation: CastColumnTypeOperation;
-      TagColumnOperation?: never;
-      UntagColumnOperation?: never;
-      OverrideDatasetParameterOperation?: never;
+      TagColumnOperation?: undefined;
+      UntagColumnOperation?: undefined;
+      OverrideDatasetParameterOperation?: undefined;
     }
   | {
-      ProjectOperation?: never;
-      FilterOperation?: never;
-      CreateColumnsOperation?: never;
-      RenameColumnOperation?: never;
-      CastColumnTypeOperation?: never;
+      ProjectOperation?: undefined;
+      FilterOperation?: undefined;
+      CreateColumnsOperation?: undefined;
+      RenameColumnOperation?: undefined;
+      CastColumnTypeOperation?: undefined;
       TagColumnOperation: TagColumnOperation;
-      UntagColumnOperation?: never;
-      OverrideDatasetParameterOperation?: never;
+      UntagColumnOperation?: undefined;
+      OverrideDatasetParameterOperation?: undefined;
     }
   | {
-      ProjectOperation?: never;
-      FilterOperation?: never;
-      CreateColumnsOperation?: never;
-      RenameColumnOperation?: never;
-      CastColumnTypeOperation?: never;
-      TagColumnOperation?: never;
+      ProjectOperation?: undefined;
+      FilterOperation?: undefined;
+      CreateColumnsOperation?: undefined;
+      RenameColumnOperation?: undefined;
+      CastColumnTypeOperation?: undefined;
+      TagColumnOperation?: undefined;
       UntagColumnOperation: UntagColumnOperation;
-      OverrideDatasetParameterOperation?: never;
+      OverrideDatasetParameterOperation?: undefined;
     }
   | {
-      ProjectOperation?: never;
-      FilterOperation?: never;
-      CreateColumnsOperation?: never;
-      RenameColumnOperation?: never;
-      CastColumnTypeOperation?: never;
-      TagColumnOperation?: never;
-      UntagColumnOperation?: never;
+      ProjectOperation?: undefined;
+      FilterOperation?: undefined;
+      CreateColumnsOperation?: undefined;
+      RenameColumnOperation?: undefined;
+      CastColumnTypeOperation?: undefined;
+      TagColumnOperation?: undefined;
+      UntagColumnOperation?: undefined;
       OverrideDatasetParameterOperation: OverrideDatasetParameterOperation;
     };
 export type TransformOperationList = TransformOperation[];
 export interface JoinKeyProperties {
-  UniqueKey?: boolean;
+  UniqueKey?: boolean | undefined;
 }
 export type JoinType = "INNER" | "OUTER" | "LEFT" | "RIGHT" | (string & {});
 export type OnClause = string;
 export interface JoinInstruction {
   LeftOperand: string;
   RightOperand: string;
-  LeftJoinKeyProperties?: JoinKeyProperties;
-  RightJoinKeyProperties?: JoinKeyProperties;
+  LeftJoinKeyProperties?: JoinKeyProperties | undefined;
+  RightJoinKeyProperties?: JoinKeyProperties | undefined;
   Type: JoinType;
   OnClause: string;
 }
 export interface LogicalTableSource {
-  JoinInstruction?: JoinInstruction;
-  PhysicalTableId?: string;
-  DataSetArn?: string;
+  JoinInstruction?: JoinInstruction | undefined;
+  PhysicalTableId?: string | undefined;
+  DataSetArn?: string | undefined;
 }
 export interface LogicalTable {
   Alias: string;
-  DataTransforms?: TransformOperation[];
+  DataTransforms?: TransformOperation[] | undefined;
   Source: LogicalTableSource;
 }
 export type LogicalTableMap = { [key: string]: LogicalTable | undefined };
@@ -5926,30 +6116,30 @@ export type GeoSpatialCountryCode = "US" | (string & {});
 export type ColumnList = string[];
 export interface GeoSpatialColumnGroup {
   Name: string;
-  CountryCode?: GeoSpatialCountryCode;
+  CountryCode?: GeoSpatialCountryCode | undefined;
   Columns: string[];
 }
 export interface ColumnGroup {
-  GeoSpatialColumnGroup?: GeoSpatialColumnGroup;
+  GeoSpatialColumnGroup?: GeoSpatialColumnGroup | undefined;
 }
 export type ColumnGroupList = ColumnGroup[];
 export type FieldFolderPath = string;
 export type FieldFolderDescription = string;
 export type FolderColumnList = string[];
 export interface FieldFolder {
-  description?: string;
-  columns?: string[];
+  description?: string | undefined;
+  columns?: string[] | undefined;
 }
 export type FieldFolderMap = { [key: string]: FieldFolder | undefined };
 export type RowLevelPermissionPolicy = "GRANT_ACCESS" | "DENY_ACCESS" | (string & {});
 export type RowLevelPermissionFormatVersion = "VERSION_1" | "VERSION_2" | (string & {});
 export type Status = "ENABLED" | "DISABLED" | (string & {});
 export interface RowLevelPermissionDataSet {
-  Namespace?: string;
+  Namespace?: string | undefined;
   Arn: string;
   PermissionPolicy: RowLevelPermissionPolicy;
-  FormatVersion?: RowLevelPermissionFormatVersion;
-  Status?: Status;
+  FormatVersion?: RowLevelPermissionFormatVersion | undefined;
+  Status?: Status | undefined;
 }
 export type SessionTagKey = string;
 export type RowLevelPermissionTagDelimiter = string;
@@ -5957,72 +6147,72 @@ export type SessionTagValue = string | redacted.Redacted<string>;
 export interface RowLevelPermissionTagRule {
   TagKey: string;
   ColumnName: string;
-  TagMultiValueDelimiter?: string;
-  MatchAllValue?: string | redacted.Redacted<string>;
+  TagMultiValueDelimiter?: string | undefined;
+  MatchAllValue?: string | redacted.Redacted<string> | undefined;
 }
 export type RowLevelPermissionTagRuleList = RowLevelPermissionTagRule[];
 export type RowLevelPermissionTagRuleConfiguration = string[];
 export type RowLevelPermissionTagRuleConfigurationList = string[][];
 export interface RowLevelPermissionTagConfiguration {
-  Status?: Status;
+  Status?: Status | undefined;
   TagRules: RowLevelPermissionTagRule[];
-  TagRuleConfigurations?: string[][];
+  TagRuleConfigurations?: string[][] | undefined;
 }
 export type PrincipalList = string[];
 export type ColumnLevelPermissionRuleColumnNameList = string[];
 export interface ColumnLevelPermissionRule {
-  Principals?: string[];
-  ColumnNames?: string[];
+  Principals?: string[] | undefined;
+  ColumnNames?: string[] | undefined;
 }
 export type ColumnLevelPermissionRuleList = ColumnLevelPermissionRule[];
 export interface DataSetUsageConfiguration {
-  DisableUseAsDirectQuerySource?: boolean;
-  DisableUseAsImportedSource?: boolean;
+  DisableUseAsDirectQuerySource?: boolean | undefined;
+  DisableUseAsImportedSource?: boolean | undefined;
 }
 export type DatasetParameterId = string;
 export type DatasetParameterValueType = "MULTI_VALUED" | "SINGLE_VALUED" | (string & {});
 export interface StringDatasetParameterDefaultValues {
-  StaticValues?: string[];
+  StaticValues?: string[] | undefined;
 }
 export interface StringDatasetParameter {
   Id: string;
   Name: string;
   ValueType: DatasetParameterValueType;
-  DefaultValues?: StringDatasetParameterDefaultValues;
+  DefaultValues?: StringDatasetParameterDefaultValues | undefined;
 }
 export interface DecimalDatasetParameterDefaultValues {
-  StaticValues?: number[];
+  StaticValues?: number[] | undefined;
 }
 export interface DecimalDatasetParameter {
   Id: string;
   Name: string;
   ValueType: DatasetParameterValueType;
-  DefaultValues?: DecimalDatasetParameterDefaultValues;
+  DefaultValues?: DecimalDatasetParameterDefaultValues | undefined;
 }
 export interface IntegerDatasetParameterDefaultValues {
-  StaticValues?: number[];
+  StaticValues?: number[] | undefined;
 }
 export interface IntegerDatasetParameter {
   Id: string;
   Name: string;
   ValueType: DatasetParameterValueType;
-  DefaultValues?: IntegerDatasetParameterDefaultValues;
+  DefaultValues?: IntegerDatasetParameterDefaultValues | undefined;
 }
 export interface DateTimeDatasetParameterDefaultValues {
-  StaticValues?: Date[];
+  StaticValues?: Date[] | undefined;
 }
 export interface DateTimeDatasetParameter {
   Id: string;
   Name: string;
   ValueType: DatasetParameterValueType;
-  TimeGranularity?: TimeGranularity;
-  DefaultValues?: DateTimeDatasetParameterDefaultValues;
+  TimeGranularity?: TimeGranularity | undefined;
+  DefaultValues?: DateTimeDatasetParameterDefaultValues | undefined;
 }
 export interface DatasetParameter {
-  StringDatasetParameter?: StringDatasetParameter;
-  DecimalDatasetParameter?: DecimalDatasetParameter;
-  IntegerDatasetParameter?: IntegerDatasetParameter;
-  DateTimeDatasetParameter?: DateTimeDatasetParameter;
+  StringDatasetParameter?: StringDatasetParameter | undefined;
+  DecimalDatasetParameter?: DecimalDatasetParameter | undefined;
+  IntegerDatasetParameter?: IntegerDatasetParameter | undefined;
+  DateTimeDatasetParameter?: DateTimeDatasetParameter | undefined;
 }
 export type DatasetParameterList = DatasetParameter[];
 export type UniqueKeyColumnNameList = string[];
@@ -6031,7 +6221,7 @@ export interface UniqueKey {
 }
 export type UniqueKeyList = UniqueKey[];
 export interface PerformanceConfiguration {
-  UniqueKeys?: UniqueKey[];
+  UniqueKeys?: UniqueKey[] | undefined;
 }
 export type DataSetUseAs = "RLS_RULES" | (string & {});
 export interface ParentDataSet {
@@ -6039,13 +6229,13 @@ export interface ParentDataSet {
   InputColumns: InputColumn[];
 }
 export interface SourceTable {
-  PhysicalTableId?: string;
-  DataSet?: ParentDataSet;
+  PhysicalTableId?: string | undefined;
+  DataSet?: ParentDataSet | undefined;
 }
 export type SourceTableMap = { [key: string]: SourceTable | undefined };
 export interface ImportTableOperationSource {
   SourceTableId: string;
-  ColumnIdMappings?: DataSetColumnIdMapping[];
+  ColumnIdMappings?: DataSetColumnIdMapping[] | undefined;
 }
 export interface ImportTableOperation {
   Alias: string;
@@ -6072,7 +6262,7 @@ export interface CastColumnTypesOperation {
 export type JoinOperationType = "INNER" | "OUTER" | "LEFT" | "RIGHT" | (string & {});
 export type JoinOperationOnClause = string | redacted.Redacted<string>;
 export interface OutputColumnNameOverride {
-  SourceColumnName?: string;
+  SourceColumnName?: string | undefined;
   OutputColumnName: string;
 }
 export type OutputColumnNameOverrideList = OutputColumnNameOverride[];
@@ -6085,8 +6275,8 @@ export interface JoinOperation {
   RightOperand: TransformOperationSource;
   Type: JoinOperationType;
   OnClause: string | redacted.Redacted<string>;
-  LeftOperandProperties?: JoinOperandProperties;
-  RightOperandProperties?: JoinOperandProperties;
+  LeftOperandProperties?: JoinOperandProperties | undefined;
+  RightOperandProperties?: JoinOperandProperties | undefined;
 }
 export type GroupByColumnNameList = string[];
 export type DataPrepSimpleAggregationFunctionType =
@@ -6098,18 +6288,18 @@ export type DataPrepSimpleAggregationFunctionType =
   | "MIN"
   | (string & {});
 export interface DataPrepSimpleAggregationFunction {
-  InputColumnName?: string;
+  InputColumnName?: string | undefined;
   FunctionType: DataPrepSimpleAggregationFunctionType;
 }
 export type Separator = string;
 export interface DataPrepListAggregationFunction {
-  InputColumnName?: string;
+  InputColumnName?: string | undefined;
   Separator: string;
   Distinct: boolean;
 }
 export interface DataPrepAggregationFunction {
-  SimpleAggregation?: DataPrepSimpleAggregationFunction;
-  ListAggregation?: DataPrepListAggregationFunction;
+  SimpleAggregation?: DataPrepSimpleAggregationFunction | undefined;
+  ListAggregation?: DataPrepListAggregationFunction | undefined;
 }
 export interface Aggregation {
   AggregationFunction: DataPrepAggregationFunction;
@@ -6120,12 +6310,12 @@ export type AggregationList = Aggregation[];
 export interface AggregateOperation {
   Alias: string;
   Source: TransformOperationSource;
-  GroupByColumnNames?: string[];
+  GroupByColumnNames?: string[] | undefined;
   Aggregations: Aggregation[];
 }
 export type PivotGroupByColumnNameList = string[];
 export interface ValueColumnConfiguration {
-  AggregationFunction?: DataPrepAggregationFunction;
+  AggregationFunction?: DataPrepAggregationFunction | undefined;
 }
 export type CellValue = string;
 export interface PivotedLabel {
@@ -6135,19 +6325,19 @@ export interface PivotedLabel {
 }
 export type PivotedLabelList = PivotedLabel[];
 export interface PivotConfiguration {
-  LabelColumnName?: string;
+  LabelColumnName?: string | undefined;
   PivotedLabels: PivotedLabel[];
 }
 export interface PivotOperation {
   Alias: string;
   Source: TransformOperationSource;
-  GroupByColumnNames?: string[];
+  GroupByColumnNames?: string[] | undefined;
   ValueColumnConfiguration: ValueColumnConfiguration;
   PivotConfiguration: PivotConfiguration;
 }
 export interface ColumnToUnpivot {
-  ColumnName?: string;
-  NewValue?: string;
+  ColumnName?: string | undefined;
+  NewValue?: string | undefined;
 }
 export type ColumnToUnpivotList = ColumnToUnpivot[];
 export interface UnpivotOperation {
@@ -6166,22 +6356,22 @@ export interface AppendedColumn {
 export type AppendedColumnList = AppendedColumn[];
 export interface AppendOperation {
   Alias: string;
-  FirstSource?: TransformOperationSource;
-  SecondSource?: TransformOperationSource;
+  FirstSource?: TransformOperationSource | undefined;
+  SecondSource?: TransformOperationSource | undefined;
   AppendedColumns: AppendedColumn[];
 }
 export interface TransformStep {
-  ImportTableStep?: ImportTableOperation;
-  ProjectStep?: ProjectOperation;
-  FiltersStep?: FiltersOperation;
-  CreateColumnsStep?: CreateColumnsOperation;
-  RenameColumnsStep?: RenameColumnsOperation;
-  CastColumnTypesStep?: CastColumnTypesOperation;
-  JoinStep?: JoinOperation;
-  AggregateStep?: AggregateOperation;
-  PivotStep?: PivotOperation;
-  UnpivotStep?: UnpivotOperation;
-  AppendStep?: AppendOperation;
+  ImportTableStep?: ImportTableOperation | undefined;
+  ProjectStep?: ProjectOperation | undefined;
+  FiltersStep?: FiltersOperation | undefined;
+  CreateColumnsStep?: CreateColumnsOperation | undefined;
+  RenameColumnsStep?: RenameColumnsOperation | undefined;
+  CastColumnTypesStep?: CastColumnTypesOperation | undefined;
+  JoinStep?: JoinOperation | undefined;
+  AggregateStep?: AggregateOperation | undefined;
+  PivotStep?: PivotOperation | undefined;
+  UnpivotStep?: UnpivotOperation | undefined;
+  AppendStep?: AppendOperation | undefined;
 }
 export type TransformStepMap = { [key: string]: TransformStep | undefined };
 export type DestinationTableAlias = string;
@@ -6200,36 +6390,36 @@ export interface DataPrepConfiguration {
 }
 export type SemanticTableAlias = string;
 export interface RowLevelPermissionConfiguration {
-  TagConfiguration?: RowLevelPermissionTagConfiguration;
-  RowLevelPermissionDataSet?: RowLevelPermissionDataSet;
+  TagConfiguration?: RowLevelPermissionTagConfiguration | undefined;
+  RowLevelPermissionDataSet?: RowLevelPermissionDataSet | undefined;
 }
 export type ColumnNameList = string[];
 export type AdditionalNotesText = string | redacted.Redacted<string>;
 export interface AdditionalNotes {
-  Text?: string | redacted.Redacted<string>;
+  Text?: string | redacted.Redacted<string> | undefined;
 }
 export interface ColumnSemanticType {
-  GeographicalRole?: GeoSpatialDataRole;
+  GeographicalRole?: GeoSpatialDataRole | undefined;
 }
 export interface ColumnSemanticProperty {
-  Description?: ColumnDescription;
-  AdditionalNotes?: AdditionalNotes;
-  SemanticType?: ColumnSemanticType;
+  Description?: ColumnDescription | undefined;
+  AdditionalNotes?: AdditionalNotes | undefined;
+  SemanticType?: ColumnSemanticType | undefined;
 }
 export type ColumnSemanticPropertyList = ColumnSemanticProperty[];
 export interface SharedColumnSemanticMetadata {
-  ColumnNames?: string[];
+  ColumnNames?: string[] | undefined;
   ColumnProperties: ColumnSemanticProperty[];
 }
 export type SharedColumnSemanticMetadataList = SharedColumnSemanticMetadata[];
 export interface TableSemanticMetadata {
-  ColumnMetadata?: SharedColumnSemanticMetadata[];
+  ColumnMetadata?: SharedColumnSemanticMetadata[] | undefined;
 }
 export interface SemanticTable {
   Alias: string;
   DestinationTableId: string;
-  RowLevelPermissionConfiguration?: RowLevelPermissionConfiguration;
-  SemanticMetadata?: TableSemanticMetadata;
+  RowLevelPermissionConfiguration?: RowLevelPermissionConfiguration | undefined;
+  SemanticMetadata?: TableSemanticMetadata | undefined;
 }
 export type SemanticTableMap = { [key: string]: SemanticTable | undefined };
 export type DataSetDescriptiveText = string | redacted.Redacted<string>;
@@ -6239,54 +6429,54 @@ export interface DataSetSemanticDescription {
 export type InlineCustomInstructionText = string | redacted.Redacted<string>;
 export type UploadedDocumentName = string;
 export interface UploadedDocumentMetadata {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface InlineCustomInstruction {
   InstructionText: string | redacted.Redacted<string>;
-  UploadedDocumentMetadata?: UploadedDocumentMetadata;
+  UploadedDocumentMetadata?: UploadedDocumentMetadata | undefined;
 }
 export interface CustomInstruction {
-  InlineCustomInstruction?: InlineCustomInstruction;
+  InlineCustomInstruction?: InlineCustomInstruction | undefined;
 }
 export type CustomInstructionList = CustomInstruction[];
 export interface DataSetSemanticMetadata {
-  Description?: DataSetSemanticDescription;
-  CustomInstructions?: CustomInstruction[];
+  Description?: DataSetSemanticDescription | undefined;
+  CustomInstructions?: CustomInstruction[] | undefined;
 }
 export type DataSetSemanticMetadataList = DataSetSemanticMetadata[];
 export interface SemanticModelConfiguration {
-  TableMap?: { [key: string]: SemanticTable | undefined };
-  SemanticMetadata?: DataSetSemanticMetadata[];
+  TableMap?: { [key: string]: SemanticTable | undefined } | undefined;
+  SemanticMetadata?: DataSetSemanticMetadata[] | undefined;
 }
 export interface CreateDataSetRequest {
   AwsAccountId: string;
   DataSetId: string;
   Name: string;
   PhysicalTableMap: { [key: string]: PhysicalTable | undefined };
-  LogicalTableMap?: { [key: string]: LogicalTable | undefined };
+  LogicalTableMap?: { [key: string]: LogicalTable | undefined } | undefined;
   ImportMode: DataSetImportMode;
-  ColumnGroups?: ColumnGroup[];
-  FieldFolders?: { [key: string]: FieldFolder | undefined };
-  Permissions?: ResourcePermission[];
-  RowLevelPermissionDataSet?: RowLevelPermissionDataSet;
-  RowLevelPermissionTagConfiguration?: RowLevelPermissionTagConfiguration;
-  ColumnLevelPermissionRules?: ColumnLevelPermissionRule[];
-  Tags?: Tag[];
-  DataSetUsageConfiguration?: DataSetUsageConfiguration;
-  DatasetParameters?: DatasetParameter[];
-  FolderArns?: string[];
-  PerformanceConfiguration?: PerformanceConfiguration;
-  UseAs?: DataSetUseAs;
-  DataPrepConfiguration?: DataPrepConfiguration;
-  SemanticModelConfiguration?: SemanticModelConfiguration;
+  ColumnGroups?: ColumnGroup[] | undefined;
+  FieldFolders?: { [key: string]: FieldFolder | undefined } | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  RowLevelPermissionDataSet?: RowLevelPermissionDataSet | undefined;
+  RowLevelPermissionTagConfiguration?: RowLevelPermissionTagConfiguration | undefined;
+  ColumnLevelPermissionRules?: ColumnLevelPermissionRule[] | undefined;
+  Tags?: Tag[] | undefined;
+  DataSetUsageConfiguration?: DataSetUsageConfiguration | undefined;
+  DatasetParameters?: DatasetParameter[] | undefined;
+  FolderArns?: string[] | undefined;
+  PerformanceConfiguration?: PerformanceConfiguration | undefined;
+  UseAs?: DataSetUseAs | undefined;
+  DataPrepConfiguration?: DataPrepConfiguration | undefined;
+  SemanticModelConfiguration?: SemanticModelConfiguration | undefined;
 }
 export interface CreateDataSetResponse {
-  Arn?: string;
-  DataSetId?: string;
-  IngestionArn?: string;
-  IngestionId?: string;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  DataSetId?: string | undefined;
+  IngestionArn?: string | undefined;
+  IngestionId?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type DataSourceType =
   | "ADOBE_ANALYTICS"
@@ -6334,13 +6524,13 @@ export interface AmazonElasticsearchParameters {
 }
 export type WorkGroup = string;
 export interface IdentityCenterConfiguration {
-  EnableIdentityPropagation?: boolean;
+  EnableIdentityPropagation?: boolean | undefined;
 }
 export interface AthenaParameters {
-  WorkGroup?: string;
-  RoleArn?: string;
-  ConsumerAccountRoleArn?: string;
-  IdentityCenterConfiguration?: IdentityCenterConfiguration;
+  WorkGroup?: string | undefined;
+  RoleArn?: string | undefined;
+  ConsumerAccountRoleArn?: string | undefined;
+  IdentityCenterConfiguration?: IdentityCenterConfiguration | undefined;
 }
 export type Host = string;
 export type Port = number;
@@ -6377,7 +6567,7 @@ export interface OracleParameters {
   Host: string;
   Port: number;
   Database: string;
-  UseServiceName?: boolean;
+  UseServiceName?: boolean | undefined;
 }
 export interface PostgreSqlParameters {
   Host: string;
@@ -6402,17 +6592,17 @@ export type DatabaseGroup = string;
 export type DatabaseGroupList = string[];
 export interface RedshiftIAMParameters {
   RoleArn: string;
-  DatabaseUser?: string;
-  DatabaseGroups?: string[];
-  AutoCreateDatabaseUser?: boolean;
+  DatabaseUser?: string | undefined;
+  DatabaseGroups?: string[] | undefined;
+  AutoCreateDatabaseUser?: boolean | undefined;
 }
 export interface RedshiftParameters {
-  Host?: string;
-  Port?: number;
+  Host?: string | undefined;
+  Port?: number | undefined;
   Database: string;
-  ClusterId?: string;
-  IAMParameters?: RedshiftIAMParameters;
-  IdentityCenterConfiguration?: IdentityCenterConfiguration;
+  ClusterId?: string | undefined;
+  IAMParameters?: RedshiftIAMParameters | undefined;
+  IdentityCenterConfiguration?: IdentityCenterConfiguration | undefined;
 }
 export type S3Bucket = string;
 export type S3Key = string;
@@ -6422,17 +6612,17 @@ export interface ManifestFileLocation {
 }
 export interface S3Parameters {
   ManifestFileLocation: ManifestFileLocation;
-  RoleArn?: string;
+  RoleArn?: string | undefined;
 }
 export type S3TableBucketArn = string;
 export interface S3TablesParameters {
-  TableBucketArn?: string;
+  TableBucketArn?: string | undefined;
 }
 export type MetadataFilesLocation = string;
 export interface S3KnowledgeBaseParameters {
-  RoleArn?: string;
+  RoleArn?: string | undefined;
   BucketUrl: string;
-  MetadataFilesLocation?: string;
+  MetadataFilesLocation?: string | undefined;
 }
 export interface ServiceNowParameters {
   SiteBaseUrl: string;
@@ -6449,18 +6639,18 @@ export type IdentityProviderResourceUri = string;
 export type CACertificatesBundleS3Uri = string;
 export interface OAuthParameters {
   TokenProviderUrl: string;
-  OAuthScope?: string;
-  IdentityProviderVpcConnectionProperties?: VpcConnectionProperties;
-  IdentityProviderResourceUri?: string;
-  IdentityProviderCACertificatesBundleS3Uri?: string;
+  OAuthScope?: string | undefined;
+  IdentityProviderVpcConnectionProperties?: VpcConnectionProperties | undefined;
+  IdentityProviderResourceUri?: string | undefined;
+  IdentityProviderCACertificatesBundleS3Uri?: string | undefined;
 }
 export interface SnowflakeParameters {
   Host: string;
   Database: string;
   Warehouse: string;
-  AuthenticationType?: AuthenticationType;
-  DatabaseAccessControlRole?: string;
-  OAuthParameters?: OAuthParameters;
+  AuthenticationType?: AuthenticationType | undefined;
+  DatabaseAccessControlRole?: string | undefined;
+  OAuthParameters?: OAuthParameters | undefined;
 }
 export interface SparkParameters {
   Host: string;
@@ -6493,18 +6683,18 @@ export interface DatabricksParameters {
   Host: string;
   Port: number;
   SqlEndpointPath: string;
-  AuthenticationType?: AuthenticationType;
-  OAuthParameters?: OAuthParameters;
+  AuthenticationType?: AuthenticationType | undefined;
+  OAuthParameters?: OAuthParameters | undefined;
 }
 export type StarburstProductType = "GALAXY" | "ENTERPRISE" | (string & {});
 export interface StarburstParameters {
   Host: string;
   Port: number;
   Catalog: string;
-  ProductType?: StarburstProductType;
-  DatabaseAccessControlRole?: string;
-  AuthenticationType?: AuthenticationType;
-  OAuthParameters?: OAuthParameters;
+  ProductType?: StarburstProductType | undefined;
+  DatabaseAccessControlRole?: string | undefined;
+  AuthenticationType?: AuthenticationType | undefined;
+  OAuthParameters?: OAuthParameters | undefined;
 }
 export interface TrinoParameters {
   Host: string;
@@ -6515,28 +6705,28 @@ export type ProjectId = string;
 export type DataSetRegion = string;
 export interface BigQueryParameters {
   ProjectId: string;
-  DataSetRegion?: string;
+  DataSetRegion?: string | undefined;
 }
 export interface ImpalaParameters {
   Host: string;
   Port: number;
-  Database?: string;
+  Database?: string | undefined;
   SqlEndpointPath: string;
 }
 export interface CustomConnectionParameters {
-  ConnectionType?: string;
+  ConnectionType?: string | undefined;
 }
 export type WebCrawlerAuthType = "NO_AUTH" | "BASIC_AUTH" | "FORM" | "SAML" | (string & {});
 export type XpathFields = string;
 export interface WebCrawlerParameters {
   WebCrawlerAuthType: WebCrawlerAuthType;
-  UsernameFieldXpath?: string;
-  PasswordFieldXpath?: string;
-  UsernameButtonXpath?: string;
-  PasswordButtonXpath?: string;
-  LoginPageUrl?: string;
-  WebProxyHostName?: string;
-  WebProxyPortNumber?: number;
+  UsernameFieldXpath?: string | undefined;
+  PasswordFieldXpath?: string | undefined;
+  UsernameButtonXpath?: string | undefined;
+  PasswordButtonXpath?: string | undefined;
+  LoginPageUrl?: string | undefined;
+  WebProxyHostName?: string | undefined;
+  WebProxyPortNumber?: number | undefined;
 }
 export interface ConfluenceParameters {
   ConfluenceUrl: string;
@@ -6555,1469 +6745,1469 @@ export type AuthType =
   | (string & {});
 export interface SharePointParameters {
   SharePointDomain: string;
-  TenantId?: string;
-  ClientId?: string;
-  AuthType?: AuthType;
+  TenantId?: string | undefined;
+  ClientId?: string | undefined;
+  AuthType?: AuthType | undefined;
 }
 export interface GoogleDriveParameters {
-  AuthType?: AuthType;
+  AuthType?: AuthType | undefined;
 }
 export type OneDriveTenantId = string;
 export type OneDriveClientId = string;
 export interface OneDriveParameters {
-  TenantId?: string;
-  ClientId?: string;
-  AuthType?: AuthType;
+  TenantId?: string | undefined;
+  ClientId?: string | undefined;
+  AuthType?: AuthType | undefined;
 }
 export type FMKBKnowledgeBaseArn = string;
 export type LinkedDataSourceId = string;
 export type LinkedDataSourceIds = string[];
 export interface FMKBParameters {
   KnowledgeBaseArn: string;
-  LinkedDataSourceIds?: string[];
+  LinkedDataSourceIds?: string[] | undefined;
 }
 export type DataSourceParameters =
   | {
       AmazonElasticsearchParameters: AmazonElasticsearchParameters;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
       AthenaParameters: AthenaParameters;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
       AuroraParameters: AuroraParameters;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
       AuroraPostgreSqlParameters: AuroraPostgreSqlParameters;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
       AwsIotAnalyticsParameters: AwsIotAnalyticsParameters;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
       JiraParameters: JiraParameters;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
       MariaDbParameters: MariaDbParameters;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
       MySqlParameters: MySqlParameters;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
       OracleParameters: OracleParameters;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
       PostgreSqlParameters: PostgreSqlParameters;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
       PrestoParameters: PrestoParameters;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
       RdsParameters: RdsParameters;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
       RedshiftParameters: RedshiftParameters;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
       S3Parameters: S3Parameters;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
       S3TablesParameters: S3TablesParameters;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
       S3KnowledgeBaseParameters: S3KnowledgeBaseParameters;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
       ServiceNowParameters: ServiceNowParameters;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
       SnowflakeParameters: SnowflakeParameters;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
       SparkParameters: SparkParameters;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
       SqlServerParameters: SqlServerParameters;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
       TeradataParameters: TeradataParameters;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
       TwitterParameters: TwitterParameters;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
       AmazonOpenSearchParameters: AmazonOpenSearchParameters;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
       ExasolParameters: ExasolParameters;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
       DatabricksParameters: DatabricksParameters;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
       StarburstParameters: StarburstParameters;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
       TrinoParameters: TrinoParameters;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
       BigQueryParameters: BigQueryParameters;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
       ImpalaParameters: ImpalaParameters;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
       CustomConnectionParameters: CustomConnectionParameters;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
       WebCrawlerParameters: WebCrawlerParameters;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
       ConfluenceParameters: ConfluenceParameters;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
       QBusinessParameters: QBusinessParameters;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
       SharePointParameters: SharePointParameters;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
       GoogleDriveParameters: GoogleDriveParameters;
-      OneDriveParameters?: never;
-      FMKBParameters?: never;
+      OneDriveParameters?: undefined;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
       OneDriveParameters: OneDriveParameters;
-      FMKBParameters?: never;
+      FMKBParameters?: undefined;
     }
   | {
-      AmazonElasticsearchParameters?: never;
-      AthenaParameters?: never;
-      AuroraParameters?: never;
-      AuroraPostgreSqlParameters?: never;
-      AwsIotAnalyticsParameters?: never;
-      JiraParameters?: never;
-      MariaDbParameters?: never;
-      MySqlParameters?: never;
-      OracleParameters?: never;
-      PostgreSqlParameters?: never;
-      PrestoParameters?: never;
-      RdsParameters?: never;
-      RedshiftParameters?: never;
-      S3Parameters?: never;
-      S3TablesParameters?: never;
-      S3KnowledgeBaseParameters?: never;
-      ServiceNowParameters?: never;
-      SnowflakeParameters?: never;
-      SparkParameters?: never;
-      SqlServerParameters?: never;
-      TeradataParameters?: never;
-      TwitterParameters?: never;
-      AmazonOpenSearchParameters?: never;
-      ExasolParameters?: never;
-      DatabricksParameters?: never;
-      StarburstParameters?: never;
-      TrinoParameters?: never;
-      BigQueryParameters?: never;
-      ImpalaParameters?: never;
-      CustomConnectionParameters?: never;
-      WebCrawlerParameters?: never;
-      ConfluenceParameters?: never;
-      QBusinessParameters?: never;
-      SharePointParameters?: never;
-      GoogleDriveParameters?: never;
-      OneDriveParameters?: never;
+      AmazonElasticsearchParameters?: undefined;
+      AthenaParameters?: undefined;
+      AuroraParameters?: undefined;
+      AuroraPostgreSqlParameters?: undefined;
+      AwsIotAnalyticsParameters?: undefined;
+      JiraParameters?: undefined;
+      MariaDbParameters?: undefined;
+      MySqlParameters?: undefined;
+      OracleParameters?: undefined;
+      PostgreSqlParameters?: undefined;
+      PrestoParameters?: undefined;
+      RdsParameters?: undefined;
+      RedshiftParameters?: undefined;
+      S3Parameters?: undefined;
+      S3TablesParameters?: undefined;
+      S3KnowledgeBaseParameters?: undefined;
+      ServiceNowParameters?: undefined;
+      SnowflakeParameters?: undefined;
+      SparkParameters?: undefined;
+      SqlServerParameters?: undefined;
+      TeradataParameters?: undefined;
+      TwitterParameters?: undefined;
+      AmazonOpenSearchParameters?: undefined;
+      ExasolParameters?: undefined;
+      DatabricksParameters?: undefined;
+      StarburstParameters?: undefined;
+      TrinoParameters?: undefined;
+      BigQueryParameters?: undefined;
+      ImpalaParameters?: undefined;
+      CustomConnectionParameters?: undefined;
+      WebCrawlerParameters?: undefined;
+      ConfluenceParameters?: undefined;
+      QBusinessParameters?: undefined;
+      SharePointParameters?: undefined;
+      GoogleDriveParameters?: undefined;
+      OneDriveParameters?: undefined;
       FMKBParameters: FMKBParameters;
     };
 export type DbUsername = string;
@@ -8026,7 +8216,7 @@ export type DataSourceParametersList = DataSourceParameters[];
 export interface CredentialPair {
   Username: string;
   Password: string | redacted.Redacted<string>;
-  AlternateDataSourceParameters?: DataSourceParameters[];
+  AlternateDataSourceParameters?: DataSourceParameters[] | undefined;
 }
 export type CopySourceArn = string;
 export type SecretArn = string;
@@ -8035,7 +8225,7 @@ export type PrivateKeyPassphrase = string | redacted.Redacted<string>;
 export interface KeyPairCredentials {
   KeyPairUsername: string;
   PrivateKey: string | redacted.Redacted<string>;
-  PrivateKeyPassphrase?: string | redacted.Redacted<string>;
+  PrivateKeyPassphrase?: string | redacted.Redacted<string> | undefined;
 }
 export interface WebProxyCredentials {
   WebProxyUsername: string;
@@ -8045,40 +8235,40 @@ export type OAuthClientId = string | redacted.Redacted<string>;
 export type OAuthClientSecret = string | redacted.Redacted<string>;
 export type OAuthUsername = string | redacted.Redacted<string>;
 export interface OAuthClientCredentials {
-  ClientId?: string | redacted.Redacted<string>;
-  ClientSecret?: string | redacted.Redacted<string>;
-  Username?: string | redacted.Redacted<string>;
+  ClientId?: string | redacted.Redacted<string> | undefined;
+  ClientSecret?: string | redacted.Redacted<string> | undefined;
+  Username?: string | redacted.Redacted<string> | undefined;
 }
 export interface DataSourceCredentials {
-  CredentialPair?: CredentialPair;
-  CopySourceArn?: string;
-  SecretArn?: string;
-  KeyPairCredentials?: KeyPairCredentials;
-  WebProxyCredentials?: WebProxyCredentials;
-  OAuthClientCredentials?: OAuthClientCredentials;
+  CredentialPair?: CredentialPair | undefined;
+  CopySourceArn?: string | undefined;
+  SecretArn?: string | undefined;
+  KeyPairCredentials?: KeyPairCredentials | undefined;
+  WebProxyCredentials?: WebProxyCredentials | undefined;
+  OAuthClientCredentials?: OAuthClientCredentials | undefined;
 }
 export interface SslProperties {
-  DisableSsl?: boolean;
+  DisableSsl?: boolean | undefined;
 }
 export interface CreateDataSourceRequest {
   AwsAccountId: string;
   DataSourceId: string;
   Name: string;
   Type: DataSourceType;
-  DataSourceParameters?: DataSourceParameters;
-  Credentials?: DataSourceCredentials;
-  Permissions?: ResourcePermission[];
-  VpcConnectionProperties?: VpcConnectionProperties;
-  SslProperties?: SslProperties;
-  Tags?: Tag[];
-  FolderArns?: string[];
+  DataSourceParameters?: DataSourceParameters | undefined;
+  Credentials?: DataSourceCredentials | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  VpcConnectionProperties?: VpcConnectionProperties | undefined;
+  SslProperties?: SslProperties | undefined;
+  Tags?: Tag[] | undefined;
+  FolderArns?: string[] | undefined;
 }
 export interface CreateDataSourceResponse {
-  Arn?: string;
-  DataSourceId?: string;
-  CreationStatus?: ResourceStatus;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  DataSourceId?: string | undefined;
+  CreationStatus?: ResourceStatus | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type DlpSettingId = string;
 export type DlpSettingName = string;
@@ -8110,12 +8300,12 @@ export interface CreateDlpSettingRequest {
   ProviderConfig: ProviderConfig;
   ProviderOutageAction: DlpAction;
   Enabled: boolean;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CreateDlpSettingResponse {
   Arn: string;
   DlpSettingId: string;
-  RequestId?: string;
+  RequestId?: string | undefined;
 }
 export type AccountId = string;
 export type TitleInput = string;
@@ -8133,17 +8323,17 @@ export type CreateFlowRequestClientTokenString = string;
 export interface CreateFlowRequest {
   AwsAccountId: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   FlowDefinition: any;
-  Permissions?: Permission[];
-  ClientToken?: string;
+  Permissions?: Permission[] | undefined;
+  ClientToken?: string | undefined;
 }
 export type FlowId = string;
 export interface CreateFlowResponse {
   Arn: string;
   FlowId: string;
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type RestrictiveResourceId = string;
 export type FolderName = string;
@@ -8152,18 +8342,18 @@ export type SharingModel = "ACCOUNT" | "NAMESPACE" | (string & {});
 export interface CreateFolderRequest {
   AwsAccountId: string;
   FolderId: string;
-  Name?: string;
-  FolderType?: FolderType;
-  ParentFolderArn?: string;
-  Permissions?: ResourcePermission[];
-  Tags?: Tag[];
-  SharingModel?: SharingModel;
+  Name?: string | undefined;
+  FolderType?: FolderType | undefined;
+  ParentFolderArn?: string | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  Tags?: Tag[] | undefined;
+  SharingModel?: SharingModel | undefined;
 }
 export interface CreateFolderResponse {
-  Status?: number;
-  Arn?: string;
-  FolderId?: string;
-  RequestId?: string;
+  Status?: number | undefined;
+  Arn?: string | undefined;
+  FolderId?: string | undefined;
+  RequestId?: string | undefined;
 }
 export type MemberType =
   | "DASHBOARD"
@@ -8179,32 +8369,32 @@ export interface CreateFolderMembershipRequest {
   MemberType: MemberType;
 }
 export interface FolderMember {
-  MemberId?: string;
-  MemberType?: MemberType;
+  MemberId?: string | undefined;
+  MemberType?: MemberType | undefined;
 }
 export interface CreateFolderMembershipResponse {
-  Status?: number;
-  FolderMember?: FolderMember;
-  RequestId?: string;
+  Status?: number | undefined;
+  FolderMember?: FolderMember | undefined;
+  RequestId?: string | undefined;
 }
 export type GroupName = string;
 export type GroupDescription = string;
 export interface CreateGroupRequest {
   GroupName: string;
-  Description?: string;
+  Description?: string | undefined;
   AwsAccountId: string;
   Namespace: string;
 }
 export interface Group {
-  Arn?: string;
-  GroupName?: string;
-  Description?: string;
-  PrincipalId?: string;
+  Arn?: string | undefined;
+  GroupName?: string | undefined;
+  Description?: string | undefined;
+  PrincipalId?: string | undefined;
 }
 export interface CreateGroupResponse {
-  Group?: Group;
-  RequestId?: string;
-  Status?: number;
+  Group?: Group | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type GroupMemberName = string;
 export interface CreateGroupMembershipRequest {
@@ -8214,13 +8404,13 @@ export interface CreateGroupMembershipRequest {
   Namespace: string;
 }
 export interface GroupMember {
-  Arn?: string;
-  MemberName?: string;
+  Arn?: string | undefined;
+  MemberName?: string | undefined;
 }
 export interface CreateGroupMembershipResponse {
-  GroupMember?: GroupMember;
-  RequestId?: string;
-  Status?: number;
+  GroupMember?: GroupMember | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type IAMPolicyAssignmentName = string;
 export type AssignmentStatus = "ENABLED" | "DRAFT" | "DISABLED" | (string & {});
@@ -8231,25 +8421,25 @@ export interface CreateIAMPolicyAssignmentRequest {
   AwsAccountId: string;
   AssignmentName: string;
   AssignmentStatus: AssignmentStatus;
-  PolicyArn?: string;
-  Identities?: { [key: string]: string[] | undefined };
+  PolicyArn?: string | undefined;
+  Identities?: { [key: string]: string[] | undefined } | undefined;
   Namespace: string;
 }
 export interface CreateIAMPolicyAssignmentResponse {
-  AssignmentName?: string;
-  AssignmentId?: string;
-  AssignmentStatus?: AssignmentStatus;
-  PolicyArn?: string;
-  Identities?: { [key: string]: string[] | undefined };
-  RequestId?: string;
-  Status?: number;
+  AssignmentName?: string | undefined;
+  AssignmentId?: string | undefined;
+  AssignmentStatus?: AssignmentStatus | undefined;
+  PolicyArn?: string | undefined;
+  Identities?: { [key: string]: string[] | undefined } | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type IngestionType = "INCREMENTAL_REFRESH" | "FULL_REFRESH" | (string & {});
 export interface CreateIngestionRequest {
   DataSetId: string;
   IngestionId: string;
   AwsAccountId: string;
-  IngestionType?: IngestionType;
+  IngestionType?: IngestionType | undefined;
 }
 export type IngestionStatus =
   | "INITIALIZED"
@@ -8260,20 +8450,20 @@ export type IngestionStatus =
   | "CANCELLED"
   | (string & {});
 export interface CreateIngestionResponse {
-  Arn?: string;
-  IngestionId?: string;
-  IngestionStatus?: IngestionStatus;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  IngestionId?: string | undefined;
+  IngestionStatus?: IngestionStatus | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type KnowledgeBaseName = string;
 export type DataSourceArn = string;
 export type KbTemplate = unknown;
 export interface KbTemplateConfiguration {
-  template?: any;
+  template?: any | undefined;
 }
 export interface KnowledgeBaseConfiguration {
-  templateConfiguration?: KbTemplateConfiguration;
+  templateConfiguration?: KbTemplateConfiguration | undefined;
 }
 export type KnowledgeBaseDescription = string;
 export type ImageExtractionStatus = "ENABLED" | "DISABLED" | (string & {});
@@ -8291,15 +8481,15 @@ export type VideoExtractionType =
   | (string & {});
 export interface VideoExtractionConfiguration {
   videoExtractionStatus: VideoExtractionStatus;
-  videoExtractionType?: VideoExtractionType;
+  videoExtractionType?: VideoExtractionType | undefined;
 }
 export interface MediaExtractionConfiguration {
-  imageExtractionConfiguration?: ImageExtractionConfiguration;
-  audioExtractionConfiguration?: AudioExtractionConfiguration;
-  videoExtractionConfiguration?: VideoExtractionConfiguration;
+  imageExtractionConfiguration?: ImageExtractionConfiguration | undefined;
+  audioExtractionConfiguration?: AudioExtractionConfiguration | undefined;
+  videoExtractionConfiguration?: VideoExtractionConfiguration | undefined;
 }
 export interface AccessControlConfiguration {
-  isACLEnabled?: boolean;
+  isACLEnabled?: boolean | undefined;
 }
 export interface CreateKnowledgeBaseRequest {
   AwsAccountId: string;
@@ -8307,12 +8497,12 @@ export interface CreateKnowledgeBaseRequest {
   Name: string;
   DataSourceArn: string;
   KnowledgeBaseConfiguration: KnowledgeBaseConfiguration;
-  Description?: string;
-  Permissions?: ResourcePermission[];
-  MediaExtractionConfiguration?: MediaExtractionConfiguration;
-  AccessControlConfiguration?: AccessControlConfiguration;
-  PrimaryOwnerArn?: string;
-  Tags?: Tag[];
+  Description?: string | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  MediaExtractionConfiguration?: MediaExtractionConfiguration | undefined;
+  AccessControlConfiguration?: AccessControlConfiguration | undefined;
+  PrimaryOwnerArn?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type DataSetStatus =
   | "CREATING"
@@ -8325,8 +8515,8 @@ export interface CreateKnowledgeBaseResponse {
   KnowledgeBaseArn: string;
   KnowledgeBaseId: string;
   CreationStatus: DataSetStatus;
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type ProfileName = string;
 export type ProfileDescription = string;
@@ -8336,13 +8526,13 @@ export interface ProfileLimitValue {
   unit: LimitUnit;
 }
 export type CreateLimitsProfileRequestResourceLimitsMap = {
-  [key in ResourceType]?: ProfileLimitValue;
+  [key in ResourceType]?: ProfileLimitValue | undefined;
 };
 export type CreateLimitsProfileRequestClientTokenString = string;
 export interface CreateLimitsProfileRequest {
   accountId: string;
   profileName: string;
-  description?: string;
+  description?: string | undefined;
   resourceLimits: { [key: string]: ProfileLimitValue | undefined };
   clientToken: string;
 }
@@ -8356,7 +8546,7 @@ export interface CreateNamespaceRequest {
   AwsAccountId: string;
   Namespace: string;
   IdentityStore: IdentityStore;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type NamespaceStatus =
   | "CREATED"
@@ -8366,13 +8556,13 @@ export type NamespaceStatus =
   | "NON_RETRYABLE_FAILURE"
   | (string & {});
 export interface CreateNamespaceResponse {
-  Arn?: string;
-  Name?: string;
-  CapacityRegion?: string;
-  CreationStatus?: NamespaceStatus;
-  IdentityStore?: IdentityStore;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  CapacityRegion?: string | undefined;
+  CreationStatus?: NamespaceStatus | undefined;
+  IdentityStore?: IdentityStore | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type OAuthClientApplicationId = string;
 export type OAuthClientAuthenticationType = "TOKEN" | (string & {});
@@ -8387,18 +8577,18 @@ export interface CreateOAuthClientApplicationRequest {
   ClientId: string | redacted.Redacted<string>;
   ClientSecret: string | redacted.Redacted<string>;
   OAuthTokenEndpointUrl: string | redacted.Redacted<string>;
-  OAuthAuthorizationEndpointUrl?: string | redacted.Redacted<string>;
-  OAuthScopes?: string;
-  DataSourceType?: DataSourceType;
-  IdentityProviderVpcConnectionProperties?: VpcConnectionProperties;
-  Tags?: Tag[];
+  OAuthAuthorizationEndpointUrl?: string | redacted.Redacted<string> | undefined;
+  OAuthScopes?: string | undefined;
+  DataSourceType?: DataSourceType | undefined;
+  IdentityProviderVpcConnectionProperties?: VpcConnectionProperties | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateOAuthClientApplicationResponse {
-  Arn?: string;
-  OAuthClientApplicationId?: string;
-  CreationStatus?: ResourceStatus;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  OAuthClientApplicationId?: string | undefined;
+  CreationStatus?: ResourceStatus | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type RefreshInterval =
   | "MINUTE15"
@@ -8419,21 +8609,21 @@ export type DayOfWeek =
   | (string & {});
 export type DayOfMonth = string;
 export interface ScheduleRefreshOnEntity {
-  DayOfWeek?: DayOfWeek;
-  DayOfMonth?: string;
+  DayOfWeek?: DayOfWeek | undefined;
+  DayOfMonth?: string | undefined;
 }
 export interface RefreshFrequency {
   Interval: RefreshInterval;
-  RefreshOnDay?: ScheduleRefreshOnEntity;
-  Timezone?: string;
-  TimeOfTheDay?: string;
+  RefreshOnDay?: ScheduleRefreshOnEntity | undefined;
+  Timezone?: string | undefined;
+  TimeOfTheDay?: string | undefined;
 }
 export interface RefreshSchedule {
   ScheduleId: string;
   ScheduleFrequency: RefreshFrequency;
-  StartAfterDateTime?: Date;
+  StartAfterDateTime?: Date | undefined;
   RefreshType: IngestionType;
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export interface CreateRefreshScheduleRequest {
   DataSetId: string;
@@ -8441,10 +8631,10 @@ export interface CreateRefreshScheduleRequest {
   Schedule: RefreshSchedule;
 }
 export interface CreateRefreshScheduleResponse {
-  Status?: number;
-  RequestId?: string;
-  ScheduleId?: string;
-  Arn?: string;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
+  ScheduleId?: string | undefined;
+  Arn?: string | undefined;
 }
 export type Role =
   | "ADMIN"
@@ -8461,8 +8651,8 @@ export interface CreateRoleMembershipRequest {
   Role: Role;
 }
 export interface CreateRoleMembershipResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type PublicSpaceId = string;
 export type SpaceName = string;
@@ -8471,89 +8661,89 @@ export interface CreateSpaceRequest {
   AwsAccountId: string;
   SpaceId: string;
   Name: string;
-  Description?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string> | undefined;
 }
 export type PublicSpaceArn = string;
 export interface CreateSpaceResponse {
   spaceId: string;
-  spaceArn?: string;
-  RequestId?: string;
+  spaceArn?: string | undefined;
+  RequestId?: string | undefined;
 }
 export type TemplateName = string;
 export interface TemplateSourceAnalysis {
   Arn: string;
   DataSetReferences: DataSetReference[];
-  TopicReferences?: TopicReference[];
+  TopicReferences?: TopicReference[] | undefined;
 }
 export interface TemplateSourceTemplate {
   Arn: string;
 }
 export interface TemplateSourceEntity {
-  SourceAnalysis?: TemplateSourceAnalysis;
-  SourceTemplate?: TemplateSourceTemplate;
+  SourceAnalysis?: TemplateSourceAnalysis | undefined;
+  SourceTemplate?: TemplateSourceTemplate | undefined;
 }
 export interface ColumnSchema {
-  Name?: string;
-  DataType?: string;
-  GeographicRole?: string;
+  Name?: string | undefined;
+  DataType?: string | undefined;
+  GeographicRole?: string | undefined;
 }
 export type ColumnSchemaList = ColumnSchema[];
 export interface DataSetSchema {
-  ColumnSchemaList?: ColumnSchema[];
+  ColumnSchemaList?: ColumnSchema[] | undefined;
 }
 export interface ColumnGroupColumnSchema {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type ColumnGroupColumnSchemaList = ColumnGroupColumnSchema[];
 export interface ColumnGroupSchema {
-  Name?: string;
-  ColumnGroupColumnSchemaList?: ColumnGroupColumnSchema[];
+  Name?: string | undefined;
+  ColumnGroupColumnSchemaList?: ColumnGroupColumnSchema[] | undefined;
 }
 export type ColumnGroupSchemaList = ColumnGroupSchema[];
 export interface DataSetConfiguration {
-  Placeholder?: string;
-  DataSetSchema?: DataSetSchema;
-  ColumnGroupSchemaList?: ColumnGroupSchema[];
+  Placeholder?: string | undefined;
+  DataSetSchema?: DataSetSchema | undefined;
+  ColumnGroupSchemaList?: ColumnGroupSchema[] | undefined;
 }
 export type DataSetConfigurationList = DataSetConfiguration[];
 export interface TopicConfiguration {
-  Placeholder?: string;
-  DataSetSchema?: DataSetSchema;
-  ColumnGroupSchemaList?: ColumnGroupSchema[];
+  Placeholder?: string | undefined;
+  DataSetSchema?: DataSetSchema | undefined;
+  ColumnGroupSchemaList?: ColumnGroupSchema[] | undefined;
 }
 export type TopicConfigurationList = TopicConfiguration[];
 export interface TemplateVersionDefinition {
   DataSetConfigurations: DataSetConfiguration[];
-  TopicConfigurations?: TopicConfiguration[];
-  Sheets?: SheetDefinition[];
-  TooltipSheets?: TooltipSheetDefinition[];
-  CalculatedFields?: CalculatedField[];
-  ParameterDeclarations?: ParameterDeclaration[];
-  FilterGroups?: FilterGroup[];
-  ColumnConfigurations?: ColumnConfiguration[];
-  AnalysisDefaults?: AnalysisDefaults;
-  Options?: AssetOptions;
-  QueryExecutionOptions?: QueryExecutionOptions;
-  StaticFiles?: StaticFile[];
+  TopicConfigurations?: TopicConfiguration[] | undefined;
+  Sheets?: SheetDefinition[] | undefined;
+  TooltipSheets?: TooltipSheetDefinition[] | undefined;
+  CalculatedFields?: CalculatedField[] | undefined;
+  ParameterDeclarations?: ParameterDeclaration[] | undefined;
+  FilterGroups?: FilterGroup[] | undefined;
+  ColumnConfigurations?: ColumnConfiguration[] | undefined;
+  AnalysisDefaults?: AnalysisDefaults | undefined;
+  Options?: AssetOptions | undefined;
+  QueryExecutionOptions?: QueryExecutionOptions | undefined;
+  StaticFiles?: StaticFile[] | undefined;
 }
 export interface CreateTemplateRequest {
   AwsAccountId: string;
   TemplateId: string;
-  Name?: string;
-  Permissions?: ResourcePermission[];
-  SourceEntity?: TemplateSourceEntity;
-  Tags?: Tag[];
-  VersionDescription?: string;
-  Definition?: TemplateVersionDefinition;
-  ValidationStrategy?: ValidationStrategy;
+  Name?: string | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  SourceEntity?: TemplateSourceEntity | undefined;
+  Tags?: Tag[] | undefined;
+  VersionDescription?: string | undefined;
+  Definition?: TemplateVersionDefinition | undefined;
+  ValidationStrategy?: ValidationStrategy | undefined;
 }
 export interface CreateTemplateResponse {
-  Arn?: string;
-  VersionArn?: string;
-  TemplateId?: string;
-  CreationStatus?: ResourceStatus;
-  Status?: number;
-  RequestId?: string;
+  Arn?: string | undefined;
+  VersionArn?: string | undefined;
+  TemplateId?: string | undefined;
+  CreationStatus?: ResourceStatus | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export type AliasName = string;
 export type VersionNumber = number;
@@ -8564,124 +8754,124 @@ export interface CreateTemplateAliasRequest {
   TemplateVersionNumber: number;
 }
 export interface TemplateAlias {
-  AliasName?: string;
-  Arn?: string;
-  TemplateVersionNumber?: number;
+  AliasName?: string | undefined;
+  Arn?: string | undefined;
+  TemplateVersionNumber?: number | undefined;
 }
 export interface CreateTemplateAliasResponse {
-  TemplateAlias?: TemplateAlias;
-  Status?: number;
-  RequestId?: string;
+  TemplateAlias?: TemplateAlias | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export type ThemeName = string;
 export type ColorList = string[];
 export interface DataColorPalette {
-  Colors?: string[];
-  MinMaxGradient?: string[];
-  EmptyFillColor?: string;
+  Colors?: string[] | undefined;
+  MinMaxGradient?: string[] | undefined;
+  EmptyFillColor?: string | undefined;
 }
 export interface UIColorPalette {
-  PrimaryForeground?: string;
-  PrimaryBackground?: string;
-  SecondaryForeground?: string;
-  SecondaryBackground?: string;
-  Accent?: string;
-  AccentForeground?: string;
-  Danger?: string;
-  DangerForeground?: string;
-  Warning?: string;
-  WarningForeground?: string;
-  Success?: string;
-  SuccessForeground?: string;
-  Dimension?: string;
-  DimensionForeground?: string;
-  Measure?: string;
-  MeasureForeground?: string;
+  PrimaryForeground?: string | undefined;
+  PrimaryBackground?: string | undefined;
+  SecondaryForeground?: string | undefined;
+  SecondaryBackground?: string | undefined;
+  Accent?: string | undefined;
+  AccentForeground?: string | undefined;
+  Danger?: string | undefined;
+  DangerForeground?: string | undefined;
+  Warning?: string | undefined;
+  WarningForeground?: string | undefined;
+  Success?: string | undefined;
+  SuccessForeground?: string | undefined;
+  Dimension?: string | undefined;
+  DimensionForeground?: string | undefined;
+  Measure?: string | undefined;
+  MeasureForeground?: string | undefined;
 }
 export type Color = string;
 export interface BorderStyle {
-  Color?: string;
-  Show?: boolean;
-  Width?: string;
+  Color?: string | undefined;
+  Show?: boolean | undefined;
+  Width?: string | undefined;
 }
 export interface TileStyle {
-  BackgroundColor?: string;
-  Border?: BorderStyle;
-  BorderRadius?: string;
-  Padding?: string;
+  BackgroundColor?: string | undefined;
+  Border?: BorderStyle | undefined;
+  BorderRadius?: string | undefined;
+  Padding?: string | undefined;
 }
 export interface GutterStyle {
-  Show?: boolean;
+  Show?: boolean | undefined;
 }
 export interface MarginStyle {
-  Show?: boolean;
+  Show?: boolean | undefined;
 }
 export interface TileLayoutStyle {
-  Gutter?: GutterStyle;
-  Margin?: MarginStyle;
+  Gutter?: GutterStyle | undefined;
+  Margin?: MarginStyle | undefined;
 }
 export interface SheetBackgroundStyle {
-  Color?: string;
-  Gradient?: string;
+  Color?: string | undefined;
+  Gradient?: string | undefined;
 }
 export interface SheetStyle {
-  Tile?: TileStyle;
-  TileLayout?: TileLayoutStyle;
-  Background?: SheetBackgroundStyle;
+  Tile?: TileStyle | undefined;
+  TileLayout?: TileLayoutStyle | undefined;
+  Background?: SheetBackgroundStyle | undefined;
 }
 export interface Font {
-  FontFamily?: string;
+  FontFamily?: string | undefined;
 }
 export type FontList = Font[];
 export type TextTransform = "CAPITALIZE" | (string & {});
 export interface VisualTitleFontConfiguration {
-  FontConfiguration?: FontConfiguration;
-  TextAlignment?: HorizontalTextAlignment;
-  TextTransform?: TextTransform;
+  FontConfiguration?: FontConfiguration | undefined;
+  TextAlignment?: HorizontalTextAlignment | undefined;
+  TextTransform?: TextTransform | undefined;
 }
 export interface VisualSubtitleFontConfiguration {
-  FontConfiguration?: FontConfiguration;
-  TextAlignment?: HorizontalTextAlignment;
-  TextTransform?: TextTransform;
+  FontConfiguration?: FontConfiguration | undefined;
+  TextAlignment?: HorizontalTextAlignment | undefined;
+  TextTransform?: TextTransform | undefined;
 }
 export interface ControlTitleFontConfiguration {
-  FontConfiguration?: FontConfiguration;
-  TextAlignment?: HorizontalTextAlignment;
+  FontConfiguration?: FontConfiguration | undefined;
+  TextAlignment?: HorizontalTextAlignment | undefined;
 }
 export interface Typography {
-  FontFamilies?: Font[];
-  AxisTitleFontConfiguration?: FontConfiguration;
-  AxisLabelFontConfiguration?: FontConfiguration;
-  LegendTitleFontConfiguration?: FontConfiguration;
-  LegendValueFontConfiguration?: FontConfiguration;
-  DataLabelFontConfiguration?: FontConfiguration;
-  VisualTitleFontConfiguration?: VisualTitleFontConfiguration;
-  VisualSubtitleFontConfiguration?: VisualSubtitleFontConfiguration;
-  ControlTitleFontConfiguration?: ControlTitleFontConfiguration;
+  FontFamilies?: Font[] | undefined;
+  AxisTitleFontConfiguration?: FontConfiguration | undefined;
+  AxisLabelFontConfiguration?: FontConfiguration | undefined;
+  LegendTitleFontConfiguration?: FontConfiguration | undefined;
+  LegendValueFontConfiguration?: FontConfiguration | undefined;
+  DataLabelFontConfiguration?: FontConfiguration | undefined;
+  VisualTitleFontConfiguration?: VisualTitleFontConfiguration | undefined;
+  VisualSubtitleFontConfiguration?: VisualSubtitleFontConfiguration | undefined;
+  ControlTitleFontConfiguration?: ControlTitleFontConfiguration | undefined;
 }
 export interface ThemeConfiguration {
-  DataColorPalette?: DataColorPalette;
-  UIColorPalette?: UIColorPalette;
-  Sheet?: SheetStyle;
-  Typography?: Typography;
+  DataColorPalette?: DataColorPalette | undefined;
+  UIColorPalette?: UIColorPalette | undefined;
+  Sheet?: SheetStyle | undefined;
+  Typography?: Typography | undefined;
 }
 export interface CreateThemeRequest {
   AwsAccountId: string;
   ThemeId: string;
   Name: string;
   BaseThemeId: string;
-  VersionDescription?: string;
+  VersionDescription?: string | undefined;
   Configuration: ThemeConfiguration;
-  Permissions?: ResourcePermission[];
-  Tags?: Tag[];
+  Permissions?: ResourcePermission[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateThemeResponse {
-  Arn?: string;
-  VersionArn?: string;
-  ThemeId?: string;
-  CreationStatus?: ResourceStatus;
-  Status?: number;
-  RequestId?: string;
+  Arn?: string | undefined;
+  VersionArn?: string | undefined;
+  ThemeId?: string | undefined;
+  CreationStatus?: ResourceStatus | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface CreateThemeAliasRequest {
   AwsAccountId: string;
@@ -8690,19 +8880,19 @@ export interface CreateThemeAliasRequest {
   ThemeVersionNumber: number;
 }
 export interface ThemeAlias {
-  Arn?: string;
-  AliasName?: string;
-  ThemeVersionNumber?: number;
+  Arn?: string | undefined;
+  AliasName?: string | undefined;
+  ThemeVersionNumber?: number | undefined;
 }
 export interface CreateThemeAliasResponse {
-  ThemeAlias?: ThemeAlias;
-  Status?: number;
-  RequestId?: string;
+  ThemeAlias?: ThemeAlias | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export type TopicUserExperienceVersion = "LEGACY" | "NEW_READER_EXPERIENCE" | (string & {});
 export interface DataAggregation {
-  DatasetRowDateGranularity?: TopicTimeGranularity;
-  DefaultDateColumnName?: string;
+  DatasetRowDateGranularity?: TopicTimeGranularity | undefined;
+  DefaultDateColumnName?: string | undefined;
 }
 export type DescriptionSensitiveString = string | redacted.Redacted<string>;
 export type SynonymString = string | redacted.Redacted<string>;
@@ -8723,24 +8913,24 @@ export type CategoryFilterType =
   | (string & {});
 export type StringList = string[];
 export interface CollectiveConstant {
-  ValueList?: string[];
+  ValueList?: string[] | undefined;
 }
 export interface TopicCategoryFilterConstant {
-  ConstantType?: ConstantType;
-  SingularConstant?: string | redacted.Redacted<string>;
-  CollectiveConstant?: CollectiveConstant;
+  ConstantType?: ConstantType | undefined;
+  SingularConstant?: string | redacted.Redacted<string> | undefined;
+  CollectiveConstant?: CollectiveConstant | undefined;
 }
 export type NullFilterType = "ALL_VALUES" | "NON_NULLS_ONLY" | "NULLS_ONLY" | (string & {});
 export interface TopicCategoryFilter {
-  CategoryFilterFunction?: CategoryFilterFunction;
-  CategoryFilterType?: CategoryFilterType;
-  Constant?: TopicCategoryFilterConstant;
-  Inverse?: boolean;
-  NullFilter?: NullFilterType;
+  CategoryFilterFunction?: CategoryFilterFunction | undefined;
+  CategoryFilterType?: CategoryFilterType | undefined;
+  Constant?: TopicCategoryFilterConstant | undefined;
+  Inverse?: boolean | undefined;
+  NullFilter?: NullFilterType | undefined;
 }
 export interface TopicSingularFilterConstant {
-  ConstantType?: ConstantType;
-  SingularConstant?: string | redacted.Redacted<string>;
+  ConstantType?: ConstantType | undefined;
+  SingularConstant?: string | redacted.Redacted<string> | undefined;
 }
 export type NamedFilterAggType =
   | "NO_AGGREGATION"
@@ -8757,30 +8947,30 @@ export type NamedFilterAggType =
   | "VARP"
   | (string & {});
 export interface TopicNumericEqualityFilter {
-  Constant?: TopicSingularFilterConstant;
-  Aggregation?: NamedFilterAggType;
-  Inverse?: boolean;
-  NullFilter?: NullFilterType;
+  Constant?: TopicSingularFilterConstant | undefined;
+  Aggregation?: NamedFilterAggType | undefined;
+  Inverse?: boolean | undefined;
+  NullFilter?: NullFilterType | undefined;
 }
 export interface RangeConstant {
-  Minimum?: string | redacted.Redacted<string>;
-  Maximum?: string | redacted.Redacted<string>;
+  Minimum?: string | redacted.Redacted<string> | undefined;
+  Maximum?: string | redacted.Redacted<string> | undefined;
 }
 export interface TopicRangeFilterConstant {
-  ConstantType?: ConstantType;
-  RangeConstant?: RangeConstant;
+  ConstantType?: ConstantType | undefined;
+  RangeConstant?: RangeConstant | undefined;
 }
 export interface TopicNumericRangeFilter {
-  Inclusive?: boolean;
-  Constant?: TopicRangeFilterConstant;
-  Aggregation?: NamedFilterAggType;
-  Inverse?: boolean;
-  NullFilter?: NullFilterType;
+  Inclusive?: boolean | undefined;
+  Constant?: TopicRangeFilterConstant | undefined;
+  Aggregation?: NamedFilterAggType | undefined;
+  Inverse?: boolean | undefined;
+  NullFilter?: NullFilterType | undefined;
 }
 export interface TopicDateRangeFilter {
-  Inclusive?: boolean;
-  Constant?: TopicRangeFilterConstant;
-  NullFilter?: NullFilterType;
+  Inclusive?: boolean | undefined;
+  Constant?: TopicRangeFilterConstant | undefined;
+  NullFilter?: NullFilterType | undefined;
 }
 export type TopicRelativeDateFilterFunction =
   | "PREVIOUS"
@@ -8790,29 +8980,29 @@ export type TopicRelativeDateFilterFunction =
   | "NOW"
   | (string & {});
 export interface TopicRelativeDateFilter {
-  TimeGranularity?: TopicTimeGranularity;
-  RelativeDateFilterFunction?: TopicRelativeDateFilterFunction;
-  Constant?: TopicSingularFilterConstant;
-  NullFilter?: NullFilterType;
+  TimeGranularity?: TopicTimeGranularity | undefined;
+  RelativeDateFilterFunction?: TopicRelativeDateFilterFunction | undefined;
+  Constant?: TopicSingularFilterConstant | undefined;
+  NullFilter?: NullFilterType | undefined;
 }
 export interface TopicNullFilter {
-  NullFilterType?: NullFilterType;
-  Constant?: TopicSingularFilterConstant;
-  Inverse?: boolean;
+  NullFilterType?: NullFilterType | undefined;
+  Constant?: TopicSingularFilterConstant | undefined;
+  Inverse?: boolean | undefined;
 }
 export interface TopicFilter {
-  FilterDescription?: string | redacted.Redacted<string>;
-  FilterClass?: FilterClass;
+  FilterDescription?: string | redacted.Redacted<string> | undefined;
+  FilterClass?: FilterClass | undefined;
   FilterName: string;
-  FilterSynonyms?: (string | redacted.Redacted<string>)[];
+  FilterSynonyms?: (string | redacted.Redacted<string>)[] | undefined;
   OperandFieldName: string;
-  FilterType?: NamedFilterType;
-  CategoryFilter?: TopicCategoryFilter;
-  NumericEqualityFilter?: TopicNumericEqualityFilter;
-  NumericRangeFilter?: TopicNumericRangeFilter;
-  DateRangeFilter?: TopicDateRangeFilter;
-  RelativeDateFilter?: TopicRelativeDateFilter;
-  NullFilter?: TopicNullFilter;
+  FilterType?: NamedFilterType | undefined;
+  CategoryFilter?: TopicCategoryFilter | undefined;
+  NumericEqualityFilter?: TopicNumericEqualityFilter | undefined;
+  NumericRangeFilter?: TopicNumericRangeFilter | undefined;
+  DateRangeFilter?: TopicDateRangeFilter | undefined;
+  RelativeDateFilter?: TopicRelativeDateFilter | undefined;
+  NullFilter?: TopicNullFilter | undefined;
 }
 export type TopicFilters = TopicFilter[];
 export type ColumnDataRole = "DIMENSION" | "MEASURE" | (string & {});
@@ -8836,19 +9026,19 @@ export type ColumnOrderingType =
   | (string & {});
 export type UndefinedSpecifiedValueType = "LEAST" | "MOST" | (string & {});
 export interface ComparativeOrder {
-  UseOrdering?: ColumnOrderingType;
-  SpecifedOrder?: string[];
-  TreatUndefinedSpecifiedValues?: UndefinedSpecifiedValueType;
+  UseOrdering?: ColumnOrderingType | undefined;
+  SpecifedOrder?: string[] | undefined;
+  TreatUndefinedSpecifiedValues?: UndefinedSpecifiedValueType | undefined;
 }
 export type TypeParameters = { [key: string]: string | undefined };
 export interface SemanticType {
-  TypeName?: string;
-  SubTypeName?: string;
-  TypeParameters?: { [key: string]: string | undefined };
-  TruthyCellValue?: string | redacted.Redacted<string>;
-  TruthyCellValueSynonyms?: (string | redacted.Redacted<string>)[];
-  FalseyCellValue?: string | redacted.Redacted<string>;
-  FalseyCellValueSynonyms?: (string | redacted.Redacted<string>)[];
+  TypeName?: string | undefined;
+  SubTypeName?: string | undefined;
+  TypeParameters?: { [key: string]: string | undefined } | undefined;
+  TruthyCellValue?: string | redacted.Redacted<string> | undefined;
+  TruthyCellValueSynonyms?: (string | redacted.Redacted<string>)[] | undefined;
+  FalseyCellValue?: string | redacted.Redacted<string> | undefined;
+  FalseyCellValueSynonyms?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type AuthorSpecifiedAggregation =
   | "COUNT"
@@ -8866,58 +9056,58 @@ export type AuthorSpecifiedAggregation =
   | (string & {});
 export type AuthorSpecifiedAggregations = AuthorSpecifiedAggregation[];
 export interface DefaultFormatting {
-  DisplayFormat?: DisplayFormat;
-  DisplayFormatOptions?: DisplayFormatOptions;
+  DisplayFormat?: DisplayFormat | undefined;
+  DisplayFormatOptions?: DisplayFormatOptions | undefined;
 }
 export interface CellValueSynonym {
-  CellValue?: string | redacted.Redacted<string>;
-  Synonyms?: (string | redacted.Redacted<string>)[];
+  CellValue?: string | redacted.Redacted<string> | undefined;
+  Synonyms?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type CellValueSynonyms = CellValueSynonym[];
 export interface TopicColumn {
   ColumnName: string;
-  ColumnFriendlyName?: string | redacted.Redacted<string>;
-  ColumnDescription?: string | redacted.Redacted<string>;
-  ColumnSynonyms?: (string | redacted.Redacted<string>)[];
-  ColumnDataRole?: ColumnDataRole;
-  Aggregation?: DefaultAggregation;
-  IsIncludedInTopic?: boolean;
-  DisableIndexing?: boolean;
-  ComparativeOrder?: ComparativeOrder;
-  SemanticType?: SemanticType;
-  TimeGranularity?: TopicTimeGranularity;
-  AllowedAggregations?: AuthorSpecifiedAggregation[];
-  NotAllowedAggregations?: AuthorSpecifiedAggregation[];
-  DefaultFormatting?: DefaultFormatting;
-  NeverAggregateInFilter?: boolean;
-  CellValueSynonyms?: CellValueSynonym[];
-  NonAdditive?: boolean;
+  ColumnFriendlyName?: string | redacted.Redacted<string> | undefined;
+  ColumnDescription?: string | redacted.Redacted<string> | undefined;
+  ColumnSynonyms?: (string | redacted.Redacted<string>)[] | undefined;
+  ColumnDataRole?: ColumnDataRole | undefined;
+  Aggregation?: DefaultAggregation | undefined;
+  IsIncludedInTopic?: boolean | undefined;
+  DisableIndexing?: boolean | undefined;
+  ComparativeOrder?: ComparativeOrder | undefined;
+  SemanticType?: SemanticType | undefined;
+  TimeGranularity?: TopicTimeGranularity | undefined;
+  AllowedAggregations?: AuthorSpecifiedAggregation[] | undefined;
+  NotAllowedAggregations?: AuthorSpecifiedAggregation[] | undefined;
+  DefaultFormatting?: DefaultFormatting | undefined;
+  NeverAggregateInFilter?: boolean | undefined;
+  CellValueSynonyms?: CellValueSynonym[] | undefined;
+  NonAdditive?: boolean | undefined;
 }
 export type TopicColumns = TopicColumn[];
 export interface TopicCalculatedField {
   CalculatedFieldName: string | redacted.Redacted<string>;
-  CalculatedFieldDescription?: string | redacted.Redacted<string>;
+  CalculatedFieldDescription?: string | redacted.Redacted<string> | undefined;
   Expression: string | redacted.Redacted<string>;
-  CalculatedFieldSynonyms?: (string | redacted.Redacted<string>)[];
-  IsIncludedInTopic?: boolean;
-  DisableIndexing?: boolean;
-  ColumnDataRole?: ColumnDataRole;
-  TimeGranularity?: TopicTimeGranularity;
-  DefaultFormatting?: DefaultFormatting;
-  Aggregation?: DefaultAggregation;
-  ComparativeOrder?: ComparativeOrder;
-  SemanticType?: SemanticType;
-  AllowedAggregations?: AuthorSpecifiedAggregation[];
-  NotAllowedAggregations?: AuthorSpecifiedAggregation[];
-  NeverAggregateInFilter?: boolean;
-  CellValueSynonyms?: CellValueSynonym[];
-  NonAdditive?: boolean;
+  CalculatedFieldSynonyms?: (string | redacted.Redacted<string>)[] | undefined;
+  IsIncludedInTopic?: boolean | undefined;
+  DisableIndexing?: boolean | undefined;
+  ColumnDataRole?: ColumnDataRole | undefined;
+  TimeGranularity?: TopicTimeGranularity | undefined;
+  DefaultFormatting?: DefaultFormatting | undefined;
+  Aggregation?: DefaultAggregation | undefined;
+  ComparativeOrder?: ComparativeOrder | undefined;
+  SemanticType?: SemanticType | undefined;
+  AllowedAggregations?: AuthorSpecifiedAggregation[] | undefined;
+  NotAllowedAggregations?: AuthorSpecifiedAggregation[] | undefined;
+  NeverAggregateInFilter?: boolean | undefined;
+  CellValueSynonyms?: CellValueSynonym[] | undefined;
+  NonAdditive?: boolean | undefined;
 }
 export type TopicCalculatedFields = TopicCalculatedField[];
 export interface SemanticEntityType {
-  TypeName?: string;
-  SubTypeName?: string;
-  TypeParameters?: { [key: string]: string | undefined };
+  TypeName?: string | undefined;
+  SubTypeName?: string | undefined;
+  TypeParameters?: { [key: string]: string | undefined } | undefined;
 }
 export type PropertyRole = "PRIMARY" | "ID" | (string & {});
 export type PropertyUsage = "INHERIT" | "DIMENSION" | "MEASURE" | (string & {});
@@ -8938,18 +9128,18 @@ export type NamedEntityAggType =
   | (string & {});
 export type AggregationFunctionParameters = { [key: string]: string | undefined };
 export interface NamedEntityDefinitionMetric {
-  Aggregation?: NamedEntityAggType;
-  AggregationFunctionParameters?: { [key: string]: string | undefined };
+  Aggregation?: NamedEntityAggType | undefined;
+  AggregationFunctionParameters?: { [key: string]: string | undefined } | undefined;
 }
 export interface NamedEntityDefinition {
-  FieldName?: string;
-  PropertyName?: string;
-  PropertyRole?: PropertyRole;
-  PropertyUsage?: PropertyUsage;
-  Metric?: NamedEntityDefinitionMetric;
-  RankOrder?: number;
-  PresentationOrder?: number;
-  IsHidden?: boolean;
+  FieldName?: string | undefined;
+  PropertyName?: string | undefined;
+  PropertyRole?: PropertyRole | undefined;
+  PropertyUsage?: PropertyUsage | undefined;
+  Metric?: NamedEntityDefinitionMetric | undefined;
+  RankOrder?: number | undefined;
+  PresentationOrder?: number | undefined;
+  IsHidden?: boolean | undefined;
 }
 export type NamedEntityDefinitions = NamedEntityDefinition[];
 export interface NamedEntitySort {
@@ -8959,35 +9149,35 @@ export interface NamedEntitySort {
 export type NamedEntitySortList = NamedEntitySort[];
 export interface TopicNamedEntity {
   EntityName: string;
-  EntityDescription?: string | redacted.Redacted<string>;
-  EntitySynonyms?: (string | redacted.Redacted<string>)[];
-  SemanticEntityType?: SemanticEntityType;
-  Definition?: NamedEntityDefinition[];
-  Sort?: NamedEntitySort[];
-  RankOrder?: number;
-  PresentationOrder?: number;
+  EntityDescription?: string | redacted.Redacted<string> | undefined;
+  EntitySynonyms?: (string | redacted.Redacted<string>)[] | undefined;
+  SemanticEntityType?: SemanticEntityType | undefined;
+  Definition?: NamedEntityDefinition[] | undefined;
+  Sort?: NamedEntitySort[] | undefined;
+  RankOrder?: number | undefined;
+  PresentationOrder?: number | undefined;
 }
 export type TopicNamedEntities = TopicNamedEntity[];
 export interface DatasetMetadata {
   DatasetArn: string;
-  DatasetName?: string;
-  DatasetDescription?: string;
-  DataAggregation?: DataAggregation;
-  Filters?: TopicFilter[];
-  Columns?: TopicColumn[];
-  CalculatedFields?: TopicCalculatedField[];
-  NamedEntities?: TopicNamedEntity[];
+  DatasetName?: string | undefined;
+  DatasetDescription?: string | undefined;
+  DataAggregation?: DataAggregation | undefined;
+  Filters?: TopicFilter[] | undefined;
+  Columns?: TopicColumn[] | undefined;
+  CalculatedFields?: TopicCalculatedField[] | undefined;
+  NamedEntities?: TopicNamedEntity[] | undefined;
 }
 export type Datasets = DatasetMetadata[];
 export interface TopicConfigOptions {
-  QBusinessInsightsEnabled?: boolean;
+  QBusinessInsightsEnabled?: boolean | undefined;
 }
 export interface TopicDetails {
-  Name?: string;
-  Description?: string;
-  UserExperienceVersion?: TopicUserExperienceVersion;
-  DataSets?: DatasetMetadata[];
-  ConfigOptions?: TopicConfigOptions;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  UserExperienceVersion?: TopicUserExperienceVersion | undefined;
+  DataSets?: DatasetMetadata[] | undefined;
+  ConfigOptions?: TopicConfigOptions | undefined;
 }
 export type CustomInstructionsString = string | redacted.Redacted<string>;
 export interface CustomInstructions {
@@ -8997,43 +9187,43 @@ export interface CreateTopicRequest {
   AwsAccountId: string;
   TopicId: string;
   Topic: TopicDetails;
-  Tags?: Tag[];
-  FolderArns?: string[];
-  CustomInstructions?: CustomInstructions;
+  Tags?: Tag[] | undefined;
+  FolderArns?: string[] | undefined;
+  CustomInstructions?: CustomInstructions | undefined;
 }
 export interface CreateTopicResponse {
-  Arn?: string;
-  TopicId?: string;
-  RefreshArn?: string;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  TopicId?: string | undefined;
+  RefreshArn?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type TopicScheduleType = "HOURLY" | "DAILY" | "WEEKLY" | "MONTHLY" | (string & {});
 export interface TopicRefreshSchedule {
   IsEnabled: boolean;
   BasedOnSpiceSchedule: boolean;
-  StartingAt?: Date;
-  Timezone?: string;
-  RepeatAt?: string;
-  TopicScheduleType?: TopicScheduleType;
+  StartingAt?: Date | undefined;
+  Timezone?: string | undefined;
+  RepeatAt?: string | undefined;
+  TopicScheduleType?: TopicScheduleType | undefined;
 }
 export interface CreateTopicRefreshScheduleRequest {
   AwsAccountId: string;
   TopicId: string;
   DatasetArn: string;
-  DatasetName?: string;
+  DatasetName?: string | undefined;
   RefreshSchedule: TopicRefreshSchedule;
 }
 export interface CreateTopicRefreshScheduleResponse {
-  TopicId?: string;
-  TopicArn?: string;
-  DatasetArn?: string;
-  Status?: number;
-  RequestId?: string;
+  TopicId?: string | undefined;
+  TopicArn?: string | undefined;
+  DatasetArn?: string | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface TopicV2DataSetReference {
   DataSetArn: string;
-  DataSetName?: string;
+  DataSetName?: string | undefined;
 }
 export type TopicV2DataSetReferences = TopicV2DataSetReference[];
 export type TopicV2DataSetRelationColumnNames = string[];
@@ -9048,23 +9238,23 @@ export interface TopicV2DataSetRelation {
 export type TopicV2DataSetRelationList = TopicV2DataSetRelation[];
 export interface TopicV2Details {
   Name: string;
-  Description?: string;
-  DataSets?: TopicV2DataSetReference[];
-  DataSetRelations?: TopicV2DataSetRelation[];
+  Description?: string | undefined;
+  DataSets?: TopicV2DataSetReference[] | undefined;
+  DataSetRelations?: TopicV2DataSetRelation[] | undefined;
 }
 export interface CreateTopicV2Request {
   AwsAccountId: string;
   TopicId: string;
   Topic: TopicV2Details;
-  Tags?: Tag[];
-  FolderArns?: string[];
-  CustomInstructions?: CustomInstructions;
+  Tags?: Tag[] | undefined;
+  FolderArns?: string[] | undefined;
+  CustomInstructions?: CustomInstructions | undefined;
 }
 export interface CreateTopicV2Response {
-  Arn?: string;
-  TopicId?: string;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  TopicId?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type VPCConnectionResourceIdRestricted = string;
 export type SubnetId = string;
@@ -9079,9 +9269,9 @@ export interface CreateVPCConnectionRequest {
   Name: string;
   SubnetIds: string[];
   SecurityGroupIds: string[];
-  DnsResolvers?: string[];
+  DnsResolvers?: string[] | undefined;
   RoleArn: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type VPCConnectionResourceStatus =
   | "CREATION_IN_PROGRESS"
@@ -9100,65 +9290,65 @@ export type VPCConnectionAvailabilityStatus =
   | "PARTIALLY_AVAILABLE"
   | (string & {});
 export interface CreateVPCConnectionResponse {
-  Arn?: string;
-  VPCConnectionId?: string;
-  CreationStatus?: VPCConnectionResourceStatus;
-  AvailabilityStatus?: VPCConnectionAvailabilityStatus;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  VPCConnectionId?: string | undefined;
+  CreationStatus?: VPCConnectionResourceStatus | undefined;
+  AvailabilityStatus?: VPCConnectionAvailabilityStatus | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DeleteAccountCustomizationRequest {
   AwsAccountId: string;
-  Namespace?: string;
+  Namespace?: string | undefined;
 }
 export interface DeleteAccountCustomizationResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DeleteAccountCustomPermissionRequest {
   AwsAccountId: string;
 }
 export interface DeleteAccountCustomPermissionResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DeleteAccountSubscriptionRequest {
   AwsAccountId: string;
 }
 export interface DeleteAccountSubscriptionResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DeleteActionConnectorRequest {
   AwsAccountId: string;
   ActionConnectorId: string;
 }
 export interface DeleteActionConnectorResponse {
-  Arn?: string;
-  ActionConnectorId?: string;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  ActionConnectorId?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DeleteAgentRequest {
   AgentId: string;
   AwsAccountId: string;
 }
 export interface DeleteAgentResponse {
-  RequestId?: string;
+  RequestId?: string | undefined;
 }
 export type RecoveryWindowInDays = number;
 export interface DeleteAnalysisRequest {
   AwsAccountId: string;
   AnalysisId: string;
-  RecoveryWindowInDays?: number;
-  ForceDeleteWithoutRecovery?: boolean;
+  RecoveryWindowInDays?: number | undefined;
+  ForceDeleteWithoutRecovery?: boolean | undefined;
 }
 export interface DeleteAnalysisResponse {
-  Status?: number;
-  Arn?: string;
-  AnalysisId?: string;
-  DeletionTime?: Date;
-  RequestId?: string;
+  Status?: number | undefined;
+  Arn?: string | undefined;
+  AnalysisId?: string | undefined;
+  DeletionTime?: Date | undefined;
+  RequestId?: string | undefined;
 }
 export type AppId = string;
 export interface DeleteAppRequest {
@@ -9166,7 +9356,7 @@ export interface DeleteAppRequest {
   AppId: string;
 }
 export interface DeleteAppResponse {
-  RequestId?: string;
+  RequestId?: string | undefined;
 }
 export interface DeleteApprovalPolicyRequest {
   PolicyId: string;
@@ -9177,69 +9367,69 @@ export interface DeleteBrandRequest {
   BrandId: string;
 }
 export interface DeleteBrandResponse {
-  RequestId?: string;
+  RequestId?: string | undefined;
 }
 export interface DeleteBrandAssignmentRequest {
   AwsAccountId: string;
 }
 export interface DeleteBrandAssignmentResponse {
-  RequestId?: string;
+  RequestId?: string | undefined;
 }
 export interface DeleteCustomPermissionsRequest {
   AwsAccountId: string;
   CustomPermissionsName: string;
 }
 export interface DeleteCustomPermissionsResponse {
-  Status?: number;
-  Arn?: string;
-  RequestId?: string;
+  Status?: number | undefined;
+  Arn?: string | undefined;
+  RequestId?: string | undefined;
 }
 export interface DeleteDashboardRequest {
   AwsAccountId: string;
   DashboardId: string;
-  VersionNumber?: number;
+  VersionNumber?: number | undefined;
 }
 export interface DeleteDashboardResponse {
-  Status?: number;
-  Arn?: string;
-  DashboardId?: string;
-  RequestId?: string;
+  Status?: number | undefined;
+  Arn?: string | undefined;
+  DashboardId?: string | undefined;
+  RequestId?: string | undefined;
 }
 export interface DeleteDataSetRequest {
   AwsAccountId: string;
   DataSetId: string;
 }
 export interface DeleteDataSetResponse {
-  Arn?: string;
-  DataSetId?: string;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  DataSetId?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DeleteDataSetRefreshPropertiesRequest {
   AwsAccountId: string;
   DataSetId: string;
 }
 export interface DeleteDataSetRefreshPropertiesResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DeleteDataSourceRequest {
   AwsAccountId: string;
   DataSourceId: string;
 }
 export interface DeleteDataSourceResponse {
-  Arn?: string;
-  DataSourceId?: string;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  DataSourceId?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DeleteDefaultQBusinessApplicationRequest {
   AwsAccountId: string;
-  Namespace?: string;
+  Namespace?: string | undefined;
 }
 export interface DeleteDefaultQBusinessApplicationResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DeleteDlpSettingRequest {
   AwsAccountId: string;
@@ -9248,25 +9438,25 @@ export interface DeleteDlpSettingRequest {
 export interface DeleteDlpSettingResponse {
   Arn: string;
   DlpSettingId: string;
-  RequestId?: string;
+  RequestId?: string | undefined;
 }
 export interface DeleteFlowRequest {
   AwsAccountId: string;
   FlowId: string;
 }
 export interface DeleteFlowResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DeleteFolderRequest {
   AwsAccountId: string;
   FolderId: string;
 }
 export interface DeleteFolderResponse {
-  Status?: number;
-  Arn?: string;
-  FolderId?: string;
-  RequestId?: string;
+  Status?: number | undefined;
+  Arn?: string | undefined;
+  FolderId?: string | undefined;
+  RequestId?: string | undefined;
 }
 export interface DeleteFolderMembershipRequest {
   AwsAccountId: string;
@@ -9275,8 +9465,8 @@ export interface DeleteFolderMembershipRequest {
   MemberType: MemberType;
 }
 export interface DeleteFolderMembershipResponse {
-  Status?: number;
-  RequestId?: string;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface DeleteGroupRequest {
   GroupName: string;
@@ -9284,8 +9474,8 @@ export interface DeleteGroupRequest {
   Namespace: string;
 }
 export interface DeleteGroupResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DeleteGroupMembershipRequest {
   MemberName: string;
@@ -9294,8 +9484,8 @@ export interface DeleteGroupMembershipRequest {
   Namespace: string;
 }
 export interface DeleteGroupMembershipResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DeleteIAMPolicyAssignmentRequest {
   AwsAccountId: string;
@@ -9303,9 +9493,9 @@ export interface DeleteIAMPolicyAssignmentRequest {
   Namespace: string;
 }
 export interface DeleteIAMPolicyAssignmentResponse {
-  AssignmentName?: string;
-  RequestId?: string;
-  Status?: number;
+  AssignmentName?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type ServiceType = "REDSHIFT" | "QBUSINESS" | "ATHENA" | "GLUE_DATA_CATALOG" | (string & {});
 export interface DeleteIdentityPropagationConfigRequest {
@@ -9313,8 +9503,8 @@ export interface DeleteIdentityPropagationConfigRequest {
   Service: ServiceType;
 }
 export interface DeleteIdentityPropagationConfigResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DeleteKnowledgeBaseRequest {
   AwsAccountId: string;
@@ -9323,8 +9513,8 @@ export interface DeleteKnowledgeBaseRequest {
 export interface DeleteKnowledgeBaseResponse {
   KnowledgeBaseArn: string;
   KnowledgeBaseId: string;
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DeleteLimitsProfileRequest {
   profileId: string;
@@ -9338,18 +9528,18 @@ export interface DeleteNamespaceRequest {
   Namespace: string;
 }
 export interface DeleteNamespaceResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DeleteOAuthClientApplicationRequest {
   AwsAccountId: string;
   OAuthClientApplicationId: string;
 }
 export interface DeleteOAuthClientApplicationResponse {
-  Arn?: string;
-  OAuthClientApplicationId?: string;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  OAuthClientApplicationId?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DeleteRefreshScheduleRequest {
   DataSetId: string;
@@ -9357,10 +9547,10 @@ export interface DeleteRefreshScheduleRequest {
   ScheduleId: string;
 }
 export interface DeleteRefreshScheduleResponse {
-  Status?: number;
-  RequestId?: string;
-  ScheduleId?: string;
-  Arn?: string;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
+  ScheduleId?: string | undefined;
+  Arn?: string | undefined;
 }
 export interface DeleteRoleCustomPermissionRequest {
   Role: Role;
@@ -9368,8 +9558,8 @@ export interface DeleteRoleCustomPermissionRequest {
   Namespace: string;
 }
 export interface DeleteRoleCustomPermissionResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DeleteRoleMembershipRequest {
   MemberName: string;
@@ -9378,8 +9568,8 @@ export interface DeleteRoleMembershipRequest {
   Namespace: string;
 }
 export interface DeleteRoleMembershipResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DeleteSpaceRequest {
   AwsAccountId: string;
@@ -9387,19 +9577,19 @@ export interface DeleteSpaceRequest {
 }
 export interface DeleteSpaceResponse {
   spaceId: string;
-  spaceArn?: string;
-  RequestId?: string;
+  spaceArn?: string | undefined;
+  RequestId?: string | undefined;
 }
 export interface DeleteTemplateRequest {
   AwsAccountId: string;
   TemplateId: string;
-  VersionNumber?: number;
+  VersionNumber?: number | undefined;
 }
 export interface DeleteTemplateResponse {
-  RequestId?: string;
-  Arn?: string;
-  TemplateId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Arn?: string | undefined;
+  TemplateId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DeleteTemplateAliasRequest {
   AwsAccountId: string;
@@ -9407,22 +9597,22 @@ export interface DeleteTemplateAliasRequest {
   AliasName: string;
 }
 export interface DeleteTemplateAliasResponse {
-  Status?: number;
-  TemplateId?: string;
-  AliasName?: string;
-  Arn?: string;
-  RequestId?: string;
+  Status?: number | undefined;
+  TemplateId?: string | undefined;
+  AliasName?: string | undefined;
+  Arn?: string | undefined;
+  RequestId?: string | undefined;
 }
 export interface DeleteThemeRequest {
   AwsAccountId: string;
   ThemeId: string;
-  VersionNumber?: number;
+  VersionNumber?: number | undefined;
 }
 export interface DeleteThemeResponse {
-  Arn?: string;
-  RequestId?: string;
-  Status?: number;
-  ThemeId?: string;
+  Arn?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
+  ThemeId?: string | undefined;
 }
 export interface DeleteThemeAliasRequest {
   AwsAccountId: string;
@@ -9430,21 +9620,21 @@ export interface DeleteThemeAliasRequest {
   AliasName: string;
 }
 export interface DeleteThemeAliasResponse {
-  AliasName?: string;
-  Arn?: string;
-  RequestId?: string;
-  Status?: number;
-  ThemeId?: string;
+  AliasName?: string | undefined;
+  Arn?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
+  ThemeId?: string | undefined;
 }
 export interface DeleteTopicRequest {
   AwsAccountId: string;
   TopicId: string;
 }
 export interface DeleteTopicResponse {
-  Arn?: string;
-  TopicId?: string;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  TopicId?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DeleteTopicRefreshScheduleRequest {
   AwsAccountId: string;
@@ -9452,21 +9642,21 @@ export interface DeleteTopicRefreshScheduleRequest {
   DatasetId: string;
 }
 export interface DeleteTopicRefreshScheduleResponse {
-  TopicId?: string;
-  TopicArn?: string;
-  DatasetArn?: string;
-  Status?: number;
-  RequestId?: string;
+  TopicId?: string | undefined;
+  TopicArn?: string | undefined;
+  DatasetArn?: string | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface DeleteTopicV2Request {
   AwsAccountId: string;
   TopicId: string;
 }
 export interface DeleteTopicV2Response {
-  Arn?: string;
-  TopicId?: string;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  TopicId?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type UserName = string;
 export interface DeleteUserRequest {
@@ -9475,8 +9665,8 @@ export interface DeleteUserRequest {
   Namespace: string;
 }
 export interface DeleteUserResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DeleteUserByPrincipalIdRequest {
   PrincipalId: string;
@@ -9484,8 +9674,8 @@ export interface DeleteUserByPrincipalIdRequest {
   Namespace: string;
 }
 export interface DeleteUserByPrincipalIdResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DeleteUserCustomPermissionRequest {
   UserName: string;
@@ -9493,8 +9683,8 @@ export interface DeleteUserCustomPermissionRequest {
   Namespace: string;
 }
 export interface DeleteUserCustomPermissionResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type VPCConnectionResourceIdUnrestricted = string;
 export interface DeleteVPCConnectionRequest {
@@ -9502,65 +9692,65 @@ export interface DeleteVPCConnectionRequest {
   VPCConnectionId: string;
 }
 export interface DeleteVPCConnectionResponse {
-  Arn?: string;
-  VPCConnectionId?: string;
-  DeletionStatus?: VPCConnectionResourceStatus;
-  AvailabilityStatus?: VPCConnectionAvailabilityStatus;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  VPCConnectionId?: string | undefined;
+  DeletionStatus?: VPCConnectionResourceStatus | undefined;
+  AvailabilityStatus?: VPCConnectionAvailabilityStatus | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeAccountCustomizationRequest {
   AwsAccountId: string;
-  Namespace?: string;
-  Resolved?: boolean;
+  Namespace?: string | undefined;
+  Resolved?: boolean | undefined;
 }
 export interface DescribeAccountCustomizationResponse {
-  Arn?: string;
-  AwsAccountId?: string;
-  Namespace?: string;
-  AccountCustomization?: AccountCustomization;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  AwsAccountId?: string | undefined;
+  Namespace?: string | undefined;
+  AccountCustomization?: AccountCustomization | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeAccountCustomPermissionRequest {
   AwsAccountId: string;
 }
 export interface DescribeAccountCustomPermissionResponse {
-  CustomPermissionsName?: string;
-  RequestId?: string;
-  Status?: number;
+  CustomPermissionsName?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeAccountSettingsRequest {
   AwsAccountId: string;
 }
 export interface AccountSettings {
-  AccountName?: string;
-  Edition?: Edition;
-  DefaultNamespace?: string;
-  NotificationEmail?: string;
-  PublicSharingEnabled?: boolean;
-  TerminationProtectionEnabled?: boolean;
+  AccountName?: string | undefined;
+  Edition?: Edition | undefined;
+  DefaultNamespace?: string | undefined;
+  NotificationEmail?: string | undefined;
+  PublicSharingEnabled?: boolean | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
 }
 export interface DescribeAccountSettingsResponse {
-  AccountSettings?: AccountSettings;
-  RequestId?: string;
-  Status?: number;
+  AccountSettings?: AccountSettings | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeAccountSubscriptionRequest {
   AwsAccountId: string;
 }
 export interface AccountInfo {
-  AccountName?: string;
-  Edition?: Edition;
-  NotificationEmail?: string;
-  AuthenticationType?: string;
-  AccountSubscriptionStatus?: string;
-  IAMIdentityCenterInstanceArn?: string;
+  AccountName?: string | undefined;
+  Edition?: Edition | undefined;
+  NotificationEmail?: string | undefined;
+  AuthenticationType?: string | undefined;
+  AccountSubscriptionStatus?: string | undefined;
+  IAMIdentityCenterInstanceArn?: string | undefined;
 }
 export interface DescribeAccountSubscriptionResponse {
-  AccountInfo?: AccountInfo;
-  Status?: number;
-  RequestId?: string;
+  AccountInfo?: AccountInfo | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface DescribeActionConnectorRequest {
   AwsAccountId: string;
@@ -9568,8 +9758,8 @@ export interface DescribeActionConnectorRequest {
 }
 export type ActionConnectorErrorType = "INTERNAL_FAILURE" | (string & {});
 export interface ActionConnectorError {
-  Message?: string;
-  Type?: ActionConnectorErrorType;
+  Message?: string | undefined;
+  Type?: ActionConnectorErrorType | undefined;
 }
 export interface ReadAuthorizationCodeGrantDetails {
   ClientId: string;
@@ -9582,8 +9772,10 @@ export type ReadAuthorizationCodeGrantCredentialsDetails = {
 export interface ReadAuthorizationCodeGrantMetadata {
   BaseEndpoint: string;
   RedirectUrl: string;
-  ReadAuthorizationCodeGrantCredentialsDetails?: ReadAuthorizationCodeGrantCredentialsDetails;
-  AuthorizationCodeGrantCredentialsSource?: AuthorizationCodeGrantCredentialsSource;
+  ReadAuthorizationCodeGrantCredentialsDetails?:
+    | ReadAuthorizationCodeGrantCredentialsDetails
+    | undefined;
+  AuthorizationCodeGrantCredentialsSource?: AuthorizationCodeGrantCredentialsSource | undefined;
 }
 export interface ReadClientCredentialsGrantDetails {
   ClientId: string;
@@ -9594,8 +9786,8 @@ export type ReadClientCredentialsDetails = {
 };
 export interface ReadClientCredentialsGrantMetadata {
   BaseEndpoint: string;
-  ReadClientCredentialsDetails?: ReadClientCredentialsDetails;
-  ClientCredentialsSource?: ClientCredentialsSource;
+  ReadClientCredentialsDetails?: ReadClientCredentialsDetails | undefined;
+  ClientCredentialsSource?: ClientCredentialsSource | undefined;
 }
 export interface ReadBasicAuthConnectionMetadata {
   BaseEndpoint: string;
@@ -9603,7 +9795,7 @@ export interface ReadBasicAuthConnectionMetadata {
 }
 export interface ReadAPIKeyConnectionMetadata {
   BaseEndpoint: string;
-  Email?: string | redacted.Redacted<string>;
+  Email?: string | redacted.Redacted<string> | undefined;
 }
 export interface ReadNoneConnectionMetadata {
   BaseEndpoint: string;
@@ -9615,50 +9807,50 @@ export interface ReadIamConnectionMetadata {
 export type ReadAuthenticationMetadata =
   | {
       AuthorizationCodeGrantMetadata: ReadAuthorizationCodeGrantMetadata;
-      ClientCredentialsGrantMetadata?: never;
-      BasicAuthConnectionMetadata?: never;
-      ApiKeyConnectionMetadata?: never;
-      NoneConnectionMetadata?: never;
-      IamConnectionMetadata?: never;
+      ClientCredentialsGrantMetadata?: undefined;
+      BasicAuthConnectionMetadata?: undefined;
+      ApiKeyConnectionMetadata?: undefined;
+      NoneConnectionMetadata?: undefined;
+      IamConnectionMetadata?: undefined;
     }
   | {
-      AuthorizationCodeGrantMetadata?: never;
+      AuthorizationCodeGrantMetadata?: undefined;
       ClientCredentialsGrantMetadata: ReadClientCredentialsGrantMetadata;
-      BasicAuthConnectionMetadata?: never;
-      ApiKeyConnectionMetadata?: never;
-      NoneConnectionMetadata?: never;
-      IamConnectionMetadata?: never;
+      BasicAuthConnectionMetadata?: undefined;
+      ApiKeyConnectionMetadata?: undefined;
+      NoneConnectionMetadata?: undefined;
+      IamConnectionMetadata?: undefined;
     }
   | {
-      AuthorizationCodeGrantMetadata?: never;
-      ClientCredentialsGrantMetadata?: never;
+      AuthorizationCodeGrantMetadata?: undefined;
+      ClientCredentialsGrantMetadata?: undefined;
       BasicAuthConnectionMetadata: ReadBasicAuthConnectionMetadata;
-      ApiKeyConnectionMetadata?: never;
-      NoneConnectionMetadata?: never;
-      IamConnectionMetadata?: never;
+      ApiKeyConnectionMetadata?: undefined;
+      NoneConnectionMetadata?: undefined;
+      IamConnectionMetadata?: undefined;
     }
   | {
-      AuthorizationCodeGrantMetadata?: never;
-      ClientCredentialsGrantMetadata?: never;
-      BasicAuthConnectionMetadata?: never;
+      AuthorizationCodeGrantMetadata?: undefined;
+      ClientCredentialsGrantMetadata?: undefined;
+      BasicAuthConnectionMetadata?: undefined;
       ApiKeyConnectionMetadata: ReadAPIKeyConnectionMetadata;
-      NoneConnectionMetadata?: never;
-      IamConnectionMetadata?: never;
+      NoneConnectionMetadata?: undefined;
+      IamConnectionMetadata?: undefined;
     }
   | {
-      AuthorizationCodeGrantMetadata?: never;
-      ClientCredentialsGrantMetadata?: never;
-      BasicAuthConnectionMetadata?: never;
-      ApiKeyConnectionMetadata?: never;
+      AuthorizationCodeGrantMetadata?: undefined;
+      ClientCredentialsGrantMetadata?: undefined;
+      BasicAuthConnectionMetadata?: undefined;
+      ApiKeyConnectionMetadata?: undefined;
       NoneConnectionMetadata: ReadNoneConnectionMetadata;
-      IamConnectionMetadata?: never;
+      IamConnectionMetadata?: undefined;
     }
   | {
-      AuthorizationCodeGrantMetadata?: never;
-      ClientCredentialsGrantMetadata?: never;
-      BasicAuthConnectionMetadata?: never;
-      ApiKeyConnectionMetadata?: never;
-      NoneConnectionMetadata?: never;
+      AuthorizationCodeGrantMetadata?: undefined;
+      ClientCredentialsGrantMetadata?: undefined;
+      BasicAuthConnectionMetadata?: undefined;
+      ApiKeyConnectionMetadata?: undefined;
+      NoneConnectionMetadata?: undefined;
       IamConnectionMetadata: ReadIamConnectionMetadata;
     };
 export interface ReadAuthConfig {
@@ -9672,30 +9864,30 @@ export interface ActionConnector {
   ActionConnectorId: string;
   Type: ActionConnectorType;
   Name: string | redacted.Redacted<string>;
-  CreatedTime?: Date;
+  CreatedTime?: Date | undefined;
   LastUpdatedTime: Date;
-  Status?: ResourceStatus;
-  Error?: ActionConnectorError;
-  Description?: string | redacted.Redacted<string>;
-  AuthenticationConfig?: ReadAuthConfig;
-  EnabledActions?: string[];
-  VpcConnectionArn?: string;
+  Status?: ResourceStatus | undefined;
+  Error?: ActionConnectorError | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  AuthenticationConfig?: ReadAuthConfig | undefined;
+  EnabledActions?: string[] | undefined;
+  VpcConnectionArn?: string | undefined;
 }
 export interface DescribeActionConnectorResponse {
-  ActionConnector?: ActionConnector;
-  RequestId?: string;
-  Status?: number;
+  ActionConnector?: ActionConnector | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeActionConnectorPermissionsRequest {
   AwsAccountId: string;
   ActionConnectorId: string;
 }
 export interface DescribeActionConnectorPermissionsResponse {
-  Arn?: string;
-  ActionConnectorId?: string;
-  Permissions?: ResourcePermission[];
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  ActionConnectorId?: string | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeAgentRequest {
   AgentId: string;
@@ -9708,34 +9900,34 @@ export interface CustomPromptInterface {
   ModelProfileId: string;
   SubscriptionId: string;
   QbsAwsAccountId: string;
-  ResponseLength?: string | redacted.Redacted<string>;
-  OutputStyle?: string | redacted.Redacted<string>;
-  Identity?: string | redacted.Redacted<string>;
-  Tone?: string | redacted.Redacted<string>;
-  CustomInstructions?: string | redacted.Redacted<string>;
-  promptSummary?: string | redacted.Redacted<string>;
+  ResponseLength?: string | redacted.Redacted<string> | undefined;
+  OutputStyle?: string | redacted.Redacted<string> | undefined;
+  Identity?: string | redacted.Redacted<string> | undefined;
+  Tone?: string | redacted.Redacted<string> | undefined;
+  CustomInstructions?: string | redacted.Redacted<string> | undefined;
+  promptSummary?: string | redacted.Redacted<string> | undefined;
 }
 export interface Agent {
-  Spaces?: string[];
-  ActionConnectors?: string[];
-  Description?: string;
-  IconId?: string;
+  Spaces?: string[] | undefined;
+  ActionConnectors?: string[] | undefined;
+  Description?: string | undefined;
+  IconId?: string | undefined;
   Name: string;
-  StarterPrompts?: string[];
-  WelcomeMessage?: string | redacted.Redacted<string>;
+  StarterPrompts?: string[] | undefined;
+  WelcomeMessage?: string | redacted.Redacted<string> | undefined;
   Arn: string;
   AgentId: string;
   AgentLifecycle: AgentLifecycle;
   AgentStatus: AgentStatus;
   CreatedAt: Date;
   Creator: string;
-  CustomPromptInterface?: CustomPromptInterface;
-  ErrorMessage?: string;
+  CustomPromptInterface?: CustomPromptInterface | undefined;
+  ErrorMessage?: string | undefined;
   UpdatedAt: Date;
 }
 export interface DescribeAgentResponse {
   Agent: Agent;
-  RequestId?: string;
+  RequestId?: string | undefined;
 }
 export interface DescribeAgentPermissionsRequest {
   AgentId: string;
@@ -9764,53 +9956,53 @@ export type AnalysisErrorType =
   | "COLUMN_REPLACEMENT_MISSING"
   | (string & {});
 export interface Entity {
-  Path?: string;
+  Path?: string | undefined;
 }
 export type EntityList = Entity[];
 export interface AnalysisError {
-  Type?: AnalysisErrorType;
-  Message?: string;
-  ViolatedEntities?: Entity[];
+  Type?: AnalysisErrorType | undefined;
+  Message?: string | undefined;
+  ViolatedEntities?: Entity[] | undefined;
 }
 export type AnalysisErrorList = AnalysisError[];
 export type TopicArnsList = string[];
 export interface Sheet {
-  SheetId?: string;
-  Name?: string;
-  Images?: SheetImage[];
+  SheetId?: string | undefined;
+  Name?: string | undefined;
+  Images?: SheetImage[] | undefined;
 }
 export type SheetList = Sheet[];
 export interface Analysis {
-  AnalysisId?: string;
-  Arn?: string;
-  Name?: string;
-  Status?: ResourceStatus;
-  Errors?: AnalysisError[];
-  DataSetArns?: string[];
-  TopicArns?: string[];
-  ThemeArn?: string;
-  CreatedTime?: Date;
-  LastUpdatedTime?: Date;
-  Sheets?: Sheet[];
+  AnalysisId?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Status?: ResourceStatus | undefined;
+  Errors?: AnalysisError[] | undefined;
+  DataSetArns?: string[] | undefined;
+  TopicArns?: string[] | undefined;
+  ThemeArn?: string | undefined;
+  CreatedTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  Sheets?: Sheet[] | undefined;
 }
 export interface DescribeAnalysisResponse {
-  Analysis?: Analysis;
-  Status?: number;
-  RequestId?: string;
+  Analysis?: Analysis | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface DescribeAnalysisDefinitionRequest {
   AwsAccountId: string;
   AnalysisId: string;
 }
 export interface DescribeAnalysisDefinitionResponse {
-  AnalysisId?: string;
-  Name?: string;
-  Errors?: AnalysisError[];
-  ResourceStatus?: ResourceStatus;
-  ThemeArn?: string;
-  Definition?: AnalysisDefinition;
-  Status?: number;
-  RequestId?: string;
+  AnalysisId?: string | undefined;
+  Name?: string | undefined;
+  Errors?: AnalysisError[] | undefined;
+  ResourceStatus?: ResourceStatus | undefined;
+  ThemeArn?: string | undefined;
+  Definition?: AnalysisDefinition | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface DescribeAnalysisPermissionsRequest {
   AwsAccountId: string;
@@ -9818,11 +10010,11 @@ export interface DescribeAnalysisPermissionsRequest {
 }
 export type UpdateResourcePermissionList = ResourcePermission[];
 export interface DescribeAnalysisPermissionsResponse {
-  AnalysisId?: string;
-  AnalysisArn?: string;
-  Permissions?: ResourcePermission[];
-  Status?: number;
-  RequestId?: string;
+  AnalysisId?: string | undefined;
+  AnalysisArn?: string | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface DescribeAppRequest {
   AwsAccountId: string;
@@ -9831,26 +10023,26 @@ export interface DescribeAppRequest {
 export type AppName = string;
 export type AppVisibility = "PRIVATE" | "PUBLIC" | (string & {});
 export interface AppSummary {
-  AppId?: string;
-  Arn?: string;
-  Name?: string;
-  CreatedTime?: Date;
-  LastUpdatedTime?: Date;
-  Visibility?: AppVisibility;
+  AppId?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  CreatedTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  Visibility?: AppVisibility | undefined;
 }
 export interface DescribeAppResponse {
   App: AppSummary;
-  RequestId?: string;
+  RequestId?: string | undefined;
 }
 export interface DescribeAppPermissionsRequest {
   AwsAccountId: string;
   AppId: string;
 }
 export interface DescribeAppPermissionsResponse {
-  AppId?: string;
-  Arn?: string;
-  Permissions?: ResourcePermission[];
-  RequestId?: string;
+  AppId?: string | undefined;
+  Arn?: string | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  RequestId?: string | undefined;
 }
 export interface DescribeApprovalPolicyRequest {
   PolicyId: string;
@@ -9870,15 +10062,15 @@ export type AssetBundleExportJobStatus =
   | (string & {});
 export type SensitiveS3Uri = string | redacted.Redacted<string>;
 export interface AssetBundleExportJobError {
-  Arn?: string;
-  Type?: string;
-  Message?: string;
+  Arn?: string | undefined;
+  Type?: string | undefined;
+  Message?: string | undefined;
 }
 export type AssetBundleExportJobErrorList = AssetBundleExportJobError[];
 export type AssetBundleResourceArns = string[];
 export type AssetBundleExportFormat = "CLOUDFORMATION_JSON" | "QUICKSIGHT_JSON" | (string & {});
 export interface AssetBundleExportJobResourceIdOverrideConfiguration {
-  PrefixForAllResources?: boolean;
+  PrefixForAllResources?: boolean | undefined;
 }
 export type AssetBundleExportJobVPCConnectionPropertyToOverride =
   | "Name"
@@ -9993,46 +10185,48 @@ export interface AssetBundleExportJobTopicV2OverrideProperties {
 export type AssetBundleExportJobTopicV2OverridePropertiesList =
   AssetBundleExportJobTopicV2OverrideProperties[];
 export interface AssetBundleCloudFormationOverridePropertyConfiguration {
-  ResourceIdOverrideConfiguration?: AssetBundleExportJobResourceIdOverrideConfiguration;
-  VPCConnections?: AssetBundleExportJobVPCConnectionOverrideProperties[];
-  RefreshSchedules?: AssetBundleExportJobRefreshScheduleOverrideProperties[];
-  DataSources?: AssetBundleExportJobDataSourceOverrideProperties[];
-  DataSets?: AssetBundleExportJobDataSetOverrideProperties[];
-  Themes?: AssetBundleExportJobThemeOverrideProperties[];
-  Analyses?: AssetBundleExportJobAnalysisOverrideProperties[];
-  Dashboards?: AssetBundleExportJobDashboardOverrideProperties[];
-  Folders?: AssetBundleExportJobFolderOverrideProperties[];
-  TopicsV2?: AssetBundleExportJobTopicV2OverrideProperties[];
+  ResourceIdOverrideConfiguration?: AssetBundleExportJobResourceIdOverrideConfiguration | undefined;
+  VPCConnections?: AssetBundleExportJobVPCConnectionOverrideProperties[] | undefined;
+  RefreshSchedules?: AssetBundleExportJobRefreshScheduleOverrideProperties[] | undefined;
+  DataSources?: AssetBundleExportJobDataSourceOverrideProperties[] | undefined;
+  DataSets?: AssetBundleExportJobDataSetOverrideProperties[] | undefined;
+  Themes?: AssetBundleExportJobThemeOverrideProperties[] | undefined;
+  Analyses?: AssetBundleExportJobAnalysisOverrideProperties[] | undefined;
+  Dashboards?: AssetBundleExportJobDashboardOverrideProperties[] | undefined;
+  Folders?: AssetBundleExportJobFolderOverrideProperties[] | undefined;
+  TopicsV2?: AssetBundleExportJobTopicV2OverrideProperties[] | undefined;
 }
 export interface AssetBundleExportJobValidationStrategy {
-  StrictModeForAllResources?: boolean;
+  StrictModeForAllResources?: boolean | undefined;
 }
 export interface AssetBundleExportJobWarning {
-  Arn?: string;
-  Message?: string;
+  Arn?: string | undefined;
+  Message?: string | undefined;
 }
 export type AssetBundleExportJobWarningList = AssetBundleExportJobWarning[];
 export type IncludeFolderMembers = "RECURSE" | "ONE_LEVEL" | "NONE" | (string & {});
 export interface DescribeAssetBundleExportJobResponse {
-  JobStatus?: AssetBundleExportJobStatus;
-  DownloadUrl?: string | redacted.Redacted<string>;
-  Errors?: AssetBundleExportJobError[];
-  Arn?: string;
-  CreatedTime?: Date;
-  AssetBundleExportJobId?: string;
-  AwsAccountId?: string;
-  ResourceArns?: string[];
-  IncludeAllDependencies?: boolean;
-  ExportFormat?: AssetBundleExportFormat;
-  CloudFormationOverridePropertyConfiguration?: AssetBundleCloudFormationOverridePropertyConfiguration;
-  RequestId?: string;
-  Status?: number;
-  IncludePermissions?: boolean;
-  IncludeTags?: boolean;
-  ValidationStrategy?: AssetBundleExportJobValidationStrategy;
-  Warnings?: AssetBundleExportJobWarning[];
-  IncludeFolderMemberships?: boolean;
-  IncludeFolderMembers?: IncludeFolderMembers;
+  JobStatus?: AssetBundleExportJobStatus | undefined;
+  DownloadUrl?: string | redacted.Redacted<string> | undefined;
+  Errors?: AssetBundleExportJobError[] | undefined;
+  Arn?: string | undefined;
+  CreatedTime?: Date | undefined;
+  AssetBundleExportJobId?: string | undefined;
+  AwsAccountId?: string | undefined;
+  ResourceArns?: string[] | undefined;
+  IncludeAllDependencies?: boolean | undefined;
+  ExportFormat?: AssetBundleExportFormat | undefined;
+  CloudFormationOverridePropertyConfiguration?:
+    | AssetBundleCloudFormationOverridePropertyConfiguration
+    | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
+  IncludePermissions?: boolean | undefined;
+  IncludeTags?: boolean | undefined;
+  ValidationStrategy?: AssetBundleExportJobValidationStrategy | undefined;
+  Warnings?: AssetBundleExportJobWarning[] | undefined;
+  IncludeFolderMemberships?: boolean | undefined;
+  IncludeFolderMembers?: IncludeFolderMembers | undefined;
 }
 export interface DescribeAssetBundleImportJobRequest {
   AwsAccountId: string;
@@ -10048,33 +10242,33 @@ export type AssetBundleImportJobStatus =
   | "FAILED_ROLLBACK_ERROR"
   | (string & {});
 export interface AssetBundleImportJobError {
-  Arn?: string;
-  Type?: string;
-  Message?: string;
+  Arn?: string | undefined;
+  Type?: string | undefined;
+  Message?: string | undefined;
 }
 export type AssetBundleImportJobErrorList = AssetBundleImportJobError[];
 export type S3Uri = string;
 export interface AssetBundleImportSourceDescription {
-  Body?: string | redacted.Redacted<string>;
-  S3Uri?: string;
+  Body?: string | redacted.Redacted<string> | undefined;
+  S3Uri?: string | undefined;
 }
 export interface AssetBundleImportJobResourceIdOverrideConfiguration {
-  PrefixForAllResources?: string;
+  PrefixForAllResources?: string | undefined;
 }
 export interface AssetBundleImportJobVPCConnectionOverrideParameters {
   VPCConnectionId: string;
-  Name?: string;
-  SubnetIds?: string[];
-  SecurityGroupIds?: string[];
-  DnsResolvers?: string[];
-  RoleArn?: string;
+  Name?: string | undefined;
+  SubnetIds?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  DnsResolvers?: string[] | undefined;
+  RoleArn?: string | undefined;
 }
 export type AssetBundleImportJobVPCConnectionOverrideParametersList =
   AssetBundleImportJobVPCConnectionOverrideParameters[];
 export interface AssetBundleImportJobRefreshScheduleOverrideParameters {
   DataSetId: string;
   ScheduleId: string;
-  StartAfterDateTime?: Date;
+  StartAfterDateTime?: Date | undefined;
 }
 export type AssetBundleImportJobRefreshScheduleOverrideParametersList =
   AssetBundleImportJobRefreshScheduleOverrideParameters[];
@@ -10083,16 +10277,16 @@ export interface AssetBundleImportJobDataSourceCredentialPair {
   Password: string | redacted.Redacted<string>;
 }
 export interface AssetBundleImportJobDataSourceCredentials {
-  CredentialPair?: AssetBundleImportJobDataSourceCredentialPair;
-  SecretArn?: string;
+  CredentialPair?: AssetBundleImportJobDataSourceCredentialPair | undefined;
+  SecretArn?: string | undefined;
 }
 export interface AssetBundleImportJobDataSourceOverrideParameters {
   DataSourceId: string;
-  Name?: string;
-  DataSourceParameters?: DataSourceParameters;
-  VpcConnectionProperties?: VpcConnectionProperties;
-  SslProperties?: SslProperties;
-  Credentials?: AssetBundleImportJobDataSourceCredentials;
+  Name?: string | undefined;
+  DataSourceParameters?: DataSourceParameters | undefined;
+  VpcConnectionProperties?: VpcConnectionProperties | undefined;
+  SslProperties?: SslProperties | undefined;
+  Credentials?: AssetBundleImportJobDataSourceCredentials | undefined;
 }
 export type AssetBundleImportJobDataSourceOverrideParametersList =
   AssetBundleImportJobDataSourceOverrideParameters[];
@@ -10111,66 +10305,66 @@ export interface RefreshConfiguration {
 }
 export type RefreshFailureAlertStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface RefreshFailureEmailAlert {
-  AlertStatus?: RefreshFailureAlertStatus;
+  AlertStatus?: RefreshFailureAlertStatus | undefined;
 }
 export interface RefreshFailureConfiguration {
-  EmailAlert?: RefreshFailureEmailAlert;
+  EmailAlert?: RefreshFailureEmailAlert | undefined;
 }
 export interface DataSetRefreshProperties {
-  RefreshConfiguration?: RefreshConfiguration;
-  FailureConfiguration?: RefreshFailureConfiguration;
+  RefreshConfiguration?: RefreshConfiguration | undefined;
+  FailureConfiguration?: RefreshFailureConfiguration | undefined;
 }
 export interface AssetBundleImportJobDataSetOverrideParameters {
   DataSetId: string;
-  Name?: string;
-  DataSetRefreshProperties?: DataSetRefreshProperties;
+  Name?: string | undefined;
+  DataSetRefreshProperties?: DataSetRefreshProperties | undefined;
 }
 export type AssetBundleImportJobDataSetOverrideParametersList =
   AssetBundleImportJobDataSetOverrideParameters[];
 export interface AssetBundleImportJobThemeOverrideParameters {
   ThemeId: string;
-  Name?: string;
+  Name?: string | undefined;
 }
 export type AssetBundleImportJobThemeOverrideParametersList =
   AssetBundleImportJobThemeOverrideParameters[];
 export interface AssetBundleImportJobAnalysisOverrideParameters {
   AnalysisId: string;
-  Name?: string;
+  Name?: string | undefined;
 }
 export type AssetBundleImportJobAnalysisOverrideParametersList =
   AssetBundleImportJobAnalysisOverrideParameters[];
 export interface AssetBundleImportJobDashboardOverrideParameters {
   DashboardId: string;
-  Name?: string;
+  Name?: string | undefined;
 }
 export type AssetBundleImportJobDashboardOverrideParametersList =
   AssetBundleImportJobDashboardOverrideParameters[];
 export interface AssetBundleImportJobFolderOverrideParameters {
   FolderId: string;
-  Name?: string;
-  ParentFolderArn?: string;
+  Name?: string | undefined;
+  ParentFolderArn?: string | undefined;
 }
 export type AssetBundleImportJobFolderOverrideParametersList =
   AssetBundleImportJobFolderOverrideParameters[];
 export type TopicDescription = string;
 export interface AssetBundleImportJobTopicV2OverrideParameters {
   TopicId: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export type AssetBundleImportJobTopicV2OverrideParametersList =
   AssetBundleImportJobTopicV2OverrideParameters[];
 export interface AssetBundleImportJobOverrideParameters {
-  ResourceIdOverrideConfiguration?: AssetBundleImportJobResourceIdOverrideConfiguration;
-  VPCConnections?: AssetBundleImportJobVPCConnectionOverrideParameters[];
-  RefreshSchedules?: AssetBundleImportJobRefreshScheduleOverrideParameters[];
-  DataSources?: AssetBundleImportJobDataSourceOverrideParameters[];
-  DataSets?: AssetBundleImportJobDataSetOverrideParameters[];
-  Themes?: AssetBundleImportJobThemeOverrideParameters[];
-  Analyses?: AssetBundleImportJobAnalysisOverrideParameters[];
-  Dashboards?: AssetBundleImportJobDashboardOverrideParameters[];
-  Folders?: AssetBundleImportJobFolderOverrideParameters[];
-  TopicsV2?: AssetBundleImportJobTopicV2OverrideParameters[];
+  ResourceIdOverrideConfiguration?: AssetBundleImportJobResourceIdOverrideConfiguration | undefined;
+  VPCConnections?: AssetBundleImportJobVPCConnectionOverrideParameters[] | undefined;
+  RefreshSchedules?: AssetBundleImportJobRefreshScheduleOverrideParameters[] | undefined;
+  DataSources?: AssetBundleImportJobDataSourceOverrideParameters[] | undefined;
+  DataSets?: AssetBundleImportJobDataSetOverrideParameters[] | undefined;
+  Themes?: AssetBundleImportJobThemeOverrideParameters[] | undefined;
+  Analyses?: AssetBundleImportJobAnalysisOverrideParameters[] | undefined;
+  Dashboards?: AssetBundleImportJobDashboardOverrideParameters[] | undefined;
+  Folders?: AssetBundleImportJobFolderOverrideParameters[] | undefined;
+  TopicsV2?: AssetBundleImportJobTopicV2OverrideParameters[] | undefined;
 }
 export type AssetBundleImportFailureAction = "DO_NOTHING" | "ROLLBACK" | (string & {});
 export type AssetBundleRestrictiveResourceId = string;
@@ -10205,18 +10399,18 @@ export interface AssetBundleImportJobAnalysisOverridePermissions {
 export type AssetBundleImportJobAnalysisOverridePermissionsList =
   AssetBundleImportJobAnalysisOverridePermissions[];
 export interface AssetBundleResourceLinkSharingConfiguration {
-  Permissions?: AssetBundleResourcePermissions;
+  Permissions?: AssetBundleResourcePermissions | undefined;
 }
 export interface AssetBundleImportJobDashboardOverridePermissions {
   DashboardIds: string[];
-  Permissions?: AssetBundleResourcePermissions;
-  LinkSharingConfiguration?: AssetBundleResourceLinkSharingConfiguration;
+  Permissions?: AssetBundleResourcePermissions | undefined;
+  LinkSharingConfiguration?: AssetBundleResourceLinkSharingConfiguration | undefined;
 }
 export type AssetBundleImportJobDashboardOverridePermissionsList =
   AssetBundleImportJobDashboardOverridePermissions[];
 export interface AssetBundleImportJobFolderOverridePermissions {
   FolderIds: string[];
-  Permissions?: AssetBundleResourcePermissions;
+  Permissions?: AssetBundleResourcePermissions | undefined;
 }
 export type AssetBundleImportJobFolderOverridePermissionsList =
   AssetBundleImportJobFolderOverridePermissions[];
@@ -10227,13 +10421,13 @@ export interface AssetBundleImportJobTopicV2OverridePermissions {
 export type AssetBundleImportJobTopicV2OverridePermissionsList =
   AssetBundleImportJobTopicV2OverridePermissions[];
 export interface AssetBundleImportJobOverridePermissions {
-  DataSources?: AssetBundleImportJobDataSourceOverridePermissions[];
-  DataSets?: AssetBundleImportJobDataSetOverridePermissions[];
-  Themes?: AssetBundleImportJobThemeOverridePermissions[];
-  Analyses?: AssetBundleImportJobAnalysisOverridePermissions[];
-  Dashboards?: AssetBundleImportJobDashboardOverridePermissions[];
-  Folders?: AssetBundleImportJobFolderOverridePermissions[];
-  TopicsV2?: AssetBundleImportJobTopicV2OverridePermissions[];
+  DataSources?: AssetBundleImportJobDataSourceOverridePermissions[] | undefined;
+  DataSets?: AssetBundleImportJobDataSetOverridePermissions[] | undefined;
+  Themes?: AssetBundleImportJobThemeOverridePermissions[] | undefined;
+  Analyses?: AssetBundleImportJobAnalysisOverridePermissions[] | undefined;
+  Dashboards?: AssetBundleImportJobDashboardOverridePermissions[] | undefined;
+  Folders?: AssetBundleImportJobFolderOverridePermissions[] | undefined;
+  TopicsV2?: AssetBundleImportJobTopicV2OverridePermissions[] | undefined;
 }
 export interface AssetBundleImportJobVPCConnectionOverrideTags {
   VPCConnectionIds: string[];
@@ -10280,48 +10474,48 @@ export interface AssetBundleImportJobTopicV2OverrideTags {
 }
 export type AssetBundleImportJobTopicV2OverrideTagsList = AssetBundleImportJobTopicV2OverrideTags[];
 export interface AssetBundleImportJobOverrideTags {
-  VPCConnections?: AssetBundleImportJobVPCConnectionOverrideTags[];
-  DataSources?: AssetBundleImportJobDataSourceOverrideTags[];
-  DataSets?: AssetBundleImportJobDataSetOverrideTags[];
-  Themes?: AssetBundleImportJobThemeOverrideTags[];
-  Analyses?: AssetBundleImportJobAnalysisOverrideTags[];
-  Dashboards?: AssetBundleImportJobDashboardOverrideTags[];
-  Folders?: AssetBundleImportJobFolderOverrideTags[];
-  TopicsV2?: AssetBundleImportJobTopicV2OverrideTags[];
+  VPCConnections?: AssetBundleImportJobVPCConnectionOverrideTags[] | undefined;
+  DataSources?: AssetBundleImportJobDataSourceOverrideTags[] | undefined;
+  DataSets?: AssetBundleImportJobDataSetOverrideTags[] | undefined;
+  Themes?: AssetBundleImportJobThemeOverrideTags[] | undefined;
+  Analyses?: AssetBundleImportJobAnalysisOverrideTags[] | undefined;
+  Dashboards?: AssetBundleImportJobDashboardOverrideTags[] | undefined;
+  Folders?: AssetBundleImportJobFolderOverrideTags[] | undefined;
+  TopicsV2?: AssetBundleImportJobTopicV2OverrideTags[] | undefined;
 }
 export interface AssetBundleImportJobOverrideValidationStrategy {
-  StrictModeForAllResources?: boolean;
+  StrictModeForAllResources?: boolean | undefined;
 }
 export interface AssetBundleImportJobWarning {
-  Arn?: string;
-  Message?: string;
+  Arn?: string | undefined;
+  Message?: string | undefined;
 }
 export type AssetBundleImportJobWarningList = AssetBundleImportJobWarning[];
 export interface DescribeAssetBundleImportJobResponse {
-  JobStatus?: AssetBundleImportJobStatus;
-  Errors?: AssetBundleImportJobError[];
-  RollbackErrors?: AssetBundleImportJobError[];
-  Arn?: string;
-  CreatedTime?: Date;
-  AssetBundleImportJobId?: string;
-  AwsAccountId?: string;
-  AssetBundleImportSource?: AssetBundleImportSourceDescription;
-  OverrideParameters?: AssetBundleImportJobOverrideParameters;
-  FailureAction?: AssetBundleImportFailureAction;
-  RequestId?: string;
-  Status?: number;
-  OverridePermissions?: AssetBundleImportJobOverridePermissions;
-  OverrideTags?: AssetBundleImportJobOverrideTags;
-  OverrideValidationStrategy?: AssetBundleImportJobOverrideValidationStrategy;
-  Warnings?: AssetBundleImportJobWarning[];
+  JobStatus?: AssetBundleImportJobStatus | undefined;
+  Errors?: AssetBundleImportJobError[] | undefined;
+  RollbackErrors?: AssetBundleImportJobError[] | undefined;
+  Arn?: string | undefined;
+  CreatedTime?: Date | undefined;
+  AssetBundleImportJobId?: string | undefined;
+  AwsAccountId?: string | undefined;
+  AssetBundleImportSource?: AssetBundleImportSourceDescription | undefined;
+  OverrideParameters?: AssetBundleImportJobOverrideParameters | undefined;
+  FailureAction?: AssetBundleImportFailureAction | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
+  OverridePermissions?: AssetBundleImportJobOverridePermissions | undefined;
+  OverrideTags?: AssetBundleImportJobOverrideTags | undefined;
+  OverrideValidationStrategy?: AssetBundleImportJobOverrideValidationStrategy | undefined;
+  Warnings?: AssetBundleImportJobWarning[] | undefined;
 }
 export type AutomateId = string;
 export interface DescribeAutomationJobRequest {
   AwsAccountId: string;
   AutomationGroupId: string;
   AutomationId: string;
-  IncludeInputPayload?: boolean;
-  IncludeOutputPayload?: boolean;
+  IncludeInputPayload?: boolean | undefined;
+  IncludeOutputPayload?: boolean | undefined;
   JobId: string;
 }
 export type AutomationJobStatus =
@@ -10334,60 +10528,60 @@ export type AutomationJobStatus =
 export type SensitiveIOPayload = string | redacted.Redacted<string>;
 export interface DescribeAutomationJobResponse {
   Arn: string;
-  CreatedAt?: Date;
-  StartedAt?: Date;
-  EndedAt?: Date;
+  CreatedAt?: Date | undefined;
+  StartedAt?: Date | undefined;
+  EndedAt?: Date | undefined;
   JobStatus: AutomationJobStatus;
-  InputPayload?: string | redacted.Redacted<string>;
-  OutputPayload?: string | redacted.Redacted<string>;
-  RequestId?: string;
+  InputPayload?: string | redacted.Redacted<string> | undefined;
+  OutputPayload?: string | redacted.Redacted<string> | undefined;
+  RequestId?: string | undefined;
 }
 export interface DescribeBrandRequest {
   AwsAccountId: string;
   BrandId: string;
-  VersionId?: string;
+  VersionId?: string | undefined;
 }
 export interface DescribeBrandResponse {
-  RequestId?: string;
-  BrandDetail?: BrandDetail;
-  BrandDefinition?: BrandDefinition;
+  RequestId?: string | undefined;
+  BrandDetail?: BrandDetail | undefined;
+  BrandDefinition?: BrandDefinition | undefined;
 }
 export interface DescribeBrandAssignmentRequest {
   AwsAccountId: string;
 }
 export interface DescribeBrandAssignmentResponse {
-  RequestId?: string;
-  BrandArn?: string;
+  RequestId?: string | undefined;
+  BrandArn?: string | undefined;
 }
 export interface DescribeBrandPublishedVersionRequest {
   AwsAccountId: string;
   BrandId: string;
 }
 export interface DescribeBrandPublishedVersionResponse {
-  RequestId?: string;
-  BrandDetail?: BrandDetail;
-  BrandDefinition?: BrandDefinition;
+  RequestId?: string | undefined;
+  BrandDetail?: BrandDetail | undefined;
+  BrandDefinition?: BrandDefinition | undefined;
 }
 export interface DescribeCustomPermissionsRequest {
   AwsAccountId: string;
   CustomPermissionsName: string;
 }
 export interface CustomPermissions {
-  Arn?: string;
-  CustomPermissionsName?: string;
-  Capabilities?: Capabilities;
-  Governance?: Governance;
+  Arn?: string | undefined;
+  CustomPermissionsName?: string | undefined;
+  Capabilities?: Capabilities | undefined;
+  Governance?: Governance | undefined;
 }
 export interface DescribeCustomPermissionsResponse {
-  Status?: number;
-  CustomPermissions?: CustomPermissions;
-  RequestId?: string;
+  Status?: number | undefined;
+  CustomPermissions?: CustomPermissions | undefined;
+  RequestId?: string | undefined;
 }
 export interface DescribeDashboardRequest {
   AwsAccountId: string;
   DashboardId: string;
-  VersionNumber?: number;
-  AliasName?: string;
+  VersionNumber?: number | undefined;
+  AliasName?: string | undefined;
 }
 export type DashboardErrorType =
   | "ACCESS_DENIED"
@@ -10402,67 +10596,67 @@ export type DashboardErrorType =
   | "COLUMN_REPLACEMENT_MISSING"
   | (string & {});
 export interface DashboardError {
-  Type?: DashboardErrorType;
-  Message?: string;
-  ViolatedEntities?: Entity[];
+  Type?: DashboardErrorType | undefined;
+  Message?: string | undefined;
+  ViolatedEntities?: Entity[] | undefined;
 }
 export type DashboardErrorList = DashboardError[];
 export interface DashboardVersion {
-  CreatedTime?: Date;
-  Errors?: DashboardError[];
-  VersionNumber?: number;
-  Status?: ResourceStatus;
-  Arn?: string;
-  SourceEntityArn?: string;
-  DataSetArns?: string[];
-  TopicArns?: string[];
-  Description?: string;
-  ThemeArn?: string;
-  Sheets?: Sheet[];
+  CreatedTime?: Date | undefined;
+  Errors?: DashboardError[] | undefined;
+  VersionNumber?: number | undefined;
+  Status?: ResourceStatus | undefined;
+  Arn?: string | undefined;
+  SourceEntityArn?: string | undefined;
+  DataSetArns?: string[] | undefined;
+  TopicArns?: string[] | undefined;
+  Description?: string | undefined;
+  ThemeArn?: string | undefined;
+  Sheets?: Sheet[] | undefined;
 }
 export interface Dashboard {
-  DashboardId?: string;
-  Arn?: string;
-  Name?: string;
-  Version?: DashboardVersion;
-  CreatedTime?: Date;
-  LastPublishedTime?: Date;
-  LastUpdatedTime?: Date;
-  LinkEntities?: string[];
+  DashboardId?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Version?: DashboardVersion | undefined;
+  CreatedTime?: Date | undefined;
+  LastPublishedTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  LinkEntities?: string[] | undefined;
 }
 export interface DescribeDashboardResponse {
-  Dashboard?: Dashboard;
-  Status?: number;
-  RequestId?: string;
+  Dashboard?: Dashboard | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface DescribeDashboardDefinitionRequest {
   AwsAccountId: string;
   DashboardId: string;
-  VersionNumber?: number;
-  AliasName?: string;
+  VersionNumber?: number | undefined;
+  AliasName?: string | undefined;
 }
 export interface DescribeDashboardDefinitionResponse {
-  DashboardId?: string;
-  Errors?: DashboardError[];
-  Name?: string;
-  ResourceStatus?: ResourceStatus;
-  ThemeArn?: string;
-  Definition?: DashboardVersionDefinition;
-  Status?: number;
-  RequestId?: string;
-  DashboardPublishOptions?: DashboardPublishOptions;
+  DashboardId?: string | undefined;
+  Errors?: DashboardError[] | undefined;
+  Name?: string | undefined;
+  ResourceStatus?: ResourceStatus | undefined;
+  ThemeArn?: string | undefined;
+  Definition?: DashboardVersionDefinition | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
+  DashboardPublishOptions?: DashboardPublishOptions | undefined;
 }
 export interface DescribeDashboardPermissionsRequest {
   AwsAccountId: string;
   DashboardId: string;
 }
 export interface DescribeDashboardPermissionsResponse {
-  DashboardId?: string;
-  DashboardArn?: string;
-  Permissions?: ResourcePermission[];
-  Status?: number;
-  RequestId?: string;
-  LinkSharingConfiguration?: LinkSharingConfiguration;
+  DashboardId?: string | undefined;
+  DashboardArn?: string | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
+  LinkSharingConfiguration?: LinkSharingConfiguration | undefined;
 }
 export interface DescribeDashboardSnapshotJobRequest {
   AwsAccountId: string;
@@ -10471,18 +10665,18 @@ export interface DescribeDashboardSnapshotJobRequest {
 }
 export type SessionTagKeyList = string[];
 export interface SnapshotAnonymousUserRedacted {
-  RowLevelPermissionTagKeys?: string[];
+  RowLevelPermissionTagKeys?: string[] | undefined;
 }
 export type SnapshotAnonymousUserRedactedList = SnapshotAnonymousUserRedacted[];
 export interface SnapshotUserConfigurationRedacted {
-  AnonymousUsers?: SnapshotAnonymousUserRedacted[];
+  AnonymousUsers?: SnapshotAnonymousUserRedacted[] | undefined;
 }
 export type SnapshotFileSheetSelectionScope = "ALL_VISUALS" | "SELECTED_VISUALS" | (string & {});
 export type SnapshotFileSheetSelectionVisualIdList = string[];
 export interface SnapshotFileSheetSelection {
   SheetId: string;
   SelectionScope: SnapshotFileSheetSelectionScope;
-  VisualIds?: string[];
+  VisualIds?: string[] | undefined;
 }
 export type SnapshotFileSheetSelectionList = SnapshotFileSheetSelection[];
 export type SnapshotFileFormatType = "CSV" | "PDF" | "EXCEL" | (string & {});
@@ -10492,7 +10686,7 @@ export interface SnapshotFile {
 }
 export type SnapshotFileList = SnapshotFile[];
 export interface SnapshotFileGroup {
-  Files?: SnapshotFile[];
+  Files?: SnapshotFile[] | undefined;
 }
 export type SnapshotFileGroupList = SnapshotFileGroup[];
 export interface S3BucketConfiguration {
@@ -10505,26 +10699,26 @@ export interface SnapshotS3DestinationConfiguration {
 }
 export type SnapshotS3DestinationConfigurationList = SnapshotS3DestinationConfiguration[];
 export interface SnapshotDestinationConfiguration {
-  S3Destinations?: SnapshotS3DestinationConfiguration[];
+  S3Destinations?: SnapshotS3DestinationConfiguration[] | undefined;
 }
 export interface SnapshotConfiguration {
   FileGroups: SnapshotFileGroup[];
-  DestinationConfiguration?: SnapshotDestinationConfiguration;
-  Parameters?: Parameters;
+  DestinationConfiguration?: SnapshotDestinationConfiguration | undefined;
+  Parameters?: Parameters | undefined;
 }
 export type SnapshotJobStatus = "QUEUED" | "RUNNING" | "COMPLETED" | "FAILED" | (string & {});
 export interface DescribeDashboardSnapshotJobResponse {
-  AwsAccountId?: string;
-  DashboardId?: string;
-  SnapshotJobId?: string;
-  UserConfiguration?: SnapshotUserConfigurationRedacted;
-  SnapshotConfiguration?: SnapshotConfiguration;
-  Arn?: string;
-  JobStatus?: SnapshotJobStatus;
-  CreatedTime?: Date;
-  LastUpdatedTime?: Date;
-  RequestId?: string;
-  Status?: number;
+  AwsAccountId?: string | undefined;
+  DashboardId?: string | undefined;
+  SnapshotJobId?: string | undefined;
+  UserConfiguration?: SnapshotUserConfigurationRedacted | undefined;
+  SnapshotConfiguration?: SnapshotConfiguration | undefined;
+  Arn?: string | undefined;
+  JobStatus?: SnapshotJobStatus | undefined;
+  CreatedTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeDashboardSnapshotJobResultRequest {
   AwsAccountId: string;
@@ -10532,115 +10726,115 @@ export interface DescribeDashboardSnapshotJobResultRequest {
   SnapshotJobId: string;
 }
 export interface SnapshotJobResultErrorInfo {
-  ErrorMessage?: string;
-  ErrorType?: string;
+  ErrorMessage?: string | undefined;
+  ErrorType?: string | undefined;
 }
 export type SnapshotJobResultErrorInfoList = SnapshotJobResultErrorInfo[];
 export interface SnapshotJobS3Result {
-  S3DestinationConfiguration?: SnapshotS3DestinationConfiguration;
-  S3Uri?: string | redacted.Redacted<string>;
-  ErrorInfo?: SnapshotJobResultErrorInfo[];
+  S3DestinationConfiguration?: SnapshotS3DestinationConfiguration | undefined;
+  S3Uri?: string | redacted.Redacted<string> | undefined;
+  ErrorInfo?: SnapshotJobResultErrorInfo[] | undefined;
 }
 export type SnapshotJobS3ResultList = SnapshotJobS3Result[];
 export interface SnapshotJobResultFileGroup {
-  Files?: SnapshotFile[];
-  S3Results?: SnapshotJobS3Result[];
+  Files?: SnapshotFile[] | undefined;
+  S3Results?: SnapshotJobS3Result[] | undefined;
 }
 export type SnapshotJobResultFileGroupList = SnapshotJobResultFileGroup[];
 export interface AnonymousUserSnapshotJobResult {
-  FileGroups?: SnapshotJobResultFileGroup[];
+  FileGroups?: SnapshotJobResultFileGroup[] | undefined;
 }
 export type AnonymousUserSnapshotJobResultList = AnonymousUserSnapshotJobResult[];
 export interface RegisteredUserSnapshotJobResult {
-  FileGroups?: SnapshotJobResultFileGroup[];
+  FileGroups?: SnapshotJobResultFileGroup[] | undefined;
 }
 export type RegisteredUserSnapshotJobResultList = RegisteredUserSnapshotJobResult[];
 export interface SnapshotJobResult {
-  AnonymousUsers?: AnonymousUserSnapshotJobResult[];
-  RegisteredUsers?: RegisteredUserSnapshotJobResult[];
+  AnonymousUsers?: AnonymousUserSnapshotJobResult[] | undefined;
+  RegisteredUsers?: RegisteredUserSnapshotJobResult[] | undefined;
 }
 export interface SnapshotJobErrorInfo {
-  ErrorMessage?: string;
-  ErrorType?: string;
+  ErrorMessage?: string | undefined;
+  ErrorType?: string | undefined;
 }
 export interface DescribeDashboardSnapshotJobResultResponse {
-  Arn?: string;
-  JobStatus?: SnapshotJobStatus;
-  CreatedTime?: Date;
-  LastUpdatedTime?: Date;
-  Result?: SnapshotJobResult;
-  ErrorInfo?: SnapshotJobErrorInfo;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  JobStatus?: SnapshotJobStatus | undefined;
+  CreatedTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  Result?: SnapshotJobResult | undefined;
+  ErrorInfo?: SnapshotJobErrorInfo | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeDashboardsQAConfigurationRequest {
   AwsAccountId: string;
 }
 export type DashboardsQAStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface DescribeDashboardsQAConfigurationResponse {
-  DashboardsQAStatus?: DashboardsQAStatus;
-  RequestId?: string;
-  Status?: number;
+  DashboardsQAStatus?: DashboardsQAStatus | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeDataSetRequest {
   AwsAccountId: string;
   DataSetId: string;
 }
 export interface OutputColumn {
-  Name?: string;
-  Id?: string;
-  Description?: string | redacted.Redacted<string>;
-  Type?: ColumnDataType;
-  SubType?: ColumnDataSubType;
+  Name?: string | undefined;
+  Id?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  Type?: ColumnDataType | undefined;
+  SubType?: ColumnDataSubType | undefined;
 }
 export type OutputColumnList = OutputColumn[];
 export interface DataSet {
-  Arn?: string;
-  DataSetId?: string;
-  Name?: string;
-  CreatedTime?: Date;
-  LastUpdatedTime?: Date;
-  PhysicalTableMap?: { [key: string]: PhysicalTable | undefined };
-  LogicalTableMap?: { [key: string]: LogicalTable | undefined };
-  OutputColumns?: OutputColumn[];
-  ImportMode?: DataSetImportMode;
-  ConsumedSpiceCapacityInBytes?: number;
-  ColumnGroups?: ColumnGroup[];
-  FieldFolders?: { [key: string]: FieldFolder | undefined };
-  RowLevelPermissionDataSet?: RowLevelPermissionDataSet;
-  RowLevelPermissionTagConfiguration?: RowLevelPermissionTagConfiguration;
-  ColumnLevelPermissionRules?: ColumnLevelPermissionRule[];
-  DataSetUsageConfiguration?: DataSetUsageConfiguration;
-  DatasetParameters?: DatasetParameter[];
-  PerformanceConfiguration?: PerformanceConfiguration;
-  UseAs?: DataSetUseAs;
-  DataPrepConfiguration?: DataPrepConfiguration;
-  SemanticModelConfiguration?: SemanticModelConfiguration;
+  Arn?: string | undefined;
+  DataSetId?: string | undefined;
+  Name?: string | undefined;
+  CreatedTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  PhysicalTableMap?: { [key: string]: PhysicalTable | undefined } | undefined;
+  LogicalTableMap?: { [key: string]: LogicalTable | undefined } | undefined;
+  OutputColumns?: OutputColumn[] | undefined;
+  ImportMode?: DataSetImportMode | undefined;
+  ConsumedSpiceCapacityInBytes?: number | undefined;
+  ColumnGroups?: ColumnGroup[] | undefined;
+  FieldFolders?: { [key: string]: FieldFolder | undefined } | undefined;
+  RowLevelPermissionDataSet?: RowLevelPermissionDataSet | undefined;
+  RowLevelPermissionTagConfiguration?: RowLevelPermissionTagConfiguration | undefined;
+  ColumnLevelPermissionRules?: ColumnLevelPermissionRule[] | undefined;
+  DataSetUsageConfiguration?: DataSetUsageConfiguration | undefined;
+  DatasetParameters?: DatasetParameter[] | undefined;
+  PerformanceConfiguration?: PerformanceConfiguration | undefined;
+  UseAs?: DataSetUseAs | undefined;
+  DataPrepConfiguration?: DataPrepConfiguration | undefined;
+  SemanticModelConfiguration?: SemanticModelConfiguration | undefined;
 }
 export interface DescribeDataSetResponse {
-  DataSet?: DataSet;
-  RequestId?: string;
-  Status?: number;
+  DataSet?: DataSet | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeDataSetPermissionsRequest {
   AwsAccountId: string;
   DataSetId: string;
 }
 export interface DescribeDataSetPermissionsResponse {
-  DataSetArn?: string;
-  DataSetId?: string;
-  Permissions?: ResourcePermission[];
-  RequestId?: string;
-  Status?: number;
+  DataSetArn?: string | undefined;
+  DataSetId?: string | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeDataSetRefreshPropertiesRequest {
   AwsAccountId: string;
   DataSetId: string;
 }
 export interface DescribeDataSetRefreshPropertiesResponse {
-  RequestId?: string;
-  Status?: number;
-  DataSetRefreshProperties?: DataSetRefreshProperties;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
+  DataSetRefreshProperties?: DataSetRefreshProperties | undefined;
 }
 export interface DescribeDataSourceRequest {
   AwsAccountId: string;
@@ -10657,8 +10851,8 @@ export type DataSourceErrorInfoType =
   | "UNKNOWN"
   | (string & {});
 export interface DataSourceErrorInfo {
-  Type?: DataSourceErrorInfoType;
-  Message?: string;
+  Type?: DataSourceErrorInfoType | undefined;
+  Message?: string | undefined;
 }
 export type CredentialStatus = "CONNECTED" | "AUTH_FAILED" | "NOT_VERIFIED" | (string & {});
 export interface DataSource {
@@ -10667,41 +10861,41 @@ export interface DataSource {
   Name: string;
   Type: DataSourceType;
   Status: ResourceStatus;
-  CreatedTime?: Date;
-  LastUpdatedTime?: Date;
-  DataSourceParameters?: DataSourceParameters;
-  AlternateDataSourceParameters?: DataSourceParameters[];
-  VpcConnectionProperties?: VpcConnectionProperties;
-  SslProperties?: SslProperties;
-  ErrorInfo?: DataSourceErrorInfo;
-  SecretArn?: string;
-  CredentialStatus?: CredentialStatus;
-  LastCredentialVerifiedAt?: Date;
+  CreatedTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  DataSourceParameters?: DataSourceParameters | undefined;
+  AlternateDataSourceParameters?: DataSourceParameters[] | undefined;
+  VpcConnectionProperties?: VpcConnectionProperties | undefined;
+  SslProperties?: SslProperties | undefined;
+  ErrorInfo?: DataSourceErrorInfo | undefined;
+  SecretArn?: string | undefined;
+  CredentialStatus?: CredentialStatus | undefined;
+  LastCredentialVerifiedAt?: Date | undefined;
 }
 export interface DescribeDataSourceResponse {
-  DataSource?: DataSource;
-  RequestId?: string;
-  Status?: number;
+  DataSource?: DataSource | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeDataSourcePermissionsRequest {
   AwsAccountId: string;
   DataSourceId: string;
 }
 export interface DescribeDataSourcePermissionsResponse {
-  DataSourceArn?: string;
-  DataSourceId?: string;
-  Permissions?: ResourcePermission[];
-  RequestId?: string;
-  Status?: number;
+  DataSourceArn?: string | undefined;
+  DataSourceId?: string | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeDefaultQBusinessApplicationRequest {
   AwsAccountId: string;
-  Namespace?: string;
+  Namespace?: string | undefined;
 }
 export interface DescribeDefaultQBusinessApplicationResponse {
-  RequestId?: string;
-  Status?: number;
-  ApplicationId?: string;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
+  ApplicationId?: string | undefined;
 }
 export interface DescribeDlpSettingRequest {
   AwsAccountId: string;
@@ -10721,7 +10915,7 @@ export interface DlpSettingDetails {
 }
 export interface DescribeDlpSettingResponse {
   DlpSetting: DlpSettingDetails;
-  RequestId?: string;
+  RequestId?: string | undefined;
 }
 export type FlowPublishState = "PUBLISHED" | "DRAFT" | "PENDING_APPROVAL" | (string & {});
 export interface DescribeFlowRequest {
@@ -10741,19 +10935,19 @@ export interface FlowDetail {
   Arn: string;
   FlowId: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   PublishState: FlowPublishState;
   CreatedTime: Date;
-  CreatedBy?: string;
-  LastUpdatedTime?: Date;
-  LastUpdatedBy?: string;
+  CreatedBy?: string | undefined;
+  LastUpdatedTime?: Date | undefined;
+  LastUpdatedBy?: string | undefined;
   FlowDefinition: any;
-  StepAliases?: StepAliasMapping[];
+  StepAliases?: StepAliasMapping[] | undefined;
 }
 export interface DescribeFlowResponse {
   Flow: FlowDetail;
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeFolderRequest {
   AwsAccountId: string;
@@ -10761,50 +10955,50 @@ export interface DescribeFolderRequest {
 }
 export type Path = string[];
 export interface Folder {
-  FolderId?: string;
-  Arn?: string;
-  Name?: string;
-  FolderType?: FolderType;
-  FolderPath?: string[];
-  CreatedTime?: Date;
-  LastUpdatedTime?: Date;
-  SharingModel?: SharingModel;
+  FolderId?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  FolderType?: FolderType | undefined;
+  FolderPath?: string[] | undefined;
+  CreatedTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  SharingModel?: SharingModel | undefined;
 }
 export interface DescribeFolderResponse {
-  Status?: number;
-  Folder?: Folder;
-  RequestId?: string;
+  Status?: number | undefined;
+  Folder?: Folder | undefined;
+  RequestId?: string | undefined;
 }
 export type MaxResults = number;
 export interface DescribeFolderPermissionsRequest {
   AwsAccountId: string;
   FolderId: string;
-  Namespace?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  Namespace?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeFolderPermissionsResponse {
-  Status?: number;
-  FolderId?: string;
-  Arn?: string;
-  Permissions?: ResourcePermission[];
-  RequestId?: string;
-  NextToken?: string;
+  Status?: number | undefined;
+  FolderId?: string | undefined;
+  Arn?: string | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  RequestId?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeFolderResolvedPermissionsRequest {
   AwsAccountId: string;
   FolderId: string;
-  Namespace?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  Namespace?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeFolderResolvedPermissionsResponse {
-  Status?: number;
-  FolderId?: string;
-  Arn?: string;
-  Permissions?: ResourcePermission[];
-  RequestId?: string;
-  NextToken?: string;
+  Status?: number | undefined;
+  FolderId?: string | undefined;
+  Arn?: string | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  RequestId?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeGroupRequest {
   GroupName: string;
@@ -10812,9 +11006,9 @@ export interface DescribeGroupRequest {
   Namespace: string;
 }
 export interface DescribeGroupResponse {
-  Group?: Group;
-  RequestId?: string;
-  Status?: number;
+  Group?: Group | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeGroupMembershipRequest {
   MemberName: string;
@@ -10823,9 +11017,9 @@ export interface DescribeGroupMembershipRequest {
   Namespace: string;
 }
 export interface DescribeGroupMembershipResponse {
-  GroupMember?: GroupMember;
-  RequestId?: string;
-  Status?: number;
+  GroupMember?: GroupMember | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeIAMPolicyAssignmentRequest {
   AwsAccountId: string;
@@ -10833,17 +11027,17 @@ export interface DescribeIAMPolicyAssignmentRequest {
   Namespace: string;
 }
 export interface IAMPolicyAssignment {
-  AwsAccountId?: string;
-  AssignmentId?: string;
-  AssignmentName?: string;
-  PolicyArn?: string;
-  Identities?: { [key: string]: string[] | undefined };
-  AssignmentStatus?: AssignmentStatus;
+  AwsAccountId?: string | undefined;
+  AssignmentId?: string | undefined;
+  AssignmentName?: string | undefined;
+  PolicyArn?: string | undefined;
+  Identities?: { [key: string]: string[] | undefined } | undefined;
+  AssignmentStatus?: AssignmentStatus | undefined;
 }
 export interface DescribeIAMPolicyAssignmentResponse {
-  IAMPolicyAssignment?: IAMPolicyAssignment;
-  RequestId?: string;
-  Status?: number;
+  IAMPolicyAssignment?: IAMPolicyAssignment | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeIngestionRequest {
   AwsAccountId: string;
@@ -10898,13 +11092,13 @@ export type IngestionErrorType =
   | "DUPLICATE_COLUMN_NAMES_FOUND"
   | (string & {});
 export interface ErrorInfo {
-  Type?: IngestionErrorType;
-  Message?: string;
+  Type?: IngestionErrorType | undefined;
+  Message?: string | undefined;
 }
 export interface RowInfo {
-  RowsIngested?: number;
-  RowsDropped?: number;
-  TotalRowsInDataset?: number;
+  RowsIngested?: number | undefined;
+  RowsDropped?: number | undefined;
+  TotalRowsInDataset?: number | undefined;
 }
 export interface QueueInfo {
   WaitingOnIngestion: string;
@@ -10919,21 +11113,21 @@ export type IngestionRequestType =
   | (string & {});
 export interface Ingestion {
   Arn: string;
-  IngestionId?: string;
+  IngestionId?: string | undefined;
   IngestionStatus: IngestionStatus;
-  ErrorInfo?: ErrorInfo;
-  RowInfo?: RowInfo;
-  QueueInfo?: QueueInfo;
+  ErrorInfo?: ErrorInfo | undefined;
+  RowInfo?: RowInfo | undefined;
+  QueueInfo?: QueueInfo | undefined;
   CreatedTime: Date;
-  IngestionTimeInSeconds?: number;
-  IngestionSizeInBytes?: number;
-  RequestSource?: IngestionRequestSource;
-  RequestType?: IngestionRequestType;
+  IngestionTimeInSeconds?: number | undefined;
+  IngestionSizeInBytes?: number | undefined;
+  RequestSource?: IngestionRequestSource | undefined;
+  RequestType?: IngestionRequestType | undefined;
 }
 export interface DescribeIngestionResponse {
-  Ingestion?: Ingestion;
-  RequestId?: string;
-  Status?: number;
+  Ingestion?: Ingestion | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeIpRestrictionRequest {
   AwsAccountId: string;
@@ -10948,34 +11142,34 @@ export type VpcEndpointId = string;
 export type VpcEndpointIdRestrictionRuleDescription = string;
 export type VpcEndpointIdRestrictionRuleMap = { [key: string]: string | undefined };
 export interface DescribeIpRestrictionResponse {
-  AwsAccountId?: string;
-  IpRestrictionRuleMap?: { [key: string]: string | undefined };
-  VpcIdRestrictionRuleMap?: { [key: string]: string | undefined };
-  VpcEndpointIdRestrictionRuleMap?: { [key: string]: string | undefined };
-  Enabled?: boolean;
-  RequestId?: string;
-  Status?: number;
+  AwsAccountId?: string | undefined;
+  IpRestrictionRuleMap?: { [key: string]: string | undefined } | undefined;
+  VpcIdRestrictionRuleMap?: { [key: string]: string | undefined } | undefined;
+  VpcEndpointIdRestrictionRuleMap?: { [key: string]: string | undefined } | undefined;
+  Enabled?: boolean | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeKeyRegistrationRequest {
   AwsAccountId: string;
-  DefaultKeyOnly?: boolean;
+  DefaultKeyOnly?: boolean | undefined;
 }
 export interface RegisteredCustomerManagedKey {
-  KeyArn?: string;
-  DefaultKey?: boolean;
+  KeyArn?: string | undefined;
+  DefaultKey?: boolean | undefined;
 }
 export type KeyRegistration = RegisteredCustomerManagedKey[];
 export type QDataKeyType = "AWS_OWNED" | "CMK" | (string & {});
 export interface QDataKey {
-  QDataKeyArn?: string;
-  QDataKeyType?: QDataKeyType;
+  QDataKeyArn?: string | undefined;
+  QDataKeyType?: QDataKeyType | undefined;
 }
 export interface DescribeKeyRegistrationResponse {
-  AwsAccountId?: string;
-  KeyRegistration?: RegisteredCustomerManagedKey[];
-  QDataKey?: QDataKey;
-  RequestId?: string;
-  Status?: number;
+  AwsAccountId?: string | undefined;
+  KeyRegistration?: RegisteredCustomerManagedKey[] | undefined;
+  QDataKey?: QDataKey | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeKnowledgeBaseRequest {
   AwsAccountId: string;
@@ -10995,8 +11189,8 @@ export type KbIngestionStatus =
 export interface KnowledgeBaseIngestionSummary {
   IngestionId: string;
   IngestionStatus: KbIngestionStatus;
-  StartTime?: Date;
-  EndTime?: Date;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export interface KnowledgeBase {
   KnowledgeBaseArn: string;
@@ -11005,25 +11199,25 @@ export interface KnowledgeBase {
   Status: DataSetStatus;
   DataSourceArn: string;
   KnowledgeBaseConfiguration: KnowledgeBaseConfiguration;
-  MediaExtractionConfiguration?: MediaExtractionConfiguration;
-  AccessControlConfiguration?: AccessControlConfiguration;
-  Type?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  Description?: string;
-  IsEmailNotificationOptedForIngestionFailures?: boolean;
-  FirstCompletedIngestionSummary?: KnowledgeBaseIngestionSummary;
-  FirstIncompleteIngestionSummary?: KnowledgeBaseIngestionSummary;
-  LatestIngestionSummary?: KnowledgeBaseIngestionSummary;
-  KnowledgeBaseSizeBytes?: number;
-  DocumentCount?: number;
-  PrimaryOwnerArn?: string;
-  PrimaryOwnerUsername?: string | redacted.Redacted<string>;
+  MediaExtractionConfiguration?: MediaExtractionConfiguration | undefined;
+  AccessControlConfiguration?: AccessControlConfiguration | undefined;
+  Type?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  Description?: string | undefined;
+  IsEmailNotificationOptedForIngestionFailures?: boolean | undefined;
+  FirstCompletedIngestionSummary?: KnowledgeBaseIngestionSummary | undefined;
+  FirstIncompleteIngestionSummary?: KnowledgeBaseIngestionSummary | undefined;
+  LatestIngestionSummary?: KnowledgeBaseIngestionSummary | undefined;
+  KnowledgeBaseSizeBytes?: number | undefined;
+  DocumentCount?: number | undefined;
+  PrimaryOwnerArn?: string | undefined;
+  PrimaryOwnerUsername?: string | redacted.Redacted<string> | undefined;
 }
 export interface DescribeKnowledgeBaseResponse {
   KnowledgeBase: KnowledgeBase;
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeKnowledgeBasePermissionsRequest {
   AwsAccountId: string;
@@ -11032,21 +11226,21 @@ export interface DescribeKnowledgeBasePermissionsRequest {
 export interface DescribeKnowledgeBasePermissionsResponse {
   KnowledgeBaseArn: string;
   KnowledgeBaseId: string;
-  Permissions?: ResourcePermission[];
-  RequestId?: string;
-  Status?: number;
+  Permissions?: ResourcePermission[] | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeLimitsProfileRequest {
   profileId: string;
   accountId: string;
 }
-export type ResourceLimitsMap = { [key in ResourceType]?: ProfileLimitValue };
+export type ResourceLimitsMap = { [key in ResourceType]?: ProfileLimitValue | undefined };
 export interface LimitsProfile {
   profileId: string;
   arn: string;
   accountId: string;
   profileName: string;
-  description?: string;
+  description?: string | undefined;
   resourceLimits: { [key: string]: ProfileLimitValue | undefined };
   createdAt: Date;
   updatedAt: Date;
@@ -11060,63 +11254,63 @@ export interface DescribeNamespaceRequest {
 }
 export type NamespaceErrorType = "PERMISSION_DENIED" | "INTERNAL_SERVICE_ERROR" | (string & {});
 export interface NamespaceError {
-  Type?: NamespaceErrorType;
-  Message?: string;
+  Type?: NamespaceErrorType | undefined;
+  Message?: string | undefined;
 }
 export interface NamespaceInfoV2 {
-  Name?: string;
-  Arn?: string;
-  CapacityRegion?: string;
-  CreationStatus?: NamespaceStatus;
-  IdentityStore?: IdentityStore;
-  NamespaceError?: NamespaceError;
-  IamIdentityCenterApplicationArn?: string;
-  IamIdentityCenterInstanceArn?: string;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  CapacityRegion?: string | undefined;
+  CreationStatus?: NamespaceStatus | undefined;
+  IdentityStore?: IdentityStore | undefined;
+  NamespaceError?: NamespaceError | undefined;
+  IamIdentityCenterApplicationArn?: string | undefined;
+  IamIdentityCenterInstanceArn?: string | undefined;
 }
 export interface DescribeNamespaceResponse {
-  Namespace?: NamespaceInfoV2;
-  RequestId?: string;
-  Status?: number;
+  Namespace?: NamespaceInfoV2 | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeOAuthClientApplicationRequest {
   AwsAccountId: string;
   OAuthClientApplicationId: string;
 }
 export interface OAuthClientApplication {
-  OAuthClientApplicationId?: string;
-  Name?: string;
-  OAuthClientAuthenticationType?: OAuthClientAuthenticationType;
-  OAuthTokenEndpointUrl?: string | redacted.Redacted<string>;
-  OAuthAuthorizationEndpointUrl?: string | redacted.Redacted<string>;
-  OAuthScopes?: string;
-  DataSourceType?: DataSourceType;
-  IdentityProviderVpcConnectionProperties?: VpcConnectionProperties;
-  CreatedTime?: Date;
-  LastUpdatedTime?: Date;
-  Arn?: string;
+  OAuthClientApplicationId?: string | undefined;
+  Name?: string | undefined;
+  OAuthClientAuthenticationType?: OAuthClientAuthenticationType | undefined;
+  OAuthTokenEndpointUrl?: string | redacted.Redacted<string> | undefined;
+  OAuthAuthorizationEndpointUrl?: string | redacted.Redacted<string> | undefined;
+  OAuthScopes?: string | undefined;
+  DataSourceType?: DataSourceType | undefined;
+  IdentityProviderVpcConnectionProperties?: VpcConnectionProperties | undefined;
+  CreatedTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  Arn?: string | undefined;
 }
 export interface DescribeOAuthClientApplicationResponse {
-  OAuthClientApplication?: OAuthClientApplication;
-  RequestId?: string;
-  Status?: number;
+  OAuthClientApplication?: OAuthClientApplication | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeQPersonalizationConfigurationRequest {
   AwsAccountId: string;
 }
 export type PersonalizationMode = "ENABLED" | "DISABLED" | (string & {});
 export interface DescribeQPersonalizationConfigurationResponse {
-  PersonalizationMode?: PersonalizationMode;
-  RequestId?: string;
-  Status?: number;
+  PersonalizationMode?: PersonalizationMode | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeQuickSightQSearchConfigurationRequest {
   AwsAccountId: string;
 }
 export type QSearchStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface DescribeQuickSightQSearchConfigurationResponse {
-  QSearchStatus?: QSearchStatus;
-  RequestId?: string;
-  Status?: number;
+  QSearchStatus?: QSearchStatus | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeRefreshScheduleRequest {
   AwsAccountId: string;
@@ -11124,10 +11318,10 @@ export interface DescribeRefreshScheduleRequest {
   ScheduleId: string;
 }
 export interface DescribeRefreshScheduleResponse {
-  RefreshSchedule?: RefreshSchedule;
-  Status?: number;
-  RequestId?: string;
-  Arn?: string;
+  RefreshSchedule?: RefreshSchedule | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
+  Arn?: string | undefined;
 }
 export interface DescribeRoleCustomPermissionRequest {
   Role: Role;
@@ -11136,9 +11330,9 @@ export interface DescribeRoleCustomPermissionRequest {
 }
 export type RoleName = string;
 export interface DescribeRoleCustomPermissionResponse {
-  CustomPermissionsName?: string;
-  RequestId?: string;
-  Status?: number;
+  CustomPermissionsName?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeSelfUpgradeConfigurationRequest {
   AwsAccountId: string;
@@ -11146,18 +11340,18 @@ export interface DescribeSelfUpgradeConfigurationRequest {
 }
 export type SelfUpgradeStatus = "AUTO_APPROVAL" | "ADMIN_APPROVAL" | (string & {});
 export interface SelfUpgradeConfiguration {
-  SelfUpgradeStatus?: SelfUpgradeStatus;
+  SelfUpgradeStatus?: SelfUpgradeStatus | undefined;
 }
 export interface DescribeSelfUpgradeConfigurationResponse {
-  SelfUpgradeConfiguration?: SelfUpgradeConfiguration;
-  RequestId?: string;
-  Status?: number;
+  SelfUpgradeConfiguration?: SelfUpgradeConfiguration | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type MaxContributors = number;
 export interface DescribeSpaceRequest {
   AwsAccountId: string;
   SpaceId: string;
-  MaxContributors?: number;
+  MaxContributors?: number | undefined;
 }
 export type SpaceQuickSightResourceType =
   | "TOPIC"
@@ -11173,28 +11367,28 @@ export interface SpaceQuickSightResource {
 }
 export type SpaceQuickSightResources = SpaceQuickSightResource[];
 export interface SpaceDetails {
-  name?: string;
-  description?: string | redacted.Redacted<string>;
-  resources?: SpaceQuickSightResource[];
-  createdAt?: Date;
-  updatedAt?: Date;
-  consumedSourceSize?: number;
-  consumedSourceDocCount?: number;
-  createdBy?: string;
-  createdByArn?: string;
+  name?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  resources?: SpaceQuickSightResource[] | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  consumedSourceSize?: number | undefined;
+  consumedSourceDocCount?: number | undefined;
+  createdBy?: string | undefined;
+  createdByArn?: string | undefined;
 }
 export interface SpaceContributor {
-  userName?: string;
+  userName?: string | undefined;
   rawFileSizeBytes: number;
-  percentage?: number;
+  percentage?: number | undefined;
 }
 export type SpaceContributorList = SpaceContributor[];
 export interface DescribeSpaceResponse {
   spaceId: string;
-  spaceArn?: string;
+  spaceArn?: string | undefined;
   Space: SpaceDetails;
-  Contributors?: SpaceContributor[];
-  RequestId?: string;
+  Contributors?: SpaceContributor[] | undefined;
+  RequestId?: string | undefined;
 }
 export interface DescribeSpacePermissionsRequest {
   AwsAccountId: string;
@@ -11202,15 +11396,15 @@ export interface DescribeSpacePermissionsRequest {
 }
 export interface DescribeSpacePermissionsResponse {
   spaceId: string;
-  spaceArn?: string;
-  Permissions?: ResourcePermission[];
-  RequestId?: string;
+  spaceArn?: string | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  RequestId?: string | undefined;
 }
 export interface DescribeTemplateRequest {
   AwsAccountId: string;
   TemplateId: string;
-  VersionNumber?: number;
-  AliasName?: string;
+  VersionNumber?: number | undefined;
+  AliasName?: string | undefined;
 }
 export type TemplateErrorType =
   | "SOURCE_NOT_FOUND"
@@ -11219,35 +11413,35 @@ export type TemplateErrorType =
   | "ACCESS_DENIED"
   | (string & {});
 export interface TemplateError {
-  Type?: TemplateErrorType;
-  Message?: string;
-  ViolatedEntities?: Entity[];
+  Type?: TemplateErrorType | undefined;
+  Message?: string | undefined;
+  ViolatedEntities?: Entity[] | undefined;
 }
 export type TemplateErrorList = TemplateError[];
 export interface TemplateVersion {
-  CreatedTime?: Date;
-  Errors?: TemplateError[];
-  VersionNumber?: number;
-  Status?: ResourceStatus;
-  DataSetConfigurations?: DataSetConfiguration[];
-  TopicConfigurations?: TopicConfiguration[];
-  Description?: string;
-  SourceEntityArn?: string;
-  ThemeArn?: string;
-  Sheets?: Sheet[];
+  CreatedTime?: Date | undefined;
+  Errors?: TemplateError[] | undefined;
+  VersionNumber?: number | undefined;
+  Status?: ResourceStatus | undefined;
+  DataSetConfigurations?: DataSetConfiguration[] | undefined;
+  TopicConfigurations?: TopicConfiguration[] | undefined;
+  Description?: string | undefined;
+  SourceEntityArn?: string | undefined;
+  ThemeArn?: string | undefined;
+  Sheets?: Sheet[] | undefined;
 }
 export interface Template {
-  Arn?: string;
-  Name?: string;
-  Version?: TemplateVersion;
-  TemplateId?: string;
-  LastUpdatedTime?: Date;
-  CreatedTime?: Date;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Version?: TemplateVersion | undefined;
+  TemplateId?: string | undefined;
+  LastUpdatedTime?: Date | undefined;
+  CreatedTime?: Date | undefined;
 }
 export interface DescribeTemplateResponse {
-  Template?: Template;
-  Status?: number;
-  RequestId?: string;
+  Template?: Template | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface DescribeTemplateAliasRequest {
   AwsAccountId: string;
@@ -11255,74 +11449,74 @@ export interface DescribeTemplateAliasRequest {
   AliasName: string;
 }
 export interface DescribeTemplateAliasResponse {
-  TemplateAlias?: TemplateAlias;
-  Status?: number;
-  RequestId?: string;
+  TemplateAlias?: TemplateAlias | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface DescribeTemplateDefinitionRequest {
   AwsAccountId: string;
   TemplateId: string;
-  VersionNumber?: number;
-  AliasName?: string;
+  VersionNumber?: number | undefined;
+  AliasName?: string | undefined;
 }
 export interface DescribeTemplateDefinitionResponse {
-  Name?: string;
-  TemplateId?: string;
-  Errors?: TemplateError[];
-  ResourceStatus?: ResourceStatus;
-  ThemeArn?: string;
-  Definition?: TemplateVersionDefinition;
-  Status?: number;
-  RequestId?: string;
+  Name?: string | undefined;
+  TemplateId?: string | undefined;
+  Errors?: TemplateError[] | undefined;
+  ResourceStatus?: ResourceStatus | undefined;
+  ThemeArn?: string | undefined;
+  Definition?: TemplateVersionDefinition | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface DescribeTemplatePermissionsRequest {
   AwsAccountId: string;
   TemplateId: string;
 }
 export interface DescribeTemplatePermissionsResponse {
-  TemplateId?: string;
-  TemplateArn?: string;
-  Permissions?: ResourcePermission[];
-  RequestId?: string;
-  Status?: number;
+  TemplateId?: string | undefined;
+  TemplateArn?: string | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type AwsAndAccountId = string;
 export interface DescribeThemeRequest {
   AwsAccountId: string;
   ThemeId: string;
-  VersionNumber?: number;
-  AliasName?: string;
+  VersionNumber?: number | undefined;
+  AliasName?: string | undefined;
 }
 export type ThemeErrorType = "INTERNAL_FAILURE" | (string & {});
 export interface ThemeError {
-  Type?: ThemeErrorType;
-  Message?: string;
+  Type?: ThemeErrorType | undefined;
+  Message?: string | undefined;
 }
 export type ThemeErrorList = ThemeError[];
 export interface ThemeVersion {
-  VersionNumber?: number;
-  Arn?: string;
-  Description?: string;
-  BaseThemeId?: string;
-  CreatedTime?: Date;
-  Configuration?: ThemeConfiguration;
-  Errors?: ThemeError[];
-  Status?: ResourceStatus;
+  VersionNumber?: number | undefined;
+  Arn?: string | undefined;
+  Description?: string | undefined;
+  BaseThemeId?: string | undefined;
+  CreatedTime?: Date | undefined;
+  Configuration?: ThemeConfiguration | undefined;
+  Errors?: ThemeError[] | undefined;
+  Status?: ResourceStatus | undefined;
 }
 export type ThemeType = "QUICKSIGHT" | "CUSTOM" | "ALL" | (string & {});
 export interface Theme {
-  Arn?: string;
-  Name?: string;
-  ThemeId?: string;
-  Version?: ThemeVersion;
-  CreatedTime?: Date;
-  LastUpdatedTime?: Date;
-  Type?: ThemeType;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  ThemeId?: string | undefined;
+  Version?: ThemeVersion | undefined;
+  CreatedTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  Type?: ThemeType | undefined;
 }
 export interface DescribeThemeResponse {
-  Theme?: Theme;
-  Status?: number;
-  RequestId?: string;
+  Theme?: Theme | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface DescribeThemeAliasRequest {
   AwsAccountId: string;
@@ -11330,54 +11524,54 @@ export interface DescribeThemeAliasRequest {
   AliasName: string;
 }
 export interface DescribeThemeAliasResponse {
-  ThemeAlias?: ThemeAlias;
-  Status?: number;
-  RequestId?: string;
+  ThemeAlias?: ThemeAlias | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface DescribeThemePermissionsRequest {
   AwsAccountId: string;
   ThemeId: string;
 }
 export interface DescribeThemePermissionsResponse {
-  ThemeId?: string;
-  ThemeArn?: string;
-  Permissions?: ResourcePermission[];
-  RequestId?: string;
-  Status?: number;
+  ThemeId?: string | undefined;
+  ThemeArn?: string | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeTopicRequest {
   AwsAccountId: string;
   TopicId: string;
 }
 export interface DescribeTopicResponse {
-  Arn?: string;
-  TopicId?: string;
-  Topic?: TopicDetails;
-  RequestId?: string;
-  Status?: number;
-  CustomInstructions?: CustomInstructions;
+  Arn?: string | undefined;
+  TopicId?: string | undefined;
+  Topic?: TopicDetails | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
+  CustomInstructions?: CustomInstructions | undefined;
 }
 export interface DescribeTopicPermissionsRequest {
   AwsAccountId: string;
   TopicId: string;
 }
 export interface DescribeTopicPermissionsResponse {
-  TopicId?: string;
-  TopicArn?: string;
-  Permissions?: ResourcePermission[];
-  Status?: number;
-  RequestId?: string;
+  TopicId?: string | undefined;
+  TopicArn?: string | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface DescribeTopicPermissionsV2Request {
   AwsAccountId: string;
   TopicId: string;
 }
 export interface DescribeTopicPermissionsV2Response {
-  TopicId?: string;
-  TopicArn?: string;
-  Permissions?: ResourcePermission[];
-  Status?: number;
-  RequestId?: string;
+  TopicId?: string | undefined;
+  TopicArn?: string | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface DescribeTopicRefreshRequest {
   AwsAccountId: string;
@@ -11392,14 +11586,14 @@ export type TopicRefreshStatus =
   | "CANCELLED"
   | (string & {});
 export interface TopicRefreshDetails {
-  RefreshArn?: string;
-  RefreshId?: string;
-  RefreshStatus?: TopicRefreshStatus;
+  RefreshArn?: string | undefined;
+  RefreshId?: string | undefined;
+  RefreshStatus?: TopicRefreshStatus | undefined;
 }
 export interface DescribeTopicRefreshResponse {
-  RefreshDetails?: TopicRefreshDetails;
-  RequestId?: string;
-  Status?: number;
+  RefreshDetails?: TopicRefreshDetails | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeTopicRefreshScheduleRequest {
   AwsAccountId: string;
@@ -11407,24 +11601,24 @@ export interface DescribeTopicRefreshScheduleRequest {
   DatasetId: string;
 }
 export interface DescribeTopicRefreshScheduleResponse {
-  TopicId?: string;
-  TopicArn?: string;
-  DatasetArn?: string;
-  RefreshSchedule?: TopicRefreshSchedule;
-  Status?: number;
-  RequestId?: string;
+  TopicId?: string | undefined;
+  TopicArn?: string | undefined;
+  DatasetArn?: string | undefined;
+  RefreshSchedule?: TopicRefreshSchedule | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface DescribeTopicV2Request {
   AwsAccountId: string;
   TopicId: string;
 }
 export interface DescribeTopicV2Response {
-  Arn?: string;
-  TopicId?: string;
-  Topic?: TopicV2Details;
-  CustomInstructions?: CustomInstructions;
-  Status?: number;
-  RequestId?: string;
+  Arn?: string | undefined;
+  TopicId?: string | undefined;
+  Topic?: TopicV2Details | undefined;
+  CustomInstructions?: CustomInstructions | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface DescribeUserRequest {
   UserName: string;
@@ -11443,22 +11637,22 @@ export type UserRole =
   | (string & {});
 export type IdentityType = "IAM" | "QUICKSIGHT" | "IAM_IDENTITY_CENTER" | (string & {});
 export interface User {
-  Arn?: string;
-  UserName?: string;
-  Email?: string;
-  Role?: UserRole;
-  IdentityType?: IdentityType;
-  Active?: boolean;
-  PrincipalId?: string;
-  CustomPermissionsName?: string;
-  ExternalLoginFederationProviderType?: string;
-  ExternalLoginFederationProviderUrl?: string;
-  ExternalLoginId?: string;
+  Arn?: string | undefined;
+  UserName?: string | undefined;
+  Email?: string | undefined;
+  Role?: UserRole | undefined;
+  IdentityType?: IdentityType | undefined;
+  Active?: boolean | undefined;
+  PrincipalId?: string | undefined;
+  CustomPermissionsName?: string | undefined;
+  ExternalLoginFederationProviderType?: string | undefined;
+  ExternalLoginFederationProviderUrl?: string | undefined;
+  ExternalLoginId?: string | undefined;
 }
 export interface DescribeUserResponse {
-  User?: User;
-  RequestId?: string;
-  Status?: number;
+  User?: User | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface DescribeVPCConnectionRequest {
   AwsAccountId: string;
@@ -11478,31 +11672,31 @@ export type NetworkInterfaceStatus =
   | (string & {});
 export type NetworkInterfaceId = string;
 export interface NetworkInterface {
-  SubnetId?: string;
-  AvailabilityZone?: string;
-  ErrorMessage?: string;
-  Status?: NetworkInterfaceStatus;
-  NetworkInterfaceId?: string;
+  SubnetId?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  ErrorMessage?: string | undefined;
+  Status?: NetworkInterfaceStatus | undefined;
+  NetworkInterfaceId?: string | undefined;
 }
 export type NetworkInterfaceList = NetworkInterface[];
 export interface VPCConnection {
-  VPCConnectionId?: string;
-  Arn?: string;
-  Name?: string;
-  VPCId?: string;
-  SecurityGroupIds?: string[];
-  DnsResolvers?: string[];
-  Status?: VPCConnectionResourceStatus;
-  AvailabilityStatus?: VPCConnectionAvailabilityStatus;
-  NetworkInterfaces?: NetworkInterface[];
-  RoleArn?: string;
-  CreatedTime?: Date;
-  LastUpdatedTime?: Date;
+  VPCConnectionId?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  VPCId?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  DnsResolvers?: string[] | undefined;
+  Status?: VPCConnectionResourceStatus | undefined;
+  AvailabilityStatus?: VPCConnectionAvailabilityStatus | undefined;
+  NetworkInterfaces?: NetworkInterface[] | undefined;
+  RoleArn?: string | undefined;
+  CreatedTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export interface DescribeVPCConnectionResponse {
-  VPCConnection?: VPCConnection;
-  RequestId?: string;
-  Status?: number;
+  VPCConnection?: VPCConnection | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type SessionLifetimeInMinutes = number;
 export interface SessionTag {
@@ -11525,13 +11719,13 @@ export interface SharedViewConfigurations {
   Enabled: boolean;
 }
 export interface AnonymousUserDashboardFeatureConfigurations {
-  SharedView?: SharedViewConfigurations;
+  SharedView?: SharedViewConfigurations | undefined;
 }
 export interface AnonymousUserDashboardEmbeddingConfiguration {
   InitialDashboardId: string;
-  EnabledFeatures?: AnonymousUserDashboardEmbeddingConfigurationEnabledFeature[];
-  DisabledFeatures?: AnonymousUserDashboardEmbeddingConfigurationDisabledFeature[];
-  FeatureConfigurations?: AnonymousUserDashboardFeatureConfigurations;
+  EnabledFeatures?: AnonymousUserDashboardEmbeddingConfigurationEnabledFeature[] | undefined;
+  DisabledFeatures?: AnonymousUserDashboardEmbeddingConfigurationDisabledFeature[] | undefined;
+  FeatureConfigurations?: AnonymousUserDashboardFeatureConfigurations | undefined;
 }
 export interface DashboardVisualId {
   DashboardId: string;
@@ -11548,19 +11742,19 @@ export interface AnonymousUserGenerativeQnAEmbeddingConfiguration {
   InitialTopicId: string;
 }
 export interface AnonymousUserEmbeddingExperienceConfiguration {
-  Dashboard?: AnonymousUserDashboardEmbeddingConfiguration;
-  DashboardVisual?: AnonymousUserDashboardVisualEmbeddingConfiguration;
-  QSearchBar?: AnonymousUserQSearchBarEmbeddingConfiguration;
-  GenerativeQnA?: AnonymousUserGenerativeQnAEmbeddingConfiguration;
+  Dashboard?: AnonymousUserDashboardEmbeddingConfiguration | undefined;
+  DashboardVisual?: AnonymousUserDashboardVisualEmbeddingConfiguration | undefined;
+  QSearchBar?: AnonymousUserQSearchBarEmbeddingConfiguration | undefined;
+  GenerativeQnA?: AnonymousUserGenerativeQnAEmbeddingConfiguration | undefined;
 }
 export interface GenerateEmbedUrlForAnonymousUserRequest {
   AwsAccountId: string;
-  SessionLifetimeInMinutes?: number;
+  SessionLifetimeInMinutes?: number | undefined;
   Namespace: string;
-  SessionTags?: SessionTag[];
+  SessionTags?: SessionTag[] | undefined;
   AuthorizedResourceArns: string[];
   ExperienceConfiguration: AnonymousUserEmbeddingExperienceConfiguration;
-  AllowedDomains?: string[];
+  AllowedDomains?: string[] | undefined;
 }
 export type EmbeddingUrl = string | redacted.Redacted<string>;
 export interface GenerateEmbedUrlForAnonymousUserResponse {
@@ -11579,7 +11773,7 @@ export interface ExecutiveSummaryConfigurations {
   Enabled: boolean;
 }
 export interface AmazonQInQuickSightDashboardConfigurations {
-  ExecutiveSummary?: ExecutiveSummaryConfigurations;
+  ExecutiveSummary?: ExecutiveSummaryConfigurations | undefined;
 }
 export interface SchedulesConfigurations {
   Enabled: boolean;
@@ -11594,18 +11788,18 @@ export interface DashboardCustomizationSummaryConfigurations {
   Enabled: boolean;
 }
 export interface RegisteredUserDashboardFeatureConfigurations {
-  StatePersistence?: StatePersistenceConfigurations;
-  Bookmarks?: BookmarksConfigurations;
-  SharedView?: SharedViewConfigurations;
-  AmazonQInQuickSight?: AmazonQInQuickSightDashboardConfigurations;
-  Schedules?: SchedulesConfigurations;
-  RecentSnapshots?: RecentSnapshotsConfigurations;
-  ThresholdAlerts?: ThresholdAlertsConfigurations;
-  DashboardCustomizationSummary?: DashboardCustomizationSummaryConfigurations;
+  StatePersistence?: StatePersistenceConfigurations | undefined;
+  Bookmarks?: BookmarksConfigurations | undefined;
+  SharedView?: SharedViewConfigurations | undefined;
+  AmazonQInQuickSight?: AmazonQInQuickSightDashboardConfigurations | undefined;
+  Schedules?: SchedulesConfigurations | undefined;
+  RecentSnapshots?: RecentSnapshotsConfigurations | undefined;
+  ThresholdAlerts?: ThresholdAlertsConfigurations | undefined;
+  DashboardCustomizationSummary?: DashboardCustomizationSummaryConfigurations | undefined;
 }
 export interface RegisteredUserDashboardEmbeddingConfiguration {
   InitialDashboardId: string;
-  FeatureConfigurations?: RegisteredUserDashboardFeatureConfigurations;
+  FeatureConfigurations?: RegisteredUserDashboardFeatureConfigurations | undefined;
 }
 export type EntryPath = string;
 export interface DataQnAConfigurations {
@@ -11618,48 +11812,48 @@ export interface DataStoriesConfigurations {
   Enabled: boolean;
 }
 export interface AmazonQInQuickSightConsoleConfigurations {
-  DataQnA?: DataQnAConfigurations;
-  GenerativeAuthoring?: GenerativeAuthoringConfigurations;
-  ExecutiveSummary?: ExecutiveSummaryConfigurations;
-  DataStories?: DataStoriesConfigurations;
+  DataQnA?: DataQnAConfigurations | undefined;
+  GenerativeAuthoring?: GenerativeAuthoringConfigurations | undefined;
+  ExecutiveSummary?: ExecutiveSummaryConfigurations | undefined;
+  DataStories?: DataStoriesConfigurations | undefined;
 }
 export interface RegisteredUserConsoleFeatureConfigurations {
-  StatePersistence?: StatePersistenceConfigurations;
-  SharedView?: SharedViewConfigurations;
-  AmazonQInQuickSight?: AmazonQInQuickSightConsoleConfigurations;
-  Schedules?: SchedulesConfigurations;
-  RecentSnapshots?: RecentSnapshotsConfigurations;
-  ThresholdAlerts?: ThresholdAlertsConfigurations;
-  DashboardCustomizationSummary?: DashboardCustomizationSummaryConfigurations;
+  StatePersistence?: StatePersistenceConfigurations | undefined;
+  SharedView?: SharedViewConfigurations | undefined;
+  AmazonQInQuickSight?: AmazonQInQuickSightConsoleConfigurations | undefined;
+  Schedules?: SchedulesConfigurations | undefined;
+  RecentSnapshots?: RecentSnapshotsConfigurations | undefined;
+  ThresholdAlerts?: ThresholdAlertsConfigurations | undefined;
+  DashboardCustomizationSummary?: DashboardCustomizationSummaryConfigurations | undefined;
 }
 export interface RegisteredUserQuickSightConsoleEmbeddingConfiguration {
-  InitialPath?: string;
-  FeatureConfigurations?: RegisteredUserConsoleFeatureConfigurations;
+  InitialPath?: string | undefined;
+  FeatureConfigurations?: RegisteredUserConsoleFeatureConfigurations | undefined;
 }
 export interface RegisteredUserQSearchBarEmbeddingConfiguration {
-  InitialTopicId?: string;
+  InitialTopicId?: string | undefined;
 }
 export interface RegisteredUserDashboardVisualEmbeddingConfiguration {
   InitialDashboardVisualId: DashboardVisualId;
 }
 export interface RegisteredUserGenerativeQnAEmbeddingConfiguration {
-  InitialTopicId?: string;
+  InitialTopicId?: string | undefined;
 }
 export interface RegisteredUserQuickChatEmbeddingConfiguration {}
 export interface RegisteredUserEmbeddingExperienceConfiguration {
-  Dashboard?: RegisteredUserDashboardEmbeddingConfiguration;
-  QuickSightConsole?: RegisteredUserQuickSightConsoleEmbeddingConfiguration;
-  QSearchBar?: RegisteredUserQSearchBarEmbeddingConfiguration;
-  DashboardVisual?: RegisteredUserDashboardVisualEmbeddingConfiguration;
-  GenerativeQnA?: RegisteredUserGenerativeQnAEmbeddingConfiguration;
-  QuickChat?: RegisteredUserQuickChatEmbeddingConfiguration;
+  Dashboard?: RegisteredUserDashboardEmbeddingConfiguration | undefined;
+  QuickSightConsole?: RegisteredUserQuickSightConsoleEmbeddingConfiguration | undefined;
+  QSearchBar?: RegisteredUserQSearchBarEmbeddingConfiguration | undefined;
+  DashboardVisual?: RegisteredUserDashboardVisualEmbeddingConfiguration | undefined;
+  GenerativeQnA?: RegisteredUserGenerativeQnAEmbeddingConfiguration | undefined;
+  QuickChat?: RegisteredUserQuickChatEmbeddingConfiguration | undefined;
 }
 export interface GenerateEmbedUrlForRegisteredUserRequest {
   AwsAccountId: string;
-  SessionLifetimeInMinutes?: number;
+  SessionLifetimeInMinutes?: number | undefined;
   UserArn: string;
   ExperienceConfiguration: RegisteredUserEmbeddingExperienceConfiguration;
-  AllowedDomains?: string[];
+  AllowedDomains?: string[] | undefined;
 }
 export interface GenerateEmbedUrlForRegisteredUserResponse {
   EmbedUrl: string | redacted.Redacted<string>;
@@ -11668,9 +11862,9 @@ export interface GenerateEmbedUrlForRegisteredUserResponse {
 }
 export interface GenerateEmbedUrlForRegisteredUserWithIdentityRequest {
   AwsAccountId: string;
-  SessionLifetimeInMinutes?: number;
+  SessionLifetimeInMinutes?: number | undefined;
   ExperienceConfiguration: RegisteredUserEmbeddingExperienceConfiguration;
-  AllowedDomains?: string[];
+  AllowedDomains?: string[] | undefined;
 }
 export interface GenerateEmbedUrlForRegisteredUserWithIdentityResponse {
   EmbedUrl: string | redacted.Redacted<string>;
@@ -11683,18 +11877,18 @@ export interface GetDashboardEmbedUrlRequest {
   AwsAccountId: string;
   DashboardId: string;
   IdentityType: EmbeddingIdentityType;
-  SessionLifetimeInMinutes?: number;
-  UndoRedoDisabled?: boolean;
-  ResetDisabled?: boolean;
-  StatePersistenceEnabled?: boolean;
-  UserArn?: string;
-  Namespace?: string;
-  AdditionalDashboardIds?: string[];
+  SessionLifetimeInMinutes?: number | undefined;
+  UndoRedoDisabled?: boolean | undefined;
+  ResetDisabled?: boolean | undefined;
+  StatePersistenceEnabled?: boolean | undefined;
+  UserArn?: string | undefined;
+  Namespace?: string | undefined;
+  AdditionalDashboardIds?: string[] | undefined;
 }
 export interface GetDashboardEmbedUrlResponse {
-  EmbedUrl?: string | redacted.Redacted<string>;
-  Status?: number;
-  RequestId?: string;
+  EmbedUrl?: string | redacted.Redacted<string> | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface GetFlowMetadataInput {
   AwsAccountId: string;
@@ -11704,14 +11898,14 @@ export interface GetFlowMetadataOutput {
   Arn: string;
   FlowId: string;
   Name: string;
-  Description?: string;
-  PublishState?: FlowPublishState;
-  UserCount?: number;
-  RunCount?: number;
+  Description?: string | undefined;
+  PublishState?: FlowPublishState | undefined;
+  UserCount?: number | undefined;
+  RunCount?: number | undefined;
   CreatedTime: Date;
-  LastUpdatedTime?: Date;
-  RequestId?: string;
-  Status?: number;
+  LastUpdatedTime?: Date | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface GetFlowPermissionsInput {
   AwsAccountId: string;
@@ -11721,280 +11915,282 @@ export interface GetFlowPermissionsOutput {
   Arn: string;
   FlowId: string;
   Permissions: Permission[];
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type UserIdentifier =
-  | { UserName: string | redacted.Redacted<string>; Email?: never; UserArn?: never }
-  | { UserName?: never; Email: string | redacted.Redacted<string>; UserArn?: never }
-  | { UserName?: never; Email?: never; UserArn: string };
+  | { UserName: string | redacted.Redacted<string>; Email?: undefined; UserArn?: undefined }
+  | { UserName?: undefined; Email: string | redacted.Redacted<string>; UserArn?: undefined }
+  | { UserName?: undefined; Email?: undefined; UserArn: string };
 export type Region = string;
 export interface GetIdentityContextRequest {
   AwsAccountId: string;
   UserIdentifier: UserIdentifier;
-  Namespace?: string;
-  SessionExpiresAt?: Date;
-  ContextRegion?: string;
+  Namespace?: string | undefined;
+  SessionExpiresAt?: Date | undefined;
+  ContextRegion?: string | undefined;
 }
 export type StatusCode2 = number;
 export interface GetIdentityContextResponse {
   Status: number;
   RequestId: string;
-  Context?: string;
+  Context?: string | undefined;
 }
 export type EntryPoint = string;
 export interface GetSessionEmbedUrlRequest {
   AwsAccountId: string;
-  EntryPoint?: string;
-  SessionLifetimeInMinutes?: number;
-  UserArn?: string;
+  EntryPoint?: string | undefined;
+  SessionLifetimeInMinutes?: number | undefined;
+  UserArn?: string | undefined;
 }
 export interface GetSessionEmbedUrlResponse {
-  EmbedUrl?: string | redacted.Redacted<string>;
-  Status?: number;
-  RequestId?: string;
+  EmbedUrl?: string | redacted.Redacted<string> | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface ListActionConnectorsRequest {
   AwsAccountId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ActionConnectorSummary {
   Arn: string;
   ActionConnectorId: string;
   Type: ActionConnectorType;
   Name: string | redacted.Redacted<string>;
-  CreatedTime?: Date;
+  CreatedTime?: Date | undefined;
   LastUpdatedTime: Date;
-  Status?: ResourceStatus;
-  Error?: ActionConnectorError;
+  Status?: ResourceStatus | undefined;
+  Error?: ActionConnectorError | undefined;
 }
 export type ActionConnectorSummaryList = ActionConnectorSummary[];
 export interface ListActionConnectorsResponse {
   ActionConnectorSummaries: ActionConnectorSummary[];
-  NextToken?: string;
-  RequestId?: string;
-  Status?: number;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type ListAgentsRequestMaxResultsInteger = number;
 export interface ListAgentsRequest {
   AwsAccountId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AgentSummary {
   Arn: string;
   AgentId: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   CreatedAt: Date;
   UpdatedAt: Date;
-  IconId?: string;
+  IconId?: string | undefined;
 }
 export type AgentSummaries = AgentSummary[];
 export interface ListAgentsResponse {
-  RequestId?: string;
+  RequestId?: string | undefined;
   AgentSummaries: AgentSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListAnalysesRequest {
   AwsAccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface AnalysisSummary {
-  Arn?: string;
-  AnalysisId?: string;
-  Name?: string;
-  Status?: ResourceStatus;
-  CreatedTime?: Date;
-  LastUpdatedTime?: Date;
+  Arn?: string | undefined;
+  AnalysisId?: string | undefined;
+  Name?: string | undefined;
+  Status?: ResourceStatus | undefined;
+  CreatedTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export type AnalysisSummaryList = AnalysisSummary[];
 export interface ListAnalysesResponse {
-  AnalysisSummaryList?: AnalysisSummary[];
-  NextToken?: string;
-  Status?: number;
-  RequestId?: string;
+  AnalysisSummaryList?: AnalysisSummary[] | undefined;
+  NextToken?: string | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export type PaginationToken = string;
 export interface ListApprovalPoliciesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ApprovalPolicyList = ApprovalPolicy[];
 export interface ListApprovalPoliciesResponse {
   Policies: ApprovalPolicy[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type NextToken = string;
 export interface ListAppsRequest {
   AwsAccountId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type AppSummaryList = AppSummary[];
 export interface ListAppsResponse {
   AppSummaryList: AppSummary[];
-  NextToken?: string;
-  RequestId?: string;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
 }
 export interface ListAssetBundleExportJobsRequest {
   AwsAccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface AssetBundleExportJobSummary {
-  JobStatus?: AssetBundleExportJobStatus;
-  Arn?: string;
-  CreatedTime?: Date;
-  AssetBundleExportJobId?: string;
-  IncludeAllDependencies?: boolean;
-  ExportFormat?: AssetBundleExportFormat;
-  IncludePermissions?: boolean;
-  IncludeTags?: boolean;
+  JobStatus?: AssetBundleExportJobStatus | undefined;
+  Arn?: string | undefined;
+  CreatedTime?: Date | undefined;
+  AssetBundleExportJobId?: string | undefined;
+  IncludeAllDependencies?: boolean | undefined;
+  ExportFormat?: AssetBundleExportFormat | undefined;
+  IncludePermissions?: boolean | undefined;
+  IncludeTags?: boolean | undefined;
 }
 export type AssetBundleExportJobSummaryList = AssetBundleExportJobSummary[];
 export interface ListAssetBundleExportJobsResponse {
-  AssetBundleExportJobSummaryList?: AssetBundleExportJobSummary[];
-  NextToken?: string;
-  RequestId?: string;
-  Status?: number;
+  AssetBundleExportJobSummaryList?: AssetBundleExportJobSummary[] | undefined;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface ListAssetBundleImportJobsRequest {
   AwsAccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface AssetBundleImportJobSummary {
-  JobStatus?: AssetBundleImportJobStatus;
-  Arn?: string;
-  CreatedTime?: Date;
-  AssetBundleImportJobId?: string;
-  FailureAction?: AssetBundleImportFailureAction;
+  JobStatus?: AssetBundleImportJobStatus | undefined;
+  Arn?: string | undefined;
+  CreatedTime?: Date | undefined;
+  AssetBundleImportJobId?: string | undefined;
+  FailureAction?: AssetBundleImportFailureAction | undefined;
 }
 export type AssetBundleImportJobSummaryList = AssetBundleImportJobSummary[];
 export interface ListAssetBundleImportJobsResponse {
-  AssetBundleImportJobSummaryList?: AssetBundleImportJobSummary[];
-  NextToken?: string;
-  RequestId?: string;
-  Status?: number;
+  AssetBundleImportJobSummaryList?: AssetBundleImportJobSummary[] | undefined;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface ListBrandsRequest {
   AwsAccountId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface BrandSummary {
-  Arn?: string;
-  BrandId?: string;
-  BrandName?: string;
-  Description?: string;
-  BrandStatus?: BrandStatus;
-  CreatedTime?: Date;
-  LastUpdatedTime?: Date;
+  Arn?: string | undefined;
+  BrandId?: string | undefined;
+  BrandName?: string | undefined;
+  Description?: string | undefined;
+  BrandStatus?: BrandStatus | undefined;
+  CreatedTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export type BrandSummaryList = BrandSummary[];
 export interface ListBrandsResponse {
-  NextToken?: string;
-  Brands?: BrandSummary[];
+  NextToken?: string | undefined;
+  Brands?: BrandSummary[] | undefined;
 }
 export interface ListCustomPermissionsRequest {
   AwsAccountId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type CustomPermissionsList = CustomPermissions[];
 export interface ListCustomPermissionsResponse {
-  Status?: number;
-  CustomPermissionsList?: CustomPermissions[];
-  NextToken?: string;
-  RequestId?: string;
+  Status?: number | undefined;
+  CustomPermissionsList?: CustomPermissions[] | undefined;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
 }
 export interface ListDashboardsRequest {
   AwsAccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DashboardSummary {
-  Arn?: string;
-  DashboardId?: string;
-  Name?: string;
-  CreatedTime?: Date;
-  LastUpdatedTime?: Date;
-  PublishedVersionNumber?: number;
-  LastPublishedTime?: Date;
+  Arn?: string | undefined;
+  DashboardId?: string | undefined;
+  Name?: string | undefined;
+  CreatedTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  PublishedVersionNumber?: number | undefined;
+  LastPublishedTime?: Date | undefined;
 }
 export type DashboardSummaryList = DashboardSummary[];
 export interface ListDashboardsResponse {
-  DashboardSummaryList?: DashboardSummary[];
-  NextToken?: string;
-  Status?: number;
-  RequestId?: string;
+  DashboardSummaryList?: DashboardSummary[] | undefined;
+  NextToken?: string | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface ListDashboardVersionsRequest {
   AwsAccountId: string;
   DashboardId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DashboardVersionSummary {
-  Arn?: string;
-  CreatedTime?: Date;
-  VersionNumber?: number;
-  Status?: ResourceStatus;
-  SourceEntityArn?: string;
-  Description?: string;
+  Arn?: string | undefined;
+  CreatedTime?: Date | undefined;
+  VersionNumber?: number | undefined;
+  Status?: ResourceStatus | undefined;
+  SourceEntityArn?: string | undefined;
+  Description?: string | undefined;
 }
 export type DashboardVersionSummaryList = DashboardVersionSummary[];
 export interface ListDashboardVersionsResponse {
-  DashboardVersionSummaryList?: DashboardVersionSummary[];
-  NextToken?: string;
-  Status?: number;
-  RequestId?: string;
+  DashboardVersionSummaryList?: DashboardVersionSummary[] | undefined;
+  NextToken?: string | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface ListDataSetsRequest {
   AwsAccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type RowLevelPermissionDataSetMap = { [key: string]: RowLevelPermissionDataSet | undefined };
 export interface DataSetSummary {
-  Arn?: string;
-  DataSetId?: string;
-  Name?: string;
-  CreatedTime?: Date;
-  LastUpdatedTime?: Date;
-  ImportMode?: DataSetImportMode;
-  RowLevelPermissionDataSet?: RowLevelPermissionDataSet;
-  RowLevelPermissionDataSetMap?: { [key: string]: RowLevelPermissionDataSet | undefined };
-  RowLevelPermissionTagConfigurationApplied?: boolean;
-  ColumnLevelPermissionRulesApplied?: boolean;
-  UseAs?: DataSetUseAs;
+  Arn?: string | undefined;
+  DataSetId?: string | undefined;
+  Name?: string | undefined;
+  CreatedTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  ImportMode?: DataSetImportMode | undefined;
+  RowLevelPermissionDataSet?: RowLevelPermissionDataSet | undefined;
+  RowLevelPermissionDataSetMap?:
+    | { [key: string]: RowLevelPermissionDataSet | undefined }
+    | undefined;
+  RowLevelPermissionTagConfigurationApplied?: boolean | undefined;
+  ColumnLevelPermissionRulesApplied?: boolean | undefined;
+  UseAs?: DataSetUseAs | undefined;
 }
 export type DataSetSummaryList = DataSetSummary[];
 export interface ListDataSetsResponse {
-  DataSetSummaries?: DataSetSummary[];
-  NextToken?: string;
-  RequestId?: string;
-  Status?: number;
+  DataSetSummaries?: DataSetSummary[] | undefined;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface ListDataSourcesRequest {
   AwsAccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type DataSourceList = DataSource[];
 export interface ListDataSourcesResponse {
-  DataSources?: DataSource[];
-  NextToken?: string;
-  RequestId?: string;
-  Status?: number;
+  DataSources?: DataSource[] | undefined;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface ListDlpSettingsRequest {
   AwsAccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DlpSettingSummary {
   DlpSettingId: string;
@@ -12008,187 +12204,187 @@ export interface DlpSettingSummary {
 export type DlpSettingSummaryList = DlpSettingSummary[];
 export interface ListDlpSettingsResponse {
   DlpSettingSummaries: DlpSettingSummary[];
-  NextToken?: string;
-  RequestId?: string;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
 }
 export type FlowMaxResults = number;
 export interface ListFlowsInput {
   AwsAccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface FlowSummary {
   Arn: string;
   FlowId: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   CreatedTime: Date;
-  CreatedBy?: string;
-  LastUpdatedTime?: Date;
-  LastUpdatedBy?: string;
-  PublishState?: FlowPublishState;
-  RunCount?: number;
-  UserCount?: number;
-  LastPublishedBy?: string;
-  LastPublishedAt?: Date;
+  CreatedBy?: string | undefined;
+  LastUpdatedTime?: Date | undefined;
+  LastUpdatedBy?: string | undefined;
+  PublishState?: FlowPublishState | undefined;
+  RunCount?: number | undefined;
+  UserCount?: number | undefined;
+  LastPublishedBy?: string | undefined;
+  LastPublishedAt?: Date | undefined;
 }
 export type FlowSummaryList = FlowSummary[];
 export interface ListFlowsOutput {
-  FlowSummaryList?: FlowSummary[];
-  NextToken?: string;
-  RequestId?: string;
-  Status?: number;
+  FlowSummaryList?: FlowSummary[] | undefined;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface ListFolderMembersRequest {
   AwsAccountId: string;
   FolderId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface MemberIdArnPair {
-  MemberId?: string;
-  MemberArn?: string;
+  MemberId?: string | undefined;
+  MemberArn?: string | undefined;
 }
 export type FolderMemberList = MemberIdArnPair[];
 export interface ListFolderMembersResponse {
-  Status?: number;
-  FolderMemberList?: MemberIdArnPair[];
-  NextToken?: string;
-  RequestId?: string;
+  Status?: number | undefined;
+  FolderMemberList?: MemberIdArnPair[] | undefined;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
 }
 export interface ListFoldersRequest {
   AwsAccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface FolderSummary {
-  Arn?: string;
-  FolderId?: string;
-  Name?: string;
-  FolderType?: FolderType;
-  CreatedTime?: Date;
-  LastUpdatedTime?: Date;
-  SharingModel?: SharingModel;
+  Arn?: string | undefined;
+  FolderId?: string | undefined;
+  Name?: string | undefined;
+  FolderType?: FolderType | undefined;
+  CreatedTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  SharingModel?: SharingModel | undefined;
 }
 export type FolderSummaryList = FolderSummary[];
 export interface ListFoldersResponse {
-  Status?: number;
-  FolderSummaryList?: FolderSummary[];
-  NextToken?: string;
-  RequestId?: string;
+  Status?: number | undefined;
+  FolderSummaryList?: FolderSummary[] | undefined;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
 }
 export interface ListFoldersForResourceRequest {
   AwsAccountId: string;
   ResourceArn: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type FoldersForResourceArnList = string[];
 export interface ListFoldersForResourceResponse {
-  Status?: number;
-  Folders?: string[];
-  NextToken?: string;
-  RequestId?: string;
+  Status?: number | undefined;
+  Folders?: string[] | undefined;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
 }
 export interface ListGroupMembershipsRequest {
   GroupName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   AwsAccountId: string;
   Namespace: string;
 }
 export type GroupMemberList = GroupMember[];
 export interface ListGroupMembershipsResponse {
-  GroupMemberList?: GroupMember[];
-  NextToken?: string;
-  RequestId?: string;
-  Status?: number;
+  GroupMemberList?: GroupMember[] | undefined;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface ListGroupsRequest {
   AwsAccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   Namespace: string;
 }
 export type GroupList = Group[];
 export interface ListGroupsResponse {
-  GroupList?: Group[];
-  NextToken?: string;
-  RequestId?: string;
-  Status?: number;
+  GroupList?: Group[] | undefined;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface ListIAMPolicyAssignmentsRequest {
   AwsAccountId: string;
-  AssignmentStatus?: AssignmentStatus;
+  AssignmentStatus?: AssignmentStatus | undefined;
   Namespace: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface IAMPolicyAssignmentSummary {
-  AssignmentName?: string;
-  AssignmentStatus?: AssignmentStatus;
+  AssignmentName?: string | undefined;
+  AssignmentStatus?: AssignmentStatus | undefined;
 }
 export type IAMPolicyAssignmentSummaryList = IAMPolicyAssignmentSummary[];
 export interface ListIAMPolicyAssignmentsResponse {
-  IAMPolicyAssignments?: IAMPolicyAssignmentSummary[];
-  NextToken?: string;
-  RequestId?: string;
-  Status?: number;
+  IAMPolicyAssignments?: IAMPolicyAssignmentSummary[] | undefined;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface ListIAMPolicyAssignmentsForUserRequest {
   AwsAccountId: string;
   UserName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   Namespace: string;
 }
 export interface ActiveIAMPolicyAssignment {
-  AssignmentName?: string;
-  PolicyArn?: string;
+  AssignmentName?: string | undefined;
+  PolicyArn?: string | undefined;
 }
 export type ActiveIAMPolicyAssignmentList = ActiveIAMPolicyAssignment[];
 export interface ListIAMPolicyAssignmentsForUserResponse {
-  ActiveAssignments?: ActiveIAMPolicyAssignment[];
-  RequestId?: string;
-  NextToken?: string;
-  Status?: number;
+  ActiveAssignments?: ActiveIAMPolicyAssignment[] | undefined;
+  RequestId?: string | undefined;
+  NextToken?: string | undefined;
+  Status?: number | undefined;
 }
 export type ListIdentityPropagationMaxResults = number;
 export interface ListIdentityPropagationConfigsRequest {
   AwsAccountId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type AuthorizedTargetsList = string[];
 export interface AuthorizedTargetsByService {
-  Service?: ServiceType;
-  AuthorizedTargets?: string[];
+  Service?: ServiceType | undefined;
+  AuthorizedTargets?: string[] | undefined;
 }
 export type AuthorizedTargetsByServices = AuthorizedTargetsByService[];
 export interface ListIdentityPropagationConfigsResponse {
-  Services?: AuthorizedTargetsByService[];
-  NextToken?: string;
-  Status?: number;
-  RequestId?: string;
+  Services?: AuthorizedTargetsByService[] | undefined;
+  NextToken?: string | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export type IngestionMaxResults = number;
 export interface ListIngestionsRequest {
   DataSetId: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
   AwsAccountId: string;
-  MaxResults?: number;
+  MaxResults?: number | undefined;
 }
 export type Ingestions = Ingestion[];
 export interface ListIngestionsResponse {
-  Ingestions?: Ingestion[];
-  NextToken?: string;
-  RequestId?: string;
-  Status?: number;
+  Ingestions?: Ingestion[] | undefined;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface ListKnowledgeBasesRequest {
   AwsAccountId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface KnowledgeBaseSummary {
   KnowledgeBaseArn: string;
@@ -12196,66 +12392,66 @@ export interface KnowledgeBaseSummary {
   Name: string;
   Status: DataSetStatus;
   DataSourceArn: string;
-  Type?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  KnowledgeBaseSizeBytes?: number;
-  DocumentCount?: number;
-  PrimaryOwnerArn?: string;
-  PrimaryOwnerUsername?: string | redacted.Redacted<string>;
+  Type?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  KnowledgeBaseSizeBytes?: number | undefined;
+  DocumentCount?: number | undefined;
+  PrimaryOwnerArn?: string | undefined;
+  PrimaryOwnerUsername?: string | redacted.Redacted<string> | undefined;
 }
 export type KnowledgeBaseSummaries = KnowledgeBaseSummary[];
 export interface ListKnowledgeBasesResponse {
   KnowledgeBaseSummaries: KnowledgeBaseSummary[];
-  NextToken?: string;
-  RequestId?: string;
-  Status?: number;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type ListLimitsProfilesRequestMaxResultsInteger = number;
 export interface ListLimitsProfilesRequest {
   accountId: string;
-  resourceType?: ResourceType;
-  maxResults?: number;
-  nextToken?: string;
+  resourceType?: ResourceType | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type LimitsProfileList = LimitsProfile[];
 export interface ListLimitsProfilesResponse {
   profiles: LimitsProfile[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListNamespacesRequest {
   AwsAccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type Namespaces = NamespaceInfoV2[];
 export interface ListNamespacesResponse {
-  Namespaces?: NamespaceInfoV2[];
-  NextToken?: string;
-  RequestId?: string;
-  Status?: number;
+  Namespaces?: NamespaceInfoV2[] | undefined;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface ListOAuthClientApplicationsRequest {
   AwsAccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface OAuthClientApplicationSummary {
-  OAuthClientApplicationId?: string;
-  Name?: string;
-  OAuthClientAuthenticationType?: OAuthClientAuthenticationType;
-  DataSourceType?: DataSourceType;
-  IdentityProviderVpcConnectionProperties?: VpcConnectionProperties;
-  CreatedTime?: Date;
-  LastUpdatedTime?: Date;
-  Arn?: string;
+  OAuthClientApplicationId?: string | undefined;
+  Name?: string | undefined;
+  OAuthClientAuthenticationType?: OAuthClientAuthenticationType | undefined;
+  DataSourceType?: DataSourceType | undefined;
+  IdentityProviderVpcConnectionProperties?: VpcConnectionProperties | undefined;
+  CreatedTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  Arn?: string | undefined;
 }
 export type OAuthClientApplicationSummaryList = OAuthClientApplicationSummary[];
 export interface ListOAuthClientApplicationsResponse {
-  OAuthClientApplications?: OAuthClientApplicationSummary[];
-  NextToken?: string;
-  RequestId?: string;
-  Status?: number;
+  OAuthClientApplications?: OAuthClientApplicationSummary[] | undefined;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface ListRefreshSchedulesRequest {
   AwsAccountId: string;
@@ -12263,28 +12459,28 @@ export interface ListRefreshSchedulesRequest {
 }
 export type RefreshSchedules = RefreshSchedule[];
 export interface ListRefreshSchedulesResponse {
-  RefreshSchedules?: RefreshSchedule[];
-  Status?: number;
-  RequestId?: string;
+  RefreshSchedules?: RefreshSchedule[] | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface ListRoleMembershipsRequest {
   Role: Role;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   AwsAccountId: string;
   Namespace: string;
 }
 export interface ListRoleMembershipsResponse {
-  MembersList?: string[];
-  NextToken?: string;
-  RequestId?: string;
-  Status?: number;
+  MembersList?: string[] | undefined;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface ListSelfUpgradesRequest {
   AwsAccountId: string;
   Namespace: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type SelfUpgradeRequestStatus =
   | "PENDING"
@@ -12294,22 +12490,22 @@ export type SelfUpgradeRequestStatus =
   | "VERIFY_FAILED"
   | (string & {});
 export interface SelfUpgradeRequestDetail {
-  UpgradeRequestId?: string;
-  UserName?: string;
-  OriginalRole?: UserRole;
-  RequestedRole?: UserRole;
-  RequestNote?: string;
-  CreationTime?: number;
-  RequestStatus?: SelfUpgradeRequestStatus;
-  lastUpdateAttemptTime?: number;
-  lastUpdateFailureReason?: string;
+  UpgradeRequestId?: string | undefined;
+  UserName?: string | undefined;
+  OriginalRole?: UserRole | undefined;
+  RequestedRole?: UserRole | undefined;
+  RequestNote?: string | undefined;
+  CreationTime?: number | undefined;
+  RequestStatus?: SelfUpgradeRequestStatus | undefined;
+  lastUpdateAttemptTime?: number | undefined;
+  lastUpdateFailureReason?: string | undefined;
 }
 export type SelfUpgradeRequestDetailList = SelfUpgradeRequestDetail[];
 export interface ListSelfUpgradesResponse {
-  SelfUpgradeRequestDetails?: SelfUpgradeRequestDetail[];
-  NextToken?: string;
-  RequestId?: string;
-  Status?: number;
+  SelfUpgradeRequestDetails?: SelfUpgradeRequestDetail[] | undefined;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface ListSpaceResourcesRequest {
   AwsAccountId: string;
@@ -12318,257 +12514,257 @@ export interface ListSpaceResourcesRequest {
 export interface SpaceResourceSummary {
   ResourceType: SpaceQuickSightResourceType;
   ResourceDetails: SpaceQuickSightResourceDetails;
-  ResourceName?: string;
-  UpdatedAt?: Date;
+  ResourceName?: string | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type SpaceResourceSummaries = SpaceResourceSummary[];
 export interface ListSpaceResourcesResponse {
   spaceId: string;
-  spaceArn?: string;
+  spaceArn?: string | undefined;
   SpaceResources: SpaceResourceSummary[];
-  RequestId?: string;
+  RequestId?: string | undefined;
 }
 export type SpacesMaxResults = number;
 export interface ListSpacesRequest {
   AwsAccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface SpaceSummary {
   spaceId: string;
-  spaceArn?: string;
-  name?: string;
-  description?: string | redacted.Redacted<string>;
-  updatedAt?: Date;
-  consumedSourceSize?: number;
-  consumedSourceDocCount?: number;
-  createdAt?: Date;
-  createdBy?: string;
-  createdByArn?: string;
-  resourcesCount?: number;
+  spaceArn?: string | undefined;
+  name?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  updatedAt?: Date | undefined;
+  consumedSourceSize?: number | undefined;
+  consumedSourceDocCount?: number | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  createdByArn?: string | undefined;
+  resourcesCount?: number | undefined;
 }
 export type SpaceSummaries = SpaceSummary[];
 export interface ListSpacesResponse {
   spaceId: string;
-  spaceArn?: string;
+  spaceArn?: string | undefined;
   SpaceSummaries: SpaceSummary[];
-  NextToken?: string;
-  RequestId?: string;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
-  RequestId?: string;
-  Status?: number;
+  Tags?: Tag[] | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface ListTemplateAliasesRequest {
   AwsAccountId: string;
   TemplateId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type TemplateAliasList = TemplateAlias[];
 export interface ListTemplateAliasesResponse {
-  TemplateAliasList?: TemplateAlias[];
-  Status?: number;
-  RequestId?: string;
-  NextToken?: string;
+  TemplateAliasList?: TemplateAlias[] | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTemplatesRequest {
   AwsAccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface TemplateSummary {
-  Arn?: string;
-  TemplateId?: string;
-  Name?: string;
-  LatestVersionNumber?: number;
-  CreatedTime?: Date;
-  LastUpdatedTime?: Date;
+  Arn?: string | undefined;
+  TemplateId?: string | undefined;
+  Name?: string | undefined;
+  LatestVersionNumber?: number | undefined;
+  CreatedTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export type TemplateSummaryList = TemplateSummary[];
 export interface ListTemplatesResponse {
-  TemplateSummaryList?: TemplateSummary[];
-  NextToken?: string;
-  Status?: number;
-  RequestId?: string;
+  TemplateSummaryList?: TemplateSummary[] | undefined;
+  NextToken?: string | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface ListTemplateVersionsRequest {
   AwsAccountId: string;
   TemplateId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface TemplateVersionSummary {
-  Arn?: string;
-  VersionNumber?: number;
-  CreatedTime?: Date;
-  Status?: ResourceStatus;
-  Description?: string;
+  Arn?: string | undefined;
+  VersionNumber?: number | undefined;
+  CreatedTime?: Date | undefined;
+  Status?: ResourceStatus | undefined;
+  Description?: string | undefined;
 }
 export type TemplateVersionSummaryList = TemplateVersionSummary[];
 export interface ListTemplateVersionsResponse {
-  TemplateVersionSummaryList?: TemplateVersionSummary[];
-  NextToken?: string;
-  Status?: number;
-  RequestId?: string;
+  TemplateVersionSummaryList?: TemplateVersionSummary[] | undefined;
+  NextToken?: string | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface ListThemeAliasesRequest {
   AwsAccountId: string;
   ThemeId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ThemeAliasList = ThemeAlias[];
 export interface ListThemeAliasesResponse {
-  ThemeAliasList?: ThemeAlias[];
-  Status?: number;
-  RequestId?: string;
-  NextToken?: string;
+  ThemeAliasList?: ThemeAlias[] | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListThemesRequest {
   AwsAccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  Type?: ThemeType;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Type?: ThemeType | undefined;
 }
 export interface ThemeSummary {
-  Arn?: string;
-  Name?: string;
-  ThemeId?: string;
-  LatestVersionNumber?: number;
-  CreatedTime?: Date;
-  LastUpdatedTime?: Date;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  ThemeId?: string | undefined;
+  LatestVersionNumber?: number | undefined;
+  CreatedTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export type ThemeSummaryList = ThemeSummary[];
 export interface ListThemesResponse {
-  ThemeSummaryList?: ThemeSummary[];
-  NextToken?: string;
-  Status?: number;
-  RequestId?: string;
+  ThemeSummaryList?: ThemeSummary[] | undefined;
+  NextToken?: string | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface ListThemeVersionsRequest {
   AwsAccountId: string;
   ThemeId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ThemeVersionSummary {
-  VersionNumber?: number;
-  Arn?: string;
-  Description?: string;
-  CreatedTime?: Date;
-  Status?: ResourceStatus;
+  VersionNumber?: number | undefined;
+  Arn?: string | undefined;
+  Description?: string | undefined;
+  CreatedTime?: Date | undefined;
+  Status?: ResourceStatus | undefined;
 }
 export type ThemeVersionSummaryList = ThemeVersionSummary[];
 export interface ListThemeVersionsResponse {
-  ThemeVersionSummaryList?: ThemeVersionSummary[];
-  NextToken?: string;
-  Status?: number;
-  RequestId?: string;
+  ThemeVersionSummaryList?: ThemeVersionSummary[] | undefined;
+  NextToken?: string | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface ListTopicRefreshSchedulesRequest {
   AwsAccountId: string;
   TopicId: string;
 }
 export interface TopicRefreshScheduleSummary {
-  DatasetId?: string;
-  DatasetArn?: string;
-  DatasetName?: string;
-  RefreshSchedule?: TopicRefreshSchedule;
+  DatasetId?: string | undefined;
+  DatasetArn?: string | undefined;
+  DatasetName?: string | undefined;
+  RefreshSchedule?: TopicRefreshSchedule | undefined;
 }
 export type TopicRefreshScheduleSummaries = TopicRefreshScheduleSummary[];
 export interface ListTopicRefreshSchedulesResponse {
-  TopicId?: string;
-  TopicArn?: string;
-  RefreshSchedules?: TopicRefreshScheduleSummary[];
-  Status?: number;
-  RequestId?: string;
+  TopicId?: string | undefined;
+  TopicArn?: string | undefined;
+  RefreshSchedules?: TopicRefreshScheduleSummary[] | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface ListTopicReviewedAnswersRequest {
   AwsAccountId: string;
   TopicId: string;
 }
 export interface TopicReviewedAnswer {
-  Arn?: string;
+  Arn?: string | undefined;
   AnswerId: string;
   DatasetArn: string;
   Question: string | redacted.Redacted<string>;
-  Mir?: TopicIR;
-  PrimaryVisual?: TopicVisual;
-  Template?: TopicTemplate;
+  Mir?: TopicIR | undefined;
+  PrimaryVisual?: TopicVisual | undefined;
+  Template?: TopicTemplate | undefined;
 }
 export type TopicReviewedAnswers = TopicReviewedAnswer[];
 export interface ListTopicReviewedAnswersResponse {
-  TopicId?: string;
-  TopicArn?: string;
-  Answers?: TopicReviewedAnswer[];
-  Status?: number;
-  RequestId?: string;
+  TopicId?: string | undefined;
+  TopicArn?: string | undefined;
+  Answers?: TopicReviewedAnswer[] | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface ListTopicsRequest {
   AwsAccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface TopicSummary {
-  Arn?: string;
-  TopicId?: string;
-  Name?: string;
-  UserExperienceVersion?: TopicUserExperienceVersion;
+  Arn?: string | undefined;
+  TopicId?: string | undefined;
+  Name?: string | undefined;
+  UserExperienceVersion?: TopicUserExperienceVersion | undefined;
 }
 export type TopicSummaries = TopicSummary[];
 export interface ListTopicsResponse {
-  TopicsSummaries?: TopicSummary[];
-  NextToken?: string;
-  RequestId?: string;
-  Status?: number;
+  TopicsSummaries?: TopicSummary[] | undefined;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface ListTopicsV2Request {
   AwsAccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface TopicV2Summary {
-  Arn?: string;
-  TopicId?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  TopicId?: string | undefined;
+  Name?: string | undefined;
 }
 export type TopicV2Summaries = TopicV2Summary[];
 export interface ListTopicsV2Response {
-  TopicSummaryList?: TopicV2Summary[];
-  NextToken?: string;
-  RequestId?: string;
-  Status?: number;
+  TopicSummaryList?: TopicV2Summary[] | undefined;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface ListUserGroupsRequest {
   UserName: string;
   AwsAccountId: string;
   Namespace: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListUserGroupsResponse {
-  GroupList?: Group[];
-  NextToken?: string;
-  RequestId?: string;
-  Status?: number;
+  GroupList?: Group[] | undefined;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface ListUsersRequest {
   AwsAccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   Namespace: string;
 }
 export type UserList = User[];
 export interface ListUsersResponse {
-  UserList?: User[];
-  NextToken?: string;
-  RequestId?: string;
-  Status?: number;
+  UserList?: User[] | undefined;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type FilterValue = string;
 export interface UserNameOrEmailFilter {
@@ -12577,69 +12773,69 @@ export interface UserNameOrEmailFilter {
 export type CapacityBytesRangeFilterMinBytesLong = number;
 export type CapacityBytesRangeFilterMaxBytesLong = number;
 export interface CapacityBytesRangeFilter {
-  minBytes?: number;
-  maxBytes?: number;
+  minBytes?: number | undefined;
+  maxBytes?: number | undefined;
 }
 export type UserIndexCapacityFilter =
-  | { userNameOrEmail: UserNameOrEmailFilter; totalCapacityBytes?: never }
-  | { userNameOrEmail?: never; totalCapacityBytes: CapacityBytesRangeFilter };
+  | { userNameOrEmail: UserNameOrEmailFilter; totalCapacityBytes?: undefined }
+  | { userNameOrEmail?: undefined; totalCapacityBytes: CapacityBytesRangeFilter };
 export type UserIndexCapacityFilters = UserIndexCapacityFilter[];
 export type UserIndexCapacitySortBy = "TOTAL_CAPACITY_BYTES" | (string & {});
 export type UserIndexCapacitySortOrder = "ASC" | "DESC" | (string & {});
 export type ListUsersIndexCapacityRequestMaxResultsInteger = number;
 export interface ListUsersIndexCapacityRequest {
   awsAccountId: string;
-  namespace?: string;
-  filters?: UserIndexCapacityFilter[];
-  sortBy?: UserIndexCapacitySortBy;
-  sortOrder?: UserIndexCapacitySortOrder;
-  maxResults?: number;
-  nextToken?: string;
+  namespace?: string | undefined;
+  filters?: UserIndexCapacityFilter[] | undefined;
+  sortBy?: UserIndexCapacitySortBy | undefined;
+  sortOrder?: UserIndexCapacitySortOrder | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type LongValue = number;
 export type IntegerValue = number;
 export interface UserIndexCapacity {
-  userArn?: string;
-  userName?: string;
-  email?: string;
-  role?: string;
-  totalCapacityBytes?: number;
-  totalKBCapacityBytes?: number;
-  totalSpaceCapacityBytes?: number;
-  kbCount?: number;
-  spaceCount?: number;
+  userArn?: string | undefined;
+  userName?: string | undefined;
+  email?: string | undefined;
+  role?: string | undefined;
+  totalCapacityBytes?: number | undefined;
+  totalKBCapacityBytes?: number | undefined;
+  totalSpaceCapacityBytes?: number | undefined;
+  kbCount?: number | undefined;
+  spaceCount?: number | undefined;
 }
 export type UserIndexCapacityList = UserIndexCapacity[];
 export interface ListUsersIndexCapacityResponse {
-  users?: UserIndexCapacity[];
-  nextToken?: string;
-  requestId?: string;
+  users?: UserIndexCapacity[] | undefined;
+  nextToken?: string | undefined;
+  requestId?: string | undefined;
 }
 export interface ListVPCConnectionsRequest {
   AwsAccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface VPCConnectionSummary {
-  VPCConnectionId?: string;
-  Arn?: string;
-  Name?: string;
-  VPCId?: string;
-  SecurityGroupIds?: string[];
-  DnsResolvers?: string[];
-  Status?: VPCConnectionResourceStatus;
-  AvailabilityStatus?: VPCConnectionAvailabilityStatus;
-  NetworkInterfaces?: NetworkInterface[];
-  RoleArn?: string;
-  CreatedTime?: Date;
-  LastUpdatedTime?: Date;
+  VPCConnectionId?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  VPCId?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  DnsResolvers?: string[] | undefined;
+  Status?: VPCConnectionResourceStatus | undefined;
+  AvailabilityStatus?: VPCConnectionAvailabilityStatus | undefined;
+  NetworkInterfaces?: NetworkInterface[] | undefined;
+  RoleArn?: string | undefined;
+  CreatedTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export type VPCConnectionSummaryList = VPCConnectionSummary[];
 export interface ListVPCConnectionsResponse {
-  VPCConnectionSummaries?: VPCConnectionSummary[];
-  NextToken?: string;
-  RequestId?: string;
-  Status?: number;
+  VPCConnectionSummaries?: VPCConnectionSummary[] | undefined;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type QAQueryText = string | redacted.Redacted<string>;
 export type IncludeQuickSightQIndex = "INCLUDE" | "EXCLUDE" | (string & {});
@@ -12648,23 +12844,23 @@ export type MaxTopicsToConsider = number;
 export interface PredictQAResultsRequest {
   AwsAccountId: string;
   QueryText: string | redacted.Redacted<string>;
-  IncludeQuickSightQIndex?: IncludeQuickSightQIndex;
-  IncludeGeneratedAnswer?: IncludeGeneratedAnswer;
-  MaxTopicsToConsider?: number;
+  IncludeQuickSightQIndex?: IncludeQuickSightQIndex | undefined;
+  IncludeGeneratedAnswer?: IncludeGeneratedAnswer | undefined;
+  MaxTopicsToConsider?: number | undefined;
 }
 export type QAResultType = "DASHBOARD_VISUAL" | "GENERATED_ANSWER" | "NO_ANSWER" | (string & {});
 export type VisualTitle = string;
 export type VisualSubtitle = string;
 export type QAUrl = string;
 export interface DashboardVisualResult {
-  DashboardId?: string;
-  DashboardName?: string;
-  SheetId?: string;
-  SheetName?: string;
-  VisualId?: string;
-  VisualTitle?: string;
-  VisualSubtitle?: string;
-  DashboardUrl?: string;
+  DashboardId?: string | undefined;
+  DashboardName?: string | undefined;
+  SheetId?: string | undefined;
+  SheetName?: string | undefined;
+  VisualId?: string | undefined;
+  VisualTitle?: string | undefined;
+  VisualSubtitle?: string | undefined;
+  DashboardUrl?: string | undefined;
 }
 export type GeneratedAnswerStatus =
   | "ANSWER_GENERATED"
@@ -12673,26 +12869,26 @@ export type GeneratedAnswerStatus =
   | (string & {});
 export type QuestionId = string;
 export interface GeneratedAnswerResult {
-  QuestionText?: string | redacted.Redacted<string>;
-  AnswerStatus?: GeneratedAnswerStatus;
-  TopicId?: string;
-  TopicName?: string;
-  Restatement?: string | redacted.Redacted<string>;
-  QuestionId?: string;
-  AnswerId?: string;
-  QuestionUrl?: string;
+  QuestionText?: string | redacted.Redacted<string> | undefined;
+  AnswerStatus?: GeneratedAnswerStatus | undefined;
+  TopicId?: string | undefined;
+  TopicName?: string | undefined;
+  Restatement?: string | redacted.Redacted<string> | undefined;
+  QuestionId?: string | undefined;
+  AnswerId?: string | undefined;
+  QuestionUrl?: string | undefined;
 }
 export interface QAResult {
-  ResultType?: QAResultType;
-  DashboardVisual?: DashboardVisualResult;
-  GeneratedAnswer?: GeneratedAnswerResult;
+  ResultType?: QAResultType | undefined;
+  DashboardVisual?: DashboardVisualResult | undefined;
+  GeneratedAnswer?: GeneratedAnswerResult | undefined;
 }
 export type QAResults = QAResult[];
 export interface PredictQAResultsResponse {
-  PrimaryResult?: QAResult;
-  AdditionalResults?: QAResult[];
-  RequestId?: string;
-  Status?: number;
+  PrimaryResult?: QAResult | undefined;
+  AdditionalResults?: QAResult[] | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface PutDataSetRefreshPropertiesRequest {
   AwsAccountId: string;
@@ -12700,42 +12896,42 @@ export interface PutDataSetRefreshPropertiesRequest {
   DataSetRefreshProperties: DataSetRefreshProperties;
 }
 export interface PutDataSetRefreshPropertiesResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type RoleSessionName = string;
 export interface RegisterUserRequest {
   IdentityType: IdentityType;
   Email: string;
   UserRole: UserRole;
-  IamArn?: string;
-  SessionName?: string;
+  IamArn?: string | undefined;
+  SessionName?: string | undefined;
   AwsAccountId: string;
   Namespace: string;
-  UserName?: string;
-  CustomPermissionsName?: string;
-  ExternalLoginFederationProviderType?: string;
-  CustomFederationProviderUrl?: string;
-  ExternalLoginId?: string;
-  Tags?: Tag[];
+  UserName?: string | undefined;
+  CustomPermissionsName?: string | undefined;
+  ExternalLoginFederationProviderType?: string | undefined;
+  CustomFederationProviderUrl?: string | undefined;
+  ExternalLoginId?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface RegisterUserResponse {
-  User?: User;
-  UserInvitationUrl?: string;
-  RequestId?: string;
-  Status?: number;
+  User?: User | undefined;
+  UserInvitationUrl?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface RestoreAnalysisRequest {
   AwsAccountId: string;
   AnalysisId: string;
-  RestoreToFolders?: boolean;
+  RestoreToFolders?: boolean | undefined;
 }
 export interface RestoreAnalysisResponse {
-  Status?: number;
-  Arn?: string;
-  AnalysisId?: string;
-  RequestId?: string;
-  RestorationFailedFolderArns?: string[];
+  Status?: number | undefined;
+  Arn?: string | undefined;
+  AnalysisId?: string | undefined;
+  RequestId?: string | undefined;
+  RestorationFailedFolderArns?: string[] | undefined;
 }
 export type SearchActionConnectorsRequestMaxResultsInteger = number;
 export type ActionConnectorSearchFilterNameEnum =
@@ -12756,15 +12952,15 @@ export interface ActionConnectorSearchFilter {
 export type ActionConnectorSearchFilterList = ActionConnectorSearchFilter[];
 export interface SearchActionConnectorsRequest {
   AwsAccountId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   Filters: ActionConnectorSearchFilter[];
 }
 export interface SearchActionConnectorsResponse {
-  NextToken?: string;
-  RequestId?: string;
-  Status?: number;
-  ActionConnectorSummaries?: ActionConnectorSummary[];
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
+  ActionConnectorSummaries?: ActionConnectorSummary[] | undefined;
 }
 export type AgentOwnershipFilterAttribute =
   | "DIRECT_QUICKSIGHT_OWNER"
@@ -12774,23 +12970,23 @@ export type AgentOwnershipFilterAttribute =
   | (string & {});
 export type ComparisonOperator = "StringEquals" | "StringLike" | (string & {});
 export interface AgentSearchFilter {
-  Name?: AgentOwnershipFilterAttribute;
-  Operator?: ComparisonOperator;
-  Value?: string;
+  Name?: AgentOwnershipFilterAttribute | undefined;
+  Operator?: ComparisonOperator | undefined;
+  Value?: string | undefined;
 }
 export type AgentSearchFilterList = AgentSearchFilter[];
 export type AgentsMaxResults = number;
 export interface SearchAgentsRequest {
   AwsAccountId: string;
   Filters: AgentSearchFilter[];
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type AgentSummaryList = AgentSummary[];
 export interface SearchAgentsResponse {
-  AgentSummaries?: AgentSummary[];
-  NextToken?: string;
-  RequestId?: string;
+  AgentSummaries?: AgentSummary[] | undefined;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
 }
 export type AnalysisFilterAttribute =
   | "QUICKSIGHT_USER"
@@ -12802,22 +12998,22 @@ export type AnalysisFilterAttribute =
   | "ANALYSIS_NAME"
   | (string & {});
 export interface AnalysisSearchFilter {
-  Operator?: FilterOperator;
-  Name?: AnalysisFilterAttribute;
-  Value?: string;
+  Operator?: FilterOperator | undefined;
+  Name?: AnalysisFilterAttribute | undefined;
+  Value?: string | undefined;
 }
 export type AnalysisSearchFilterList = AnalysisSearchFilter[];
 export interface SearchAnalysesRequest {
   AwsAccountId: string;
   Filters: AnalysisSearchFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface SearchAnalysesResponse {
-  AnalysisSummaryList?: AnalysisSummary[];
-  NextToken?: string;
-  Status?: number;
-  RequestId?: string;
+  AnalysisSummaryList?: AnalysisSummary[] | undefined;
+  NextToken?: string | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export type SearchAppsFilterName =
   | "APP_ID"
@@ -12835,13 +13031,13 @@ export type SearchAppsFilterList = SearchAppsFilter[];
 export interface SearchAppsRequest {
   AwsAccountId: string;
   Filters: SearchAppsFilter[];
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface SearchAppsResponse {
   AppSummaryList: AppSummary[];
-  NextToken?: string;
-  RequestId?: string;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
 }
 export type DashboardFilterAttribute =
   | "QUICKSIGHT_USER"
@@ -12854,21 +13050,21 @@ export type DashboardFilterAttribute =
   | (string & {});
 export interface DashboardSearchFilter {
   Operator: FilterOperator;
-  Name?: DashboardFilterAttribute;
-  Value?: string;
+  Name?: DashboardFilterAttribute | undefined;
+  Value?: string | undefined;
 }
 export type DashboardSearchFilterList = DashboardSearchFilter[];
 export interface SearchDashboardsRequest {
   AwsAccountId: string;
   Filters: DashboardSearchFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface SearchDashboardsResponse {
-  DashboardSummaryList?: DashboardSummary[];
-  NextToken?: string;
-  Status?: number;
-  RequestId?: string;
+  DashboardSummaryList?: DashboardSummary[] | undefined;
+  NextToken?: string | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export type DataSetFilterAttribute =
   | "QUICKSIGHT_VIEWER_OR_OWNER"
@@ -12887,14 +13083,14 @@ export type DataSetSearchFilterList = DataSetSearchFilter[];
 export interface SearchDataSetsRequest {
   AwsAccountId: string;
   Filters: DataSetSearchFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface SearchDataSetsResponse {
-  DataSetSummaries?: DataSetSummary[];
-  NextToken?: string;
-  Status?: number;
-  RequestId?: string;
+  DataSetSummaries?: DataSetSummary[] | undefined;
+  NextToken?: string | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export type DataSourceFilterAttribute =
   | "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"
@@ -12911,23 +13107,23 @@ export type DataSourceSearchFilterList = DataSourceSearchFilter[];
 export interface SearchDataSourcesRequest {
   AwsAccountId: string;
   Filters: DataSourceSearchFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DataSourceSummary {
-  Arn?: string;
-  DataSourceId?: string;
-  Name?: string;
-  Type?: DataSourceType;
-  CreatedTime?: Date;
-  LastUpdatedTime?: Date;
+  Arn?: string | undefined;
+  DataSourceId?: string | undefined;
+  Name?: string | undefined;
+  Type?: DataSourceType | undefined;
+  CreatedTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export type DataSourceSummaryList = DataSourceSummary[];
 export interface SearchDataSourcesResponse {
-  DataSourceSummaries?: DataSourceSummary[];
-  NextToken?: string;
-  Status?: number;
-  RequestId?: string;
+  DataSourceSummaries?: DataSourceSummary[] | undefined;
+  NextToken?: string | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export type FieldName =
   | "assetName"
@@ -12946,14 +13142,14 @@ export type SearchFlowsFilterList = SearchFlowsFilter[];
 export interface SearchFlowsInput {
   AwsAccountId: string;
   Filters: SearchFlowsFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface SearchFlowsOutput {
   FlowSummaryList: FlowSummary[];
-  NextToken?: string;
-  RequestId?: string;
-  Status?: number;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type FolderFilterAttribute =
   | "PARENT_FOLDER_ARN"
@@ -12965,22 +13161,22 @@ export type FolderFilterAttribute =
   | "FOLDER_NAME"
   | (string & {});
 export interface FolderSearchFilter {
-  Operator?: FilterOperator;
-  Name?: FolderFilterAttribute;
-  Value?: string;
+  Operator?: FilterOperator | undefined;
+  Name?: FolderFilterAttribute | undefined;
+  Value?: string | undefined;
 }
 export type FolderSearchFilterList = FolderSearchFilter[];
 export interface SearchFoldersRequest {
   AwsAccountId: string;
   Filters: FolderSearchFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface SearchFoldersResponse {
-  Status?: number;
-  FolderSummaryList?: FolderSummary[];
-  NextToken?: string;
-  RequestId?: string;
+  Status?: number | undefined;
+  FolderSummaryList?: FolderSummary[] | undefined;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
 }
 export type GroupFilterOperator = "StartsWith" | (string & {});
 export type GroupFilterAttribute = "GROUP_NAME" | (string & {});
@@ -12992,16 +13188,16 @@ export interface GroupSearchFilter {
 export type GroupSearchFilterList = GroupSearchFilter[];
 export interface SearchGroupsRequest {
   AwsAccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   Namespace: string;
   Filters: GroupSearchFilter[];
 }
 export interface SearchGroupsResponse {
-  GroupList?: Group[];
-  NextToken?: string;
-  RequestId?: string;
-  Status?: number;
+  GroupList?: Group[] | undefined;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type KnowledgeBaseSearchFilterName =
   | "KNOWLEDGE_BASE_ID"
@@ -13033,16 +13229,16 @@ export interface KnowledgeBaseSortBy {
 }
 export interface SearchKnowledgeBasesRequest {
   AwsAccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: KnowledgeBaseSearchFilter[];
-  SortBy?: KnowledgeBaseSortBy;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: KnowledgeBaseSearchFilter[] | undefined;
+  SortBy?: KnowledgeBaseSortBy | undefined;
 }
 export interface SearchKnowledgeBasesResponse {
   KnowledgeBaseSummaries: KnowledgeBaseSummary[];
-  NextToken?: string;
-  RequestId?: string;
-  Status?: number;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type SpaceQuickSightSearchFilterName =
   | "SPACE_ID"
@@ -13063,16 +13259,16 @@ export interface SpaceQuicksightSearchFilter {
 export type SpaceQuicksightSearchFilters = SpaceQuicksightSearchFilter[];
 export interface SearchSpacesRequest {
   AwsAccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   Filters: SpaceQuicksightSearchFilter[];
 }
 export interface SearchSpacesResponse {
   spaceId: string;
-  spaceArn?: string;
+  spaceArn?: string | undefined;
   SpaceSummaries: SpaceSummary[];
-  NextToken?: string;
-  RequestId?: string;
+  NextToken?: string | undefined;
+  RequestId?: string | undefined;
 }
 export type TopicFilterOperator = "StringEquals" | "StringLike" | (string & {});
 export type TopicFilterAttribute =
@@ -13093,98 +13289,100 @@ export type TopicSearchFilterList = TopicSearchFilter[];
 export interface SearchTopicsRequest {
   AwsAccountId: string;
   Filters: TopicSearchFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface SearchTopicsResponse {
-  TopicSummaryList?: TopicSummary[];
-  NextToken?: string;
-  Status?: number;
-  RequestId?: string;
+  TopicSummaryList?: TopicSummary[] | undefined;
+  NextToken?: string | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface SearchTopicsV2Request {
   AwsAccountId: string;
   Filters: TopicSearchFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface SearchTopicsV2Response {
-  TopicSummaryList?: TopicV2Summary[];
-  NextToken?: string;
-  Status?: number;
-  RequestId?: string;
+  TopicSummaryList?: TopicV2Summary[] | undefined;
+  NextToken?: string | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface StartAssetBundleExportJobRequest {
   AwsAccountId: string;
   AssetBundleExportJobId: string;
   ResourceArns: string[];
-  IncludeAllDependencies?: boolean;
+  IncludeAllDependencies?: boolean | undefined;
   ExportFormat: AssetBundleExportFormat;
-  CloudFormationOverridePropertyConfiguration?: AssetBundleCloudFormationOverridePropertyConfiguration;
-  IncludePermissions?: boolean;
-  IncludeTags?: boolean;
-  ValidationStrategy?: AssetBundleExportJobValidationStrategy;
-  IncludeFolderMemberships?: boolean;
-  IncludeFolderMembers?: IncludeFolderMembers;
+  CloudFormationOverridePropertyConfiguration?:
+    | AssetBundleCloudFormationOverridePropertyConfiguration
+    | undefined;
+  IncludePermissions?: boolean | undefined;
+  IncludeTags?: boolean | undefined;
+  ValidationStrategy?: AssetBundleExportJobValidationStrategy | undefined;
+  IncludeFolderMemberships?: boolean | undefined;
+  IncludeFolderMembers?: IncludeFolderMembers | undefined;
 }
 export interface StartAssetBundleExportJobResponse {
-  Arn?: string;
-  AssetBundleExportJobId?: string;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  AssetBundleExportJobId?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type AssetBundleImportBodyBlob = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface AssetBundleImportSource {
-  Body?: Uint8Array | redacted.Redacted<Uint8Array>;
-  S3Uri?: string;
+  Body?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  S3Uri?: string | undefined;
 }
 export interface StartAssetBundleImportJobRequest {
   AwsAccountId: string;
   AssetBundleImportJobId: string;
   AssetBundleImportSource: AssetBundleImportSource;
-  OverrideParameters?: AssetBundleImportJobOverrideParameters;
-  FailureAction?: AssetBundleImportFailureAction;
-  OverridePermissions?: AssetBundleImportJobOverridePermissions;
-  OverrideTags?: AssetBundleImportJobOverrideTags;
-  OverrideValidationStrategy?: AssetBundleImportJobOverrideValidationStrategy;
+  OverrideParameters?: AssetBundleImportJobOverrideParameters | undefined;
+  FailureAction?: AssetBundleImportFailureAction | undefined;
+  OverridePermissions?: AssetBundleImportJobOverridePermissions | undefined;
+  OverrideTags?: AssetBundleImportJobOverrideTags | undefined;
+  OverrideValidationStrategy?: AssetBundleImportJobOverrideValidationStrategy | undefined;
 }
 export interface StartAssetBundleImportJobResponse {
-  Arn?: string;
-  AssetBundleImportJobId?: string;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  AssetBundleImportJobId?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface StartAutomationJobRequest {
   AwsAccountId: string;
   AutomationGroupId: string;
   AutomationId: string;
-  InputPayload?: string | redacted.Redacted<string>;
+  InputPayload?: string | redacted.Redacted<string> | undefined;
 }
 export interface StartAutomationJobResponse {
   Arn: string;
   JobId: string;
-  Status?: number;
-  RequestId?: string;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface SnapshotAnonymousUser {
-  RowLevelPermissionTags?: SessionTag[];
+  RowLevelPermissionTags?: SessionTag[] | undefined;
 }
 export type SnapshotAnonymousUserList = SnapshotAnonymousUser[];
 export interface SnapshotUserConfiguration {
-  AnonymousUsers?: SnapshotAnonymousUser[];
+  AnonymousUsers?: SnapshotAnonymousUser[] | undefined;
 }
 export interface StartDashboardSnapshotJobRequest {
   AwsAccountId: string;
   DashboardId: string;
   SnapshotJobId: string;
-  UserConfiguration?: SnapshotUserConfiguration;
+  UserConfiguration?: SnapshotUserConfiguration | undefined;
   SnapshotConfiguration: SnapshotConfiguration;
 }
 export interface StartDashboardSnapshotJobResponse {
-  Arn?: string;
-  SnapshotJobId?: string;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  SnapshotJobId?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface StartDashboardSnapshotJobScheduleRequest {
   AwsAccountId: string;
@@ -13192,16 +13390,16 @@ export interface StartDashboardSnapshotJobScheduleRequest {
   ScheduleId: string;
 }
 export interface StartDashboardSnapshotJobScheduleResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags: Tag[];
 }
 export interface TagResourceResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
@@ -13209,67 +13407,67 @@ export interface UntagResourceRequest {
   TagKeys: string[];
 }
 export interface UntagResourceResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateAccountCustomizationRequest {
   AwsAccountId: string;
-  Namespace?: string;
+  Namespace?: string | undefined;
   AccountCustomization: AccountCustomization;
 }
 export interface UpdateAccountCustomizationResponse {
-  Arn?: string;
-  AwsAccountId?: string;
-  Namespace?: string;
-  AccountCustomization?: AccountCustomization;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  AwsAccountId?: string | undefined;
+  Namespace?: string | undefined;
+  AccountCustomization?: AccountCustomization | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateAccountCustomPermissionRequest {
   CustomPermissionsName: string;
   AwsAccountId: string;
 }
 export interface UpdateAccountCustomPermissionResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateAccountSettingsRequest {
   AwsAccountId: string;
   DefaultNamespace: string;
-  NotificationEmail?: string;
-  TerminationProtectionEnabled?: boolean;
+  NotificationEmail?: string | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
 }
 export interface UpdateAccountSettingsResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateActionConnectorRequest {
   AwsAccountId: string;
   ActionConnectorId: string;
   Name: string | redacted.Redacted<string>;
   AuthenticationConfig: AuthConfig;
-  Description?: string | redacted.Redacted<string>;
-  VpcConnectionArn?: string;
+  Description?: string | redacted.Redacted<string> | undefined;
+  VpcConnectionArn?: string | undefined;
 }
 export interface UpdateActionConnectorResponse {
-  Arn?: string;
-  ActionConnectorId?: string;
-  RequestId?: string;
-  UpdateStatus?: ResourceStatus;
-  Status?: number;
+  Arn?: string | undefined;
+  ActionConnectorId?: string | undefined;
+  RequestId?: string | undefined;
+  UpdateStatus?: ResourceStatus | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateActionConnectorPermissionsRequest {
   AwsAccountId: string;
   ActionConnectorId: string;
-  GrantPermissions?: ResourcePermission[];
-  RevokePermissions?: ResourcePermission[];
+  GrantPermissions?: ResourcePermission[] | undefined;
+  RevokePermissions?: ResourcePermission[] | undefined;
 }
 export interface UpdateActionConnectorPermissionsResponse {
-  Arn?: string;
-  ActionConnectorId?: string;
-  RequestId?: string;
-  Status?: number;
-  Permissions?: ResourcePermission[];
+  Arn?: string | undefined;
+  ActionConnectorId?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
+  Permissions?: ResourcePermission[] | undefined;
 }
 export type UpdateAgentRequestSpacesToAddList = string[];
 export type UpdateAgentRequestSpacesToRemoveList = string[];
@@ -13279,106 +13477,106 @@ export interface UpdateAgentRequest {
   AgentId: string;
   AwsAccountId: string;
   Name: string;
-  Description?: string;
-  IconId?: string;
-  StarterPrompts?: string[];
-  WelcomeMessage?: string | redacted.Redacted<string>;
-  CustomPromptInput?: CustomPromptInput;
-  SpacesToAdd?: string[];
-  SpacesToRemove?: string[];
-  ActionConnectorsToAdd?: string[];
-  ActionConnectorsToRemove?: string[];
+  Description?: string | undefined;
+  IconId?: string | undefined;
+  StarterPrompts?: string[] | undefined;
+  WelcomeMessage?: string | redacted.Redacted<string> | undefined;
+  CustomPromptInput?: CustomPromptInput | undefined;
+  SpacesToAdd?: string[] | undefined;
+  SpacesToRemove?: string[] | undefined;
+  ActionConnectorsToAdd?: string[] | undefined;
+  ActionConnectorsToRemove?: string[] | undefined;
 }
 export interface FailedToUpdateAssociation {
-  Arn?: string;
-  ErrorMessage?: string;
-  ErrorCode?: string;
+  Arn?: string | undefined;
+  ErrorMessage?: string | undefined;
+  ErrorCode?: string | undefined;
 }
 export type FailedToUpdateAssociationList = FailedToUpdateAssociation[];
 export interface UpdateAgentResponse {
   Arn: string;
   AgentId: string;
   AgentStatus: AgentStatus;
-  FailedToAddSpaces?: FailedToUpdateAssociation[];
-  FailedToRemoveSpaces?: FailedToUpdateAssociation[];
-  FailedToAddActionConnectors?: FailedToUpdateAssociation[];
-  FailedToRemoveActionConnectors?: FailedToUpdateAssociation[];
-  RequestId?: string;
+  FailedToAddSpaces?: FailedToUpdateAssociation[] | undefined;
+  FailedToRemoveSpaces?: FailedToUpdateAssociation[] | undefined;
+  FailedToAddActionConnectors?: FailedToUpdateAssociation[] | undefined;
+  FailedToRemoveActionConnectors?: FailedToUpdateAssociation[] | undefined;
+  RequestId?: string | undefined;
 }
 export type UpdateAgentPermissionsRequestGrantPermissionsList = ResourcePermission[];
 export type UpdateAgentPermissionsRequestRevokePermissionsList = ResourcePermission[];
 export interface UpdateAgentPermissionsRequest {
   AgentId: string;
   AwsAccountId: string;
-  GrantPermissions?: ResourcePermission[];
-  RevokePermissions?: ResourcePermission[];
+  GrantPermissions?: ResourcePermission[] | undefined;
+  RevokePermissions?: ResourcePermission[] | undefined;
 }
 export interface UpdateAgentPermissionsResponse {
   Arn: string;
   AgentId: string;
-  RequestId?: string;
-  Permissions?: ResourcePermission[];
+  RequestId?: string | undefined;
+  Permissions?: ResourcePermission[] | undefined;
 }
 export interface UpdateAnalysisRequest {
   AwsAccountId: string;
   AnalysisId: string;
   Name: string;
-  Parameters?: Parameters;
-  SourceEntity?: AnalysisSourceEntity;
-  ThemeArn?: string;
-  Definition?: AnalysisDefinition;
-  ValidationStrategy?: ValidationStrategy;
+  Parameters?: Parameters | undefined;
+  SourceEntity?: AnalysisSourceEntity | undefined;
+  ThemeArn?: string | undefined;
+  Definition?: AnalysisDefinition | undefined;
+  ValidationStrategy?: ValidationStrategy | undefined;
 }
 export interface UpdateAnalysisResponse {
-  Arn?: string;
-  AnalysisId?: string;
-  UpdateStatus?: ResourceStatus;
-  Status?: number;
-  RequestId?: string;
+  Arn?: string | undefined;
+  AnalysisId?: string | undefined;
+  UpdateStatus?: ResourceStatus | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface UpdateAnalysisPermissionsRequest {
   AwsAccountId: string;
   AnalysisId: string;
-  GrantPermissions?: ResourcePermission[];
-  RevokePermissions?: ResourcePermission[];
+  GrantPermissions?: ResourcePermission[] | undefined;
+  RevokePermissions?: ResourcePermission[] | undefined;
 }
 export interface UpdateAnalysisPermissionsResponse {
-  AnalysisArn?: string;
-  AnalysisId?: string;
-  Permissions?: ResourcePermission[];
-  RequestId?: string;
-  Status?: number;
+  AnalysisArn?: string | undefined;
+  AnalysisId?: string | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateApplicationWithTokenExchangeGrantRequest {
   AwsAccountId: string;
   Namespace: string;
 }
 export interface UpdateApplicationWithTokenExchangeGrantResponse {
-  Status?: number;
-  RequestId?: string;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface UpdateAppPermissionsRequest {
   AwsAccountId: string;
   AppId: string;
-  GrantPermissions?: ResourcePermission[];
-  RevokePermissions?: ResourcePermission[];
-  Visibility?: AppVisibility;
+  GrantPermissions?: ResourcePermission[] | undefined;
+  RevokePermissions?: ResourcePermission[] | undefined;
+  Visibility?: AppVisibility | undefined;
 }
 export interface UpdateAppPermissionsResponse {
-  Arn?: string;
-  AppId?: string;
-  Permissions?: ResourcePermission[];
-  Visibility?: AppVisibility;
-  RequestId?: string;
+  Arn?: string | undefined;
+  AppId?: string | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  Visibility?: AppVisibility | undefined;
+  RequestId?: string | undefined;
 }
 export interface UpdateApprovalPolicyRequest {
   PolicyId: string;
-  Name?: string;
-  Description?: string;
-  Actions?: GovernedAction[];
-  AssetTypes?: AssetType[];
-  ApplicableTo?: ApplicableTo;
-  ApprovalGroups?: string[];
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Actions?: GovernedAction[] | undefined;
+  AssetTypes?: AssetType[] | undefined;
+  ApplicableTo?: ApplicableTo | undefined;
+  ApprovalGroups?: string[] | undefined;
 }
 export interface UpdateApprovalPolicyResponse {
   Policy: ApprovalPolicy;
@@ -13386,20 +13584,20 @@ export interface UpdateApprovalPolicyResponse {
 export interface UpdateBrandRequest {
   AwsAccountId: string;
   BrandId: string;
-  BrandDefinition?: BrandDefinition;
+  BrandDefinition?: BrandDefinition | undefined;
 }
 export interface UpdateBrandResponse {
-  RequestId?: string;
-  BrandDetail?: BrandDetail;
-  BrandDefinition?: BrandDefinition;
+  RequestId?: string | undefined;
+  BrandDetail?: BrandDetail | undefined;
+  BrandDefinition?: BrandDefinition | undefined;
 }
 export interface UpdateBrandAssignmentRequest {
   AwsAccountId: string;
   BrandArn: string;
 }
 export interface UpdateBrandAssignmentResponse {
-  RequestId?: string;
-  BrandArn?: string;
+  RequestId?: string | undefined;
+  BrandArn?: string | undefined;
 }
 export interface UpdateBrandPublishedVersionRequest {
   AwsAccountId: string;
@@ -13407,39 +13605,39 @@ export interface UpdateBrandPublishedVersionRequest {
   VersionId: string;
 }
 export interface UpdateBrandPublishedVersionResponse {
-  RequestId?: string;
-  VersionId?: string;
+  RequestId?: string | undefined;
+  VersionId?: string | undefined;
 }
 export interface UpdateCustomPermissionsRequest {
   AwsAccountId: string;
   CustomPermissionsName: string;
-  Capabilities?: Capabilities;
-  Governance?: Governance;
+  Capabilities?: Capabilities | undefined;
+  Governance?: Governance | undefined;
 }
 export interface UpdateCustomPermissionsResponse {
-  Status?: number;
-  Arn?: string;
-  RequestId?: string;
+  Status?: number | undefined;
+  Arn?: string | undefined;
+  RequestId?: string | undefined;
 }
 export interface UpdateDashboardRequest {
   AwsAccountId: string;
   DashboardId: string;
   Name: string;
-  SourceEntity?: DashboardSourceEntity;
-  Parameters?: Parameters;
-  VersionDescription?: string;
-  DashboardPublishOptions?: DashboardPublishOptions;
-  ThemeArn?: string;
-  Definition?: DashboardVersionDefinition;
-  ValidationStrategy?: ValidationStrategy;
+  SourceEntity?: DashboardSourceEntity | undefined;
+  Parameters?: Parameters | undefined;
+  VersionDescription?: string | undefined;
+  DashboardPublishOptions?: DashboardPublishOptions | undefined;
+  ThemeArn?: string | undefined;
+  Definition?: DashboardVersionDefinition | undefined;
+  ValidationStrategy?: ValidationStrategy | undefined;
 }
 export interface UpdateDashboardResponse {
-  Arn?: string;
-  VersionArn?: string;
-  DashboardId?: string;
-  CreationStatus?: ResourceStatus;
-  Status?: number;
-  RequestId?: string;
+  Arn?: string | undefined;
+  VersionArn?: string | undefined;
+  DashboardId?: string | undefined;
+  CreationStatus?: ResourceStatus | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface UpdateDashboardLinksRequest {
   AwsAccountId: string;
@@ -13447,27 +13645,27 @@ export interface UpdateDashboardLinksRequest {
   LinkEntities: string[];
 }
 export interface UpdateDashboardLinksResponse {
-  RequestId?: string;
-  Status?: number;
-  DashboardArn?: string;
-  LinkEntities?: string[];
+  RequestId?: string | undefined;
+  Status?: number | undefined;
+  DashboardArn?: string | undefined;
+  LinkEntities?: string[] | undefined;
 }
 export type UpdateLinkPermissionList = ResourcePermission[];
 export interface UpdateDashboardPermissionsRequest {
   AwsAccountId: string;
   DashboardId: string;
-  GrantPermissions?: ResourcePermission[];
-  RevokePermissions?: ResourcePermission[];
-  GrantLinkPermissions?: ResourcePermission[];
-  RevokeLinkPermissions?: ResourcePermission[];
+  GrantPermissions?: ResourcePermission[] | undefined;
+  RevokePermissions?: ResourcePermission[] | undefined;
+  GrantLinkPermissions?: ResourcePermission[] | undefined;
+  RevokeLinkPermissions?: ResourcePermission[] | undefined;
 }
 export interface UpdateDashboardPermissionsResponse {
-  DashboardArn?: string;
-  DashboardId?: string;
-  Permissions?: ResourcePermission[];
-  RequestId?: string;
-  Status?: number;
-  LinkSharingConfiguration?: LinkSharingConfiguration;
+  DashboardArn?: string | undefined;
+  DashboardId?: string | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
+  LinkSharingConfiguration?: LinkSharingConfiguration | undefined;
 }
 export interface UpdateDashboardPublishedVersionRequest {
   AwsAccountId: string;
@@ -13475,134 +13673,134 @@ export interface UpdateDashboardPublishedVersionRequest {
   VersionNumber: number;
 }
 export interface UpdateDashboardPublishedVersionResponse {
-  DashboardId?: string;
-  DashboardArn?: string;
-  Status?: number;
-  RequestId?: string;
+  DashboardId?: string | undefined;
+  DashboardArn?: string | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface UpdateDashboardsQAConfigurationRequest {
   AwsAccountId: string;
   DashboardsQAStatus: DashboardsQAStatus;
 }
 export interface UpdateDashboardsQAConfigurationResponse {
-  DashboardsQAStatus?: DashboardsQAStatus;
-  RequestId?: string;
-  Status?: number;
+  DashboardsQAStatus?: DashboardsQAStatus | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateDataSetRequest {
   AwsAccountId: string;
   DataSetId: string;
   Name: string;
   PhysicalTableMap: { [key: string]: PhysicalTable | undefined };
-  LogicalTableMap?: { [key: string]: LogicalTable | undefined };
+  LogicalTableMap?: { [key: string]: LogicalTable | undefined } | undefined;
   ImportMode: DataSetImportMode;
-  ColumnGroups?: ColumnGroup[];
-  FieldFolders?: { [key: string]: FieldFolder | undefined };
-  RowLevelPermissionDataSet?: RowLevelPermissionDataSet;
-  RowLevelPermissionTagConfiguration?: RowLevelPermissionTagConfiguration;
-  ColumnLevelPermissionRules?: ColumnLevelPermissionRule[];
-  DataSetUsageConfiguration?: DataSetUsageConfiguration;
-  DatasetParameters?: DatasetParameter[];
-  PerformanceConfiguration?: PerformanceConfiguration;
-  DataPrepConfiguration?: DataPrepConfiguration;
-  SemanticModelConfiguration?: SemanticModelConfiguration;
+  ColumnGroups?: ColumnGroup[] | undefined;
+  FieldFolders?: { [key: string]: FieldFolder | undefined } | undefined;
+  RowLevelPermissionDataSet?: RowLevelPermissionDataSet | undefined;
+  RowLevelPermissionTagConfiguration?: RowLevelPermissionTagConfiguration | undefined;
+  ColumnLevelPermissionRules?: ColumnLevelPermissionRule[] | undefined;
+  DataSetUsageConfiguration?: DataSetUsageConfiguration | undefined;
+  DatasetParameters?: DatasetParameter[] | undefined;
+  PerformanceConfiguration?: PerformanceConfiguration | undefined;
+  DataPrepConfiguration?: DataPrepConfiguration | undefined;
+  SemanticModelConfiguration?: SemanticModelConfiguration | undefined;
 }
 export interface UpdateDataSetResponse {
-  Arn?: string;
-  DataSetId?: string;
-  IngestionArn?: string;
-  IngestionId?: string;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  DataSetId?: string | undefined;
+  IngestionArn?: string | undefined;
+  IngestionId?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateDataSetPermissionsRequest {
   AwsAccountId: string;
   DataSetId: string;
-  GrantPermissions?: ResourcePermission[];
-  RevokePermissions?: ResourcePermission[];
+  GrantPermissions?: ResourcePermission[] | undefined;
+  RevokePermissions?: ResourcePermission[] | undefined;
 }
 export interface UpdateDataSetPermissionsResponse {
-  DataSetArn?: string;
-  DataSetId?: string;
-  RequestId?: string;
-  Status?: number;
+  DataSetArn?: string | undefined;
+  DataSetId?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateDataSourceRequest {
   AwsAccountId: string;
   DataSourceId: string;
   Name: string;
-  DataSourceParameters?: DataSourceParameters;
-  Credentials?: DataSourceCredentials;
-  VpcConnectionProperties?: VpcConnectionProperties;
-  SslProperties?: SslProperties;
+  DataSourceParameters?: DataSourceParameters | undefined;
+  Credentials?: DataSourceCredentials | undefined;
+  VpcConnectionProperties?: VpcConnectionProperties | undefined;
+  SslProperties?: SslProperties | undefined;
 }
 export interface UpdateDataSourceResponse {
-  Arn?: string;
-  DataSourceId?: string;
-  UpdateStatus?: ResourceStatus;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  DataSourceId?: string | undefined;
+  UpdateStatus?: ResourceStatus | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateDataSourcePermissionsRequest {
   AwsAccountId: string;
   DataSourceId: string;
-  GrantPermissions?: ResourcePermission[];
-  RevokePermissions?: ResourcePermission[];
+  GrantPermissions?: ResourcePermission[] | undefined;
+  RevokePermissions?: ResourcePermission[] | undefined;
 }
 export interface UpdateDataSourcePermissionsResponse {
-  DataSourceArn?: string;
-  DataSourceId?: string;
-  RequestId?: string;
-  Status?: number;
+  DataSourceArn?: string | undefined;
+  DataSourceId?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateDefaultQBusinessApplicationRequest {
   AwsAccountId: string;
-  Namespace?: string;
+  Namespace?: string | undefined;
   ApplicationId: string;
 }
 export interface UpdateDefaultQBusinessApplicationResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateDlpSettingRequest {
   AwsAccountId: string;
   DlpSettingId: string;
-  Name?: string;
-  ProviderType?: DlpProviderType;
-  ProviderConfig?: ProviderConfig;
-  ProviderOutageAction?: DlpAction;
-  Enabled?: boolean;
+  Name?: string | undefined;
+  ProviderType?: DlpProviderType | undefined;
+  ProviderConfig?: ProviderConfig | undefined;
+  ProviderOutageAction?: DlpAction | undefined;
+  Enabled?: boolean | undefined;
 }
 export interface UpdateDlpSettingResponse {
   Arn: string;
   DlpSettingId: string;
-  RequestId?: string;
+  RequestId?: string | undefined;
 }
 export type UpdateFlowRequestClientTokenString = string;
 export interface UpdateFlowRequest {
   AwsAccountId: string;
   FlowId: string;
-  Name?: string;
-  Description?: string;
-  FlowDefinition?: any;
-  ClientToken?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  FlowDefinition?: any | undefined;
+  ClientToken?: string | undefined;
 }
 export interface UpdateFlowResponse {
   Arn: string;
   FlowId: string;
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type UpdateFlowPermissionsInputGrantPermissionsList = Permission[];
 export type UpdateFlowPermissionsInputRevokePermissionsList = Permission[];
 export interface UpdateFlowPermissionsInput {
   AwsAccountId: string;
   FlowId: string;
-  GrantPermissions?: Permission[];
-  RevokePermissions?: Permission[];
+  GrantPermissions?: Permission[] | undefined;
+  RevokePermissions?: Permission[] | undefined;
 }
 export interface UpdateFlowPermissionsOutput {
-  Status?: number;
+  Status?: number | undefined;
   Arn: string;
   Permissions: Permission[];
   RequestId: string;
@@ -13614,79 +13812,79 @@ export interface UpdateFolderRequest {
   Name: string;
 }
 export interface UpdateFolderResponse {
-  Status?: number;
-  Arn?: string;
-  FolderId?: string;
-  RequestId?: string;
+  Status?: number | undefined;
+  Arn?: string | undefined;
+  FolderId?: string | undefined;
+  RequestId?: string | undefined;
 }
 export interface UpdateFolderPermissionsRequest {
   AwsAccountId: string;
   FolderId: string;
-  GrantPermissions?: ResourcePermission[];
-  RevokePermissions?: ResourcePermission[];
+  GrantPermissions?: ResourcePermission[] | undefined;
+  RevokePermissions?: ResourcePermission[] | undefined;
 }
 export interface UpdateFolderPermissionsResponse {
-  Status?: number;
-  Arn?: string;
-  FolderId?: string;
-  Permissions?: ResourcePermission[];
-  RequestId?: string;
+  Status?: number | undefined;
+  Arn?: string | undefined;
+  FolderId?: string | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  RequestId?: string | undefined;
 }
 export interface UpdateGroupRequest {
   GroupName: string;
-  Description?: string;
+  Description?: string | undefined;
   AwsAccountId: string;
   Namespace: string;
 }
 export interface UpdateGroupResponse {
-  Group?: Group;
-  RequestId?: string;
-  Status?: number;
+  Group?: Group | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateIAMPolicyAssignmentRequest {
   AwsAccountId: string;
   AssignmentName: string;
   Namespace: string;
-  AssignmentStatus?: AssignmentStatus;
-  PolicyArn?: string;
-  Identities?: { [key: string]: string[] | undefined };
+  AssignmentStatus?: AssignmentStatus | undefined;
+  PolicyArn?: string | undefined;
+  Identities?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface UpdateIAMPolicyAssignmentResponse {
-  AssignmentName?: string;
-  AssignmentId?: string;
-  PolicyArn?: string;
-  Identities?: { [key: string]: string[] | undefined };
-  AssignmentStatus?: AssignmentStatus;
-  RequestId?: string;
-  Status?: number;
+  AssignmentName?: string | undefined;
+  AssignmentId?: string | undefined;
+  PolicyArn?: string | undefined;
+  Identities?: { [key: string]: string[] | undefined } | undefined;
+  AssignmentStatus?: AssignmentStatus | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateIdentityPropagationConfigRequest {
   AwsAccountId: string;
   Service: ServiceType;
-  AuthorizedTargets?: string[];
+  AuthorizedTargets?: string[] | undefined;
 }
 export interface UpdateIdentityPropagationConfigResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateIpRestrictionRequest {
   AwsAccountId: string;
-  IpRestrictionRuleMap?: { [key: string]: string | undefined };
-  VpcIdRestrictionRuleMap?: { [key: string]: string | undefined };
-  VpcEndpointIdRestrictionRuleMap?: { [key: string]: string | undefined };
-  Enabled?: boolean;
+  IpRestrictionRuleMap?: { [key: string]: string | undefined } | undefined;
+  VpcIdRestrictionRuleMap?: { [key: string]: string | undefined } | undefined;
+  VpcEndpointIdRestrictionRuleMap?: { [key: string]: string | undefined } | undefined;
+  Enabled?: boolean | undefined;
 }
 export interface UpdateIpRestrictionResponse {
-  AwsAccountId?: string;
-  RequestId?: string;
-  Status?: number;
+  AwsAccountId?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateKeyRegistrationRequest {
   AwsAccountId: string;
   KeyRegistration: RegisteredCustomerManagedKey[];
 }
 export interface FailedKeyRegistrationEntry {
-  KeyArn?: string;
+  KeyArn?: string | undefined;
   Message: string;
   StatusCode: number;
   SenderFault: boolean;
@@ -13698,45 +13896,45 @@ export interface SuccessfulKeyRegistrationEntry {
 }
 export type SuccessfulKeyRegistrationEntries = SuccessfulKeyRegistrationEntry[];
 export interface UpdateKeyRegistrationResponse {
-  FailedKeyRegistration?: FailedKeyRegistrationEntry[];
-  SuccessfulKeyRegistration?: SuccessfulKeyRegistrationEntry[];
-  RequestId?: string;
+  FailedKeyRegistration?: FailedKeyRegistrationEntry[] | undefined;
+  SuccessfulKeyRegistration?: SuccessfulKeyRegistrationEntry[] | undefined;
+  RequestId?: string | undefined;
 }
 export interface UpdateKnowledgeBaseRequest {
   AwsAccountId: string;
   KnowledgeBaseId: string;
-  Name?: string;
-  Description?: string;
-  KnowledgeBaseConfiguration?: KnowledgeBaseConfiguration;
-  MediaExtractionConfiguration?: MediaExtractionConfiguration;
-  IsEmailNotificationOptedForIngestionFailures?: boolean;
-  AccessControlConfiguration?: AccessControlConfiguration;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  KnowledgeBaseConfiguration?: KnowledgeBaseConfiguration | undefined;
+  MediaExtractionConfiguration?: MediaExtractionConfiguration | undefined;
+  IsEmailNotificationOptedForIngestionFailures?: boolean | undefined;
+  AccessControlConfiguration?: AccessControlConfiguration | undefined;
 }
 export interface UpdateKnowledgeBaseResponse {
   KnowledgeBaseArn: string;
   KnowledgeBaseId: string;
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateKnowledgeBasePermissionsRequest {
   AwsAccountId: string;
   KnowledgeBaseId: string;
-  GrantPermissions?: ResourcePermission[];
-  RevokePermissions?: ResourcePermission[];
+  GrantPermissions?: ResourcePermission[] | undefined;
+  RevokePermissions?: ResourcePermission[] | undefined;
 }
 export interface UpdateKnowledgeBasePermissionsResponse {
   KnowledgeBaseArn: string;
   KnowledgeBaseId: string;
-  Permissions?: ResourcePermission[];
-  RequestId?: string;
-  Status?: number;
+  Permissions?: ResourcePermission[] | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateLimitsProfileRequest {
   profileId: string;
   accountId: string;
-  profileName?: string;
-  description?: string;
-  resourceLimits?: { [key: string]: ProfileLimitValue | undefined };
+  profileName?: string | undefined;
+  description?: string | undefined;
+  resourceLimits?: { [key: string]: ProfileLimitValue | undefined } | undefined;
 }
 export interface UpdateLimitsProfileResponse {
   arn: string;
@@ -13745,46 +13943,46 @@ export interface UpdateOAuthClientApplicationRequest {
   AwsAccountId: string;
   OAuthClientApplicationId: string;
   Name: string;
-  ClientId?: string | redacted.Redacted<string>;
-  ClientSecret?: string | redacted.Redacted<string>;
-  OAuthTokenEndpointUrl?: string | redacted.Redacted<string>;
-  OAuthAuthorizationEndpointUrl?: string | redacted.Redacted<string>;
-  OAuthScopes?: string;
-  DataSourceType?: DataSourceType;
-  IdentityProviderVpcConnectionProperties?: VpcConnectionProperties;
+  ClientId?: string | redacted.Redacted<string> | undefined;
+  ClientSecret?: string | redacted.Redacted<string> | undefined;
+  OAuthTokenEndpointUrl?: string | redacted.Redacted<string> | undefined;
+  OAuthAuthorizationEndpointUrl?: string | redacted.Redacted<string> | undefined;
+  OAuthScopes?: string | undefined;
+  DataSourceType?: DataSourceType | undefined;
+  IdentityProviderVpcConnectionProperties?: VpcConnectionProperties | undefined;
 }
 export interface UpdateOAuthClientApplicationResponse {
-  Arn?: string;
-  OAuthClientApplicationId?: string;
-  UpdateStatus?: ResourceStatus;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  OAuthClientApplicationId?: string | undefined;
+  UpdateStatus?: ResourceStatus | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdatePublicSharingSettingsRequest {
   AwsAccountId: string;
-  PublicSharingEnabled?: boolean;
+  PublicSharingEnabled?: boolean | undefined;
 }
 export interface UpdatePublicSharingSettingsResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateQPersonalizationConfigurationRequest {
   AwsAccountId: string;
   PersonalizationMode: PersonalizationMode;
 }
 export interface UpdateQPersonalizationConfigurationResponse {
-  PersonalizationMode?: PersonalizationMode;
-  RequestId?: string;
-  Status?: number;
+  PersonalizationMode?: PersonalizationMode | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateQuickSightQSearchConfigurationRequest {
   AwsAccountId: string;
   QSearchStatus: QSearchStatus;
 }
 export interface UpdateQuickSightQSearchConfigurationResponse {
-  QSearchStatus?: QSearchStatus;
-  RequestId?: string;
-  Status?: number;
+  QSearchStatus?: QSearchStatus | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateRefreshScheduleRequest {
   DataSetId: string;
@@ -13792,10 +13990,10 @@ export interface UpdateRefreshScheduleRequest {
   Schedule: RefreshSchedule;
 }
 export interface UpdateRefreshScheduleResponse {
-  Status?: number;
-  RequestId?: string;
-  ScheduleId?: string;
-  Arn?: string;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
+  ScheduleId?: string | undefined;
+  Arn?: string | undefined;
 }
 export interface UpdateRoleCustomPermissionRequest {
   CustomPermissionsName: string;
@@ -13804,8 +14002,8 @@ export interface UpdateRoleCustomPermissionRequest {
   Namespace: string;
 }
 export interface UpdateRoleCustomPermissionResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type SelfUpgradeAdminAction = "APPROVE" | "DENY" | "VERIFY" | (string & {});
 export interface UpdateSelfUpgradeRequest {
@@ -13815,9 +14013,9 @@ export interface UpdateSelfUpgradeRequest {
   Action: SelfUpgradeAdminAction;
 }
 export interface UpdateSelfUpgradeResponse {
-  SelfUpgradeRequestDetail?: SelfUpgradeRequestDetail;
-  RequestId?: string;
-  Status?: number;
+  SelfUpgradeRequestDetail?: SelfUpgradeRequestDetail | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateSelfUpgradeConfigurationRequest {
   AwsAccountId: string;
@@ -13825,31 +14023,31 @@ export interface UpdateSelfUpgradeConfigurationRequest {
   SelfUpgradeStatus: SelfUpgradeStatus;
 }
 export interface UpdateSelfUpgradeConfigurationResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateSpaceRequest {
   AwsAccountId: string;
   SpaceId: string;
-  Name?: string;
-  Description?: string | redacted.Redacted<string>;
+  Name?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateSpaceResponse {
   spaceId: string;
-  spaceArn?: string;
-  RequestId?: string;
+  spaceArn?: string | undefined;
+  RequestId?: string | undefined;
 }
 export interface UpdateSpacePermissionsRequest {
   AwsAccountId: string;
   SpaceId: string;
-  GrantPermissions?: ResourcePermission[];
-  RevokePermissions?: ResourcePermission[];
+  GrantPermissions?: ResourcePermission[] | undefined;
+  RevokePermissions?: ResourcePermission[] | undefined;
 }
 export interface UpdateSpacePermissionsResponse {
   spaceId: string;
-  spaceArn?: string;
-  permissions?: ResourcePermission[];
-  requestId?: string;
+  spaceArn?: string | undefined;
+  permissions?: ResourcePermission[] | undefined;
+  requestId?: string | undefined;
 }
 export interface SpaceResourceOperation {
   ResourceType: SpaceQuickSightResourceType;
@@ -13859,20 +14057,20 @@ export type SpaceResourceOperations = SpaceResourceOperation[];
 export interface UpdateSpaceResourcesRequest {
   AwsAccountId: string;
   SpaceId: string;
-  AddResources?: SpaceResourceOperation[];
-  RemoveResources?: SpaceResourceOperation[];
+  AddResources?: SpaceResourceOperation[] | undefined;
+  RemoveResources?: SpaceResourceOperation[] | undefined;
 }
 export interface FailedSpaceResourceOperation {
   ResourceType: SpaceQuickSightResourceType;
-  ResourceDetails?: SpaceQuickSightResourceDetails;
+  ResourceDetails?: SpaceQuickSightResourceDetails | undefined;
   ErrorMessage: string;
 }
 export type FailedSpaceResourceOperations = FailedSpaceResourceOperation[];
 export interface UpdateSpaceResourcesResponse {
   spaceId: string;
-  spaceArn?: string;
-  FailedResourceOperations?: FailedSpaceResourceOperation[];
-  RequestId?: string;
+  spaceArn?: string | undefined;
+  FailedResourceOperations?: FailedSpaceResourceOperation[] | undefined;
+  RequestId?: string | undefined;
 }
 export type PurchaseMode = "MANUAL" | "AUTO_PURCHASE" | (string & {});
 export interface UpdateSPICECapacityConfigurationRequest {
@@ -13880,25 +14078,25 @@ export interface UpdateSPICECapacityConfigurationRequest {
   PurchaseMode: PurchaseMode;
 }
 export interface UpdateSPICECapacityConfigurationResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateTemplateRequest {
   AwsAccountId: string;
   TemplateId: string;
-  SourceEntity?: TemplateSourceEntity;
-  VersionDescription?: string;
-  Name?: string;
-  Definition?: TemplateVersionDefinition;
-  ValidationStrategy?: ValidationStrategy;
+  SourceEntity?: TemplateSourceEntity | undefined;
+  VersionDescription?: string | undefined;
+  Name?: string | undefined;
+  Definition?: TemplateVersionDefinition | undefined;
+  ValidationStrategy?: ValidationStrategy | undefined;
 }
 export interface UpdateTemplateResponse {
-  TemplateId?: string;
-  Arn?: string;
-  VersionArn?: string;
-  CreationStatus?: ResourceStatus;
-  Status?: number;
-  RequestId?: string;
+  TemplateId?: string | undefined;
+  Arn?: string | undefined;
+  VersionArn?: string | undefined;
+  CreationStatus?: ResourceStatus | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface UpdateTemplateAliasRequest {
   AwsAccountId: string;
@@ -13907,38 +14105,38 @@ export interface UpdateTemplateAliasRequest {
   TemplateVersionNumber: number;
 }
 export interface UpdateTemplateAliasResponse {
-  TemplateAlias?: TemplateAlias;
-  Status?: number;
-  RequestId?: string;
+  TemplateAlias?: TemplateAlias | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface UpdateTemplatePermissionsRequest {
   AwsAccountId: string;
   TemplateId: string;
-  GrantPermissions?: ResourcePermission[];
-  RevokePermissions?: ResourcePermission[];
+  GrantPermissions?: ResourcePermission[] | undefined;
+  RevokePermissions?: ResourcePermission[] | undefined;
 }
 export interface UpdateTemplatePermissionsResponse {
-  TemplateId?: string;
-  TemplateArn?: string;
-  Permissions?: ResourcePermission[];
-  RequestId?: string;
-  Status?: number;
+  TemplateId?: string | undefined;
+  TemplateArn?: string | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateThemeRequest {
   AwsAccountId: string;
   ThemeId: string;
-  Name?: string;
+  Name?: string | undefined;
   BaseThemeId: string;
-  VersionDescription?: string;
-  Configuration?: ThemeConfiguration;
+  VersionDescription?: string | undefined;
+  Configuration?: ThemeConfiguration | undefined;
 }
 export interface UpdateThemeResponse {
-  ThemeId?: string;
-  Arn?: string;
-  VersionArn?: string;
-  CreationStatus?: ResourceStatus;
-  Status?: number;
-  RequestId?: string;
+  ThemeId?: string | undefined;
+  Arn?: string | undefined;
+  VersionArn?: string | undefined;
+  CreationStatus?: ResourceStatus | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface UpdateThemeAliasRequest {
   AwsAccountId: string;
@@ -13947,61 +14145,61 @@ export interface UpdateThemeAliasRequest {
   ThemeVersionNumber: number;
 }
 export interface UpdateThemeAliasResponse {
-  ThemeAlias?: ThemeAlias;
-  Status?: number;
-  RequestId?: string;
+  ThemeAlias?: ThemeAlias | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface UpdateThemePermissionsRequest {
   AwsAccountId: string;
   ThemeId: string;
-  GrantPermissions?: ResourcePermission[];
-  RevokePermissions?: ResourcePermission[];
+  GrantPermissions?: ResourcePermission[] | undefined;
+  RevokePermissions?: ResourcePermission[] | undefined;
 }
 export interface UpdateThemePermissionsResponse {
-  ThemeId?: string;
-  ThemeArn?: string;
-  Permissions?: ResourcePermission[];
-  RequestId?: string;
-  Status?: number;
+  ThemeId?: string | undefined;
+  ThemeArn?: string | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateTopicRequest {
   AwsAccountId: string;
   TopicId: string;
   Topic: TopicDetails;
-  CustomInstructions?: CustomInstructions;
+  CustomInstructions?: CustomInstructions | undefined;
 }
 export interface UpdateTopicResponse {
-  TopicId?: string;
-  Arn?: string;
-  RefreshArn?: string;
-  RequestId?: string;
-  Status?: number;
+  TopicId?: string | undefined;
+  Arn?: string | undefined;
+  RefreshArn?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateTopicPermissionsRequest {
   AwsAccountId: string;
   TopicId: string;
-  GrantPermissions?: ResourcePermission[];
-  RevokePermissions?: ResourcePermission[];
+  GrantPermissions?: ResourcePermission[] | undefined;
+  RevokePermissions?: ResourcePermission[] | undefined;
 }
 export interface UpdateTopicPermissionsResponse {
-  TopicId?: string;
-  TopicArn?: string;
-  Permissions?: ResourcePermission[];
-  Status?: number;
-  RequestId?: string;
+  TopicId?: string | undefined;
+  TopicArn?: string | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface UpdateTopicPermissionsV2Request {
   AwsAccountId: string;
   TopicId: string;
-  GrantPermissions?: ResourcePermission[];
-  RevokePermissions?: ResourcePermission[];
+  GrantPermissions?: ResourcePermission[] | undefined;
+  RevokePermissions?: ResourcePermission[] | undefined;
 }
 export interface UpdateTopicPermissionsV2Response {
-  TopicId?: string;
-  TopicArn?: string;
-  Permissions?: ResourcePermission[];
-  Status?: number;
-  RequestId?: string;
+  TopicId?: string | undefined;
+  TopicArn?: string | undefined;
+  Permissions?: ResourcePermission[] | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export interface UpdateTopicRefreshScheduleRequest {
   AwsAccountId: string;
@@ -14010,25 +14208,25 @@ export interface UpdateTopicRefreshScheduleRequest {
   RefreshSchedule: TopicRefreshSchedule;
 }
 export interface UpdateTopicRefreshScheduleResponse {
-  TopicId?: string;
-  TopicArn?: string;
-  DatasetArn?: string;
-  Status?: number;
-  RequestId?: string;
+  TopicId?: string | undefined;
+  TopicArn?: string | undefined;
+  DatasetArn?: string | undefined;
+  Status?: number | undefined;
+  RequestId?: string | undefined;
 }
 export type TopicV2PublishOption = "DRAFT" | "PUBLISH" | (string & {});
 export interface UpdateTopicV2Request {
   AwsAccountId: string;
   TopicId: string;
   Topic: TopicV2Details;
-  CustomInstructions?: CustomInstructions;
-  PublishOption?: TopicV2PublishOption;
+  CustomInstructions?: CustomInstructions | undefined;
+  PublishOption?: TopicV2PublishOption | undefined;
 }
 export interface UpdateTopicV2Response {
-  Arn?: string;
-  TopicId?: string;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  TopicId?: string | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateUserRequest {
   UserName: string;
@@ -14036,16 +14234,16 @@ export interface UpdateUserRequest {
   Namespace: string;
   Email: string;
   Role: UserRole;
-  CustomPermissionsName?: string;
-  UnapplyCustomPermissions?: boolean;
-  ExternalLoginFederationProviderType?: string;
-  CustomFederationProviderUrl?: string;
-  ExternalLoginId?: string;
+  CustomPermissionsName?: string | undefined;
+  UnapplyCustomPermissions?: boolean | undefined;
+  ExternalLoginFederationProviderType?: string | undefined;
+  CustomFederationProviderUrl?: string | undefined;
+  ExternalLoginId?: string | undefined;
 }
 export interface UpdateUserResponse {
-  User?: User;
-  RequestId?: string;
-  Status?: number;
+  User?: User | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateUserCustomPermissionRequest {
   UserName: string;
@@ -14054,8 +14252,8 @@ export interface UpdateUserCustomPermissionRequest {
   CustomPermissionsName: string;
 }
 export interface UpdateUserCustomPermissionResponse {
-  RequestId?: string;
-  Status?: number;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export interface UpdateVPCConnectionRequest {
   AwsAccountId: string;
@@ -14063,16 +14261,16 @@ export interface UpdateVPCConnectionRequest {
   Name: string;
   SubnetIds: string[];
   SecurityGroupIds: string[];
-  DnsResolvers?: string[];
+  DnsResolvers?: string[] | undefined;
   RoleArn: string;
 }
 export interface UpdateVPCConnectionResponse {
-  Arn?: string;
-  VPCConnectionId?: string;
-  UpdateStatus?: VPCConnectionResourceStatus;
-  AvailabilityStatus?: VPCConnectionAvailabilityStatus;
-  RequestId?: string;
-  Status?: number;
+  Arn?: string | undefined;
+  VPCConnectionId?: string | undefined;
+  UpdateStatus?: VPCConnectionResourceStatus | undefined;
+  AvailabilityStatus?: VPCConnectionAvailabilityStatus | undefined;
+  RequestId?: string | undefined;
+  Status?: number | undefined;
 }
 export type ExceptionResourceType =
   | "USER"
@@ -40096,6 +40294,10 @@ function __c337(j: number): any {
           CreateAndUpdateBeeAction: S.optional(S.String),
           ShareBeeAction: S.optional(S.String),
           UseBeeAction: S.optional(S.String),
+          GongAction: S.optional(S.String),
+          CreateAndUpdateGongAction: S.optional(S.String),
+          ShareGongAction: S.optional(S.String),
+          UseGongAction: S.optional(S.String),
           Topic: S.optional(S.String),
           EditVisualWithQ: S.optional(S.String),
           BuildCalculatedFieldWithQ: S.optional(S.String),
@@ -40122,6 +40324,186 @@ function __c337(j: number): any {
           ScheduleTrigger: S.optional(S.String),
           InboundEmailTrigger: S.optional(S.String),
           QuickEventTrigger: S.optional(S.String),
+          FileDataSource: S.optional(S.String),
+          CreateFileDataSource: S.optional(S.String),
+          UpdateFileDataSource: S.optional(S.String),
+          ShareFileDataSource: S.optional(S.String),
+          S3DataSource: S.optional(S.String),
+          CreateS3DataSource: S.optional(S.String),
+          UpdateS3DataSource: S.optional(S.String),
+          ShareS3DataSource: S.optional(S.String),
+          S3AnalyticsDataSource: S.optional(S.String),
+          CreateS3AnalyticsDataSource: S.optional(S.String),
+          UpdateS3AnalyticsDataSource: S.optional(S.String),
+          ShareS3AnalyticsDataSource: S.optional(S.String),
+          S3TablesDataSource: S.optional(S.String),
+          CreateS3TablesDataSource: S.optional(S.String),
+          UpdateS3TablesDataSource: S.optional(S.String),
+          ShareS3TablesDataSource: S.optional(S.String),
+          AthenaDataSource: S.optional(S.String),
+          CreateAthenaDataSource: S.optional(S.String),
+          UpdateAthenaDataSource: S.optional(S.String),
+          ShareAthenaDataSource: S.optional(S.String),
+          RdsDataSource: S.optional(S.String),
+          CreateRdsDataSource: S.optional(S.String),
+          UpdateRdsDataSource: S.optional(S.String),
+          ShareRdsDataSource: S.optional(S.String),
+          RedshiftAutoDiscoveredDataSource: S.optional(S.String),
+          CreateRedshiftAutoDiscoveredDataSource: S.optional(S.String),
+          UpdateRedshiftAutoDiscoveredDataSource: S.optional(S.String),
+          ShareRedshiftAutoDiscoveredDataSource: S.optional(S.String),
+          RedshiftManualDataSource: S.optional(S.String),
+          CreateRedshiftManualDataSource: S.optional(S.String),
+          UpdateRedshiftManualDataSource: S.optional(S.String),
+          ShareRedshiftManualDataSource: S.optional(S.String),
+          OpenSearchDataSource: S.optional(S.String),
+          CreateOpenSearchDataSource: S.optional(S.String),
+          UpdateOpenSearchDataSource: S.optional(S.String),
+          ShareOpenSearchDataSource: S.optional(S.String),
+          TimestreamDataSource: S.optional(S.String),
+          CreateTimestreamDataSource: S.optional(S.String),
+          UpdateTimestreamDataSource: S.optional(S.String),
+          ShareTimestreamDataSource: S.optional(S.String),
+          AuroraDataSource: S.optional(S.String),
+          CreateAuroraDataSource: S.optional(S.String),
+          UpdateAuroraDataSource: S.optional(S.String),
+          ShareAuroraDataSource: S.optional(S.String),
+          MySqlDataSource: S.optional(S.String),
+          CreateMySqlDataSource: S.optional(S.String),
+          UpdateMySqlDataSource: S.optional(S.String),
+          ShareMySqlDataSource: S.optional(S.String),
+          PostgreSqlDataSource: S.optional(S.String),
+          CreatePostgreSqlDataSource: S.optional(S.String),
+          UpdatePostgreSqlDataSource: S.optional(S.String),
+          SharePostgreSqlDataSource: S.optional(S.String),
+          OracleDataSource: S.optional(S.String),
+          CreateOracleDataSource: S.optional(S.String),
+          UpdateOracleDataSource: S.optional(S.String),
+          ShareOracleDataSource: S.optional(S.String),
+          SqlServerDataSource: S.optional(S.String),
+          CreateSqlServerDataSource: S.optional(S.String),
+          UpdateSqlServerDataSource: S.optional(S.String),
+          ShareSqlServerDataSource: S.optional(S.String),
+          MariaDbDataSource: S.optional(S.String),
+          CreateMariaDbDataSource: S.optional(S.String),
+          UpdateMariaDbDataSource: S.optional(S.String),
+          ShareMariaDbDataSource: S.optional(S.String),
+          SnowflakeDataSource: S.optional(S.String),
+          CreateSnowflakeDataSource: S.optional(S.String),
+          UpdateSnowflakeDataSource: S.optional(S.String),
+          ShareSnowflakeDataSource: S.optional(S.String),
+          GoogleBigQueryDataSource: S.optional(S.String),
+          CreateGoogleBigQueryDataSource: S.optional(S.String),
+          UpdateGoogleBigQueryDataSource: S.optional(S.String),
+          ShareGoogleBigQueryDataSource: S.optional(S.String),
+          DatabricksDataSource: S.optional(S.String),
+          CreateDatabricksDataSource: S.optional(S.String),
+          UpdateDatabricksDataSource: S.optional(S.String),
+          ShareDatabricksDataSource: S.optional(S.String),
+          StarburstDataSource: S.optional(S.String),
+          CreateStarburstDataSource: S.optional(S.String),
+          UpdateStarburstDataSource: S.optional(S.String),
+          ShareStarburstDataSource: S.optional(S.String),
+          TrinoDataSource: S.optional(S.String),
+          CreateTrinoDataSource: S.optional(S.String),
+          UpdateTrinoDataSource: S.optional(S.String),
+          ShareTrinoDataSource: S.optional(S.String),
+          ImpalaDataSource: S.optional(S.String),
+          CreateImpalaDataSource: S.optional(S.String),
+          UpdateImpalaDataSource: S.optional(S.String),
+          ShareImpalaDataSource: S.optional(S.String),
+          TeradataDataSource: S.optional(S.String),
+          CreateTeradataDataSource: S.optional(S.String),
+          UpdateTeradataDataSource: S.optional(S.String),
+          ShareTeradataDataSource: S.optional(S.String),
+          PrestoDataSource: S.optional(S.String),
+          CreatePrestoDataSource: S.optional(S.String),
+          UpdatePrestoDataSource: S.optional(S.String),
+          SharePrestoDataSource: S.optional(S.String),
+          SparkDataSource: S.optional(S.String),
+          CreateSparkDataSource: S.optional(S.String),
+          UpdateSparkDataSource: S.optional(S.String),
+          ShareSparkDataSource: S.optional(S.String),
+          ExasolDataSource: S.optional(S.String),
+          CreateExasolDataSource: S.optional(S.String),
+          UpdateExasolDataSource: S.optional(S.String),
+          ShareExasolDataSource: S.optional(S.String),
+          Db2DataSource: S.optional(S.String),
+          CreateDb2DataSource: S.optional(S.String),
+          UpdateDb2DataSource: S.optional(S.String),
+          ShareDb2DataSource: S.optional(S.String),
+          SapHanaDataSource: S.optional(S.String),
+          CreateSapHanaDataSource: S.optional(S.String),
+          UpdateSapHanaDataSource: S.optional(S.String),
+          ShareSapHanaDataSource: S.optional(S.String),
+          DenodoDataSource: S.optional(S.String),
+          CreateDenodoDataSource: S.optional(S.String),
+          UpdateDenodoDataSource: S.optional(S.String),
+          ShareDenodoDataSource: S.optional(S.String),
+          DremioDataSource: S.optional(S.String),
+          CreateDremioDataSource: S.optional(S.String),
+          UpdateDremioDataSource: S.optional(S.String),
+          ShareDremioDataSource: S.optional(S.String),
+          SalesforceDataSource: S.optional(S.String),
+          CreateSalesforceDataSource: S.optional(S.String),
+          UpdateSalesforceDataSource: S.optional(S.String),
+          ShareSalesforceDataSource: S.optional(S.String),
+          RadiantDataSource: S.optional(S.String),
+          CreateRadiantDataSource: S.optional(S.String),
+          UpdateRadiantDataSource: S.optional(S.String),
+          ShareRadiantDataSource: S.optional(S.String),
+          PayPalDataSource: S.optional(S.String),
+          CreatePayPalDataSource: S.optional(S.String),
+          UpdatePayPalDataSource: S.optional(S.String),
+          SharePayPalDataSource: S.optional(S.String),
+          SquareDataSource: S.optional(S.String),
+          CreateSquareDataSource: S.optional(S.String),
+          UpdateSquareDataSource: S.optional(S.String),
+          ShareSquareDataSource: S.optional(S.String),
+          GitHubDataSource: S.optional(S.String),
+          CreateGitHubDataSource: S.optional(S.String),
+          UpdateGitHubDataSource: S.optional(S.String),
+          ShareGitHubDataSource: S.optional(S.String),
+          TwitterDataSource: S.optional(S.String),
+          CreateTwitterDataSource: S.optional(S.String),
+          UpdateTwitterDataSource: S.optional(S.String),
+          ShareTwitterDataSource: S.optional(S.String),
+          JiraDataSource: S.optional(S.String),
+          CreateJiraDataSource: S.optional(S.String),
+          UpdateJiraDataSource: S.optional(S.String),
+          ShareJiraDataSource: S.optional(S.String),
+          ServiceNowDataSource: S.optional(S.String),
+          CreateServiceNowDataSource: S.optional(S.String),
+          UpdateServiceNowDataSource: S.optional(S.String),
+          ShareServiceNowDataSource: S.optional(S.String),
+          AdobeAnalyticsDataSource: S.optional(S.String),
+          CreateAdobeAnalyticsDataSource: S.optional(S.String),
+          UpdateAdobeAnalyticsDataSource: S.optional(S.String),
+          ShareAdobeAnalyticsDataSource: S.optional(S.String),
+          GoogleAnalyticsDataSource: S.optional(S.String),
+          CreateGoogleAnalyticsDataSource: S.optional(S.String),
+          UpdateGoogleAnalyticsDataSource: S.optional(S.String),
+          ShareGoogleAnalyticsDataSource: S.optional(S.String),
+          GoogleSheetsDataSource: S.optional(S.String),
+          CreateGoogleSheetsDataSource: S.optional(S.String),
+          UpdateGoogleSheetsDataSource: S.optional(S.String),
+          ShareGoogleSheetsDataSource: S.optional(S.String),
+          DocumentDbDataSource: S.optional(S.String),
+          CreateDocumentDbDataSource: S.optional(S.String),
+          UpdateDocumentDbDataSource: S.optional(S.String),
+          ShareDocumentDbDataSource: S.optional(S.String),
+          MongoDbDataSource: S.optional(S.String),
+          CreateMongoDbDataSource: S.optional(S.String),
+          UpdateMongoDbDataSource: S.optional(S.String),
+          ShareMongoDbDataSource: S.optional(S.String),
+          MongoAtlasDataSource: S.optional(S.String),
+          CreateMongoAtlasDataSource: S.optional(S.String),
+          UpdateMongoAtlasDataSource: S.optional(S.String),
+          ShareMongoAtlasDataSource: S.optional(S.String),
+          DynamoDbDataSource: S.optional(S.String),
+          CreateDynamoDbDataSource: S.optional(S.String),
+          UpdateDynamoDbDataSource: S.optional(S.String),
+          ShareDynamoDbDataSource: S.optional(S.String),
         }),
       ).annotate({ identifier: "Capabilities" });
     case 1:

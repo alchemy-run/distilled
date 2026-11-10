@@ -56,9 +56,9 @@ export interface GetEventRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
-  format?: GetEventRequestFormat | (string & {});
+  format?: GetEventRequestFormat | (string & {}) | undefined;
   /** Include person details for the event. Default: false. */
-  include_person?: boolean;
+  include_person?: boolean | undefined;
 }
 export type GetEventResponseBodyMap = { [key: string]: unknown | undefined };
 export type GetEventResponse = GetEventResponseBodyMap;
@@ -68,20 +68,20 @@ export interface GetEventsValueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Only read values from events with these names. Repeat to pass several. Required with a personal API key. Projects that read values from the precomputed property values table ignore this filter. */
-  event_name?: GetEventsValueRequestEventNameList;
-  format?: GetEventsValueRequestFormat | (string & {});
+  event_name?: GetEventsValueRequestEventNameList | undefined;
+  format?: GetEventsValueRequestFormat | (string & {}) | undefined;
   /** Read 'key' as an events table column, not a property. */
-  is_column?: boolean;
+  is_column?: boolean | undefined;
   /** The property to list values for. */
   key: string;
   /** Only return values that contain this text, ignoring case. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface EventPropertyValue {
   /** A value of the property, always as a string. Booleans come back as 'true' or 'false', and objects and lists as JSON. */
   name: string;
   /** How many times the value occurs, when the lookup counts values. */
-  count?: number;
+  count?: number | undefined;
 }
 /** Values of the property that match the request. */
 export type EventPropertyValuesResponseResultsList = Array<EventPropertyValue>;
@@ -157,17 +157,17 @@ export type PropertyFilterTypeEnum =
 export type PropertyItemType = PropertyFilterTypeEnum | BlankEnum;
 export interface PropertyItem {
   /** Key of the property you're filtering on. For example `email` or `$current_url` */
-  key?: string;
+  key?: string | undefined;
   /** Value of your filter. For example `test@example.com` or `https://example.com/test/`. Can be an array for an OR query, like `["test@example.com","ok@example.com"]` */
-  value?: PropertyItemValue;
-  operator?: PropertyItemOperator | null;
-  type?: PropertyItemType;
+  value?: PropertyItemValue | undefined;
+  operator?: PropertyItemOperator | null | undefined;
+  type?: PropertyItemType | undefined;
 }
 export type PropertyValuesList = Array<PropertyItem>;
 export interface Property {
   /** You can use a simplified version: ```json { "properties": [ { "key": "email", "value": "x@y.com", "operator": "exact", "type": "event" } ] } ``` Or you can create more complicated queries with AND and OR: ```json { "properties": { "type": "AND", "values": [ { "type": "OR", "values": [ {"key": "email", ...}, {"key": "email", ...} ] }, { "type": "AND", "values": [ {"key": "email", ...}, {"key": "email", ...} ] } ] ] } ``` * `AND` - AND * `OR` - OR */
-  type?: PropertyGroupOperatorEnum | (string & {});
-  values?: PropertyValuesList;
+  type?: PropertyGroupOperatorEnum | (string & {}) | undefined;
+  values?: PropertyValuesList | undefined;
 }
 export type ListEventsRequestPropertiesList = Array<Property>;
 export type ListEventsRequestSelectList = Array<string>;
@@ -176,59 +176,59 @@ export interface ListEventsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Only return events with a timestamp after this time. Default: now() - 24 hours. */
-  after?: string;
+  after?: string | undefined;
   /** Only return events with a timestamp before this time. Default: now() + 5 seconds. */
-  before?: string;
+  before?: string | undefined;
   /** Filter list by distinct id. */
-  distinct_id?: number;
+  distinct_id?: number | undefined;
   /** Filter list by event. For example `user sign up` or `$pageview`. */
-  event?: string;
-  format?: ListEventsRequestFormat | (string & {});
+  event?: string | undefined;
+  format?: ListEventsRequestFormat | (string & {}) | undefined;
   /** Include person details for each event. Default: false. */
-  include_person?: boolean;
+  include_person?: boolean | undefined;
   /** The maximum number of results to return */
-  limit?: number;
+  limit?: number | undefined;
   /** Allows to skip first offset rows. Will fail for value larger than 100000. Read about proper way of paginating: https://posthog.com/docs/api/queries#5-use-timestamp-based-pagination-instead-of-offset */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter list by person id. */
-  person_id?: number;
+  person_id?: number | undefined;
   /** Filter events by event property, person property, cohort, groups and more. */
-  properties?: ListEventsRequestPropertiesList;
+  properties?: ListEventsRequestPropertiesList | undefined;
   /** (Experimental) JSON-serialized array of HogQL expressions to return */
-  select?: ListEventsRequestSelectList;
+  select?: ListEventsRequestSelectList | undefined;
   /** (Experimental) JSON-serialized array of HogQL expressions that must pass */
-  where?: ListEventsRequestWhereList;
+  where?: ListEventsRequestWhereList | undefined;
 }
 export type ClickhouseEventPropertiesMap = { [key: string]: unknown | undefined };
 export type ClickhouseEventPersonMap = { [key: string]: unknown | undefined };
 export type EventElementAttrClassList = Array<string>;
 export interface EventElement {
-  event?: string;
-  text?: string | null;
-  tag_name?: string | null;
-  attr_class?: EventElementAttrClassList | null;
-  href?: string | null;
-  attr_id?: string | null;
-  nth_child?: number | null;
-  nth_of_type?: number | null;
-  attributes?: unknown;
-  order?: number | null;
+  event?: string | undefined;
+  text?: string | null | undefined;
+  tag_name?: string | null | undefined;
+  attr_class?: EventElementAttrClassList | null | undefined;
+  href?: string | null | undefined;
+  attr_id?: string | null | undefined;
+  nth_child?: number | null | undefined;
+  nth_of_type?: number | null | undefined;
+  attributes?: unknown | undefined;
+  order?: number | null | undefined;
 }
 export type ClickhouseEventElementsList = Array<EventElement>;
 export interface ClickhouseEvent {
-  id?: string;
-  distinct_id?: string;
-  properties?: ClickhouseEventPropertiesMap;
-  event?: string;
-  timestamp?: string;
-  person?: ClickhouseEventPersonMap | null;
-  elements?: ClickhouseEventElementsList;
-  elements_chain?: string;
+  id?: string | undefined;
+  distinct_id?: string | undefined;
+  properties?: ClickhouseEventPropertiesMap | undefined;
+  event?: string | undefined;
+  timestamp?: string | undefined;
+  person?: ClickhouseEventPersonMap | null | undefined;
+  elements?: ClickhouseEventElementsList | undefined;
+  elements_chain?: string | undefined;
 }
 export type PaginatedClickhouseEventListResultsList = Array<ClickhouseEvent>;
 export interface PaginatedClickhouseEventList {
-  next?: string | null;
-  results?: PaginatedClickhouseEventListResultsList;
+  next?: string | null | undefined;
+  results?: PaginatedClickhouseEventListResultsList | undefined;
 }
 export type GetEventError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const getEvent: API.OperationMethod<

@@ -89,31 +89,31 @@ export interface AbortFunctionUpgradeProjectsLocationsFunctionsRequest {
   /** Required. The name of the function for which upgrade should be aborted. */
   name: string;
   /** Request body */
-  body?: AbortFunctionUpgradeRequest;
+  body?: AbortFunctionUpgradeRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
 }
 /** Request for the `CommitFunctionUpgradeAsGen2` method. */
 export type CommitFunctionUpgradeAsGen2Request = AbortFunctionUpgradeRequest;
@@ -121,7 +121,7 @@ export interface CommitFunctionUpgradeAsGen2ProjectsLocationsFunctionsRequest {
   /** Required. The name of the function for which upgrade should be committed to Gen2. */
   name: string;
   /** Request body */
-  body?: AbortFunctionUpgradeRequest;
+  body?: AbortFunctionUpgradeRequest | undefined;
 }
 /** Request for the `CommitFunctionUpgrade` method. */
 export type CommitFunctionUpgradeRequest = AbortFunctionUpgradeRequest;
@@ -129,7 +129,7 @@ export interface CommitFunctionUpgradeProjectsLocationsFunctionsRequest {
   /** Required. The name of the function for which upgrade should be finalized. */
   name: string;
   /** Request body */
-  body?: AbortFunctionUpgradeRequest;
+  body?: AbortFunctionUpgradeRequest | undefined;
 }
 export type Cloudfunctions_FunctionStateEnum =
   | "STATE_UNSPECIFIED"
@@ -148,75 +148,75 @@ export type EventTriggerRetryPolicyEnum =
 /** Filters events based on exact matches on the CloudEvents attributes. */
 export interface EventFilter {
   /** Optional. The operator used for matching the events with the value of the filter. If not specified, only events that have an exact key-value pair specified in the filter are matched. The only allowed value is `match-path-pattern`. */
-  operator?: string;
+  operator?: string | undefined;
   /** Required. The name of a CloudEvents attribute. */
-  attribute?: string;
+  attribute?: string | undefined;
   /** Required. The value for the attribute. */
-  value?: string;
+  value?: string | undefined;
 }
 export type EventFilterList = Array<EventFilter>;
 /** Describes EventTrigger, used to request events to be sent from another service. */
 export interface EventTrigger {
   /** Required. The type of event to observe. For example: `google.cloud.audit.log.v1.written` or `google.cloud.pubsub.topic.v1.messagePublished`. */
-  eventType?: string;
+  eventType?: string | undefined;
   /** Output only. The resource name of the Eventarc trigger. The format of this field is `projects/{project}/locations/{region}/triggers/{trigger}`. */
-  trigger?: string;
+  trigger?: string | undefined;
   /** The region that the trigger will be in. The trigger will only receive events originating in this region. It can be the same region as the function, a different region or multi-region, or the global region. If not provided, defaults to the same region as the function. */
-  triggerRegion?: string;
+  triggerRegion?: string | undefined;
   /** Optional. If unset, then defaults to ignoring failures (i.e. not retrying them). */
-  retryPolicy?: EventTriggerRetryPolicyEnum | (string & {});
+  retryPolicy?: EventTriggerRetryPolicyEnum | (string & {}) | undefined;
   /** Criteria used to filter events. */
-  eventFilters?: EventFilterList;
+  eventFilters?: EventFilterList | undefined;
   /** Optional. The name of the channel associated with the trigger in `projects/{project}/locations/{location}/channels/{channel}` format. You must provide a channel to receive events from Eventarc SaaS partners. */
-  channel?: string;
+  channel?: string | undefined;
   /** Optional. The email of the trigger's service account. The service account must have permission to invoke Cloud Run services, the permission is `run.routes.invoke`. If empty, defaults to the Compute Engine default service account: `{project_number}-compute@developer.gserviceaccount.com`. */
-  serviceAccountEmail?: string;
+  serviceAccountEmail?: string | undefined;
   /** Optional. The name of a Pub/Sub topic in the same project that will be used as the transport topic for the event delivery. Format: `projects/{project}/topics/{topic}`. This is only valid for events of type `google.cloud.pubsub.topic.v1.messagePublished`. The topic provided here will not be deleted at function deletion. */
-  pubsubTopic?: string;
+  pubsubTopic?: string | undefined;
   /** Optional. The hostname of the service that 1st Gen function should be observed. If no string is provided, the default service implementing the API will be used. For example, `storage.googleapis.com` is the default for all event types in the `google.storage` namespace. The field is only applicable to 1st Gen functions. */
-  service?: string;
+  service?: string | undefined;
 }
 export type StringList = Array<string>;
 /** The Direct VPC network interface. This is mutually exclusive with VPC Connector. */
 export interface DirectVpcNetworkInterface {
   /** Optional. The name of the VPC subnetwork that the Cloud Function resource will get IPs from. Specify either a VPC network or a subnet, or both. If both network and subnetwork are specified, the given VPC subnetwork must belong to the given VPC network. If subnetwork is not specified, the subnetwork with the same name with the network will be used. */
-  subnetwork?: string;
+  subnetwork?: string | undefined;
   /** Optional. Network tags applied to this Cloud Function resource. */
-  tags?: StringList;
+  tags?: StringList | undefined;
   /** Optional. The name of the VPC network to which the function will be connected. Specify either a VPC network or a subnet, or both. If you specify only a network, the subnet uses the same name as the network. */
-  network?: string;
+  network?: string | undefined;
 }
 export type DirectVpcNetworkInterfaceList = Array<DirectVpcNetworkInterface>;
 /** Configuration for a secret environment variable. It has the information necessary to fetch the secret value from secret manager and expose it as an environment variable. */
 export interface SecretEnvVar {
   /** Name of the environment variable. */
-  key?: string;
+  key?: string | undefined;
   /** Project identifier (preferably project number but can also be the project ID) of the project that contains the secret. If not set, it is assumed that the secret is in the same project as the function. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Name of the secret in secret manager (not the full resource name). */
-  secret?: string;
+  secret?: string | undefined;
   /** Version of the secret (version number or the string 'latest'). It is recommended to use a numeric version for secret environment variables as any updates to the secret value is not reflected until new instances start. */
-  version?: string;
+  version?: string | undefined;
 }
 export type SecretEnvVarList = Array<SecretEnvVar>;
 /** Configuration for a single version. */
 export interface SecretVersion {
   /** Version of the secret (version number or the string 'latest'). It is preferable to use `latest` version with secret volumes as secret value changes are reflected immediately. */
-  version?: string;
+  version?: string | undefined;
   /** Relative path of the file under the mount path where the secret value for this version will be fetched and made available. For example, setting the mount_path as '/etc/secrets' and path as `secret_foo` would mount the secret value file at `/etc/secrets/secret_foo`. */
-  path?: string;
+  path?: string | undefined;
 }
 export type SecretVersionList = Array<SecretVersion>;
 /** Configuration for a secret volume. It has the information necessary to fetch the secret value from secret manager and make it available as files mounted at the requested paths within the application container. */
 export interface SecretVolume {
   /** List of secret versions to mount for this secret. If empty, the `latest` version of the secret will be made available in a file named after the secret under the mount point. */
-  versions?: SecretVersionList;
+  versions?: SecretVersionList | undefined;
   /** The path within the container to mount the secret volume. For example, setting the mount_path as `/etc/secrets` would mount the secret value files under the `/etc/secrets` directory. This directory will also be completely shadowed and unavailable to mount any other secrets. Recommended mount path: /etc/secrets */
-  mountPath?: string;
+  mountPath?: string | undefined;
   /** Name of the secret in secret manager (not the full resource name). */
-  secret?: string;
+  secret?: string | undefined;
   /** Project identifier (preferably project number but can also be the project ID) of the project that contains the secret. If not set, it is assumed that the secret is in the same project as the function. */
-  projectId?: string;
+  projectId?: string | undefined;
 }
 export type SecretVolumeList = Array<SecretVolume>;
 export type ServiceConfigDirectVpcEgressEnum =
@@ -239,47 +239,50 @@ export type ServiceConfigVpcConnectorEgressSettingsEnum =
 /** Describes the Service being deployed. Currently Supported : Cloud Run (fully managed). */
 export interface ServiceConfig {
   /** The Serverless VPC Access connector that this cloud function can connect to. The format of this field is `projects/*\/locations/*\/connectors/*`. */
-  vpcConnector?: string;
+  vpcConnector?: string | undefined;
   /** Optional. The Direct VPC network interface for the Cloud Function. Currently only a single Direct VPC is supported. */
-  directVpcNetworkInterface?: DirectVpcNetworkInterfaceList;
+  directVpcNetworkInterface?: DirectVpcNetworkInterfaceList | undefined;
   /** Output only. URI of the Service deployed. */
-  uri?: string;
+  uri?: string | undefined;
   /** The amount of memory available for a function. Defaults to 256M. Supported units are k, M, G, Mi, Gi. If no unit is supplied the value is interpreted as bytes. See https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go a full description. */
-  availableMemory?: string;
+  availableMemory?: string | undefined;
   /** Secret environment variables configuration. */
-  secretEnvironmentVariables?: SecretEnvVarList;
+  secretEnvironmentVariables?: SecretEnvVarList | undefined;
   /** The number of CPUs used in a single container instance. Default value is calculated from available memory. Supports the same values as Cloud Run, see https://cloud.google.com/run/docs/reference/rest/v1/Container#resourcerequirements Example: "1" indicates 1 vCPU */
-  availableCpu?: string;
+  availableCpu?: string | undefined;
   /** The limit on the maximum number of function instances that may coexist at a given time. In some cases, such as rapid traffic surges, Cloud Functions may, for a short period of time, create more instances than the specified max instances limit. If your function cannot tolerate this temporary behavior, you may want to factor in a safety margin and set a lower max instances value than your function can tolerate. See the [Max Instances](https://cloud.google.com/functions/docs/max-instances) Guide for more details. */
-  maxInstanceCount?: number;
+  maxInstanceCount?: number | undefined;
   /** The email of the service's service account. If empty, defaults to `{project_number}-compute@developer.gserviceaccount.com`. */
-  serviceAccountEmail?: string;
+  serviceAccountEmail?: string | undefined;
   /** Optional. The binary authorization policy to be checked when deploying the Cloud Run service. */
-  binaryAuthorizationPolicy?: string;
+  binaryAuthorizationPolicy?: string | undefined;
   /** Output only. The name of service revision. */
-  revision?: string;
+  revision?: string | undefined;
   /** Output only. Name of the service associated with a Function. The format of this field is `projects/{project}/locations/{region}/services/{service}` */
-  service?: string;
+  service?: string | undefined;
   /** Secret volumes configuration. */
-  secretVolumes?: SecretVolumeList;
+  secretVolumes?: SecretVolumeList | undefined;
   /** Environment variables that shall be available during function execution. */
-  environmentVariables?: StringMap;
+  environmentVariables?: StringMap | undefined;
   /** Optional. Egress settings for direct VPC. If not provided, it defaults to VPC_EGRESS_PRIVATE_RANGES_ONLY. */
-  directVpcEgress?: ServiceConfigDirectVpcEgressEnum | (string & {});
+  directVpcEgress?: ServiceConfigDirectVpcEgressEnum | (string & {}) | undefined;
   /** The ingress settings for the function, controlling what traffic can reach it. */
-  ingressSettings?: ServiceConfigIngressSettingsEnum | (string & {});
+  ingressSettings?: ServiceConfigIngressSettingsEnum | (string & {}) | undefined;
   /** The function execution timeout. Execution is considered failed and can be terminated if the function is not completed at the end of the timeout period. Defaults to 60 seconds. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Security level configure whether the function only accepts https. This configuration is only applicable to 1st Gen functions with Http trigger. By default https is optional for 1st Gen functions; 2nd Gen functions are https ONLY. */
-  securityLevel?: ServiceConfigSecurityLevelEnum | (string & {});
+  securityLevel?: ServiceConfigSecurityLevelEnum | (string & {}) | undefined;
   /** Whether 100% of traffic is routed to the latest revision. On CreateFunction and UpdateFunction, when set to true, the revision being deployed will serve 100% of traffic, ignoring any traffic split settings, if any. On GetFunction, true will be returned if the latest revision is serving 100% of traffic. */
-  allTrafficOnLatestRevision?: boolean;
+  allTrafficOnLatestRevision?: boolean | undefined;
   /** The egress settings for the connector, controlling what traffic is diverted through it. */
-  vpcConnectorEgressSettings?: ServiceConfigVpcConnectorEgressSettingsEnum | (string & {});
+  vpcConnectorEgressSettings?:
+    | ServiceConfigVpcConnectorEgressSettingsEnum
+    | (string & {})
+    | undefined;
   /** Sets the maximum number of concurrent requests that each instance can receive. Defaults to 1. */
-  maxInstanceRequestConcurrency?: number;
+  maxInstanceRequestConcurrency?: number | undefined;
   /** The limit on the minimum number of function instances that may coexist at a given time. Function instances are kept in idle state for a short period after they finished executing the request to reduce cold start time for subsequent requests. Setting a minimum instance count will ensure that the given number of instances are kept running in idle state always. This can help with cold start times when jump in incoming request count occurs after the idle instance would have been stopped in the default case. */
-  minInstanceCount?: number;
+  minInstanceCount?: number | undefined;
 }
 export type UpgradeInfoUpgradeStateEnum =
   | "UPGRADE_STATE_UNSPECIFIED"
@@ -299,42 +302,42 @@ export type UpgradeInfoUpgradeStateEnum =
 /** Location of the source in an archive file in Google Cloud Storage. */
 export interface StorageSource {
   /** Google Cloud Storage object containing the source. This object must be a gzipped archive file (`.tar.gz`) containing source to build. */
-  object?: string;
+  object?: string | undefined;
   /** Google Cloud Storage generation for the object. If the generation is omitted, the latest generation will be used. */
-  generation?: string;
+  generation?: string | undefined;
   /** When the specified storage bucket is a 1st gen function uploard url bucket, this field should be set as the generated upload url for 1st gen deployment. */
-  sourceUploadUrl?: string;
+  sourceUploadUrl?: string | undefined;
   /** Google Cloud Storage bucket containing the source (see [Bucket Name Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)). */
-  bucket?: string;
+  bucket?: string | undefined;
 }
 /** Location of the source in a Google Cloud Source Repository. */
 export interface RepoSource {
   /** Regex matching tags to build. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax */
-  tagName?: string;
+  tagName?: string | undefined;
   /** ID of the project that owns the Cloud Source Repository. If omitted, the project ID requesting the build is assumed. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Directory, relative to the source root, in which to run the build. This must be a relative path. If a step's `dir` is specified and is an absolute path, this value is ignored for that step's execution. eg. helloworld (no leading slash allowed) */
-  dir?: string;
+  dir?: string | undefined;
   /** Regex matching branches to build. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax */
-  branchName?: string;
+  branchName?: string | undefined;
   /** Name of the Cloud Source Repository. */
-  repoName?: string;
+  repoName?: string | undefined;
   /** Explicit commit SHA to build. */
-  commitSha?: string;
+  commitSha?: string | undefined;
 }
 /** Provenance of the source. Ways to find the original source, or verify that some source was used for this build. */
 export interface SourceProvenance {
   /** A copy of the build's `source.storage_source`, if exists, with any generations resolved. */
-  resolvedStorageSource?: StorageSource;
+  resolvedStorageSource?: StorageSource | undefined;
   /** A copy of the build's `source.git_uri`, if exists, with any commits resolved. */
-  gitUri?: string;
+  gitUri?: string | undefined;
   /** A copy of the build's `source.repo_source`, if exists, with any revisions resolved. */
-  resolvedRepoSource?: RepoSource;
+  resolvedRepoSource?: RepoSource | undefined;
 }
 /** Security patches are only applied when a function is redeployed. */
 export interface OnDeployUpdatePolicy {
   /** Output only. contains the runtime version which was used during latest function deployment. */
-  runtimeVersion?: string;
+  runtimeVersion?: string | undefined;
 }
 export type BuildConfigDockerRegistryEnum =
   | "DOCKER_REGISTRY_UNSPECIFIED"
@@ -343,51 +346,51 @@ export type BuildConfigDockerRegistryEnum =
 /** The location of the function source code. */
 export interface Source {
   /** If provided, get the source from this location in Google Cloud Storage. */
-  storageSource?: StorageSource;
+  storageSource?: StorageSource | undefined;
   /** If provided, get the source from this location in a Cloud Source Repository. */
-  repoSource?: RepoSource;
+  repoSource?: RepoSource | undefined;
   /** If provided, get the source from GitHub repository. This option is valid only for GCF 1st Gen function. Example: https://github.com///blob// */
-  gitUri?: string;
+  gitUri?: string | undefined;
 }
 /** Security patches are applied automatically to the runtime without requiring the function to be redeployed. */
 export type AutomaticUpdatePolicy = AbortFunctionUpgradeRequest;
 /** Describes the Build step of the function that builds a container from the given source. */
 export interface BuildConfig {
   /** Output only. A permanent fixed identifier for source. */
-  sourceProvenance?: SourceProvenance;
+  sourceProvenance?: SourceProvenance | undefined;
   /** The runtime in which to run the function. Required when deploying a new function, optional when updating an existing function. For a complete list of possible choices, see the [`gcloud` command reference](https://cloud.google.com/sdk/gcloud/reference/functions/deploy#--runtime). */
-  runtime?: string;
+  runtime?: string | undefined;
   /** The name of the function (as defined in source code) that will be executed. Defaults to the resource name suffix, if not specified. For backward compatibility, if function with given name is not found, then the system will try to use function named "function". For Node.js this is name of a function exported by the module specified in `source_location`. */
-  entryPoint?: string;
-  onDeployUpdatePolicy?: OnDeployUpdatePolicy;
+  entryPoint?: string | undefined;
+  onDeployUpdatePolicy?: OnDeployUpdatePolicy | undefined;
   /** Output only. The Cloud Build name of the latest successful deployment of the function. */
-  build?: string;
+  build?: string | undefined;
   /** Repository in Artifact Registry to which the function docker image will be pushed after it is built by Cloud Build. If specified by user, it is created and managed by user with a customer managed encryption key. Otherwise, GCF will create and use a repository named 'gcf-artifacts' for every deployed region. It must match the pattern `projects/{project}/locations/{location}/repositories/{repository}`. Repository format must be 'DOCKER'. */
-  dockerRepository?: string;
+  dockerRepository?: string | undefined;
   /** User-provided build-time environment variables for the function */
-  environmentVariables?: StringMap;
+  environmentVariables?: StringMap | undefined;
   /** Service account to be used for building the container. The format of this field is `projects/{projectId}/serviceAccounts/{serviceAccountEmail}`. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Name of the Cloud Build Custom Worker Pool that should be used to build the function. The format of this field is `projects/{project}/locations/{region}/workerPools/{workerPool}` where {project} and {region} are the project id and region respectively where the worker pool is defined and {workerPool} is the short name of the worker pool. If the project id is not the same as the function, then the Cloud Functions Service Agent (service-@gcf-admin-robot.iam.gserviceaccount.com) must be granted the role Cloud Build Custom Workers Builder (roles/cloudbuild.customworkers.builder) in the project. */
-  workerPool?: string;
+  workerPool?: string | undefined;
   /** Docker Registry to use for this deployment. This configuration is only applicable to 1st Gen functions, 2nd Gen functions can only use Artifact Registry. Deprecated: as of March 2025, `CONTAINER_REGISTRY` option is no longer available in response to Container Registry's deprecation: https://cloud.google.com/artifact-registry/docs/transition/transition-from-gcr Please use Artifact Registry instead, which is the default choice. If unspecified, it defaults to `ARTIFACT_REGISTRY`. If `docker_repository` field is specified, this field should either be left unspecified or set to `ARTIFACT_REGISTRY`. */
-  dockerRegistry?: BuildConfigDockerRegistryEnum | (string & {});
+  dockerRegistry?: BuildConfigDockerRegistryEnum | (string & {}) | undefined;
   /** An identifier for Firebase function sources. Disclaimer: This field is only supported for Firebase function deployments. */
-  sourceToken?: string;
+  sourceToken?: string | undefined;
   /** The location of the function source code. */
-  source?: Source;
-  automaticUpdatePolicy?: AbortFunctionUpgradeRequest;
+  source?: Source | undefined;
+  automaticUpdatePolicy?: AbortFunctionUpgradeRequest | undefined;
 }
 /** Information related to: * A function's eligibility for 1st Gen to 2nd Gen migration. * Current state of migration for function undergoing migration. */
 export interface UpgradeInfo {
   /** Describes the Event trigger which has been setup to prepare for 2nd gen upgrade. */
-  eventTrigger?: EventTrigger;
+  eventTrigger?: EventTrigger | undefined;
   /** Describes the Cloud Run service which has been setup to prepare for 2nd gen upgrade. */
-  serviceConfig?: ServiceConfig;
+  serviceConfig?: ServiceConfig | undefined;
   /** UpgradeState of the function */
-  upgradeState?: UpgradeInfoUpgradeStateEnum | (string & {});
+  upgradeState?: UpgradeInfoUpgradeStateEnum | (string & {}) | undefined;
   /** Describes the Build step of the function that builds a container to prepare for 2nd gen upgrade. */
-  buildConfig?: BuildConfig;
+  buildConfig?: BuildConfig | undefined;
 }
 export type Cloudfunctions_FunctionEnvironmentEnum = "ENVIRONMENT_UNSPECIFIED" | "GEN_1" | "GEN_2";
 export type GoogleCloudFunctionsV2StateMessageSeverityEnum =
@@ -398,55 +401,55 @@ export type GoogleCloudFunctionsV2StateMessageSeverityEnum =
 /** Informational messages about the state of the Cloud Function or Operation. */
 export interface GoogleCloudFunctionsV2StateMessage {
   /** One-word CamelCase type of the state message. */
-  type?: string;
+  type?: string | undefined;
   /** The message. */
-  message?: string;
+  message?: string | undefined;
   /** Severity of the state message. */
-  severity?: GoogleCloudFunctionsV2StateMessageSeverityEnum | (string & {});
+  severity?: GoogleCloudFunctionsV2StateMessageSeverityEnum | (string & {}) | undefined;
 }
 export type GoogleCloudFunctionsV2StateMessageList = Array<GoogleCloudFunctionsV2StateMessage>;
 /** Describes a Cloud Function that contains user computation executed in response to an event. It encapsulates function and trigger configurations. */
 export interface Cloudfunctions_Function {
   /** Output only. State of the function. */
-  state?: Cloudfunctions_FunctionStateEnum | (string & {});
+  state?: Cloudfunctions_FunctionStateEnum | (string & {}) | undefined;
   /** Labels associated with this Cloud Function. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. UpgradeInfo for this Cloud Function */
-  upgradeInfo?: UpgradeInfo;
+  upgradeInfo?: UpgradeInfo | undefined;
   /** Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt function resources. It must match the pattern `projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}`. */
-  kmsKeyName?: string;
+  kmsKeyName?: string | undefined;
   /** User-provided description of a function. */
-  description?: string;
+  description?: string | undefined;
   /** Describe whether the function is 1st Gen or 2nd Gen. */
-  environment?: Cloudfunctions_FunctionEnvironmentEnum | (string & {});
+  environment?: Cloudfunctions_FunctionEnvironmentEnum | (string & {}) | undefined;
   /** Output only. The deployed url for the function. */
-  url?: string;
+  url?: string | undefined;
   /** Describes the Build step of the function that builds a container from the given source. */
-  buildConfig?: BuildConfig;
+  buildConfig?: BuildConfig | undefined;
   /** An Eventarc trigger managed by Google Cloud Functions that fires events in response to a condition in another service. */
-  eventTrigger?: EventTrigger;
+  eventTrigger?: EventTrigger | undefined;
   /** A user-defined name of the function. Function names must be unique globally and match pattern `projects/*\/locations/*\/functions/*` */
-  name?: string;
+  name?: string | undefined;
   /** Describes the Service being deployed. Currently deploys services to Cloud Run (fully managed). */
-  serviceConfig?: ServiceConfig;
+  serviceConfig?: ServiceConfig | undefined;
   /** Output only. The create timestamp of a Cloud Function. This is only applicable to 2nd Gen functions. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
+  satisfiesPzi?: boolean | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Output only. The last update timestamp of a Cloud Function. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. State Messages for this Cloud Function. */
-  stateMessages?: GoogleCloudFunctionsV2StateMessageList;
+  stateMessages?: GoogleCloudFunctionsV2StateMessageList | undefined;
 }
 export interface CreateProjectsLocationsFunctionsRequest {
   /** The ID to use for the function, which will become the final component of the function's resource name. This value should be 4-63 characters, and valid characters are /a-z-/. */
-  functionId?: string;
+  functionId?: string | undefined;
   /** Required. The project and location in which the function should be created, specified in the format `projects/*\/locations/*` */
   parent: string;
   /** Request body */
-  body?: Cloudfunctions_Function;
+  body?: Cloudfunctions_Function | undefined;
 }
 export interface DeleteProjectsLocationsFunctionsRequest {
   /** Required. The name of the function which should be deleted. */
@@ -458,7 +461,7 @@ export interface DetachFunctionProjectsLocationsFunctionsRequest {
   /** Required. The name of the function for which should be detached. */
   name: string;
   /** Request body */
-  body?: AbortFunctionUpgradeRequest;
+  body?: AbortFunctionUpgradeRequest | undefined;
 }
 /** Request of `GenerateDownloadUrl` method. */
 export type GenerateDownloadUrlRequest = AbortFunctionUpgradeRequest;
@@ -466,39 +469,39 @@ export interface GenerateDownloadUrlProjectsLocationsFunctionsRequest {
   /** Required. The name of function for which source code Google Cloud Storage signed URL should be generated. */
   name: string;
   /** Request body */
-  body?: AbortFunctionUpgradeRequest;
+  body?: AbortFunctionUpgradeRequest | undefined;
 }
 /** Response of `GenerateDownloadUrl` method. */
 export interface GenerateDownloadUrlResponse {
   /** The generated Google Cloud Storage signed URL that should be used for function source code download. */
-  downloadUrl?: string;
+  downloadUrl?: string | undefined;
 }
 export type GenerateUploadUrlRequestEnvironmentEnum = "ENVIRONMENT_UNSPECIFIED" | "GEN_1" | "GEN_2";
 /** Request of `GenerateSourceUploadUrl` method. */
 export interface GenerateUploadUrlRequest {
   /** The function environment the generated upload url will be used for. The upload url for 2nd Gen functions can also be used for 1st gen functions, but not vice versa. If not specified, 2nd generation-style upload URLs are generated. */
-  environment?: GenerateUploadUrlRequestEnvironmentEnum | (string & {});
+  environment?: GenerateUploadUrlRequestEnvironmentEnum | (string & {}) | undefined;
   /** Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt function source code objects in intermediate Cloud Storage buckets. When you generate an upload url and upload your source code, it gets copied to an intermediate Cloud Storage bucket. The source code is then copied to a versioned directory in the sources bucket in the consumer project during the function deployment. It must match the pattern `projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}`. The Google Cloud Functions service account (service-{project_number}@gcf-admin-robot.iam.gserviceaccount.com) must be granted the role 'Cloud KMS CryptoKey Encrypter/Decrypter (roles/cloudkms.cryptoKeyEncrypterDecrypter)' on the Key/KeyRing/Project/Organization (least access preferred). */
-  kmsKeyName?: string;
+  kmsKeyName?: string | undefined;
 }
 export interface GenerateUploadUrlProjectsLocationsFunctionsRequest {
   /** Required. The project and location in which the Google Cloud Storage signed URL should be generated, specified in the format `projects/*\/locations/*`. */
   parent: string;
   /** Request body */
-  body?: GenerateUploadUrlRequest;
+  body?: GenerateUploadUrlRequest | undefined;
 }
 /** Response of `GenerateSourceUploadUrl` method. */
 export interface GenerateUploadUrlResponse {
   /** The generated Google Cloud Storage signed URL that should be used for a function source code upload. The uploaded file should be a zip archive which contains a function. */
-  uploadUrl?: string;
+  uploadUrl?: string | undefined;
   /** The location of the source code in the upload bucket. Once the archive is uploaded using the `upload_url` use this field to set the `function.build_config.source.storage_source` during CreateFunction and UpdateFunction. Generation defaults to 0, as Cloud Storage provides a new generation only upon uploading a new object or version of an object. */
-  storageSource?: StorageSource;
+  storageSource?: StorageSource | undefined;
 }
 export interface GetIamPolicyProjectsLocationsFunctionsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
@@ -508,56 +511,56 @@ export type AuditLogConfigLogTypeEnum =
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
   /** The log type that this config enables. */
-  logType?: AuditLogConfigLogTypeEnum | (string & {});
+  logType?: AuditLogConfigLogTypeEnum | (string & {}) | undefined;
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
+  exemptedMembers?: StringList | undefined;
 }
 export type AuditLogConfigList = Array<AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string;
+  service?: string | undefined;
   /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: AuditLogConfigList;
+  auditLogConfigs?: AuditLogConfigList | undefined;
 }
 export type AuditConfigList = Array<AuditConfig>;
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
+  location?: string | undefined;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
+  title?: string | undefined;
   /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
+  expression?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
+  members?: StringList | undefined;
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
+  condition?: Expr | undefined;
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
+  role?: string | undefined;
 }
 export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
   /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: AuditConfigList;
+  auditConfigs?: AuditConfigList | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
+  etag?: string | undefined;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
+  version?: number | undefined;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList;
+  bindings?: BindingList | undefined;
 }
 export interface GetProjectsLocationsFunctionsRequest {
   /** Required. The name of the function which details should be obtained. */
   name: string;
   /** Optional. The optional version of the 1st gen function whose details should be obtained. The version of a 1st gen function is an integer that starts from 1 and gets incremented on redeployments. GCF may keep historical configs for old versions of 1st gen function. This field can be specified to fetch the historical configs. This field is valid only for GCF 1st gen function. */
-  revision?: string;
+  revision?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -565,95 +568,95 @@ export interface GetProjectsLocationsOperationsRequest {
 }
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
 }
 export interface ListProjectsLocationsFunctionsRequest {
   /** The filter for Functions that match the filter expression, following the syntax outlined in https://google.aip.dev/160. */
-  filter?: string;
+  filter?: string | undefined;
   /** The value returned by the last `ListFunctionsResponse`; indicates that this is a continuation of a prior `ListFunctions` call, and that the system should return the next page of data. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of functions to return per call. The largest allowed page_size is 1,000, if the page_size is omitted or specified as greater than 1,000 then it will be replaced as 1,000. The size of the list response can be less than specified when used with filters. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The project and location from which the function should be listed, specified in the format `projects/*\/locations/*` If you want to list functions in all locations, use "-" in place of a location. When listing functions in all locations, if one or more location(s) are unreachable, the response will contain functions from all reachable locations along with the names of any unreachable locations. */
   parent: string;
   /** The sorting order of the resources returned. Value should be a comma separated list of fields. The default sorting order is ascending. See https://google.aip.dev/132#ordering. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type Cloudfunctions_FunctionList = Array<Cloudfunctions_Function>;
 /** Response for the `ListFunctions` method. */
 export interface ListFunctionsResponse {
   /** Locations that could not be reached. The response does not include any functions from these locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The functions that match the request. */
-  functions?: Cloudfunctions_FunctionList;
+  functions?: Cloudfunctions_FunctionList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsRuntimesRequest {
   /** Required. The project and location from which the runtimes should be listed, specified in the format `projects/*\/locations/*` */
   parent: string;
   /** The filter for Runtimes that match the filter expression, following the syntax outlined in https://google.aip.dev/160. */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Cloudfunctions_Date {
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
+  year?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
+  day?: number | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
+  month?: number | undefined;
 }
 export type RuntimeEnvironmentEnum = "ENVIRONMENT_UNSPECIFIED" | "GEN_1" | "GEN_2";
 export type RuntimeStageEnum =
@@ -667,33 +670,33 @@ export type RuntimeStageEnum =
 /** Describes a runtime and any special information (e.g., deprecation status) related to it. */
 export interface Runtime {
   /** The user facing name, eg 'Go 1.13', 'Node.js 12', etc. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Decommission date for the runtime. */
-  decommissionDate?: Cloudfunctions_Date;
+  decommissionDate?: Cloudfunctions_Date | undefined;
   /** Deprecation date for the runtime. */
-  deprecationDate?: Cloudfunctions_Date;
+  deprecationDate?: Cloudfunctions_Date | undefined;
   /** The name of the runtime, e.g., 'go113', 'nodejs12', etc. */
-  name?: string;
+  name?: string | undefined;
   /** The environment for the runtime. */
-  environment?: RuntimeEnvironmentEnum;
+  environment?: RuntimeEnvironmentEnum | undefined;
   /** Warning messages, e.g., a deprecation warning. */
-  warnings?: StringList;
+  warnings?: StringList | undefined;
   /** The stage of life this runtime is in, e.g., BETA, GA, etc. */
-  stage?: RuntimeStageEnum;
+  stage?: RuntimeStageEnum | undefined;
 }
 export type RuntimeList = Array<Runtime>;
 /** Response for the `ListRuntimes` method. */
 export interface ListRuntimesResponse {
   /** The runtimes that match the request. */
-  runtimes?: RuntimeList;
+  runtimes?: RuntimeList | undefined;
 }
 export interface PatchProjectsLocationsFunctionsRequest {
   /** A user-defined name of the function. Function names must be unique globally and match pattern `projects/*\/locations/*\/functions/*` */
   name: string;
   /** The list of fields to be updated. If no field mask is provided, all fields will be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Cloudfunctions_Function;
+  body?: Cloudfunctions_Function | undefined;
 }
 /** Request for the `RedirectFunctionUpgradeTraffic` method. */
 export type RedirectFunctionUpgradeTrafficRequest = AbortFunctionUpgradeRequest;
@@ -701,7 +704,7 @@ export interface RedirectFunctionUpgradeTrafficProjectsLocationsFunctionsRequest
   /** Required. The name of the function for which traffic target should be changed to 2nd Gen from 1st Gen. */
   name: string;
   /** Request body */
-  body?: AbortFunctionUpgradeRequest;
+  body?: AbortFunctionUpgradeRequest | undefined;
 }
 /** Request for the `RollbackFunctionUpgradeTraffic` method. */
 export type RollbackFunctionUpgradeTrafficRequest = AbortFunctionUpgradeRequest;
@@ -709,61 +712,61 @@ export interface RollbackFunctionUpgradeTrafficProjectsLocationsFunctionsRequest
   /** Required. The name of the function for which traffic target should be changed back to 1st Gen from 2nd Gen. */
   name: string;
   /** Request body */
-  body?: AbortFunctionUpgradeRequest;
+  body?: AbortFunctionUpgradeRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy;
+  policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string;
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsFunctionsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 /** Contains overrides related to the function's build configuration. */
 export interface BuildConfigOverrides {
   /** Optional. Specifies the desired runtime for the new Cloud Run function. (e.g., `"nodejs20"`, `"python312"`). Constraints: 1. This field CANNOT be used to change the runtime language (e.g., from `NODEJS` to `PYTHON`). The backend will enforce this. 2. This field can ONLY be used to upgrade the runtime version (e.g., `nodejs18` to `nodejs20`). Downgrading the version is not permitted. The backend will validate the version change. If provided and valid, this overrides the runtime of the Gen1 function. */
-  runtime?: string;
+  runtime?: string | undefined;
 }
 /** Contains overrides related to the function's service configuration. */
 export interface ServiceConfigOverrides {
   /** Optional. Specifies the maximum number of instances for the new Cloud Run function. If provided, this overrides the max_instance_count setting of the Gen1 function. */
-  maxInstanceCount?: number;
+  maxInstanceCount?: number | undefined;
 }
 /** Request for the `SetupFunctionUpgradeConfig` method. */
 export interface SetupFunctionUpgradeConfigRequest {
   /** Optional. Specifies overrides for the build process. */
-  buildConfigOverrides?: BuildConfigOverrides;
+  buildConfigOverrides?: BuildConfigOverrides | undefined;
   /** Optional. The trigger's service account. The service account must have permission to invoke Cloud Run services, the permission is `run.routes.invoke`. If empty, defaults to the Compute Engine default service account: `{project_number}-compute@developer.gserviceaccount.com`. */
-  triggerServiceAccount?: string;
+  triggerServiceAccount?: string | undefined;
   /** Optional. Specifies overrides for the service configuration. */
-  serviceConfigOverrides?: ServiceConfigOverrides;
+  serviceConfigOverrides?: ServiceConfigOverrides | undefined;
 }
 export interface SetupFunctionUpgradeConfigProjectsLocationsFunctionsRequest {
   /** Required. The name of the function which should have configuration copied for upgrade. */
   name: string;
   /** Request body */
-  body?: SetupFunctionUpgradeConfigRequest;
+  body?: SetupFunctionUpgradeConfigRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsFunctionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export type AbortFunctionUpgradeProjectsLocationsFunctionsError =
   | NotFound

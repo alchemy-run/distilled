@@ -102,11 +102,11 @@ export interface CreateAccountsNotebookRequest {
   /** UUID of the parent account. */
   account_id: string;
   /** Human-readable title of the account notebook. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Notebook content as a ProseMirror JSON document. On create, the server stores it as a markdown notebook. */
-  content?: unknown;
+  content?: unknown | undefined;
   /** Plain text representation of the notebook content for search. */
-  text_content?: string | null;
+  text_content?: string | null | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -123,25 +123,25 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export interface AccountNotebook {
   id: string;
   short_id: string;
   /** Human-readable title of the account notebook. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Notebook content as a ProseMirror JSON document. On create, the server stores it as a markdown notebook. */
-  content?: unknown;
+  content?: unknown | undefined;
   /** Plain text representation of the notebook content for search. */
-  text_content?: string | null;
+  text_content?: string | null | undefined;
   created_at: string;
   created_by: UserBasic;
   last_modified_at: string;
@@ -164,9 +164,9 @@ export interface AccountRelationshipDefinition {
   /** Human-readable name of the relationship. Unique within the team. */
   name: string;
   /** What this relationship means, e.g. 'The customer success manager responsible for this account'. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether only one user can hold this relationship per account at a time, e.g. a single CSM per account. */
-  is_single_holder?: boolean;
+  is_single_holder?: boolean | undefined;
   /** Whether customer analytics can take control of this relationship per account. Rows under a controlled relationship can't be deleted. On an account where control has started, only a person can change the relationship and an empty relationship is a deliberate decision. Set by project operators, not through this API. */
   is_controlled: boolean;
 }
@@ -213,27 +213,29 @@ export type CreateCustomerAnalyticsExternalAccountRequestPropertiesKnownEmailsLi
 /** Typed properties for a new account: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), email_domains and known_emails. Unknown keys are rejected. Ignored when the account already exists. */
 export interface CreateCustomerAnalyticsExternalAccountRequestProperties {
   /** Primary company website hostname used for account identity and logo lookup. */
-  website_domain?: string | null;
+  website_domain?: string | null | undefined;
   /** Email domains owned by this account's company, used to match inbound touchpoints to the account. */
-  email_domains?: CreateCustomerAnalyticsExternalAccountRequestPropertiesEmailDomainsList;
+  email_domains?:
+    | CreateCustomerAnalyticsExternalAccountRequestPropertiesEmailDomainsList
+    | undefined;
   /** Individual email addresses pinned to this account, matched before the domain fallback. */
-  known_emails?: CreateCustomerAnalyticsExternalAccountRequestPropertiesKnownEmailsList;
-  stripe_customer_id?: string | null;
-  hubspot_deal_id?: string | null;
-  billing_id?: string | null;
-  sfdc_id?: string | null;
-  zendesk_id?: string | null;
-  slack_channel_id?: string | null;
-  usage_dashboard_link?: string | null;
-  metabase_link?: string | null;
+  known_emails?: CreateCustomerAnalyticsExternalAccountRequestPropertiesKnownEmailsList | undefined;
+  stripe_customer_id?: string | null | undefined;
+  hubspot_deal_id?: string | null | undefined;
+  billing_id?: string | null | undefined;
+  sfdc_id?: string | null | undefined;
+  zendesk_id?: string | null | undefined;
+  slack_channel_id?: string | null | undefined;
+  usage_dashboard_link?: string | null | undefined;
+  metabase_link?: string | null | undefined;
 }
 export interface CreateCustomerAnalyticsExternalAccountRequest {
   /** External ID (group key) for the account. An account with this ID already existing is a no-op. Without a `name`, the account name is derived from the matching group's `name` property, falling back to this ID. */
   external_id: string;
   /** Name for a new account. Ignored when the account already exists. Blank means no name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Typed properties for a new account: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), email_domains and known_emails. Unknown keys are rejected. Ignored when the account already exists. */
-  properties?: CreateCustomerAnalyticsExternalAccountRequestProperties | null;
+  properties?: CreateCustomerAnalyticsExternalAccountRequestProperties | null | undefined;
 }
 /** Typed account properties: external-system ids. Role assignments live under `relationships`. */
 export type ExternalAccountPropertiesMap = { [key: string]: unknown | undefined };
@@ -330,15 +332,15 @@ export interface CreateEventStreamRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Whether the stream delivers to Slack. Delivery also requires at least one event, at least one member account with an external ID, and a Slack workspace + channel. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Names of the events to stream (matched exactly). Duplicates and blanks are dropped. */
-  event_names?: CreateEventStreamRequestEventNamesList;
+  event_names?: CreateEventStreamRequestEventNamesList | undefined;
   /** ID of the team's Slack workspace integration to deliver through. */
-  slack_integration?: number | null;
+  slack_integration?: number | null | undefined;
   /** Slack channel ID to post to (e.g. C0123ABC). */
-  slack_channel_id?: string;
+  slack_channel_id?: string | undefined;
   /** Display name of the Slack channel (e.g. #customer-events). Informational only. */
-  slack_channel_name?: string;
+  slack_channel_name?: string | undefined;
 }
 /** Names of the events to stream (matched exactly). Duplicates and blanks are dropped. */
 export type EventStreamEventNamesList = Array<string>;
@@ -348,15 +350,15 @@ export type EventStreamAccountIdsList = Array<string>;
 export interface EventStream {
   id: string;
   /** Whether the stream delivers to Slack. Delivery also requires at least one event, at least one member account with an external ID, and a Slack workspace + channel. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Names of the events to stream (matched exactly). Duplicates and blanks are dropped. */
-  event_names?: EventStreamEventNamesList;
+  event_names?: EventStreamEventNamesList | undefined;
   /** ID of the team's Slack workspace integration to deliver through. */
-  slack_integration?: number | null;
+  slack_integration?: number | null | undefined;
   /** Slack channel ID to post to (e.g. C0123ABC). */
-  slack_channel_id?: string;
+  slack_channel_id?: string | undefined;
   /** Display name of the Slack channel (e.g. #customer-events). Informational only. */
-  slack_channel_name?: string;
+  slack_channel_name?: string | undefined;
   /** UUIDs of the member accounts whose users' events are streamed. Managed via the add_account/remove_account endpoints. */
   account_ids: EventStreamAccountIdsList;
   created_at: string;
@@ -410,17 +412,17 @@ export interface GetCustomerAnalyticsExternalAccountRequest {
 }
 export interface GetCustomerAnalyticsExternalAccountRequest2 {
   /** When true, return only accounts with at least one active relationship assignment to a current member of the project's organization. */
-  assigned_only?: boolean;
+  assigned_only?: boolean | undefined;
   /** Account UUID from `next_cursor` to continue listing from. Omit for the first page. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Include ignored accounts. Ignored accounts are hidden by default. */
-  include_ignored?: boolean;
+  include_ignored?: boolean | undefined;
   /** Maximum number of accounts to return. Values below 1 are clamped to 1; values above 100 are clamped to 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** When true, return only accounts where customer analytics holds authority over at least one controlled relationship, including accounts whose managed relationships are cleared and accounts that are ignored. Authority does not end when an account is ignored, so `include_ignored` is implied. */
-  managed_only?: boolean;
+  managed_only?: boolean | undefined;
   /** Project ID. Required for personal API keys. Project secret API keys use their bound project. */
-  project_id?: number;
+  project_id?: number | undefined;
 }
 export interface ExternalAccountListAssignment {
   /** PostHog user id of the assigned user. */
@@ -463,17 +465,17 @@ export interface ListAccountNotesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Only return notes linked to this account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Only return notes on accounts assigned to these user IDs (the account's CSM or account executive; repeat the param per user). */
-  assigned_to?: ListAccountNotesRequestAssignedToList;
+  assigned_to?: ListAccountNotesRequestAssignedToList | undefined;
   /** Only return notes created by these user IDs (repeat the param per user). */
-  created_by?: ListAccountNotesRequestCreatedByList;
+  created_by?: ListAccountNotesRequestCreatedByList | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Full-text search across note title and content, plus substring match on account name. */
-  search?: string;
+  search?: string | undefined;
 }
 /** A team-wide account note -- an internal notebook linked to a Customer analytics account. */
 export interface AccountNote {
@@ -495,8 +497,8 @@ export interface AccountNote {
 export type PaginatedAccountNoteListResultsList = Array<AccountNote>;
 export interface PaginatedAccountNoteList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedAccountNoteListResultsList;
 }
 export interface ListAccountsCustomPropertyValuesRequest {
@@ -519,19 +521,19 @@ export interface ListAccountsNotebooksRequest {
   /** UUID of the parent account. */
   account_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Sort by creation date or author. Defaults to '-created_at'. */
-  ordering?: ListAccountsNotebooksRequestOrdering | (string & {});
+  ordering?: ListAccountsNotebooksRequestOrdering | (string & {}) | undefined;
   /** Full-text search across notebook title and content. */
-  search?: string;
+  search?: string | undefined;
 }
 export type PaginatedAccountNotebookListResultsList = Array<AccountNotebook>;
 export interface PaginatedAccountNotebookList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedAccountNotebookListResultsList;
 }
 export interface ListAccountsRelationshipsRequest {
@@ -540,7 +542,7 @@ export interface ListAccountsRelationshipsRequest {
   /** UUID of the parent account. */
   account_id: string;
   /** Include ended assignments (the full timeline), not just active ones. */
-  include_history?: boolean;
+  include_history?: boolean | undefined;
 }
 export type ListAccountsRelationshipsResponseBodyList = Array<AccountRelationship>;
 export type ListAccountsRelationshipsResponse = ListAccountsRelationshipsResponseBodyList;
@@ -558,15 +560,15 @@ export interface UpdateEventStreamRequest {
   /** A UUID string identifying this event stream. */
   id: string;
   /** Whether the stream delivers to Slack. Delivery also requires at least one event, at least one member account with an external ID, and a Slack workspace + channel. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Names of the events to stream (matched exactly). Duplicates and blanks are dropped. */
-  event_names?: UpdateEventStreamRequestEventNamesList;
+  event_names?: UpdateEventStreamRequestEventNamesList | undefined;
   /** ID of the team's Slack workspace integration to deliver through. */
-  slack_integration?: number | null;
+  slack_integration?: number | null | undefined;
   /** Slack channel ID to post to (e.g. C0123ABC). */
-  slack_channel_id?: string;
+  slack_channel_id?: string | undefined;
   /** Display name of the Slack channel (e.g. #customer-events). Informational only. */
-  slack_channel_name?: string;
+  slack_channel_name?: string | undefined;
 }
 /** Names of the events to stream (matched exactly). Duplicates and blanks are dropped. */
 export type UpdateEventStreamsPartialRequestEventNamesList = Array<string>;
@@ -576,15 +578,15 @@ export interface UpdateEventStreamsPartialRequest {
   /** A UUID string identifying this event stream. */
   id: string;
   /** Whether the stream delivers to Slack. Delivery also requires at least one event, at least one member account with an external ID, and a Slack workspace + channel. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Names of the events to stream (matched exactly). Duplicates and blanks are dropped. */
-  event_names?: UpdateEventStreamsPartialRequestEventNamesList;
+  event_names?: UpdateEventStreamsPartialRequestEventNamesList | undefined;
   /** ID of the team's Slack workspace integration to deliver through. */
-  slack_integration?: number | null;
+  slack_integration?: number | null | undefined;
   /** Slack channel ID to post to (e.g. C0123ABC). */
-  slack_channel_id?: string;
+  slack_channel_id?: string | undefined;
   /** Display name of the Slack channel (e.g. #customer-events). Informational only. */
-  slack_channel_name?: string;
+  slack_channel_name?: string | undefined;
 }
 export type AccountsNotebooksDestroyError = PosthogOpError;
 export const accountsNotebooksDestroy: API.OperationMethod<

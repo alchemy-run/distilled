@@ -30,13 +30,13 @@ export type MetricsGetInfoRequestMetricsTargetType =
 export type StringList = Array<string>;
 export interface MetricsGetInfoRequest {
   /** Required; unspecified and unrecognized targets are rejected. */
-  targetType?: MetricsGetInfoRequestMetricsTargetType | (string & {});
-  since?: string;
+  targetType?: MetricsGetInfoRequestMetricsTargetType | (string & {}) | undefined;
+  since?: string | undefined;
   /** Required; rounded down to a UTC bucket boundary. */
-  until?: string;
+  until?: string | undefined;
   /** Required; rounded down; at most 31 days after since. If omitted, choose a supported width targeting approximately 100 buckets. */
-  bucketSecs?: number;
-  groups?: StringList;
+  bucketSecs?: number | undefined;
+  groups?: StringList | undefined;
 }
 export interface MetricDefinition {
   name: string;

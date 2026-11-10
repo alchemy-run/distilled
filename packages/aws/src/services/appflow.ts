@@ -157,10 +157,10 @@ export type ExecutionId = string;
 export type ExecutionIds = string[];
 export interface CancelFlowExecutionsRequest {
   flowName: string;
-  executionIds?: string[];
+  executionIds?: string[] | undefined;
 }
 export interface CancelFlowExecutionsResponse {
-  invalidExecutions?: string[];
+  invalidExecutions?: string[] | undefined;
 }
 export type ConnectorProfileName = string;
 export type KMSArn = string;
@@ -217,20 +217,20 @@ export type ClusterIdentifier = string;
 export type WorkgroupName = string;
 export type DatabaseName = string;
 export interface RedshiftConnectorProfileProperties {
-  databaseUrl?: string;
+  databaseUrl?: string | undefined;
   bucketName: string;
-  bucketPrefix?: string;
+  bucketPrefix?: string | undefined;
   roleArn: string;
-  dataApiRoleArn?: string;
-  isRedshiftServerless?: boolean;
-  clusterIdentifier?: string;
-  workgroupName?: string;
-  databaseName?: string;
+  dataApiRoleArn?: string | undefined;
+  isRedshiftServerless?: boolean | undefined;
+  clusterIdentifier?: string | undefined;
+  workgroupName?: string | undefined;
+  databaseName?: string | undefined;
 }
 export interface SalesforceConnectorProfileProperties {
-  instanceUrl?: string;
-  isSandboxEnvironment?: boolean;
-  usePrivateLinkForMetadataAndAuthorization?: boolean;
+  instanceUrl?: string | undefined;
+  isSandboxEnvironment?: boolean | undefined;
+  usePrivateLinkForMetadataAndAuthorization?: boolean | undefined;
 }
 export interface ServiceNowConnectorProfileProperties {
   instanceUrl: string;
@@ -248,10 +248,10 @@ export interface SnowflakeConnectorProfileProperties {
   warehouse: string;
   stage: string;
   bucketName: string;
-  bucketPrefix?: string;
-  privateLinkServiceName?: string;
-  accountName?: string;
-  region?: string;
+  bucketPrefix?: string | undefined;
+  privateLinkServiceName?: string | undefined;
+  accountName?: string | undefined;
+  region?: string | undefined;
 }
 export interface TrendmicroConnectorProfileProperties {}
 export interface VeevaConnectorProfileProperties {
@@ -279,10 +279,10 @@ export interface SAPODataConnectorProfileProperties {
   applicationServicePath: string;
   portNumber: number;
   clientNumber: string;
-  logonLanguage?: string;
-  privateLinkServiceName?: string;
-  oAuthProperties?: OAuthProperties;
-  disableSSO?: boolean;
+  logonLanguage?: string | undefined;
+  privateLinkServiceName?: string | undefined;
+  oAuthProperties?: OAuthProperties | undefined;
+  disableSSO?: boolean | undefined;
 }
 export type ProfilePropertyKey = string;
 export type ProfilePropertyValue = string;
@@ -298,38 +298,38 @@ export type TokenUrlCustomProperties = { [key: string]: string | undefined };
 export interface OAuth2Properties {
   tokenUrl: string;
   oAuth2GrantType: OAuth2GrantType;
-  tokenUrlCustomProperties?: { [key: string]: string | undefined };
+  tokenUrlCustomProperties?: { [key: string]: string | undefined } | undefined;
 }
 export interface CustomConnectorProfileProperties {
-  profileProperties?: { [key: string]: string | undefined };
-  oAuth2Properties?: OAuth2Properties;
+  profileProperties?: { [key: string]: string | undefined } | undefined;
+  oAuth2Properties?: OAuth2Properties | undefined;
 }
 export type BusinessUnitId = string;
 export interface PardotConnectorProfileProperties {
-  instanceUrl?: string;
-  isSandboxEnvironment?: boolean;
-  businessUnitId?: string;
+  instanceUrl?: string | undefined;
+  isSandboxEnvironment?: boolean | undefined;
+  businessUnitId?: string | undefined;
 }
 export interface ConnectorProfileProperties {
-  Amplitude?: AmplitudeConnectorProfileProperties;
-  Datadog?: DatadogConnectorProfileProperties;
-  Dynatrace?: DynatraceConnectorProfileProperties;
-  GoogleAnalytics?: GoogleAnalyticsConnectorProfileProperties;
-  Honeycode?: HoneycodeConnectorProfileProperties;
-  InforNexus?: InforNexusConnectorProfileProperties;
-  Marketo?: MarketoConnectorProfileProperties;
-  Redshift?: RedshiftConnectorProfileProperties;
-  Salesforce?: SalesforceConnectorProfileProperties;
-  ServiceNow?: ServiceNowConnectorProfileProperties;
-  Singular?: SingularConnectorProfileProperties;
-  Slack?: SlackConnectorProfileProperties;
-  Snowflake?: SnowflakeConnectorProfileProperties;
-  Trendmicro?: TrendmicroConnectorProfileProperties;
-  Veeva?: VeevaConnectorProfileProperties;
-  Zendesk?: ZendeskConnectorProfileProperties;
-  SAPOData?: SAPODataConnectorProfileProperties;
-  CustomConnector?: CustomConnectorProfileProperties;
-  Pardot?: PardotConnectorProfileProperties;
+  Amplitude?: AmplitudeConnectorProfileProperties | undefined;
+  Datadog?: DatadogConnectorProfileProperties | undefined;
+  Dynatrace?: DynatraceConnectorProfileProperties | undefined;
+  GoogleAnalytics?: GoogleAnalyticsConnectorProfileProperties | undefined;
+  Honeycode?: HoneycodeConnectorProfileProperties | undefined;
+  InforNexus?: InforNexusConnectorProfileProperties | undefined;
+  Marketo?: MarketoConnectorProfileProperties | undefined;
+  Redshift?: RedshiftConnectorProfileProperties | undefined;
+  Salesforce?: SalesforceConnectorProfileProperties | undefined;
+  ServiceNow?: ServiceNowConnectorProfileProperties | undefined;
+  Singular?: SingularConnectorProfileProperties | undefined;
+  Slack?: SlackConnectorProfileProperties | undefined;
+  Snowflake?: SnowflakeConnectorProfileProperties | undefined;
+  Trendmicro?: TrendmicroConnectorProfileProperties | undefined;
+  Veeva?: VeevaConnectorProfileProperties | undefined;
+  Zendesk?: ZendeskConnectorProfileProperties | undefined;
+  SAPOData?: SAPODataConnectorProfileProperties | undefined;
+  CustomConnector?: CustomConnectorProfileProperties | undefined;
+  Pardot?: PardotConnectorProfileProperties | undefined;
 }
 export type ApiKey = string | redacted.Redacted<string>;
 export type SecretKey = string | redacted.Redacted<string>;
@@ -354,21 +354,21 @@ export type AuthCode = string;
 export type RedirectUri = string;
 export type CodeVerifier = string | redacted.Redacted<string>;
 export interface ConnectorOAuthRequest {
-  authCode?: string;
-  redirectUri?: string;
-  codeVerifier?: string | redacted.Redacted<string>;
+  authCode?: string | undefined;
+  redirectUri?: string | undefined;
+  codeVerifier?: string | redacted.Redacted<string> | undefined;
 }
 export interface GoogleAnalyticsConnectorProfileCredentials {
   clientId: string;
   clientSecret: string | redacted.Redacted<string>;
-  accessToken?: string | redacted.Redacted<string>;
-  refreshToken?: string | redacted.Redacted<string>;
-  oAuthRequest?: ConnectorOAuthRequest;
+  accessToken?: string | redacted.Redacted<string> | undefined;
+  refreshToken?: string | redacted.Redacted<string> | undefined;
+  oAuthRequest?: ConnectorOAuthRequest | undefined;
 }
 export interface HoneycodeConnectorProfileCredentials {
-  accessToken?: string | redacted.Redacted<string>;
-  refreshToken?: string | redacted.Redacted<string>;
-  oAuthRequest?: ConnectorOAuthRequest;
+  accessToken?: string | redacted.Redacted<string> | undefined;
+  refreshToken?: string | redacted.Redacted<string> | undefined;
+  oAuthRequest?: ConnectorOAuthRequest | undefined;
 }
 export type AccessKeyId = string | redacted.Redacted<string>;
 export type Username = string;
@@ -382,35 +382,35 @@ export interface InforNexusConnectorProfileCredentials {
 export interface MarketoConnectorProfileCredentials {
   clientId: string;
   clientSecret: string | redacted.Redacted<string>;
-  accessToken?: string | redacted.Redacted<string>;
-  oAuthRequest?: ConnectorOAuthRequest;
+  accessToken?: string | redacted.Redacted<string> | undefined;
+  oAuthRequest?: ConnectorOAuthRequest | undefined;
 }
 export type Password = string | redacted.Redacted<string>;
 export interface RedshiftConnectorProfileCredentials {
-  username?: string;
-  password?: string | redacted.Redacted<string>;
+  username?: string | undefined;
+  password?: string | redacted.Redacted<string> | undefined;
 }
 export type ClientCredentialsArn = string | redacted.Redacted<string>;
 export type JwtToken = string | redacted.Redacted<string>;
 export interface SalesforceConnectorProfileCredentials {
-  accessToken?: string | redacted.Redacted<string>;
-  refreshToken?: string | redacted.Redacted<string>;
-  oAuthRequest?: ConnectorOAuthRequest;
-  clientCredentialsArn?: string | redacted.Redacted<string>;
-  oAuth2GrantType?: OAuth2GrantType;
-  jwtToken?: string | redacted.Redacted<string>;
+  accessToken?: string | redacted.Redacted<string> | undefined;
+  refreshToken?: string | redacted.Redacted<string> | undefined;
+  oAuthRequest?: ConnectorOAuthRequest | undefined;
+  clientCredentialsArn?: string | redacted.Redacted<string> | undefined;
+  oAuth2GrantType?: OAuth2GrantType | undefined;
+  jwtToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface OAuth2Credentials {
-  clientId?: string;
-  clientSecret?: string | redacted.Redacted<string>;
-  accessToken?: string | redacted.Redacted<string>;
-  refreshToken?: string | redacted.Redacted<string>;
-  oAuthRequest?: ConnectorOAuthRequest;
+  clientId?: string | undefined;
+  clientSecret?: string | redacted.Redacted<string> | undefined;
+  accessToken?: string | redacted.Redacted<string> | undefined;
+  refreshToken?: string | redacted.Redacted<string> | undefined;
+  oAuthRequest?: ConnectorOAuthRequest | undefined;
 }
 export interface ServiceNowConnectorProfileCredentials {
-  username?: string;
-  password?: string | redacted.Redacted<string>;
-  oAuth2Credentials?: OAuth2Credentials;
+  username?: string | undefined;
+  password?: string | redacted.Redacted<string> | undefined;
+  oAuth2Credentials?: OAuth2Credentials | undefined;
 }
 export interface SingularConnectorProfileCredentials {
   apiKey: string | redacted.Redacted<string>;
@@ -418,14 +418,14 @@ export interface SingularConnectorProfileCredentials {
 export interface SlackConnectorProfileCredentials {
   clientId: string;
   clientSecret: string | redacted.Redacted<string>;
-  accessToken?: string | redacted.Redacted<string>;
-  oAuthRequest?: ConnectorOAuthRequest;
+  accessToken?: string | redacted.Redacted<string> | undefined;
+  oAuthRequest?: ConnectorOAuthRequest | undefined;
 }
 export type PrivateKey = string | redacted.Redacted<string>;
 export interface SnowflakeConnectorProfileCredentials {
   username: string;
-  password?: string | redacted.Redacted<string>;
-  privateKey?: string | redacted.Redacted<string>;
+  password?: string | redacted.Redacted<string> | undefined;
+  privateKey?: string | redacted.Redacted<string> | undefined;
 }
 export type ApiSecretKey = string | redacted.Redacted<string>;
 export interface TrendmicroConnectorProfileCredentials {
@@ -438,8 +438,8 @@ export interface VeevaConnectorProfileCredentials {
 export interface ZendeskConnectorProfileCredentials {
   clientId: string;
   clientSecret: string | redacted.Redacted<string>;
-  accessToken?: string | redacted.Redacted<string>;
-  oAuthRequest?: ConnectorOAuthRequest;
+  accessToken?: string | redacted.Redacted<string> | undefined;
+  oAuthRequest?: ConnectorOAuthRequest | undefined;
 }
 export interface BasicAuthCredentials {
   username: string;
@@ -448,18 +448,18 @@ export interface BasicAuthCredentials {
 export interface OAuthCredentials {
   clientId: string;
   clientSecret: string | redacted.Redacted<string>;
-  accessToken?: string | redacted.Redacted<string>;
-  refreshToken?: string | redacted.Redacted<string>;
-  oAuthRequest?: ConnectorOAuthRequest;
+  accessToken?: string | redacted.Redacted<string> | undefined;
+  refreshToken?: string | redacted.Redacted<string> | undefined;
+  oAuthRequest?: ConnectorOAuthRequest | undefined;
 }
 export interface SAPODataConnectorProfileCredentials {
-  basicAuthCredentials?: BasicAuthCredentials;
-  oAuthCredentials?: OAuthCredentials;
+  basicAuthCredentials?: BasicAuthCredentials | undefined;
+  oAuthCredentials?: OAuthCredentials | undefined;
 }
 export type AuthenticationType = "OAUTH2" | "APIKEY" | "BASIC" | "CUSTOM" | (string & {});
 export interface ApiKeyCredentials {
   apiKey: string | redacted.Redacted<string>;
-  apiSecretKey?: string | redacted.Redacted<string>;
+  apiSecretKey?: string | redacted.Redacted<string> | undefined;
 }
 export type CustomAuthenticationType = string;
 export type CredentialsMapKey = string | redacted.Redacted<string>;
@@ -467,59 +467,59 @@ export type CredentialsMapValue = string | redacted.Redacted<string>;
 export type CredentialsMap = { [key: string]: string | redacted.Redacted<string> | undefined };
 export interface CustomAuthCredentials {
   customAuthenticationType: string;
-  credentialsMap?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  credentialsMap?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
 }
 export interface CustomConnectorProfileCredentials {
   authenticationType: AuthenticationType;
-  basic?: BasicAuthCredentials;
-  oauth2?: OAuth2Credentials;
-  apiKey?: ApiKeyCredentials;
-  custom?: CustomAuthCredentials;
+  basic?: BasicAuthCredentials | undefined;
+  oauth2?: OAuth2Credentials | undefined;
+  apiKey?: ApiKeyCredentials | undefined;
+  custom?: CustomAuthCredentials | undefined;
 }
 export interface PardotConnectorProfileCredentials {
-  accessToken?: string | redacted.Redacted<string>;
-  refreshToken?: string | redacted.Redacted<string>;
-  oAuthRequest?: ConnectorOAuthRequest;
-  clientCredentialsArn?: string | redacted.Redacted<string>;
+  accessToken?: string | redacted.Redacted<string> | undefined;
+  refreshToken?: string | redacted.Redacted<string> | undefined;
+  oAuthRequest?: ConnectorOAuthRequest | undefined;
+  clientCredentialsArn?: string | redacted.Redacted<string> | undefined;
 }
 export interface ConnectorProfileCredentials {
-  Amplitude?: AmplitudeConnectorProfileCredentials;
-  Datadog?: DatadogConnectorProfileCredentials;
-  Dynatrace?: DynatraceConnectorProfileCredentials;
-  GoogleAnalytics?: GoogleAnalyticsConnectorProfileCredentials;
-  Honeycode?: HoneycodeConnectorProfileCredentials;
-  InforNexus?: InforNexusConnectorProfileCredentials;
-  Marketo?: MarketoConnectorProfileCredentials;
-  Redshift?: RedshiftConnectorProfileCredentials;
-  Salesforce?: SalesforceConnectorProfileCredentials;
-  ServiceNow?: ServiceNowConnectorProfileCredentials;
-  Singular?: SingularConnectorProfileCredentials;
-  Slack?: SlackConnectorProfileCredentials;
-  Snowflake?: SnowflakeConnectorProfileCredentials;
-  Trendmicro?: TrendmicroConnectorProfileCredentials;
-  Veeva?: VeevaConnectorProfileCredentials;
-  Zendesk?: ZendeskConnectorProfileCredentials;
-  SAPOData?: SAPODataConnectorProfileCredentials;
-  CustomConnector?: CustomConnectorProfileCredentials;
-  Pardot?: PardotConnectorProfileCredentials;
+  Amplitude?: AmplitudeConnectorProfileCredentials | undefined;
+  Datadog?: DatadogConnectorProfileCredentials | undefined;
+  Dynatrace?: DynatraceConnectorProfileCredentials | undefined;
+  GoogleAnalytics?: GoogleAnalyticsConnectorProfileCredentials | undefined;
+  Honeycode?: HoneycodeConnectorProfileCredentials | undefined;
+  InforNexus?: InforNexusConnectorProfileCredentials | undefined;
+  Marketo?: MarketoConnectorProfileCredentials | undefined;
+  Redshift?: RedshiftConnectorProfileCredentials | undefined;
+  Salesforce?: SalesforceConnectorProfileCredentials | undefined;
+  ServiceNow?: ServiceNowConnectorProfileCredentials | undefined;
+  Singular?: SingularConnectorProfileCredentials | undefined;
+  Slack?: SlackConnectorProfileCredentials | undefined;
+  Snowflake?: SnowflakeConnectorProfileCredentials | undefined;
+  Trendmicro?: TrendmicroConnectorProfileCredentials | undefined;
+  Veeva?: VeevaConnectorProfileCredentials | undefined;
+  Zendesk?: ZendeskConnectorProfileCredentials | undefined;
+  SAPOData?: SAPODataConnectorProfileCredentials | undefined;
+  CustomConnector?: CustomConnectorProfileCredentials | undefined;
+  Pardot?: PardotConnectorProfileCredentials | undefined;
 }
 export interface ConnectorProfileConfig {
   connectorProfileProperties: ConnectorProfileProperties;
-  connectorProfileCredentials?: ConnectorProfileCredentials;
+  connectorProfileCredentials?: ConnectorProfileCredentials | undefined;
 }
 export type ClientToken = string;
 export interface CreateConnectorProfileRequest {
   connectorProfileName: string;
-  kmsArn?: string;
+  kmsArn?: string | undefined;
   connectorType: ConnectorType;
-  connectorLabel?: string;
+  connectorLabel?: string | undefined;
   connectionMode: ConnectionMode;
   connectorProfileConfig: ConnectorProfileConfig;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type ConnectorProfileArn = string;
 export interface CreateConnectorProfileResponse {
-  connectorProfileArn?: string;
+  connectorProfileArn?: string | undefined;
 }
 export type FlowDescription = string;
 export type TriggerType = "Scheduled" | "Event" | "OnDemand" | (string & {});
@@ -530,20 +530,20 @@ export type ScheduleOffset = number;
 export type FlowErrorDeactivationThreshold = number;
 export interface ScheduledTriggerProperties {
   scheduleExpression: string;
-  dataPullMode?: DataPullMode;
-  scheduleStartTime?: Date;
-  scheduleEndTime?: Date;
-  timezone?: string;
-  scheduleOffset?: number;
-  firstExecutionFrom?: Date;
-  flowErrorDeactivationThreshold?: number;
+  dataPullMode?: DataPullMode | undefined;
+  scheduleStartTime?: Date | undefined;
+  scheduleEndTime?: Date | undefined;
+  timezone?: string | undefined;
+  scheduleOffset?: number | undefined;
+  firstExecutionFrom?: Date | undefined;
+  flowErrorDeactivationThreshold?: number | undefined;
 }
 export interface TriggerProperties {
-  Scheduled?: ScheduledTriggerProperties;
+  Scheduled?: ScheduledTriggerProperties | undefined;
 }
 export interface TriggerConfig {
   triggerType: TriggerType;
-  triggerProperties?: TriggerProperties;
+  triggerProperties?: TriggerProperties | undefined;
 }
 export type ApiVersion = string;
 export interface AmplitudeSourceProperties {
@@ -566,19 +566,19 @@ export interface MarketoSourceProperties {
 }
 export type S3InputFileType = "CSV" | "JSON" | (string & {});
 export interface S3InputFormatConfig {
-  s3InputFileType?: S3InputFileType;
+  s3InputFileType?: S3InputFileType | undefined;
 }
 export interface S3SourceProperties {
   bucketName: string;
-  bucketPrefix?: string;
-  s3InputFormatConfig?: S3InputFormatConfig;
+  bucketPrefix?: string | undefined;
+  s3InputFormatConfig?: S3InputFormatConfig | undefined;
 }
 export type SalesforceDataTransferApi = "AUTOMATIC" | "BULKV2" | "REST_SYNC" | (string & {});
 export interface SalesforceSourceProperties {
   object: string;
-  enableDynamicFieldUpdate?: boolean;
-  includeDeletedRecords?: boolean;
-  dataTransferApi?: SalesforceDataTransferApi;
+  enableDynamicFieldUpdate?: boolean | undefined;
+  includeDeletedRecords?: boolean | undefined;
+  dataTransferApi?: SalesforceDataTransferApi | undefined;
 }
 export interface ServiceNowSourceProperties {
   object: string;
@@ -595,10 +595,10 @@ export interface TrendmicroSourceProperties {
 export type DocumentType = string;
 export interface VeevaSourceProperties {
   object: string;
-  documentType?: string;
-  includeSourceFiles?: boolean;
-  includeRenditions?: boolean;
-  includeAllVersions?: boolean;
+  documentType?: string | undefined;
+  includeSourceFiles?: boolean | undefined;
+  includeRenditions?: boolean | undefined;
+  includeAllVersions?: boolean | undefined;
 }
 export interface ZendeskSourceProperties {
   object: string;
@@ -612,66 +612,66 @@ export interface SAPODataPaginationConfig {
   maxPageSize: number;
 }
 export interface SAPODataSourceProperties {
-  objectPath?: string;
-  parallelismConfig?: SAPODataParallelismConfig;
-  paginationConfig?: SAPODataPaginationConfig;
+  objectPath?: string | undefined;
+  parallelismConfig?: SAPODataParallelismConfig | undefined;
+  paginationConfig?: SAPODataPaginationConfig | undefined;
 }
 export type EntityName = string;
 export type CustomProperties = { [key: string]: string | undefined };
 export type DataTransferApiTypeName = string;
 export type DataTransferApiType = "SYNC" | "ASYNC" | "AUTOMATIC" | (string & {});
 export interface DataTransferApi {
-  Name?: string;
-  Type?: DataTransferApiType;
+  Name?: string | undefined;
+  Type?: DataTransferApiType | undefined;
 }
 export interface CustomConnectorSourceProperties {
   entityName: string;
-  customProperties?: { [key: string]: string | undefined };
-  dataTransferApi?: DataTransferApi;
+  customProperties?: { [key: string]: string | undefined } | undefined;
+  dataTransferApi?: DataTransferApi | undefined;
 }
 export interface PardotSourceProperties {
   object: string;
 }
 export interface SourceConnectorProperties {
-  Amplitude?: AmplitudeSourceProperties;
-  Datadog?: DatadogSourceProperties;
-  Dynatrace?: DynatraceSourceProperties;
-  GoogleAnalytics?: GoogleAnalyticsSourceProperties;
-  InforNexus?: InforNexusSourceProperties;
-  Marketo?: MarketoSourceProperties;
-  S3?: S3SourceProperties;
-  Salesforce?: SalesforceSourceProperties;
-  ServiceNow?: ServiceNowSourceProperties;
-  Singular?: SingularSourceProperties;
-  Slack?: SlackSourceProperties;
-  Trendmicro?: TrendmicroSourceProperties;
-  Veeva?: VeevaSourceProperties;
-  Zendesk?: ZendeskSourceProperties;
-  SAPOData?: SAPODataSourceProperties;
-  CustomConnector?: CustomConnectorSourceProperties;
-  Pardot?: PardotSourceProperties;
+  Amplitude?: AmplitudeSourceProperties | undefined;
+  Datadog?: DatadogSourceProperties | undefined;
+  Dynatrace?: DynatraceSourceProperties | undefined;
+  GoogleAnalytics?: GoogleAnalyticsSourceProperties | undefined;
+  InforNexus?: InforNexusSourceProperties | undefined;
+  Marketo?: MarketoSourceProperties | undefined;
+  S3?: S3SourceProperties | undefined;
+  Salesforce?: SalesforceSourceProperties | undefined;
+  ServiceNow?: ServiceNowSourceProperties | undefined;
+  Singular?: SingularSourceProperties | undefined;
+  Slack?: SlackSourceProperties | undefined;
+  Trendmicro?: TrendmicroSourceProperties | undefined;
+  Veeva?: VeevaSourceProperties | undefined;
+  Zendesk?: ZendeskSourceProperties | undefined;
+  SAPOData?: SAPODataSourceProperties | undefined;
+  CustomConnector?: CustomConnectorSourceProperties | undefined;
+  Pardot?: PardotSourceProperties | undefined;
 }
 export type DatetimeTypeFieldName = string;
 export interface IncrementalPullConfig {
-  datetimeTypeFieldName?: string;
+  datetimeTypeFieldName?: string | undefined;
 }
 export interface SourceFlowConfig {
   connectorType: ConnectorType;
-  apiVersion?: string;
-  connectorProfileName?: string;
+  apiVersion?: string | undefined;
+  connectorProfileName?: string | undefined;
   sourceConnectorProperties: SourceConnectorProperties;
-  incrementalPullConfig?: IncrementalPullConfig;
+  incrementalPullConfig?: IncrementalPullConfig | undefined;
 }
 export interface ErrorHandlingConfig {
-  failOnFirstDestinationError?: boolean;
-  bucketPrefix?: string;
-  bucketName?: string;
+  failOnFirstDestinationError?: boolean | undefined;
+  bucketPrefix?: string | undefined;
+  bucketName?: string | undefined;
 }
 export interface RedshiftDestinationProperties {
   object: string;
   intermediateBucketName: string;
-  bucketPrefix?: string;
-  errorHandlingConfig?: ErrorHandlingConfig;
+  bucketPrefix?: string | undefined;
+  errorHandlingConfig?: ErrorHandlingConfig | undefined;
 }
 export type FileType = "CSV" | "JSON" | "PARQUET" | (string & {});
 export type PrefixType = "FILENAME" | "PATH" | "PATH_AND_FILENAME" | (string & {});
@@ -679,116 +679,116 @@ export type PrefixFormat = "YEAR" | "MONTH" | "DAY" | "HOUR" | "MINUTE" | (strin
 export type PathPrefix = "EXECUTION_ID" | "SCHEMA_VERSION" | (string & {});
 export type PathPrefixHierarchy = PathPrefix[];
 export interface PrefixConfig {
-  prefixType?: PrefixType;
-  prefixFormat?: PrefixFormat;
-  pathPrefixHierarchy?: PathPrefix[];
+  prefixType?: PrefixType | undefined;
+  prefixFormat?: PrefixFormat | undefined;
+  pathPrefixHierarchy?: PathPrefix[] | undefined;
 }
 export type AggregationType = "None" | "SingleFile" | (string & {});
 export interface AggregationConfig {
-  aggregationType?: AggregationType;
-  targetFileSize?: number;
+  aggregationType?: AggregationType | undefined;
+  targetFileSize?: number | undefined;
 }
 export type JavaBoolean = boolean;
 export interface S3OutputFormatConfig {
-  fileType?: FileType;
-  prefixConfig?: PrefixConfig;
-  aggregationConfig?: AggregationConfig;
-  preserveSourceDataTyping?: boolean;
+  fileType?: FileType | undefined;
+  prefixConfig?: PrefixConfig | undefined;
+  aggregationConfig?: AggregationConfig | undefined;
+  preserveSourceDataTyping?: boolean | undefined;
 }
 export interface S3DestinationProperties {
   bucketName: string;
-  bucketPrefix?: string;
-  s3OutputFormatConfig?: S3OutputFormatConfig;
+  bucketPrefix?: string | undefined;
+  s3OutputFormatConfig?: S3OutputFormatConfig | undefined;
 }
 export type Name = string;
 export type IdFieldNameList = string[];
 export type WriteOperationType = "INSERT" | "UPSERT" | "UPDATE" | "DELETE" | (string & {});
 export interface SalesforceDestinationProperties {
   object: string;
-  idFieldNames?: string[];
-  errorHandlingConfig?: ErrorHandlingConfig;
-  writeOperationType?: WriteOperationType;
-  dataTransferApi?: SalesforceDataTransferApi;
+  idFieldNames?: string[] | undefined;
+  errorHandlingConfig?: ErrorHandlingConfig | undefined;
+  writeOperationType?: WriteOperationType | undefined;
+  dataTransferApi?: SalesforceDataTransferApi | undefined;
 }
 export interface SnowflakeDestinationProperties {
   object: string;
   intermediateBucketName: string;
-  bucketPrefix?: string;
-  errorHandlingConfig?: ErrorHandlingConfig;
+  bucketPrefix?: string | undefined;
+  errorHandlingConfig?: ErrorHandlingConfig | undefined;
 }
 export interface EventBridgeDestinationProperties {
   object: string;
-  errorHandlingConfig?: ErrorHandlingConfig;
+  errorHandlingConfig?: ErrorHandlingConfig | undefined;
 }
 export interface LookoutMetricsDestinationProperties {}
 export type UpsolverBucketName = string;
 export interface UpsolverS3OutputFormatConfig {
-  fileType?: FileType;
+  fileType?: FileType | undefined;
   prefixConfig: PrefixConfig;
-  aggregationConfig?: AggregationConfig;
+  aggregationConfig?: AggregationConfig | undefined;
 }
 export interface UpsolverDestinationProperties {
   bucketName: string;
-  bucketPrefix?: string;
+  bucketPrefix?: string | undefined;
   s3OutputFormatConfig: UpsolverS3OutputFormatConfig;
 }
 export interface HoneycodeDestinationProperties {
   object: string;
-  errorHandlingConfig?: ErrorHandlingConfig;
+  errorHandlingConfig?: ErrorHandlingConfig | undefined;
 }
 export type DomainName = string;
 export type ObjectTypeName = string;
 export interface CustomerProfilesDestinationProperties {
   domainName: string;
-  objectTypeName?: string;
+  objectTypeName?: string | undefined;
 }
 export interface ZendeskDestinationProperties {
   object: string;
-  idFieldNames?: string[];
-  errorHandlingConfig?: ErrorHandlingConfig;
-  writeOperationType?: WriteOperationType;
+  idFieldNames?: string[] | undefined;
+  errorHandlingConfig?: ErrorHandlingConfig | undefined;
+  writeOperationType?: WriteOperationType | undefined;
 }
 export interface MarketoDestinationProperties {
   object: string;
-  errorHandlingConfig?: ErrorHandlingConfig;
+  errorHandlingConfig?: ErrorHandlingConfig | undefined;
 }
 export interface CustomConnectorDestinationProperties {
   entityName: string;
-  errorHandlingConfig?: ErrorHandlingConfig;
-  writeOperationType?: WriteOperationType;
-  idFieldNames?: string[];
-  customProperties?: { [key: string]: string | undefined };
+  errorHandlingConfig?: ErrorHandlingConfig | undefined;
+  writeOperationType?: WriteOperationType | undefined;
+  idFieldNames?: string[] | undefined;
+  customProperties?: { [key: string]: string | undefined } | undefined;
 }
 export interface SuccessResponseHandlingConfig {
-  bucketPrefix?: string;
-  bucketName?: string;
+  bucketPrefix?: string | undefined;
+  bucketName?: string | undefined;
 }
 export interface SAPODataDestinationProperties {
   objectPath: string;
-  successResponseHandlingConfig?: SuccessResponseHandlingConfig;
-  idFieldNames?: string[];
-  errorHandlingConfig?: ErrorHandlingConfig;
-  writeOperationType?: WriteOperationType;
+  successResponseHandlingConfig?: SuccessResponseHandlingConfig | undefined;
+  idFieldNames?: string[] | undefined;
+  errorHandlingConfig?: ErrorHandlingConfig | undefined;
+  writeOperationType?: WriteOperationType | undefined;
 }
 export interface DestinationConnectorProperties {
-  Redshift?: RedshiftDestinationProperties;
-  S3?: S3DestinationProperties;
-  Salesforce?: SalesforceDestinationProperties;
-  Snowflake?: SnowflakeDestinationProperties;
-  EventBridge?: EventBridgeDestinationProperties;
-  LookoutMetrics?: LookoutMetricsDestinationProperties;
-  Upsolver?: UpsolverDestinationProperties;
-  Honeycode?: HoneycodeDestinationProperties;
-  CustomerProfiles?: CustomerProfilesDestinationProperties;
-  Zendesk?: ZendeskDestinationProperties;
-  Marketo?: MarketoDestinationProperties;
-  CustomConnector?: CustomConnectorDestinationProperties;
-  SAPOData?: SAPODataDestinationProperties;
+  Redshift?: RedshiftDestinationProperties | undefined;
+  S3?: S3DestinationProperties | undefined;
+  Salesforce?: SalesforceDestinationProperties | undefined;
+  Snowflake?: SnowflakeDestinationProperties | undefined;
+  EventBridge?: EventBridgeDestinationProperties | undefined;
+  LookoutMetrics?: LookoutMetricsDestinationProperties | undefined;
+  Upsolver?: UpsolverDestinationProperties | undefined;
+  Honeycode?: HoneycodeDestinationProperties | undefined;
+  CustomerProfiles?: CustomerProfilesDestinationProperties | undefined;
+  Zendesk?: ZendeskDestinationProperties | undefined;
+  Marketo?: MarketoDestinationProperties | undefined;
+  CustomConnector?: CustomConnectorDestinationProperties | undefined;
+  SAPOData?: SAPODataDestinationProperties | undefined;
 }
 export interface DestinationFlowConfig {
   connectorType: ConnectorType;
-  apiVersion?: string;
-  connectorProfileName?: string;
+  apiVersion?: string | undefined;
+  connectorProfileName?: string | undefined;
   destinationConnectorProperties: DestinationConnectorProperties;
 }
 export type DestinationFlowConfigList = DestinationFlowConfig[];
@@ -1087,23 +1087,23 @@ export type PardotConnectorOperator =
   | "VALIDATE_NUMERIC"
   | (string & {});
 export interface ConnectorOperator {
-  Amplitude?: AmplitudeConnectorOperator;
-  Datadog?: DatadogConnectorOperator;
-  Dynatrace?: DynatraceConnectorOperator;
-  GoogleAnalytics?: GoogleAnalyticsConnectorOperator;
-  InforNexus?: InforNexusConnectorOperator;
-  Marketo?: MarketoConnectorOperator;
-  S3?: S3ConnectorOperator;
-  Salesforce?: SalesforceConnectorOperator;
-  ServiceNow?: ServiceNowConnectorOperator;
-  Singular?: SingularConnectorOperator;
-  Slack?: SlackConnectorOperator;
-  Trendmicro?: TrendmicroConnectorOperator;
-  Veeva?: VeevaConnectorOperator;
-  Zendesk?: ZendeskConnectorOperator;
-  SAPOData?: SAPODataConnectorOperator;
-  CustomConnector?: Operator;
-  Pardot?: PardotConnectorOperator;
+  Amplitude?: AmplitudeConnectorOperator | undefined;
+  Datadog?: DatadogConnectorOperator | undefined;
+  Dynatrace?: DynatraceConnectorOperator | undefined;
+  GoogleAnalytics?: GoogleAnalyticsConnectorOperator | undefined;
+  InforNexus?: InforNexusConnectorOperator | undefined;
+  Marketo?: MarketoConnectorOperator | undefined;
+  S3?: S3ConnectorOperator | undefined;
+  Salesforce?: SalesforceConnectorOperator | undefined;
+  ServiceNow?: ServiceNowConnectorOperator | undefined;
+  Singular?: SingularConnectorOperator | undefined;
+  Slack?: SlackConnectorOperator | undefined;
+  Trendmicro?: TrendmicroConnectorOperator | undefined;
+  Veeva?: VeevaConnectorOperator | undefined;
+  Zendesk?: ZendeskConnectorOperator | undefined;
+  SAPOData?: SAPODataConnectorOperator | undefined;
+  CustomConnector?: Operator | undefined;
+  Pardot?: PardotConnectorOperator | undefined;
 }
 export type DestinationField = string;
 export type TaskType =
@@ -1138,13 +1138,13 @@ export type OperatorPropertiesKeys =
   | "ORDERED_PARTITION_KEYS_LIST"
   | (string & {});
 export type Property = string;
-export type TaskPropertiesMap = { [key in OperatorPropertiesKeys]?: string };
+export type TaskPropertiesMap = { [key in OperatorPropertiesKeys]?: string | undefined };
 export interface Task {
   sourceFields: string[];
-  connectorOperator?: ConnectorOperator;
-  destinationField?: string;
+  connectorOperator?: ConnectorOperator | undefined;
+  destinationField?: string | undefined;
   taskType: TaskType;
-  taskProperties?: { [key: string]: string | undefined };
+  taskProperties?: { [key: string]: string | undefined } | undefined;
 }
 export type Tasks = Task[];
 export type TagKey = string;
@@ -1159,19 +1159,19 @@ export interface GlueDataCatalogConfig {
   tablePrefix: string;
 }
 export interface MetadataCatalogConfig {
-  glueDataCatalog?: GlueDataCatalogConfig;
+  glueDataCatalog?: GlueDataCatalogConfig | undefined;
 }
 export interface CreateFlowRequest {
   flowName: string;
-  description?: string;
-  kmsArn?: string;
+  description?: string | undefined;
+  kmsArn?: string | undefined;
   triggerConfig: TriggerConfig;
   sourceFlowConfig: SourceFlowConfig;
   destinationFlowConfigList: DestinationFlowConfig[];
   tasks: Task[];
-  tags?: { [key: string]: string | undefined };
-  metadataCatalogConfig?: MetadataCatalogConfig;
-  clientToken?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  metadataCatalogConfig?: MetadataCatalogConfig | undefined;
+  clientToken?: string | undefined;
 }
 export type FlowArn = string;
 export type FlowStatus =
@@ -1183,22 +1183,22 @@ export type FlowStatus =
   | "Suspended"
   | (string & {});
 export interface CreateFlowResponse {
-  flowArn?: string;
-  flowStatus?: FlowStatus;
+  flowArn?: string | undefined;
+  flowStatus?: FlowStatus | undefined;
 }
 export interface DeleteConnectorProfileRequest {
   connectorProfileName: string;
-  forceDelete?: boolean;
+  forceDelete?: boolean | undefined;
 }
 export interface DeleteConnectorProfileResponse {}
 export interface DeleteFlowRequest {
   flowName: string;
-  forceDelete?: boolean;
+  forceDelete?: boolean | undefined;
 }
 export interface DeleteFlowResponse {}
 export interface DescribeConnectorRequest {
   connectorType: ConnectorType;
-  connectorLabel?: string;
+  connectorLabel?: string | undefined;
 }
 export type ConnectorTypeList = ConnectorType[];
 export type ScheduleFrequencyType =
@@ -1215,7 +1215,7 @@ export interface AmplitudeMetadata {}
 export interface DatadogMetadata {}
 export interface DynatraceMetadata {}
 export interface GoogleAnalyticsMetadata {
-  oAuthScopes?: string[];
+  oAuthScopes?: string[] | undefined;
 }
 export interface InforNexusMetadata {}
 export interface MarketoMetadata {}
@@ -1224,55 +1224,55 @@ export interface S3Metadata {}
 export type SalesforceDataTransferApiList = SalesforceDataTransferApi[];
 export type OAuth2GrantTypeSupportedList = OAuth2GrantType[];
 export interface SalesforceMetadata {
-  oAuthScopes?: string[];
-  dataTransferApis?: SalesforceDataTransferApi[];
-  oauth2GrantTypesSupported?: OAuth2GrantType[];
+  oAuthScopes?: string[] | undefined;
+  dataTransferApis?: SalesforceDataTransferApi[] | undefined;
+  oauth2GrantTypesSupported?: OAuth2GrantType[] | undefined;
 }
 export interface ServiceNowMetadata {}
 export interface SingularMetadata {}
 export interface SlackMetadata {
-  oAuthScopes?: string[];
+  oAuthScopes?: string[] | undefined;
 }
 export type RegionList = string[];
 export interface SnowflakeMetadata {
-  supportedRegions?: string[];
+  supportedRegions?: string[] | undefined;
 }
 export interface TrendmicroMetadata {}
 export interface VeevaMetadata {}
 export interface ZendeskMetadata {
-  oAuthScopes?: string[];
+  oAuthScopes?: string[] | undefined;
 }
 export interface EventBridgeMetadata {}
 export interface UpsolverMetadata {}
 export interface CustomerProfilesMetadata {}
 export interface HoneycodeMetadata {
-  oAuthScopes?: string[];
+  oAuthScopes?: string[] | undefined;
 }
 export interface SAPODataMetadata {}
 export interface PardotMetadata {}
 export interface ConnectorMetadata {
-  Amplitude?: AmplitudeMetadata;
-  Datadog?: DatadogMetadata;
-  Dynatrace?: DynatraceMetadata;
-  GoogleAnalytics?: GoogleAnalyticsMetadata;
-  InforNexus?: InforNexusMetadata;
-  Marketo?: MarketoMetadata;
-  Redshift?: RedshiftMetadata;
-  S3?: S3Metadata;
-  Salesforce?: SalesforceMetadata;
-  ServiceNow?: ServiceNowMetadata;
-  Singular?: SingularMetadata;
-  Slack?: SlackMetadata;
-  Snowflake?: SnowflakeMetadata;
-  Trendmicro?: TrendmicroMetadata;
-  Veeva?: VeevaMetadata;
-  Zendesk?: ZendeskMetadata;
-  EventBridge?: EventBridgeMetadata;
-  Upsolver?: UpsolverMetadata;
-  CustomerProfiles?: CustomerProfilesMetadata;
-  Honeycode?: HoneycodeMetadata;
-  SAPOData?: SAPODataMetadata;
-  Pardot?: PardotMetadata;
+  Amplitude?: AmplitudeMetadata | undefined;
+  Datadog?: DatadogMetadata | undefined;
+  Dynatrace?: DynatraceMetadata | undefined;
+  GoogleAnalytics?: GoogleAnalyticsMetadata | undefined;
+  InforNexus?: InforNexusMetadata | undefined;
+  Marketo?: MarketoMetadata | undefined;
+  Redshift?: RedshiftMetadata | undefined;
+  S3?: S3Metadata | undefined;
+  Salesforce?: SalesforceMetadata | undefined;
+  ServiceNow?: ServiceNowMetadata | undefined;
+  Singular?: SingularMetadata | undefined;
+  Slack?: SlackMetadata | undefined;
+  Snowflake?: SnowflakeMetadata | undefined;
+  Trendmicro?: TrendmicroMetadata | undefined;
+  Veeva?: VeevaMetadata | undefined;
+  Zendesk?: ZendeskMetadata | undefined;
+  EventBridge?: EventBridgeMetadata | undefined;
+  Upsolver?: UpsolverMetadata | undefined;
+  CustomerProfiles?: CustomerProfilesMetadata | undefined;
+  Honeycode?: HoneycodeMetadata | undefined;
+  SAPOData?: SAPODataMetadata | undefined;
+  Pardot?: PardotMetadata | undefined;
 }
 export type ConnectorDescription = string;
 export type ConnectorOwner = string;
@@ -1289,55 +1289,55 @@ export type ConnectorSuppliedValue = string;
 export type ConnectorSuppliedValueList = string[];
 export type OAuth2CustomPropType = "TOKEN_URL" | "AUTH_URL" | (string & {});
 export interface OAuth2CustomParameter {
-  key?: string;
-  isRequired?: boolean;
-  label?: string;
-  description?: string;
-  isSensitiveField?: boolean;
-  connectorSuppliedValues?: string[];
-  type?: OAuth2CustomPropType;
+  key?: string | undefined;
+  isRequired?: boolean | undefined;
+  label?: string | undefined;
+  description?: string | undefined;
+  isSensitiveField?: boolean | undefined;
+  connectorSuppliedValues?: string[] | undefined;
+  type?: OAuth2CustomPropType | undefined;
 }
 export type OAuth2CustomPropertiesList = OAuth2CustomParameter[];
 export interface OAuth2Defaults {
-  oauthScopes?: string[];
-  tokenUrls?: string[];
-  authCodeUrls?: string[];
-  oauth2GrantTypesSupported?: OAuth2GrantType[];
-  oauth2CustomProperties?: OAuth2CustomParameter[];
+  oauthScopes?: string[] | undefined;
+  tokenUrls?: string[] | undefined;
+  authCodeUrls?: string[] | undefined;
+  oauth2GrantTypesSupported?: OAuth2GrantType[] | undefined;
+  oauth2CustomProperties?: OAuth2CustomParameter[] | undefined;
 }
 export interface AuthParameter {
-  key?: string;
-  isRequired?: boolean;
-  label?: string;
-  description?: string;
-  isSensitiveField?: boolean;
-  connectorSuppliedValues?: string[];
+  key?: string | undefined;
+  isRequired?: boolean | undefined;
+  label?: string | undefined;
+  description?: string | undefined;
+  isSensitiveField?: boolean | undefined;
+  connectorSuppliedValues?: string[] | undefined;
 }
 export type AuthParameterList = AuthParameter[];
 export interface CustomAuthConfig {
-  customAuthenticationType?: string;
-  authParameters?: AuthParameter[];
+  customAuthenticationType?: string | undefined;
+  authParameters?: AuthParameter[] | undefined;
 }
 export type CustomAuthConfigList = CustomAuthConfig[];
 export interface AuthenticationConfig {
-  isBasicAuthSupported?: boolean;
-  isApiKeyAuthSupported?: boolean;
-  isOAuth2Supported?: boolean;
-  isCustomAuthSupported?: boolean;
-  oAuth2Defaults?: OAuth2Defaults;
-  customAuthConfigs?: CustomAuthConfig[];
+  isBasicAuthSupported?: boolean | undefined;
+  isApiKeyAuthSupported?: boolean | undefined;
+  isOAuth2Supported?: boolean | undefined;
+  isCustomAuthSupported?: boolean | undefined;
+  oAuth2Defaults?: OAuth2Defaults | undefined;
+  customAuthConfigs?: CustomAuthConfig[] | undefined;
 }
 export type ConnectorRuntimeSettingDataType = string;
 export type ConnectorRuntimeSettingScope = string;
 export type ConnectorSuppliedValueOptionList = string[];
 export interface ConnectorRuntimeSetting {
-  key?: string;
-  dataType?: string;
-  isRequired?: boolean;
-  label?: string;
-  description?: string;
-  scope?: string;
-  connectorSuppliedValueOptions?: string[];
+  key?: string | undefined;
+  dataType?: string | undefined;
+  isRequired?: boolean | undefined;
+  label?: string | undefined;
+  description?: string | undefined;
+  scope?: string | undefined;
+  connectorSuppliedValueOptions?: string[] | undefined;
 }
 export type ConnectorRuntimeSettingList = ConnectorRuntimeSetting[];
 export type SupportedApiVersion = string;
@@ -1372,7 +1372,7 @@ export interface LambdaConnectorProvisioningConfig {
   lambdaArn: string;
 }
 export interface ConnectorProvisioningConfig {
-  lambda?: LambdaConnectorProvisioningConfig;
+  lambda?: LambdaConnectorProvisioningConfig | undefined;
 }
 export type LogoURL = string;
 export type RegisteredBy = string;
@@ -1380,43 +1380,43 @@ export type SupportedDataTransferType = "RECORD" | "FILE" | (string & {});
 export type SupportedDataTransferTypeList = SupportedDataTransferType[];
 export type SupportedDataTransferApis = DataTransferApi[];
 export interface ConnectorConfiguration {
-  canUseAsSource?: boolean;
-  canUseAsDestination?: boolean;
-  supportedDestinationConnectors?: ConnectorType[];
-  supportedSchedulingFrequencies?: ScheduleFrequencyType[];
-  isPrivateLinkEnabled?: boolean;
-  isPrivateLinkEndpointUrlRequired?: boolean;
-  supportedTriggerTypes?: TriggerType[];
-  connectorMetadata?: ConnectorMetadata;
-  connectorType?: ConnectorType;
-  connectorLabel?: string;
-  connectorDescription?: string;
-  connectorOwner?: string;
-  connectorName?: string;
-  connectorVersion?: string;
-  connectorArn?: string;
-  connectorModes?: string[];
-  authenticationConfig?: AuthenticationConfig;
-  connectorRuntimeSettings?: ConnectorRuntimeSetting[];
-  supportedApiVersions?: string[];
-  supportedOperators?: Operators[];
-  supportedWriteOperations?: WriteOperationType[];
-  connectorProvisioningType?: ConnectorProvisioningType;
-  connectorProvisioningConfig?: ConnectorProvisioningConfig;
-  logoURL?: string;
-  registeredAt?: Date;
-  registeredBy?: string;
-  supportedDataTransferTypes?: SupportedDataTransferType[];
-  supportedDataTransferApis?: DataTransferApi[];
+  canUseAsSource?: boolean | undefined;
+  canUseAsDestination?: boolean | undefined;
+  supportedDestinationConnectors?: ConnectorType[] | undefined;
+  supportedSchedulingFrequencies?: ScheduleFrequencyType[] | undefined;
+  isPrivateLinkEnabled?: boolean | undefined;
+  isPrivateLinkEndpointUrlRequired?: boolean | undefined;
+  supportedTriggerTypes?: TriggerType[] | undefined;
+  connectorMetadata?: ConnectorMetadata | undefined;
+  connectorType?: ConnectorType | undefined;
+  connectorLabel?: string | undefined;
+  connectorDescription?: string | undefined;
+  connectorOwner?: string | undefined;
+  connectorName?: string | undefined;
+  connectorVersion?: string | undefined;
+  connectorArn?: string | undefined;
+  connectorModes?: string[] | undefined;
+  authenticationConfig?: AuthenticationConfig | undefined;
+  connectorRuntimeSettings?: ConnectorRuntimeSetting[] | undefined;
+  supportedApiVersions?: string[] | undefined;
+  supportedOperators?: Operators[] | undefined;
+  supportedWriteOperations?: WriteOperationType[] | undefined;
+  connectorProvisioningType?: ConnectorProvisioningType | undefined;
+  connectorProvisioningConfig?: ConnectorProvisioningConfig | undefined;
+  logoURL?: string | undefined;
+  registeredAt?: Date | undefined;
+  registeredBy?: string | undefined;
+  supportedDataTransferTypes?: SupportedDataTransferType[] | undefined;
+  supportedDataTransferApis?: DataTransferApi[] | undefined;
 }
 export interface DescribeConnectorResponse {
-  connectorConfiguration?: ConnectorConfiguration;
+  connectorConfiguration?: ConnectorConfiguration | undefined;
 }
 export interface DescribeConnectorEntityRequest {
   connectorEntityName: string;
-  connectorType?: ConnectorType;
-  connectorProfileName?: string;
-  apiVersion?: string;
+  connectorType?: ConnectorType | undefined;
+  connectorProfileName?: string | undefined;
+  apiVersion?: string | undefined;
 }
 export type Identifier = string;
 export type FieldType = string;
@@ -1424,46 +1424,46 @@ export type FilterOperatorList = Operator[];
 export type Value = string;
 export type SupportedValueList = string[];
 export interface Range {
-  maximum?: number;
-  minimum?: number;
+  maximum?: number | undefined;
+  minimum?: number | undefined;
 }
 export interface FieldTypeDetails {
   fieldType: string;
   filterOperators: Operator[];
-  supportedValues?: string[];
-  valueRegexPattern?: string;
-  supportedDateFormat?: string;
-  fieldValueRange?: Range;
-  fieldLengthRange?: Range;
+  supportedValues?: string[] | undefined;
+  valueRegexPattern?: string | undefined;
+  supportedDateFormat?: string | undefined;
+  fieldValueRange?: Range | undefined;
+  fieldLengthRange?: Range | undefined;
 }
 export interface SupportedFieldTypeDetails {
   v1: FieldTypeDetails;
 }
 export interface SourceFieldProperties {
-  isRetrievable?: boolean;
-  isQueryable?: boolean;
-  isTimestampFieldForIncrementalQueries?: boolean;
+  isRetrievable?: boolean | undefined;
+  isQueryable?: boolean | undefined;
+  isTimestampFieldForIncrementalQueries?: boolean | undefined;
 }
 export interface DestinationFieldProperties {
-  isCreatable?: boolean;
-  isNullable?: boolean;
-  isUpsertable?: boolean;
-  isUpdatable?: boolean;
-  isDefaultedOnCreate?: boolean;
-  supportedWriteOperations?: WriteOperationType[];
+  isCreatable?: boolean | undefined;
+  isNullable?: boolean | undefined;
+  isUpsertable?: boolean | undefined;
+  isUpdatable?: boolean | undefined;
+  isDefaultedOnCreate?: boolean | undefined;
+  supportedWriteOperations?: WriteOperationType[] | undefined;
 }
 export interface ConnectorEntityField {
   identifier: string;
-  parentIdentifier?: string;
-  label?: string;
-  isPrimaryKey?: boolean;
-  defaultValue?: string;
-  isDeprecated?: boolean;
-  supportedFieldTypeDetails?: SupportedFieldTypeDetails;
-  description?: string;
-  sourceProperties?: SourceFieldProperties;
-  destinationProperties?: DestinationFieldProperties;
-  customProperties?: { [key: string]: string | undefined };
+  parentIdentifier?: string | undefined;
+  label?: string | undefined;
+  isPrimaryKey?: boolean | undefined;
+  defaultValue?: string | undefined;
+  isDeprecated?: boolean | undefined;
+  supportedFieldTypeDetails?: SupportedFieldTypeDetails | undefined;
+  description?: string | undefined;
+  sourceProperties?: SourceFieldProperties | undefined;
+  destinationProperties?: DestinationFieldProperties | undefined;
+  customProperties?: { [key: string]: string | undefined } | undefined;
 }
 export type ConnectorEntityFieldList = ConnectorEntityField[];
 export interface DescribeConnectorEntityResponse {
@@ -1473,11 +1473,11 @@ export type ConnectorProfileNameList = string[];
 export type MaxResults = number;
 export type NextToken = string;
 export interface DescribeConnectorProfilesRequest {
-  connectorProfileNames?: string[];
-  connectorType?: ConnectorType;
-  connectorLabel?: string;
-  maxResults?: number;
-  nextToken?: string;
+  connectorProfileNames?: string[] | undefined;
+  connectorType?: ConnectorType | undefined;
+  connectorLabel?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type PrivateConnectionProvisioningStatus = "FAILED" | "PENDING" | "CREATED" | (string & {});
 export type PrivateConnectionProvisioningFailureMessage = string;
@@ -1489,53 +1489,55 @@ export type PrivateConnectionProvisioningFailureCause =
   | "VALIDATION"
   | (string & {});
 export interface PrivateConnectionProvisioningState {
-  status?: PrivateConnectionProvisioningStatus;
-  failureMessage?: string;
-  failureCause?: PrivateConnectionProvisioningFailureCause;
+  status?: PrivateConnectionProvisioningStatus | undefined;
+  failureMessage?: string | undefined;
+  failureCause?: PrivateConnectionProvisioningFailureCause | undefined;
 }
 export interface ConnectorProfile {
-  connectorProfileArn?: string;
-  connectorProfileName?: string;
-  connectorType?: ConnectorType;
-  connectorLabel?: string;
-  connectionMode?: ConnectionMode;
-  credentialsArn?: string;
-  connectorProfileProperties?: ConnectorProfileProperties;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  privateConnectionProvisioningState?: PrivateConnectionProvisioningState;
+  connectorProfileArn?: string | undefined;
+  connectorProfileName?: string | undefined;
+  connectorType?: ConnectorType | undefined;
+  connectorLabel?: string | undefined;
+  connectionMode?: ConnectionMode | undefined;
+  credentialsArn?: string | undefined;
+  connectorProfileProperties?: ConnectorProfileProperties | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  privateConnectionProvisioningState?: PrivateConnectionProvisioningState | undefined;
 }
 export type ConnectorProfileDetailList = ConnectorProfile[];
 export interface DescribeConnectorProfilesResponse {
-  connectorProfileDetails?: ConnectorProfile[];
-  nextToken?: string;
+  connectorProfileDetails?: ConnectorProfile[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeConnectorsRequest {
-  connectorTypes?: ConnectorType[];
-  maxResults?: number;
-  nextToken?: string;
+  connectorTypes?: ConnectorType[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
-export type ConnectorConfigurationsMap = { [key in ConnectorType]?: ConnectorConfiguration };
+export type ConnectorConfigurationsMap = {
+  [key in ConnectorType]?: ConnectorConfiguration | undefined;
+};
 export type ApplicationType = string;
 export interface ConnectorDetail {
-  connectorDescription?: string;
-  connectorName?: string;
-  connectorOwner?: string;
-  connectorVersion?: string;
-  applicationType?: string;
-  connectorType?: ConnectorType;
-  connectorLabel?: string;
-  registeredAt?: Date;
-  registeredBy?: string;
-  connectorProvisioningType?: ConnectorProvisioningType;
-  connectorModes?: string[];
-  supportedDataTransferTypes?: SupportedDataTransferType[];
+  connectorDescription?: string | undefined;
+  connectorName?: string | undefined;
+  connectorOwner?: string | undefined;
+  connectorVersion?: string | undefined;
+  applicationType?: string | undefined;
+  connectorType?: ConnectorType | undefined;
+  connectorLabel?: string | undefined;
+  registeredAt?: Date | undefined;
+  registeredBy?: string | undefined;
+  connectorProvisioningType?: ConnectorProvisioningType | undefined;
+  connectorModes?: string[] | undefined;
+  supportedDataTransferTypes?: SupportedDataTransferType[] | undefined;
 }
 export type ConnectorList = ConnectorDetail[];
 export interface DescribeConnectorsResponse {
-  connectorConfigurations?: { [key: string]: ConnectorConfiguration | undefined };
-  connectors?: ConnectorDetail[];
-  nextToken?: string;
+  connectorConfigurations?: { [key: string]: ConnectorConfiguration | undefined } | undefined;
+  connectors?: ConnectorDetail[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeFlowRequest {
   flowName: string;
@@ -1550,174 +1552,174 @@ export type ExecutionStatus =
   | "Canceled"
   | (string & {});
 export interface ExecutionDetails {
-  mostRecentExecutionMessage?: string;
-  mostRecentExecutionTime?: Date;
-  mostRecentExecutionStatus?: ExecutionStatus;
+  mostRecentExecutionMessage?: string | undefined;
+  mostRecentExecutionTime?: Date | undefined;
+  mostRecentExecutionStatus?: ExecutionStatus | undefined;
 }
 export type CreatedBy = string;
 export type UpdatedBy = string;
 export type CatalogType = "GLUE" | (string & {});
 export interface RegistrationOutput {
-  message?: string;
-  result?: string;
-  status?: ExecutionStatus;
+  message?: string | undefined;
+  result?: string | undefined;
+  status?: ExecutionStatus | undefined;
 }
 export interface MetadataCatalogDetail {
-  catalogType?: CatalogType;
-  tableName?: string;
-  tableRegistrationOutput?: RegistrationOutput;
-  partitionRegistrationOutput?: RegistrationOutput;
+  catalogType?: CatalogType | undefined;
+  tableName?: string | undefined;
+  tableRegistrationOutput?: RegistrationOutput | undefined;
+  partitionRegistrationOutput?: RegistrationOutput | undefined;
 }
 export type MetadataCatalogDetails = MetadataCatalogDetail[];
 export interface DescribeFlowResponse {
-  flowArn?: string;
-  description?: string;
-  flowName?: string;
-  kmsArn?: string;
-  flowStatus?: FlowStatus;
-  flowStatusMessage?: string;
-  sourceFlowConfig?: SourceFlowConfig;
-  destinationFlowConfigList?: DestinationFlowConfig[];
-  lastRunExecutionDetails?: ExecutionDetails;
-  triggerConfig?: TriggerConfig;
-  tasks?: Task[];
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  createdBy?: string;
-  lastUpdatedBy?: string;
-  tags?: { [key: string]: string | undefined };
-  metadataCatalogConfig?: MetadataCatalogConfig;
-  lastRunMetadataCatalogDetails?: MetadataCatalogDetail[];
-  schemaVersion?: number;
+  flowArn?: string | undefined;
+  description?: string | undefined;
+  flowName?: string | undefined;
+  kmsArn?: string | undefined;
+  flowStatus?: FlowStatus | undefined;
+  flowStatusMessage?: string | undefined;
+  sourceFlowConfig?: SourceFlowConfig | undefined;
+  destinationFlowConfigList?: DestinationFlowConfig[] | undefined;
+  lastRunExecutionDetails?: ExecutionDetails | undefined;
+  triggerConfig?: TriggerConfig | undefined;
+  tasks?: Task[] | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  createdBy?: string | undefined;
+  lastUpdatedBy?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  metadataCatalogConfig?: MetadataCatalogConfig | undefined;
+  lastRunMetadataCatalogDetails?: MetadataCatalogDetail[] | undefined;
+  schemaVersion?: number | undefined;
 }
 export interface DescribeFlowExecutionRecordsRequest {
   flowName: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ExecutionMessage = string;
 export interface ErrorInfo {
-  putFailuresCount?: number;
-  executionMessage?: string;
+  putFailuresCount?: number | undefined;
+  executionMessage?: string | undefined;
 }
 export interface ExecutionResult {
-  errorInfo?: ErrorInfo;
-  bytesProcessed?: number;
-  bytesWritten?: number;
-  recordsProcessed?: number;
-  numParallelProcesses?: number;
-  maxPageSize?: number;
+  errorInfo?: ErrorInfo | undefined;
+  bytesProcessed?: number | undefined;
+  bytesWritten?: number | undefined;
+  recordsProcessed?: number | undefined;
+  numParallelProcesses?: number | undefined;
+  maxPageSize?: number | undefined;
 }
 export interface ExecutionRecord {
-  executionId?: string;
-  executionStatus?: ExecutionStatus;
-  executionResult?: ExecutionResult;
-  startedAt?: Date;
-  lastUpdatedAt?: Date;
-  dataPullStartTime?: Date;
-  dataPullEndTime?: Date;
-  metadataCatalogDetails?: MetadataCatalogDetail[];
+  executionId?: string | undefined;
+  executionStatus?: ExecutionStatus | undefined;
+  executionResult?: ExecutionResult | undefined;
+  startedAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  dataPullStartTime?: Date | undefined;
+  dataPullEndTime?: Date | undefined;
+  metadataCatalogDetails?: MetadataCatalogDetail[] | undefined;
 }
 export type FlowExecutionList = ExecutionRecord[];
 export interface DescribeFlowExecutionRecordsResponse {
-  flowExecutions?: ExecutionRecord[];
-  nextToken?: string;
+  flowExecutions?: ExecutionRecord[] | undefined;
+  nextToken?: string | undefined;
 }
 export type EntitiesPath = string;
 export type ListEntitiesMaxResults = number;
 export interface ListConnectorEntitiesRequest {
-  connectorProfileName?: string;
-  connectorType?: ConnectorType;
-  entitiesPath?: string;
-  apiVersion?: string;
-  maxResults?: number;
-  nextToken?: string;
+  connectorProfileName?: string | undefined;
+  connectorType?: ConnectorType | undefined;
+  entitiesPath?: string | undefined;
+  apiVersion?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type Group = string;
 export interface ConnectorEntity {
   name: string;
-  label?: string;
-  hasNestedEntities?: boolean;
+  label?: string | undefined;
+  hasNestedEntities?: boolean | undefined;
 }
 export type ConnectorEntityList = ConnectorEntity[];
 export type ConnectorEntityMap = { [key: string]: ConnectorEntity[] | undefined };
 export interface ListConnectorEntitiesResponse {
   connectorEntityMap: { [key: string]: ConnectorEntity[] | undefined };
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListConnectorsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListConnectorsResponse {
-  connectors?: ConnectorDetail[];
-  nextToken?: string;
+  connectors?: ConnectorDetail[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListFlowsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface FlowDefinition {
-  flowArn?: string;
-  description?: string;
-  flowName?: string;
-  flowStatus?: FlowStatus;
-  sourceConnectorType?: ConnectorType;
-  sourceConnectorLabel?: string;
-  destinationConnectorType?: ConnectorType;
-  destinationConnectorLabel?: string;
-  triggerType?: TriggerType;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  createdBy?: string;
-  lastUpdatedBy?: string;
-  tags?: { [key: string]: string | undefined };
-  lastRunExecutionDetails?: ExecutionDetails;
+  flowArn?: string | undefined;
+  description?: string | undefined;
+  flowName?: string | undefined;
+  flowStatus?: FlowStatus | undefined;
+  sourceConnectorType?: ConnectorType | undefined;
+  sourceConnectorLabel?: string | undefined;
+  destinationConnectorType?: ConnectorType | undefined;
+  destinationConnectorLabel?: string | undefined;
+  triggerType?: TriggerType | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  createdBy?: string | undefined;
+  lastUpdatedBy?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  lastRunExecutionDetails?: ExecutionDetails | undefined;
 }
 export type FlowList = FlowDefinition[];
 export interface ListFlowsResponse {
-  flows?: FlowDefinition[];
-  nextToken?: string;
+  flows?: FlowDefinition[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RegisterConnectorRequest {
-  connectorLabel?: string;
-  description?: string;
-  connectorProvisioningType?: ConnectorProvisioningType;
-  connectorProvisioningConfig?: ConnectorProvisioningConfig;
-  clientToken?: string;
+  connectorLabel?: string | undefined;
+  description?: string | undefined;
+  connectorProvisioningType?: ConnectorProvisioningType | undefined;
+  connectorProvisioningConfig?: ConnectorProvisioningConfig | undefined;
+  clientToken?: string | undefined;
 }
 export interface RegisterConnectorResponse {
-  connectorArn?: string;
+  connectorArn?: string | undefined;
 }
 export interface ResetConnectorMetadataCacheRequest {
-  connectorProfileName?: string;
-  connectorType?: ConnectorType;
-  connectorEntityName?: string;
-  entitiesPath?: string;
-  apiVersion?: string;
+  connectorProfileName?: string | undefined;
+  connectorType?: ConnectorType | undefined;
+  connectorEntityName?: string | undefined;
+  entitiesPath?: string | undefined;
+  apiVersion?: string | undefined;
 }
 export interface ResetConnectorMetadataCacheResponse {}
 export interface StartFlowRequest {
   flowName: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface StartFlowResponse {
-  flowArn?: string;
-  flowStatus?: FlowStatus;
-  executionId?: string;
+  flowArn?: string | undefined;
+  flowStatus?: FlowStatus | undefined;
+  executionId?: string | undefined;
 }
 export interface StopFlowRequest {
   flowName: string;
 }
 export interface StopFlowResponse {
-  flowArn?: string;
-  flowStatus?: FlowStatus;
+  flowArn?: string | undefined;
+  flowStatus?: FlowStatus | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -1726,7 +1728,7 @@ export interface TagResourceRequest {
 export interface TagResourceResponse {}
 export interface UnregisterConnectorRequest {
   connectorLabel: string;
-  forceDelete?: boolean;
+  forceDelete?: boolean | undefined;
 }
 export interface UnregisterConnectorResponse {}
 export type TagKeyList = string[];
@@ -1739,32 +1741,32 @@ export interface UpdateConnectorProfileRequest {
   connectorProfileName: string;
   connectionMode: ConnectionMode;
   connectorProfileConfig: ConnectorProfileConfig;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateConnectorProfileResponse {
-  connectorProfileArn?: string;
+  connectorProfileArn?: string | undefined;
 }
 export interface UpdateConnectorRegistrationRequest {
   connectorLabel: string;
-  description?: string;
-  connectorProvisioningConfig?: ConnectorProvisioningConfig;
-  clientToken?: string;
+  description?: string | undefined;
+  connectorProvisioningConfig?: ConnectorProvisioningConfig | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateConnectorRegistrationResponse {
-  connectorArn?: string;
+  connectorArn?: string | undefined;
 }
 export interface UpdateFlowRequest {
   flowName: string;
-  description?: string;
+  description?: string | undefined;
   triggerConfig: TriggerConfig;
   sourceFlowConfig: SourceFlowConfig;
   destinationFlowConfigList: DestinationFlowConfig[];
   tasks: Task[];
-  metadataCatalogConfig?: MetadataCatalogConfig;
-  clientToken?: string;
+  metadataCatalogConfig?: MetadataCatalogConfig | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateFlowResponse {
-  flowStatus?: FlowStatus;
+  flowStatus?: FlowStatus | undefined;
 }
 export type ErrorMessage = string;
 export type CancelFlowExecutionsError =

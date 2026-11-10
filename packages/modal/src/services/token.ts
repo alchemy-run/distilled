@@ -35,10 +35,10 @@ export class TokenNotFound
   ) {}
 
 export interface CreateTokenFlowRequest {
-  utmSource?: string;
-  localhostPort?: number;
-  nextUrl?: string;
-  expiresInSeconds?: number;
+  utmSource?: string | undefined;
+  localhostPort?: number | undefined;
+  nextUrl?: string | undefined;
+  expiresInSeconds?: number | undefined;
 }
 export interface CreateTokenFlowResponse {
   tokenFlowId: string;
@@ -47,7 +47,7 @@ export interface CreateTokenFlowResponse {
   waitSecret: string | Redacted.Redacted<string>;
 }
 export interface DeleteTokenRequest {
-  tokenId?: string;
+  tokenId?: string | undefined;
 }
 export interface DeleteTokenResponse {}
 export interface GetTokenInfoRequest {}
@@ -58,23 +58,23 @@ export interface UserIdentity {
 export interface ServiceUserIdentity {
   serviceUserId: string;
   serviceUserName: string;
-  createdBy?: UserIdentity;
+  createdBy?: UserIdentity | undefined;
 }
 export interface GetTokenInfoResponse {
   tokenId: string;
   workspaceId: string;
   workspaceName: string;
-  userIdentity?: UserIdentity;
-  serviceUserIdentity?: ServiceUserIdentity;
+  userIdentity?: UserIdentity | undefined;
+  serviceUserIdentity?: ServiceUserIdentity | undefined;
   /** Token metadata */
-  createdAt?: string;
-  expiresAt?: string;
+  createdAt?: string | undefined;
+  expiresAt?: string | undefined;
   tokenName: string;
 }
 export interface WaitTokenFlowRequest {
-  timeout?: number;
-  tokenFlowId?: string;
-  waitSecret?: string | Redacted.Redacted<string>;
+  timeout?: number | undefined;
+  tokenFlowId?: string | undefined;
+  waitSecret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface WaitTokenFlowResponse {
   tokenId: string;

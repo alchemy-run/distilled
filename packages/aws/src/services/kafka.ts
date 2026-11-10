@@ -312,232 +312,232 @@ export type __listOf__string = string[];
 const __listOf__string = /*@__PURE__*/ __L.at(__c2, 0);
 export interface BatchAssociateScramSecretRequest {
   ClusterArn: string;
-  SecretArnList?: string[];
+  SecretArnList?: string[] | undefined;
 }
 export interface UnprocessedScramSecret {
-  ErrorCode?: string;
-  ErrorMessage?: string;
-  SecretArn?: string;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
+  SecretArn?: string | undefined;
 }
 export type __listOfUnprocessedScramSecret = UnprocessedScramSecret[];
 const __listOfUnprocessedScramSecret = /*@__PURE__*/ __L.at(__c1, 1);
 export interface BatchAssociateScramSecretResponse {
-  ClusterArn?: string;
-  UnprocessedScramSecrets?: UnprocessedScramSecret[];
+  ClusterArn?: string | undefined;
+  UnprocessedScramSecrets?: UnprocessedScramSecret[] | undefined;
 }
 export interface BatchDisassociateScramSecretRequest {
   ClusterArn: string;
-  SecretArnList?: string[];
+  SecretArnList?: string[] | undefined;
 }
 export interface BatchDisassociateScramSecretResponse {
-  ClusterArn?: string;
-  UnprocessedScramSecrets?: UnprocessedScramSecret[];
+  ClusterArn?: string | undefined;
+  UnprocessedScramSecrets?: UnprocessedScramSecret[] | undefined;
 }
 export interface EncryptionConfiguration {
-  KmsKeyArn?: string;
+  KmsKeyArn?: string | undefined;
 }
 export interface Catalog {
-  CatalogArn?: string;
-  WarehouseLocation?: string;
+  CatalogArn?: string | undefined;
+  WarehouseLocation?: string | undefined;
 }
 export interface DeadLetterQueueS3 {
-  BucketArn?: string;
-  ErrorOutputPrefix?: string;
-  ExpectedBucketOwner?: string;
+  BucketArn?: string | undefined;
+  ErrorOutputPrefix?: string | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type PartitionStrategy = "TIME_HOUR" | (string & {});
 export interface PartitionSource {
-  SourceName?: string;
+  SourceName?: string | undefined;
 }
 export type __listOfPartitionSource = PartitionSource[];
 const __listOfPartitionSource = /*@__PURE__*/ __L.at(__c9, 4);
 export interface PartitionSpec {
-  PartitionStrategy?: PartitionStrategy;
-  SourceList?: PartitionSource[];
+  PartitionStrategy?: PartitionStrategy | undefined;
+  SourceList?: PartitionSource[] | undefined;
 }
 export interface DestinationTable {
-  DestinationDatabaseName?: string;
-  DestinationTableName?: string;
-  PartitionSpec?: PartitionSpec;
+  DestinationDatabaseName?: string | undefined;
+  DestinationTableName?: string | undefined;
+  PartitionSpec?: PartitionSpec | undefined;
 }
 export type __listOfDestinationTable = DestinationTable[];
 const __listOfDestinationTable = /*@__PURE__*/ __L.at(__c9, 7);
 export interface SchemaEvolution {
-  EnableSchemaEvolution?: boolean;
+  EnableSchemaEvolution?: boolean | undefined;
 }
 export interface TableCreation {
-  EnableTableCreation?: boolean;
+  EnableTableCreation?: boolean | undefined;
 }
 export type IcebergCompressionType = "ZSTD" | "SNAPPY" | (string & {});
 export interface IcebergDestinationConfiguration {
-  AppendOnly?: boolean;
-  Catalog?: Catalog;
-  DataFreshnessInSeconds?: number;
-  DeadLetterQueueS3?: DeadLetterQueueS3;
-  DestinationTableList?: DestinationTable[];
-  SchemaEvolution?: SchemaEvolution;
-  ServiceExecutionRoleArn?: string;
-  TableCreation?: TableCreation;
-  CompressionType?: IcebergCompressionType;
+  AppendOnly?: boolean | undefined;
+  Catalog?: Catalog | undefined;
+  DataFreshnessInSeconds?: number | undefined;
+  DeadLetterQueueS3?: DeadLetterQueueS3 | undefined;
+  DestinationTableList?: DestinationTable[] | undefined;
+  SchemaEvolution?: SchemaEvolution | undefined;
+  ServiceExecutionRoleArn?: string | undefined;
+  TableCreation?: TableCreation | undefined;
+  CompressionType?: IcebergCompressionType | undefined;
 }
 export type S3CompressionType = "NONE" | "GZIP" | "ZSTD" | (string & {});
 export type S3StorageClass = "STANDARD" | "INTELLIGENT_TIERING" | "GLACIER_IR" | (string & {});
 export interface S3Storage {
-  BucketArn?: string;
-  CompressionType?: S3CompressionType;
-  OutputPrefix?: string;
-  OutputKeyTemplate?: string;
-  StorageClass?: S3StorageClass;
-  ExpectedBucketOwner?: string;
+  BucketArn?: string | undefined;
+  CompressionType?: S3CompressionType | undefined;
+  OutputPrefix?: string | undefined;
+  OutputKeyTemplate?: string | undefined;
+  StorageClass?: S3StorageClass | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface S3DestinationConfiguration {
-  DataFreshnessInSeconds?: number;
-  DeadLetterQueueS3?: DeadLetterQueueS3;
-  ServiceExecutionRoleArn?: string;
-  Storage?: S3Storage;
+  DataFreshnessInSeconds?: number | undefined;
+  DeadLetterQueueS3?: DeadLetterQueueS3 | undefined;
+  ServiceExecutionRoleArn?: string | undefined;
+  Storage?: S3Storage | undefined;
 }
 export type __mapOf__string = { [key: string]: string | undefined };
 const __mapOf__string = /*@__PURE__*/ __L.at(__c5, 0);
 export type ValueConverter = "BYTE_ARRAY" | "JSON" | "JSON_SCHEMA_GSR" | "STRING" | (string & {});
 export interface RecordConverter {
-  ValueConverter?: ValueConverter;
+  ValueConverter?: ValueConverter | undefined;
 }
 export interface RecordSchema {
-  GsrArn?: string;
+  GsrArn?: string | undefined;
 }
 export interface TopicConfiguration {
-  RecordConverter?: RecordConverter;
-  RecordSchema?: RecordSchema;
-  TopicArn?: string;
+  RecordConverter?: RecordConverter | undefined;
+  RecordSchema?: RecordSchema | undefined;
+  TopicArn?: string | undefined;
 }
 export type __listOfTopicConfiguration = TopicConfiguration[];
 const __listOfTopicConfiguration = /*@__PURE__*/ __L.at(__c9, 16);
 export interface CloudWatchLogs {
-  Enabled?: boolean;
-  LogGroup?: string;
+  Enabled?: boolean | undefined;
+  LogGroup?: string | undefined;
 }
 export interface Firehose {
-  DeliveryStream?: string;
-  Enabled?: boolean;
+  DeliveryStream?: string | undefined;
+  Enabled?: boolean | undefined;
 }
 export interface S3 {
-  Bucket?: string;
-  Enabled?: boolean;
-  Prefix?: string;
+  Bucket?: string | undefined;
+  Enabled?: boolean | undefined;
+  Prefix?: string | undefined;
 }
 export interface ChannelLoggingInfo {
-  CloudWatchLogs?: CloudWatchLogs;
-  Firehose?: Firehose;
-  S3?: S3;
+  CloudWatchLogs?: CloudWatchLogs | undefined;
+  Firehose?: Firehose | undefined;
+  S3?: S3 | undefined;
 }
 export interface CreateChannelRequest {
-  ChannelName?: string;
+  ChannelName?: string | undefined;
   ClusterArn: string;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  IcebergDestinationConfiguration?: IcebergDestinationConfiguration;
-  S3DestinationConfiguration?: S3DestinationConfiguration;
-  Tags?: { [key: string]: string | undefined };
-  TopicConfigurationList?: TopicConfiguration[];
-  LoggingInfo?: ChannelLoggingInfo;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  IcebergDestinationConfiguration?: IcebergDestinationConfiguration | undefined;
+  S3DestinationConfiguration?: S3DestinationConfiguration | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  TopicConfigurationList?: TopicConfiguration[] | undefined;
+  LoggingInfo?: ChannelLoggingInfo | undefined;
 }
 export interface CreateChannelResponse {
   ChannelArn: string;
-  ClusterOperationArn?: string;
+  ClusterOperationArn?: string | undefined;
 }
 export type BrokerAZDistribution = "DEFAULT" | (string & {});
 export type __stringMin5Max32 = string;
 export interface ProvisionedThroughput {
-  Enabled?: boolean;
-  VolumeThroughput?: number;
+  Enabled?: boolean | undefined;
+  VolumeThroughput?: number | undefined;
 }
 export type __integerMin1Max16384 = number;
 export interface EBSStorageInfo {
-  ProvisionedThroughput?: ProvisionedThroughput;
-  VolumeSize?: number;
+  ProvisionedThroughput?: ProvisionedThroughput | undefined;
+  VolumeSize?: number | undefined;
 }
 export interface StorageInfo {
-  EbsStorageInfo?: EBSStorageInfo;
+  EbsStorageInfo?: EBSStorageInfo | undefined;
 }
 export interface PublicAccess {
-  Type?: string;
+  Type?: string | undefined;
 }
 export interface VpcConnectivityScram {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface VpcConnectivityIam {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface VpcConnectivitySasl {
-  Scram?: VpcConnectivityScram;
-  Iam?: VpcConnectivityIam;
+  Scram?: VpcConnectivityScram | undefined;
+  Iam?: VpcConnectivityIam | undefined;
 }
 export interface VpcConnectivityTls {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface VpcConnectivityClientAuthentication {
-  Sasl?: VpcConnectivitySasl;
-  Tls?: VpcConnectivityTls;
+  Sasl?: VpcConnectivitySasl | undefined;
+  Tls?: VpcConnectivityTls | undefined;
 }
 export interface VpcConnectivity {
-  ClientAuthentication?: VpcConnectivityClientAuthentication;
+  ClientAuthentication?: VpcConnectivityClientAuthentication | undefined;
 }
 export type NetworkType = "IPV4" | "DUAL" | (string & {});
 export interface ConnectivityInfo {
-  PublicAccess?: PublicAccess;
-  VpcConnectivity?: VpcConnectivity;
-  NetworkType?: NetworkType;
+  PublicAccess?: PublicAccess | undefined;
+  VpcConnectivity?: VpcConnectivity | undefined;
+  NetworkType?: NetworkType | undefined;
 }
 export interface BrokerNodeGroupInfo {
-  BrokerAZDistribution?: BrokerAZDistribution;
-  ClientSubnets?: string[];
-  InstanceType?: string;
-  SecurityGroups?: string[];
-  StorageInfo?: StorageInfo;
-  ConnectivityInfo?: ConnectivityInfo;
-  ZoneIds?: string[];
+  BrokerAZDistribution?: BrokerAZDistribution | undefined;
+  ClientSubnets?: string[] | undefined;
+  InstanceType?: string | undefined;
+  SecurityGroups?: string[] | undefined;
+  StorageInfo?: StorageInfo | undefined;
+  ConnectivityInfo?: ConnectivityInfo | undefined;
+  ZoneIds?: string[] | undefined;
 }
 export type RebalancingStatus = "PAUSED" | "ACTIVE" | (string & {});
 export interface Rebalancing {
-  Status?: RebalancingStatus;
+  Status?: RebalancingStatus | undefined;
 }
 export interface Scram {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface Iam {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface Sasl {
-  Scram?: Scram;
-  Iam?: Iam;
+  Scram?: Scram | undefined;
+  Iam?: Iam | undefined;
 }
 export interface Tls {
-  CertificateAuthorityArnList?: string[];
-  Enabled?: boolean;
+  CertificateAuthorityArnList?: string[] | undefined;
+  Enabled?: boolean | undefined;
 }
 export interface Unauthenticated {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface ClientAuthentication {
-  Sasl?: Sasl;
-  Tls?: Tls;
-  Unauthenticated?: Unauthenticated;
+  Sasl?: Sasl | undefined;
+  Tls?: Tls | undefined;
+  Unauthenticated?: Unauthenticated | undefined;
 }
 export type __stringMin1Max64 = string;
 export interface ConfigurationInfo {
-  Arn?: string;
-  Revision?: number;
+  Arn?: string | undefined;
+  Revision?: number | undefined;
 }
 export interface EncryptionAtRest {
-  DataVolumeKMSKeyId?: string;
+  DataVolumeKMSKeyId?: string | undefined;
 }
 export type ClientBroker = "TLS" | "TLS_PLAINTEXT" | "PLAINTEXT" | (string & {});
 export interface EncryptionInTransit {
-  ClientBroker?: ClientBroker;
-  InCluster?: boolean;
+  ClientBroker?: ClientBroker | undefined;
+  InCluster?: boolean | undefined;
 }
 export interface EncryptionInfo {
-  EncryptionAtRest?: EncryptionAtRest;
-  EncryptionInTransit?: EncryptionInTransit;
+  EncryptionAtRest?: EncryptionAtRest | undefined;
+  EncryptionInTransit?: EncryptionInTransit | undefined;
 }
 export type EnhancedMonitoring =
   | "DEFAULT"
@@ -546,49 +546,49 @@ export type EnhancedMonitoring =
   | "PER_TOPIC_PER_PARTITION"
   | (string & {});
 export interface JmxExporterInfo {
-  EnabledInBroker?: boolean;
+  EnabledInBroker?: boolean | undefined;
 }
 export interface NodeExporterInfo {
-  EnabledInBroker?: boolean;
+  EnabledInBroker?: boolean | undefined;
 }
 export interface PrometheusInfo {
-  JmxExporter?: JmxExporterInfo;
-  NodeExporter?: NodeExporterInfo;
+  JmxExporter?: JmxExporterInfo | undefined;
+  NodeExporter?: NodeExporterInfo | undefined;
 }
 export interface OpenMonitoringInfo {
-  Prometheus?: PrometheusInfo;
+  Prometheus?: PrometheusInfo | undefined;
 }
 export type __stringMin1Max128 = string;
 export interface AuthorizerLogs {
-  CloudWatchLogs?: CloudWatchLogs;
-  Firehose?: Firehose;
-  S3?: S3;
+  CloudWatchLogs?: CloudWatchLogs | undefined;
+  Firehose?: Firehose | undefined;
+  S3?: S3 | undefined;
 }
 export interface BrokerLogs {
-  CloudWatchLogs?: CloudWatchLogs;
-  Firehose?: Firehose;
-  S3?: S3;
+  CloudWatchLogs?: CloudWatchLogs | undefined;
+  Firehose?: Firehose | undefined;
+  S3?: S3 | undefined;
 }
 export interface LoggingInfo {
-  AuthorizerLogs?: AuthorizerLogs;
-  BrokerLogs?: BrokerLogs;
+  AuthorizerLogs?: AuthorizerLogs | undefined;
+  BrokerLogs?: BrokerLogs | undefined;
 }
 export type __integerMin1Max15 = number;
 export type StorageMode = "LOCAL" | "TIERED" | (string & {});
 export interface CreateClusterRequest {
-  BrokerNodeGroupInfo?: BrokerNodeGroupInfo;
-  Rebalancing?: Rebalancing;
-  ClientAuthentication?: ClientAuthentication;
-  ClusterName?: string;
-  ConfigurationInfo?: ConfigurationInfo;
-  EncryptionInfo?: EncryptionInfo;
-  EnhancedMonitoring?: EnhancedMonitoring;
-  OpenMonitoring?: OpenMonitoringInfo;
-  KafkaVersion?: string;
-  LoggingInfo?: LoggingInfo;
-  NumberOfBrokerNodes?: number;
-  Tags?: { [key: string]: string | undefined };
-  StorageMode?: StorageMode;
+  BrokerNodeGroupInfo?: BrokerNodeGroupInfo | undefined;
+  Rebalancing?: Rebalancing | undefined;
+  ClientAuthentication?: ClientAuthentication | undefined;
+  ClusterName?: string | undefined;
+  ConfigurationInfo?: ConfigurationInfo | undefined;
+  EncryptionInfo?: EncryptionInfo | undefined;
+  EnhancedMonitoring?: EnhancedMonitoring | undefined;
+  OpenMonitoring?: OpenMonitoringInfo | undefined;
+  KafkaVersion?: string | undefined;
+  LoggingInfo?: LoggingInfo | undefined;
+  NumberOfBrokerNodes?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  StorageMode?: StorageMode | undefined;
 }
 export type ClusterState =
   | "ACTIVE"
@@ -601,133 +601,135 @@ export type ClusterState =
   | "UPDATING"
   | (string & {});
 export interface CreateClusterResponse {
-  ClusterArn?: string;
-  ClusterName?: string;
-  State?: ClusterState;
+  ClusterArn?: string | undefined;
+  ClusterName?: string | undefined;
+  State?: ClusterState | undefined;
 }
 export interface ProvisionedRequest {
-  BrokerNodeGroupInfo?: BrokerNodeGroupInfo;
-  Rebalancing?: Rebalancing;
-  ClientAuthentication?: ClientAuthentication;
-  ConfigurationInfo?: ConfigurationInfo;
-  EncryptionInfo?: EncryptionInfo;
-  EnhancedMonitoring?: EnhancedMonitoring;
-  OpenMonitoring?: OpenMonitoringInfo;
-  KafkaVersion?: string;
-  LoggingInfo?: LoggingInfo;
-  NumberOfBrokerNodes?: number;
-  StorageMode?: StorageMode;
+  BrokerNodeGroupInfo?: BrokerNodeGroupInfo | undefined;
+  Rebalancing?: Rebalancing | undefined;
+  ClientAuthentication?: ClientAuthentication | undefined;
+  ConfigurationInfo?: ConfigurationInfo | undefined;
+  EncryptionInfo?: EncryptionInfo | undefined;
+  EnhancedMonitoring?: EnhancedMonitoring | undefined;
+  OpenMonitoring?: OpenMonitoringInfo | undefined;
+  KafkaVersion?: string | undefined;
+  LoggingInfo?: LoggingInfo | undefined;
+  NumberOfBrokerNodes?: number | undefined;
+  StorageMode?: StorageMode | undefined;
 }
 export interface VpcConfig {
-  SubnetIds?: string[];
-  SecurityGroupIds?: string[];
+  SubnetIds?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
 }
 export type __listOfVpcConfig = VpcConfig[];
 const __listOfVpcConfig = /*@__PURE__*/ __L.at(__c20, 1);
 export interface ServerlessSasl {
-  Iam?: Iam;
+  Iam?: Iam | undefined;
 }
 export interface ServerlessClientAuthentication {
-  Sasl?: ServerlessSasl;
+  Sasl?: ServerlessSasl | undefined;
 }
 export interface ServerlessRequest {
-  VpcConfigs?: VpcConfig[];
-  ClientAuthentication?: ServerlessClientAuthentication;
+  VpcConfigs?: VpcConfig[] | undefined;
+  ClientAuthentication?: ServerlessClientAuthentication | undefined;
 }
 export interface CreateClusterV2Request {
-  ClusterName?: string;
-  Tags?: { [key: string]: string | undefined };
-  Provisioned?: ProvisionedRequest;
-  Serverless?: ServerlessRequest;
+  ClusterName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Provisioned?: ProvisionedRequest | undefined;
+  Serverless?: ServerlessRequest | undefined;
 }
 export type ClusterType = "PROVISIONED" | "SERVERLESS" | (string & {});
 export interface CreateClusterV2Response {
-  ClusterArn?: string;
-  ClusterName?: string;
-  State?: ClusterState;
-  ClusterType?: ClusterType;
+  ClusterArn?: string | undefined;
+  ClusterName?: string | undefined;
+  State?: ClusterState | undefined;
+  ClusterType?: ClusterType | undefined;
 }
 export type __blob = Uint8Array;
 export interface CreateConfigurationRequest {
-  Description?: string;
-  KafkaVersions?: string[];
-  Name?: string;
-  ServerProperties?: Uint8Array;
+  Description?: string | undefined;
+  KafkaVersions?: string[] | undefined;
+  Name?: string | undefined;
+  ServerProperties?: Uint8Array | undefined;
 }
 export type __timestampIso8601 = Date;
 export interface ConfigurationRevision {
-  CreationTime?: Date;
-  Description?: string;
-  Revision?: number;
+  CreationTime?: Date | undefined;
+  Description?: string | undefined;
+  Revision?: number | undefined;
 }
 export type ConfigurationState = "ACTIVE" | "DELETING" | "DELETE_FAILED" | (string & {});
 export interface CreateConfigurationResponse {
-  Arn?: string;
-  CreationTime?: Date;
-  LatestRevision?: ConfigurationRevision & { CreationTime: __timestampIso8601; Revision: number };
-  Name?: string;
-  State?: ConfigurationState;
+  Arn?: string | undefined;
+  CreationTime?: Date | undefined;
+  LatestRevision?:
+    | (ConfigurationRevision & { CreationTime: __timestampIso8601; Revision: number })
+    | undefined;
+  Name?: string | undefined;
+  State?: ConfigurationState | undefined;
 }
 export type __stringMax1024 = string;
 export interface AmazonMskCluster {
-  MskClusterArn?: string;
+  MskClusterArn?: string | undefined;
 }
 export interface ApacheKafkaCluster {
-  ApacheKafkaClusterId?: string;
-  BootstrapBrokerString?: string;
+  ApacheKafkaClusterId?: string | undefined;
+  BootstrapBrokerString?: string | undefined;
 }
 export interface KafkaClusterClientVpcConfig {
-  SecurityGroupIds?: string[];
-  SubnetIds?: string[];
+  SecurityGroupIds?: string[] | undefined;
+  SubnetIds?: string[] | undefined;
 }
 export type KafkaClusterSaslScramMechanism = "SHA256" | "SHA512" | (string & {});
 export interface KafkaClusterSaslScramAuthentication {
-  Mechanism?: KafkaClusterSaslScramMechanism;
-  SecretArn?: string;
+  Mechanism?: KafkaClusterSaslScramMechanism | undefined;
+  SecretArn?: string | undefined;
 }
 export interface KafkaClusterMTLSAuthentication {
-  SecretArn?: string;
+  SecretArn?: string | undefined;
 }
 export interface KafkaClusterOAuthClientCredentials {
-  TokenRequestSecretArn?: string;
+  TokenRequestSecretArn?: string | undefined;
 }
 export type JwtSigningAlgorithm = "RS256" | "ES384" | (string & {});
 export interface KafkaClusterOAuthIamJwtBearer {
-  Audience?: string;
-  SigningAlgorithm?: JwtSigningAlgorithm;
-  TokenRequestSecretArn?: string;
+  Audience?: string | undefined;
+  SigningAlgorithm?: JwtSigningAlgorithm | undefined;
+  TokenRequestSecretArn?: string | undefined;
 }
 export interface KafkaClusterOAuthClientCredentialsAssertion {
-  Audience?: string;
-  SigningAlgorithm?: JwtSigningAlgorithm;
-  TokenRequestSecretArn?: string;
+  Audience?: string | undefined;
+  SigningAlgorithm?: JwtSigningAlgorithm | undefined;
+  TokenRequestSecretArn?: string | undefined;
 }
 export type TokenEndpointAuthenticationMethod = "POST" | "BASIC" | "NONE" | (string & {});
 export interface KafkaClusterSaslOAuthBearerAuthentication {
-  TokenEndpointUrl?: string;
-  ClientCredentials?: KafkaClusterOAuthClientCredentials;
-  IamJwtBearer?: KafkaClusterOAuthIamJwtBearer;
-  ClientCredentialsAssertion?: KafkaClusterOAuthClientCredentialsAssertion;
-  TokenEndpointAuthenticationMethod?: TokenEndpointAuthenticationMethod;
-  Scope?: string;
-  TokenEndpointTlsCertificateArn?: string;
+  TokenEndpointUrl?: string | undefined;
+  ClientCredentials?: KafkaClusterOAuthClientCredentials | undefined;
+  IamJwtBearer?: KafkaClusterOAuthIamJwtBearer | undefined;
+  ClientCredentialsAssertion?: KafkaClusterOAuthClientCredentialsAssertion | undefined;
+  TokenEndpointAuthenticationMethod?: TokenEndpointAuthenticationMethod | undefined;
+  Scope?: string | undefined;
+  TokenEndpointTlsCertificateArn?: string | undefined;
 }
 export interface KafkaClusterClientAuthentication {
-  SaslScram?: KafkaClusterSaslScramAuthentication;
-  MTLS?: KafkaClusterMTLSAuthentication;
-  SaslOAuthBearer?: KafkaClusterSaslOAuthBearerAuthentication;
+  SaslScram?: KafkaClusterSaslScramAuthentication | undefined;
+  MTLS?: KafkaClusterMTLSAuthentication | undefined;
+  SaslOAuthBearer?: KafkaClusterSaslOAuthBearerAuthentication | undefined;
 }
 export type KafkaClusterEncryptionInTransitType = "TLS" | (string & {});
 export interface KafkaClusterEncryptionInTransit {
-  EncryptionType?: KafkaClusterEncryptionInTransitType;
-  RootCaCertificate?: string;
+  EncryptionType?: KafkaClusterEncryptionInTransitType | undefined;
+  RootCaCertificate?: string | undefined;
 }
 export interface KafkaCluster {
-  AmazonMskCluster?: AmazonMskCluster;
-  ApacheKafkaCluster?: ApacheKafkaCluster;
-  VpcConfig?: KafkaClusterClientVpcConfig;
-  ClientAuthentication?: KafkaClusterClientAuthentication;
-  EncryptionInTransit?: KafkaClusterEncryptionInTransit;
+  AmazonMskCluster?: AmazonMskCluster | undefined;
+  ApacheKafkaCluster?: ApacheKafkaCluster | undefined;
+  VpcConfig?: KafkaClusterClientVpcConfig | undefined;
+  ClientAuthentication?: KafkaClusterClientAuthentication | undefined;
+  EncryptionInTransit?: KafkaClusterEncryptionInTransit | undefined;
 }
 export type __listOfKafkaCluster = KafkaCluster[];
 const __listOfKafkaCluster = /*@__PURE__*/ __L.at(__c23, 1);
@@ -736,77 +738,77 @@ export type __listOf__stringMax256 = string[];
 const __listOf__stringMax256 = __listOf__string as any as S.Schema<__listOf__stringMax256>;
 export type ConsumerGroupOffsetSyncMode = "LEGACY" | "ENHANCED" | (string & {});
 export interface ConsumerGroupReplication {
-  ConsumerGroupsToExclude?: string[];
-  ConsumerGroupsToReplicate?: string[];
-  DetectAndCopyNewConsumerGroups?: boolean;
-  SynchroniseConsumerGroupOffsets?: boolean;
-  ConsumerGroupOffsetSyncMode?: ConsumerGroupOffsetSyncMode;
+  ConsumerGroupsToExclude?: string[] | undefined;
+  ConsumerGroupsToReplicate?: string[] | undefined;
+  DetectAndCopyNewConsumerGroups?: boolean | undefined;
+  SynchroniseConsumerGroupOffsets?: boolean | undefined;
+  ConsumerGroupOffsetSyncMode?: ConsumerGroupOffsetSyncMode | undefined;
 }
 export type TargetCompressionType = "NONE" | "GZIP" | "SNAPPY" | "LZ4" | "ZSTD" | (string & {});
 export type ReplicationStartingPositionType = "LATEST" | "EARLIEST" | (string & {});
 export interface ReplicationStartingPosition {
-  Type?: ReplicationStartingPositionType;
+  Type?: ReplicationStartingPositionType | undefined;
 }
 export type ReplicationTopicNameConfigurationType =
   | "PREFIXED_WITH_SOURCE_CLUSTER_ALIAS"
   | "IDENTICAL"
   | (string & {});
 export interface ReplicationTopicNameConfiguration {
-  Type?: ReplicationTopicNameConfigurationType;
+  Type?: ReplicationTopicNameConfigurationType | undefined;
 }
 export type __stringMax249 = string;
 export type __listOf__stringMax249 = string[];
 const __listOf__stringMax249 = __listOf__string as any as S.Schema<__listOf__stringMax249>;
 export interface TopicReplication {
-  CopyAccessControlListsForTopics?: boolean;
-  CopyTopicConfigurations?: boolean;
-  DetectAndCopyNewTopics?: boolean;
-  StartingPosition?: ReplicationStartingPosition;
-  TopicNameConfiguration?: ReplicationTopicNameConfiguration;
-  TopicsToExclude?: string[];
-  TopicsToReplicate?: string[];
+  CopyAccessControlListsForTopics?: boolean | undefined;
+  CopyTopicConfigurations?: boolean | undefined;
+  DetectAndCopyNewTopics?: boolean | undefined;
+  StartingPosition?: ReplicationStartingPosition | undefined;
+  TopicNameConfiguration?: ReplicationTopicNameConfiguration | undefined;
+  TopicsToExclude?: string[] | undefined;
+  TopicsToReplicate?: string[] | undefined;
 }
 export interface ReplicationInfo {
-  ConsumerGroupReplication?: ConsumerGroupReplication;
-  SourceKafkaClusterArn?: string;
-  SourceKafkaClusterId?: string;
-  TargetCompressionType?: TargetCompressionType;
-  TargetKafkaClusterArn?: string;
-  TargetKafkaClusterId?: string;
-  TopicReplication?: TopicReplication;
+  ConsumerGroupReplication?: ConsumerGroupReplication | undefined;
+  SourceKafkaClusterArn?: string | undefined;
+  SourceKafkaClusterId?: string | undefined;
+  TargetCompressionType?: TargetCompressionType | undefined;
+  TargetKafkaClusterArn?: string | undefined;
+  TargetKafkaClusterId?: string | undefined;
+  TopicReplication?: TopicReplication | undefined;
 }
 export type __listOfReplicationInfo = ReplicationInfo[];
 const __listOfReplicationInfo = /*@__PURE__*/ __L.at(__c23, 3);
 export type __stringMin1Max128Pattern09AZaZ09AZaZ0 = string;
 export interface ReplicatorCloudWatchLogs {
-  Enabled?: boolean;
-  LogGroup?: string;
+  Enabled?: boolean | undefined;
+  LogGroup?: string | undefined;
 }
 export interface ReplicatorFirehose {
-  Enabled?: boolean;
-  DeliveryStream?: string;
+  Enabled?: boolean | undefined;
+  DeliveryStream?: string | undefined;
 }
 export interface ReplicatorS3 {
-  Enabled?: boolean;
-  Bucket?: string;
-  Prefix?: string;
+  Enabled?: boolean | undefined;
+  Bucket?: string | undefined;
+  Prefix?: string | undefined;
 }
 export interface ReplicatorLogDelivery {
-  CloudWatchLogs?: ReplicatorCloudWatchLogs;
-  Firehose?: ReplicatorFirehose;
-  S3?: ReplicatorS3;
+  CloudWatchLogs?: ReplicatorCloudWatchLogs | undefined;
+  Firehose?: ReplicatorFirehose | undefined;
+  S3?: ReplicatorS3 | undefined;
 }
 export interface LogDelivery {
-  ReplicatorLogDelivery?: ReplicatorLogDelivery;
+  ReplicatorLogDelivery?: ReplicatorLogDelivery | undefined;
 }
 export interface CreateReplicatorRequest {
-  Description?: string;
-  KafkaClusters?: KafkaCluster[];
-  ReplicationInfoList?: ReplicationInfo[];
-  ReplicatorName?: string;
-  ServiceExecutionRoleArn?: string;
-  Tags?: { [key: string]: string | undefined };
-  LogDelivery?: LogDelivery;
+  Description?: string | undefined;
+  KafkaClusters?: KafkaCluster[] | undefined;
+  ReplicationInfoList?: ReplicationInfo[] | undefined;
+  ReplicatorName?: string | undefined;
+  ServiceExecutionRoleArn?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  LogDelivery?: LogDelivery | undefined;
 }
 export type ReplicatorState =
   | "RUNNING"
@@ -816,31 +818,31 @@ export type ReplicatorState =
   | "FAILED"
   | (string & {});
 export interface CreateReplicatorResponse {
-  ReplicatorArn?: string;
-  ReplicatorName?: string;
-  ReplicatorState?: ReplicatorState;
+  ReplicatorArn?: string | undefined;
+  ReplicatorName?: string | undefined;
+  ReplicatorState?: ReplicatorState | undefined;
 }
 export type __integerMin1 = number;
 export interface CreateTopicRequest {
   ClusterArn: string;
-  TopicName?: string;
-  PartitionCount?: number;
-  ReplicationFactor?: number;
-  Configs?: string;
+  TopicName?: string | undefined;
+  PartitionCount?: number | undefined;
+  ReplicationFactor?: number | undefined;
+  Configs?: string | undefined;
 }
 export type TopicState = "CREATING" | "UPDATING" | "DELETING" | "ACTIVE" | (string & {});
 export interface CreateTopicResponse {
-  TopicArn?: string;
-  TopicName?: string;
-  Status?: TopicState;
+  TopicArn?: string | undefined;
+  TopicName?: string | undefined;
+  Status?: TopicState | undefined;
 }
 export interface CreateVpcConnectionRequest {
-  TargetClusterArn?: string;
-  Authentication?: string;
-  VpcId?: string;
-  ClientSubnets?: string[];
-  SecurityGroups?: string[];
-  Tags?: { [key: string]: string | undefined };
+  TargetClusterArn?: string | undefined;
+  Authentication?: string | undefined;
+  VpcId?: string | undefined;
+  ClientSubnets?: string[] | undefined;
+  SecurityGroups?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type VpcConnectionState =
   | "CREATING"
@@ -853,14 +855,14 @@ export type VpcConnectionState =
   | "REJECTING"
   | (string & {});
 export interface CreateVpcConnectionResponse {
-  VpcConnectionArn?: string;
-  State?: VpcConnectionState;
-  Authentication?: string;
-  VpcId?: string;
-  ClientSubnets?: string[];
-  SecurityGroups?: string[];
-  CreationTime?: Date;
-  Tags?: { [key: string]: string | undefined };
+  VpcConnectionArn?: string | undefined;
+  State?: VpcConnectionState | undefined;
+  Authentication?: string | undefined;
+  VpcId?: string | undefined;
+  ClientSubnets?: string[] | undefined;
+  SecurityGroups?: string[] | undefined;
+  CreationTime?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DeleteChannelRequest {
   ChannelArn: string;
@@ -868,15 +870,15 @@ export interface DeleteChannelRequest {
 }
 export interface DeleteChannelResponse {
   ChannelArn: string;
-  ClusterOperationArn?: string;
+  ClusterOperationArn?: string | undefined;
 }
 export interface DeleteClusterRequest {
   ClusterArn: string;
-  CurrentVersion?: string;
+  CurrentVersion?: string | undefined;
 }
 export interface DeleteClusterResponse {
-  ClusterArn?: string;
-  State?: ClusterState;
+  ClusterArn?: string | undefined;
+  State?: ClusterState | undefined;
 }
 export interface DeleteClusterPolicyRequest {
   ClusterArn: string;
@@ -886,32 +888,32 @@ export interface DeleteConfigurationRequest {
   Arn: string;
 }
 export interface DeleteConfigurationResponse {
-  Arn?: string;
-  State?: ConfigurationState;
+  Arn?: string | undefined;
+  State?: ConfigurationState | undefined;
 }
 export interface DeleteReplicatorRequest {
-  CurrentVersion?: string;
+  CurrentVersion?: string | undefined;
   ReplicatorArn: string;
 }
 export interface DeleteReplicatorResponse {
-  ReplicatorArn?: string;
-  ReplicatorState?: ReplicatorState;
+  ReplicatorArn?: string | undefined;
+  ReplicatorState?: ReplicatorState | undefined;
 }
 export interface DeleteTopicRequest {
   ClusterArn: string;
   TopicName: string;
 }
 export interface DeleteTopicResponse {
-  TopicArn?: string;
-  TopicName?: string;
-  Status?: TopicState;
+  TopicArn?: string | undefined;
+  TopicName?: string | undefined;
+  Status?: TopicState | undefined;
 }
 export interface DeleteVpcConnectionRequest {
   Arn: string;
 }
 export interface DeleteVpcConnectionResponse {
-  VpcConnectionArn?: string;
-  State?: VpcConnectionState;
+  VpcConnectionArn?: string | undefined;
+  State?: VpcConnectionState | undefined;
 }
 export interface DescribeChannelRequest {
   ChannelArn: string;
@@ -928,32 +930,36 @@ export type ChannelStatus =
   | (string & {});
 export type ChannelDestinationType = "ICEBERG" | "S3" | (string & {});
 export interface ChannelStateInfo {
-  Code?: string;
-  Message?: string;
+  Code?: string | undefined;
+  Message?: string | undefined;
 }
 export interface DescribeChannelResponse {
   ChannelArn: string;
   ChannelName: string;
-  EncryptionConfiguration?: EncryptionConfiguration & { KmsKeyArn: string };
-  IcebergDestinationConfiguration?: IcebergDestinationConfiguration & {
-    AppendOnly: boolean;
-    DeadLetterQueueS3: DeadLetterQueueS3 & { BucketArn: string };
-    DestinationTableList: (DestinationTable & {
-      PartitionSpec: PartitionSpec & { PartitionStrategy: PartitionStrategy };
-    })[];
-    SchemaEvolution: SchemaEvolution;
-    ServiceExecutionRoleArn: string;
-    TableCreation: TableCreation;
-  };
-  S3DestinationConfiguration?: S3DestinationConfiguration & {
-    DeadLetterQueueS3: DeadLetterQueueS3 & { BucketArn: string };
-    ServiceExecutionRoleArn: string;
-    Storage: S3Storage & {
-      BucketArn: string;
-      CompressionType: S3CompressionType;
-      StorageClass: S3StorageClass;
-    };
-  };
+  EncryptionConfiguration?: (EncryptionConfiguration & { KmsKeyArn: string }) | undefined;
+  IcebergDestinationConfiguration?:
+    | (IcebergDestinationConfiguration & {
+        AppendOnly: boolean;
+        DeadLetterQueueS3: DeadLetterQueueS3 & { BucketArn: string };
+        DestinationTableList: (DestinationTable & {
+          PartitionSpec: PartitionSpec & { PartitionStrategy: PartitionStrategy };
+        })[];
+        SchemaEvolution: SchemaEvolution;
+        ServiceExecutionRoleArn: string;
+        TableCreation: TableCreation;
+      })
+    | undefined;
+  S3DestinationConfiguration?:
+    | (S3DestinationConfiguration & {
+        DeadLetterQueueS3: DeadLetterQueueS3 & { BucketArn: string };
+        ServiceExecutionRoleArn: string;
+        Storage: S3Storage & {
+          BucketArn: string;
+          CompressionType: S3CompressionType;
+          StorageClass: S3StorageClass;
+        };
+      })
+    | undefined;
   Status: ChannelStatus;
   DestinationType: ChannelDestinationType;
   CreationTime: Date;
@@ -962,39 +968,41 @@ export interface DescribeChannelResponse {
     TopicArn: string;
     RecordSchema: RecordSchema & { GsrArn: string };
   })[];
-  LoggingInfo?: ChannelLoggingInfo & {
-    CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
-    Firehose: Firehose & { Enabled: boolean };
-    S3: S3 & { Enabled: boolean };
-  };
-  StateInfo?: ChannelStateInfo;
-  ClusterOperationArn?: string;
-  Tags?: { [key: string]: string | undefined };
+  LoggingInfo?:
+    | (ChannelLoggingInfo & {
+        CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+        Firehose: Firehose & { Enabled: boolean };
+        S3: S3 & { Enabled: boolean };
+      })
+    | undefined;
+  StateInfo?: ChannelStateInfo | undefined;
+  ClusterOperationArn?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeClusterRequest {
   ClusterArn: string;
 }
 export interface BrokerSoftwareInfo {
-  ConfigurationArn?: string;
-  ConfigurationRevision?: number;
-  KafkaVersion?: string;
+  ConfigurationArn?: string | undefined;
+  ConfigurationRevision?: number | undefined;
+  KafkaVersion?: string | undefined;
 }
 export interface JmxExporter {
-  EnabledInBroker?: boolean;
+  EnabledInBroker?: boolean | undefined;
 }
 export interface NodeExporter {
-  EnabledInBroker?: boolean;
+  EnabledInBroker?: boolean | undefined;
 }
 export interface Prometheus {
-  JmxExporter?: JmxExporter;
-  NodeExporter?: NodeExporter;
+  JmxExporter?: JmxExporter | undefined;
+  NodeExporter?: NodeExporter | undefined;
 }
 export interface OpenMonitoring {
-  Prometheus?: Prometheus;
+  Prometheus?: Prometheus | undefined;
 }
 export interface StateInfo {
-  Code?: string;
-  Message?: string;
+  Code?: string | undefined;
+  Message?: string | undefined;
 }
 export type CustomerActionStatus =
   | "CRITICAL_ACTION_REQUIRED"
@@ -1002,1119 +1010,1158 @@ export type CustomerActionStatus =
   | "NONE"
   | (string & {});
 export interface ClusterInfo {
-  ActiveOperationArn?: string;
-  BrokerNodeGroupInfo?: BrokerNodeGroupInfo;
-  Rebalancing?: Rebalancing;
-  ClientAuthentication?: ClientAuthentication;
-  ClusterArn?: string;
-  ClusterName?: string;
-  CreationTime?: Date;
-  CurrentBrokerSoftwareInfo?: BrokerSoftwareInfo;
-  CurrentVersion?: string;
-  EncryptionInfo?: EncryptionInfo;
-  EnhancedMonitoring?: EnhancedMonitoring;
-  OpenMonitoring?: OpenMonitoring;
-  LoggingInfo?: LoggingInfo;
-  NumberOfBrokerNodes?: number;
-  State?: ClusterState;
-  StateInfo?: StateInfo;
-  Tags?: { [key: string]: string | undefined };
-  ZookeeperConnectString?: string;
-  ZookeeperConnectStringTls?: string;
-  StorageMode?: StorageMode;
-  CustomerActionStatus?: CustomerActionStatus;
+  ActiveOperationArn?: string | undefined;
+  BrokerNodeGroupInfo?: BrokerNodeGroupInfo | undefined;
+  Rebalancing?: Rebalancing | undefined;
+  ClientAuthentication?: ClientAuthentication | undefined;
+  ClusterArn?: string | undefined;
+  ClusterName?: string | undefined;
+  CreationTime?: Date | undefined;
+  CurrentBrokerSoftwareInfo?: BrokerSoftwareInfo | undefined;
+  CurrentVersion?: string | undefined;
+  EncryptionInfo?: EncryptionInfo | undefined;
+  EnhancedMonitoring?: EnhancedMonitoring | undefined;
+  OpenMonitoring?: OpenMonitoring | undefined;
+  LoggingInfo?: LoggingInfo | undefined;
+  NumberOfBrokerNodes?: number | undefined;
+  State?: ClusterState | undefined;
+  StateInfo?: StateInfo | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ZookeeperConnectString?: string | undefined;
+  ZookeeperConnectStringTls?: string | undefined;
+  StorageMode?: StorageMode | undefined;
+  CustomerActionStatus?: CustomerActionStatus | undefined;
 }
 export interface DescribeClusterResponse {
-  ClusterInfo?: ClusterInfo & {
-    BrokerNodeGroupInfo: BrokerNodeGroupInfo & {
-      ClientSubnets: __listOf__string;
-      InstanceType: __stringMin5Max32;
-    };
-    EncryptionInfo: EncryptionInfo & {
-      EncryptionAtRest: EncryptionAtRest & { DataVolumeKMSKeyId: string };
-    };
-    OpenMonitoring: OpenMonitoring & {
-      Prometheus: Prometheus & {
-        JmxExporter: JmxExporter & { EnabledInBroker: boolean };
-        NodeExporter: NodeExporter & { EnabledInBroker: boolean };
-      };
-    };
-    LoggingInfo: LoggingInfo & {
-      BrokerLogs: BrokerLogs & {
-        CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
-        Firehose: Firehose & { Enabled: boolean };
-        S3: S3 & { Enabled: boolean };
-      };
-      AuthorizerLogs: AuthorizerLogs & {
-        CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
-        Firehose: Firehose & { Enabled: boolean };
-        S3: S3 & { Enabled: boolean };
-      };
-    };
-  };
+  ClusterInfo?:
+    | (ClusterInfo & {
+        BrokerNodeGroupInfo: BrokerNodeGroupInfo & {
+          ClientSubnets: __listOf__string;
+          InstanceType: __stringMin5Max32;
+        };
+        EncryptionInfo: EncryptionInfo & {
+          EncryptionAtRest: EncryptionAtRest & { DataVolumeKMSKeyId: string };
+        };
+        OpenMonitoring: OpenMonitoring & {
+          Prometheus: Prometheus & {
+            JmxExporter: JmxExporter & { EnabledInBroker: boolean };
+            NodeExporter: NodeExporter & { EnabledInBroker: boolean };
+          };
+        };
+        LoggingInfo: LoggingInfo & {
+          BrokerLogs: BrokerLogs & {
+            CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+            Firehose: Firehose & { Enabled: boolean };
+            S3: S3 & { Enabled: boolean };
+          };
+          AuthorizerLogs: AuthorizerLogs & {
+            CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+            Firehose: Firehose & { Enabled: boolean };
+            S3: S3 & { Enabled: boolean };
+          };
+        };
+      })
+    | undefined;
 }
 export interface DescribeClusterOperationRequest {
   ClusterOperationArn: string;
 }
 export interface ErrorInfo {
-  ErrorCode?: string;
-  ErrorString?: string;
+  ErrorCode?: string | undefined;
+  ErrorString?: string | undefined;
 }
 export interface ClusterOperationStepInfo {
-  StepStatus?: string;
+  StepStatus?: string | undefined;
 }
 export interface ClusterOperationStep {
-  StepInfo?: ClusterOperationStepInfo;
-  StepName?: string;
+  StepInfo?: ClusterOperationStepInfo | undefined;
+  StepName?: string | undefined;
 }
 export type __listOfClusterOperationStep = ClusterOperationStep[];
 const __listOfClusterOperationStep = /*@__PURE__*/ __L.at(__c46, 3);
 export interface BrokerEBSVolumeInfo {
-  KafkaBrokerNodeId?: string;
-  ProvisionedThroughput?: ProvisionedThroughput;
-  VolumeSizeGB?: number;
+  KafkaBrokerNodeId?: string | undefined;
+  ProvisionedThroughput?: ProvisionedThroughput | undefined;
+  VolumeSizeGB?: number | undefined;
 }
 export type __listOfBrokerEBSVolumeInfo = BrokerEBSVolumeInfo[];
 const __listOfBrokerEBSVolumeInfo = /*@__PURE__*/ __L.at(__c47, 1);
 export interface ZookeeperAccess {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export type __listOf__double = number[];
 const __listOf__double = /*@__PURE__*/ __L.at(__c45, 0);
 export interface BrokerCountUpdateInfo {
-  CreatedBrokerIds?: number[];
-  DeletedBrokerIds?: number[];
+  CreatedBrokerIds?: number[] | undefined;
+  DeletedBrokerIds?: number[] | undefined;
 }
 export interface MutableClusterInfo {
-  BrokerEBSVolumeInfo?: BrokerEBSVolumeInfo[];
-  ConfigurationInfo?: ConfigurationInfo;
-  NumberOfBrokerNodes?: number;
-  EnhancedMonitoring?: EnhancedMonitoring;
-  OpenMonitoring?: OpenMonitoring;
-  ZookeeperAccess?: ZookeeperAccess;
-  KafkaVersion?: string;
-  LoggingInfo?: LoggingInfo;
-  InstanceType?: string;
-  ClientAuthentication?: ClientAuthentication;
-  EncryptionInfo?: EncryptionInfo;
-  ConnectivityInfo?: ConnectivityInfo;
-  StorageMode?: StorageMode;
-  BrokerCountUpdateInfo?: BrokerCountUpdateInfo;
-  Rebalancing?: Rebalancing;
+  BrokerEBSVolumeInfo?: BrokerEBSVolumeInfo[] | undefined;
+  ConfigurationInfo?: ConfigurationInfo | undefined;
+  NumberOfBrokerNodes?: number | undefined;
+  EnhancedMonitoring?: EnhancedMonitoring | undefined;
+  OpenMonitoring?: OpenMonitoring | undefined;
+  ZookeeperAccess?: ZookeeperAccess | undefined;
+  KafkaVersion?: string | undefined;
+  LoggingInfo?: LoggingInfo | undefined;
+  InstanceType?: string | undefined;
+  ClientAuthentication?: ClientAuthentication | undefined;
+  EncryptionInfo?: EncryptionInfo | undefined;
+  ConnectivityInfo?: ConnectivityInfo | undefined;
+  StorageMode?: StorageMode | undefined;
+  BrokerCountUpdateInfo?: BrokerCountUpdateInfo | undefined;
+  Rebalancing?: Rebalancing | undefined;
 }
 export type UserIdentityType = "AWSACCOUNT" | "AWSSERVICE" | (string & {});
 export interface UserIdentity {
-  Type?: UserIdentityType;
-  PrincipalId?: string;
+  Type?: UserIdentityType | undefined;
+  PrincipalId?: string | undefined;
 }
 export interface VpcConnectionInfo {
-  VpcConnectionArn?: string;
-  Owner?: string;
-  UserIdentity?: UserIdentity;
-  CreationTime?: Date;
+  VpcConnectionArn?: string | undefined;
+  Owner?: string | undefined;
+  UserIdentity?: UserIdentity | undefined;
+  CreationTime?: Date | undefined;
 }
 export interface ClusterOperationInfo {
-  ClientRequestId?: string;
-  ClusterArn?: string;
-  CreationTime?: Date;
-  EndTime?: Date;
-  ErrorInfo?: ErrorInfo;
-  OperationArn?: string;
-  OperationState?: string;
-  OperationSteps?: ClusterOperationStep[];
-  OperationType?: string;
-  SourceClusterInfo?: MutableClusterInfo;
-  TargetClusterInfo?: MutableClusterInfo;
-  VpcConnectionInfo?: VpcConnectionInfo;
+  ClientRequestId?: string | undefined;
+  ClusterArn?: string | undefined;
+  CreationTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  ErrorInfo?: ErrorInfo | undefined;
+  OperationArn?: string | undefined;
+  OperationState?: string | undefined;
+  OperationSteps?: ClusterOperationStep[] | undefined;
+  OperationType?: string | undefined;
+  SourceClusterInfo?: MutableClusterInfo | undefined;
+  TargetClusterInfo?: MutableClusterInfo | undefined;
+  VpcConnectionInfo?: VpcConnectionInfo | undefined;
 }
 export interface DescribeClusterOperationResponse {
-  ClusterOperationInfo?: ClusterOperationInfo & {
-    SourceClusterInfo: MutableClusterInfo & {
-      BrokerEBSVolumeInfo: (BrokerEBSVolumeInfo & { KafkaBrokerNodeId: string })[];
-      ConfigurationInfo: ConfigurationInfo & { Arn: string; Revision: number };
-      OpenMonitoring: OpenMonitoring & {
-        Prometheus: Prometheus & {
-          JmxExporter: JmxExporter & { EnabledInBroker: boolean };
-          NodeExporter: NodeExporter & { EnabledInBroker: boolean };
+  ClusterOperationInfo?:
+    | (ClusterOperationInfo & {
+        SourceClusterInfo: MutableClusterInfo & {
+          BrokerEBSVolumeInfo: (BrokerEBSVolumeInfo & { KafkaBrokerNodeId: string })[];
+          ConfigurationInfo: ConfigurationInfo & { Arn: string; Revision: number };
+          OpenMonitoring: OpenMonitoring & {
+            Prometheus: Prometheus & {
+              JmxExporter: JmxExporter & { EnabledInBroker: boolean };
+              NodeExporter: NodeExporter & { EnabledInBroker: boolean };
+            };
+          };
+          LoggingInfo: LoggingInfo & {
+            BrokerLogs: BrokerLogs & {
+              CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+              Firehose: Firehose & { Enabled: boolean };
+              S3: S3 & { Enabled: boolean };
+            };
+            AuthorizerLogs: AuthorizerLogs & {
+              CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+              Firehose: Firehose & { Enabled: boolean };
+              S3: S3 & { Enabled: boolean };
+            };
+          };
+          EncryptionInfo: EncryptionInfo & {
+            EncryptionAtRest: EncryptionAtRest & { DataVolumeKMSKeyId: string };
+          };
         };
-      };
-      LoggingInfo: LoggingInfo & {
-        BrokerLogs: BrokerLogs & {
-          CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
-          Firehose: Firehose & { Enabled: boolean };
-          S3: S3 & { Enabled: boolean };
+        TargetClusterInfo: MutableClusterInfo & {
+          BrokerEBSVolumeInfo: (BrokerEBSVolumeInfo & { KafkaBrokerNodeId: string })[];
+          ConfigurationInfo: ConfigurationInfo & { Arn: string; Revision: number };
+          OpenMonitoring: OpenMonitoring & {
+            Prometheus: Prometheus & {
+              JmxExporter: JmxExporter & { EnabledInBroker: boolean };
+              NodeExporter: NodeExporter & { EnabledInBroker: boolean };
+            };
+          };
+          LoggingInfo: LoggingInfo & {
+            BrokerLogs: BrokerLogs & {
+              CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+              Firehose: Firehose & { Enabled: boolean };
+              S3: S3 & { Enabled: boolean };
+            };
+            AuthorizerLogs: AuthorizerLogs & {
+              CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+              Firehose: Firehose & { Enabled: boolean };
+              S3: S3 & { Enabled: boolean };
+            };
+          };
+          EncryptionInfo: EncryptionInfo & {
+            EncryptionAtRest: EncryptionAtRest & { DataVolumeKMSKeyId: string };
+          };
         };
-        AuthorizerLogs: AuthorizerLogs & {
-          CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
-          Firehose: Firehose & { Enabled: boolean };
-          S3: S3 & { Enabled: boolean };
-        };
-      };
-      EncryptionInfo: EncryptionInfo & {
-        EncryptionAtRest: EncryptionAtRest & { DataVolumeKMSKeyId: string };
-      };
-    };
-    TargetClusterInfo: MutableClusterInfo & {
-      BrokerEBSVolumeInfo: (BrokerEBSVolumeInfo & { KafkaBrokerNodeId: string })[];
-      ConfigurationInfo: ConfigurationInfo & { Arn: string; Revision: number };
-      OpenMonitoring: OpenMonitoring & {
-        Prometheus: Prometheus & {
-          JmxExporter: JmxExporter & { EnabledInBroker: boolean };
-          NodeExporter: NodeExporter & { EnabledInBroker: boolean };
-        };
-      };
-      LoggingInfo: LoggingInfo & {
-        BrokerLogs: BrokerLogs & {
-          CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
-          Firehose: Firehose & { Enabled: boolean };
-          S3: S3 & { Enabled: boolean };
-        };
-        AuthorizerLogs: AuthorizerLogs & {
-          CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
-          Firehose: Firehose & { Enabled: boolean };
-          S3: S3 & { Enabled: boolean };
-        };
-      };
-      EncryptionInfo: EncryptionInfo & {
-        EncryptionAtRest: EncryptionAtRest & { DataVolumeKMSKeyId: string };
-      };
-    };
-  };
+      })
+    | undefined;
 }
 export interface DescribeClusterOperationV2Request {
   ClusterOperationArn: string;
 }
 export interface ClusterOperationV2Provisioned {
-  OperationSteps?: ClusterOperationStep[];
-  SourceClusterInfo?: MutableClusterInfo;
-  TargetClusterInfo?: MutableClusterInfo;
-  VpcConnectionInfo?: VpcConnectionInfo;
+  OperationSteps?: ClusterOperationStep[] | undefined;
+  SourceClusterInfo?: MutableClusterInfo | undefined;
+  TargetClusterInfo?: MutableClusterInfo | undefined;
+  VpcConnectionInfo?: VpcConnectionInfo | undefined;
 }
 export interface ServerlessConnectivityInfo {
-  NetworkType?: NetworkType;
+  NetworkType?: NetworkType | undefined;
 }
 export interface VpcConnectionInfoServerless {
-  CreationTime?: Date;
-  Owner?: string;
-  UserIdentity?: UserIdentity;
-  VpcConnectionArn?: string;
+  CreationTime?: Date | undefined;
+  Owner?: string | undefined;
+  UserIdentity?: UserIdentity | undefined;
+  VpcConnectionArn?: string | undefined;
 }
 export interface ClusterOperationV2Serverless {
-  SourceClusterInfo?: ServerlessConnectivityInfo;
-  TargetClusterInfo?: ServerlessConnectivityInfo;
-  VpcConnectionInfo?: VpcConnectionInfoServerless;
+  SourceClusterInfo?: ServerlessConnectivityInfo | undefined;
+  TargetClusterInfo?: ServerlessConnectivityInfo | undefined;
+  VpcConnectionInfo?: VpcConnectionInfoServerless | undefined;
 }
 export interface ClusterOperationV2 {
-  ClusterArn?: string;
-  ClusterType?: ClusterType;
-  StartTime?: Date;
-  EndTime?: Date;
-  ErrorInfo?: ErrorInfo;
-  OperationArn?: string;
-  OperationState?: string;
-  OperationType?: string;
-  Provisioned?: ClusterOperationV2Provisioned;
-  Serverless?: ClusterOperationV2Serverless;
+  ClusterArn?: string | undefined;
+  ClusterType?: ClusterType | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  ErrorInfo?: ErrorInfo | undefined;
+  OperationArn?: string | undefined;
+  OperationState?: string | undefined;
+  OperationType?: string | undefined;
+  Provisioned?: ClusterOperationV2Provisioned | undefined;
+  Serverless?: ClusterOperationV2Serverless | undefined;
 }
 export interface DescribeClusterOperationV2Response {
-  ClusterOperationInfo?: ClusterOperationV2 & {
-    Provisioned: ClusterOperationV2Provisioned & {
-      SourceClusterInfo: MutableClusterInfo & {
-        BrokerEBSVolumeInfo: (BrokerEBSVolumeInfo & { KafkaBrokerNodeId: string })[];
-        ConfigurationInfo: ConfigurationInfo & { Arn: string; Revision: number };
-        OpenMonitoring: OpenMonitoring & {
-          Prometheus: Prometheus & {
-            JmxExporter: JmxExporter & { EnabledInBroker: boolean };
-            NodeExporter: NodeExporter & { EnabledInBroker: boolean };
+  ClusterOperationInfo?:
+    | (ClusterOperationV2 & {
+        Provisioned: ClusterOperationV2Provisioned & {
+          SourceClusterInfo: MutableClusterInfo & {
+            BrokerEBSVolumeInfo: (BrokerEBSVolumeInfo & { KafkaBrokerNodeId: string })[];
+            ConfigurationInfo: ConfigurationInfo & { Arn: string; Revision: number };
+            OpenMonitoring: OpenMonitoring & {
+              Prometheus: Prometheus & {
+                JmxExporter: JmxExporter & { EnabledInBroker: boolean };
+                NodeExporter: NodeExporter & { EnabledInBroker: boolean };
+              };
+            };
+            LoggingInfo: LoggingInfo & {
+              BrokerLogs: BrokerLogs & {
+                CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+                Firehose: Firehose & { Enabled: boolean };
+                S3: S3 & { Enabled: boolean };
+              };
+              AuthorizerLogs: AuthorizerLogs & {
+                CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+                Firehose: Firehose & { Enabled: boolean };
+                S3: S3 & { Enabled: boolean };
+              };
+            };
+            EncryptionInfo: EncryptionInfo & {
+              EncryptionAtRest: EncryptionAtRest & { DataVolumeKMSKeyId: string };
+            };
+          };
+          TargetClusterInfo: MutableClusterInfo & {
+            BrokerEBSVolumeInfo: (BrokerEBSVolumeInfo & { KafkaBrokerNodeId: string })[];
+            ConfigurationInfo: ConfigurationInfo & { Arn: string; Revision: number };
+            OpenMonitoring: OpenMonitoring & {
+              Prometheus: Prometheus & {
+                JmxExporter: JmxExporter & { EnabledInBroker: boolean };
+                NodeExporter: NodeExporter & { EnabledInBroker: boolean };
+              };
+            };
+            LoggingInfo: LoggingInfo & {
+              BrokerLogs: BrokerLogs & {
+                CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+                Firehose: Firehose & { Enabled: boolean };
+                S3: S3 & { Enabled: boolean };
+              };
+              AuthorizerLogs: AuthorizerLogs & {
+                CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+                Firehose: Firehose & { Enabled: boolean };
+                S3: S3 & { Enabled: boolean };
+              };
+            };
+            EncryptionInfo: EncryptionInfo & {
+              EncryptionAtRest: EncryptionAtRest & { DataVolumeKMSKeyId: string };
+            };
           };
         };
-        LoggingInfo: LoggingInfo & {
-          BrokerLogs: BrokerLogs & {
-            CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
-            Firehose: Firehose & { Enabled: boolean };
-            S3: S3 & { Enabled: boolean };
-          };
-          AuthorizerLogs: AuthorizerLogs & {
-            CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
-            Firehose: Firehose & { Enabled: boolean };
-            S3: S3 & { Enabled: boolean };
-          };
-        };
-        EncryptionInfo: EncryptionInfo & {
-          EncryptionAtRest: EncryptionAtRest & { DataVolumeKMSKeyId: string };
-        };
-      };
-      TargetClusterInfo: MutableClusterInfo & {
-        BrokerEBSVolumeInfo: (BrokerEBSVolumeInfo & { KafkaBrokerNodeId: string })[];
-        ConfigurationInfo: ConfigurationInfo & { Arn: string; Revision: number };
-        OpenMonitoring: OpenMonitoring & {
-          Prometheus: Prometheus & {
-            JmxExporter: JmxExporter & { EnabledInBroker: boolean };
-            NodeExporter: NodeExporter & { EnabledInBroker: boolean };
-          };
-        };
-        LoggingInfo: LoggingInfo & {
-          BrokerLogs: BrokerLogs & {
-            CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
-            Firehose: Firehose & { Enabled: boolean };
-            S3: S3 & { Enabled: boolean };
-          };
-          AuthorizerLogs: AuthorizerLogs & {
-            CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
-            Firehose: Firehose & { Enabled: boolean };
-            S3: S3 & { Enabled: boolean };
-          };
-        };
-        EncryptionInfo: EncryptionInfo & {
-          EncryptionAtRest: EncryptionAtRest & { DataVolumeKMSKeyId: string };
-        };
-      };
-    };
-  };
+      })
+    | undefined;
 }
 export interface DescribeClusterV2Request {
   ClusterArn: string;
 }
 export interface Provisioned {
-  BrokerNodeGroupInfo?: BrokerNodeGroupInfo;
-  Rebalancing?: Rebalancing;
-  CurrentBrokerSoftwareInfo?: BrokerSoftwareInfo;
-  ClientAuthentication?: ClientAuthentication;
-  EncryptionInfo?: EncryptionInfo;
-  EnhancedMonitoring?: EnhancedMonitoring;
-  OpenMonitoring?: OpenMonitoringInfo;
-  LoggingInfo?: LoggingInfo;
-  NumberOfBrokerNodes?: number;
-  ZookeeperConnectString?: string;
-  ZookeeperConnectStringTls?: string;
-  StorageMode?: StorageMode;
-  CustomerActionStatus?: CustomerActionStatus;
+  BrokerNodeGroupInfo?: BrokerNodeGroupInfo | undefined;
+  Rebalancing?: Rebalancing | undefined;
+  CurrentBrokerSoftwareInfo?: BrokerSoftwareInfo | undefined;
+  ClientAuthentication?: ClientAuthentication | undefined;
+  EncryptionInfo?: EncryptionInfo | undefined;
+  EnhancedMonitoring?: EnhancedMonitoring | undefined;
+  OpenMonitoring?: OpenMonitoringInfo | undefined;
+  LoggingInfo?: LoggingInfo | undefined;
+  NumberOfBrokerNodes?: number | undefined;
+  ZookeeperConnectString?: string | undefined;
+  ZookeeperConnectStringTls?: string | undefined;
+  StorageMode?: StorageMode | undefined;
+  CustomerActionStatus?: CustomerActionStatus | undefined;
 }
 export interface Serverless {
-  VpcConfigs?: VpcConfig[];
-  ClientAuthentication?: ServerlessClientAuthentication;
-  ConnectivityInfo?: ServerlessConnectivityInfo;
+  VpcConfigs?: VpcConfig[] | undefined;
+  ClientAuthentication?: ServerlessClientAuthentication | undefined;
+  ConnectivityInfo?: ServerlessConnectivityInfo | undefined;
 }
 export interface Cluster {
-  ActiveOperationArn?: string;
-  ClusterType?: ClusterType;
-  ClusterArn?: string;
-  ClusterName?: string;
-  CreationTime?: Date;
-  CurrentVersion?: string;
-  State?: ClusterState;
-  StateInfo?: StateInfo;
-  Tags?: { [key: string]: string | undefined };
-  Provisioned?: Provisioned;
-  Serverless?: Serverless;
+  ActiveOperationArn?: string | undefined;
+  ClusterType?: ClusterType | undefined;
+  ClusterArn?: string | undefined;
+  ClusterName?: string | undefined;
+  CreationTime?: Date | undefined;
+  CurrentVersion?: string | undefined;
+  State?: ClusterState | undefined;
+  StateInfo?: StateInfo | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Provisioned?: Provisioned | undefined;
+  Serverless?: Serverless | undefined;
 }
 export interface DescribeClusterV2Response {
-  ClusterInfo?: Cluster & {
-    Provisioned: Provisioned & {
-      BrokerNodeGroupInfo: BrokerNodeGroupInfo & {
-        ClientSubnets: __listOf__string;
-        InstanceType: __stringMin5Max32;
-      };
-      NumberOfBrokerNodes: __integerMin1Max15;
-      EncryptionInfo: EncryptionInfo & {
-        EncryptionAtRest: EncryptionAtRest & { DataVolumeKMSKeyId: string };
-      };
-      OpenMonitoring: OpenMonitoringInfo & {
-        Prometheus: PrometheusInfo & {
-          JmxExporter: JmxExporterInfo & { EnabledInBroker: boolean };
-          NodeExporter: NodeExporterInfo & { EnabledInBroker: boolean };
+  ClusterInfo?:
+    | (Cluster & {
+        Provisioned: Provisioned & {
+          BrokerNodeGroupInfo: BrokerNodeGroupInfo & {
+            ClientSubnets: __listOf__string;
+            InstanceType: __stringMin5Max32;
+          };
+          NumberOfBrokerNodes: __integerMin1Max15;
+          EncryptionInfo: EncryptionInfo & {
+            EncryptionAtRest: EncryptionAtRest & { DataVolumeKMSKeyId: string };
+          };
+          OpenMonitoring: OpenMonitoringInfo & {
+            Prometheus: PrometheusInfo & {
+              JmxExporter: JmxExporterInfo & { EnabledInBroker: boolean };
+              NodeExporter: NodeExporterInfo & { EnabledInBroker: boolean };
+            };
+          };
+          LoggingInfo: LoggingInfo & {
+            BrokerLogs: BrokerLogs & {
+              CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+              Firehose: Firehose & { Enabled: boolean };
+              S3: S3 & { Enabled: boolean };
+            };
+            AuthorizerLogs: AuthorizerLogs & {
+              CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+              Firehose: Firehose & { Enabled: boolean };
+              S3: S3 & { Enabled: boolean };
+            };
+          };
         };
-      };
-      LoggingInfo: LoggingInfo & {
-        BrokerLogs: BrokerLogs & {
-          CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
-          Firehose: Firehose & { Enabled: boolean };
-          S3: S3 & { Enabled: boolean };
-        };
-        AuthorizerLogs: AuthorizerLogs & {
-          CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
-          Firehose: Firehose & { Enabled: boolean };
-          S3: S3 & { Enabled: boolean };
-        };
-      };
-    };
-    Serverless: Serverless & { VpcConfigs: (VpcConfig & { SubnetIds: __listOf__string })[] };
-  };
+        Serverless: Serverless & { VpcConfigs: (VpcConfig & { SubnetIds: __listOf__string })[] };
+      })
+    | undefined;
 }
 export interface DescribeConfigurationRequest {
   Arn: string;
 }
 export interface DescribeConfigurationResponse {
-  Arn?: string;
-  CreationTime?: Date;
-  Description?: string;
-  KafkaVersions?: string[];
-  LatestRevision?: ConfigurationRevision & { CreationTime: __timestampIso8601; Revision: number };
-  Name?: string;
-  State?: ConfigurationState;
+  Arn?: string | undefined;
+  CreationTime?: Date | undefined;
+  Description?: string | undefined;
+  KafkaVersions?: string[] | undefined;
+  LatestRevision?:
+    | (ConfigurationRevision & { CreationTime: __timestampIso8601; Revision: number })
+    | undefined;
+  Name?: string | undefined;
+  State?: ConfigurationState | undefined;
 }
 export interface DescribeConfigurationRevisionRequest {
   Arn: string;
   Revision: number;
 }
 export interface DescribeConfigurationRevisionResponse {
-  Arn?: string;
-  CreationTime?: Date;
-  Description?: string;
-  Revision?: number;
-  ServerProperties?: Uint8Array;
+  Arn?: string | undefined;
+  CreationTime?: Date | undefined;
+  Description?: string | undefined;
+  Revision?: number | undefined;
+  ServerProperties?: Uint8Array | undefined;
 }
 export interface DescribeReplicatorRequest {
   ReplicatorArn: string;
 }
 export interface KafkaClusterDescription {
-  AmazonMskCluster?: AmazonMskCluster;
-  ApacheKafkaCluster?: ApacheKafkaCluster;
-  KafkaClusterAlias?: string;
-  VpcConfig?: KafkaClusterClientVpcConfig;
-  ClientAuthentication?: KafkaClusterClientAuthentication;
-  EncryptionInTransit?: KafkaClusterEncryptionInTransit;
+  AmazonMskCluster?: AmazonMskCluster | undefined;
+  ApacheKafkaCluster?: ApacheKafkaCluster | undefined;
+  KafkaClusterAlias?: string | undefined;
+  VpcConfig?: KafkaClusterClientVpcConfig | undefined;
+  ClientAuthentication?: KafkaClusterClientAuthentication | undefined;
+  EncryptionInTransit?: KafkaClusterEncryptionInTransit | undefined;
 }
 export type __listOfKafkaClusterDescription = KafkaClusterDescription[];
 const __listOfKafkaClusterDescription = /*@__PURE__*/ __L.at(__c56, 2);
 export interface ReplicationInfoDescription {
-  ConsumerGroupReplication?: ConsumerGroupReplication;
-  SourceKafkaClusterAlias?: string;
-  TargetCompressionType?: TargetCompressionType;
-  TargetKafkaClusterAlias?: string;
-  TopicReplication?: TopicReplication;
+  ConsumerGroupReplication?: ConsumerGroupReplication | undefined;
+  SourceKafkaClusterAlias?: string | undefined;
+  TargetCompressionType?: TargetCompressionType | undefined;
+  TargetKafkaClusterAlias?: string | undefined;
+  TopicReplication?: TopicReplication | undefined;
 }
 export type __listOfReplicationInfoDescription = ReplicationInfoDescription[];
 const __listOfReplicationInfoDescription = /*@__PURE__*/ __L.at(__c56, 4);
 export interface ReplicationStateInfo {
-  Code?: string;
-  Message?: string;
+  Code?: string | undefined;
+  Message?: string | undefined;
 }
 export interface DescribeReplicatorResponse {
-  CreationTime?: Date;
-  CurrentVersion?: string;
-  IsReplicatorReference?: boolean;
-  KafkaClusters?: (KafkaClusterDescription & {
-    AmazonMskCluster: AmazonMskCluster & { MskClusterArn: string };
-    ApacheKafkaCluster: ApacheKafkaCluster & {
-      ApacheKafkaClusterId: string;
-      BootstrapBrokerString: string;
-    };
-    VpcConfig: KafkaClusterClientVpcConfig & { SubnetIds: __listOf__string };
-    ClientAuthentication: KafkaClusterClientAuthentication & {
-      SaslScram: KafkaClusterSaslScramAuthentication & {
-        Mechanism: KafkaClusterSaslScramMechanism;
-        SecretArn: string;
-      };
-      MTLS: KafkaClusterMTLSAuthentication & { SecretArn: string };
-      SaslOAuthBearer: KafkaClusterSaslOAuthBearerAuthentication & {
-        TokenEndpointUrl: string;
-        TokenEndpointAuthenticationMethod: TokenEndpointAuthenticationMethod;
-        ClientCredentials: KafkaClusterOAuthClientCredentials & { TokenRequestSecretArn: string };
-        IamJwtBearer: KafkaClusterOAuthIamJwtBearer & {
-          Audience: string;
-          SigningAlgorithm: JwtSigningAlgorithm;
+  CreationTime?: Date | undefined;
+  CurrentVersion?: string | undefined;
+  IsReplicatorReference?: boolean | undefined;
+  KafkaClusters?:
+    | (KafkaClusterDescription & {
+        AmazonMskCluster: AmazonMskCluster & { MskClusterArn: string };
+        ApacheKafkaCluster: ApacheKafkaCluster & {
+          ApacheKafkaClusterId: string;
+          BootstrapBrokerString: string;
         };
-        ClientCredentialsAssertion: KafkaClusterOAuthClientCredentialsAssertion & {
-          Audience: string;
-          SigningAlgorithm: JwtSigningAlgorithm;
+        VpcConfig: KafkaClusterClientVpcConfig & { SubnetIds: __listOf__string };
+        ClientAuthentication: KafkaClusterClientAuthentication & {
+          SaslScram: KafkaClusterSaslScramAuthentication & {
+            Mechanism: KafkaClusterSaslScramMechanism;
+            SecretArn: string;
+          };
+          MTLS: KafkaClusterMTLSAuthentication & { SecretArn: string };
+          SaslOAuthBearer: KafkaClusterSaslOAuthBearerAuthentication & {
+            TokenEndpointUrl: string;
+            TokenEndpointAuthenticationMethod: TokenEndpointAuthenticationMethod;
+            ClientCredentials: KafkaClusterOAuthClientCredentials & {
+              TokenRequestSecretArn: string;
+            };
+            IamJwtBearer: KafkaClusterOAuthIamJwtBearer & {
+              Audience: string;
+              SigningAlgorithm: JwtSigningAlgorithm;
+            };
+            ClientCredentialsAssertion: KafkaClusterOAuthClientCredentialsAssertion & {
+              Audience: string;
+              SigningAlgorithm: JwtSigningAlgorithm;
+            };
+          };
         };
-      };
-    };
-    EncryptionInTransit: KafkaClusterEncryptionInTransit & {
-      EncryptionType: KafkaClusterEncryptionInTransitType;
-    };
-  })[];
-  ReplicationInfoList?: (ReplicationInfoDescription & {
-    ConsumerGroupReplication: ConsumerGroupReplication & {
-      ConsumerGroupsToReplicate: __listOf__stringMax256;
-    };
-    TopicReplication: TopicReplication & { TopicsToReplicate: __listOf__stringMax249 };
-  })[];
-  ReplicatorArn?: string;
-  ReplicatorDescription?: string;
-  ReplicatorName?: string;
-  ReplicatorResourceArn?: string;
-  ReplicatorState?: ReplicatorState;
-  ServiceExecutionRoleArn?: string;
-  StateInfo?: ReplicationStateInfo;
-  Tags?: { [key: string]: string | undefined };
-  LogDelivery?: LogDelivery & {
-    ReplicatorLogDelivery: ReplicatorLogDelivery & {
-      CloudWatchLogs: ReplicatorCloudWatchLogs & { Enabled: boolean };
-      Firehose: ReplicatorFirehose & { Enabled: boolean };
-      S3: ReplicatorS3 & { Enabled: boolean };
-    };
-  };
+        EncryptionInTransit: KafkaClusterEncryptionInTransit & {
+          EncryptionType: KafkaClusterEncryptionInTransitType;
+        };
+      })[]
+    | undefined;
+  ReplicationInfoList?:
+    | (ReplicationInfoDescription & {
+        ConsumerGroupReplication: ConsumerGroupReplication & {
+          ConsumerGroupsToReplicate: __listOf__stringMax256;
+        };
+        TopicReplication: TopicReplication & { TopicsToReplicate: __listOf__stringMax249 };
+      })[]
+    | undefined;
+  ReplicatorArn?: string | undefined;
+  ReplicatorDescription?: string | undefined;
+  ReplicatorName?: string | undefined;
+  ReplicatorResourceArn?: string | undefined;
+  ReplicatorState?: ReplicatorState | undefined;
+  ServiceExecutionRoleArn?: string | undefined;
+  StateInfo?: ReplicationStateInfo | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  LogDelivery?:
+    | (LogDelivery & {
+        ReplicatorLogDelivery: ReplicatorLogDelivery & {
+          CloudWatchLogs: ReplicatorCloudWatchLogs & { Enabled: boolean };
+          Firehose: ReplicatorFirehose & { Enabled: boolean };
+          S3: ReplicatorS3 & { Enabled: boolean };
+        };
+      })
+    | undefined;
 }
 export interface DescribeTopicRequest {
   ClusterArn: string;
   TopicName: string;
 }
 export interface DescribeTopicResponse {
-  TopicArn?: string;
-  TopicName?: string;
-  ReplicationFactor?: number;
-  PartitionCount?: number;
-  Configs?: string;
-  Status?: TopicState;
+  TopicArn?: string | undefined;
+  TopicName?: string | undefined;
+  ReplicationFactor?: number | undefined;
+  PartitionCount?: number | undefined;
+  Configs?: string | undefined;
+  Status?: TopicState | undefined;
 }
 export type MaxResults = number;
 export interface DescribeTopicPartitionsRequest {
   ClusterArn: string;
   TopicName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type __listOf__integer = number[];
 const __listOf__integer = __listOf__double as any as S.Schema<__listOf__integer>;
 export interface TopicPartitionInfo {
-  Partition?: number;
-  Leader?: number;
-  Replicas?: number[];
-  Isr?: number[];
+  Partition?: number | undefined;
+  Leader?: number | undefined;
+  Replicas?: number[] | undefined;
+  Isr?: number[] | undefined;
 }
 export type __listOfTopicPartitionInfo = TopicPartitionInfo[];
 const __listOfTopicPartitionInfo = /*@__PURE__*/ __L.at(__c58, 2);
 export interface DescribeTopicPartitionsResponse {
-  Partitions?: TopicPartitionInfo[];
-  NextToken?: string;
+  Partitions?: TopicPartitionInfo[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeVpcConnectionRequest {
   Arn: string;
 }
 export interface DescribeVpcConnectionResponse {
-  VpcConnectionArn?: string;
-  TargetClusterArn?: string;
-  State?: VpcConnectionState;
-  Authentication?: string;
-  VpcId?: string;
-  Subnets?: string[];
-  SecurityGroups?: string[];
-  CreationTime?: Date;
-  Tags?: { [key: string]: string | undefined };
+  VpcConnectionArn?: string | undefined;
+  TargetClusterArn?: string | undefined;
+  State?: VpcConnectionState | undefined;
+  Authentication?: string | undefined;
+  VpcId?: string | undefined;
+  Subnets?: string[] | undefined;
+  SecurityGroups?: string[] | undefined;
+  CreationTime?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetBootstrapBrokersRequest {
   ClusterArn: string;
 }
 export interface GetBootstrapBrokersResponse {
-  BootstrapBrokerString?: string;
-  BootstrapBrokerStringTls?: string;
-  BootstrapBrokerStringSaslScram?: string;
-  BootstrapBrokerStringSaslIam?: string;
-  BootstrapBrokerStringPublicTls?: string;
-  BootstrapBrokerStringPublicSaslScram?: string;
-  BootstrapBrokerStringPublicSaslIam?: string;
-  BootstrapBrokerStringVpcConnectivityTls?: string;
-  BootstrapBrokerStringVpcConnectivitySaslScram?: string;
-  BootstrapBrokerStringVpcConnectivitySaslIam?: string;
-  BootstrapBrokerStringIpv6?: string;
-  BootstrapBrokerStringTlsIpv6?: string;
-  BootstrapBrokerStringSaslScramIpv6?: string;
-  BootstrapBrokerStringSaslIamIpv6?: string;
+  BootstrapBrokerString?: string | undefined;
+  BootstrapBrokerStringTls?: string | undefined;
+  BootstrapBrokerStringSaslScram?: string | undefined;
+  BootstrapBrokerStringSaslIam?: string | undefined;
+  BootstrapBrokerStringPublicTls?: string | undefined;
+  BootstrapBrokerStringPublicSaslScram?: string | undefined;
+  BootstrapBrokerStringPublicSaslIam?: string | undefined;
+  BootstrapBrokerStringVpcConnectivityTls?: string | undefined;
+  BootstrapBrokerStringVpcConnectivitySaslScram?: string | undefined;
+  BootstrapBrokerStringVpcConnectivitySaslIam?: string | undefined;
+  BootstrapBrokerStringIpv6?: string | undefined;
+  BootstrapBrokerStringTlsIpv6?: string | undefined;
+  BootstrapBrokerStringSaslScramIpv6?: string | undefined;
+  BootstrapBrokerStringSaslIamIpv6?: string | undefined;
 }
 export interface GetClusterPolicyRequest {
   ClusterArn: string;
 }
 export interface GetClusterPolicyResponse {
-  CurrentVersion?: string;
-  Policy?: string;
+  CurrentVersion?: string | undefined;
+  Policy?: string | undefined;
 }
 export interface GetCompatibleKafkaVersionsRequest {
-  ClusterArn?: string;
+  ClusterArn?: string | undefined;
 }
 export interface CompatibleKafkaVersion {
-  SourceVersion?: string;
-  TargetVersions?: string[];
+  SourceVersion?: string | undefined;
+  TargetVersions?: string[] | undefined;
 }
 export type __listOfCompatibleKafkaVersion = CompatibleKafkaVersion[];
 const __listOfCompatibleKafkaVersion = /*@__PURE__*/ __L.at(__c62, 2);
 export interface GetCompatibleKafkaVersionsResponse {
-  CompatibleKafkaVersions?: CompatibleKafkaVersion[];
+  CompatibleKafkaVersions?: CompatibleKafkaVersion[] | undefined;
 }
 export interface ListChannelsRequest {
   ClusterArn: string;
-  MaxResults?: number;
-  NextToken?: string;
-  TopicNameFilter?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  TopicNameFilter?: string | undefined;
 }
 export interface ChannelInfo {
-  ChannelArn?: string;
-  ChannelName?: string;
-  Status?: ChannelStatus;
-  CreationTime?: Date;
-  DestinationType?: ChannelDestinationType;
-  ClusterOperationArn?: string;
+  ChannelArn?: string | undefined;
+  ChannelName?: string | undefined;
+  Status?: ChannelStatus | undefined;
+  CreationTime?: Date | undefined;
+  DestinationType?: ChannelDestinationType | undefined;
+  ClusterOperationArn?: string | undefined;
 }
 export type __listOfChannelInfo = ChannelInfo[];
 const __listOfChannelInfo = /*@__PURE__*/ __L.at(__c63, 2);
 export interface ListChannelsResponse {
-  Channels?: (ChannelInfo & {
-    ChannelArn: string;
-    ChannelName: string;
-    Status: ChannelStatus;
-    CreationTime: __timestampIso8601;
-    DestinationType: ChannelDestinationType;
-  })[];
-  NextToken?: string;
+  Channels?:
+    | (ChannelInfo & {
+        ChannelArn: string;
+        ChannelName: string;
+        Status: ChannelStatus;
+        CreationTime: __timestampIso8601;
+        DestinationType: ChannelDestinationType;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListClientVpcConnectionsRequest {
   ClusterArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ClientVpcConnection {
-  Authentication?: string;
-  CreationTime?: Date;
-  State?: VpcConnectionState;
-  VpcConnectionArn?: string;
-  Owner?: string;
+  Authentication?: string | undefined;
+  CreationTime?: Date | undefined;
+  State?: VpcConnectionState | undefined;
+  VpcConnectionArn?: string | undefined;
+  Owner?: string | undefined;
 }
 export type __listOfClientVpcConnection = ClientVpcConnection[];
 const __listOfClientVpcConnection = /*@__PURE__*/ __L.at(__c64, 2);
 export interface ListClientVpcConnectionsResponse {
-  ClientVpcConnections?: (ClientVpcConnection & { VpcConnectionArn: string })[];
-  NextToken?: string;
+  ClientVpcConnections?: (ClientVpcConnection & { VpcConnectionArn: string })[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListClusterOperationsRequest {
   ClusterArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type __listOfClusterOperationInfo = ClusterOperationInfo[];
 const __listOfClusterOperationInfo = /*@__PURE__*/ __L.at(__c65, 1);
 export interface ListClusterOperationsResponse {
-  ClusterOperationInfoList?: (ClusterOperationInfo & {
-    SourceClusterInfo: MutableClusterInfo & {
-      BrokerEBSVolumeInfo: (BrokerEBSVolumeInfo & { KafkaBrokerNodeId: string })[];
-      ConfigurationInfo: ConfigurationInfo & { Arn: string; Revision: number };
-      OpenMonitoring: OpenMonitoring & {
-        Prometheus: Prometheus & {
-          JmxExporter: JmxExporter & { EnabledInBroker: boolean };
-          NodeExporter: NodeExporter & { EnabledInBroker: boolean };
+  ClusterOperationInfoList?:
+    | (ClusterOperationInfo & {
+        SourceClusterInfo: MutableClusterInfo & {
+          BrokerEBSVolumeInfo: (BrokerEBSVolumeInfo & { KafkaBrokerNodeId: string })[];
+          ConfigurationInfo: ConfigurationInfo & { Arn: string; Revision: number };
+          OpenMonitoring: OpenMonitoring & {
+            Prometheus: Prometheus & {
+              JmxExporter: JmxExporter & { EnabledInBroker: boolean };
+              NodeExporter: NodeExporter & { EnabledInBroker: boolean };
+            };
+          };
+          LoggingInfo: LoggingInfo & {
+            BrokerLogs: BrokerLogs & {
+              CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+              Firehose: Firehose & { Enabled: boolean };
+              S3: S3 & { Enabled: boolean };
+            };
+            AuthorizerLogs: AuthorizerLogs & {
+              CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+              Firehose: Firehose & { Enabled: boolean };
+              S3: S3 & { Enabled: boolean };
+            };
+          };
+          EncryptionInfo: EncryptionInfo & {
+            EncryptionAtRest: EncryptionAtRest & { DataVolumeKMSKeyId: string };
+          };
         };
-      };
-      LoggingInfo: LoggingInfo & {
-        BrokerLogs: BrokerLogs & {
-          CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
-          Firehose: Firehose & { Enabled: boolean };
-          S3: S3 & { Enabled: boolean };
+        TargetClusterInfo: MutableClusterInfo & {
+          BrokerEBSVolumeInfo: (BrokerEBSVolumeInfo & { KafkaBrokerNodeId: string })[];
+          ConfigurationInfo: ConfigurationInfo & { Arn: string; Revision: number };
+          OpenMonitoring: OpenMonitoring & {
+            Prometheus: Prometheus & {
+              JmxExporter: JmxExporter & { EnabledInBroker: boolean };
+              NodeExporter: NodeExporter & { EnabledInBroker: boolean };
+            };
+          };
+          LoggingInfo: LoggingInfo & {
+            BrokerLogs: BrokerLogs & {
+              CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+              Firehose: Firehose & { Enabled: boolean };
+              S3: S3 & { Enabled: boolean };
+            };
+            AuthorizerLogs: AuthorizerLogs & {
+              CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+              Firehose: Firehose & { Enabled: boolean };
+              S3: S3 & { Enabled: boolean };
+            };
+          };
+          EncryptionInfo: EncryptionInfo & {
+            EncryptionAtRest: EncryptionAtRest & { DataVolumeKMSKeyId: string };
+          };
         };
-        AuthorizerLogs: AuthorizerLogs & {
-          CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
-          Firehose: Firehose & { Enabled: boolean };
-          S3: S3 & { Enabled: boolean };
-        };
-      };
-      EncryptionInfo: EncryptionInfo & {
-        EncryptionAtRest: EncryptionAtRest & { DataVolumeKMSKeyId: string };
-      };
-    };
-    TargetClusterInfo: MutableClusterInfo & {
-      BrokerEBSVolumeInfo: (BrokerEBSVolumeInfo & { KafkaBrokerNodeId: string })[];
-      ConfigurationInfo: ConfigurationInfo & { Arn: string; Revision: number };
-      OpenMonitoring: OpenMonitoring & {
-        Prometheus: Prometheus & {
-          JmxExporter: JmxExporter & { EnabledInBroker: boolean };
-          NodeExporter: NodeExporter & { EnabledInBroker: boolean };
-        };
-      };
-      LoggingInfo: LoggingInfo & {
-        BrokerLogs: BrokerLogs & {
-          CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
-          Firehose: Firehose & { Enabled: boolean };
-          S3: S3 & { Enabled: boolean };
-        };
-        AuthorizerLogs: AuthorizerLogs & {
-          CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
-          Firehose: Firehose & { Enabled: boolean };
-          S3: S3 & { Enabled: boolean };
-        };
-      };
-      EncryptionInfo: EncryptionInfo & {
-        EncryptionAtRest: EncryptionAtRest & { DataVolumeKMSKeyId: string };
-      };
-    };
-  })[];
-  NextToken?: string;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListClusterOperationsV2Request {
   ClusterArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ClusterOperationV2Summary {
-  ClusterArn?: string;
-  ClusterType?: ClusterType;
-  StartTime?: Date;
-  EndTime?: Date;
-  OperationArn?: string;
-  OperationState?: string;
-  OperationType?: string;
+  ClusterArn?: string | undefined;
+  ClusterType?: ClusterType | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  OperationArn?: string | undefined;
+  OperationState?: string | undefined;
+  OperationType?: string | undefined;
 }
 export type __listOfClusterOperationV2Summary = ClusterOperationV2Summary[];
 const __listOfClusterOperationV2Summary = /*@__PURE__*/ __L.at(__c66, 2);
 export interface ListClusterOperationsV2Response {
-  ClusterOperationInfoList?: ClusterOperationV2Summary[];
-  NextToken?: string;
+  ClusterOperationInfoList?: ClusterOperationV2Summary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListClustersRequest {
-  ClusterNameFilter?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ClusterNameFilter?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type __listOfClusterInfo = ClusterInfo[];
 const __listOfClusterInfo = /*@__PURE__*/ __L.at(__c67, 1);
 export interface ListClustersResponse {
-  ClusterInfoList?: (ClusterInfo & {
-    BrokerNodeGroupInfo: BrokerNodeGroupInfo & {
-      ClientSubnets: __listOf__string;
-      InstanceType: __stringMin5Max32;
-    };
-    EncryptionInfo: EncryptionInfo & {
-      EncryptionAtRest: EncryptionAtRest & { DataVolumeKMSKeyId: string };
-    };
-    OpenMonitoring: OpenMonitoring & {
-      Prometheus: Prometheus & {
-        JmxExporter: JmxExporter & { EnabledInBroker: boolean };
-        NodeExporter: NodeExporter & { EnabledInBroker: boolean };
-      };
-    };
-    LoggingInfo: LoggingInfo & {
-      BrokerLogs: BrokerLogs & {
-        CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
-        Firehose: Firehose & { Enabled: boolean };
-        S3: S3 & { Enabled: boolean };
-      };
-      AuthorizerLogs: AuthorizerLogs & {
-        CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
-        Firehose: Firehose & { Enabled: boolean };
-        S3: S3 & { Enabled: boolean };
-      };
-    };
-  })[];
-  NextToken?: string;
+  ClusterInfoList?:
+    | (ClusterInfo & {
+        BrokerNodeGroupInfo: BrokerNodeGroupInfo & {
+          ClientSubnets: __listOf__string;
+          InstanceType: __stringMin5Max32;
+        };
+        EncryptionInfo: EncryptionInfo & {
+          EncryptionAtRest: EncryptionAtRest & { DataVolumeKMSKeyId: string };
+        };
+        OpenMonitoring: OpenMonitoring & {
+          Prometheus: Prometheus & {
+            JmxExporter: JmxExporter & { EnabledInBroker: boolean };
+            NodeExporter: NodeExporter & { EnabledInBroker: boolean };
+          };
+        };
+        LoggingInfo: LoggingInfo & {
+          BrokerLogs: BrokerLogs & {
+            CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+            Firehose: Firehose & { Enabled: boolean };
+            S3: S3 & { Enabled: boolean };
+          };
+          AuthorizerLogs: AuthorizerLogs & {
+            CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+            Firehose: Firehose & { Enabled: boolean };
+            S3: S3 & { Enabled: boolean };
+          };
+        };
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListClustersV2Request {
-  ClusterNameFilter?: string;
-  ClusterTypeFilter?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ClusterNameFilter?: string | undefined;
+  ClusterTypeFilter?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type __listOfCluster = Cluster[];
 const __listOfCluster = /*@__PURE__*/ __L.at(__c68, 1);
 export interface ListClustersV2Response {
-  ClusterInfoList?: (Cluster & {
-    Provisioned: Provisioned & {
-      BrokerNodeGroupInfo: BrokerNodeGroupInfo & {
-        ClientSubnets: __listOf__string;
-        InstanceType: __stringMin5Max32;
-      };
-      NumberOfBrokerNodes: __integerMin1Max15;
-      EncryptionInfo: EncryptionInfo & {
-        EncryptionAtRest: EncryptionAtRest & { DataVolumeKMSKeyId: string };
-      };
-      OpenMonitoring: OpenMonitoringInfo & {
-        Prometheus: PrometheusInfo & {
-          JmxExporter: JmxExporterInfo & { EnabledInBroker: boolean };
-          NodeExporter: NodeExporterInfo & { EnabledInBroker: boolean };
+  ClusterInfoList?:
+    | (Cluster & {
+        Provisioned: Provisioned & {
+          BrokerNodeGroupInfo: BrokerNodeGroupInfo & {
+            ClientSubnets: __listOf__string;
+            InstanceType: __stringMin5Max32;
+          };
+          NumberOfBrokerNodes: __integerMin1Max15;
+          EncryptionInfo: EncryptionInfo & {
+            EncryptionAtRest: EncryptionAtRest & { DataVolumeKMSKeyId: string };
+          };
+          OpenMonitoring: OpenMonitoringInfo & {
+            Prometheus: PrometheusInfo & {
+              JmxExporter: JmxExporterInfo & { EnabledInBroker: boolean };
+              NodeExporter: NodeExporterInfo & { EnabledInBroker: boolean };
+            };
+          };
+          LoggingInfo: LoggingInfo & {
+            BrokerLogs: BrokerLogs & {
+              CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+              Firehose: Firehose & { Enabled: boolean };
+              S3: S3 & { Enabled: boolean };
+            };
+            AuthorizerLogs: AuthorizerLogs & {
+              CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
+              Firehose: Firehose & { Enabled: boolean };
+              S3: S3 & { Enabled: boolean };
+            };
+          };
         };
-      };
-      LoggingInfo: LoggingInfo & {
-        BrokerLogs: BrokerLogs & {
-          CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
-          Firehose: Firehose & { Enabled: boolean };
-          S3: S3 & { Enabled: boolean };
-        };
-        AuthorizerLogs: AuthorizerLogs & {
-          CloudWatchLogs: CloudWatchLogs & { Enabled: boolean };
-          Firehose: Firehose & { Enabled: boolean };
-          S3: S3 & { Enabled: boolean };
-        };
-      };
-    };
-    Serverless: Serverless & { VpcConfigs: (VpcConfig & { SubnetIds: __listOf__string })[] };
-  })[];
-  NextToken?: string;
+        Serverless: Serverless & { VpcConfigs: (VpcConfig & { SubnetIds: __listOf__string })[] };
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListConfigurationRevisionsRequest {
   Arn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type __listOfConfigurationRevision = ConfigurationRevision[];
 const __listOfConfigurationRevision = /*@__PURE__*/ __L.at(__c69, 1);
 export interface ListConfigurationRevisionsResponse {
-  NextToken?: string;
-  Revisions?: (ConfigurationRevision & { CreationTime: __timestampIso8601; Revision: number })[];
+  NextToken?: string | undefined;
+  Revisions?:
+    | (ConfigurationRevision & { CreationTime: __timestampIso8601; Revision: number })[]
+    | undefined;
 }
 export interface ListConfigurationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Configuration {
-  Arn?: string;
-  CreationTime?: Date;
-  Description?: string;
-  KafkaVersions?: string[];
-  LatestRevision?: ConfigurationRevision;
-  Name?: string;
-  State?: ConfigurationState;
+  Arn?: string | undefined;
+  CreationTime?: Date | undefined;
+  Description?: string | undefined;
+  KafkaVersions?: string[] | undefined;
+  LatestRevision?: ConfigurationRevision | undefined;
+  Name?: string | undefined;
+  State?: ConfigurationState | undefined;
 }
 export type __listOfConfiguration = Configuration[];
 const __listOfConfiguration = /*@__PURE__*/ __L.at(__c70, 1);
 export interface ListConfigurationsResponse {
-  Configurations?: (Configuration & {
-    Arn: string;
-    CreationTime: __timestampIso8601;
-    Description: string;
-    KafkaVersions: __listOf__string;
-    LatestRevision: ConfigurationRevision & { CreationTime: __timestampIso8601; Revision: number };
-    Name: string;
-    State: ConfigurationState;
-  })[];
-  NextToken?: string;
+  Configurations?:
+    | (Configuration & {
+        Arn: string;
+        CreationTime: __timestampIso8601;
+        Description: string;
+        KafkaVersions: __listOf__string;
+        LatestRevision: ConfigurationRevision & {
+          CreationTime: __timestampIso8601;
+          Revision: number;
+        };
+        Name: string;
+        State: ConfigurationState;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListKafkaVersionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type KafkaVersionStatus = "ACTIVE" | "DEPRECATED" | (string & {});
 export interface KafkaVersion {
-  Version?: string;
-  Status?: KafkaVersionStatus;
+  Version?: string | undefined;
+  Status?: KafkaVersionStatus | undefined;
 }
 export type __listOfKafkaVersion = KafkaVersion[];
 const __listOfKafkaVersion = /*@__PURE__*/ __L.at(__c71, 2);
 export interface ListKafkaVersionsResponse {
-  KafkaVersions?: KafkaVersion[];
-  NextToken?: string;
+  KafkaVersions?: KafkaVersion[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListNodesRequest {
   ClusterArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface BrokerNodeInfo {
-  AttachedENIId?: string;
-  BrokerId?: number;
-  ClientSubnet?: string;
-  ClientVpcIpAddress?: string;
-  CurrentBrokerSoftwareInfo?: BrokerSoftwareInfo;
-  Endpoints?: string[];
+  AttachedENIId?: string | undefined;
+  BrokerId?: number | undefined;
+  ClientSubnet?: string | undefined;
+  ClientVpcIpAddress?: string | undefined;
+  CurrentBrokerSoftwareInfo?: BrokerSoftwareInfo | undefined;
+  Endpoints?: string[] | undefined;
 }
 export interface ControllerNodeInfo {
-  Endpoints?: string[];
+  Endpoints?: string[] | undefined;
 }
 export type NodeType = "BROKER" | (string & {});
 export interface ZookeeperNodeInfo {
-  AttachedENIId?: string;
-  ClientVpcIpAddress?: string;
-  Endpoints?: string[];
-  ZookeeperId?: number;
-  ZookeeperVersion?: string;
+  AttachedENIId?: string | undefined;
+  ClientVpcIpAddress?: string | undefined;
+  Endpoints?: string[] | undefined;
+  ZookeeperId?: number | undefined;
+  ZookeeperVersion?: string | undefined;
 }
 export interface NodeInfo {
-  AddedToClusterTime?: string;
-  BrokerNodeInfo?: BrokerNodeInfo;
-  ControllerNodeInfo?: ControllerNodeInfo;
-  InstanceType?: string;
-  NodeARN?: string;
-  NodeType?: NodeType;
-  ZookeeperNodeInfo?: ZookeeperNodeInfo;
+  AddedToClusterTime?: string | undefined;
+  BrokerNodeInfo?: BrokerNodeInfo | undefined;
+  ControllerNodeInfo?: ControllerNodeInfo | undefined;
+  InstanceType?: string | undefined;
+  NodeARN?: string | undefined;
+  NodeType?: NodeType | undefined;
+  ZookeeperNodeInfo?: ZookeeperNodeInfo | undefined;
 }
 export type __listOfNodeInfo = NodeInfo[];
 const __listOfNodeInfo = /*@__PURE__*/ __L.at(__c72, 5);
 export interface ListNodesResponse {
-  NextToken?: string;
-  NodeInfoList?: NodeInfo[];
+  NextToken?: string | undefined;
+  NodeInfoList?: NodeInfo[] | undefined;
 }
 export interface ListReplicatorsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  ReplicatorNameFilter?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ReplicatorNameFilter?: string | undefined;
 }
 export interface KafkaClusterSummary {
-  AmazonMskCluster?: AmazonMskCluster;
-  ApacheKafkaCluster?: ApacheKafkaCluster;
-  KafkaClusterAlias?: string;
+  AmazonMskCluster?: AmazonMskCluster | undefined;
+  ApacheKafkaCluster?: ApacheKafkaCluster | undefined;
+  KafkaClusterAlias?: string | undefined;
 }
 export type __listOfKafkaClusterSummary = KafkaClusterSummary[];
 const __listOfKafkaClusterSummary = /*@__PURE__*/ __L.at(__c73, 2);
 export interface ReplicationInfoSummary {
-  SourceKafkaClusterAlias?: string;
-  TargetKafkaClusterAlias?: string;
+  SourceKafkaClusterAlias?: string | undefined;
+  TargetKafkaClusterAlias?: string | undefined;
 }
 export type __listOfReplicationInfoSummary = ReplicationInfoSummary[];
 const __listOfReplicationInfoSummary = /*@__PURE__*/ __L.at(__c73, 4);
 export interface ReplicatorSummary {
-  CreationTime?: Date;
-  CurrentVersion?: string;
-  IsReplicatorReference?: boolean;
-  KafkaClustersSummary?: KafkaClusterSummary[];
-  ReplicationInfoSummaryList?: ReplicationInfoSummary[];
-  ReplicatorArn?: string;
-  ReplicatorName?: string;
-  ReplicatorResourceArn?: string;
-  ReplicatorState?: ReplicatorState;
+  CreationTime?: Date | undefined;
+  CurrentVersion?: string | undefined;
+  IsReplicatorReference?: boolean | undefined;
+  KafkaClustersSummary?: KafkaClusterSummary[] | undefined;
+  ReplicationInfoSummaryList?: ReplicationInfoSummary[] | undefined;
+  ReplicatorArn?: string | undefined;
+  ReplicatorName?: string | undefined;
+  ReplicatorResourceArn?: string | undefined;
+  ReplicatorState?: ReplicatorState | undefined;
 }
 export type __listOfReplicatorSummary = ReplicatorSummary[];
 const __listOfReplicatorSummary = /*@__PURE__*/ __L.at(__c73, 6);
 export interface ListReplicatorsResponse {
-  NextToken?: string;
-  Replicators?: (ReplicatorSummary & {
-    KafkaClustersSummary: (KafkaClusterSummary & {
-      AmazonMskCluster: AmazonMskCluster & { MskClusterArn: string };
-      ApacheKafkaCluster: ApacheKafkaCluster & {
-        ApacheKafkaClusterId: string;
-        BootstrapBrokerString: string;
-      };
-    })[];
-  })[];
+  NextToken?: string | undefined;
+  Replicators?:
+    | (ReplicatorSummary & {
+        KafkaClustersSummary: (KafkaClusterSummary & {
+          AmazonMskCluster: AmazonMskCluster & { MskClusterArn: string };
+          ApacheKafkaCluster: ApacheKafkaCluster & {
+            ApacheKafkaClusterId: string;
+            BootstrapBrokerString: string;
+          };
+        })[];
+      })[]
+    | undefined;
 }
 export interface ListScramSecretsRequest {
   ClusterArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListScramSecretsResponse {
-  NextToken?: string;
-  SecretArnList?: string[];
+  NextToken?: string | undefined;
+  SecretArnList?: string[] | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTopicsRequest {
   ClusterArn: string;
-  MaxResults?: number;
-  NextToken?: string;
-  TopicNameFilter?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  TopicNameFilter?: string | undefined;
 }
 export interface TopicInfo {
-  TopicArn?: string;
-  TopicName?: string;
-  ReplicationFactor?: number;
-  PartitionCount?: number;
-  OutOfSyncReplicaCount?: number;
+  TopicArn?: string | undefined;
+  TopicName?: string | undefined;
+  ReplicationFactor?: number | undefined;
+  PartitionCount?: number | undefined;
+  OutOfSyncReplicaCount?: number | undefined;
 }
 export type __listOfTopicInfo = TopicInfo[];
 const __listOfTopicInfo = /*@__PURE__*/ __L.at(__c76, 2);
 export interface ListTopicsResponse {
-  Topics?: TopicInfo[];
-  NextToken?: string;
+  Topics?: TopicInfo[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListVpcConnectionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface VpcConnection {
-  VpcConnectionArn?: string;
-  TargetClusterArn?: string;
-  CreationTime?: Date;
-  Authentication?: string;
-  VpcId?: string;
-  State?: VpcConnectionState;
+  VpcConnectionArn?: string | undefined;
+  TargetClusterArn?: string | undefined;
+  CreationTime?: Date | undefined;
+  Authentication?: string | undefined;
+  VpcId?: string | undefined;
+  State?: VpcConnectionState | undefined;
 }
 export type __listOfVpcConnection = VpcConnection[];
 const __listOfVpcConnection = /*@__PURE__*/ __L.at(__c77, 2);
 export interface ListVpcConnectionsResponse {
-  VpcConnections?: (VpcConnection & { VpcConnectionArn: string; TargetClusterArn: string })[];
-  NextToken?: string;
+  VpcConnections?:
+    | (VpcConnection & { VpcConnectionArn: string; TargetClusterArn: string })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface PutClusterPolicyRequest {
   ClusterArn: string;
-  CurrentVersion?: string;
-  Policy?: string;
+  CurrentVersion?: string | undefined;
+  Policy?: string | undefined;
 }
 export interface PutClusterPolicyResponse {
-  CurrentVersion?: string;
+  CurrentVersion?: string | undefined;
 }
 export interface RebootBrokerRequest {
-  BrokerIds?: string[];
+  BrokerIds?: string[] | undefined;
   ClusterArn: string;
 }
 export interface RebootBrokerResponse {
-  ClusterArn?: string;
-  ClusterOperationArn?: string;
+  ClusterArn?: string | undefined;
+  ClusterOperationArn?: string | undefined;
 }
 export interface RejectClientVpcConnectionRequest {
   ClusterArn: string;
-  VpcConnectionArn?: string;
+  VpcConnectionArn?: string | undefined;
 }
 export interface RejectClientVpcConnectionResponse {}
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceResponse {}
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys?: string[];
+  TagKeys?: string[] | undefined;
 }
 export interface UntagResourceResponse {}
 export interface UpdateBrokerCountRequest {
   ClusterArn: string;
-  CurrentVersion?: string;
-  TargetNumberOfBrokerNodes?: number;
+  CurrentVersion?: string | undefined;
+  TargetNumberOfBrokerNodes?: number | undefined;
 }
 export interface UpdateBrokerCountResponse {
-  ClusterArn?: string;
-  ClusterOperationArn?: string;
+  ClusterArn?: string | undefined;
+  ClusterOperationArn?: string | undefined;
 }
 export interface UpdateBrokerStorageRequest {
   ClusterArn: string;
-  CurrentVersion?: string;
-  TargetBrokerEBSVolumeInfo?: BrokerEBSVolumeInfo[];
+  CurrentVersion?: string | undefined;
+  TargetBrokerEBSVolumeInfo?: BrokerEBSVolumeInfo[] | undefined;
 }
 export interface UpdateBrokerStorageResponse {
-  ClusterArn?: string;
-  ClusterOperationArn?: string;
+  ClusterArn?: string | undefined;
+  ClusterOperationArn?: string | undefined;
 }
 export interface UpdateBrokerTypeRequest {
   ClusterArn: string;
-  CurrentVersion?: string;
-  TargetInstanceType?: string;
+  CurrentVersion?: string | undefined;
+  TargetInstanceType?: string | undefined;
 }
 export interface UpdateBrokerTypeResponse {
-  ClusterArn?: string;
-  ClusterOperationArn?: string;
+  ClusterArn?: string | undefined;
+  ClusterOperationArn?: string | undefined;
 }
 export interface IcebergDestinationUpdate {
-  DataFreshnessInSeconds?: number;
+  DataFreshnessInSeconds?: number | undefined;
 }
 export interface S3DestinationUpdate {
-  DataFreshnessInSeconds?: number;
+  DataFreshnessInSeconds?: number | undefined;
 }
 export interface UpdateChannelRequest {
   ChannelArn: string;
   ClusterArn: string;
-  IcebergDestinationUpdate?: IcebergDestinationUpdate;
-  S3DestinationUpdate?: S3DestinationUpdate;
+  IcebergDestinationUpdate?: IcebergDestinationUpdate | undefined;
+  S3DestinationUpdate?: S3DestinationUpdate | undefined;
 }
 export interface UpdateChannelResponse {
   ChannelArn: string;
-  ClusterOperationArn?: string;
+  ClusterOperationArn?: string | undefined;
 }
 export interface UpdateClusterConfigurationRequest {
   ClusterArn: string;
-  ConfigurationInfo?: ConfigurationInfo;
-  CurrentVersion?: string;
+  ConfigurationInfo?: ConfigurationInfo | undefined;
+  CurrentVersion?: string | undefined;
 }
 export interface UpdateClusterConfigurationResponse {
-  ClusterArn?: string;
-  ClusterOperationArn?: string;
+  ClusterArn?: string | undefined;
+  ClusterOperationArn?: string | undefined;
 }
 export interface UpdateClusterKafkaVersionRequest {
   ClusterArn: string;
-  ConfigurationInfo?: ConfigurationInfo;
-  CurrentVersion?: string;
-  TargetKafkaVersion?: string;
+  ConfigurationInfo?: ConfigurationInfo | undefined;
+  CurrentVersion?: string | undefined;
+  TargetKafkaVersion?: string | undefined;
 }
 export interface UpdateClusterKafkaVersionResponse {
-  ClusterArn?: string;
-  ClusterOperationArn?: string;
+  ClusterArn?: string | undefined;
+  ClusterOperationArn?: string | undefined;
 }
 export interface UpdateConfigurationRequest {
   Arn: string;
-  Description?: string;
-  ServerProperties?: Uint8Array;
+  Description?: string | undefined;
+  ServerProperties?: Uint8Array | undefined;
 }
 export interface UpdateConfigurationResponse {
-  Arn?: string;
-  LatestRevision?: ConfigurationRevision & { CreationTime: __timestampIso8601; Revision: number };
+  Arn?: string | undefined;
+  LatestRevision?:
+    | (ConfigurationRevision & { CreationTime: __timestampIso8601; Revision: number })
+    | undefined;
 }
 export interface UpdateConnectivityRequest {
   ClusterArn: string;
-  ConnectivityInfo?: ConnectivityInfo;
-  CurrentVersion?: string;
-  ZookeeperAccess?: ZookeeperAccess;
+  ConnectivityInfo?: ConnectivityInfo | undefined;
+  CurrentVersion?: string | undefined;
+  ZookeeperAccess?: ZookeeperAccess | undefined;
 }
 export interface UpdateConnectivityResponse {
-  ClusterArn?: string;
-  ClusterOperationArn?: string;
+  ClusterArn?: string | undefined;
+  ClusterOperationArn?: string | undefined;
 }
 export interface UpdateMonitoringRequest {
   ClusterArn: string;
-  CurrentVersion?: string;
-  EnhancedMonitoring?: EnhancedMonitoring;
-  OpenMonitoring?: OpenMonitoringInfo;
-  LoggingInfo?: LoggingInfo;
+  CurrentVersion?: string | undefined;
+  EnhancedMonitoring?: EnhancedMonitoring | undefined;
+  OpenMonitoring?: OpenMonitoringInfo | undefined;
+  LoggingInfo?: LoggingInfo | undefined;
 }
 export interface UpdateMonitoringResponse {
-  ClusterArn?: string;
-  ClusterOperationArn?: string;
+  ClusterArn?: string | undefined;
+  ClusterOperationArn?: string | undefined;
 }
 export interface UpdateRebalancingRequest {
   ClusterArn: string;
-  CurrentVersion?: string;
-  Rebalancing?: Rebalancing;
+  CurrentVersion?: string | undefined;
+  Rebalancing?: Rebalancing | undefined;
 }
 export interface UpdateRebalancingResponse {
-  ClusterArn?: string;
-  ClusterOperationArn?: string;
+  ClusterArn?: string | undefined;
+  ClusterOperationArn?: string | undefined;
 }
 export interface ConsumerGroupReplicationUpdate {
-  ConsumerGroupsToExclude?: string[];
-  ConsumerGroupsToReplicate?: string[];
-  DetectAndCopyNewConsumerGroups?: boolean;
-  SynchroniseConsumerGroupOffsets?: boolean;
+  ConsumerGroupsToExclude?: string[] | undefined;
+  ConsumerGroupsToReplicate?: string[] | undefined;
+  DetectAndCopyNewConsumerGroups?: boolean | undefined;
+  SynchroniseConsumerGroupOffsets?: boolean | undefined;
 }
 export interface TopicReplicationUpdate {
-  CopyAccessControlListsForTopics?: boolean;
-  CopyTopicConfigurations?: boolean;
-  DetectAndCopyNewTopics?: boolean;
-  TopicsToExclude?: string[];
-  TopicsToReplicate?: string[];
+  CopyAccessControlListsForTopics?: boolean | undefined;
+  CopyTopicConfigurations?: boolean | undefined;
+  DetectAndCopyNewTopics?: boolean | undefined;
+  TopicsToExclude?: string[] | undefined;
+  TopicsToReplicate?: string[] | undefined;
 }
 export interface UpdateReplicationInfoRequest {
-  ConsumerGroupReplication?: ConsumerGroupReplicationUpdate;
-  CurrentVersion?: string;
+  ConsumerGroupReplication?: ConsumerGroupReplicationUpdate | undefined;
+  CurrentVersion?: string | undefined;
   ReplicatorArn: string;
-  SourceKafkaClusterArn?: string;
-  SourceKafkaClusterId?: string;
-  TargetKafkaClusterArn?: string;
-  TargetKafkaClusterId?: string;
-  TopicReplication?: TopicReplicationUpdate;
-  LogDelivery?: LogDelivery;
+  SourceKafkaClusterArn?: string | undefined;
+  SourceKafkaClusterId?: string | undefined;
+  TargetKafkaClusterArn?: string | undefined;
+  TargetKafkaClusterId?: string | undefined;
+  TopicReplication?: TopicReplicationUpdate | undefined;
+  LogDelivery?: LogDelivery | undefined;
 }
 export interface UpdateReplicationInfoResponse {
-  ReplicatorArn?: string;
-  ReplicatorState?: ReplicatorState;
+  ReplicatorArn?: string | undefined;
+  ReplicatorState?: ReplicatorState | undefined;
 }
 export interface UpdateSecurityRequest {
-  ClientAuthentication?: ClientAuthentication;
+  ClientAuthentication?: ClientAuthentication | undefined;
   ClusterArn: string;
-  CurrentVersion?: string;
-  EncryptionInfo?: EncryptionInfo;
+  CurrentVersion?: string | undefined;
+  EncryptionInfo?: EncryptionInfo | undefined;
 }
 export interface UpdateSecurityResponse {
-  ClusterArn?: string;
-  ClusterOperationArn?: string;
+  ClusterArn?: string | undefined;
+  ClusterOperationArn?: string | undefined;
 }
 export interface UpdateStorageRequest {
   ClusterArn: string;
-  CurrentVersion?: string;
-  ProvisionedThroughput?: ProvisionedThroughput;
-  StorageMode?: StorageMode;
-  VolumeSizeGB?: number;
+  CurrentVersion?: string | undefined;
+  ProvisionedThroughput?: ProvisionedThroughput | undefined;
+  StorageMode?: StorageMode | undefined;
+  VolumeSizeGB?: number | undefined;
 }
 export interface UpdateStorageResponse {
-  ClusterArn?: string;
-  ClusterOperationArn?: string;
+  ClusterArn?: string | undefined;
+  ClusterOperationArn?: string | undefined;
 }
 export interface UpdateTopicRequest {
   ClusterArn: string;
   TopicName: string;
-  Configs?: string;
-  PartitionCount?: number;
+  Configs?: string | undefined;
+  PartitionCount?: number | undefined;
 }
 export interface UpdateTopicResponse {
-  TopicArn?: string;
-  TopicName?: string;
-  Status?: TopicState;
+  TopicArn?: string | undefined;
+  TopicName?: string | undefined;
+  Status?: TopicState | undefined;
 }
 export type BatchAssociateScramSecretError =
   | BadRequestException

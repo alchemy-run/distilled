@@ -89,7 +89,7 @@ export interface CancelFoldersLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -97,114 +97,114 @@ export interface CancelOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** Settings for configuring CMEK for a bucket. */
 export interface CmekSettings {
   /** Output only. The service account used to access the key. */
-  serviceAccountId?: string;
+  serviceAccountId?: string | undefined;
   /** Optional. The resource name for the configured Cloud KMS key. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/keyRings/[KEYRING]/cryptoKeys/[KEY] For example: projects/my-project/locations/us-central1/keyRings/my-ring/cryptoKeys/my-key */
-  kmsKey?: string;
+  kmsKey?: string | undefined;
   /** Output only. The CryptoKeyVersion resource name for the configured Cloud KMS key. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/keyRings/[KEYRING]/cryptoKeys/[KEY]/cryptoKeyVersions/[VERSION] For example: projects/my-project/locations/us-central1/keyRings/my-ring/cryptoKeys/my-key/cryptoKeyVersions/1 This read-only field is used to convey the specific configured CryptoKeyVersion of the `kms_key` that has been configured. It is populated when the CMEK settings are bound to a single key version. */
-  kmsKeyVersion?: string;
+  kmsKeyVersion?: string | undefined;
 }
 /** Bucket configuration for storing observability data. */
 export interface Bucket {
   /** Output only. Timestamp when the bucket in soft-deleted state is purged. */
-  purgeTime?: string;
+  purgeTime?: string | undefined;
   /** Output only. Create timestamp. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Identifier. Name of the bucket. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID] */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Settings for configuring CMEK on a bucket. */
-  cmekSettings?: CmekSettings;
+  cmekSettings?: CmekSettings | undefined;
   /** Output only. Update timestamp. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. Delete timestamp. */
-  deleteTime?: string;
+  deleteTime?: string | undefined;
   /** Optional. User friendly display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Optional. Description of the bucket. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateProjectsLocationsBucketsRequest {
   /** Required. Name of the project and location for the bucket. The format is: projects/[PROJECT_ID]/locations/[LOCATION] */
   parent: string;
   /** Required. Id of the bucket to create. */
-  bucketId?: string;
+  bucketId?: string | undefined;
   /** Request body */
-  body?: Bucket;
+  body?: Bucket | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
 }
 /** A link lets a dataset be accessible to BigQuery via usage of linked datasets. */
 export interface Link {
   /** Optional. A user friendly display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Identifier. Name of the link. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID]/links/[LINK_ID] */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Create timestamp. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. Description of the link. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateProjectsLocationsBucketsDatasetsLinksRequest {
   /** Required. Name of the containing dataset for this link. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID] */
   parent: string;
   /** Required. Id of the link to create. */
-  linkId?: string;
+  linkId?: string | undefined;
   /** Request body */
-  body?: Link;
+  body?: Link | undefined;
 }
 export type StringList = Array<string>;
 /** A trace scope is a collection of resources whose traces are queried together. */
 export interface TraceScope {
   /** Optional. Describes this trace scope. The maximum length of the description is 8000 characters. */
-  description?: string;
+  description?: string | undefined;
   /** Identifier. The resource name of the trace scope. For example: projects/my-project/locations/global/traceScopes/my-trace-scope */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The creation timestamp of the trace scope. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Required. Names of the projects that are included in this trace scope. * `projects/[PROJECT_ID]` A trace scope can include a maximum of 20 projects. */
-  resourceNames?: StringList;
+  resourceNames?: StringList | undefined;
   /** Output only. The last update timestamp of the trace scope. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsTraceScopesRequest {
   /** Required. A client-assigned identifier for the trace scope. */
-  traceScopeId?: string;
+  traceScopeId?: string | undefined;
   /** Required. The full resource name of the location where the trace scope should be created projects/[PROJECT_ID]/locations/[LOCATION_ID] For example: projects/my-project/locations/global */
   parent: string;
   /** Request body */
-  body?: TraceScope;
+  body?: TraceScope | undefined;
 }
 export interface DeleteFoldersLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -234,15 +234,15 @@ export type StringMap = { [key: string]: string | undefined };
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
 }
 export interface GetFoldersLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -271,17 +271,17 @@ export interface GetProjectsLocationsBucketsDatasetsRequest {
 /** A dataset is a collection of data that has a specific configuration. A dataset can be backed by multiple tables. One bucket can have multiple datasets. */
 export interface Dataset {
   /** Output only. Create timestamp. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Timestamp when the dataset in soft-deleted state is purged. */
-  purgeTime?: string;
+  purgeTime?: string | undefined;
   /** Output only. Delete timestamp. */
-  deleteTime?: string;
+  deleteTime?: string | undefined;
   /** Optional. User friendly display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Optional. Description of the dataset. */
-  description?: string;
+  description?: string | undefined;
   /** Identifier. Name of the dataset. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID] */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetProjectsLocationsBucketsDatasetsLinksRequest {
   /** Required. Name of the link to retrieve. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID]/links/[LINK_ID] */
@@ -294,15 +294,15 @@ export interface GetProjectsLocationsBucketsDatasetsViewsRequest {
 /** A view corresponds to a read-only representation of a subset of the data in a dataset. */
 export interface View {
   /** Output only. Create timestamp. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Update timestamp. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Identifier. Name of the view. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID]/views/[VIEW_ID] */
-  name?: string;
+  name?: string | undefined;
   /** Optional. User friendly display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Optional. Description of the view. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -315,13 +315,13 @@ export interface GetProjectsLocationsScopesRequest {
 /** Message describing Scope object */
 export interface Scope {
   /** Required. The full resource name of the `LogScope`. For example: //logging.googleapis.com/projects/myproject/locations/global/logScopes/my-log-scope */
-  logScope?: string;
+  logScope?: string | undefined;
   /** Output only. Update timestamp. Note: The Update timestamp for the default scope is initially unset. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Identifier. Name of the resource. The format is: projects/{project}/locations/{location}/scopes/{scope} The `{location}` field must be set to `global`. The `{scope}` field must be set to `_Default`. */
-  name?: string;
+  name?: string | undefined;
   /** Required. The resource name of the `TraceScope`. For example: projects/myproject/locations/global/traceScopes/my-trace-scope */
-  traceScope?: string;
+  traceScope?: string | undefined;
 }
 export interface GetProjectsLocationsTraceScopesRequest {
   /** Required. The resource name of the trace scope: projects/[PROJECT_ID]/locations/[LOCATION_ID]/traceScopes/[TRACE_SCOPE_ID] For example: projects/my-project/locations/global/traceScopes/my-trace-scope */
@@ -334,13 +334,13 @@ export interface GetSettingsFoldersLocationsRequest {
 /** Describes the settings associated with a project, organization, or folder. */
 export interface Settings {
   /** Identifier. The resource name of the settings. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The service account for the given resource container, such as project or folder. This will be used by Cloud Observability to perform actions in the container's project like access KMS keys or create Links. Always the same service account per resource container regardless of region. */
-  serviceAccountId?: string;
+  serviceAccountId?: string | undefined;
   /** Optional. The location which should be used when any regional resources are provisioned by Google Cloud. */
-  defaultStorageLocation?: string;
+  defaultStorageLocation?: string | undefined;
   /** Optional. The resource name for the configured Cloud KMS key. KMS key name format: "projects/[PROJECT_ID]/locations/[LOCATION]/keyRings/[KEYRING]/cryptoKeys/[KEY]" For example: `"projects/my-project/locations/us-central1/keyRings/my-ring/cryptoKeys/my-key"` */
-  kmsKeyName?: string;
+  kmsKeyName?: string | undefined;
 }
 export interface GetSettingsOrganizationsLocationsRequest {
   /** Required. Name of the settings to retrieve. Name format: "projects/[PROJECT_ID]/locations/[LOCATION]/settings" "folders/[FOLDER_ID]/locations/[LOCATION]/settings" "organizations/[ORGANIZATION_ID]/locations/[LOCATION]/settings" */
@@ -352,13 +352,13 @@ export interface GetSettingsProjectsLocationsRequest {
 }
 export interface ListFoldersLocationsRequest {
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
 }
@@ -366,19 +366,19 @@ export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListFoldersLocationsOperationsRequest {
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
 }
@@ -386,105 +386,105 @@ export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListOrganizationsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
 }
 export interface ListOrganizationsLocationsOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface ListProjectsLocationsBucketsRequest {
   /** Optional. If true, then the response will include deleted buckets. */
-  showDeleted?: boolean;
+  showDeleted?: boolean | undefined;
   /** Required. The parent, which owns this collection of buckets. The format is: projects/[PROJECT_ID]/locations/[LOCATION] */
   parent: string;
   /** Optional. The maximum number of buckets to return. If unspecified, then at most 100 buckets are returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListBuckets` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type BucketList = Array<Bucket>;
 /** Response for listing buckets. */
 export interface ListBucketsResponse {
   /** Optional. The list of buckets. */
-  buckets?: BucketList;
+  buckets?: BucketList | undefined;
   /** Optional. A token that can be sent as `page_token` to retrieve the next page. When this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsBucketsDatasetsRequest {
   /** Optional. The maximum number of datasets to return. If unspecified, then at most 100 datasets are returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. If true, then the response will include deleted datasets. */
-  showDeleted?: boolean;
+  showDeleted?: boolean | undefined;
   /** Required. The parent bucket that owns this collection of datasets. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID] */
   parent: string;
   /** Optional. A page token, received from a previous `ListDatasets` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type DatasetList = Array<Dataset>;
 /** Response for listing datasets. */
 export interface ListDatasetsResponse {
   /** The list of datasets. */
-  datasets?: DatasetList;
+  datasets?: DatasetList | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page. When this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsBucketsDatasetsLinksRequest {
   /** Optional. A page token, received from a previous `ListLinks` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent dataset that owns this collection of links. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID] */
   parent: string;
   /** Optional. The maximum number of links to return. If unspecified, then at most 100 links are returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type LinkList = Array<Link>;
 /** Response for listing links. */
 export interface ListLinksResponse {
   /** The list of links. */
-  links?: LinkList;
+  links?: LinkList | undefined;
   /** Optional. A token that can be sent as `page_token` to retrieve the next page. When this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsBucketsDatasetsViewsRequest {
   /** Optional. A page token, received from a previous `ListViews` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of views to return. If unspecified, then at most 100 views are returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Dataset whose views are to be listed. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID] */
   parent: string;
 }
@@ -492,93 +492,93 @@ export type ViewList = Array<View>;
 /** Response for listing views. */
 export interface ListViewsResponse {
   /** The list of views. */
-  views?: ViewList;
+  views?: ViewList | undefined;
   /** Optional. A token that can be sent as `page_token` to retrieve the next page. When this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ListProjectsLocationsTraceScopesRequest {
   /** Required. The full resource name of the location to look for trace scopes: projects/[PROJECT_ID]/locations/[LOCATION_ID] For example: projects/my-project/locations/global */
   parent: string;
   /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of `next_page_token` in the response indicates that more results might be available. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. If present, then retrieve the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type TraceScopeList = Array<TraceScope>;
 /** Response for listing TraceScopes. */
 export interface ListTraceScopesResponse {
   /** Optional. A list of trace scopes. */
-  traceScopes?: TraceScopeList;
+  traceScopes?: TraceScopeList | undefined;
   /** Optional. If there might be more results than appear in this response, then `next_page_token` is included. To get the next set of results, call the same method again using the value of `next_page_token` as `page_token`. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface PatchProjectsLocationsBucketsRequest {
   /** Identifier. Name of the bucket. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID] */
   name: string;
   /** Optional. The list of fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Bucket;
+  body?: Bucket | undefined;
 }
 export interface PatchProjectsLocationsBucketsDatasetsLinksRequest {
   /** Identifier. Name of the link. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID]/links/[LINK_ID] */
   name: string;
   /** Optional. The list of fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Link;
+  body?: Link | undefined;
 }
 export interface PatchProjectsLocationsScopesRequest {
   /** Identifier. Name of the resource. The format is: projects/{project}/locations/{location}/scopes/{scope} The `{location}` field must be set to `global`. The `{scope}` field must be set to `_Default`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Scope resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field is overwritten when it is in the mask. If the user does not provide a mask, then all fields present in the request are overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Scope;
+  body?: Scope | undefined;
 }
 export interface PatchProjectsLocationsTraceScopesRequest {
   /** Identifier. The resource name of the trace scope. For example: projects/my-project/locations/global/traceScopes/my-trace-scope */
   name: string;
   /** Optional. The list of fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: TraceScope;
+  body?: TraceScope | undefined;
 }
 export interface UpdateSettingsFoldersLocationsRequest {
   /** Identifier. The resource name of the settings. */
   name: string;
   /** Optional. The field mask specifying which fields of the settings are to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Settings;
+  body?: Settings | undefined;
 }
 export interface UpdateSettingsOrganizationsLocationsRequest {
   /** Identifier. The resource name of the settings. */
   name: string;
   /** Optional. The field mask specifying which fields of the settings are to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Settings;
+  body?: Settings | undefined;
 }
 export interface UpdateSettingsProjectsLocationsRequest {
   /** Identifier. The resource name of the settings. */
   name: string;
   /** Optional. The field mask specifying which fields of the settings are to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Settings;
+  body?: Settings | undefined;
 }
 export type CancelFoldersLocationsOperationsError =
   | NotFound

@@ -89,7 +89,7 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface GoogleProtobufEmpty {}
@@ -115,11 +115,11 @@ export type EthereumDetailsNetworkEnum =
 /** Contains endpoint information specific to Ethereum nodes. */
 export interface EthereumEndpoints {
   /** Output only. The assigned URL for the node's Beacon API endpoint. */
-  beaconApiEndpoint?: string;
+  beaconApiEndpoint?: string | undefined;
   /** Output only. The assigned URL for the node's Beacon Prometheus metrics endpoint. See [Prometheus Metrics](https://lighthouse-book.sigmaprime.io/advanced_metrics.html) for more details. */
-  beaconPrometheusMetricsApiEndpoint?: string;
+  beaconPrometheusMetricsApiEndpoint?: string | undefined;
   /** Output only. The assigned URL for the node's execution client's Prometheus metrics endpoint. */
-  executionClientPrometheusMetricsApiEndpoint?: string;
+  executionClientPrometheusMetricsApiEndpoint?: string | undefined;
 }
 export type GethDetailsGarbageCollectionModeEnum =
   | "GARBAGE_COLLECTION_MODE_UNSPECIFIED"
@@ -128,7 +128,7 @@ export type GethDetailsGarbageCollectionModeEnum =
 /** Options for the Geth execution client. See [Command-line Options](https://geth.ethereum.org/docs/fundamentals/command-line-options) for more details. */
 export interface GethDetails {
   /** Immutable. Blockchain garbage collection mode. */
-  garbageCollectionMode?: GethDetailsGarbageCollectionModeEnum | (string & {});
+  garbageCollectionMode?: GethDetailsGarbageCollectionModeEnum | (string & {}) | undefined;
 }
 export type EthereumDetailsConsensusClientEnum =
   | "CONSENSUS_CLIENT_UNSPECIFIED"
@@ -139,107 +139,107 @@ export type StringList = Array<string>;
 /** Configuration for validator-related parameters on the beacon client, and for any GCP-managed validator client. */
 export interface ValidatorConfig {
   /** An Ethereum address which the beacon client will send fee rewards to if no recipient is configured in the validator client. See https://lighthouse-book.sigmaprime.io/suggested-fee-recipient.html or https://docs.prylabs.network/docs/execution-node/fee-recipient for examples of how this is used. Note that while this is often described as "suggested", as we run the execution node we can trust the execution node, and therefore this is considered enforced. */
-  beaconFeeRecipient?: string;
+  beaconFeeRecipient?: string | undefined;
   /** Immutable. When true, deploys a GCP-managed validator client alongside the beacon client. */
-  managedValidatorClient?: boolean;
+  managedValidatorClient?: boolean | undefined;
   /** URLs for MEV-relay services to use for block building. When set, a GCP-managed MEV-boost service is configured on the beacon client. */
-  mevRelayUrls?: StringList;
+  mevRelayUrls?: StringList | undefined;
 }
 /** Ethereum-specific blockchain node details. */
 export interface EthereumDetails {
   /** Immutable. Enables JSON-RPC access to functions in the `admin` namespace. Defaults to `false`. */
-  apiEnableAdmin?: boolean;
+  apiEnableAdmin?: boolean | undefined;
   /** Immutable. The type of Ethereum node. */
-  nodeType?: EthereumDetailsNodeTypeEnum | (string & {});
+  nodeType?: EthereumDetailsNodeTypeEnum | (string & {}) | undefined;
   /** Immutable. Enables JSON-RPC access to functions in the `debug` namespace. Defaults to `false`. */
-  apiEnableDebug?: boolean;
+  apiEnableDebug?: boolean | undefined;
   /** Immutable. The Ethereum environment being accessed. */
-  network?: EthereumDetailsNetworkEnum | (string & {});
+  network?: EthereumDetailsNetworkEnum | (string & {}) | undefined;
   /** Output only. Ethereum-specific endpoint information. */
-  additionalEndpoints?: EthereumEndpoints;
+  additionalEndpoints?: EthereumEndpoints | undefined;
   /** Details for the Geth execution client. */
-  gethDetails?: GethDetails;
+  gethDetails?: GethDetails | undefined;
   /** Immutable. The consensus client. */
-  consensusClient?: EthereumDetailsConsensusClientEnum | (string & {});
+  consensusClient?: EthereumDetailsConsensusClientEnum | (string & {}) | undefined;
   /** Immutable. The execution client */
-  executionClient?: EthereumDetailsExecutionClientEnum | (string & {});
+  executionClient?: EthereumDetailsExecutionClientEnum | (string & {}) | undefined;
   /** Configuration for validator-related parameters on the beacon client, and for any GCP-managed validator client. */
-  validatorConfig?: ValidatorConfig;
+  validatorConfig?: ValidatorConfig | undefined;
 }
 /** Contains endpoint information through which to interact with a blockchain node. */
 export interface EndpointInfo {
   /** Output only. The assigned URL for the node JSON-RPC API endpoint. */
-  jsonRpcApiEndpoint?: string;
+  jsonRpcApiEndpoint?: string | undefined;
   /** Output only. The assigned URL for the node WebSockets API endpoint. */
-  websocketsApiEndpoint?: string;
+  websocketsApiEndpoint?: string | undefined;
 }
 /** The connection information through which to interact with a blockchain node. */
 export interface ConnectionInfo {
   /** Output only. A service attachment that exposes a node, and has the following format: projects/{project}/regions/{region}/serviceAttachments/{service_attachment_name} */
-  serviceAttachment?: string;
+  serviceAttachment?: string | undefined;
   /** Output only. The endpoint information through which to interact with a blockchain node. */
-  endpointInfo?: EndpointInfo;
+  endpointInfo?: EndpointInfo | undefined;
 }
 /** A representation of a blockchain node. */
 export interface BlockchainNode {
   /** Output only. A status representing the state of the node. */
-  state?: BlockchainNodeStateEnum | (string & {});
+  state?: BlockchainNodeStateEnum | (string & {}) | undefined;
   /** Output only. The fully qualified name of the blockchain node. e.g. `projects/my-project/locations/us-central1/blockchainNodes/my-node`. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The timestamp at which the blockchain node was first created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Immutable. The blockchain type of the node. */
-  blockchainType?: BlockchainNodeBlockchainTypeEnum | (string & {});
+  blockchainType?: BlockchainNodeBlockchainTypeEnum | (string & {}) | undefined;
   /** User-provided key-value pairs. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Ethereum-specific blockchain node details. */
-  ethereumDetails?: EthereumDetails;
+  ethereumDetails?: EthereumDetails | undefined;
   /** Output only. The connection information used to interact with a blockchain node. */
-  connectionInfo?: ConnectionInfo;
+  connectionInfo?: ConnectionInfo | undefined;
   /** Output only. The timestamp at which the blockchain node was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. When true, the node is only accessible via Private Service Connect; no public endpoints are exposed. Otherwise, the node is only accessible via public endpoints. Warning: These nodes are deprecated, please use public endpoints instead. */
-  privateServiceConnectEnabled?: boolean;
+  privateServiceConnectEnabled?: boolean | undefined;
 }
 export interface CreateProjectsLocationsBlockchainNodesRequest {
   /** Required. ID of the requesting object. */
-  blockchainNodeId?: string;
+  blockchainNodeId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
   /** Request body */
-  body?: BlockchainNode;
+  body?: BlockchainNode | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface DeleteProjectsLocationsBlockchainNodesRequest {
   /** Required. The fully qualified name of the blockchain node to delete. e.g. `projects/my-project/locations/us-central1/blockchainNodes/my-node`. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -252,15 +252,15 @@ export interface GetProjectsLocationsRequest {
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
 }
 export interface GetProjectsLocationsBlockchainNodesRequest {
   /** Required. The fully qualified name of the blockchain node to fetch. e.g. `projects/my-project/locations/us-central1/blockchainNodes/my-node`. */
@@ -272,73 +272,73 @@ export interface GetProjectsLocationsOperationsRequest {
 }
 export interface ListProjectsLocationsRequest {
   /** Optional. A list of extra location types that should be used as conditions for controlling the visibility of the locations. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
 }
 export interface ListProjectsLocationsBlockchainNodesRequest {
   /** A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Hint for how to order the results. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. Parent value for `ListNodesRequest`. */
   parent: string;
   /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type BlockchainNodeList = Array<BlockchainNode>;
 /** Message for response to listing blockchain nodes. */
 export interface ListBlockchainNodesResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of nodes */
-  blockchainNodes?: BlockchainNodeList;
+  blockchainNodes?: BlockchainNodeList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
 }
 export interface PatchProjectsLocationsBlockchainNodesRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the Blockchain node resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Output only. The fully qualified name of the blockchain node. e.g. `projects/my-project/locations/us-central1/blockchainNodes/my-node`. */
   name: string;
   /** Request body */
-  body?: BlockchainNode;
+  body?: BlockchainNode | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound

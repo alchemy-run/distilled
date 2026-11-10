@@ -83,41 +83,41 @@ export type AgentModeEnum =
 export interface CreateConversationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  content?: string | null;
-  conversation?: string;
-  contextual_tools?: CreateConversationRequestContextualToolsMap;
-  ui_context?: unknown;
-  billing_context?: unknown;
-  trace_id?: string;
-  session_id?: string;
-  agent_mode?: AgentModeEnum | (string & {});
-  is_sandbox?: boolean;
-  resume_payload?: unknown;
+  content?: string | null | undefined;
+  conversation?: string | undefined;
+  contextual_tools?: CreateConversationRequestContextualToolsMap | undefined;
+  ui_context?: unknown | undefined;
+  billing_context?: unknown | undefined;
+  trace_id?: string | undefined;
+  session_id?: string | undefined;
+  agent_mode?: AgentModeEnum | (string & {}) | undefined;
+  is_sandbox?: boolean | undefined;
+  resume_payload?: unknown | undefined;
 }
 export type MessageContextualToolsMap = { [key: string]: unknown | undefined };
 /** Serializer for appending a message to an existing conversation without triggering AI processing. */
 export interface Message {
-  content?: string | null;
-  conversation?: string;
-  contextual_tools?: MessageContextualToolsMap;
-  ui_context?: unknown;
-  billing_context?: unknown;
-  trace_id?: string;
-  session_id?: string;
-  agent_mode?: AgentModeEnum;
-  is_sandbox?: boolean;
-  resume_payload?: unknown;
+  content?: string | null | undefined;
+  conversation?: string | undefined;
+  contextual_tools?: MessageContextualToolsMap | undefined;
+  ui_context?: unknown | undefined;
+  billing_context?: unknown | undefined;
+  trace_id?: string | undefined;
+  session_id?: string | undefined;
+  agent_mode?: AgentModeEnum | undefined;
+  is_sandbox?: boolean | undefined;
+  resume_payload?: unknown | undefined;
 }
 export interface CreateConversationsAppendMessageRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this conversation. */
   conversation: string;
-  content?: string;
+  content?: string | undefined;
 }
 /** Serializer for appending a message to an existing conversation without triggering AI processing. */
 export interface MessageMinimal {
-  content?: string;
+  content?: string | undefined;
 }
 /** * `action` - action * `dashboard` - dashboard * `error_tracking_issue` - error_tracking_issue * `evaluation` - evaluation * `event` - event * `insight` - insight * `instructions` - instructions * `notebook` - notebook * `text` - text */
 export type SandboxAttachedContextItemTypeEnum =
@@ -135,11 +135,11 @@ export interface SandboxAttachedContextItem {
   /** Attachment kind. Entity types carry `id` (+ optional `name`); `text` and `instructions` carry `value`. `instructions` is the caller's own guidance and renders into the trusted context block; every other kind renders into the untrusted block, which tells the agent to read it as data. * `action` - action * `dashboard` - dashboard * `error_tracking_issue` - error_tracking_issue * `evaluation` - evaluation * `event` - event * `insight` - insight * `instructions` - instructions * `notebook` - notebook * `text` - text */
   type: SandboxAttachedContextItemTypeEnum | (string & {});
   /** Entity identifier -- integer for `dashboard`/`action`, string short_id/UUID otherwise. Absent for `text`. */
-  id?: unknown;
+  id?: unknown | undefined;
   /** Optional human-readable label rendered in the context block. */
-  name?: string;
+  name?: string | undefined;
   /** Free-text content. Only for `text` and `instructions` attachments. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Typed PostHog entities (and free text) attached to this message. */
 export type CreateConversationsOpenRequestAttachedContextList = Array<SandboxAttachedContextItem>;
@@ -156,15 +156,15 @@ export interface CreateConversationsOpenRequest {
   /** A UUID string identifying this conversation. */
   conversation: string;
   /** The user's message text. Omit or null to warm a sandbox (boot + idle) ahead of the first message. */
-  content?: string | null;
+  content?: string | null | undefined;
   /** Client-generated trace id correlated with the resulting Run's SSE stream. */
-  trace_id?: string;
+  trace_id?: string | undefined;
   /** Typed PostHog entities (and free text) attached to this message. */
-  attached_context?: CreateConversationsOpenRequestAttachedContextList;
+  attached_context?: CreateConversationsOpenRequestAttachedContextList | undefined;
   /** Initial permission mode for the sandbox agent session. Defaults to `auto`, which allows safe tool use while preserving explicit confirmations. * `default` - default * `acceptEdits` - acceptEdits * `plan` - plan * `bypassPermissions` - bypassPermissions * `auto` - auto */
-  initial_permission_mode?: InitialPermissionModeEnum | (string & {});
+  initial_permission_mode?: InitialPermissionModeEnum | (string & {}) | undefined;
   /** Bind a brand-new sandbox conversation to an existing Task so the first message resumes that Task's run. Honored only when this request creates the conversation row; ignored for an already-existing conversation. */
-  task_id?: string;
+  task_id?: string | undefined;
 }
 /** Response for `POST /conversations/{id}/open/` -- the IDs the frontend opens SSE against. */
 export interface SandboxMessageResponse {
@@ -213,15 +213,15 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** * `assistant` - Assistant * `tool_call` - Tool call * `deep_research` - Deep research * `slack` - Slack */
 export type ConversationTypeEnum = "assistant" | "tool_call" | "deep_research" | "slack";
@@ -244,9 +244,9 @@ export interface TaskUserBasicInfo {
   first_name: string;
   last_name: string;
   email: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: TaskUserBasicInfoHedgehogConfigMap | null;
-  role_at_organization?: string | null;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: TaskUserBasicInfoHedgehogConfigMap | null | undefined;
+  role_at_organization?: string | null | undefined;
 }
 /** Conversation envelope variant: ``latest_run`` is just the latest run's id, not the nested run detail. The frontend only needs the id to reconnect to sandbox logs, and emitting the id avoids presigning a log URL per conversation. Task data follows the task's space visibility. */
 export interface ConversationTask {
@@ -269,37 +269,37 @@ export interface ConversationTask {
   archived_at: string | null;
   /** Id of the latest TaskRun; null when the task has no runs. */
   latest_run: string | null;
-  created_at?: string | null;
-  updated_at?: string | null;
-  created_by?: TaskUserBasicInfo | null;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
+  created_by?: TaskUserBasicInfo | null | undefined;
   ci_prompt: string | null;
 }
 export interface Conversation {
-  id?: string;
-  status?: ConversationStatusEnum;
+  id?: string | undefined;
+  status?: ConversationStatusEnum | undefined;
   /** Title of the conversation. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Product domain the conversation is about, classified from the first question. * `web_analytics` - Web analytics * `product_analytics` - Product analytics * `session_replay` - Session replay * `surveys` - Surveys * `feature_flags` - Feature flags * `experiments` - Experiments * `error_tracking` - Error tracking * `data_warehouse` - Data warehouse * `other` - Other */
-  topic?: ConversationTopicEnum | null;
-  user?: UserBasic | null;
-  created_at?: string | null;
-  updated_at?: string | null;
-  type?: ConversationTypeEnum;
+  topic?: ConversationTopicEnum | null | undefined;
+  user?: UserBasic | null | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
+  type?: ConversationTypeEnum | undefined;
   /** Whether this conversation was created during an impersonated session (e.g., by support agents). Internal conversations are hidden from customers. */
-  is_internal?: boolean | null;
+  is_internal?: boolean | null | undefined;
   /** Unique key for Slack thread: '{workspace_id}:{channel}:{thread_ts}' */
-  slack_thread_key?: string | null;
+  slack_thread_key?: string | null | undefined;
   /** Slack workspace subdomain (e.g. 'posthog' for posthog.slack.com) */
-  slack_workspace_domain?: string | null;
-  messages?: ConversationMessagesList;
-  has_unsupported_content?: boolean;
-  agent_mode?: string | null;
+  slack_workspace_domain?: string | null | undefined;
+  messages?: ConversationMessagesList | undefined;
+  has_unsupported_content?: boolean | undefined;
+  agent_mode?: string | null | undefined;
   /** Runtime that owns this conversation. 'langgraph' conversations return their messages in the `messages` field. 'sandbox' conversations return an empty `messages` array and load history from the products/tasks logs endpoint; a conversation copied into a task carries its legacy thread in that task's import run. Only a conversion that predates the copy still returns its legacy thread in `messages`. * `langgraph` - LangGraph * `sandbox` - Sandbox */
-  agent_runtime?: ConversationAgentRuntimeEnum;
-  is_sandbox?: boolean;
+  agent_runtime?: ConversationAgentRuntimeEnum | undefined;
+  is_sandbox?: boolean | undefined;
   /** Return pending approval cards as structured data. Combines metadata from conversation.approval_decisions with payload from checkpoint interrupts (single source of truth for payload data). */
-  pending_approvals?: ConversationPendingApprovalsList;
-  task?: ConversationTask | null;
+  pending_approvals?: ConversationPendingApprovalsList | undefined;
+  task?: ConversationTask | null | undefined;
 }
 export interface CreateConversationsQueueClearRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -323,35 +323,35 @@ export interface ListConversationsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface ConversationMinimal {
-  id?: string;
-  status?: ConversationStatusEnum;
+  id?: string | undefined;
+  status?: ConversationStatusEnum | undefined;
   /** Title of the conversation. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Product domain the conversation is about, classified from the first question. * `web_analytics` - Web analytics * `product_analytics` - Product analytics * `session_replay` - Session replay * `surveys` - Surveys * `feature_flags` - Feature flags * `experiments` - Experiments * `error_tracking` - Error tracking * `data_warehouse` - Data warehouse * `other` - Other */
-  topic?: ConversationTopicEnum | null;
-  user?: UserBasic | null;
-  created_at?: string | null;
-  updated_at?: string | null;
-  type?: ConversationTypeEnum;
+  topic?: ConversationTopicEnum | null | undefined;
+  user?: UserBasic | null | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
+  type?: ConversationTypeEnum | undefined;
   /** Whether this conversation was created during an impersonated session (e.g., by support agents). Internal conversations are hidden from customers. */
-  is_internal?: boolean | null;
+  is_internal?: boolean | null | undefined;
   /** Unique key for Slack thread: '{workspace_id}:{channel}:{thread_ts}' */
-  slack_thread_key?: string | null;
+  slack_thread_key?: string | null | undefined;
   /** Slack workspace subdomain (e.g. 'posthog' for posthog.slack.com) */
-  slack_workspace_domain?: string | null;
-  task?: ConversationTask | null;
+  slack_workspace_domain?: string | null | undefined;
+  task?: ConversationTask | null | undefined;
 }
 export type PaginatedConversationMinimalListResultsList = Array<ConversationMinimal>;
 export interface PaginatedConversationMinimalList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedConversationMinimalListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedConversationMinimalListResultsList | undefined;
 }
 export interface UpdateConversationsQueuePartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */

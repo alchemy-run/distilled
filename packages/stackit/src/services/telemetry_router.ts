@@ -62,22 +62,22 @@ export interface CreateAccessTokenRequest {
   /** The Telemetry Router UUID. */
   telemetryRouterId: string;
   /** The description of the access token. */
-  description?: string;
+  description?: string | undefined;
   /** The selected display name of the access token. */
   displayName: string;
   /** The time-to-live (TTL) in days for the access token. If not set, token will not expire. */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
 }
 export type CreateAccessTokenResponseStatus = "active" | "expired" | "deleting";
 export interface CreateAccessTokenResponse {
   /** The user ID of the creator of the access token. */
   creatorId: string;
   /** The description of the access token. */
-  description?: string;
+  description?: string | undefined;
   /** The selected display name of the access token. */
   displayName: string;
   /** The date and time until the access token is valid to (inclusively). */
-  expirationTime?: string | null;
+  expirationTime?: string | null | undefined;
   /** An auto generated unique id which identifies the access token. */
   id: string;
   status: CreateAccessTokenResponseStatus;
@@ -99,7 +99,7 @@ export interface ConfigFilterAttributes {
 export type ConfigFilterAttributesList = Array<ConfigFilterAttributes>;
 export interface ConfigFilter {
   attributes: ConfigFilterAttributesList;
-  disabled?: boolean;
+  disabled?: boolean | undefined;
 }
 /** Basic auth to authenticate at the OpenTelemetry URI */
 export interface DestinationConfigOpenTelemetryBasicAuth {
@@ -107,9 +107,9 @@ export interface DestinationConfigOpenTelemetryBasicAuth {
   username: string;
 }
 export interface DestinationConfigOpenTelemetry {
-  basicAuth?: DestinationConfigOpenTelemetryBasicAuth;
+  basicAuth?: DestinationConfigOpenTelemetryBasicAuth | undefined;
   /** A bearer token to authenticate at the OpenTelemetry URI. */
-  bearerToken?: string;
+  bearerToken?: string | undefined;
   /** The URI for reaching the resource. */
   uri: string;
 }
@@ -119,16 +119,16 @@ export interface DestinationConfigS3AccessKey {
   secret: string | Redacted.Redacted<string>;
 }
 export interface DestinationConfigS3 {
-  accessKey?: DestinationConfigS3AccessKey;
+  accessKey?: DestinationConfigS3AccessKey | undefined;
   bucket: string;
   /** The URI for reaching the resource. */
   endpoint: string;
 }
 export interface DestinationConfig {
   configType: DestinationConfigType | (string & {});
-  filter?: ConfigFilter;
-  openTelemetry?: DestinationConfigOpenTelemetry;
-  s3?: DestinationConfigS3;
+  filter?: ConfigFilter | undefined;
+  openTelemetry?: DestinationConfigOpenTelemetry | undefined;
+  s3?: DestinationConfigS3 | undefined;
 }
 export interface CreateDestinationRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -139,7 +139,7 @@ export interface CreateDestinationRequest {
   telemetryRouterId: string;
   config: DestinationConfig;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
 }
@@ -154,7 +154,7 @@ export interface DestinationResponse {
   /** The credential type for the resource. */
   credentialType: DestinationResponseCredentialType;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
   /** A auto generated unique id which identifies the resource. */
@@ -169,10 +169,10 @@ export interface CreateTelemetryRouterRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: CreateTelemetryRouterRequestRegionId | (string & {});
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
-  filter?: ConfigFilter;
+  filter?: ConfigFilter | undefined;
 }
 /** The current status of the resource. */
 export type TelemetryRouterResponseStatus = "reconciling" | "active" | "deleting";
@@ -180,10 +180,10 @@ export interface TelemetryRouterResponse {
   /** The point in time the resource was created. */
   creationTime: string;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
-  filter?: ConfigFilter;
+  filter?: ConfigFilter | undefined;
   /** A auto generated unique id which identifies the resource. */
   id: string;
   /** The current status of the resource. */
@@ -224,7 +224,7 @@ export interface DeleteTelemetryRouterRequest {
   /** The Telemetry Router UUID. */
   telemetryRouterId: string;
   /** If true, deletes all child resources. If false, the resource remains in a 'deletion state' while child resources exist. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteTelemetryRouterResponse {}
 export type GetAccessTokenRequestRegionId = "eu01" | "eu02";
@@ -243,11 +243,11 @@ export interface GetAccessTokenResponse2 {
   /** The user ID of the creator of the access token. */
   creatorId: string;
   /** The description of the access token. */
-  description?: string;
+  description?: string | undefined;
   /** The selected display name of the access token. */
   displayName: string;
   /** The date and time until the access token is valid to (inclusively). */
-  expirationTime?: string | null;
+  expirationTime?: string | null | undefined;
   /** An auto generated unique id which identifies the access token. */
   id: string;
   status: GetAccessTokenResponseStatus;
@@ -281,20 +281,20 @@ export interface ListAccessTokensRequest {
   /** The Telemetry Router UUID. */
   telemetryRouterId: string;
   /** A token to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of items to return */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type AccessTokenBaseResponseStatus = "active" | "expired" | "deleting";
 export interface AccessTokenBaseResponse {
   /** The user ID of the creator of the access token. */
   creatorId: string;
   /** The description of the access token. */
-  description?: string;
+  description?: string | undefined;
   /** The selected display name of the access token. */
   displayName: string;
   /** The date and time until the access token is valid to (inclusively). */
-  expirationTime?: string | null;
+  expirationTime?: string | null | undefined;
   /** An auto generated unique id which identifies the access token. */
   id: string;
   status: AccessTokenBaseResponseStatus;
@@ -303,7 +303,7 @@ export type ListAccessTokensResponseAccessTokensList = Array<AccessTokenBaseResp
 export interface ListAccessTokensResponse {
   accessTokens: ListAccessTokensResponseAccessTokensList;
   /** A token to retrieve the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListDestinationsRequestRegionId = "eu01" | "eu02";
 export interface ListDestinationsRequest {
@@ -314,15 +314,15 @@ export interface ListDestinationsRequest {
   /** The Telemetry Router UUID. */
   telemetryRouterId: string;
   /** A token to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of items to return */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ListDestinationsResponseDestinationsList = Array<DestinationResponse>;
 export interface ListDestinationsResponse {
   destinations: ListDestinationsResponseDestinationsList;
   /** A token to retrieve the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListTelemetryRoutersRequestRegionId = "eu01" | "eu02";
 export interface ListTelemetryRoutersRequest {
@@ -331,14 +331,14 @@ export interface ListTelemetryRoutersRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: ListTelemetryRoutersRequestRegionId | (string & {});
   /** A token to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of items to return */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ListTelemetryRoutersResponseTelemetryRoutersList = Array<TelemetryRouterResponse>;
 export interface ListTelemetryRoutersResponse {
   /** A token to retrieve the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   telemetryRouters: ListTelemetryRoutersResponseTelemetryRoutersList;
 }
 export type UpdateAccessTokenRequestRegionId = "eu01" | "eu02";
@@ -351,19 +351,19 @@ export interface UpdateAccessTokenRequest {
   telemetryRouterId: string;
   /** The Access Token UUID. */
   accessTokenId: string;
-  description?: string | null;
-  displayName?: string | null;
+  description?: string | null | undefined;
+  displayName?: string | null | undefined;
 }
 export type UpdateAccessTokenResponseStatus = "active" | "expired" | "deleting";
 export interface UpdateAccessTokenResponse {
   /** The user ID of the creator of the access token. */
   creatorId: string;
   /** The description of the access token. */
-  description?: string;
+  description?: string | undefined;
   /** The selected display name of the access token. */
   displayName: string;
   /** The date and time until the access token is valid to (inclusively). */
-  expirationTime?: string | null;
+  expirationTime?: string | null | undefined;
   /** An auto generated unique id which identifies the access token. */
   id: string;
   status: UpdateAccessTokenResponseStatus;
@@ -378,11 +378,11 @@ export interface UpdateDestinationRequest {
   telemetryRouterId: string;
   /** The Destination UUID. */
   destinationId: string;
-  config?: DestinationConfig;
+  config?: DestinationConfig | undefined;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export type UpdateTelemetryRouterRequestRegionId = "eu01" | "eu02";
 export interface UpdateTelemetryRouterRequest {
@@ -393,10 +393,10 @@ export interface UpdateTelemetryRouterRequest {
   /** The Telemetry Router UUID. */
   telemetryRouterId: string;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
-  displayName?: string;
-  filter?: ConfigFilter;
+  displayName?: string | undefined;
+  filter?: ConfigFilter | undefined;
 }
 export type CreateAccessTokenError = BadRequest | NotFound | Conflict | StackitOpError;
 /** Create a new access token for the given Telemetry Router. */

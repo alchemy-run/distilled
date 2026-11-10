@@ -86,7 +86,7 @@ export interface ExternalDataSchemasCancelCreateRequest {
   id: string;
 }
 export interface ExternalDataSchemasCancelCreateResponse {
-  detail?: string;
+  detail?: string | undefined;
 }
 export interface ExternalDataSchemasDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -150,23 +150,23 @@ export interface ExternalDataSchemaRowFiltersItem {
 export type ExternalDataSchemaRowFiltersList = Array<ExternalDataSchemaRowFiltersItem>;
 export interface ExternalDataSchemaAvailableColumnsItem {
   name: string;
-  data_type?: string;
-  is_nullable?: boolean;
+  data_type?: string | undefined;
+  is_nullable?: boolean | undefined;
 }
 /** Column metadata (name, data type, nullable) for this schema. For SQL sources this is the source-side schema discovered via `refresh_schemas`; for other sources (and once synced) it falls back to the synced table's columns. Empty only before the first successful sync/refresh. */
 export type ExternalDataSchemaAvailableColumnsList = Array<ExternalDataSchemaAvailableColumnsItem>;
 export type ExternalDataSchemaSourceSupportedApiVersionsList = Array<string>;
 /** Lightweight parent-source summary (id, source_type, access_method, column-selection support, the requesting user's access level). Only populated on the single-schema retrieve endpoint -- `null` elsewhere -- so read-only views can render without fetching the full source and all its schemas. */
 export interface ExternalDataSchemaSource {
-  id?: string;
-  source_type?: string;
-  access_method?: string;
-  supports_column_selection?: boolean;
-  supports_row_filters?: boolean;
-  requires_exact_column_metadata?: boolean;
-  user_access_level?: string | null;
-  api_version?: string | null;
-  supported_api_versions?: ExternalDataSchemaSourceSupportedApiVersionsList;
+  id?: string | undefined;
+  source_type?: string | undefined;
+  access_method?: string | undefined;
+  supports_column_selection?: boolean | undefined;
+  supports_row_filters?: boolean | undefined;
+  requires_exact_column_metadata?: boolean | undefined;
+  user_access_level?: string | null | undefined;
+  api_version?: string | null | undefined;
+  supported_api_versions?: ExternalDataSchemaSourceSupportedApiVersionsList | undefined;
 }
 export interface ExternalDataSourceApiVersionDeprecation {
   /** The deprecated vendor API version this source is pinned to. */
@@ -178,57 +178,57 @@ export interface ExternalDataSourceApiVersionDeprecation {
 }
 /** A schema of an external data source: its sync configuration and the warehouse table it syncs into. */
 export interface ExternalDataSchema {
-  id?: string;
-  name?: string;
-  label?: string | null;
-  table?: ExternalDataSchemaTableMap | null;
-  should_sync?: boolean;
-  last_synced_at?: string | null;
+  id?: string | undefined;
+  name?: string | undefined;
+  label?: string | null | undefined;
+  table?: ExternalDataSchemaTableMap | null | undefined;
+  should_sync?: boolean | undefined;
+  last_synced_at?: string | null | undefined;
   /** The latest error that occurred when syncing this schema. */
-  latest_error?: string | null;
-  incremental?: boolean;
-  status?: string | null;
+  latest_error?: string | null | undefined;
+  incremental?: boolean | undefined;
+  status?: string | null | undefined;
   /** Sync strategy: incremental, full_refresh, append, cdc, or xmin. * `full_refresh` - full_refresh * `incremental` - incremental * `append` - append * `webhook` - webhook * `cdc` - cdc * `xmin` - xmin */
-  sync_type?: ExternalDataSchemaSyncTypeEnum | null;
+  sync_type?: ExternalDataSchemaSyncTypeEnum | null | undefined;
   /** Column name used to track sync progress. */
-  incremental_field?: string | null;
+  incremental_field?: string | null | undefined;
   /** Data type of the incremental field. * `integer` - integer * `numeric` - numeric * `datetime` - datetime * `date` - date * `timestamp` - timestamp * `objectid` - objectid * `xid` - xid */
-  incremental_field_type?: IncrementalFieldTypeEnum | null;
+  incremental_field_type?: IncrementalFieldTypeEnum | null | undefined;
   /** Seconds to subtract from the stored incremental watermark at sync time, so each incremental run re-reads a rolling overlap window and catches late or backdated rows. Applies to timestamp/date incremental fields only. The stored watermark is unchanged. Maximum 5184000 (60 days). */
-  incremental_field_lookback_seconds?: number | null;
+  incremental_field_lookback_seconds?: number | null | undefined;
   /** How often to sync. The fastest sync frequency is 5 minutes. * `never` - never * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
-  sync_frequency?: ExternalDataSchemaSyncFrequencyEnum | null;
+  sync_frequency?: ExternalDataSchemaSyncFrequencyEnum | null | undefined;
   /** UTC time of day to run the sync (HH:MM:SS). */
-  sync_time_of_day?: string | null;
+  sync_time_of_day?: string | null | undefined;
   /** Days between scheduled full refreshes, from 1 to 90, or null for none. A full refresh wipes the table and re-imports every row, so rows deleted at the source are removed. It runs on the first scheduled sync once the interval has passed, counted from when it was saved or from the last full resync (or, when full_refresh_time_of_day is set, from the slot of that time the last refresh served), and can start up to an hour early. Queries keep returning the current rows until a full refresh finishes, and workflows and destinations that run on new rows of the table run again for every row. Available for incremental, append, and xmin syncs only, and never shorter than the sync frequency. */
-  full_refresh_interval_days?: number | null;
+  full_refresh_interval_days?: number | null | undefined;
   /** UTC time of day (HH:MM:SS) that scheduled full refreshes are due, for example outside working hours. The refresh runs on the first scheduled sync from up to an hour before this time, so on a table that syncs every few hours it can run hours later. Each interval counts from the slot of this time that the last refresh or save served, where a slot less than an hour away counts as served. Saving a new time restarts the clock, so the first refresh after a save can come up to a day before a full interval has passed. Null counts the interval from when it was saved or from the last full resync. Cleared when full_refresh_interval_days is null. */
-  full_refresh_time_of_day?: string | null;
+  full_refresh_time_of_day?: string | null | undefined;
   /** When the next scheduled full refresh is due. The first scheduled sync that starts at most an hour before this time re-imports the table. Saving a new interval or time, or any full resync, moves it one interval ahead, onto full_refresh_time_of_day when that is set. */
-  next_full_refresh_at?: string | null;
-  description?: string | null;
+  next_full_refresh_at?: string | null | undefined;
+  description?: string | null | undefined;
   /** Column names for primary key deduplication. */
-  primary_key_columns?: ExternalDataSchemaPrimaryKeyColumnsList | null;
+  primary_key_columns?: ExternalDataSchemaPrimaryKeyColumnsList | null | undefined;
   /** For CDC syncs: consolidated, cdc_only, or both. * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
-  cdc_table_mode?: CdcTableModeEnum | null;
+  cdc_table_mode?: CdcTableModeEnum | null | undefined;
   /** Why the last sync run could not merge rows for this table, or `null` when no such failure is current, which includes a run that failed for another reason. A blocked table is disabled, and the resolution differs by reason. `missing_primary_key`: no key to merge on, so set `primary_key_columns` to a unique key, which is accepted because none was set before. `duplicate_primary_key`: the key in use does not identify one row, and that key cannot be swapped once data has synced, so either remove the duplicates at the source and set `should_sync` to true, or delete the synced data before setting a different key. Either reason also accepts a different `sync_type`: `append` is only safe for insert-only tables, because updated rows arrive again as duplicates, and `full_refresh` re-reads the whole table on every sync and bills every row. This reports the last run's failure, so it clears once a run succeeds or fails for another reason, not when an update lands. * `missing_primary_key` - Missing primary key * `duplicate_primary_key` - Duplicate primary key */
-  incremental_sync_blocked?: IncrementalSyncBlockedReasonEnum | null;
+  incremental_sync_blocked?: IncrementalSyncBlockedReasonEnum | null | undefined;
   /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
-  enabled_columns?: ExternalDataSchemaEnabledColumnsList | null;
+  enabled_columns?: ExternalDataSchemaEnabledColumnsList | null | undefined;
   /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync -- not retroactive to already-synced rows. */
-  row_filters?: ExternalDataSchemaRowFiltersList | null;
+  row_filters?: ExternalDataSchemaRowFiltersList | null | undefined;
   /** Column metadata (name, data type, nullable) for this schema. For SQL sources this is the source-side schema discovered via `refresh_schemas`; for other sources (and once synced) it falls back to the synced table's columns. Empty only before the first successful sync/refresh. */
-  available_columns?: ExternalDataSchemaAvailableColumnsList;
+  available_columns?: ExternalDataSchemaAvailableColumnsList | undefined;
   /** Whether exact source-side column metadata is available for safe source-query projection. */
-  source_column_metadata_available?: boolean;
+  source_column_metadata_available?: boolean | undefined;
   /** Lightweight parent-source summary (id, source_type, access_method, column-selection support, the requesting user's access level). Only populated on the single-schema retrieve endpoint -- `null` elsewhere -- so read-only views can render without fetching the full source and all its schemas. */
-  source?: ExternalDataSchemaSource | null;
+  source?: ExternalDataSchemaSource | null | undefined;
   /** Vendor API version override for this schema. `null` (default) syncs on the source's pinned version. Must be one of the source type's supported versions. User-managed: version-migration tooling never changes it. Not available for webhook-sync schemas. */
-  api_version?: string | null;
+  api_version?: string | null | undefined;
   /** Set when this schema's version override is deprecated by the vendor; null when there is no override or it is not deprecated. The source-level field covers the source pin. */
-  api_version_deprecation?: ExternalDataSourceApiVersionDeprecation | null;
+  api_version_deprecation?: ExternalDataSourceApiVersionDeprecation | null | undefined;
   /** The effective access level the user has for this object */
-  user_access_level?: string | null;
+  user_access_level?: string | null | undefined;
 }
 export interface GetExternalDataSchemasDestinationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -247,7 +247,7 @@ export interface SchemaDestinations {
   /** Whether this table follows its source rather than having its own destinations. */
   inherits_from_source: boolean;
   /** Where the table actually syncs, after inheritance is resolved. */
-  effective_destination_ids?: SchemaDestinationsEffectiveDestinationIdsList;
+  effective_destination_ids?: SchemaDestinationsEffectiveDestinationIdsList | undefined;
 }
 export interface GetExternalDataSchemasLogRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -255,35 +255,35 @@ export interface GetExternalDataSchemasLogRequest {
   /** A UUID string identifying this external data schema. */
   id: string;
   /** Only return entries after this ISO 8601 timestamp. Defaults to 7 days ago; pass an explicit value to read further back. */
-  after?: string;
+  after?: string | undefined;
   /** Only return entries before this ISO 8601 timestamp. */
-  before?: string;
+  before?: string | undefined;
   /** Filter logs to a specific execution instance. */
-  instance_id?: string;
+  instance_id?: string | undefined;
   /** Comma-separated log levels to include, e.g. 'WARN,ERROR'. Valid levels: DEBUG, LOG, INFO, WARN, ERROR. */
-  level?: string;
+  level?: string | undefined;
   /** Maximum number of log entries to return (1-500, default 50). */
-  limit?: number;
+  limit?: number | undefined;
   /** Case-insensitive substring search across log messages. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface GetExternalDataSchemasLogResponse {}
 export interface ListExternalDataSchemasRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** A search term. */
-  search?: string;
+  search?: string | undefined;
 }
 export type PaginatedExternalDataSchemaListResultsList = Array<ExternalDataSchema>;
 export interface PaginatedExternalDataSchemaList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedExternalDataSchemaListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedExternalDataSchemaListResultsList | undefined;
 }
 /** Column names for primary key deduplication. */
 export type UpdateExternalDataSchemaRequestPrimaryKeyColumnsList = Array<string>;
@@ -297,33 +297,33 @@ export interface UpdateExternalDataSchemaRequest {
   project_id: string;
   /** A UUID string identifying this external data schema. */
   id: string;
-  should_sync?: boolean;
+  should_sync?: boolean | undefined;
   /** Sync strategy: incremental, full_refresh, append, cdc, or xmin. * `full_refresh` - full_refresh * `incremental` - incremental * `append` - append * `webhook` - webhook * `cdc` - cdc * `xmin` - xmin */
-  sync_type?: ExternalDataSchemaSyncTypeEnum | (string & {}) | null;
+  sync_type?: ExternalDataSchemaSyncTypeEnum | (string & {}) | null | undefined;
   /** Column name used to track sync progress. */
-  incremental_field?: string | null;
+  incremental_field?: string | null | undefined;
   /** Data type of the incremental field. * `integer` - integer * `numeric` - numeric * `datetime` - datetime * `date` - date * `timestamp` - timestamp * `objectid` - objectid * `xid` - xid */
-  incremental_field_type?: IncrementalFieldTypeEnum | (string & {}) | null;
+  incremental_field_type?: IncrementalFieldTypeEnum | (string & {}) | null | undefined;
   /** Seconds to subtract from the stored incremental watermark at sync time, so each incremental run re-reads a rolling overlap window and catches late or backdated rows. Applies to timestamp/date incremental fields only. The stored watermark is unchanged. Maximum 5184000 (60 days). */
-  incremental_field_lookback_seconds?: number | null;
+  incremental_field_lookback_seconds?: number | null | undefined;
   /** How often to sync. The fastest sync frequency is 5 minutes. * `never` - never * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
-  sync_frequency?: ExternalDataSchemaSyncFrequencyEnum | (string & {}) | null;
+  sync_frequency?: ExternalDataSchemaSyncFrequencyEnum | (string & {}) | null | undefined;
   /** UTC time of day to run the sync (HH:MM:SS). */
-  sync_time_of_day?: string | null;
+  sync_time_of_day?: string | null | undefined;
   /** Days between scheduled full refreshes, from 1 to 90, or null for none. A full refresh wipes the table and re-imports every row, so rows deleted at the source are removed. It runs on the first scheduled sync once the interval has passed, counted from when it was saved or from the last full resync (or, when full_refresh_time_of_day is set, from the slot of that time the last refresh served), and can start up to an hour early. Queries keep returning the current rows until a full refresh finishes, and workflows and destinations that run on new rows of the table run again for every row. Available for incremental, append, and xmin syncs only, and never shorter than the sync frequency. */
-  full_refresh_interval_days?: number | null;
+  full_refresh_interval_days?: number | null | undefined;
   /** UTC time of day (HH:MM:SS) that scheduled full refreshes are due, for example outside working hours. The refresh runs on the first scheduled sync from up to an hour before this time, so on a table that syncs every few hours it can run hours later. Each interval counts from the slot of this time that the last refresh or save served, where a slot less than an hour away counts as served. Saving a new time restarts the clock, so the first refresh after a save can come up to a day before a full interval has passed. Null counts the interval from when it was saved or from the last full resync. Cleared when full_refresh_interval_days is null. */
-  full_refresh_time_of_day?: string | null;
+  full_refresh_time_of_day?: string | null | undefined;
   /** Column names for primary key deduplication. */
-  primary_key_columns?: UpdateExternalDataSchemaRequestPrimaryKeyColumnsList | null;
+  primary_key_columns?: UpdateExternalDataSchemaRequestPrimaryKeyColumnsList | null | undefined;
   /** For CDC syncs: consolidated, cdc_only, or both. * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
-  cdc_table_mode?: CdcTableModeEnum | (string & {}) | null;
+  cdc_table_mode?: CdcTableModeEnum | (string & {}) | null | undefined;
   /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
-  enabled_columns?: UpdateExternalDataSchemaRequestEnabledColumnsList | null;
+  enabled_columns?: UpdateExternalDataSchemaRequestEnabledColumnsList | null | undefined;
   /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync -- not retroactive to already-synced rows. */
-  row_filters?: UpdateExternalDataSchemaRequestRowFiltersList | null;
+  row_filters?: UpdateExternalDataSchemaRequestRowFiltersList | null | undefined;
   /** Vendor API version override for this schema. `null` (default) syncs on the source's pinned version. Must be one of the source type's supported versions. User-managed: version-migration tooling never changes it. Not available for webhook-sync schemas. */
-  api_version?: string | null;
+  api_version?: string | null | undefined;
 }
 /** Destinations to sync to. On a table, null clears the override so the table follows its source again. */
 export type UpdateExternalDataSchemasDestinationsPartialRequestDestinationIdsList = Array<string>;
@@ -333,7 +333,10 @@ export interface UpdateExternalDataSchemasDestinationsPartialRequest {
   /** A UUID string identifying this external data schema. */
   id: string;
   /** Destinations to sync to. On a table, null clears the override so the table follows its source again. */
-  destination_ids?: UpdateExternalDataSchemasDestinationsPartialRequestDestinationIdsList | null;
+  destination_ids?:
+    | UpdateExternalDataSchemasDestinationsPartialRequestDestinationIdsList
+    | null
+    | undefined;
 }
 /** Column names for primary key deduplication. */
 export type UpdateExternalDataSchemasPartialRequestPrimaryKeyColumnsList = Array<string>;
@@ -349,33 +352,36 @@ export interface UpdateExternalDataSchemasPartialRequest {
   project_id: string;
   /** A UUID string identifying this external data schema. */
   id: string;
-  should_sync?: boolean;
+  should_sync?: boolean | undefined;
   /** Sync strategy: incremental, full_refresh, append, cdc, or xmin. * `full_refresh` - full_refresh * `incremental` - incremental * `append` - append * `webhook` - webhook * `cdc` - cdc * `xmin` - xmin */
-  sync_type?: ExternalDataSchemaSyncTypeEnum | (string & {}) | null;
+  sync_type?: ExternalDataSchemaSyncTypeEnum | (string & {}) | null | undefined;
   /** Column name used to track sync progress. */
-  incremental_field?: string | null;
+  incremental_field?: string | null | undefined;
   /** Data type of the incremental field. * `integer` - integer * `numeric` - numeric * `datetime` - datetime * `date` - date * `timestamp` - timestamp * `objectid` - objectid * `xid` - xid */
-  incremental_field_type?: IncrementalFieldTypeEnum | (string & {}) | null;
+  incremental_field_type?: IncrementalFieldTypeEnum | (string & {}) | null | undefined;
   /** Seconds to subtract from the stored incremental watermark at sync time, so each incremental run re-reads a rolling overlap window and catches late or backdated rows. Applies to timestamp/date incremental fields only. The stored watermark is unchanged. Maximum 5184000 (60 days). */
-  incremental_field_lookback_seconds?: number | null;
+  incremental_field_lookback_seconds?: number | null | undefined;
   /** How often to sync. The fastest sync frequency is 5 minutes. * `never` - never * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
-  sync_frequency?: ExternalDataSchemaSyncFrequencyEnum | (string & {}) | null;
+  sync_frequency?: ExternalDataSchemaSyncFrequencyEnum | (string & {}) | null | undefined;
   /** UTC time of day to run the sync (HH:MM:SS). */
-  sync_time_of_day?: string | null;
+  sync_time_of_day?: string | null | undefined;
   /** Days between scheduled full refreshes, from 1 to 90, or null for none. A full refresh wipes the table and re-imports every row, so rows deleted at the source are removed. It runs on the first scheduled sync once the interval has passed, counted from when it was saved or from the last full resync (or, when full_refresh_time_of_day is set, from the slot of that time the last refresh served), and can start up to an hour early. Queries keep returning the current rows until a full refresh finishes, and workflows and destinations that run on new rows of the table run again for every row. Available for incremental, append, and xmin syncs only, and never shorter than the sync frequency. */
-  full_refresh_interval_days?: number | null;
+  full_refresh_interval_days?: number | null | undefined;
   /** UTC time of day (HH:MM:SS) that scheduled full refreshes are due, for example outside working hours. The refresh runs on the first scheduled sync from up to an hour before this time, so on a table that syncs every few hours it can run hours later. Each interval counts from the slot of this time that the last refresh or save served, where a slot less than an hour away counts as served. Saving a new time restarts the clock, so the first refresh after a save can come up to a day before a full interval has passed. Null counts the interval from when it was saved or from the last full resync. Cleared when full_refresh_interval_days is null. */
-  full_refresh_time_of_day?: string | null;
+  full_refresh_time_of_day?: string | null | undefined;
   /** Column names for primary key deduplication. */
-  primary_key_columns?: UpdateExternalDataSchemasPartialRequestPrimaryKeyColumnsList | null;
+  primary_key_columns?:
+    | UpdateExternalDataSchemasPartialRequestPrimaryKeyColumnsList
+    | null
+    | undefined;
   /** For CDC syncs: consolidated, cdc_only, or both. * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
-  cdc_table_mode?: CdcTableModeEnum | (string & {}) | null;
+  cdc_table_mode?: CdcTableModeEnum | (string & {}) | null | undefined;
   /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
-  enabled_columns?: UpdateExternalDataSchemasPartialRequestEnabledColumnsList | null;
+  enabled_columns?: UpdateExternalDataSchemasPartialRequestEnabledColumnsList | null | undefined;
   /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync -- not retroactive to already-synced rows. */
-  row_filters?: UpdateExternalDataSchemasPartialRequestRowFiltersList | null;
+  row_filters?: UpdateExternalDataSchemasPartialRequestRowFiltersList | null | undefined;
   /** Vendor API version override for this schema. `null` (default) syncs on the source's pinned version. Must be one of the source type's supported versions. User-managed: version-migration tooling never changes it. Not available for webhook-sync schemas. */
-  api_version?: string | null;
+  api_version?: string | null | undefined;
 }
 export type CreateExternalDataSchemasIncrementalFieldError =
   | BadRequest

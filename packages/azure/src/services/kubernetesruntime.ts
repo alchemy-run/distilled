@@ -47,7 +47,7 @@ export interface BgpPeersCreateOrUpdateRequest {
   /** The name of the BgpPeer */
   bgpPeerName: string;
   /** The resource-specific properties for this resource. */
-  properties?: BgpPeerPropertiesInput;
+  properties?: BgpPeerPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -56,17 +56,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The status of the current operation. */
 export type ProvisioningState =
@@ -86,21 +86,21 @@ export interface BgpPeerProperties {
   /** Peer Address */
   peerAddress: string;
   /** Resource provision state */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface BgpPeersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: BgpPeerProperties;
+  properties?: BgpPeerProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteBgpPeerRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -131,9 +131,9 @@ export interface DeleteStorageClassRequest {
 }
 export interface DeleteStorageClassResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetBgpPeerRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -143,15 +143,15 @@ export interface GetBgpPeerRequest {
 }
 export interface GetBgpPeerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: BgpPeerProperties;
+  properties?: BgpPeerProperties | undefined;
 }
 export interface GetLoadBalancerRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -172,25 +172,25 @@ export interface LoadBalancerProperties {
   /** IP Range */
   addresses: LoadBalancerPropertiesAddressesList;
   /** A dynamic label mapping to select related services. For instance, if you want to create a load balancer only for services with label "a=b", then please specify {"a": "b"} in the field. */
-  serviceSelector?: LoadBalancerPropertiesServiceSelectorMap;
+  serviceSelector?: LoadBalancerPropertiesServiceSelectorMap | undefined;
   /** Advertise Mode */
   advertiseMode: AdvertiseMode;
   /** The list of BGP peers it should advertise to. Null or empty means to advertise to all peers. */
-  bgpPeers?: LoadBalancerPropertiesBgpPeersList;
+  bgpPeers?: LoadBalancerPropertiesBgpPeersList | undefined;
   /** Resource provision state */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetLoadBalancerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: LoadBalancerProperties;
+  properties?: LoadBalancerProperties | undefined;
 }
 export interface GetServiceRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -201,21 +201,21 @@ export interface GetServiceRequest {
 /** Properties for the service resource */
 export interface ServiceProperties {
   /** The object id of the service principal of the RP provisioned in the tenant */
-  rpObjectId?: string;
+  rpObjectId?: string | undefined;
   /** Resource provision state */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ServiceProperties;
+  properties?: ServiceProperties | undefined;
 }
 export interface GetStorageClassRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -250,68 +250,68 @@ export interface StorageClassTypeProperties {
   /** Type of the storage class. */
   type: SCType | (string & {});
   /** The backing storageclass used to create new storageclass */
-  backingStorageClassName?: string;
+  backingStorageClassName?: string | undefined;
   /** Azure Storage Account Name */
-  azureStorageAccountName?: string;
+  azureStorageAccountName?: string | undefined;
   /** Azure Storage Account Key */
-  azureStorageAccountKey?: string | Redacted.Redacted<string>;
+  azureStorageAccountKey?: string | Redacted.Redacted<string> | undefined;
   /** NFS Server */
-  server?: string;
+  server?: string | undefined;
   /** NFS share */
-  share?: string;
+  share?: string | undefined;
   /** Sub directory under share. If the sub directory doesn't exist, driver will create it */
-  subDir?: string;
+  subDir?: string | undefined;
   /** Mounted folder permissions. Default is 0. If set as non-zero, driver will perform `chmod` after mount */
-  mountPermissions?: string;
+  mountPermissions?: string | undefined;
   /** The action to take when a NFS volume is deleted. Default is Delete */
-  onDelete?: NfsDirectoryActionOnVolumeDeletion | (string & {});
+  onDelete?: NfsDirectoryActionOnVolumeDeletion | (string & {}) | undefined;
   /** SMB Source */
-  source?: string;
+  source?: string | undefined;
   /** Server username */
-  username?: string;
+  username?: string | undefined;
   /** Server password */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Server domain */
-  domain?: string;
+  domain?: string | undefined;
 }
 /** Details of the StorageClass StorageClass. */
 export interface StorageClassProperties {
   /** Volume can be expanded or not */
-  allowVolumeExpansion?: VolumeExpansion;
+  allowVolumeExpansion?: VolumeExpansion | undefined;
   /** Additional mount options */
-  mountOptions?: StorageClassPropertiesMountOptionsList;
+  mountOptions?: StorageClassPropertiesMountOptionsList | undefined;
   /** Provisioner name */
-  provisioner?: string;
+  provisioner?: string | undefined;
   /** Binding mode of volumes: Immediate, WaitForFirstConsumer */
-  volumeBindingMode?: VolumeBindingMode;
+  volumeBindingMode?: VolumeBindingMode | undefined;
   /** The access mode: [ReadWriteOnce, ReadWriteMany] or [ReadWriteOnce] */
-  accessModes?: StorageClassPropertiesAccessModesList;
+  accessModes?: StorageClassPropertiesAccessModesList | undefined;
   /** Allow single data node failure */
-  dataResilience?: DataResilienceTier;
+  dataResilience?: DataResilienceTier | undefined;
   /** Failover speed: NA, Slow, Fast */
-  failoverSpeed?: FailoverTier;
+  failoverSpeed?: FailoverTier | undefined;
   /** Limitations of the storage class */
-  limitations?: StorageClassPropertiesLimitationsList;
+  limitations?: StorageClassPropertiesLimitationsList | undefined;
   /** Performance tier */
-  performance?: PerformanceTier;
+  performance?: PerformanceTier | undefined;
   /** Selection priority when multiple storage classes meet the criteria. 0: Highest, -1: Never use */
-  priority?: number;
+  priority?: number | undefined;
   /** Properties of the StorageClass */
   typeProperties: StorageClassTypeProperties;
   /** Resource provision state */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetStorageClassResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: StorageClassProperties;
+  properties?: StorageClassProperties | undefined;
 }
 export interface ListBgpPeersRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -320,15 +320,15 @@ export interface ListBgpPeersRequest {
 /** A BgpPeer resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters) */
 export interface BgpPeer {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: BgpPeerProperties;
+  properties?: BgpPeerProperties | undefined;
 }
 /** The BgpPeer items on this page */
 export type BgpPeerListResultValueList = Array<BgpPeer>;
@@ -337,7 +337,7 @@ export interface BgpPeerListResult {
   /** The BgpPeer items on this page */
   value: BgpPeerListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListLoadBalancersRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -346,15 +346,15 @@ export interface ListLoadBalancersRequest {
 /** A LoadBalancer resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters) */
 export interface LoadBalancer {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: LoadBalancerProperties;
+  properties?: LoadBalancerProperties | undefined;
 }
 /** The LoadBalancer items on this page */
 export type LoadBalancerListResultValueList = Array<LoadBalancer>;
@@ -363,19 +363,19 @@ export interface LoadBalancerListResult {
   /** The LoadBalancer items on this page */
   value: LoadBalancerListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -384,23 +384,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServicesRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -409,15 +409,15 @@ export interface ListServicesRequest {
 /** A Service resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters) */
 export interface ServiceResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ServiceProperties;
+  properties?: ServiceProperties | undefined;
 }
 /** The ServiceResource items on this page */
 export type ServiceResourceListResultValueList = Array<ServiceResource>;
@@ -426,7 +426,7 @@ export interface ServiceResourceListResult {
   /** The ServiceResource items on this page */
   value: ServiceResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStorageClassRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -435,15 +435,15 @@ export interface ListStorageClassRequest {
 /** A StorageClass resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters) */
 export interface StorageClassResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: StorageClassProperties;
+  properties?: StorageClassProperties | undefined;
 }
 /** The StorageClassResource items on this page */
 export type StorageClassResourceListResultValueList = Array<StorageClassResource>;
@@ -452,7 +452,7 @@ export interface StorageClassResourceListResult {
   /** The StorageClassResource items on this page */
   value: StorageClassResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** IP Range */
 export type LoadBalancerPropertiesInputAddressesList = Array<string>;
@@ -465,11 +465,11 @@ export interface LoadBalancerPropertiesInput {
   /** IP Range */
   addresses: LoadBalancerPropertiesInputAddressesList;
   /** A dynamic label mapping to select related services. For instance, if you want to create a load balancer only for services with label "a=b", then please specify {"a": "b"} in the field. */
-  serviceSelector?: LoadBalancerPropertiesInputServiceSelectorMap;
+  serviceSelector?: LoadBalancerPropertiesInputServiceSelectorMap | undefined;
   /** Advertise Mode */
   advertiseMode: AdvertiseMode | (string & {});
   /** The list of BGP peers it should advertise to. Null or empty means to advertise to all peers. */
-  bgpPeers?: LoadBalancerPropertiesInputBgpPeersList;
+  bgpPeers?: LoadBalancerPropertiesInputBgpPeersList | undefined;
 }
 export interface LoadBalancersCreateOrUpdateRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -477,21 +477,21 @@ export interface LoadBalancersCreateOrUpdateRequest {
   /** The name of the LoadBalancer */
   loadBalancerName: string;
   /** The resource-specific properties for this resource. */
-  properties?: LoadBalancerPropertiesInput;
+  properties?: LoadBalancerPropertiesInput | undefined;
 }
 export interface LoadBalancersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: LoadBalancerProperties;
+  properties?: LoadBalancerProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Properties for the service resource */
 export interface ServicePropertiesInput {}
@@ -501,19 +501,19 @@ export interface ServicesCreateOrUpdateRequest {
   /** The name of the the service */
   serviceName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ServicePropertiesInput;
+  properties?: ServicePropertiesInput | undefined;
 }
 export interface ServicesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ServiceProperties;
+  properties?: ServiceProperties | undefined;
 }
 /** Additional mount options */
 export type StorageClassPropertiesInputMountOptionsList = Array<string>;
@@ -524,25 +524,25 @@ export type StorageClassPropertiesInputLimitationsList = Array<string>;
 /** Details of the StorageClass StorageClass. */
 export interface StorageClassPropertiesInput {
   /** Volume can be expanded or not */
-  allowVolumeExpansion?: VolumeExpansion | (string & {});
+  allowVolumeExpansion?: VolumeExpansion | (string & {}) | undefined;
   /** Additional mount options */
-  mountOptions?: StorageClassPropertiesInputMountOptionsList;
+  mountOptions?: StorageClassPropertiesInputMountOptionsList | undefined;
   /** Provisioner name */
-  provisioner?: string;
+  provisioner?: string | undefined;
   /** Binding mode of volumes: Immediate, WaitForFirstConsumer */
-  volumeBindingMode?: VolumeBindingMode | (string & {});
+  volumeBindingMode?: VolumeBindingMode | (string & {}) | undefined;
   /** The access mode: [ReadWriteOnce, ReadWriteMany] or [ReadWriteOnce] */
-  accessModes?: StorageClassPropertiesInputAccessModesList;
+  accessModes?: StorageClassPropertiesInputAccessModesList | undefined;
   /** Allow single data node failure */
-  dataResilience?: DataResilienceTier | (string & {});
+  dataResilience?: DataResilienceTier | (string & {}) | undefined;
   /** Failover speed: NA, Slow, Fast */
-  failoverSpeed?: FailoverTier | (string & {});
+  failoverSpeed?: FailoverTier | (string & {}) | undefined;
   /** Limitations of the storage class */
-  limitations?: StorageClassPropertiesInputLimitationsList;
+  limitations?: StorageClassPropertiesInputLimitationsList | undefined;
   /** Performance tier */
-  performance?: PerformanceTier | (string & {});
+  performance?: PerformanceTier | (string & {}) | undefined;
   /** Selection priority when multiple storage classes meet the criteria. 0: Highest, -1: Never use */
-  priority?: number;
+  priority?: number | undefined;
   /** Properties of the StorageClass */
   typeProperties: StorageClassTypeProperties;
 }
@@ -552,21 +552,21 @@ export interface StorageClassCreateOrUpdateRequest {
   /** The name of the the storage class */
   storageClassName: string;
   /** The resource-specific properties for this resource. */
-  properties?: StorageClassPropertiesInput;
+  properties?: StorageClassPropertiesInput | undefined;
 }
 export interface StorageClassCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: StorageClassProperties;
+  properties?: StorageClassProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Additional mount options */
 export type StorageClassPropertiesUpdateMountOptionsList = Array<string>;
@@ -577,50 +577,50 @@ export type StorageClassPropertiesUpdateLimitationsList = Array<string>;
 /** The model for update a storageClass */
 export interface StorageClassTypePropertiesUpdate {
   /** The backing storageclass used to create new storageclass */
-  backingStorageClassName?: string;
+  backingStorageClassName?: string | undefined;
   /** Azure Storage Account Name */
-  azureStorageAccountName?: string;
+  azureStorageAccountName?: string | undefined;
   /** Azure Storage Account Key */
-  azureStorageAccountKey?: string | Redacted.Redacted<string>;
+  azureStorageAccountKey?: string | Redacted.Redacted<string> | undefined;
   /** NFS Server */
-  server?: string;
+  server?: string | undefined;
   /** NFS share */
-  share?: string;
+  share?: string | undefined;
   /** Sub directory under share. If the sub directory doesn't exist, driver will create it */
-  subDir?: string;
+  subDir?: string | undefined;
   /** Mounted folder permissions. Default is 0. If set as non-zero, driver will perform `chmod` after mount */
-  mountPermissions?: string;
+  mountPermissions?: string | undefined;
   /** The action to take when a NFS volume is deleted. Default is Delete */
-  onDelete?: NfsDirectoryActionOnVolumeDeletion | (string & {});
+  onDelete?: NfsDirectoryActionOnVolumeDeletion | (string & {}) | undefined;
   /** SMB Source */
-  source?: string;
+  source?: string | undefined;
   /** Server username */
-  username?: string;
+  username?: string | undefined;
   /** Server password */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Server domain */
-  domain?: string;
+  domain?: string | undefined;
 }
 /** The model for updating storageClass properties */
 export interface StorageClassPropertiesUpdate {
   /** Volume can be expanded or not */
-  allowVolumeExpansion?: VolumeExpansion | (string & {});
+  allowVolumeExpansion?: VolumeExpansion | (string & {}) | undefined;
   /** Additional mount options */
-  mountOptions?: StorageClassPropertiesUpdateMountOptionsList;
+  mountOptions?: StorageClassPropertiesUpdateMountOptionsList | undefined;
   /** The access mode: [ReadWriteOnce, ReadWriteMany] or [ReadWriteOnce] */
-  accessModes?: StorageClassPropertiesUpdateAccessModesList;
+  accessModes?: StorageClassPropertiesUpdateAccessModesList | undefined;
   /** Allow single data node failure */
-  dataResilience?: DataResilienceTier | (string & {});
+  dataResilience?: DataResilienceTier | (string & {}) | undefined;
   /** Failover speed: NA, Slow, Fast */
-  failoverSpeed?: FailoverTier | (string & {});
+  failoverSpeed?: FailoverTier | (string & {}) | undefined;
   /** Limitations of the storage class */
-  limitations?: StorageClassPropertiesUpdateLimitationsList;
+  limitations?: StorageClassPropertiesUpdateLimitationsList | undefined;
   /** Performance tier */
-  performance?: PerformanceTier | (string & {});
+  performance?: PerformanceTier | (string & {}) | undefined;
   /** Selection priority when multiple storage classes meet the criteria. 0: Highest, -1: Never use */
-  priority?: number;
+  priority?: number | undefined;
   /** New storage class type of storageClass */
-  typeProperties?: StorageClassTypePropertiesUpdate;
+  typeProperties?: StorageClassTypePropertiesUpdate | undefined;
 }
 export interface UpdateStorageClassRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -628,23 +628,23 @@ export interface UpdateStorageClassRequest {
   /** The name of the the storage class */
   storageClassName: string;
   /** The properties of StorageClass */
-  properties?: StorageClassPropertiesUpdate;
+  properties?: StorageClassPropertiesUpdate | undefined;
 }
 export interface UpdateStorageClassResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: StorageClassProperties;
+  properties?: StorageClassProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type BgpPeersCreateOrUpdateError = AzureOpError;
 /** Create a BgpPeer */

@@ -63,7 +63,7 @@ export class NotFound
 
 export interface AttachNotebooksWidgetRequestInputBindingsValue {
   source: string;
-  hog?: string;
+  hog?: string | undefined;
 }
 /** Notebook-local input mappings keyed by contract slot. Each value names a source dataframe and may include pure Hog source for reshaping its rows. */
 export type AttachNotebooksWidgetRequestInputBindingsMap = {
@@ -78,9 +78,9 @@ export interface AttachNotebooksWidgetRequest {
   /** Reusable widget to place in this notebook node. */
   widget_id: string;
   /** Version to pin, or null to follow the reusable widget's latest version. */
-  version_id?: string | null;
+  version_id?: string | null | undefined;
   /** Notebook-local input mappings keyed by contract slot. Each value names a source dataframe and may include pure Hog source for reshaping its rows. */
-  input_bindings?: AttachNotebooksWidgetRequestInputBindingsMap;
+  input_bindings?: AttachNotebooksWidgetRequestInputBindingsMap | undefined;
 }
 /** * `awaiting_generation` - awaiting_generation * `generating` - generating * `building` - building * `ready` - ready * `failed` - failed * `incompatible` - incompatible */
 export type LifecycleStatusEnum =
@@ -117,7 +117,7 @@ export interface WidgetInputContractItem {
   /** Original dataframe name when the widget was published. */
   sourceName: string;
   /** Columns the notebook-local binding must produce after its optional Hog mapping. */
-  columns?: WidgetInputContractItemColumnsList;
+  columns?: WidgetInputContractItemColumnsList | undefined;
   /** Hash of the expected column schema. */
   schemaHash: string;
 }
@@ -176,13 +176,13 @@ export interface WidgetStatus {
   /** Current widget and preview state. * `awaiting_generation` - awaiting_generation * `generating` - generating * `building` - building * `ready` - ready * `failed` - failed * `incompatible` - incompatible */
   lifecycle_status: LifecycleStatusEnum;
   /** Actionable failure detail. */
-  error_detail?: string | null;
+  error_detail?: string | null | undefined;
   /** Stable failure code for support and diagnostics. */
-  error_code?: string | null;
+  error_code?: string | null | undefined;
   /** Generation step that failed, if a generation job failed. * `generating_source` - generating_source * `reviewing_source` - reviewing_source * `publishing_source` - publishing_source * `unknown` - unknown */
-  failure_phase?: FailurePhaseEnum | null;
+  failure_phase?: FailurePhaseEnum | null | undefined;
   /** Short-lived URL for the selected widget version's preview. */
-  artifact_url?: string | null;
+  artifact_url?: string | null | undefined;
   /** Logical dataframe slots available to the selected version. */
   frame_names: WidgetStatusFrameNamesList;
   /** Notebook-local mapping from each logical widget input slot to a dataframe and optional Hog transform. */
@@ -225,7 +225,7 @@ export interface NotebookVariable {
   /** How to coerce the value: 'string', 'number', 'boolean', or 'date'. Unknown types read as 'string'. */
   type: string;
   /** The variable's current value. A 'date' is an absolute date or datetime in ISO 8601 form ('2025-01-31', '2025-01-31T09:00:00Z'); relative expressions such as '-7d' are rejected. */
-  value?: unknown;
+  value?: unknown | undefined;
 }
 /** Notebook-level variables, in display order. A SQL cell reads one as a `{name}` placeholder and a Python cell as a global. Names must be unique. */
 export type CreateNotebookRequestVariablesList = Array<NotebookVariable>;
@@ -233,18 +233,18 @@ export interface CreateNotebookRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Title of the notebook. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Notebook content as a ProseMirror JSON document. On create, the server stores it as a markdown notebook: one ph-markdown-notebook node that holds the converted markdown. */
-  content?: unknown;
+  content?: unknown | undefined;
   /** Plain text representation of the notebook content for search. */
-  text_content?: string | null;
+  text_content?: string | null | undefined;
   /** Version number for optimistic concurrency control. Must match the current version when updating content. */
-  version?: number;
+  version?: number | undefined;
   /** Whether the notebook has been soft-deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Notebook-level variables, in display order. A SQL cell reads one as a `{name}` placeholder and a Python cell as a global. Names must be unique. */
-  variables?: CreateNotebookRequestVariablesList;
-  _create_in_folder?: string;
+  variables?: CreateNotebookRequestVariablesList | undefined;
+  _create_in_folder?: string | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -261,15 +261,15 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export type NotebookOutputParentResourceType = "account";
 /** Parent resource this notebook is attached to, or `null`. Returns `{type: 'account', id: <uuid>}` for account-linked notebooks; used by the frontend to route breadcrumbs back to the resource's list. */
@@ -281,39 +281,39 @@ export interface NotebookOutputParentResource {
 export type NotebookOutputVariablesList = Array<NotebookVariable>;
 export interface NotebookOutput {
   /** UUID of the notebook. */
-  id?: string;
+  id?: string | undefined;
   /** Short alphanumeric identifier used in URLs and API lookups. */
-  short_id?: string;
+  short_id?: string | undefined;
   /** Title of the notebook. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Notebook content as a ProseMirror JSON document. On create, the server stores it as a markdown notebook: one ph-markdown-notebook node that holds the converted markdown. */
-  content?: unknown;
+  content?: unknown | undefined;
   /** Plain text representation of the notebook content for search. */
-  text_content?: string | null;
+  text_content?: string | null | undefined;
   /** Version number for optimistic concurrency control. Must match the current version when updating content. */
-  version?: number;
+  version?: number | undefined;
   /** Whether the notebook has been soft-deleted. */
-  deleted?: boolean;
-  created_at?: string;
-  created_by?: UserBasic | null;
-  last_modified_at?: string;
-  last_modified_by?: UserBasic | null;
+  deleted?: boolean | undefined;
+  created_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
+  last_modified_at?: string | undefined;
+  last_modified_by?: UserBasic | null | undefined;
   /** The effective access level the user has for this object */
-  user_access_level?: string | null;
+  user_access_level?: string | null | undefined;
   /** Parent resource this notebook is attached to, or `null`. Returns `{type: 'account', id: <uuid>}` for account-linked notebooks; used by the frontend to route breadcrumbs back to the resource's list. */
-  parent_resource?: NotebookOutputParentResource | null;
+  parent_resource?: NotebookOutputParentResource | null | undefined;
   /** Notebook-level variables, in display order. A SQL cell reads one as a `{name}` placeholder and a Python cell as a global. Names must be unique. */
-  variables?: NotebookOutputVariablesList;
+  variables?: NotebookOutputVariablesList | undefined;
 }
 export interface NotebookCollabCursor {
   /** ProseMirror selection head position (rich v1 notebooks). */
-  head?: number;
+  head?: number | undefined;
   /** Index of the caret's block node in the markdown notebook document (markdown notebooks). */
-  node_index?: number;
+  node_index?: number | undefined;
   /** Caret offset in the plain text of the focused editable element, in UTF-16 code units. */
-  offset?: number;
+  offset?: number | undefined;
   /** Index of the focused list item when the caret is inside a list block. */
-  list_item_index?: number;
+  list_item_index?: number | undefined;
 }
 export interface CreateNotebooksCollabMarkdownSaveRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -326,11 +326,11 @@ export interface CreateNotebooksCollabMarkdownSaveRequest {
   /** The full markdown notebook document: a ProseMirror doc wrapping a single markdown node. */
   content: unknown;
   /** Plain text for search indexing. */
-  text_content?: string;
+  text_content?: string | undefined;
   /** Updated notebook title. */
-  title?: string;
+  title?: string | undefined;
   /** The author's caret in the saved markdown, broadcast with the update so other clients can move the author's remote caret together with the text change. */
-  cursor?: NotebookCollabCursor;
+  cursor?: NotebookCollabCursor | undefined;
 }
 export interface CreateNotebooksCollabMarkdownSaveResponse {}
 export interface CreateNotebooksCollabPresenceRequest {
@@ -352,19 +352,19 @@ export interface CreateNotebooksCollabSaveRequest {
   project_id: string;
   short_id: string;
   /** Unique identifier for the client session. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The collab version the client's steps are based on. */
-  version?: number;
+  version?: number | undefined;
   /** List of ProseMirror step JSON objects to apply. */
-  steps?: CreateNotebooksCollabSaveRequestStepsList;
+  steps?: CreateNotebooksCollabSaveRequestStepsList | undefined;
   /** The resulting ProseMirror document after applying the steps locally. */
-  content?: unknown;
+  content?: unknown | undefined;
   /** Plain text for search indexing. */
-  text_content?: string;
+  text_content?: string | undefined;
   /** Updated notebook title. */
-  title?: string;
+  title?: string | undefined;
   /** ProseMirror cursor head position after applying steps. */
-  cursor_head?: number | null;
+  cursor_head?: number | null | undefined;
 }
 export interface CreateNotebooksCollabSaveResponse {}
 export interface CreateNotebooksKernelCompleteRequest {
@@ -397,19 +397,19 @@ export interface CreateNotebooksKernelConfigRequest {
   project_id: string;
   short_id: string;
   /** CPU cores for the notebook's sandbox kernel; must be a supported option. */
-  cpu_cores?: number;
+  cpu_cores?: number | undefined;
   /** Memory in GB for the notebook's sandbox kernel; must be a supported option. */
-  memory_gb?: number;
+  memory_gb?: number | undefined;
   /** Maximum lifetime of the sandbox kernel in seconds. It shuts down this long after it starts, even while in use. A running kernel keeps its current lifetime until it restarts. */
-  idle_timeout_seconds?: number;
+  idle_timeout_seconds?: number | undefined;
 }
 export interface NotebookKernelConfigResponse {
   /** Configured CPU cores; null means the default applies. */
-  cpu_cores?: number | null;
+  cpu_cores?: number | null | undefined;
   /** Configured memory in GB; null means the default applies. */
-  memory_gb?: number | null;
+  memory_gb?: number | null | undefined;
   /** Configured maximum sandbox lifetime in seconds; null means the default. */
-  idle_timeout_seconds?: number | null;
+  idle_timeout_seconds?: number | null | undefined;
   /** True when this call restarted a live kernel to apply a new size. Restarting discards every materialized dataframe, so cells that referenced one must run again. */
   restarted: boolean;
   /** True when a kernel is live and this call did not restart it, so the running sandbox may not match the saved config. A resize restarts the kernel and reports False on success, or True if that restart fails. An idle-timeout change and a no-op on a live kernel also report True. */
@@ -417,7 +417,7 @@ export interface NotebookKernelConfigResponse {
   /** What this sandbox shape costs per hour in USD while it is alive, at this region's rates. It tracks the running sandbox while a kernel is live, otherwise the configured shape. After a failed resize this stays the running sandbox's rate, not the size that failed to apply. */
   hourly_price: number;
   /** Compute preset the configured shape matches, or null when it was tuned by hand. */
-  preset_key?: string | null;
+  preset_key?: string | null | undefined;
 }
 export interface CreateNotebooksKernelInspectRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -428,7 +428,7 @@ export interface CreateNotebooksKernelInspectRequest {
   /** Character offset of the cursor in `code`, counting from 0. */
   cursor_pos: number;
   /** 0 for the signature and docstring, 1 to add the source when the kernel can find it. */
-  detail_level?: number;
+  detail_level?: number | undefined;
 }
 export interface NotebookKernelInspectResponse {
   /** Whether the kernel found an object at the cursor. */
@@ -443,9 +443,9 @@ export interface CreateNotebooksRunRequest {
   project_id: string;
   short_id: string;
   /** Include prepared embedded insights when refreshing a dashboard widget. Requires notebook widgets to be enabled. */
-  include_prepared_insights?: boolean;
+  include_prepared_insights?: boolean | undefined;
   /** Replace the notebook's variables with this list before the run starts, so the results match what the document declares. Omit it to run with the variables already saved. */
-  variables?: CreateNotebooksRunRequestVariablesList;
+  variables?: CreateNotebooksRunRequestVariablesList | undefined;
 }
 export interface NotebookRunStartResponse {
   /** Identifier of the whole-notebook run. Poll the run status endpoint with it until the status is terminal. */
@@ -455,7 +455,7 @@ export interface NotebookRunStartResponse {
   /** True when this run has to provision a sandbox because it holds a Python cell and none is live for the caller. Tell the user what that costs. */
   starts_sandbox: boolean;
   /** What the sandbox this run provisions costs per hour in USD. Null when the run needs no new sandbox, or when the backend is not charged. */
-  sandbox_hourly_price?: number | null;
+  sandbox_hourly_price?: number | null | undefined;
 }
 export interface CreateNotebooksRunsInterruptRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -474,28 +474,28 @@ export interface CreateNotebooksSharingPasswordRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   notebook_id: string;
-  enabled?: boolean;
-  settings?: unknown;
-  password_required?: boolean;
+  enabled?: boolean | undefined;
+  settings?: unknown | undefined;
+  password_required?: boolean | undefined;
 }
 export interface SharePassword {
-  id?: number;
-  created_at?: string;
-  note?: string | null;
-  created_by_email?: string;
-  is_active?: boolean;
+  id?: number | undefined;
+  created_at?: string | undefined;
+  note?: string | null | undefined;
+  created_by_email?: string | undefined;
+  is_active?: boolean | undefined;
 }
 export type SharingConfigurationSharePasswordsList = Array<SharePassword>;
 /** Mixin for serializers to add user access control fields */
 export interface SharingConfiguration {
-  created_at?: string;
-  enabled?: boolean;
-  access_token?: string | Redacted.Redacted<string> | null;
-  settings?: unknown;
-  password_required?: boolean;
-  share_passwords?: SharingConfigurationSharePasswordsList;
+  created_at?: string | undefined;
+  enabled?: boolean | undefined;
+  access_token?: string | Redacted.Redacted<string> | null | undefined;
+  settings?: unknown | undefined;
+  password_required?: boolean | undefined;
+  share_passwords?: SharingConfigurationSharePasswordsList | undefined;
   /** The effective access level the user has for this object */
-  user_access_level?: string | null;
+  user_access_level?: string | null | undefined;
 }
 /** * `hogql` - hogql * `python` - python */
 export type NotebookSQLV2NodeTypeEnum = "hogql" | "python";
@@ -505,7 +505,7 @@ export interface NotebookSQLV2Ref {
   /** ProseMirror node id of the upstream node this name points at. */
   node_id: string;
   /** What the name resolves to: 'hogql' is a SQL node's query definition (resolved to its last-run HogQL); 'local' is a dataframe a Python node bound in the kernel namespace. * `hogql` - hogql * `local` - local */
-  kind?: NotebookSQLV2RefKindEnum | (string & {});
+  kind?: NotebookSQLV2RefKindEnum | (string & {}) | undefined;
 }
 /** Available upstream nodes, keyed by dataframe name. A SQL node inlines referenced hogql refs as CTEs -- unless it references a local ref, which reroutes the run to the sandbox's DuckDB; a python node materializes the hogql refs its code reads as pandas frames. */
 export type CreateNotebooksSqlV2RunRequestRefsMap = { [key: string]: NotebookSQLV2Ref | undefined };
@@ -516,23 +516,23 @@ export interface CreateNotebooksSqlV2RunRequest {
   project_id: string;
   short_id: string;
   /** Reuse the requesting user's running or completed HogQL run with the same cell and resolved query from the last hour. Does not apply to token-only callers, kernel runs, or connection runs. */
-  reuse_results?: boolean;
+  reuse_results?: boolean | undefined;
   /** ProseMirror node id of the SQLV2 node being run. */
   node_id: string;
   /** Execution kind. 'hogql' is a SQL node -- pushed to ClickHouse, or rerouted to the sandbox's DuckDB when it references a local frame; 'python' runs the code in the sandbox kernel, materializing referenced upstream nodes as pandas frames first. * `hogql` - hogql * `python` - python */
-  node_type?: NotebookSQLV2NodeTypeEnum | (string & {});
+  node_type?: NotebookSQLV2NodeTypeEnum | (string & {}) | undefined;
   /** The node's source -- SQL for a hogql node, Python for a python node. Must not be blank. */
   code: string;
   /** Kernel nodes only: the dataframe variable to bind the result to in the kernel namespace (a python node falls back to the last expression for its preview). */
-  output_name?: string;
+  output_name?: string | undefined;
   /** Available upstream nodes, keyed by dataframe name. A SQL node inlines referenced hogql refs as CTEs -- unless it references a local ref, which reroutes the run to the sandbox's DuckDB; a python node materializes the hogql refs its code reads as pandas frames. */
-  refs?: CreateNotebooksSqlV2RunRequestRefsMap;
+  refs?: CreateNotebooksSqlV2RunRequestRefsMap | undefined;
   /** Notebook-level variables in scope for this run. A SQL node has each `{name}` bound to its value before dispatch; a Python node gets them as globals in the kernel namespace. A SQL node reading a `{name}` that is absent here fails the dispatch. */
-  variables?: CreateNotebooksSqlV2RunRequestVariablesList;
+  variables?: CreateNotebooksSqlV2RunRequestVariablesList | undefined;
   /** SQL nodes only: id of a direct-query-capable external data source to run against instead of PostHog's ClickHouse. Omit to query PostHog. */
-  connection_id?: string | null;
+  connection_id?: string | null | undefined;
   /** Send the code to the selected connection verbatim instead of compiling it from HogQL first. Ignored without connection_id, and incompatible with references to other cells. */
-  send_raw_query?: boolean;
+  send_raw_query?: boolean | undefined;
 }
 export interface NotebookSQLV2RunResponse {
   /** Identifier of the dispatched run. Poll the run result endpoint with it until the status is terminal. */
@@ -540,7 +540,7 @@ export interface NotebookSQLV2RunResponse {
   /** True when this run has to provision a sandbox because none is live for the caller, checked here rather than inferred from a client's cached kernel status. Tell the user what that costs. */
   starts_sandbox: boolean;
   /** What the sandbox this run provisions costs per hour in USD. Null when the run needs no new sandbox, or when the backend is not charged. */
-  sandbox_hourly_price?: number | null;
+  sandbox_hourly_price?: number | null | undefined;
 }
 export interface CreateNotebooksSqlV2RunsInterruptRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -553,7 +553,7 @@ export interface NotebookSQLV2InterruptResponse {
   /** The run's status after the interrupt request. Already-terminal runs return their outcome unchanged (idempotent noop); a stopped kernel run reports its terminal state through the normal result poll. */
   status: string;
   /** Present when the interrupt could not take effect yet, e.g. the run has not reached the kernel. */
-  detail?: string;
+  detail?: string | undefined;
 }
 export interface CreateNotebooksWidgetSnapshotRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -564,9 +564,9 @@ export interface CreateNotebooksWidgetSnapshotRequest {
   /** Immutable widget version to keep on the dashboard. */
   version_id: string;
   /** Completed whole-notebook run supplying every input after refresh. */
-  notebook_run_id?: string;
+  notebook_run_id?: string | undefined;
   /** Snapshot being refreshed; its version and input mappings must match. */
-  previous_snapshot_id?: string;
+  previous_snapshot_id?: string | undefined;
 }
 /** Allowed dataframe slots. */
 export type WidgetSnapshotFrameNamesList = Array<string>;
@@ -606,7 +606,7 @@ export interface ForkNotebooksWidgetRequest {
   /** Stable identifier of the reusable widget node to fork. */
   node_id: string;
   /** Immutable version to fork, or null to copy the placement's pinned or latest version. */
-  version_id?: string | null;
+  version_id?: string | null | undefined;
 }
 /** * `claude-haiku-4-5` - claude-haiku-4-5 * `claude-sonnet-4-6` - claude-sonnet-4-6 * `claude-sonnet-5` - claude-sonnet-5 * `claude-opus-5` - claude-opus-5 */
 export type WidgetGenerateRequestModelEnum =
@@ -627,11 +627,11 @@ export interface GenerateNotebooksWidgetRequest {
   /** Idempotency key for this generation job. */
   generation_id: string;
   /** AI model used to generate the widget. * `claude-haiku-4-5` - claude-haiku-4-5 * `claude-sonnet-4-6` - claude-sonnet-4-6 * `claude-sonnet-5` - claude-sonnet-5 * `claude-opus-5` - claude-opus-5 */
-  model?: WidgetGenerateRequestModelEnum | (string & {});
+  model?: WidgetGenerateRequestModelEnum | (string & {}) | undefined;
   /** Whether to generate from scratch or improve the current source. * `initial` - initial * `regenerate` - regenerate * `improve` - improve */
-  generation_operation?: GenerationOperationEnum | (string & {});
+  generation_operation?: GenerationOperationEnum | (string & {}) | undefined;
   /** Current widget version the improvement is based on. Required for improve operations. */
-  expected_current_version_id?: string;
+  expected_current_version_id?: string | undefined;
 }
 export interface GenerateNotebooksWidgetResponse {}
 export interface GetNotebookRequest {
@@ -715,31 +715,31 @@ export interface NotebookSQLV2Frame {
   /** Where the object came from: 'frame' (a dataframe a node produced), or 'table'/'view' (created by SQL DDL in a DuckDB node). */
   kind: string;
   /** DuckDB type per column, as [name, type] pairs. */
-  columns?: NotebookSQLV2FrameColumnsList;
+  columns?: NotebookSQLV2FrameColumnsList | undefined;
   /** Rows available, or null when counting would require a table scan (a DDL view). */
-  row_count?: number | null;
+  row_count?: number | null | undefined;
   /** True when row_count is DuckDB's optimizer estimate rather than a count. The estimate does not track deletes, so it must never be presented as exact. */
-  row_count_is_estimate?: boolean;
+  row_count_is_estimate?: boolean | undefined;
 }
 /** Dataframes and DuckDB tables a cell can currently reference, with column names and types. Empty unless the kernel is running and the caller has query access. */
 export type NotebookKernelStatusResponseFramesList = Array<NotebookSQLV2Frame>;
 export interface NotebookKernelStatusResponse {
   /** Sandbox backend the kernel runs on: 'modal' or 'docker'. */
-  backend?: string | null;
+  backend?: string | null | undefined;
   /** Live-checked kernel state: 'starting', 'running', 'stopped', 'timed_out', 'discarded', or 'error'. */
   status: string;
   /** When the kernel last executed anything. */
-  last_used_at?: string | null;
+  last_used_at?: string | null | undefined;
   /** Most recent provisioning or runtime error, if any. */
-  last_error?: string | null;
+  last_error?: string | null | undefined;
   /** Kernel runtime row identifier. */
-  runtime_id?: string | null;
+  runtime_id?: string | null | undefined;
   /** Jupyter kernel identifier. */
-  kernel_id?: string | null;
+  kernel_id?: string | null | undefined;
   /** Kernel process id inside the sandbox. */
-  kernel_pid?: number | null;
+  kernel_pid?: number | null | undefined;
   /** Sandbox container identifier. */
-  sandbox_id?: string | null;
+  sandbox_id?: string | null | undefined;
   /** Dataframes and DuckDB tables a cell can currently reference, with column names and types. Empty unless the kernel is running and the caller has query access. */
   frames: NotebookKernelStatusResponseFramesList;
   /** CPU cores the sandbox is configured with. */
@@ -747,13 +747,13 @@ export interface NotebookKernelStatusResponse {
   /** Memory in GB the sandbox is configured with. */
   memory_gb: number;
   /** Disk size in GB the sandbox is configured with. */
-  disk_size_gb?: number | null;
+  disk_size_gb?: number | null | undefined;
   /** Maximum lifetime of the sandbox in seconds. It shuts down this long after it starts, even while in use. */
-  idle_timeout_seconds?: number | null;
+  idle_timeout_seconds?: number | null | undefined;
   /** What this sandbox shape costs per hour in USD while it is alive, at this region's rates. Charged on the sandbox's lifetime, not on how much of it a cell uses. Resizing through the kernel config endpoint restarts a live kernel, so this tracks the running sandbox. */
   hourly_price: number;
   /** Compute preset for the shape hourly_price describes: the running sandbox while a kernel is live, otherwise the configured shape. Null when that shape was tuned by hand and matches no preset. */
-  preset_key?: string | null;
+  preset_key?: string | null | undefined;
 }
 export interface GetNotebooksRecordingCommentRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -777,11 +777,11 @@ export interface NotebookRunCell {
   /** Name other cells reference this cell's result by; blank means display-only. */
   dataframe_name: string;
   /** This cell's run in the whole-notebook run; null until the run reaches the cell. */
-  run_id?: string | null;
+  run_id?: string | null | undefined;
   /** The cell's own state: 'running', 'done', 'failed', or 'interrupted'; null before it starts. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** Why this cell failed, when it did. */
-  error?: string | null;
+  error?: string | null | undefined;
 }
 /** Every planned cell in run order, with the state of its run in this notebook run. */
 export type NotebookRunStatusResponseCellsList = Array<NotebookRunCell>;
@@ -799,17 +799,17 @@ export interface NotebookRunStatusResponse {
   /** Position in the plan the run has reached, counting from 0. */
   current_index: number;
   /** The cell the run is on; null once the plan is finished. */
-  current_node_id?: string | null;
+  current_node_id?: string | null | undefined;
   /** The cell that stopped the run, when one did. */
-  failed_node_id?: string | null;
+  failed_node_id?: string | null | undefined;
   /** Why the run stopped, in one sentence a person can read. */
-  error?: string | null;
+  error?: string | null | undefined;
   /** Every planned cell in run order, with the state of its run in this notebook run. */
   cells: NotebookRunStatusResponseCellsList;
   /** When the run started. */
   created_at: string;
   /** When the run reached a terminal state; null while running. */
-  finished_at?: string | null;
+  finished_at?: string | null | undefined;
 }
 export interface GetNotebooksSqlV2RunRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -844,31 +844,31 @@ export interface NotebookSQLV2Envelope {
   /** Run outcome: 'ok', 'error', or 'interrupted' (user-requested stop). */
   status: string;
   /** DuckDB objects a SQL node can SELECT from as of this run, for the schema browser. Only kernel runs (python/duckdb) report these; a hogql run never enters the kernel. */
-  frames?: NotebookSQLV2EnvelopeFramesList;
+  frames?: NotebookSQLV2EnvelopeFramesList | undefined;
   /** Captured stdout from a Python node run. */
-  stdout?: string;
+  stdout?: string | undefined;
   /** Captured stderr (including tracebacks) from a Python node run. */
-  stderr?: string;
+  stderr?: string | undefined;
   /** Rich outputs from a Python node run, e.g. matplotlib figures as PNGs. */
-  media?: NotebookSQLV2EnvelopeMediaList;
+  media?: NotebookSQLV2EnvelopeMediaList | undefined;
   /** The plain-text form of a Python node's last expression, as Jupyter shows it under Out[n]. Absent when the cell ends in a statement, a None value, a semicolon, or a dataframe. */
-  result_text?: string;
+  result_text?: string | undefined;
   /** Result column names. */
-  columns?: NotebookSQLV2EnvelopeColumnsList;
+  columns?: NotebookSQLV2EnvelopeColumnsList | undefined;
   /** ClickHouse type per column, as [name, type] pairs; used by the visualization tab. */
-  types?: NotebookSQLV2EnvelopeTypesList;
+  types?: NotebookSQLV2EnvelopeTypesList | undefined;
   /** Number of rows in the result. */
-  row_count?: number;
+  row_count?: number | undefined;
   /** Whether ClickHouse has more rows beyond first_page (detected by fetching limit+1). */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
   /** First page of result rows for display; each row is a list of cell values. */
-  first_page?: NotebookSQLV2EnvelopeFirstPageList;
+  first_page?: NotebookSQLV2EnvelopeFirstPageList | undefined;
   /** Identifier of the materialized result, used as the paging key. */
-  result_id?: string | null;
+  result_id?: string | null | undefined;
   /** Error message when status is 'error'. */
-  error?: string | null;
+  error?: string | null | undefined;
   /** Phase durations in seconds. From the sandbox: input_wait_s (waiting on the data plane), download_s (presigned frame downloads), kernel_boot_s (ensuring the ipykernel is up), exec_s (kernel cell execution), sandbox_total_s (the whole sandbox-side run). From the direct lane: queued_s (enqueue to Celery pickup), clickhouse_s (pickup to completion). Feeds the node-run metrics. */
-  timings?: NotebookSQLV2EnvelopeTimingsMap;
+  timings?: NotebookSQLV2EnvelopeTimingsMap | undefined;
 }
 /** A single result row as a list of cell values. */
 export type NotebookSQLV2RunStatusResponseRowsItemList = Array<unknown>;
@@ -879,11 +879,11 @@ export interface NotebookSQLV2RunStatusResponse {
   /** Run state: 'running' (keep polling), or terminal -- 'done', 'failed', or 'interrupted'. */
   status: string;
   /** The result envelope once the run is 'done' or 'interrupted' (an interrupted run keeps the stdout/stderr captured before the stop); null while running and for failed runs. */
-  result?: NotebookSQLV2Envelope | null;
+  result?: NotebookSQLV2Envelope | null | undefined;
   /** Why the run failed when it never produced an envelope (dispatch or watchdog failure); execution errors arrive inside the envelope's error field instead. */
-  error?: string | null;
+  error?: string | null | undefined;
   /** SQL (hogql) runs only: the full capped row set for client-side paging, present while the query manager's transient result is alive (~20 minutes). Absent afterwards and for kernel (python/duckdb) runs, which keep only the envelope's first_page preview. */
-  rows?: NotebookSQLV2RunStatusResponseRowsList;
+  rows?: NotebookSQLV2RunStatusResponseRowsList | undefined;
 }
 export interface GetNotebooksSqlV2StateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -894,11 +894,11 @@ export interface NotebookKernelState {
   /** Kernel runtime state: 'starting', 'running', 'stopped', 'timed_out', 'discarded', or 'error'. */
   status: string;
   /** CPU cores the notebook's sandbox is configured with. */
-  cpu_cores?: number | null;
+  cpu_cores?: number | null | undefined;
   /** Memory in GB the notebook's sandbox is configured with. */
-  memory_gb?: number | null;
+  memory_gb?: number | null | undefined;
   /** Maximum lifetime of the sandbox in seconds. It shuts down this long after it starts, even while in use. */
-  idle_timeout_seconds?: number | null;
+  idle_timeout_seconds?: number | null | undefined;
 }
 /** The notebook's declared variables, in display order. A SQL cell reads one as a `{name}` placeholder and a Python cell as a global; a cell that reads an undeclared name fails to run. */
 export type NotebookSQLV2StateResponseVariablesList = Array<NotebookVariable>;
@@ -916,11 +916,11 @@ export interface NotebookCellLastRun {
   /** When the run last changed state. */
   finished_at: string;
   /** Rows in the result, when the run produced one. */
-  row_count?: number | null;
+  row_count?: number | null | undefined;
   /** Result column names. */
-  columns?: NotebookCellLastRunColumnsList | null;
+  columns?: NotebookCellLastRunColumnsList | null | undefined;
   /** Error message when the run failed. */
-  error?: string | null;
+  error?: string | null | undefined;
 }
 export interface NotebookCellState {
   /** Durable cell identity, used by the cell run and edit endpoints. */
@@ -942,7 +942,7 @@ export interface NotebookCellState {
   /** node_ids of cells that reference this cell's dataframe. */
   dependents: NotebookCellStateDependentsList;
   /** Summary of the most recent run; null when never run. */
-  last_run?: NotebookCellLastRun | null;
+  last_run?: NotebookCellLastRun | null | undefined;
 }
 /** Every cell in document order, with its dependency edges and derived run state. */
 export type NotebookSQLV2StateResponseCellsList = Array<NotebookCellState>;
@@ -956,7 +956,7 @@ export interface NotebookSQLV2StateResponse {
   /** The full markdown source -- prose and cell tags. Null for legacy rich-text notebooks, which carry their document in `content` instead. */
   markdown: string | null;
   /** Legacy rich-text notebooks only: the raw ProseMirror document. Omitted for markdown notebooks -- their document is the `markdown` field. */
-  content?: unknown;
+  content?: unknown | undefined;
   /** The notebook's kernel runtime state and compute config. */
   kernel: NotebookKernelState;
   /** The notebook's declared variables, in display order. A SQL cell reads one as a `{name}` placeholder and a Python cell as a global; a cell that reads an undeclared name fails to run. */
@@ -974,42 +974,42 @@ export interface ListNotebooksRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Filter for notebooks that match a provided filter. Each match pair is separated by a colon, multiple match pairs can be sent separated by a space or a comma */
-  contains?: string;
+  contains?: string | undefined;
   /** The UUID of the Notebook's creator */
-  created_by?: string;
+  created_by?: string | undefined;
   /** Filter for notebooks created after this date & time */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Filter for notebooks created before this date & time */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** If any value is provided for this parameter, return notebooks created by the logged in user. */
-  user?: string;
+  user?: string | undefined;
 }
 export interface NotebookMinimalOutput {
   /** UUID of the notebook. */
-  id?: string;
+  id?: string | undefined;
   /** Short alphanumeric identifier used in URLs and API lookups. */
-  short_id?: string;
+  short_id?: string | undefined;
   /** Title of the notebook. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Whether the notebook has been soft-deleted. */
-  deleted?: boolean;
-  created_at?: string;
-  created_by?: UserBasic | null;
-  last_modified_at?: string;
-  last_modified_by?: UserBasic | null;
+  deleted?: boolean | undefined;
+  created_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
+  last_modified_at?: string | undefined;
+  last_modified_by?: UserBasic | null | undefined;
   /** The effective access level the user has for this object */
-  user_access_level?: string | null;
+  user_access_level?: string | null | undefined;
 }
 export type PaginatedNotebookMinimalListOutputResultsList = Array<NotebookMinimalOutput>;
 export interface PaginatedNotebookMinimalListOutput {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedNotebookMinimalListOutputResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedNotebookMinimalListOutputResultsList | undefined;
 }
 export interface ListNotebooksSharingRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1031,18 +1031,18 @@ export interface NotebooksKernelExecuteCreateRequest {
   project_id: string;
   short_id: string;
   /** Title of the notebook. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Notebook content as a ProseMirror JSON document. On create, the server stores it as a markdown notebook: one ph-markdown-notebook node that holds the converted markdown. */
-  content?: unknown;
+  content?: unknown | undefined;
   /** Plain text representation of the notebook content for search. */
-  text_content?: string | null;
+  text_content?: string | null | undefined;
   /** Version number for optimistic concurrency control. Must match the current version when updating content. */
-  version?: number;
+  version?: number | undefined;
   /** Whether the notebook has been soft-deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Notebook-level variables, in display order. A SQL cell reads one as a `{name}` placeholder and a Python cell as a global. Names must be unique. */
-  variables?: NotebooksKernelExecuteCreateRequestVariablesList;
-  _create_in_folder?: string;
+  variables?: NotebooksKernelExecuteCreateRequestVariablesList | undefined;
+  _create_in_folder?: string | undefined;
 }
 export interface NotebooksKernelExecuteCreateResponse {}
 /** Notebook-level variables, in display order. A SQL cell reads one as a `{name}` placeholder and a Python cell as a global. Names must be unique. */
@@ -1052,18 +1052,18 @@ export interface NotebooksKernelRestartCreateRequest {
   project_id: string;
   short_id: string;
   /** Title of the notebook. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Notebook content as a ProseMirror JSON document. On create, the server stores it as a markdown notebook: one ph-markdown-notebook node that holds the converted markdown. */
-  content?: unknown;
+  content?: unknown | undefined;
   /** Plain text representation of the notebook content for search. */
-  text_content?: string | null;
+  text_content?: string | null | undefined;
   /** Version number for optimistic concurrency control. Must match the current version when updating content. */
-  version?: number;
+  version?: number | undefined;
   /** Whether the notebook has been soft-deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Notebook-level variables, in display order. A SQL cell reads one as a `{name}` placeholder and a Python cell as a global. Names must be unique. */
-  variables?: NotebooksKernelRestartCreateRequestVariablesList;
-  _create_in_folder?: string;
+  variables?: NotebooksKernelRestartCreateRequestVariablesList | undefined;
+  _create_in_folder?: string | undefined;
 }
 export interface NotebooksKernelRestartCreateResponse {}
 /** Notebook-level variables, in display order. A SQL cell reads one as a `{name}` placeholder and a Python cell as a global. Names must be unique. */
@@ -1073,18 +1073,18 @@ export interface NotebooksKernelStartCreateRequest {
   project_id: string;
   short_id: string;
   /** Title of the notebook. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Notebook content as a ProseMirror JSON document. On create, the server stores it as a markdown notebook: one ph-markdown-notebook node that holds the converted markdown. */
-  content?: unknown;
+  content?: unknown | undefined;
   /** Plain text representation of the notebook content for search. */
-  text_content?: string | null;
+  text_content?: string | null | undefined;
   /** Version number for optimistic concurrency control. Must match the current version when updating content. */
-  version?: number;
+  version?: number | undefined;
   /** Whether the notebook has been soft-deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Notebook-level variables, in display order. A SQL cell reads one as a `{name}` placeholder and a Python cell as a global. Names must be unique. */
-  variables?: NotebooksKernelStartCreateRequestVariablesList;
-  _create_in_folder?: string;
+  variables?: NotebooksKernelStartCreateRequestVariablesList | undefined;
+  _create_in_folder?: string | undefined;
 }
 export interface NotebooksKernelStartCreateResponse {}
 /** Notebook-level variables, in display order. A SQL cell reads one as a `{name}` placeholder and a Python cell as a global. Names must be unique. */
@@ -1094,18 +1094,18 @@ export interface NotebooksKernelStopCreateRequest {
   project_id: string;
   short_id: string;
   /** Title of the notebook. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Notebook content as a ProseMirror JSON document. On create, the server stores it as a markdown notebook: one ph-markdown-notebook node that holds the converted markdown. */
-  content?: unknown;
+  content?: unknown | undefined;
   /** Plain text representation of the notebook content for search. */
-  text_content?: string | null;
+  text_content?: string | null | undefined;
   /** Version number for optimistic concurrency control. Must match the current version when updating content. */
-  version?: number;
+  version?: number | undefined;
   /** Whether the notebook has been soft-deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Notebook-level variables, in display order. A SQL cell reads one as a `{name}` placeholder and a Python cell as a global. Names must be unique. */
-  variables?: NotebooksKernelStopCreateRequestVariablesList;
-  _create_in_folder?: string;
+  variables?: NotebooksKernelStopCreateRequestVariablesList | undefined;
+  _create_in_folder?: string | undefined;
 }
 export interface NotebooksKernelStopCreateResponse {}
 export interface NotebooksSharingPasswordsDestroyRequest {
@@ -1119,9 +1119,9 @@ export interface NotebooksSharingRefreshCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   notebook_id: string;
-  enabled?: boolean;
-  settings?: unknown;
-  password_required?: boolean;
+  enabled?: boolean | undefined;
+  settings?: unknown | undefined;
+  password_required?: boolean | undefined;
 }
 export interface NotebooksWidgetFrameRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1131,10 +1131,10 @@ export interface NotebooksWidgetFrameRequest {
   node_id: string;
   /** Allowed dataframe slot requested by the widget. */
   frame_name: string;
-  limit?: number;
-  offset?: number;
-  run_id?: string;
-  version_id?: string;
+  limit?: number | undefined;
+  offset?: number | undefined;
+  run_id?: string | undefined;
+  version_id?: string | undefined;
 }
 export interface WidgetFrameColumn {
   /** Column name. */
@@ -1185,13 +1185,13 @@ export interface NotebooksWidgetSnapshotFrameRequest {
   snapshot_id: string;
   frame_name: string;
   /** Maximum rows in this page. */
-  limit?: number;
+  limit?: number | undefined;
   /** Zero-based row offset. */
-  offset?: number;
+  offset?: number | undefined;
   /** Completed run selected by the first page request. */
-  run_id?: string;
+  run_id?: string | undefined;
   /** Version requesting the data. */
-  version_id?: string;
+  version_id?: string | undefined;
 }
 export interface NotebooksWidgetSourceRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1200,7 +1200,7 @@ export interface NotebooksWidgetSourceRequest {
   /** Stable identifier of the generated widget node. */
   node_id: string;
   /** Immutable widget version whose source should be returned. */
-  version_id?: string;
+  version_id?: string | undefined;
 }
 export interface WidgetSource {
   /** Read-only source code for the current widget version. */
@@ -1219,8 +1219,8 @@ export interface NotebooksWidgetVersionsRequest {
   short_id: string;
   /** Widget node identifier. */
   node_id: string;
-  limit?: number;
-  offset?: number;
+  limit?: number | undefined;
+  offset?: number | undefined;
 }
 /** * `initial` - initial * `regenerate` - regenerate * `improve` - improve * `revert` - revert */
 export type GeneratedWidgetVersionOperationEnum = "initial" | "regenerate" | "improve" | "revert";
@@ -1230,7 +1230,7 @@ export type BuildStatusEnum = "queued" | "building" | "ready" | "failed";
 export type WidgetVersionFrameNamesList = Array<string>;
 export interface WidgetVersion {
   /** Estimated generation charge in USD, including retries, security review, and the AI credit markup. Null when unavailable. */
-  generation_cost_usd?: string | null;
+  generation_cost_usd?: string | null | undefined;
   /** Immutable widget version identifier. */
   id: string;
   /** Version this one was based on. */
@@ -1290,9 +1290,9 @@ export interface PublishNotebooksWidgetRequest {
   /** Name shown in the reusable widget catalog. */
   name: string;
   /** Short explanation of what the reusable widget shows and when to use it. */
-  description?: string;
+  description?: string | undefined;
   /** Searchable labels attached to the reusable widget. */
-  tags?: PublishNotebooksWidgetRequestTagsList;
+  tags?: PublishNotebooksWidgetRequestTagsList | undefined;
 }
 /** Searchable widget labels. */
 export type ReusableWidgetDetailTagsList = Array<string>;
@@ -1304,7 +1304,7 @@ export type ReusableWidgetVersionDetailFrameNamesList = Array<string>;
 export type ReusableWidgetVersionDetailInputContractList = Array<WidgetInputContractItem>;
 export interface ReusableWidgetVersionDetail {
   /** Estimated generation charge in USD, including retries, security review, and the AI credit markup. Null when unavailable. */
-  generation_cost_usd?: string | null;
+  generation_cost_usd?: string | null | undefined;
   /** Immutable widget version identifier. */
   id: string;
   /** Title stored with this version. */
@@ -1367,15 +1367,15 @@ export interface PublishNotebooksWidgetSnapshotRequest {
   /** Immutable widget version to keep on the dashboard. */
   version_id: string;
   /** Completed whole-notebook run supplying every input after refresh. */
-  notebook_run_id?: string;
+  notebook_run_id?: string | undefined;
   /** Snapshot being refreshed; its version and input mappings must match. */
-  previous_snapshot_id?: string;
+  previous_snapshot_id?: string | undefined;
   /** Dashboard to add the widget to. */
-  dashboard_id?: number;
+  dashboard_id?: number | undefined;
   /** Existing dashboard tile to refresh. */
-  tile_id?: number;
+  tile_id?: number | undefined;
   /** Title for a new dashboard widget. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Notebook-level variables, in display order. A SQL cell reads one as a `{name}` placeholder and a Python cell as a global. Names must be unique. */
 export type UpdateNotebookRequestVariablesList = Array<NotebookVariable>;
@@ -1384,18 +1384,18 @@ export interface UpdateNotebookRequest {
   project_id: string;
   short_id: string;
   /** Title of the notebook. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Notebook content as a ProseMirror JSON document. On create, the server stores it as a markdown notebook: one ph-markdown-notebook node that holds the converted markdown. */
-  content?: unknown;
+  content?: unknown | undefined;
   /** Plain text representation of the notebook content for search. */
-  text_content?: string | null;
+  text_content?: string | null | undefined;
   /** Version number for optimistic concurrency control. Must match the current version when updating content. */
-  version?: number;
+  version?: number | undefined;
   /** Whether the notebook has been soft-deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Notebook-level variables, in display order. A SQL cell reads one as a `{name}` placeholder and a Python cell as a global. Names must be unique. */
-  variables?: UpdateNotebookRequestVariablesList;
-  _create_in_folder?: string;
+  variables?: UpdateNotebookRequestVariablesList | undefined;
+  _create_in_folder?: string | undefined;
 }
 /** Notebook-level variables, in display order. A SQL cell reads one as a `{name}` placeholder and a Python cell as a global. Names must be unique. */
 export type UpdateNotebooksPartialRequestVariablesList = Array<NotebookVariable>;
@@ -1404,18 +1404,18 @@ export interface UpdateNotebooksPartialRequest {
   project_id: string;
   short_id: string;
   /** Title of the notebook. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Notebook content as a ProseMirror JSON document. On create, the server stores it as a markdown notebook: one ph-markdown-notebook node that holds the converted markdown. */
-  content?: unknown;
+  content?: unknown | undefined;
   /** Plain text representation of the notebook content for search. */
-  text_content?: string | null;
+  text_content?: string | null | undefined;
   /** Version number for optimistic concurrency control. Must match the current version when updating content. */
-  version?: number;
+  version?: number | undefined;
   /** Whether the notebook has been soft-deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Notebook-level variables, in display order. A SQL cell reads one as a `{name}` placeholder and a Python cell as a global. Names must be unique. */
-  variables?: UpdateNotebooksPartialRequestVariablesList;
-  _create_in_folder?: string;
+  variables?: UpdateNotebooksPartialRequestVariablesList | undefined;
+  _create_in_folder?: string | undefined;
 }
 export type AttachNotebooksWidgetError = BadRequest | NotFound | Conflict | PosthogOpError;
 /** The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement. */

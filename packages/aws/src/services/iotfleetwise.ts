@@ -249,8 +249,8 @@ export interface PeriodicStateTemplateUpdateStrategy {
 }
 export interface OnChangeStateTemplateUpdateStrategy {}
 export type StateTemplateUpdateStrategy =
-  | { periodic: PeriodicStateTemplateUpdateStrategy; onChange?: never }
-  | { periodic?: never; onChange: OnChangeStateTemplateUpdateStrategy };
+  | { periodic: PeriodicStateTemplateUpdateStrategy; onChange?: undefined }
+  | { periodic?: undefined; onChange: OnChangeStateTemplateUpdateStrategy };
 export interface StateTemplateAssociation {
   identifier: string;
   stateTemplateUpdateStrategy: StateTemplateUpdateStrategy;
@@ -260,61 +260,61 @@ export interface CreateVehicleRequestItem {
   vehicleName: string;
   modelManifestArn: string;
   decoderManifestArn: string;
-  attributes?: { [key: string]: string | undefined };
-  associationBehavior?: VehicleAssociationBehavior;
-  tags?: Tag[];
-  stateTemplates?: StateTemplateAssociation[];
+  attributes?: { [key: string]: string | undefined } | undefined;
+  associationBehavior?: VehicleAssociationBehavior | undefined;
+  tags?: Tag[] | undefined;
+  stateTemplates?: StateTemplateAssociation[] | undefined;
 }
 export type CreateVehicleRequestItems = CreateVehicleRequestItem[];
 export interface BatchCreateVehicleRequest {
   vehicles: CreateVehicleRequestItem[];
 }
 export interface CreateVehicleResponseItem {
-  vehicleName?: string;
-  arn?: string;
-  thingArn?: string;
+  vehicleName?: string | undefined;
+  arn?: string | undefined;
+  thingArn?: string | undefined;
 }
 export type CreateVehicleResponses = CreateVehicleResponseItem[];
 export interface CreateVehicleError_ {
-  vehicleName?: string;
-  code?: string;
-  message?: string;
+  vehicleName?: string | undefined;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export type CreateVehicleErrors = CreateVehicleError_[];
 export interface BatchCreateVehicleResponse {
-  vehicles?: CreateVehicleResponseItem[];
-  errors?: CreateVehicleError_[];
+  vehicles?: CreateVehicleResponseItem[] | undefined;
+  errors?: CreateVehicleError_[] | undefined;
 }
 export type UpdateMode = "Overwrite" | "Merge" | (string & {});
 export type StateTemplateAssociationIdentifiers = string[];
 export interface UpdateVehicleRequestItem {
   vehicleName: string;
-  modelManifestArn?: string;
-  decoderManifestArn?: string;
-  attributes?: { [key: string]: string | undefined };
-  attributeUpdateMode?: UpdateMode;
-  stateTemplatesToAdd?: StateTemplateAssociation[];
-  stateTemplatesToRemove?: string[];
-  stateTemplatesToUpdate?: StateTemplateAssociation[];
+  modelManifestArn?: string | undefined;
+  decoderManifestArn?: string | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
+  attributeUpdateMode?: UpdateMode | undefined;
+  stateTemplatesToAdd?: StateTemplateAssociation[] | undefined;
+  stateTemplatesToRemove?: string[] | undefined;
+  stateTemplatesToUpdate?: StateTemplateAssociation[] | undefined;
 }
 export type UpdateVehicleRequestItems = UpdateVehicleRequestItem[];
 export interface BatchUpdateVehicleRequest {
   vehicles: UpdateVehicleRequestItem[];
 }
 export interface UpdateVehicleResponseItem {
-  vehicleName?: string;
-  arn?: string;
+  vehicleName?: string | undefined;
+  arn?: string | undefined;
 }
 export type UpdateVehicleResponseItems = UpdateVehicleResponseItem[];
 export interface UpdateVehicleError_ {
-  vehicleName?: string;
-  code?: number;
-  message?: string;
+  vehicleName?: string | undefined;
+  code?: number | undefined;
+  message?: string | undefined;
 }
 export type UpdateVehicleErrors = UpdateVehicleError_[];
 export interface BatchUpdateVehicleResponse {
-  vehicles?: UpdateVehicleResponseItem[];
-  errors?: UpdateVehicleError_[];
+  vehicles?: UpdateVehicleResponseItem[] | undefined;
+  errors?: UpdateVehicleError_[] | undefined;
 }
 export type CampaignName = string;
 export type Description = string;
@@ -328,9 +328,9 @@ export type MaxSampleCount = number;
 export type DataPartitionId = string;
 export interface SignalInformation {
   name: string;
-  maxSampleCount?: number;
-  minimumSamplingIntervalMs?: number;
-  dataPartitionId?: string;
+  maxSampleCount?: number | undefined;
+  minimumSamplingIntervalMs?: number | undefined;
+  dataPartitionId?: string | undefined;
 }
 export type SignalInformationList = SignalInformation[];
 export type CollectionPeriodMs = number;
@@ -342,14 +342,17 @@ export type TriggerMode = "ALWAYS" | "RISING_EDGE" | (string & {});
 export type LanguageVersion = number;
 export interface ConditionBasedCollectionScheme {
   expression: string | redacted.Redacted<string>;
-  minimumTriggerIntervalMs?: number;
-  triggerMode?: TriggerMode;
-  conditionLanguageVersion?: number;
+  minimumTriggerIntervalMs?: number | undefined;
+  triggerMode?: TriggerMode | undefined;
+  conditionLanguageVersion?: number | undefined;
 }
 export type CollectionScheme =
-  | { timeBasedCollectionScheme: TimeBasedCollectionScheme; conditionBasedCollectionScheme?: never }
   | {
-      timeBasedCollectionScheme?: never;
+      timeBasedCollectionScheme: TimeBasedCollectionScheme;
+      conditionBasedCollectionScheme?: undefined;
+    }
+  | {
+      timeBasedCollectionScheme?: undefined;
       conditionBasedCollectionScheme: ConditionBasedCollectionScheme;
     };
 export type NodePath = string;
@@ -360,9 +363,9 @@ export type StorageCompressionFormat = "NONE" | "GZIP" | (string & {});
 export type Prefix = string;
 export interface S3Config {
   bucketArn: string;
-  dataFormat?: DataFormat;
-  storageCompressionFormat?: StorageCompressionFormat;
-  prefix?: string;
+  dataFormat?: DataFormat | undefined;
+  storageCompressionFormat?: StorageCompressionFormat | undefined;
+  prefix?: string | undefined;
 }
 export type TimestreamTableArn = string;
 export type IAMRoleArn = string;
@@ -376,9 +379,9 @@ export interface MqttTopicConfig {
   executionRoleArn: string;
 }
 export type DataDestinationConfig =
-  | { s3Config: S3Config; timestreamConfig?: never; mqttTopicConfig?: never }
-  | { s3Config?: never; timestreamConfig: TimestreamConfig; mqttTopicConfig?: never }
-  | { s3Config?: never; timestreamConfig?: never; mqttTopicConfig: MqttTopicConfig };
+  | { s3Config: S3Config; timestreamConfig?: undefined; mqttTopicConfig?: undefined }
+  | { s3Config?: undefined; timestreamConfig: TimestreamConfig; mqttTopicConfig?: undefined }
+  | { s3Config?: undefined; timestreamConfig?: undefined; mqttTopicConfig: MqttTopicConfig };
 export type DataDestinationConfigs = DataDestinationConfig[];
 export type StorageMaximumSizeUnit = "MB" | "GB" | "TB" | (string & {});
 export type StorageMaximumSizeValue = number;
@@ -400,12 +403,12 @@ export interface DataPartitionStorageOptions {
 }
 export interface DataPartitionUploadOptions {
   expression: string | redacted.Redacted<string>;
-  conditionLanguageVersion?: number;
+  conditionLanguageVersion?: number | undefined;
 }
 export interface DataPartition {
   id: string;
   storageOptions: DataPartitionStorageOptions;
-  uploadOptions?: DataPartitionUploadOptions;
+  uploadOptions?: DataPartitionUploadOptions | undefined;
 }
 export type DataPartitions = DataPartition[];
 export type PositiveLong = number;
@@ -418,41 +421,41 @@ export interface ConditionBasedSignalFetchConfig {
   triggerMode: TriggerMode;
 }
 export type SignalFetchConfig =
-  | { timeBased: TimeBasedSignalFetchConfig; conditionBased?: never }
-  | { timeBased?: never; conditionBased: ConditionBasedSignalFetchConfig };
+  | { timeBased: TimeBasedSignalFetchConfig; conditionBased?: undefined }
+  | { timeBased?: undefined; conditionBased: ConditionBasedSignalFetchConfig };
 export type ActionEventExpression = string | redacted.Redacted<string>;
 export type EventExpressionList = (string | redacted.Redacted<string>)[];
 export interface SignalFetchInformation {
   fullyQualifiedName: string;
   signalFetchConfig: SignalFetchConfig;
-  conditionLanguageVersion?: number;
+  conditionLanguageVersion?: number | undefined;
   actions: (string | redacted.Redacted<string>)[];
 }
 export type SignalFetchInformationList = SignalFetchInformation[];
 export interface CreateCampaignRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
   signalCatalogArn: string;
   targetArn: string;
-  startTime?: Date;
-  expiryTime?: Date;
-  postTriggerCollectionDuration?: number;
-  diagnosticsMode?: DiagnosticsMode;
-  spoolingMode?: SpoolingMode;
-  compression?: Compression;
-  priority?: number;
-  signalsToCollect?: SignalInformation[];
+  startTime?: Date | undefined;
+  expiryTime?: Date | undefined;
+  postTriggerCollectionDuration?: number | undefined;
+  diagnosticsMode?: DiagnosticsMode | undefined;
+  spoolingMode?: SpoolingMode | undefined;
+  compression?: Compression | undefined;
+  priority?: number | undefined;
+  signalsToCollect?: SignalInformation[] | undefined;
   collectionScheme: CollectionScheme;
-  dataExtraDimensions?: string[];
-  tags?: Tag[];
-  dataDestinationConfigs?: DataDestinationConfig[];
-  dataPartitions?: DataPartition[];
-  signalsToFetch?: SignalFetchInformation[];
+  dataExtraDimensions?: string[] | undefined;
+  tags?: Tag[] | undefined;
+  dataDestinationConfigs?: DataDestinationConfig[] | undefined;
+  dataPartitions?: DataPartition[] | undefined;
+  signalsToFetch?: SignalFetchInformation[] | undefined;
 }
 export type CampaignArn = string;
 export interface CreateCampaignResponse {
-  name?: string;
-  arn?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
 }
 export type ResourceName = string;
 export type FullyQualifiedName = string;
@@ -474,8 +477,8 @@ export interface CanSignal {
   offset: number;
   factor: number;
   length: number;
-  name?: string;
-  signalValueType?: SignalValueType;
+  name?: string | undefined;
+  signalValueType?: SignalValueType | undefined;
 }
 export type ObdByteLength = number;
 export type ObdBitmaskLength = number;
@@ -487,10 +490,10 @@ export interface ObdSignal {
   offset: number;
   startByte: number;
   byteLength: number;
-  bitRightShift?: number;
-  bitMaskLength?: number;
-  isSigned?: boolean;
-  signalValueType?: SignalValueType;
+  bitRightShift?: number | undefined;
+  bitMaskLength?: number | undefined;
+  isSigned?: boolean | undefined;
+  signalValueType?: SignalValueType | undefined;
 }
 export type TopicName = string;
 export type ROS2PrimitiveType =
@@ -513,9 +516,9 @@ export type ROS2PrimitiveType =
 export type MaxStringSize = number;
 export interface ROS2PrimitiveMessageDefinition {
   primitiveType: ROS2PrimitiveType;
-  offset?: number;
-  scaling?: number;
-  upperBound?: number;
+  offset?: number | undefined;
+  scaling?: number | undefined;
+  upperBound?: number | undefined;
 }
 export type PrimitiveMessageDefinition = {
   ros2PrimitiveMessageDefinition: ROS2PrimitiveMessageDefinition;
@@ -530,7 +533,7 @@ export interface StructuredMessageListDefinition {
   name: string;
   memberType: StructuredMessage;
   listType: StructuredMessageListType;
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface StructuredMessageFieldNameAndDataTypePair {
   fieldName: string;
@@ -540,17 +543,17 @@ export type StructuredMessageDefinition = StructuredMessageFieldNameAndDataTypeP
 export type StructuredMessage =
   | {
       primitiveMessageDefinition: PrimitiveMessageDefinition;
-      structuredMessageListDefinition?: never;
-      structuredMessageDefinition?: never;
+      structuredMessageListDefinition?: undefined;
+      structuredMessageDefinition?: undefined;
     }
   | {
-      primitiveMessageDefinition?: never;
+      primitiveMessageDefinition?: undefined;
       structuredMessageListDefinition: StructuredMessageListDefinition;
-      structuredMessageDefinition?: never;
+      structuredMessageDefinition?: undefined;
     }
   | {
-      primitiveMessageDefinition?: never;
-      structuredMessageListDefinition?: never;
+      primitiveMessageDefinition?: undefined;
+      structuredMessageListDefinition?: undefined;
       structuredMessageDefinition: StructuredMessageFieldNameAndDataTypePair[];
     };
 export interface MessageSignal {
@@ -565,10 +568,10 @@ export interface SignalDecoder {
   fullyQualifiedName: string;
   type: SignalDecoderType;
   interfaceId: string;
-  canSignal?: CanSignal;
-  obdSignal?: ObdSignal;
-  messageSignal?: MessageSignal;
-  customDecodingSignal?: CustomDecodingSignal;
+  canSignal?: CanSignal | undefined;
+  obdSignal?: ObdSignal | undefined;
+  messageSignal?: MessageSignal | undefined;
+  customDecodingSignal?: CustomDecodingSignal | undefined;
 }
 export type SignalDecoders = SignalDecoder[];
 export type NetworkInterfaceType =
@@ -582,19 +585,19 @@ export type ProtocolName = string;
 export type ProtocolVersion = string;
 export interface CanInterface {
   name: string;
-  protocolName?: string;
-  protocolVersion?: string;
+  protocolName?: string | undefined;
+  protocolVersion?: string | undefined;
 }
 export type ObdInterfaceName = string;
 export type ObdStandard = string;
 export interface ObdInterface {
   name: string;
   requestMessageId: number;
-  obdStandard?: string;
-  pidRequestIntervalSeconds?: number;
-  dtcRequestIntervalSeconds?: number;
-  useExtendedIds?: boolean;
-  hasTransmissionEcu?: boolean;
+  obdStandard?: string | undefined;
+  pidRequestIntervalSeconds?: number | undefined;
+  dtcRequestIntervalSeconds?: number | undefined;
+  useExtendedIds?: boolean | undefined;
+  hasTransmissionEcu?: boolean | undefined;
 }
 export type VehicleMiddlewareName = string;
 export type VehicleMiddlewareProtocol = "ROS_2" | (string & {});
@@ -609,21 +612,21 @@ export interface CustomDecodingInterface {
 export interface NetworkInterface {
   interfaceId: string;
   type: NetworkInterfaceType;
-  canInterface?: CanInterface;
-  obdInterface?: ObdInterface;
-  vehicleMiddleware?: VehicleMiddleware;
-  customDecodingInterface?: CustomDecodingInterface;
+  canInterface?: CanInterface | undefined;
+  obdInterface?: ObdInterface | undefined;
+  vehicleMiddleware?: VehicleMiddleware | undefined;
+  customDecodingInterface?: CustomDecodingInterface | undefined;
 }
 export type NetworkInterfaces = NetworkInterface[];
 export type DefaultForUnmappedSignalsType = "CUSTOM_DECODING" | (string & {});
 export interface CreateDecoderManifestRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
   modelManifestArn: string;
-  signalDecoders?: SignalDecoder[];
-  networkInterfaces?: NetworkInterface[];
-  defaultForUnmappedSignals?: DefaultForUnmappedSignalsType;
-  tags?: Tag[];
+  signalDecoders?: SignalDecoder[] | undefined;
+  networkInterfaces?: NetworkInterface[] | undefined;
+  defaultForUnmappedSignals?: DefaultForUnmappedSignalsType | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateDecoderManifestResponse {
   name: string;
@@ -631,9 +634,9 @@ export interface CreateDecoderManifestResponse {
 }
 export interface CreateFleetRequest {
   fleetId: string;
-  description?: string;
+  description?: string | undefined;
   signalCatalogArn: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreateFleetResponse {
   id: string;
@@ -642,10 +645,10 @@ export interface CreateFleetResponse {
 export type ListOfStrings = string[];
 export interface CreateModelManifestRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
   nodes: string[];
   signalCatalogArn: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreateModelManifestResponse {
   name: string;
@@ -654,9 +657,9 @@ export interface CreateModelManifestResponse {
 export type Message = string;
 export interface Branch {
   fullyQualifiedName: string;
-  description?: string;
-  deprecationMessage?: string;
-  comment?: string;
+  description?: string | undefined;
+  deprecationMessage?: string | undefined;
+  comment?: string | undefined;
 }
 export type NodeDataType =
   | "INT8"
@@ -692,112 +695,112 @@ export type NodeDataType =
 export interface Sensor {
   fullyQualifiedName: string;
   dataType: NodeDataType;
-  description?: string;
-  unit?: string;
-  allowedValues?: string[];
-  min?: number;
-  max?: number;
-  deprecationMessage?: string;
-  comment?: string;
-  structFullyQualifiedName?: string;
+  description?: string | undefined;
+  unit?: string | undefined;
+  allowedValues?: string[] | undefined;
+  min?: number | undefined;
+  max?: number | undefined;
+  deprecationMessage?: string | undefined;
+  comment?: string | undefined;
+  structFullyQualifiedName?: string | undefined;
 }
 export interface Actuator {
   fullyQualifiedName: string;
   dataType: NodeDataType;
-  description?: string;
-  unit?: string;
-  allowedValues?: string[];
-  min?: number;
-  max?: number;
-  assignedValue?: string;
-  deprecationMessage?: string;
-  comment?: string;
-  structFullyQualifiedName?: string;
+  description?: string | undefined;
+  unit?: string | undefined;
+  allowedValues?: string[] | undefined;
+  min?: number | undefined;
+  max?: number | undefined;
+  assignedValue?: string | undefined;
+  deprecationMessage?: string | undefined;
+  comment?: string | undefined;
+  structFullyQualifiedName?: string | undefined;
 }
 export interface Attribute {
   fullyQualifiedName: string;
   dataType: NodeDataType;
-  description?: string;
-  unit?: string;
-  allowedValues?: string[];
-  min?: number;
-  max?: number;
-  assignedValue?: string;
-  defaultValue?: string;
-  deprecationMessage?: string;
-  comment?: string;
+  description?: string | undefined;
+  unit?: string | undefined;
+  allowedValues?: string[] | undefined;
+  min?: number | undefined;
+  max?: number | undefined;
+  assignedValue?: string | undefined;
+  defaultValue?: string | undefined;
+  deprecationMessage?: string | undefined;
+  comment?: string | undefined;
 }
 export interface CustomStruct {
   fullyQualifiedName: string;
-  description?: string;
-  deprecationMessage?: string;
-  comment?: string;
+  description?: string | undefined;
+  deprecationMessage?: string | undefined;
+  comment?: string | undefined;
 }
 export type NodeDataEncoding = "BINARY" | "TYPED" | (string & {});
 export interface CustomProperty {
   fullyQualifiedName: string;
   dataType: NodeDataType;
-  dataEncoding?: NodeDataEncoding;
-  description?: string;
-  deprecationMessage?: string;
-  comment?: string;
-  structFullyQualifiedName?: string;
+  dataEncoding?: NodeDataEncoding | undefined;
+  description?: string | undefined;
+  deprecationMessage?: string | undefined;
+  comment?: string | undefined;
+  structFullyQualifiedName?: string | undefined;
 }
 export type Node =
   | {
       branch: Branch;
-      sensor?: never;
-      actuator?: never;
-      attribute?: never;
-      struct?: never;
-      property?: never;
+      sensor?: undefined;
+      actuator?: undefined;
+      attribute?: undefined;
+      struct?: undefined;
+      property?: undefined;
     }
   | {
-      branch?: never;
+      branch?: undefined;
       sensor: Sensor;
-      actuator?: never;
-      attribute?: never;
-      struct?: never;
-      property?: never;
+      actuator?: undefined;
+      attribute?: undefined;
+      struct?: undefined;
+      property?: undefined;
     }
   | {
-      branch?: never;
-      sensor?: never;
+      branch?: undefined;
+      sensor?: undefined;
       actuator: Actuator;
-      attribute?: never;
-      struct?: never;
-      property?: never;
+      attribute?: undefined;
+      struct?: undefined;
+      property?: undefined;
     }
   | {
-      branch?: never;
-      sensor?: never;
-      actuator?: never;
+      branch?: undefined;
+      sensor?: undefined;
+      actuator?: undefined;
       attribute: Attribute;
-      struct?: never;
-      property?: never;
+      struct?: undefined;
+      property?: undefined;
     }
   | {
-      branch?: never;
-      sensor?: never;
-      actuator?: never;
-      attribute?: never;
+      branch?: undefined;
+      sensor?: undefined;
+      actuator?: undefined;
+      attribute?: undefined;
       struct: CustomStruct;
-      property?: never;
+      property?: undefined;
     }
   | {
-      branch?: never;
-      sensor?: never;
-      actuator?: never;
-      attribute?: never;
-      struct?: never;
+      branch?: undefined;
+      sensor?: undefined;
+      actuator?: undefined;
+      attribute?: undefined;
+      struct?: undefined;
       property: CustomProperty;
     };
 export type Nodes = Node[];
 export interface CreateSignalCatalogRequest {
   name: string;
-  description?: string;
-  nodes?: Node[];
-  tags?: Tag[];
+  description?: string | undefined;
+  nodes?: Node[] | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateSignalCatalogResponse {
   name: string;
@@ -808,39 +811,39 @@ export type StateTemplateDataExtraDimensionNodePathList = string[];
 export type StateTemplateMetadataExtraDimensionNodePathList = string[];
 export interface CreateStateTemplateRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
   signalCatalogArn: string;
   stateTemplateProperties: string[];
-  dataExtraDimensions?: string[];
-  metadataExtraDimensions?: string[];
-  tags?: Tag[];
+  dataExtraDimensions?: string[] | undefined;
+  metadataExtraDimensions?: string[] | undefined;
+  tags?: Tag[] | undefined;
 }
 export type ResourceUniqueId = string;
 export interface CreateStateTemplateResponse {
-  name?: string;
-  arn?: string;
-  id?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
+  id?: string | undefined;
 }
 export interface CreateVehicleRequest {
   vehicleName: string;
   modelManifestArn: string;
   decoderManifestArn: string;
-  attributes?: { [key: string]: string | undefined };
-  associationBehavior?: VehicleAssociationBehavior;
-  tags?: Tag[];
-  stateTemplates?: StateTemplateAssociation[];
+  attributes?: { [key: string]: string | undefined } | undefined;
+  associationBehavior?: VehicleAssociationBehavior | undefined;
+  tags?: Tag[] | undefined;
+  stateTemplates?: StateTemplateAssociation[] | undefined;
 }
 export interface CreateVehicleResponse {
-  vehicleName?: string;
-  arn?: string;
-  thingArn?: string;
+  vehicleName?: string | undefined;
+  arn?: string | undefined;
+  thingArn?: string | undefined;
 }
 export interface DeleteCampaignRequest {
   name: string;
 }
 export interface DeleteCampaignResponse {
-  name?: string;
-  arn?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
 }
 export interface DeleteDecoderManifestRequest {
   name: string;
@@ -853,8 +856,8 @@ export interface DeleteFleetRequest {
   fleetId: string;
 }
 export interface DeleteFleetResponse {
-  id?: string;
-  arn?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
 }
 export interface DeleteModelManifestRequest {
   name: string;
@@ -874,9 +877,9 @@ export interface DeleteStateTemplateRequest {
   identifier: string;
 }
 export interface DeleteStateTemplateResponse {
-  name?: string;
-  arn?: string;
-  id?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
+  id?: string | undefined;
 }
 export interface DeleteVehicleRequest {
   vehicleName: string;
@@ -900,27 +903,27 @@ export type CampaignStatus =
   | "SUSPENDED"
   | (string & {});
 export interface GetCampaignResponse {
-  name?: string;
-  arn?: string;
-  description?: string;
-  signalCatalogArn?: string;
-  targetArn?: string;
-  status?: CampaignStatus;
-  startTime?: Date;
-  expiryTime?: Date;
-  postTriggerCollectionDuration?: number;
-  diagnosticsMode?: DiagnosticsMode;
-  spoolingMode?: SpoolingMode;
-  compression?: Compression;
-  priority?: number;
-  signalsToCollect?: SignalInformation[];
-  collectionScheme?: CollectionScheme;
-  dataExtraDimensions?: string[];
-  creationTime?: Date;
-  lastModificationTime?: Date;
-  dataDestinationConfigs?: DataDestinationConfig[];
-  dataPartitions?: DataPartition[];
-  signalsToFetch?: SignalFetchInformation[];
+  name?: string | undefined;
+  arn?: string | undefined;
+  description?: string | undefined;
+  signalCatalogArn?: string | undefined;
+  targetArn?: string | undefined;
+  status?: CampaignStatus | undefined;
+  startTime?: Date | undefined;
+  expiryTime?: Date | undefined;
+  postTriggerCollectionDuration?: number | undefined;
+  diagnosticsMode?: DiagnosticsMode | undefined;
+  spoolingMode?: SpoolingMode | undefined;
+  compression?: Compression | undefined;
+  priority?: number | undefined;
+  signalsToCollect?: SignalInformation[] | undefined;
+  collectionScheme?: CollectionScheme | undefined;
+  dataExtraDimensions?: string[] | undefined;
+  creationTime?: Date | undefined;
+  lastModificationTime?: Date | undefined;
+  dataDestinationConfigs?: DataDestinationConfig[] | undefined;
+  dataPartitions?: DataPartition[] | undefined;
+  signalsToFetch?: SignalFetchInformation[] | undefined;
 }
 export interface GetDecoderManifestRequest {
   name: string;
@@ -929,12 +932,12 @@ export type ManifestStatus = "ACTIVE" | "DRAFT" | "INVALID" | "VALIDATING" | (st
 export interface GetDecoderManifestResponse {
   name: string;
   arn: string;
-  description?: string;
-  modelManifestArn?: string;
-  status?: ManifestStatus;
+  description?: string | undefined;
+  modelManifestArn?: string | undefined;
+  status?: ManifestStatus | undefined;
   creationTime: Date;
   lastModificationTime: Date;
-  message?: string;
+  message?: string | undefined;
 }
 export interface GetEncryptionConfigurationRequest {}
 export type EncryptionStatus = "PENDING" | "SUCCESS" | "FAILURE" | (string & {});
@@ -944,12 +947,12 @@ export type EncryptionType =
   | (string & {});
 export type ErrorMessage = string;
 export interface GetEncryptionConfigurationResponse {
-  kmsKeyId?: string;
+  kmsKeyId?: string | undefined;
   encryptionStatus: EncryptionStatus;
   encryptionType: EncryptionType;
-  errorMessage?: string;
-  creationTime?: Date;
-  lastModificationTime?: Date;
+  errorMessage?: string | undefined;
+  creationTime?: Date | undefined;
+  lastModificationTime?: Date | undefined;
 }
 export interface GetFleetRequest {
   fleetId: string;
@@ -957,7 +960,7 @@ export interface GetFleetRequest {
 export interface GetFleetResponse {
   id: string;
   arn: string;
-  description?: string;
+  description?: string | undefined;
   signalCatalogArn: string;
   creationTime: Date;
   lastModificationTime: Date;
@@ -967,7 +970,7 @@ export type LogType = "OFF" | "ERROR" | (string & {});
 export type CloudWatchLogGroupName = string;
 export interface CloudWatchLogDeliveryOptions {
   logType: LogType;
-  logGroupName?: string;
+  logGroupName?: string | undefined;
 }
 export interface GetLoggingOptionsResponse {
   cloudWatchLogDelivery: CloudWatchLogDeliveryOptions;
@@ -978,9 +981,9 @@ export interface GetModelManifestRequest {
 export interface GetModelManifestResponse {
   name: string;
   arn: string;
-  description?: string;
-  signalCatalogArn?: string;
-  status?: ManifestStatus;
+  description?: string | undefined;
+  signalCatalogArn?: string | undefined;
+  status?: ManifestStatus | undefined;
   creationTime: Date;
   lastModificationTime: Date;
 }
@@ -996,20 +999,20 @@ export type TimestreamTableName = string;
 export interface TimestreamRegistrationResponse {
   timestreamDatabaseName: string;
   timestreamTableName: string;
-  timestreamDatabaseArn?: string;
-  timestreamTableArn?: string;
+  timestreamDatabaseArn?: string | undefined;
+  timestreamTableArn?: string | undefined;
   registrationStatus: RegistrationStatus;
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export interface IamRegistrationResponse {
   roleArn: string;
   registrationStatus: RegistrationStatus;
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export interface GetRegisterAccountStatusResponse {
   customerAccountId: string;
   accountStatus: RegistrationStatus;
-  timestreamRegistrationResponse?: TimestreamRegistrationResponse;
+  timestreamRegistrationResponse?: TimestreamRegistrationResponse | undefined;
   iamRegistrationResponse: IamRegistrationResponse;
   creationTime: Date;
   lastModificationTime: Date;
@@ -1018,19 +1021,19 @@ export interface GetSignalCatalogRequest {
   name: string;
 }
 export interface NodeCounts {
-  totalNodes?: number;
-  totalBranches?: number;
-  totalSensors?: number;
-  totalAttributes?: number;
-  totalActuators?: number;
-  totalStructs?: number;
-  totalProperties?: number;
+  totalNodes?: number | undefined;
+  totalBranches?: number | undefined;
+  totalSensors?: number | undefined;
+  totalAttributes?: number | undefined;
+  totalActuators?: number | undefined;
+  totalStructs?: number | undefined;
+  totalProperties?: number | undefined;
 }
 export interface GetSignalCatalogResponse {
   name: string;
   arn: string;
-  description?: string;
-  nodeCounts?: NodeCounts;
+  description?: string | undefined;
+  nodeCounts?: NodeCounts | undefined;
   creationTime: Date;
   lastModificationTime: Date;
 }
@@ -1038,35 +1041,35 @@ export interface GetStateTemplateRequest {
   identifier: string;
 }
 export interface GetStateTemplateResponse {
-  name?: string;
-  arn?: string;
-  description?: string;
-  signalCatalogArn?: string;
-  stateTemplateProperties?: string[];
-  dataExtraDimensions?: string[];
-  metadataExtraDimensions?: string[];
-  creationTime?: Date;
-  lastModificationTime?: Date;
-  id?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
+  description?: string | undefined;
+  signalCatalogArn?: string | undefined;
+  stateTemplateProperties?: string[] | undefined;
+  dataExtraDimensions?: string[] | undefined;
+  metadataExtraDimensions?: string[] | undefined;
+  creationTime?: Date | undefined;
+  lastModificationTime?: Date | undefined;
+  id?: string | undefined;
 }
 export interface GetVehicleRequest {
   vehicleName: string;
 }
 export interface GetVehicleResponse {
-  vehicleName?: string;
-  arn?: string;
-  modelManifestArn?: string;
-  decoderManifestArn?: string;
-  attributes?: { [key: string]: string | undefined };
-  stateTemplates?: StateTemplateAssociation[];
-  creationTime?: Date;
-  lastModificationTime?: Date;
+  vehicleName?: string | undefined;
+  arn?: string | undefined;
+  modelManifestArn?: string | undefined;
+  decoderManifestArn?: string | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
+  stateTemplates?: StateTemplateAssociation[] | undefined;
+  creationTime?: Date | undefined;
+  lastModificationTime?: Date | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface GetVehicleStatusRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   vehicleName: string;
 }
 export type VehicleState =
@@ -1078,14 +1081,14 @@ export type VehicleState =
   | "READY_FOR_CHECKIN"
   | (string & {});
 export interface VehicleStatus {
-  campaignName?: string;
-  vehicleName?: string;
-  status?: VehicleState;
+  campaignName?: string | undefined;
+  vehicleName?: string | undefined;
+  status?: VehicleState | undefined;
 }
 export type VehicleStatusList = VehicleStatus[];
 export interface GetVehicleStatusResponse {
-  campaigns?: VehicleStatus[];
-  nextToken?: string;
+  campaigns?: VehicleStatus[] | undefined;
+  nextToken?: string | undefined;
 }
 export type NetworkFileBlob = Uint8Array;
 export type NetworkFilesList = Uint8Array[];
@@ -1093,7 +1096,7 @@ export type ModelSignalsMap = { [key: string]: string | undefined };
 export interface CanDbcDefinition {
   networkInterface: string;
   canDbcFiles: Uint8Array[];
-  signalsMap?: { [key: string]: string | undefined };
+  signalsMap?: { [key: string]: string | undefined } | undefined;
 }
 export type NetworkFileDefinition = { canDbc: CanDbcDefinition };
 export type NetworkFileDefinitions = NetworkFileDefinition[];
@@ -1108,9 +1111,9 @@ export interface ImportDecoderManifestResponse {
 export type FormattedVss = { vssJson: string };
 export interface ImportSignalCatalogRequest {
   name: string;
-  description?: string;
-  vss?: FormattedVss;
-  tags?: Tag[];
+  description?: string | undefined;
+  vss?: FormattedVss | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface ImportSignalCatalogResponse {
   name: string;
@@ -1119,121 +1122,121 @@ export interface ImportSignalCatalogResponse {
 export type StatusStr = string;
 export type ListResponseScope = "METADATA_ONLY" | (string & {});
 export interface ListCampaignsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  status?: string;
-  listResponseScope?: ListResponseScope;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  status?: string | undefined;
+  listResponseScope?: ListResponseScope | undefined;
 }
 export interface CampaignSummary {
-  arn?: string;
-  name?: string;
-  description?: string;
-  signalCatalogArn?: string;
-  targetArn?: string;
-  status?: CampaignStatus;
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  signalCatalogArn?: string | undefined;
+  targetArn?: string | undefined;
+  status?: CampaignStatus | undefined;
   creationTime: Date;
   lastModificationTime: Date;
 }
 export type CampaignSummaries = CampaignSummary[];
 export interface ListCampaignsResponse {
-  campaignSummaries?: CampaignSummary[];
-  nextToken?: string;
+  campaignSummaries?: CampaignSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDecoderManifestNetworkInterfacesRequest {
   name: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListDecoderManifestNetworkInterfacesResponse {
-  networkInterfaces?: NetworkInterface[];
-  nextToken?: string;
+  networkInterfaces?: NetworkInterface[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDecoderManifestsRequest {
-  modelManifestArn?: string;
-  nextToken?: string;
-  maxResults?: number;
-  listResponseScope?: ListResponseScope;
+  modelManifestArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  listResponseScope?: ListResponseScope | undefined;
 }
 export interface DecoderManifestSummary {
-  name?: string;
-  arn?: string;
-  modelManifestArn?: string;
-  description?: string;
-  status?: ManifestStatus;
+  name?: string | undefined;
+  arn?: string | undefined;
+  modelManifestArn?: string | undefined;
+  description?: string | undefined;
+  status?: ManifestStatus | undefined;
   creationTime: Date;
   lastModificationTime: Date;
-  message?: string;
+  message?: string | undefined;
 }
 export type DecoderManifestSummaries = DecoderManifestSummary[];
 export interface ListDecoderManifestsResponse {
-  summaries?: DecoderManifestSummary[];
-  nextToken?: string;
+  summaries?: DecoderManifestSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDecoderManifestSignalsRequest {
   name: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListDecoderManifestSignalsResponse {
-  signalDecoders?: SignalDecoder[];
-  nextToken?: string;
+  signalDecoders?: SignalDecoder[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListFleetsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  listResponseScope?: ListResponseScope;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  listResponseScope?: ListResponseScope | undefined;
 }
 export interface FleetSummary {
   id: string;
   arn: string;
-  description?: string;
+  description?: string | undefined;
   signalCatalogArn: string;
   creationTime: Date;
-  lastModificationTime?: Date;
+  lastModificationTime?: Date | undefined;
 }
 export type FleetSummaries = FleetSummary[];
 export interface ListFleetsResponse {
-  fleetSummaries?: FleetSummary[];
-  nextToken?: string;
+  fleetSummaries?: FleetSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListFleetsForVehicleRequest {
   vehicleName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type Fleets = string[];
 export interface ListFleetsForVehicleResponse {
-  fleets?: string[];
-  nextToken?: string;
+  fleets?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListModelManifestNodesRequest {
   name: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListModelManifestNodesResponse {
-  nodes?: Node[];
-  nextToken?: string;
+  nodes?: Node[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListModelManifestsRequest {
-  signalCatalogArn?: string;
-  nextToken?: string;
-  maxResults?: number;
-  listResponseScope?: ListResponseScope;
+  signalCatalogArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  listResponseScope?: ListResponseScope | undefined;
 }
 export interface ModelManifestSummary {
-  name?: string;
-  arn?: string;
-  signalCatalogArn?: string;
-  description?: string;
-  status?: ManifestStatus;
+  name?: string | undefined;
+  arn?: string | undefined;
+  signalCatalogArn?: string | undefined;
+  description?: string | undefined;
+  status?: ManifestStatus | undefined;
   creationTime: Date;
   lastModificationTime: Date;
 }
 export type ModelManifestSummaries = ModelManifestSummary[];
 export interface ListModelManifestsResponse {
-  summaries?: ModelManifestSummary[];
-  nextToken?: string;
+  summaries?: ModelManifestSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SignalNodeType =
   | "SENSOR"
@@ -1245,65 +1248,65 @@ export type SignalNodeType =
   | (string & {});
 export interface ListSignalCatalogNodesRequest {
   name: string;
-  nextToken?: string;
-  maxResults?: number;
-  signalNodeType?: SignalNodeType;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  signalNodeType?: SignalNodeType | undefined;
 }
 export interface ListSignalCatalogNodesResponse {
-  nodes?: Node[];
-  nextToken?: string;
+  nodes?: Node[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSignalCatalogsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface SignalCatalogSummary {
-  name?: string;
-  arn?: string;
-  creationTime?: Date;
-  lastModificationTime?: Date;
+  name?: string | undefined;
+  arn?: string | undefined;
+  creationTime?: Date | undefined;
+  lastModificationTime?: Date | undefined;
 }
 export type SignalCatalogSummaries = SignalCatalogSummary[];
 export interface ListSignalCatalogsResponse {
-  summaries?: SignalCatalogSummary[];
-  nextToken?: string;
+  summaries?: SignalCatalogSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListStateTemplatesRequest {
-  nextToken?: string;
-  maxResults?: number;
-  listResponseScope?: ListResponseScope;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  listResponseScope?: ListResponseScope | undefined;
 }
 export interface StateTemplateSummary {
-  name?: string;
-  arn?: string;
-  signalCatalogArn?: string;
-  description?: string;
-  creationTime?: Date;
-  lastModificationTime?: Date;
-  id?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
+  signalCatalogArn?: string | undefined;
+  description?: string | undefined;
+  creationTime?: Date | undefined;
+  lastModificationTime?: Date | undefined;
+  id?: string | undefined;
 }
 export type StateTemplateSummaries = StateTemplateSummary[];
 export interface ListStateTemplatesResponse {
-  summaries?: StateTemplateSummary[];
-  nextToken?: string;
+  summaries?: StateTemplateSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type AttributeNamesList = string[];
 export type AttributeValuesList = string[];
 export type ListVehiclesMaxResults = number;
 export interface ListVehiclesRequest {
-  modelManifestArn?: string;
-  attributeNames?: string[];
-  attributeValues?: string[];
-  nextToken?: string;
-  maxResults?: number;
-  listResponseScope?: ListResponseScope;
+  modelManifestArn?: string | undefined;
+  attributeNames?: string[] | undefined;
+  attributeValues?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  listResponseScope?: ListResponseScope | undefined;
 }
 export interface VehicleSummary {
   vehicleName: string;
@@ -1312,29 +1315,29 @@ export interface VehicleSummary {
   decoderManifestArn: string;
   creationTime: Date;
   lastModificationTime: Date;
-  attributes?: { [key: string]: string | undefined };
+  attributes?: { [key: string]: string | undefined } | undefined;
 }
 export type VehicleSummaries = VehicleSummary[];
 export interface ListVehiclesResponse {
-  vehicleSummaries?: VehicleSummary[];
-  nextToken?: string;
+  vehicleSummaries?: VehicleSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListVehiclesInFleetRequest {
   fleetId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type Vehicles = string[];
 export interface ListVehiclesInFleetResponse {
-  vehicles?: string[];
-  nextToken?: string;
+  vehicles?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface PutEncryptionConfigurationRequest {
-  kmsKeyId?: string;
+  kmsKeyId?: string | undefined;
   encryptionType: EncryptionType;
 }
 export interface PutEncryptionConfigurationResponse {
-  kmsKeyId?: string;
+  kmsKeyId?: string | undefined;
   encryptionStatus: EncryptionStatus;
   encryptionType: EncryptionType;
 }
@@ -1350,12 +1353,12 @@ export interface IamResources {
   roleArn: string;
 }
 export interface RegisterAccountRequest {
-  timestreamResources?: TimestreamResources;
-  iamResources?: IamResources;
+  timestreamResources?: TimestreamResources | undefined;
+  iamResources?: IamResources | undefined;
 }
 export interface RegisterAccountResponse {
   registerAccountStatus: RegistrationStatus;
-  timestreamResources?: TimestreamResources;
+  timestreamResources?: TimestreamResources | undefined;
   iamResources: IamResources;
   creationTime: Date;
   lastModificationTime: Date;
@@ -1374,28 +1377,28 @@ export interface UntagResourceResponse {}
 export type UpdateCampaignAction = "APPROVE" | "SUSPEND" | "RESUME" | "UPDATE" | (string & {});
 export interface UpdateCampaignRequest {
   name: string;
-  description?: string;
-  dataExtraDimensions?: string[];
+  description?: string | undefined;
+  dataExtraDimensions?: string[] | undefined;
   action: UpdateCampaignAction;
 }
 export interface UpdateCampaignResponse {
-  arn?: string;
-  name?: string;
-  status?: CampaignStatus;
+  arn?: string | undefined;
+  name?: string | undefined;
+  status?: CampaignStatus | undefined;
 }
 export type Fqns = string[];
 export type InterfaceIds = string[];
 export interface UpdateDecoderManifestRequest {
   name: string;
-  description?: string;
-  signalDecodersToAdd?: SignalDecoder[];
-  signalDecodersToUpdate?: SignalDecoder[];
-  signalDecodersToRemove?: string[];
-  networkInterfacesToAdd?: NetworkInterface[];
-  networkInterfacesToUpdate?: NetworkInterface[];
-  networkInterfacesToRemove?: string[];
-  status?: ManifestStatus;
-  defaultForUnmappedSignals?: DefaultForUnmappedSignalsType;
+  description?: string | undefined;
+  signalDecodersToAdd?: SignalDecoder[] | undefined;
+  signalDecodersToUpdate?: SignalDecoder[] | undefined;
+  signalDecodersToRemove?: string[] | undefined;
+  networkInterfacesToAdd?: NetworkInterface[] | undefined;
+  networkInterfacesToUpdate?: NetworkInterface[] | undefined;
+  networkInterfacesToRemove?: string[] | undefined;
+  status?: ManifestStatus | undefined;
+  defaultForUnmappedSignals?: DefaultForUnmappedSignalsType | undefined;
 }
 export interface UpdateDecoderManifestResponse {
   name: string;
@@ -1403,19 +1406,19 @@ export interface UpdateDecoderManifestResponse {
 }
 export interface UpdateFleetRequest {
   fleetId: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateFleetResponse {
-  id?: string;
-  arn?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
 }
 export type NodePaths = string[];
 export interface UpdateModelManifestRequest {
   name: string;
-  description?: string;
-  nodesToAdd?: string[];
-  nodesToRemove?: string[];
-  status?: ManifestStatus;
+  description?: string | undefined;
+  nodesToAdd?: string[] | undefined;
+  nodesToRemove?: string[] | undefined;
+  status?: ManifestStatus | undefined;
 }
 export interface UpdateModelManifestResponse {
   name: string;
@@ -1423,10 +1426,10 @@ export interface UpdateModelManifestResponse {
 }
 export interface UpdateSignalCatalogRequest {
   name: string;
-  description?: string;
-  nodesToAdd?: Node[];
-  nodesToUpdate?: Node[];
-  nodesToRemove?: string[];
+  description?: string | undefined;
+  nodesToAdd?: Node[] | undefined;
+  nodesToUpdate?: Node[] | undefined;
+  nodesToRemove?: string[] | undefined;
 }
 export interface UpdateSignalCatalogResponse {
   name: string;
@@ -1434,30 +1437,30 @@ export interface UpdateSignalCatalogResponse {
 }
 export interface UpdateStateTemplateRequest {
   identifier: string;
-  description?: string;
-  stateTemplatePropertiesToAdd?: string[];
-  stateTemplatePropertiesToRemove?: string[];
-  dataExtraDimensions?: string[];
-  metadataExtraDimensions?: string[];
+  description?: string | undefined;
+  stateTemplatePropertiesToAdd?: string[] | undefined;
+  stateTemplatePropertiesToRemove?: string[] | undefined;
+  dataExtraDimensions?: string[] | undefined;
+  metadataExtraDimensions?: string[] | undefined;
 }
 export interface UpdateStateTemplateResponse {
-  name?: string;
-  arn?: string;
-  id?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
+  id?: string | undefined;
 }
 export interface UpdateVehicleRequest {
   vehicleName: string;
-  modelManifestArn?: string;
-  decoderManifestArn?: string;
-  attributes?: { [key: string]: string | undefined };
-  attributeUpdateMode?: UpdateMode;
-  stateTemplatesToAdd?: StateTemplateAssociation[];
-  stateTemplatesToRemove?: string[];
-  stateTemplatesToUpdate?: StateTemplateAssociation[];
+  modelManifestArn?: string | undefined;
+  decoderManifestArn?: string | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
+  attributeUpdateMode?: UpdateMode | undefined;
+  stateTemplatesToAdd?: StateTemplateAssociation[] | undefined;
+  stateTemplatesToRemove?: string[] | undefined;
+  stateTemplatesToUpdate?: StateTemplateAssociation[] | undefined;
 }
 export interface UpdateVehicleResponse {
-  vehicleName?: string;
-  arn?: string;
+  vehicleName?: string | undefined;
+  arn?: string | undefined;
 }
 export type RetryAfterSeconds = number;
 export type ValidationExceptionReason =
@@ -1490,9 +1493,9 @@ export type SignalDecoderFailureReason =
   | "CUSTOM_DECODING_SIGNAL_INFO_IS_NULL"
   | (string & {});
 export interface InvalidSignalDecoder {
-  name?: string;
-  reason?: SignalDecoderFailureReason;
-  hint?: string;
+  name?: string | undefined;
+  reason?: SignalDecoderFailureReason | undefined;
+  hint?: string | undefined;
 }
 export type InvalidSignalDecoders = InvalidSignalDecoder[];
 export type NetworkInterfaceFailureReason =
@@ -1506,13 +1509,13 @@ export type NetworkInterfaceFailureReason =
   | "CUSTOM_DECODING_SIGNAL_NETWORK_INTERFACE_INFO_IS_NULL"
   | (string & {});
 export interface InvalidNetworkInterface {
-  interfaceId?: string;
-  reason?: NetworkInterfaceFailureReason;
+  interfaceId?: string | undefined;
+  reason?: NetworkInterfaceFailureReason | undefined;
 }
 export type InvalidNetworkInterfaces = InvalidNetworkInterface[];
 export interface InvalidSignal {
-  name?: string;
-  reason?: string;
+  name?: string | undefined;
+  reason?: string | undefined;
 }
 export type InvalidSignals = InvalidSignal[];
 export type AssociateVehicleFleetError =

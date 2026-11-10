@@ -130,7 +130,7 @@ export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateSolFunctionPackageInput {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type VnfPkgId = string;
 export type VnfPkgArn = string;
@@ -143,14 +143,14 @@ export interface CreateSolFunctionPackageOutput {
   onboardingState: OnboardingState;
   operationalState: OperationalState;
   usageState: UsageState;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type NsdInfoId = string;
 export interface CreateSolNetworkInstanceInput {
   nsdInfoId: string;
   nsName: string;
-  nsDescription?: string;
-  tags?: { [key: string]: string | undefined };
+  nsDescription?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type NsInstanceId = string;
 export type NsInstanceArn = string;
@@ -159,10 +159,10 @@ export interface CreateSolNetworkInstanceOutput {
   arn: string;
   nsdInfoId: string;
   nsInstanceName: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateSolNetworkPackageInput {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type NsdInfoArn = string;
 export type NsdOnboardingState = "CREATED" | "ONBOARDED" | "ERROR" | (string & {});
@@ -174,7 +174,7 @@ export interface CreateSolNetworkPackageOutput {
   nsdOnboardingState: NsdOnboardingState;
   nsdOperationalState: NsdOperationalState;
   nsdUsageState: NsdUsageState;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DeleteSolFunctionPackageInput {
   vnfPkgId: string;
@@ -197,17 +197,17 @@ export type VnfdId = string;
 export type VnfInstantiationState = "INSTANTIATED" | "NOT_INSTANTIATED" | (string & {});
 export type VnfOperationalState = "STARTED" | "STOPPED" | (string & {});
 export interface GetSolVnfcResourceInfoMetadata {
-  nodeGroup?: string;
-  cluster?: string;
-  helmChart?: string;
+  nodeGroup?: string | undefined;
+  cluster?: string | undefined;
+  helmChart?: string | undefined;
 }
 export interface GetSolVnfcResourceInfo {
-  metadata?: GetSolVnfcResourceInfoMetadata;
+  metadata?: GetSolVnfcResourceInfoMetadata | undefined;
 }
 export type GetSolVnfcResourceInfoList = GetSolVnfcResourceInfo[];
 export interface GetSolVnfInfo {
-  vnfState?: VnfOperationalState;
-  vnfcResourceInfo?: GetSolVnfcResourceInfo[];
+  vnfState?: VnfOperationalState | undefined;
+  vnfcResourceInfo?: GetSolVnfcResourceInfo[] | undefined;
 }
 export interface GetSolFunctionInstanceMetadata {
   createdAt: Date;
@@ -219,27 +219,27 @@ export interface GetSolFunctionInstanceOutput {
   nsInstanceId: string;
   vnfPkgId: string;
   vnfdId: string;
-  vnfProvider?: string;
-  vnfProductName?: string;
-  vnfdVersion?: string;
+  vnfProvider?: string | undefined;
+  vnfProductName?: string | undefined;
+  vnfdVersion?: string | undefined;
   instantiationState: VnfInstantiationState;
-  instantiatedVnfInfo?: GetSolVnfInfo;
+  instantiatedVnfInfo?: GetSolVnfInfo | undefined;
   metadata: GetSolFunctionInstanceMetadata;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetSolFunctionPackageInput {
   vnfPkgId: string;
 }
 export interface ToscaOverride {
-  name?: string;
-  defaultValue?: string;
+  name?: string | undefined;
+  defaultValue?: string | undefined;
 }
 export type OverrideList = ToscaOverride[];
 export interface FunctionArtifactMeta {
-  overrides?: ToscaOverride[];
+  overrides?: ToscaOverride[] | undefined;
 }
 export interface GetSolFunctionPackageMetadata {
-  vnfd?: FunctionArtifactMeta;
+  vnfd?: FunctionArtifactMeta | undefined;
   createdAt: Date;
   lastModified: Date;
 }
@@ -249,12 +249,12 @@ export interface GetSolFunctionPackageOutput {
   onboardingState: OnboardingState;
   operationalState: OperationalState;
   usageState: UsageState;
-  vnfdId?: string;
-  vnfProvider?: string;
-  vnfProductName?: string;
-  vnfdVersion?: string;
-  metadata?: GetSolFunctionPackageMetadata;
-  tags?: { [key: string]: string | undefined };
+  vnfdId?: string | undefined;
+  vnfProvider?: string | undefined;
+  vnfProductName?: string | undefined;
+  vnfdVersion?: string | undefined;
+  metadata?: GetSolFunctionPackageMetadata | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type PackageContentType = "application/zip" | (string & {});
 export interface GetSolFunctionPackageContentInput {
@@ -262,8 +262,8 @@ export interface GetSolFunctionPackageContentInput {
   accept: PackageContentType;
 }
 export interface GetSolFunctionPackageContentOutput {
-  contentType?: PackageContentType;
-  packageContent?: Uint8Array;
+  contentType?: PackageContentType | undefined;
+  packageContent?: Uint8Array | undefined;
 }
 export type DescriptorContentType = "text/plain" | (string & {});
 export interface GetSolFunctionPackageDescriptorInput {
@@ -271,8 +271,8 @@ export interface GetSolFunctionPackageDescriptorInput {
   accept: DescriptorContentType;
 }
 export interface GetSolFunctionPackageDescriptorOutput {
-  contentType?: DescriptorContentType;
-  vnfd?: Uint8Array;
+  contentType?: DescriptorContentType | undefined;
+  vnfd?: Uint8Array | undefined;
 }
 export interface GetSolNetworkInstanceInput {
   nsInstanceId: string;
@@ -305,10 +305,10 @@ export interface GetSolNetworkInstanceOutput {
   nsInstanceDescription: string;
   nsdId: string;
   nsdInfoId: string;
-  nsState?: NsState;
-  lcmOpInfo?: LcmOperationInfo;
+  nsState?: NsState | undefined;
+  lcmOpInfo?: LcmOperationInfo | undefined;
   metadata: GetSolNetworkInstanceMetadata;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetSolNetworkOperationInput {
   nsLcmOpOccId: string;
@@ -325,11 +325,11 @@ export type LcmOperationType = "INSTANTIATE" | "UPDATE" | "TERMINATE" | (string 
 export type UpdateSolNetworkType = "MODIFY_VNF_INFORMATION" | "UPDATE_NS" | (string & {});
 export interface ProblemDetails {
   detail: string;
-  title?: string;
+  title?: string | undefined;
 }
 export interface UpdateNsMetadata {
   nsdInfoId: string;
-  additionalParamsForNs?: any;
+  additionalParamsForNs?: any | undefined;
 }
 export interface ModifyVnfInfoMetadata {
   vnfInstanceId: string;
@@ -337,12 +337,12 @@ export interface ModifyVnfInfoMetadata {
 }
 export interface InstantiateMetadata {
   nsdInfoId: string;
-  additionalParamsForNs?: any;
+  additionalParamsForNs?: any | undefined;
 }
 export interface GetSolNetworkOperationMetadata {
-  updateNsMetadata?: UpdateNsMetadata;
-  modifyVnfInfoMetadata?: ModifyVnfInfoMetadata;
-  instantiateMetadata?: InstantiateMetadata;
+  updateNsMetadata?: UpdateNsMetadata | undefined;
+  modifyVnfInfoMetadata?: ModifyVnfInfoMetadata | undefined;
+  instantiateMetadata?: InstantiateMetadata | undefined;
   createdAt: Date;
   lastModified: Date;
 }
@@ -350,8 +350,8 @@ export type StringMap = { [key: string]: string | undefined };
 export type ErrorCause = string;
 export type ErrorDetails = string;
 export interface ErrorInfo {
-  cause?: string;
-  details?: string;
+  cause?: string | undefined;
+  details?: string | undefined;
 }
 export type TaskStatus =
   | "SCHEDULED"
@@ -363,35 +363,35 @@ export type TaskStatus =
   | "CANCELLED"
   | (string & {});
 export interface GetSolNetworkOperationTaskDetails {
-  taskName?: string;
-  taskContext?: { [key: string]: string | undefined };
-  taskErrorDetails?: ErrorInfo;
-  taskStatus?: TaskStatus;
-  taskStartTime?: Date;
-  taskEndTime?: Date;
+  taskName?: string | undefined;
+  taskContext?: { [key: string]: string | undefined } | undefined;
+  taskErrorDetails?: ErrorInfo | undefined;
+  taskStatus?: TaskStatus | undefined;
+  taskStartTime?: Date | undefined;
+  taskEndTime?: Date | undefined;
 }
 export type GetSolNetworkOperationTasksList = GetSolNetworkOperationTaskDetails[];
 export interface GetSolNetworkOperationOutput {
-  id?: string;
+  id?: string | undefined;
   arn: string;
-  operationState?: NsLcmOperationState;
-  nsInstanceId?: string;
-  lcmOperationType?: LcmOperationType;
-  updateType?: UpdateSolNetworkType;
-  error?: ProblemDetails;
-  metadata?: GetSolNetworkOperationMetadata;
-  tasks?: GetSolNetworkOperationTaskDetails[];
-  tags?: { [key: string]: string | undefined };
+  operationState?: NsLcmOperationState | undefined;
+  nsInstanceId?: string | undefined;
+  lcmOperationType?: LcmOperationType | undefined;
+  updateType?: UpdateSolNetworkType | undefined;
+  error?: ProblemDetails | undefined;
+  metadata?: GetSolNetworkOperationMetadata | undefined;
+  tasks?: GetSolNetworkOperationTaskDetails[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetSolNetworkPackageInput {
   nsdInfoId: string;
 }
 export type VnfPkgIdList = string[];
 export interface NetworkArtifactMeta {
-  overrides?: ToscaOverride[];
+  overrides?: ToscaOverride[] | undefined;
 }
 export interface GetSolNetworkPackageMetadata {
-  nsd?: NetworkArtifactMeta;
+  nsd?: NetworkArtifactMeta | undefined;
   createdAt: Date;
   lastModified: Date;
 }
@@ -406,40 +406,40 @@ export interface GetSolNetworkPackageOutput {
   nsdVersion: string;
   vnfPkgIds: string[];
   metadata: GetSolNetworkPackageMetadata;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetSolNetworkPackageContentInput {
   nsdInfoId: string;
   accept: PackageContentType;
 }
 export interface GetSolNetworkPackageContentOutput {
-  contentType?: PackageContentType;
-  nsdContent?: Uint8Array;
+  contentType?: PackageContentType | undefined;
+  nsdContent?: Uint8Array | undefined;
 }
 export interface GetSolNetworkPackageDescriptorInput {
   nsdInfoId: string;
 }
 export interface GetSolNetworkPackageDescriptorOutput {
-  contentType?: DescriptorContentType;
-  nsd?: Uint8Array;
+  contentType?: DescriptorContentType | undefined;
+  nsd?: Uint8Array | undefined;
 }
 export interface InstantiateSolNetworkInstanceInput {
   nsInstanceId: string;
-  dryRun?: boolean;
-  additionalParamsForNs?: any;
-  tags?: { [key: string]: string | undefined };
+  dryRun?: boolean | undefined;
+  additionalParamsForNs?: any | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface InstantiateSolNetworkInstanceOutput {
   nsLcmOpOccId: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type PaginationToken = string;
 export interface ListSolFunctionInstancesInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetSolInstantiatedVnfInfo {
-  vnfState?: VnfOperationalState;
+  vnfState?: VnfOperationalState | undefined;
 }
 export interface ListSolFunctionInstanceMetadata {
   createdAt: Date;
@@ -450,19 +450,19 @@ export interface ListSolFunctionInstanceInfo {
   arn: string;
   nsInstanceId: string;
   vnfPkgId: string;
-  vnfPkgName?: string;
+  vnfPkgName?: string | undefined;
   instantiationState: VnfInstantiationState;
-  instantiatedVnfInfo?: GetSolInstantiatedVnfInfo;
+  instantiatedVnfInfo?: GetSolInstantiatedVnfInfo | undefined;
   metadata: ListSolFunctionInstanceMetadata;
 }
 export type ListSolFunctionInstanceResources = ListSolFunctionInstanceInfo[];
 export interface ListSolFunctionInstancesOutput {
-  nextToken?: string;
-  functionInstances?: ListSolFunctionInstanceInfo[];
+  nextToken?: string | undefined;
+  functionInstances?: ListSolFunctionInstanceInfo[] | undefined;
 }
 export interface ListSolFunctionPackagesInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSolFunctionPackageMetadata {
   createdAt: Date;
@@ -474,20 +474,20 @@ export interface ListSolFunctionPackageInfo {
   onboardingState: OnboardingState;
   operationalState: OperationalState;
   usageState: UsageState;
-  vnfdId?: string;
-  vnfProvider?: string;
-  vnfProductName?: string;
-  vnfdVersion?: string;
-  metadata?: ListSolFunctionPackageMetadata;
+  vnfdId?: string | undefined;
+  vnfProvider?: string | undefined;
+  vnfProductName?: string | undefined;
+  vnfdVersion?: string | undefined;
+  metadata?: ListSolFunctionPackageMetadata | undefined;
 }
 export type ListSolFunctionPackageResources = ListSolFunctionPackageInfo[];
 export interface ListSolFunctionPackagesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   functionPackages: ListSolFunctionPackageInfo[];
 }
 export interface ListSolNetworkInstancesInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSolNetworkInstanceMetadata {
   createdAt: Date;
@@ -505,17 +505,17 @@ export interface ListSolNetworkInstanceInfo {
 }
 export type ListSolNetworkInstanceResources = ListSolNetworkInstanceInfo[];
 export interface ListSolNetworkInstancesOutput {
-  nextToken?: string;
-  networkInstances?: ListSolNetworkInstanceInfo[];
+  nextToken?: string | undefined;
+  networkInstances?: ListSolNetworkInstanceInfo[] | undefined;
 }
 export interface ListSolNetworkOperationsInput {
-  nsInstanceId?: string;
-  maxResults?: number;
-  nextToken?: string;
+  nsInstanceId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSolNetworkOperationsMetadata {
-  nsdInfoId?: string;
-  vnfInstanceId?: string;
+  nsdInfoId?: string | undefined;
+  vnfInstanceId?: string | undefined;
   createdAt: Date;
   lastModified: Date;
 }
@@ -525,18 +525,18 @@ export interface ListSolNetworkOperationsInfo {
   operationState: NsLcmOperationState;
   nsInstanceId: string;
   lcmOperationType: LcmOperationType;
-  updateType?: UpdateSolNetworkType;
-  error?: ProblemDetails;
-  metadata?: ListSolNetworkOperationsMetadata;
+  updateType?: UpdateSolNetworkType | undefined;
+  error?: ProblemDetails | undefined;
+  metadata?: ListSolNetworkOperationsMetadata | undefined;
 }
 export type ListSolNetworkOperationsResources = ListSolNetworkOperationsInfo[];
 export interface ListSolNetworkOperationsOutput {
-  nextToken?: string;
-  networkOperations?: ListSolNetworkOperationsInfo[];
+  nextToken?: string | undefined;
+  networkOperations?: ListSolNetworkOperationsInfo[] | undefined;
 }
 export interface ListSolNetworkPackagesInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSolNetworkPackageMetadata {
   createdAt: Date;
@@ -548,17 +548,17 @@ export interface ListSolNetworkPackageInfo {
   nsdOnboardingState: NsdOnboardingState;
   nsdOperationalState: NsdOperationalState;
   nsdUsageState: NsdUsageState;
-  nsdId?: string;
-  nsdName?: string;
-  nsdVersion?: string;
-  nsdDesigner?: string;
-  nsdInvariantId?: string;
-  vnfPkgIds?: string[];
+  nsdId?: string | undefined;
+  nsdName?: string | undefined;
+  nsdVersion?: string | undefined;
+  nsdDesigner?: string | undefined;
+  nsdInvariantId?: string | undefined;
+  vnfPkgIds?: string[] | undefined;
   metadata: ListSolNetworkPackageMetadata;
 }
 export type ListSolNetworkPackageResources = ListSolNetworkPackageInfo[];
 export interface ListSolNetworkPackagesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   networkPackages: ListSolNetworkPackageInfo[];
 }
 export type TNBResourceArn = string;
@@ -570,11 +570,11 @@ export interface ListTagsForResourceOutput {
 }
 export interface PutSolFunctionPackageContentInput {
   vnfPkgId: string;
-  contentType?: PackageContentType;
+  contentType?: PackageContentType | undefined;
   file: T.StreamingInputBody;
 }
 export interface PutSolFunctionPackageContentMetadata {
-  vnfd?: FunctionArtifactMeta;
+  vnfd?: FunctionArtifactMeta | undefined;
 }
 export interface PutSolFunctionPackageContentOutput {
   id: string;
@@ -586,11 +586,11 @@ export interface PutSolFunctionPackageContentOutput {
 }
 export interface PutSolNetworkPackageContentInput {
   nsdInfoId: string;
-  contentType?: PackageContentType;
+  contentType?: PackageContentType | undefined;
   file: T.StreamingInputBody;
 }
 export interface PutSolNetworkPackageContentMetadata {
-  nsd?: NetworkArtifactMeta;
+  nsd?: NetworkArtifactMeta | undefined;
 }
 export interface PutSolNetworkPackageContentOutput {
   id: string;
@@ -608,11 +608,11 @@ export interface TagResourceInput {
 export interface TagResourceOutput {}
 export interface TerminateSolNetworkInstanceInput {
   nsInstanceId: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TerminateSolNetworkInstanceOutput {
-  nsLcmOpOccId?: string;
-  tags?: { [key: string]: string | undefined };
+  nsLcmOpOccId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type TagKeys = string[];
 export interface UntagResourceInput {
@@ -633,18 +633,18 @@ export interface UpdateSolNetworkModify {
 }
 export interface UpdateSolNetworkServiceData {
   nsdInfoId: string;
-  additionalParamsForNs?: any;
+  additionalParamsForNs?: any | undefined;
 }
 export interface UpdateSolNetworkInstanceInput {
   nsInstanceId: string;
   updateType: UpdateSolNetworkType;
-  modifyVnfInfoData?: UpdateSolNetworkModify;
-  updateNs?: UpdateSolNetworkServiceData;
-  tags?: { [key: string]: string | undefined };
+  modifyVnfInfoData?: UpdateSolNetworkModify | undefined;
+  updateNs?: UpdateSolNetworkServiceData | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateSolNetworkInstanceOutput {
-  nsLcmOpOccId?: string;
-  tags?: { [key: string]: string | undefined };
+  nsLcmOpOccId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateSolNetworkPackageInput {
   nsdInfoId: string;
@@ -655,11 +655,11 @@ export interface UpdateSolNetworkPackageOutput {
 }
 export interface ValidateSolFunctionPackageContentInput {
   vnfPkgId: string;
-  contentType?: PackageContentType;
+  contentType?: PackageContentType | undefined;
   file: T.StreamingInputBody;
 }
 export interface ValidateSolFunctionPackageContentMetadata {
-  vnfd?: FunctionArtifactMeta;
+  vnfd?: FunctionArtifactMeta | undefined;
 }
 export interface ValidateSolFunctionPackageContentOutput {
   id: string;
@@ -671,11 +671,11 @@ export interface ValidateSolFunctionPackageContentOutput {
 }
 export interface ValidateSolNetworkPackageContentInput {
   nsdInfoId: string;
-  contentType?: PackageContentType;
+  contentType?: PackageContentType | undefined;
   file: T.StreamingInputBody;
 }
 export interface ValidateSolNetworkPackageContentMetadata {
-  nsd?: NetworkArtifactMeta;
+  nsd?: NetworkArtifactMeta | undefined;
 }
 export interface ValidateSolNetworkPackageContentOutput {
   id: string;

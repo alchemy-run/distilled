@@ -35,11 +35,11 @@ export interface AddAssigneesRequestAssigneesItemCase1 {
   /** The login of the user to assign. */
   login: string;
   /** Optional reasoning for adding this assignee. */
-  rationale?: string;
+  rationale?: string | undefined;
   /** If `true`, the assignee is stored as a pending suggestion for human review rather than applied directly. */
-  suggest?: boolean;
+  suggest?: boolean | undefined;
   /** The confidence level for this assignee choice. */
-  confidence?: AddAssigneesRequestAssigneesItemCase1Confidence | (string & {});
+  confidence?: AddAssigneesRequestAssigneesItemCase1Confidence | (string & {}) | undefined;
 }
 export type AddAssigneesRequestAssigneesItem = string | AddAssigneesRequestAssigneesItemCase1;
 /** Usernames of people to assign this issue to. _NOTE: Only users with push access can add assignees to an issue. Assignees are silently ignored otherwise._ */
@@ -52,14 +52,14 @@ export interface AddAssigneesRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** Usernames of people to assign this issue to. _NOTE: Only users with push access can add assignees to an issue. Assignees are silently ignored otherwise._ */
-  assignees?: AddAssigneesRequestAssigneesList;
+  assignees?: AddAssigneesRequestAssigneesList | undefined;
 }
 /** The reason for the current state */
 export type IssueStateReason = "completed" | "reopened" | "not_planned" | "duplicate";
 /** A GitHub user. */
 export interface NullableSimpleUser {
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -78,21 +78,21 @@ export interface NullableSimpleUser {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
 }
 /** A GitHub user. */
 export type SimpleUser = NullableSimpleUser;
 export interface IssueLabelsItemCase1 {
-  id?: number;
-  node_id?: string;
-  url?: string;
-  name?: string;
-  description?: string | null;
-  color?: string | null;
-  default?: boolean;
+  id?: number | undefined;
+  node_id?: string | undefined;
+  url?: string | undefined;
+  name?: string | undefined;
+  description?: string | null | undefined;
+  color?: string | null | undefined;
+  default?: boolean | undefined;
   /** The user who archived the label, or `null` if it has not been archived. */
-  archived_by?: NullableSimpleUser | null;
+  archived_by?: NullableSimpleUser | null | undefined;
 }
 export type IssueLabelsItem = string | IssueLabelsItemCase1;
 /** Labels to associate with this issue; pass one or more label names to replace the set of labels on this issue; send an empty array to clear all labels from the issue; note that the labels are silently dropped for users without push access to the repository */
@@ -123,7 +123,7 @@ export interface NullableMilestone {
   due_on: string | null;
 }
 export interface IssuePullRequest {
-  merged_at?: string | null;
+  merged_at?: string | null | undefined;
   diff_url: string | null;
   html_url: string | null;
   patch_url: string | null;
@@ -150,13 +150,13 @@ export interface IssueType {
   /** The description of the issue type. */
   description: string | null;
   /** The color of the issue type. */
-  color?: IssueTypeColor | null;
+  color?: IssueTypeColor | null | undefined;
   /** The time the issue type created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time the issue type last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The enabled state of the issue type. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
 }
 /** License Simple */
 export interface NullableLicenseSimple {
@@ -165,14 +165,14 @@ export interface NullableLicenseSimple {
   url: string | null;
   spdx_id: string | null;
   node_id: string;
-  html_url?: string;
+  html_url?: string | undefined;
 }
 export interface RepositoryPermissions {
   admin: boolean;
   pull: boolean;
-  triage?: boolean;
+  triage?: boolean | undefined;
   push: boolean;
-  maintain?: boolean;
+  maintain?: boolean | undefined;
 }
 export type RepositoryTopicsList = Array<string>;
 /** The policy controlling who can create pull requests: all or collaborators_only. */
@@ -187,8 +187,8 @@ export type RepositoryMergeCommitTitle = "PR_TITLE" | "MERGE_MESSAGE";
 export type RepositoryMergeCommitMessage = "PR_BODY" | "PR_TITLE" | "BLANK";
 /** The status of the code search index for this repository */
 export interface RepositoryCodeSearchIndexStatus {
-  lexical_search_ok?: boolean;
-  lexical_commit_sha?: string;
+  lexical_search_ok?: boolean | undefined;
+  lexical_commit_sha?: string | undefined;
 }
 /** A repository on GitHub. */
 export interface Repository {
@@ -200,7 +200,7 @@ export interface Repository {
   full_name: string;
   license: NullableLicenseSimple | null;
   forks: number;
-  permissions?: RepositoryPermissions;
+  permissions?: RepositoryPermissions | undefined;
   owner: NullableSimpleUser;
   /** Whether the repository is private or public. */
   private: boolean;
@@ -260,8 +260,8 @@ export interface Repository {
   default_branch: string;
   open_issues_count: number;
   /** Whether this repository acts as a template that can be used to generate new repositories. */
-  is_template?: boolean;
-  topics?: RepositoryTopicsList;
+  is_template?: boolean | undefined;
+  topics?: RepositoryTopicsList | undefined;
   /** Whether issues are enabled. */
   has_issues: boolean;
   /** Whether projects are enabled. */
@@ -272,63 +272,63 @@ export interface Repository {
   /** Whether downloads are enabled. */
   has_downloads: boolean;
   /** Whether discussions are enabled. */
-  has_discussions?: boolean;
+  has_discussions?: boolean | undefined;
   /** Whether pull requests are enabled. */
-  has_pull_requests?: boolean;
+  has_pull_requests?: boolean | undefined;
   /** The policy controlling who can create pull requests: all or collaborators_only. */
-  pull_request_creation_policy?: RepositoryPullRequestCreationPolicy;
+  pull_request_creation_policy?: RepositoryPullRequestCreationPolicy | undefined;
   /** Whether the repository is archived. */
   archived: boolean;
   /** Returns whether or not this repository disabled. */
   disabled: boolean;
   /** The repository visibility: public, private, or internal. */
-  visibility?: string;
+  visibility?: string | undefined;
   pushed_at: string | null;
   created_at: string | null;
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
-  allow_rebase_merge?: boolean;
-  temp_clone_token?: string;
+  allow_rebase_merge?: boolean | undefined;
+  temp_clone_token?: string | undefined;
   /** Whether to allow squash merges for pull requests. */
-  allow_squash_merge?: boolean;
+  allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
-  allow_auto_merge?: boolean;
+  allow_auto_merge?: boolean | undefined;
   /** Whether to delete head branches when pull requests are merged */
-  delete_branch_on_merge?: boolean;
+  delete_branch_on_merge?: boolean | undefined;
   /** Whether or not a pull request head branch that is behind its base branch can always be updated even if it is not required to be up to date before merging. */
-  allow_update_branch?: boolean;
+  allow_update_branch?: boolean | undefined;
   /** Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead. */
-  use_squash_pr_title_as_default?: boolean;
+  use_squash_pr_title_as_default?: boolean | undefined;
   /** The default value for a squash merge commit title: - `PR_TITLE` - default to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit). */
-  squash_merge_commit_title?: RepositorySquashMergeCommitTitle;
+  squash_merge_commit_title?: RepositorySquashMergeCommitTitle | undefined;
   /** The default value for a squash merge commit message: - `PR_BODY` - default to the pull request's body. - `COMMIT_MESSAGES` - default to the branch's commit messages. - `BLANK` - default to a blank commit message. */
-  squash_merge_commit_message?: RepositorySquashMergeCommitMessage;
+  squash_merge_commit_message?: RepositorySquashMergeCommitMessage | undefined;
   /** The default value for a merge commit title. - `PR_TITLE` - default to the pull request's title. - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name). */
-  merge_commit_title?: RepositoryMergeCommitTitle;
+  merge_commit_title?: RepositoryMergeCommitTitle | undefined;
   /** The default value for a merge commit message. - `PR_TITLE` - default to the pull request's title. - `PR_BODY` - default to the pull request's body. - `BLANK` - default to a blank commit message. */
-  merge_commit_message?: RepositoryMergeCommitMessage;
+  merge_commit_message?: RepositoryMergeCommitMessage | undefined;
   /** Whether to allow merge commits for pull requests. */
-  allow_merge_commit?: boolean;
+  allow_merge_commit?: boolean | undefined;
   /** Whether to allow forking this repo */
-  allow_forking?: boolean;
+  allow_forking?: boolean | undefined;
   /** Whether to require contributors to sign off on web-based commits */
-  web_commit_signoff_required?: boolean;
+  web_commit_signoff_required?: boolean | undefined;
   open_issues: number;
   watchers: number;
-  master_branch?: string;
-  starred_at?: string;
+  master_branch?: string | undefined;
+  starred_at?: string | undefined;
   /** Whether anonymous git access is enabled for this repository */
-  anonymous_access_enabled?: boolean;
+  anonymous_access_enabled?: boolean | undefined;
   /** The status of the code search index for this repository */
-  code_search_index_status?: RepositoryCodeSearchIndexStatus;
+  code_search_index_status?: RepositoryCodeSearchIndexStatus | undefined;
 }
 /** An enterprise on GitHub. */
 export interface Enterprise {
   /** A short description of the enterprise. */
-  description?: string | null;
+  description?: string | null | undefined;
   html_url: string;
   /** The enterprise's website URL. */
-  website_url?: string | null;
+  website_url?: string | null | undefined;
   /** Unique identifier of the enterprise */
   id: number;
   node_id: string;
@@ -343,11 +343,11 @@ export interface Enterprise {
 export type NullableIntegrationOwner = NullableSimpleUser | Enterprise;
 /** The set of permissions for the GitHub app */
 export interface NullableIntegrationPermissions {
-  issues?: string;
-  checks?: string;
-  metadata?: string;
-  contents?: string;
-  deployments?: string;
+  issues?: string | undefined;
+  checks?: string | undefined;
+  metadata?: string | undefined;
+  contents?: string | undefined;
+  deployments?: string | undefined;
   [key: string]: unknown;
 }
 /** The list of events for the GitHub app. Note that the `installation_target`, `security_advisory`, and `meta` events are not included because they are global events and not specific to an installation. */
@@ -357,9 +357,9 @@ export interface NullableIntegration {
   /** Unique identifier of the GitHub app */
   id: number;
   /** The slug name of the GitHub app */
-  slug?: string;
+  slug?: string | undefined;
   node_id: string;
-  client_id?: string;
+  client_id?: string | undefined;
   owner: NullableIntegrationOwner;
   /** The name of the GitHub app */
   name: string;
@@ -373,7 +373,7 @@ export interface NullableIntegration {
   /** The list of events for the GitHub app. Note that the `installation_target`, `security_advisory`, and `meta` events are not included because they are global events and not specific to an installation. */
   events: NullableIntegrationEventsList;
   /** The number of installations associated with the GitHub app. Only returned when the integration is requesting details about itself. */
-  installations_count?: number;
+  installations_count?: number | undefined;
 }
 /** How the author is associated with the repository. */
 export type AuthorAssociation =
@@ -420,19 +420,19 @@ export interface NullableIssueComment {
   /** URL for the issue comment */
   url: string;
   /** Contents of the issue comment */
-  body?: string;
-  body_text?: string;
-  body_html?: string;
+  body?: string | undefined;
+  body_text?: string | undefined;
+  body_html?: string | undefined;
   html_url: string;
   user: NullableSimpleUser | null;
   created_at: string;
   updated_at: string;
   issue_url: string;
-  author_association?: AuthorAssociation;
-  performed_via_github_app?: NullableIntegration | null;
-  reactions?: ReactionRollup;
-  pin?: NullablePinnedIssueComment | null;
-  minimized?: NullableIssueCommentMinimized | null;
+  author_association?: AuthorAssociation | undefined;
+  performed_via_github_app?: NullableIntegration | null | undefined;
+  reactions?: ReactionRollup | undefined;
+  pin?: NullablePinnedIssueComment | null | undefined;
+  minimized?: NullableIssueCommentMinimized | null | undefined;
 }
 export interface IssueDependenciesSummary {
   blocked_by: number;
@@ -461,16 +461,16 @@ export interface IssueFieldValue {
   /** Unique identifier for the issue field. */
   issue_field_id: number;
   /** The human-readable name of the issue field. */
-  issue_field_name?: string;
+  issue_field_name?: string | undefined;
   node_id: string;
   /** The data type of the issue field */
   data_type: IssueFieldValueDataType;
   /** The value of the issue field */
   value: IssueFieldValueValue | null;
   /** Details about the selected option (only present for single_select fields) */
-  single_select_option?: IssueFieldValueSingleSelectOption | null;
+  single_select_option?: IssueFieldValueSingleSelectOption | null | undefined;
   /** Details about the selected options */
-  multi_select_options?: IssueFieldValueMultiSelectOptionsList | null;
+  multi_select_options?: IssueFieldValueMultiSelectOptionsList | null | undefined;
 }
 export type IssueIssueFieldValuesList = Array<IssueFieldValue>;
 /** Issues are a great way to keep track of tasks, enhancements, and bugs for your projects. */
@@ -489,40 +489,40 @@ export interface Issue {
   /** State of the issue; either 'open' or 'closed' */
   state: string;
   /** The reason for the current state */
-  state_reason?: IssueStateReason | null;
+  state_reason?: IssueStateReason | null | undefined;
   /** Title of the issue */
   title: string;
   /** Contents of the issue */
-  body?: string | null;
+  body?: string | null | undefined;
   user: NullableSimpleUser | null;
   /** Labels to associate with this issue; pass one or more label names to replace the set of labels on this issue; send an empty array to clear all labels from the issue; note that the labels are silently dropped for users without push access to the repository */
   labels: IssueLabelsList;
   assignee: NullableSimpleUser | null;
-  assignees?: IssueAssigneesList;
+  assignees?: IssueAssigneesList | undefined;
   milestone: NullableMilestone | null;
   locked: boolean;
-  active_lock_reason?: string | null;
+  active_lock_reason?: string | null | undefined;
   comments: number;
-  pull_request?: IssuePullRequest;
+  pull_request?: IssuePullRequest | undefined;
   closed_at: string | null;
   created_at: string;
   updated_at: string;
-  draft?: boolean;
-  closed_by?: NullableSimpleUser | null;
-  body_html?: string;
-  body_text?: string;
-  timeline_url?: string;
-  type?: IssueType | null;
-  repository?: Repository;
-  performed_via_github_app?: NullableIntegration | null;
-  author_association?: AuthorAssociation;
-  reactions?: ReactionRollup;
-  sub_issues_summary?: SubIssuesSummary;
+  draft?: boolean | undefined;
+  closed_by?: NullableSimpleUser | null | undefined;
+  body_html?: string | undefined;
+  body_text?: string | undefined;
+  timeline_url?: string | undefined;
+  type?: IssueType | null | undefined;
+  repository?: Repository | undefined;
+  performed_via_github_app?: NullableIntegration | null | undefined;
+  author_association?: AuthorAssociation | undefined;
+  reactions?: ReactionRollup | undefined;
+  sub_issues_summary?: SubIssuesSummary | undefined;
   /** URL to get the parent issue of this issue, if it is a sub-issue */
-  parent_issue_url?: string | null;
-  pinned_comment?: NullableIssueComment | null;
-  issue_dependencies_summary?: IssueDependenciesSummary;
-  issue_field_values?: IssueIssueFieldValuesList;
+  parent_issue_url?: string | null | undefined;
+  pinned_comment?: NullableIssueComment | null | undefined;
+  issue_dependencies_summary?: IssueDependenciesSummary | undefined;
+  issue_field_values?: IssueIssueFieldValuesList | undefined;
 }
 export interface AddBlockedByDependencyRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -558,7 +558,7 @@ export interface AddIssueFieldValuesRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** An array of issue field values to add to this issue. Each field value must include the field ID and the value to set. */
-  issue_field_values?: AddIssueFieldValuesRequestIssueFieldValuesList;
+  issue_field_values?: AddIssueFieldValuesRequestIssueFieldValuesList | undefined;
 }
 /** The current issue field values for this issue after adding the new values */
 export type AddIssueFieldValuesResponseBodyList = Array<IssueFieldValue>;
@@ -569,18 +569,18 @@ export interface AddLabelsRequestBodyCase0LabelsItemCase1 {
   /** The name of the label to add. */
   name: string;
   /** Optional reasoning for adding this label. */
-  rationale?: string;
+  rationale?: string | undefined;
   /** If `true`, the label is stored as a pending suggestion for human review rather than applied directly. */
-  suggest?: boolean;
+  suggest?: boolean | undefined;
   /** The confidence level for this label choice. */
-  confidence?: AddLabelsRequestBodyCase0LabelsItemCase1Confidence | (string & {});
+  confidence?: AddLabelsRequestBodyCase0LabelsItemCase1Confidence | (string & {}) | undefined;
 }
 export type AddLabelsRequestBodyCase0LabelsItem = string | AddLabelsRequestBodyCase0LabelsItemCase1;
 /** The labels to add to the issue's existing labels. You can also pass an `array` of labels directly, but GitHub recommends passing an object with the `labels` key. To replace all of the labels for an issue, use "[Set labels for an issue](https://docs.github.com/rest/issues/labels#set-labels-for-an-issue)." */
 export type AddLabelsRequestBodyCase0LabelsList = Array<AddLabelsRequestBodyCase0LabelsItem>;
 export interface AddLabelsRequestBodyCase0 {
   /** The labels to add to the issue's existing labels. You can also pass an `array` of labels directly, but GitHub recommends passing an object with the `labels` key. To replace all of the labels for an issue, use "[Set labels for an issue](https://docs.github.com/rest/issues/labels#set-labels-for-an-issue)." */
-  labels?: AddLabelsRequestBodyCase0LabelsList;
+  labels?: AddLabelsRequestBodyCase0LabelsList | undefined;
 }
 export type AddLabelsRequestBodyCase1List = Array<string>;
 /** The confidence level for this label choice. */
@@ -588,11 +588,11 @@ export type AddLabelsRequestBodyCase2ItemConfidence = "low" | "medium" | "high";
 export interface AddLabelsRequestBodyCase2Item {
   name: string;
   /** Optional reasoning for adding this label. */
-  rationale?: string;
+  rationale?: string | undefined;
   /** If `true`, the label is stored as a pending suggestion for human review rather than applied directly. */
-  suggest?: boolean;
+  suggest?: boolean | undefined;
   /** The confidence level for this label choice. */
-  confidence?: AddLabelsRequestBodyCase2ItemConfidence | (string & {});
+  confidence?: AddLabelsRequestBodyCase2ItemConfidence | (string & {}) | undefined;
 }
 export type AddLabelsRequestBodyCase2List = Array<AddLabelsRequestBodyCase2Item>;
 export type AddLabelsRequestBody =
@@ -606,7 +606,7 @@ export interface AddLabelsRequest {
   repo: string;
   /** The number that identifies the issue. */
   issue_number: number;
-  body?: AddLabelsRequestBody;
+  body?: AddLabelsRequestBody | undefined;
 }
 /** Color-coded labels help you categorize and filter your issues (just like labels in Gmail). */
 export interface Label {
@@ -650,7 +650,7 @@ export interface AddSubIssueRequest {
   /** The id of the sub-issue to add. The sub-issue must belong to the same repository owner as the parent issue */
   sub_issue_id: number;
   /** Option that, when true, instructs the operation to replace the sub-issues current parent issue */
-  replace_parent?: boolean;
+  replace_parent?: boolean | undefined;
 }
 export interface ApproveSuggestionRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -737,10 +737,10 @@ export interface CheckUserCanBeAssignedToIssueResponse {}
 export type CreateRequestTitle = string | number;
 export type CreateRequestMilestone = string | number;
 export interface CreateRequestLabelsItemCase1 {
-  id?: number;
-  name?: string;
-  description?: string | null;
-  color?: string | null;
+  id?: number | undefined;
+  name?: string | undefined;
+  description?: string | null | undefined;
+  color?: string | null | undefined;
 }
 export type CreateRequestLabelsItem = string | CreateRequestLabelsItemCase1;
 /** Labels to associate with this issue. _NOTE: Only users with push access can set labels for new issues. Labels are silently dropped otherwise._ */
@@ -769,20 +769,20 @@ export interface CreateRequest {
   /** The title of the issue. */
   title: CreateRequestTitle;
   /** The contents of the issue. */
-  body?: string;
+  body?: string | undefined;
   /** Login for the user that this issue should be assigned to. _NOTE: Only users with push access can set the assignee for new issues. The assignee is silently dropped otherwise. **This field is closing down.**_ */
-  assignee?: string | null;
-  milestone?: CreateRequestMilestone | null;
+  assignee?: string | null | undefined;
+  milestone?: CreateRequestMilestone | null | undefined;
   /** Labels to associate with this issue. _NOTE: Only users with push access can set labels for new issues. Labels are silently dropped otherwise._ */
-  labels?: CreateRequestLabelsList;
+  labels?: CreateRequestLabelsList | undefined;
   /** Logins for Users to assign to this issue. _NOTE: Only users with push access can set assignees for new issues. Assignees are silently dropped otherwise._ */
-  assignees?: CreateRequestAssigneesList;
+  assignees?: CreateRequestAssigneesList | undefined;
   /** An array of issue field values to set on this issue. Each field value must include the field ID and the value to set. Issue fields are only available for organization-owned repositories with the feature enabled. Field values are silently dropped otherwise. */
-  issue_field_values?: CreateRequestIssueFieldValuesList;
+  issue_field_values?: CreateRequestIssueFieldValuesList | undefined;
   /** The name of the issue type to associate with this issue. _NOTE: Only users with push access can set the type for new issues. The type is silently dropped otherwise._ */
-  type?: string | null;
+  type?: string | null | undefined;
   /** The id of the parent issue to add this issue to as a sub-issue. _NOTE: Only users with triage access to both the parent issue's repository and this repository can set the parent issue._ */
-  parent_issue_id?: number;
+  parent_issue_id?: number | undefined;
 }
 export interface CreateCommentRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -802,19 +802,19 @@ export interface IssueComment {
   /** URL for the issue comment */
   url: string;
   /** Contents of the issue comment */
-  body?: string;
-  body_text?: string;
-  body_html?: string;
+  body?: string | undefined;
+  body_text?: string | undefined;
+  body_html?: string | undefined;
   html_url: string;
   user: NullableSimpleUser | null;
   created_at: string;
   updated_at: string;
   issue_url: string;
-  author_association?: AuthorAssociation;
-  performed_via_github_app?: NullableIntegration | null;
-  reactions?: ReactionRollup;
-  pin?: NullablePinnedIssueComment | null;
-  minimized?: NullableIssueCommentMinimized | null;
+  author_association?: AuthorAssociation | undefined;
+  performed_via_github_app?: NullableIntegration | null | undefined;
+  reactions?: ReactionRollup | undefined;
+  pin?: NullablePinnedIssueComment | null | undefined;
+  minimized?: NullableIssueCommentMinimized | null | undefined;
 }
 export interface CreateLabelRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -824,9 +824,9 @@ export interface CreateLabelRequest {
   /** The name of the label. Emoji can be added to label names, using either native emoji or colon-style markup. For example, typing `:strawberry:` will render the emoji ![:strawberry:](https://github.githubassets.com/images/icons/emoji/unicode/1f353.png ":strawberry:"). For a full list of available emoji and codes, see "[Emoji cheat sheet](https://github.com/ikatyang/emoji-cheat-sheet)." */
   name: string;
   /** The [hexadecimal color code](http://www.color-hex.com/) for the label, without the leading `#`. */
-  color?: string;
+  color?: string | undefined;
   /** A short description of the label. Must be 100 characters or fewer. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The state of the milestone. Either `open` or `closed`. */
 export type CreateMilestoneRequestState = "open" | "closed";
@@ -838,11 +838,11 @@ export interface CreateMilestoneRequest {
   /** The title of the milestone. */
   title: string;
   /** The state of the milestone. Either `open` or `closed`. */
-  state?: CreateMilestoneRequestState | (string & {});
+  state?: CreateMilestoneRequestState | (string & {}) | undefined;
   /** A description of the milestone. */
-  description?: string;
+  description?: string | undefined;
   /** The milestone due date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  due_on?: string;
+  due_on?: string | undefined;
 }
 /** The state of the milestone. */
 export type MilestoneState = "open" | "closed";
@@ -963,40 +963,40 @@ export interface NullableIssue {
   /** State of the issue; either 'open' or 'closed' */
   state: string;
   /** The reason for the current state */
-  state_reason?: NullableIssueStateReason | null;
+  state_reason?: NullableIssueStateReason | null | undefined;
   /** Title of the issue */
   title: string;
   /** Contents of the issue */
-  body?: string | null;
+  body?: string | null | undefined;
   user: NullableSimpleUser | null;
   /** Labels to associate with this issue; pass one or more label names to replace the set of labels on this issue; send an empty array to clear all labels from the issue; note that the labels are silently dropped for users without push access to the repository */
   labels: NullableIssueLabelsList;
   assignee: NullableSimpleUser | null;
-  assignees?: NullableIssueAssigneesList;
+  assignees?: NullableIssueAssigneesList | undefined;
   milestone: NullableMilestone | null;
   locked: boolean;
-  active_lock_reason?: string | null;
+  active_lock_reason?: string | null | undefined;
   comments: number;
-  pull_request?: IssuePullRequest;
+  pull_request?: IssuePullRequest | undefined;
   closed_at: string | null;
   created_at: string;
   updated_at: string;
-  draft?: boolean;
-  closed_by?: NullableSimpleUser | null;
-  body_html?: string;
-  body_text?: string;
-  timeline_url?: string;
-  type?: IssueType | null;
-  repository?: Repository;
-  performed_via_github_app?: NullableIntegration | null;
-  author_association?: AuthorAssociation;
-  reactions?: ReactionRollup;
-  sub_issues_summary?: SubIssuesSummary;
+  draft?: boolean | undefined;
+  closed_by?: NullableSimpleUser | null | undefined;
+  body_html?: string | undefined;
+  body_text?: string | undefined;
+  timeline_url?: string | undefined;
+  type?: IssueType | null | undefined;
+  repository?: Repository | undefined;
+  performed_via_github_app?: NullableIntegration | null | undefined;
+  author_association?: AuthorAssociation | undefined;
+  reactions?: ReactionRollup | undefined;
+  sub_issues_summary?: SubIssuesSummary | undefined;
   /** URL to get the parent issue of this issue, if it is a sub-issue */
-  parent_issue_url?: string | null;
-  pinned_comment?: NullableIssueComment | null;
-  issue_dependencies_summary?: IssueDependenciesSummary;
-  issue_field_values?: NullableIssueIssueFieldValuesList;
+  parent_issue_url?: string | null | undefined;
+  pinned_comment?: NullableIssueComment | null | undefined;
+  issue_dependencies_summary?: IssueDependenciesSummary | undefined;
+  issue_field_values?: NullableIssueIssueFieldValuesList | undefined;
 }
 /** Issue Event Label */
 export interface IssueEventLabel {
@@ -1031,20 +1031,20 @@ export interface NullableTeamSimple {
   /** Permission that the team will have for its repositories */
   permission: string;
   /** The level of privacy this team should have */
-  privacy?: string;
+  privacy?: string | undefined;
   /** The notification setting the team has set */
-  notification_setting?: string;
+  notification_setting?: string | undefined;
   html_url: string;
   repositories_url: string;
   slug: string;
   /** Distinguished Name (DN) that team maps to within LDAP environment */
-  ldap_dn?: string;
+  ldap_dn?: string | undefined;
   /** The ownership type of the team */
   type: NullableTeamSimpleType;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
 }
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface Team {
@@ -1053,10 +1053,10 @@ export interface Team {
   name: string;
   slug: string;
   description: string | null;
-  privacy?: string;
-  notification_setting?: string;
+  privacy?: string | undefined;
+  notification_setting?: string | undefined;
   permission: string;
-  permissions?: TeamPermissions;
+  permissions?: TeamPermissions | undefined;
   url: string;
   html_url: string;
   members_url: string;
@@ -1064,18 +1064,18 @@ export interface Team {
   /** The ownership type of the team */
   type: TeamType;
   /** How the team's access to the repository was granted. This property is only present when the team is returned in a repository context, such as `GET /repos/{owner}/{repo}/teams`. */
-  access_source?: TeamAccessSource;
+  access_source?: TeamAccessSource | undefined;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
   parent: NullableTeamSimple | null;
 }
 export interface IssueEventDismissedReview {
   state: string;
   review_id: number;
   dismissal_message: string | null;
-  dismissal_commit_id?: string | null;
+  dismissal_commit_id?: string | null | undefined;
 }
 /** Issue Event Milestone */
 export interface IssueEventMilestone {
@@ -1088,7 +1088,7 @@ export interface IssueEventProjectCard {
   project_url: string;
   project_id: number;
   column_name: string;
-  previous_column_name?: string;
+  previous_column_name?: string | undefined;
 }
 /** Issue Event Rename */
 export interface IssueEventRename {
@@ -1112,7 +1112,7 @@ export interface IssueTypeWebhook {
   /** The name of the issue type. */
   name: string;
   /** The color of the issue type. */
-  color?: IssueTypeWebhookColor | null;
+  color?: IssueTypeWebhookColor | null | undefined;
 }
 /** A GitHub repository. */
 export interface SimpleRepository {
@@ -1217,7 +1217,7 @@ export interface NullableIssueReferenceIssueType {
   /** The name of the issue type. */
   name: string;
   /** The color of the issue type. */
-  color?: string | null;
+  color?: string | null | undefined;
 }
 /** A minimal reference to an issue linked from a timeline event (e.g. sub-issue, parent-issue, or dependency events). */
 export interface NullableIssueReference {
@@ -1228,7 +1228,7 @@ export interface NullableIssueReference {
   /** The state of the referenced issue. */
   state: string;
   /** The reason for the referenced issue's state. */
-  state_reason?: string | null;
+  state_reason?: string | null | undefined;
   repository: SimpleRepository;
   /** The type of the referenced issue. */
   issue_type: NullableIssueReferenceIssueType | null;
@@ -1238,9 +1238,9 @@ export type NullableIssueEventIntentConfidence = "LOW" | "MEDIUM" | "HIGH";
 /** The intent behind an agent's action on an issue, including the rationale and confidence. Present (and `null` when the event carried no agent intent) on supported event types while the issue suggestions feature is enabled for the repository; the property is omitted entirely when the feature is disabled or the event type does not support intent. */
 export interface NullableIssueEventIntent {
   /** The reasoning the agent provided for the change. */
-  rationale?: string | null;
+  rationale?: string | null | undefined;
   /** The confidence level the agent had when performing this action. */
-  confidence?: NullableIssueEventIntentConfidence | null;
+  confidence?: NullableIssueEventIntentConfidence | null | undefined;
 }
 /** Issue Event */
 export interface IssueEvent {
@@ -1252,27 +1252,27 @@ export interface IssueEvent {
   commit_id: string | null;
   commit_url: string | null;
   created_at: string;
-  issue?: NullableIssue | null;
-  label?: IssueEventLabel;
-  assignee?: NullableSimpleUser | null;
-  assigner?: NullableSimpleUser | null;
-  review_requester?: NullableSimpleUser | null;
-  requested_reviewer?: NullableSimpleUser | null;
-  requested_team?: Team;
-  dismissed_review?: IssueEventDismissedReview;
-  milestone?: IssueEventMilestone;
-  project_card?: IssueEventProjectCard;
-  rename?: IssueEventRename;
-  issue_type?: IssueTypeWebhook | null;
-  prev_issue_type?: IssueTypeWebhook | null;
-  sub_issue?: NullableIssueReference | null;
-  parent_issue?: NullableIssueReference | null;
-  blocked_by?: NullableIssueReference | null;
-  blocking?: NullableIssueReference | null;
-  intent?: NullableIssueEventIntent | null;
-  author_association?: AuthorAssociation;
-  lock_reason?: string | null;
-  performed_via_github_app?: NullableIntegration | null;
+  issue?: NullableIssue | null | undefined;
+  label?: IssueEventLabel | undefined;
+  assignee?: NullableSimpleUser | null | undefined;
+  assigner?: NullableSimpleUser | null | undefined;
+  review_requester?: NullableSimpleUser | null | undefined;
+  requested_reviewer?: NullableSimpleUser | null | undefined;
+  requested_team?: Team | undefined;
+  dismissed_review?: IssueEventDismissedReview | undefined;
+  milestone?: IssueEventMilestone | undefined;
+  project_card?: IssueEventProjectCard | undefined;
+  rename?: IssueEventRename | undefined;
+  issue_type?: IssueTypeWebhook | null | undefined;
+  prev_issue_type?: IssueTypeWebhook | null | undefined;
+  sub_issue?: NullableIssueReference | null | undefined;
+  parent_issue?: NullableIssueReference | null | undefined;
+  blocked_by?: NullableIssueReference | null | undefined;
+  blocking?: NullableIssueReference | null | undefined;
+  intent?: NullableIssueEventIntent | null | undefined;
+  author_association?: AuthorAssociation | undefined;
+  lock_reason?: string | null | undefined;
+  performed_via_github_app?: NullableIntegration | null | undefined;
 }
 export interface GetLabelRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1309,25 +1309,25 @@ export type ListRequestSort = "created" | "updated" | "comments";
 export type ListRequestDirection = "asc" | "desc";
 export interface ListRequest {
   /** Indicates which sorts of issues to return. `assigned` means issues assigned to you. `created` means issues created by you. `mentioned` means issues mentioning you. `subscribed` means issues you're subscribed to updates for. `all` or `repos` means all issues you can see, regardless of participation or creation. */
-  filter?: ListRequestFilter | (string & {});
+  filter?: ListRequestFilter | (string & {}) | undefined;
   /** Indicates the state of the issues to return. */
-  state?: ListRequestState | (string & {});
+  state?: ListRequestState | (string & {}) | undefined;
   /** A list of comma separated label names. Example: `bug,ui,@high` */
-  labels?: string;
+  labels?: string | undefined;
   /** What to sort results by. */
-  sort?: ListRequestSort | (string & {});
+  sort?: ListRequestSort | (string & {}) | undefined;
   /** The direction to sort the results by. */
-  direction?: ListRequestDirection | (string & {});
+  direction?: ListRequestDirection | (string & {}) | undefined;
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  since?: string;
-  collab?: boolean;
-  orgs?: boolean;
-  owned?: boolean;
-  pulls?: boolean;
+  since?: string | undefined;
+  collab?: boolean | undefined;
+  orgs?: boolean | undefined;
+  owned?: boolean | undefined;
+  pulls?: boolean | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListResponseBodyList = Array<Issue>;
 export type ListResponse = ListResponseBodyList;
@@ -1337,9 +1337,9 @@ export interface ListAssigneesRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListAssigneesResponseBodyList = Array<NullableSimpleUser>;
 export type ListAssigneesResponse = ListAssigneesResponseBodyList;
@@ -1351,11 +1351,11 @@ export interface ListCommentsRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  since?: string;
+  since?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListCommentsResponseBodyList = Array<IssueComment>;
 export type ListCommentsResponse = ListCommentsResponseBodyList;
@@ -1367,15 +1367,15 @@ export interface ListCommentsForRepoRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The property to sort the results by. */
-  sort?: ListCommentsForRepoRequestSort | (string & {});
+  sort?: ListCommentsForRepoRequestSort | (string & {}) | undefined;
   /** Either `asc` or `desc`. Ignored without the `sort` parameter. */
-  direction?: ListCommentsForRepoRequestDirection | (string & {});
+  direction?: ListCommentsForRepoRequestDirection | (string & {}) | undefined;
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  since?: string;
+  since?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListCommentsForRepoResponseBodyList = Array<IssueComment>;
 export type ListCommentsForRepoResponse = ListCommentsForRepoResponseBodyList;
@@ -1387,9 +1387,9 @@ export interface ListDependenciesBlockedByRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListDependenciesBlockedByResponseBodyList = Array<Issue>;
 export type ListDependenciesBlockedByResponse = ListDependenciesBlockedByResponseBodyList;
@@ -1401,9 +1401,9 @@ export interface ListDependenciesBlockingRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListDependenciesBlockingResponseBodyList = Array<Issue>;
 export type ListDependenciesBlockingResponse = ListDependenciesBlockingResponseBodyList;
@@ -1415,9 +1415,9 @@ export interface ListEventsRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export interface LabeledIssueEventLabel {
   name: string;
@@ -1435,7 +1435,7 @@ export interface LabeledIssueEvent {
   created_at: string;
   performed_via_github_app: NullableIntegration | null;
   label: LabeledIssueEventLabel;
-  intent?: NullableIssueEventIntent | null;
+  intent?: NullableIssueEventIntent | null | undefined;
 }
 export type UnlabeledIssueEventLabel = LabeledIssueEventLabel;
 /** Unlabeled Issue Event */
@@ -1450,9 +1450,9 @@ export interface Integration {
   /** Unique identifier of the GitHub app */
   id: number;
   /** The slug name of the GitHub app */
-  slug?: string;
+  slug?: string | undefined;
   node_id: string;
-  client_id?: string;
+  client_id?: string | undefined;
   owner: IntegrationOwner;
   /** The name of the GitHub app */
   name: string;
@@ -1466,7 +1466,7 @@ export interface Integration {
   /** The list of events for the GitHub app. Note that the `installation_target`, `security_advisory`, and `meta` events are not included because they are global events and not specific to an installation. */
   events: IntegrationEventsList;
   /** The number of installations associated with the GitHub app. Only returned when the integration is requesting details about itself. */
-  installations_count?: number;
+  installations_count?: number | undefined;
 }
 /** Assigned Issue Event */
 export interface AssignedIssueEvent {
@@ -1481,7 +1481,7 @@ export interface AssignedIssueEvent {
   performed_via_github_app: Integration | null;
   assignee: NullableSimpleUser;
   assigner: NullableSimpleUser;
-  intent?: NullableIssueEventIntent | null;
+  intent?: NullableIssueEventIntent | null | undefined;
 }
 /** Unassigned Issue Event */
 export interface UnassignedIssueEvent {
@@ -1540,8 +1540,8 @@ export interface ReviewRequestedIssueEvent {
   created_at: string;
   performed_via_github_app: NullableIntegration | null;
   review_requester: NullableSimpleUser;
-  requested_team?: Team;
-  requested_reviewer?: NullableSimpleUser;
+  requested_team?: Team | undefined;
+  requested_reviewer?: NullableSimpleUser | undefined;
 }
 /** Review Request Removed Issue Event */
 export type ReviewRequestRemovedIssueEvent = ReviewRequestedIssueEvent;
@@ -1549,7 +1549,7 @@ export interface ReviewDismissedIssueEventDismissedReview {
   state: string;
   review_id: number;
   dismissal_message: string | null;
-  dismissal_commit_id?: string;
+  dismissal_commit_id?: string | undefined;
 }
 /** Review Dismissed Issue Event */
 export interface ReviewDismissedIssueEvent {
@@ -1583,7 +1583,7 @@ export interface AddedToProjectIssueEventProjectCard {
   project_id: number;
   project_url: string;
   column_name: string;
-  previous_column_name?: string;
+  previous_column_name?: string | undefined;
 }
 /** Added to Project Issue Event */
 export interface AddedToProjectIssueEvent {
@@ -1596,7 +1596,7 @@ export interface AddedToProjectIssueEvent {
   commit_url: string | null;
   created_at: string;
   performed_via_github_app: NullableIntegration | null;
-  project_card?: AddedToProjectIssueEventProjectCard;
+  project_card?: AddedToProjectIssueEventProjectCard | undefined;
 }
 export type MovedColumnInProjectIssueEventProjectCard = AddedToProjectIssueEventProjectCard;
 /** Moved Column in Project Issue Event */
@@ -1616,7 +1616,7 @@ export interface ConvertedNoteToIssueIssueEvent {
   commit_url: string | null;
   created_at: string;
   performed_via_github_app: Integration | null;
-  project_card?: AddedToProjectIssueEventProjectCard;
+  project_card?: AddedToProjectIssueEventProjectCard | undefined;
 }
 /** Issue Type Added Issue Event */
 export interface IssueTypeAddedIssueEvent {
@@ -1630,7 +1630,7 @@ export interface IssueTypeAddedIssueEvent {
   created_at: string;
   performed_via_github_app: NullableIntegration | null;
   issue_type: IssueTypeWebhook | null;
-  intent?: NullableIssueEventIntent | null;
+  intent?: NullableIssueEventIntent | null | undefined;
 }
 /** Issue Type Removed Issue Event */
 export interface IssueTypeRemovedIssueEvent {
@@ -1644,7 +1644,7 @@ export interface IssueTypeRemovedIssueEvent {
   created_at: string;
   performed_via_github_app: NullableIntegration | null;
   prev_issue_type: IssueTypeWebhook | null;
-  intent?: NullableIssueEventIntent | null;
+  intent?: NullableIssueEventIntent | null | undefined;
 }
 /** Issue Type Changed Issue Event */
 export interface IssueTypeChangedIssueEvent {
@@ -1659,7 +1659,7 @@ export interface IssueTypeChangedIssueEvent {
   performed_via_github_app: NullableIntegration | null;
   issue_type: IssueTypeWebhook | null;
   prev_issue_type: IssueTypeWebhook | null;
-  intent?: NullableIssueEventIntent | null;
+  intent?: NullableIssueEventIntent | null | undefined;
 }
 /** Sub-issue Added Issue Event */
 export interface SubIssueAddedIssueEvent {
@@ -1757,9 +1757,9 @@ export interface ListEventsForRepoRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListEventsForRepoResponseBodyList = Array<IssueEvent>;
 export type ListEventsForRepoResponse = ListEventsForRepoResponseBodyList;
@@ -1771,11 +1771,11 @@ export interface ListEventsForTimelineRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** A comma-separated list of timeline event names to exclude from the response. */
-  exclude?: string;
+  exclude?: string | undefined;
 }
 /** Timeline Comment Event */
 export interface TimelineCommentEvent {
@@ -1787,28 +1787,28 @@ export interface TimelineCommentEvent {
   /** URL for the issue comment */
   url: string;
   /** Contents of the issue comment */
-  body?: string;
-  body_text?: string;
-  body_html?: string;
+  body?: string | undefined;
+  body_text?: string | undefined;
+  body_html?: string | undefined;
   html_url: string;
   user: NullableSimpleUser;
   created_at: string;
   updated_at: string;
   issue_url: string;
   author_association: AuthorAssociation;
-  performed_via_github_app?: NullableIntegration | null;
-  reactions?: ReactionRollup;
-  pin?: NullablePinnedIssueComment | null;
-  minimized?: NullableIssueCommentMinimized | null;
+  performed_via_github_app?: NullableIntegration | null | undefined;
+  reactions?: ReactionRollup | undefined;
+  pin?: NullablePinnedIssueComment | null | undefined;
+  minimized?: NullableIssueCommentMinimized | null | undefined;
 }
 export interface TimelineCrossReferencedEventSource {
-  type?: string;
-  issue?: Issue;
+  type?: string | undefined;
+  issue?: Issue | undefined;
 }
 /** Timeline Cross Referenced Event */
 export interface TimelineCrossReferencedEvent {
   event: string;
-  actor?: NullableSimpleUser;
+  actor?: NullableSimpleUser | undefined;
   created_at: string;
   updated_at: string;
   source: TimelineCrossReferencedEventSource;
@@ -1845,7 +1845,7 @@ export interface TimelineCommittedEventVerification {
 }
 /** Timeline Committed Event */
 export interface TimelineCommittedEvent {
-  event?: string;
+  event?: string | undefined;
   /** SHA for the commit */
   sha: string;
   node_id: string;
@@ -1882,12 +1882,12 @@ export interface TimelineReviewedEvent {
   html_url: string;
   pull_request_url: string;
   _links: TimelineReviewedEventLinks;
-  submitted_at?: string;
-  updated_at?: string | null;
+  submitted_at?: string | undefined;
+  updated_at?: string | null | undefined;
   /** A commit SHA for the review. */
   commit_id: string;
-  body_html?: string;
-  body_text?: string;
+  body_html?: string | undefined;
+  body_text?: string | undefined;
   author_association: AuthorAssociation;
 }
 export type PullRequestReviewCommentLinksSelf = TimelineReviewedEventLinksHtml;
@@ -1919,15 +1919,15 @@ export interface PullRequestReviewComment {
   /** The relative path of the file to which the comment applies. */
   path: string;
   /** The line index in the diff to which the comment applies. This field is closing down; use `line` instead. */
-  position?: number;
+  position?: number | undefined;
   /** The index of the original line in the diff to which the comment applies. This field is closing down; use `original_line` instead. */
-  original_position?: number;
+  original_position?: number | undefined;
   /** The SHA of the commit to which the comment applies. */
   commit_id: string;
   /** The SHA of the original commit to which the comment applies. */
   original_commit_id: string;
   /** The comment ID to reply to. */
-  in_reply_to_id?: number;
+  in_reply_to_id?: number | undefined;
   user: NullableSimpleUser | null;
   /** The text of the comment. */
   body: string;
@@ -1940,29 +1940,29 @@ export interface PullRequestReviewComment {
   author_association: AuthorAssociation;
   _links: PullRequestReviewCommentLinks;
   /** The first line of the range for a multi-line comment. */
-  start_line?: number | null;
+  start_line?: number | null | undefined;
   /** The first line of the range for a multi-line comment. */
-  original_start_line?: number | null;
+  original_start_line?: number | null | undefined;
   /** The side of the first line of the range for a multi-line comment. */
-  start_side?: PullRequestReviewCommentStartSide | null;
+  start_side?: PullRequestReviewCommentStartSide | null | undefined;
   /** The line of the blob to which the comment applies. The last line of the range for a multi-line comment */
-  line?: number;
+  line?: number | undefined;
   /** The line of the blob to which the comment applies. The last line of the range for a multi-line comment */
-  original_line?: number;
+  original_line?: number | undefined;
   /** The side of the diff to which the comment applies. The side of the last line of the range for a multi-line comment */
-  side?: PullRequestReviewCommentSide;
+  side?: PullRequestReviewCommentSide | undefined;
   /** The level at which the comment is targeted, can be a diff line or a file. */
-  subject_type?: PullRequestReviewCommentSubjectType;
-  reactions?: ReactionRollup;
-  body_html?: string;
-  body_text?: string;
+  subject_type?: PullRequestReviewCommentSubjectType | undefined;
+  reactions?: ReactionRollup | undefined;
+  body_html?: string | undefined;
+  body_text?: string | undefined;
 }
 export type TimelineLineCommentedEventCommentsList = Array<PullRequestReviewComment>;
 /** Timeline Line Commented Event */
 export interface TimelineLineCommentedEvent {
-  event?: string;
-  node_id?: string;
-  comments?: TimelineLineCommentedEventCommentsList;
+  event?: string | undefined;
+  node_id?: string | undefined;
+  comments?: TimelineLineCommentedEventCommentsList | undefined;
 }
 /** Commit Comment */
 export interface CommitComment {
@@ -1979,15 +1979,15 @@ export interface CommitComment {
   created_at: string;
   updated_at: string;
   author_association: AuthorAssociation;
-  reactions?: ReactionRollup;
+  reactions?: ReactionRollup | undefined;
 }
 export type TimelineCommitCommentedEventCommentsList = Array<CommitComment>;
 /** Timeline Commit Commented Event */
 export interface TimelineCommitCommentedEvent {
-  event?: string;
-  node_id?: string;
-  commit_id?: string;
-  comments?: TimelineCommitCommentedEventCommentsList;
+  event?: string | undefined;
+  node_id?: string | undefined;
+  commit_id?: string | undefined;
+  comments?: TimelineCommitCommentedEventCommentsList | undefined;
 }
 /** Timeline Assigned Issue Event */
 export interface TimelineAssignedIssueEvent {
@@ -2001,7 +2001,7 @@ export interface TimelineAssignedIssueEvent {
   created_at: string;
   performed_via_github_app: NullableIntegration | null;
   assignee: NullableSimpleUser;
-  intent?: NullableIssueEventIntent | null;
+  intent?: NullableIssueEventIntent | null | undefined;
 }
 /** Timeline Unassigned Issue Event */
 export interface TimelineUnassignedIssueEvent {
@@ -2027,8 +2027,8 @@ export interface StateChangeIssueEvent {
   commit_url: string | null;
   created_at: string;
   performed_via_github_app: NullableIntegration | null;
-  state_reason?: string | null;
-  intent?: NullableIssueEventIntent | null;
+  state_reason?: string | null | undefined;
+  intent?: NullableIssueEventIntent | null | undefined;
 }
 /** Timeline Connected Event */
 export interface TimelineConnectedEvent {
@@ -2095,21 +2095,21 @@ export type ListForAuthenticatedUserRequestSort = "created" | "updated" | "comme
 export type ListForAuthenticatedUserRequestDirection = "asc" | "desc";
 export interface ListForAuthenticatedUserRequest {
   /** Indicates which sorts of issues to return. `assigned` means issues assigned to you. `created` means issues created by you. `mentioned` means issues mentioning you. `subscribed` means issues you're subscribed to updates for. `all` or `repos` means all issues you can see, regardless of participation or creation. */
-  filter?: ListForAuthenticatedUserRequestFilter | (string & {});
+  filter?: ListForAuthenticatedUserRequestFilter | (string & {}) | undefined;
   /** Indicates the state of the issues to return. */
-  state?: ListForAuthenticatedUserRequestState | (string & {});
+  state?: ListForAuthenticatedUserRequestState | (string & {}) | undefined;
   /** A list of comma separated label names. Example: `bug,ui,@high` */
-  labels?: string;
+  labels?: string | undefined;
   /** What to sort results by. */
-  sort?: ListForAuthenticatedUserRequestSort | (string & {});
+  sort?: ListForAuthenticatedUserRequestSort | (string & {}) | undefined;
   /** The direction to sort the results by. */
-  direction?: ListForAuthenticatedUserRequestDirection | (string & {});
+  direction?: ListForAuthenticatedUserRequestDirection | (string & {}) | undefined;
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  since?: string;
+  since?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListForAuthenticatedUserResponseBodyList = Array<Issue>;
 export type ListForAuthenticatedUserResponse = ListForAuthenticatedUserResponseBodyList;
@@ -2127,23 +2127,23 @@ export interface ListForOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** Indicates which sorts of issues to return. `assigned` means issues assigned to you. `created` means issues created by you. `mentioned` means issues mentioning you. `subscribed` means issues you're subscribed to updates for. `all` or `repos` means all issues you can see, regardless of participation or creation. */
-  filter?: ListForOrgRequestFilter | (string & {});
+  filter?: ListForOrgRequestFilter | (string & {}) | undefined;
   /** Indicates the state of the issues to return. */
-  state?: ListForOrgRequestState | (string & {});
+  state?: ListForOrgRequestState | (string & {}) | undefined;
   /** A list of comma separated label names. Example: `bug,ui,@high` */
-  labels?: string;
+  labels?: string | undefined;
   /** Can be the name of an issue type. */
-  type?: string;
+  type?: string | undefined;
   /** What to sort results by. */
-  sort?: ListForOrgRequestSort | (string & {});
+  sort?: ListForOrgRequestSort | (string & {}) | undefined;
   /** The direction to sort the results by. */
-  direction?: ListForOrgRequestDirection | (string & {});
+  direction?: ListForOrgRequestDirection | (string & {}) | undefined;
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  since?: string;
+  since?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListForOrgResponseBodyList = Array<Issue>;
 export type ListForOrgResponse = ListForOrgResponseBodyList;
@@ -2156,31 +2156,31 @@ export interface ListForRepoRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** If an `integer` is passed, it should refer to a milestone by its `number` field. If the string `*` is passed, issues with any milestone are accepted. If the string `none` is passed, issues without milestones are returned. */
-  milestone?: string;
+  milestone?: string | undefined;
   /** Indicates the state of the issues to return. */
-  state?: ListForRepoRequestState | (string & {});
+  state?: ListForRepoRequestState | (string & {}) | undefined;
   /** Can be the name of a user. Pass in `none` for issues with no assigned user, and `*` for issues assigned to any user. */
-  assignee?: string;
+  assignee?: string | undefined;
   /** Can be the name of an issue type. If the string `*` is passed, issues with any type are accepted. If the string `none` is passed, issues without type are returned. */
-  type?: string;
+  type?: string | undefined;
   /** The user that created the issue. */
-  creator?: string;
+  creator?: string | undefined;
   /** A user that's mentioned in the issue. */
-  mentioned?: string;
+  mentioned?: string | undefined;
   /** A comma-separated list of issue field filters in `field_slug:value` format. Only issues matching all specified field values are returned. Requires issue fields to be enabled for the repository. Issue fields are not available for user-owned repositories, and field availability for organization-owned public repositories depends on the organization's visibility settings. For example, `priority:Urgent,severity:High` filters issues where the `priority` field is `Urgent` AND the `severity` field is `High`. */
-  issue_field_values?: string;
+  issue_field_values?: string | undefined;
   /** A list of comma separated label names. Example: `bug,ui,@high` */
-  labels?: string;
+  labels?: string | undefined;
   /** What to sort results by. */
-  sort?: ListForRepoRequestSort | (string & {});
+  sort?: ListForRepoRequestSort | (string & {}) | undefined;
   /** The direction to sort the results by. */
-  direction?: ListForRepoRequestDirection | (string & {});
+  direction?: ListForRepoRequestDirection | (string & {}) | undefined;
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  since?: string;
+  since?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListForRepoResponseBodyList = Array<Issue>;
 export type ListForRepoResponse = ListForRepoResponseBodyList;
@@ -2192,9 +2192,9 @@ export interface ListIssueFieldValuesForIssueRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListIssueFieldValuesForIssueResponseBodyList = Array<IssueFieldValue>;
 export type ListIssueFieldValuesForIssueResponse = ListIssueFieldValuesForIssueResponseBodyList;
@@ -2206,9 +2206,9 @@ export interface ListLabelsForMilestoneRequest {
   /** The number that identifies the milestone. */
   milestone_number: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListLabelsForMilestoneResponseBodyList = Array<Label>;
 export type ListLabelsForMilestoneResponse = ListLabelsForMilestoneResponseBodyList;
@@ -2218,9 +2218,9 @@ export interface ListLabelsForRepoRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListLabelsForRepoResponseBodyList = Array<Label>;
 export type ListLabelsForRepoResponse = ListLabelsForRepoResponseBodyList;
@@ -2232,9 +2232,9 @@ export interface ListLabelsOnIssueRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListLabelsOnIssueResponseBodyList = Array<Label>;
 export type ListLabelsOnIssueResponse = ListLabelsOnIssueResponseBodyList;
@@ -2247,15 +2247,15 @@ export interface ListMilestonesRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The state of the milestone. Either `open`, `closed`, or `all`. */
-  state?: ListMilestonesRequestState | (string & {});
+  state?: ListMilestonesRequestState | (string & {}) | undefined;
   /** What to sort results by. Either `due_on` or `completeness`. */
-  sort?: ListMilestonesRequestSort | (string & {});
+  sort?: ListMilestonesRequestSort | (string & {}) | undefined;
   /** The direction of the sort. Either `asc` or `desc`. */
-  direction?: ListMilestonesRequestDirection | (string & {});
+  direction?: ListMilestonesRequestDirection | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListMilestonesResponseBodyList = Array<Milestone>;
 export type ListMilestonesResponse = ListMilestonesResponseBodyList;
@@ -2267,9 +2267,9 @@ export interface ListRelatesToRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListRelatesToResponseBodyList = Array<Issue>;
 export type ListRelatesToResponse = ListRelatesToResponseBodyList;
@@ -2281,9 +2281,9 @@ export interface ListSubIssuesRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListSubIssuesResponseBodyList = Array<Issue>;
 export type ListSubIssuesResponse = ListSubIssuesResponseBodyList;
@@ -2309,13 +2309,13 @@ export interface ListSuggestionsRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** Filter suggestions by their state. */
-  state?: ListSuggestionsRequestState | (string & {});
+  state?: ListSuggestionsRequestState | (string & {}) | undefined;
   /** Filter suggestions by the change they propose. */
-  action?: ListSuggestionsRequestAction | (string & {});
+  action?: ListSuggestionsRequestAction | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListSuggestionsResponseBodyList = Array<IssueSuggestion>;
 export type ListSuggestionsResponse = ListSuggestionsResponseBodyList;
@@ -2329,7 +2329,7 @@ export interface LockRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** The reason for locking the issue or pull request conversation. Lock will fail if you don't use one of these reasons: * `off-topic` * `too heated` * `resolved` * `spam` */
-  lock_reason?: LockRequestLockReason | (string & {});
+  lock_reason?: LockRequestLockReason | (string & {}) | undefined;
 }
 export interface LockResponse {}
 export interface PinCommentRequest {
@@ -2359,7 +2359,7 @@ export interface RemoveAssigneesRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** Usernames of assignees to remove from an issue. _NOTE: Only users with push access can remove assignees from an issue. Assignees are silently ignored otherwise._ */
-  assignees?: RemoveAssigneesRequestAssigneesList;
+  assignees?: RemoveAssigneesRequestAssigneesList | undefined;
 }
 export interface RemoveDependencyBlockedByRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -2412,9 +2412,9 @@ export interface ReprioritizeSubIssueRequest {
   /** The id of the sub-issue to reprioritize */
   sub_issue_id: number;
   /** The id of the sub-issue to be prioritized after (either positional argument after OR before should be specified). */
-  after_id?: number;
+  after_id?: number | undefined;
   /** The id of the sub-issue to be prioritized before (either positional argument after OR before should be specified). */
-  before_id?: number;
+  before_id?: number | undefined;
 }
 /** The value to set for the field. The type depends on the field's data type: - For text fields: provide a string value - For single_select fields: provide the option name as a string (must match an existing option) - For number fields: provide a numeric value - For date fields: provide an ISO 8601 date string */
 export type SetIssueFieldValuesRequestIssueFieldValuesItemValue = string | number;
@@ -2435,7 +2435,7 @@ export interface SetIssueFieldValuesRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** An array of issue field values to set for this issue. Each field value must include the field ID and the value to set. All existing field values will be replaced. */
-  issue_field_values?: SetIssueFieldValuesRequestIssueFieldValuesList;
+  issue_field_values?: SetIssueFieldValuesRequestIssueFieldValuesList | undefined;
 }
 /** The current issue field values for this issue after setting the new values */
 export type SetIssueFieldValuesResponseBodyList = Array<IssueFieldValue>;
@@ -2444,7 +2444,7 @@ export type SetIssueFieldValuesResponse = SetIssueFieldValuesResponseBodyList;
 export type SetLabelsRequestBodyCase0LabelsList = Array<string>;
 export interface SetLabelsRequestBodyCase0 {
   /** The names of the labels to set for the issue. The labels you set replace any existing labels. You can pass an empty array to remove all labels. Alternatively, you can pass a single label as a `string` or an `array` of labels directly, but GitHub recommends passing an object with the `labels` key. You can also add labels to the existing labels for an issue. For more information, see "[Add labels to an issue](https://docs.github.com/rest/issues/labels#add-labels-to-an-issue)." */
-  labels?: SetLabelsRequestBodyCase0LabelsList;
+  labels?: SetLabelsRequestBodyCase0LabelsList | undefined;
 }
 export type SetLabelsRequestBodyCase1List = Array<string>;
 export interface SetLabelsRequestBodyCase2LabelsItem {
@@ -2452,7 +2452,7 @@ export interface SetLabelsRequestBodyCase2LabelsItem {
 }
 export type SetLabelsRequestBodyCase2LabelsList = Array<SetLabelsRequestBodyCase2LabelsItem>;
 export interface SetLabelsRequestBodyCase2 {
-  labels?: SetLabelsRequestBodyCase2LabelsList;
+  labels?: SetLabelsRequestBodyCase2LabelsList | undefined;
 }
 export type SetLabelsRequestBodyCase3Item = SetLabelsRequestBodyCase2LabelsItem;
 export type SetLabelsRequestBodyCase3List = Array<SetLabelsRequestBodyCase2LabelsItem>;
@@ -2469,7 +2469,7 @@ export interface SetLabelsRequest {
   repo: string;
   /** The number that identifies the issue. */
   issue_number: number;
-  body?: SetLabelsRequestBody;
+  body?: SetLabelsRequestBody | undefined;
 }
 export type SetLabelsResponseBodyList = Array<Label>;
 export type SetLabelsResponse = SetLabelsResponseBodyList;
@@ -2501,16 +2501,16 @@ export type UpdateRequestMilestone = string | number;
 /** The confidence level for this label choice. */
 export type UpdateRequestLabelsItemCase1Confidence = "low" | "medium" | "high";
 export interface UpdateRequestLabelsItemCase1 {
-  id?: number;
-  name?: string;
-  description?: string | null;
-  color?: string | null;
+  id?: number | undefined;
+  name?: string | undefined;
+  description?: string | null | undefined;
+  color?: string | null | undefined;
   /** Optional reasoning for selecting this label. */
-  rationale?: string;
+  rationale?: string | undefined;
   /** If `true`, the change is stored as a pending suggestion for human review rather than applied directly. */
-  suggest?: boolean;
+  suggest?: boolean | undefined;
   /** The confidence level for this label choice. */
-  confidence?: UpdateRequestLabelsItemCase1Confidence | (string & {});
+  confidence?: UpdateRequestLabelsItemCase1Confidence | (string & {}) | undefined;
 }
 export type UpdateRequestLabelsItem = string | UpdateRequestLabelsItemCase1;
 /** Labels to associate with this issue. Pass one or more labels to _replace_ the set of labels on this issue. Send an empty array (`[]`) to clear all labels from the issue. Only users with push access can set labels for issues. Without push access to the repository, label changes are silently dropped. */
@@ -2518,13 +2518,13 @@ export type UpdateRequestLabelsList = Array<UpdateRequestLabelsItem>;
 /** The confidence level for this assignee choice. */
 export type UpdateRequestAssigneesItemCase1Confidence = "low" | "medium" | "high";
 export interface UpdateRequestAssigneesItemCase1 {
-  login?: string;
+  login?: string | undefined;
   /** Optional reasoning for selecting this assignee. */
-  rationale?: string;
+  rationale?: string | undefined;
   /** If `true`, the change is stored as a pending suggestion for human review rather than applied directly. */
-  suggest?: boolean;
+  suggest?: boolean | undefined;
   /** The confidence level for this assignee choice. */
-  confidence?: UpdateRequestAssigneesItemCase1Confidence | (string & {});
+  confidence?: UpdateRequestAssigneesItemCase1Confidence | (string & {}) | undefined;
 }
 export type UpdateRequestAssigneesItem = string | UpdateRequestAssigneesItemCase1;
 /** Usernames to assign to this issue. Pass one or more user logins to _replace_ the set of assignees on this issue. Send an empty array (`[]`) to clear all assignees from the issue. Only users with push access can set assignees for new issues. Without push access to the repository, assignee changes are silently dropped. */
@@ -2543,11 +2543,11 @@ export interface UpdateRequestIssueFieldValuesItem {
   /** The value to set for the field. For multi-select fields, provide an array of option names. */
   value: UpdateRequestIssueFieldValuesItemValue;
   /** Optional reasoning for setting this field value. */
-  rationale?: string;
+  rationale?: string | undefined;
   /** If `true`, the change is stored as a pending suggestion for human review rather than applied directly. */
-  suggest?: boolean;
+  suggest?: boolean | undefined;
   /** The confidence level for this field value choice. */
-  confidence?: UpdateRequestIssueFieldValuesItemConfidence | (string & {});
+  confidence?: UpdateRequestIssueFieldValuesItemConfidence | (string & {}) | undefined;
 }
 /** An array of issue field values to set on this issue. Each field value must include the field ID and the value to set. Only users with push access can set field values for issues */
 export type UpdateRequestIssueFieldValuesList = Array<UpdateRequestIssueFieldValuesItem>;
@@ -2556,13 +2556,13 @@ export type UpdateRequestTypeCase1Confidence = "low" | "medium" | "high";
 /** The issue type with optional metadata. */
 export interface UpdateRequestTypeCase1 {
   /** The name of the issue type to associate with this issue, or `null` to remove the current issue type. */
-  value?: string | null;
+  value?: string | null | undefined;
   /** Optional reasoning for selecting this type. */
-  rationale?: string;
+  rationale?: string | undefined;
   /** If `true`, the change is stored as a pending suggestion for human review rather than applied directly. */
-  suggest?: boolean;
+  suggest?: boolean | undefined;
   /** The confidence level for this type choice. */
-  confidence?: UpdateRequestTypeCase1Confidence | (string & {});
+  confidence?: UpdateRequestTypeCase1Confidence | (string & {}) | undefined;
 }
 /** The issue type to associate with this issue. Only users with push access can set the type for issues. Without push access to the repository, type changes are silently dropped. */
 export type UpdateRequestType = string | UpdateRequestTypeCase1;
@@ -2574,26 +2574,26 @@ export interface UpdateRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** The title of the issue. */
-  title?: UpdateRequestTitle | null;
+  title?: UpdateRequestTitle | null | undefined;
   /** The contents of the issue. */
-  body?: string | null;
+  body?: string | null | undefined;
   /** Username to assign to this issue. **This field is closing down.** */
-  assignee?: string | null;
+  assignee?: string | null | undefined;
   /** The open or closed state of the issue. */
-  state?: UpdateRequestState | (string & {});
+  state?: UpdateRequestState | (string & {}) | undefined;
   /** The reason for the state change. Ignored unless `state` is changed. */
-  state_reason?: UpdateRequestStateReason | (string & {}) | null;
+  state_reason?: UpdateRequestStateReason | (string & {}) | null | undefined;
   /** The ID of the issue to mark as the canonical duplicate when `state_reason` is `duplicate`. The issue must exist and be accessible to the authenticated user. Ignored when `state_reason` is not `duplicate`. */
-  duplicate_issue_id?: number;
-  milestone?: UpdateRequestMilestone | null;
+  duplicate_issue_id?: number | undefined;
+  milestone?: UpdateRequestMilestone | null | undefined;
   /** Labels to associate with this issue. Pass one or more labels to _replace_ the set of labels on this issue. Send an empty array (`[]`) to clear all labels from the issue. Only users with push access can set labels for issues. Without push access to the repository, label changes are silently dropped. */
-  labels?: UpdateRequestLabelsList;
+  labels?: UpdateRequestLabelsList | undefined;
   /** Usernames to assign to this issue. Pass one or more user logins to _replace_ the set of assignees on this issue. Send an empty array (`[]`) to clear all assignees from the issue. Only users with push access can set assignees for new issues. Without push access to the repository, assignee changes are silently dropped. */
-  assignees?: UpdateRequestAssigneesList;
+  assignees?: UpdateRequestAssigneesList | undefined;
   /** An array of issue field values to set on this issue. Each field value must include the field ID and the value to set. Only users with push access can set field values for issues */
-  issue_field_values?: UpdateRequestIssueFieldValuesList;
+  issue_field_values?: UpdateRequestIssueFieldValuesList | undefined;
   /** The issue type to associate with this issue. Only users with push access can set the type for issues. Without push access to the repository, type changes are silently dropped. */
-  type?: UpdateRequestType | null;
+  type?: UpdateRequestType | null | undefined;
 }
 /** The reason for the current state */
 export type UpdateResponseStateReason = "completed" | "reopened" | "not_planned" | "duplicate";
@@ -2609,12 +2609,12 @@ export type UpdateResponseSuggestionsTypeItemIgnoredReason =
   | "already_applied"
   | "issue_already_closed";
 export interface UpdateResponseSuggestionsTypeItem {
-  value?: string;
-  rationale?: string;
-  suggest?: boolean;
-  confidence?: UpdateResponseSuggestionsTypeItemConfidence;
-  ignored?: boolean;
-  ignored_reason?: UpdateResponseSuggestionsTypeItemIgnoredReason;
+  value?: string | undefined;
+  rationale?: string | undefined;
+  suggest?: boolean | undefined;
+  confidence?: UpdateResponseSuggestionsTypeItemConfidence | undefined;
+  ignored?: boolean | undefined;
+  ignored_reason?: UpdateResponseSuggestionsTypeItemIgnoredReason | undefined;
 }
 export type UpdateResponseSuggestionsTypeList = Array<UpdateResponseSuggestionsTypeItem>;
 export type UpdateResponseSuggestionsIssueFieldValuesItemValueCase2List = Array<string>;
@@ -2627,13 +2627,13 @@ export type UpdateResponseSuggestionsIssueFieldValuesItemIgnoredReason =
   | "already_applied"
   | "issue_already_closed";
 export interface UpdateResponseSuggestionsIssueFieldValuesItem {
-  field_id?: number;
-  value?: UpdateResponseSuggestionsIssueFieldValuesItemValue;
-  rationale?: string;
-  suggest?: boolean;
-  confidence?: UpdateResponseSuggestionsIssueFieldValuesItemConfidence;
-  ignored?: boolean;
-  ignored_reason?: UpdateResponseSuggestionsIssueFieldValuesItemIgnoredReason;
+  field_id?: number | undefined;
+  value?: UpdateResponseSuggestionsIssueFieldValuesItemValue | undefined;
+  rationale?: string | undefined;
+  suggest?: boolean | undefined;
+  confidence?: UpdateResponseSuggestionsIssueFieldValuesItemConfidence | undefined;
+  ignored?: boolean | undefined;
+  ignored_reason?: UpdateResponseSuggestionsIssueFieldValuesItemIgnoredReason | undefined;
 }
 export type UpdateResponseSuggestionsIssueFieldValuesList =
   Array<UpdateResponseSuggestionsIssueFieldValuesItem>;
@@ -2642,12 +2642,12 @@ export type UpdateResponseSuggestionsLabelsItemIgnoredReason =
   | "already_applied"
   | "issue_already_closed";
 export interface UpdateResponseSuggestionsLabelsItem {
-  name?: string;
-  rationale?: string;
-  suggest?: boolean;
-  confidence?: UpdateResponseSuggestionsLabelsItemConfidence;
-  ignored?: boolean;
-  ignored_reason?: UpdateResponseSuggestionsLabelsItemIgnoredReason;
+  name?: string | undefined;
+  rationale?: string | undefined;
+  suggest?: boolean | undefined;
+  confidence?: UpdateResponseSuggestionsLabelsItemConfidence | undefined;
+  ignored?: boolean | undefined;
+  ignored_reason?: UpdateResponseSuggestionsLabelsItemIgnoredReason | undefined;
 }
 export type UpdateResponseSuggestionsLabelsList = Array<UpdateResponseSuggestionsLabelsItem>;
 export type UpdateResponseSuggestionsAssigneesItemConfidence = "low" | "medium" | "high";
@@ -2655,12 +2655,12 @@ export type UpdateResponseSuggestionsAssigneesItemIgnoredReason =
   | "already_applied"
   | "issue_already_closed";
 export interface UpdateResponseSuggestionsAssigneesItem {
-  login?: string;
-  rationale?: string;
-  suggest?: boolean;
-  confidence?: UpdateResponseSuggestionsAssigneesItemConfidence;
-  ignored?: boolean;
-  ignored_reason?: UpdateResponseSuggestionsAssigneesItemIgnoredReason;
+  login?: string | undefined;
+  rationale?: string | undefined;
+  suggest?: boolean | undefined;
+  confidence?: UpdateResponseSuggestionsAssigneesItemConfidence | undefined;
+  ignored?: boolean | undefined;
+  ignored_reason?: UpdateResponseSuggestionsAssigneesItemIgnoredReason | undefined;
 }
 export type UpdateResponseSuggestionsAssigneesList = Array<UpdateResponseSuggestionsAssigneesItem>;
 export type UpdateResponseSuggestionsStateItemConfidence = "low" | "medium" | "high";
@@ -2668,23 +2668,23 @@ export type UpdateResponseSuggestionsStateItemIgnoredReason =
   | "already_applied"
   | "issue_already_closed";
 export interface UpdateResponseSuggestionsStateItem {
-  value?: string;
-  state_reason?: string;
-  duplicate_issue_id?: number;
-  rationale?: string;
-  suggest?: boolean;
-  confidence?: UpdateResponseSuggestionsStateItemConfidence;
-  ignored?: boolean;
-  ignored_reason?: UpdateResponseSuggestionsStateItemIgnoredReason;
+  value?: string | undefined;
+  state_reason?: string | undefined;
+  duplicate_issue_id?: number | undefined;
+  rationale?: string | undefined;
+  suggest?: boolean | undefined;
+  confidence?: UpdateResponseSuggestionsStateItemConfidence | undefined;
+  ignored?: boolean | undefined;
+  ignored_reason?: UpdateResponseSuggestionsStateItemIgnoredReason | undefined;
 }
 export type UpdateResponseSuggestionsStateList = Array<UpdateResponseSuggestionsStateItem>;
 /** Pending suggestions for each suggestible field (`type`, `issue_field_values`, `labels`, `assignees`, `state`) the request touched. Omitted for fields not in the request or with no pending or ignored suggestions. Items tagged `ignored` are echoes of the current request's inputs that were not persisted as pending suggestions. */
 export interface UpdateResponseSuggestions {
-  type?: UpdateResponseSuggestionsTypeList;
-  issue_field_values?: UpdateResponseSuggestionsIssueFieldValuesList;
-  labels?: UpdateResponseSuggestionsLabelsList;
-  assignees?: UpdateResponseSuggestionsAssigneesList;
-  state?: UpdateResponseSuggestionsStateList;
+  type?: UpdateResponseSuggestionsTypeList | undefined;
+  issue_field_values?: UpdateResponseSuggestionsIssueFieldValuesList | undefined;
+  labels?: UpdateResponseSuggestionsLabelsList | undefined;
+  assignees?: UpdateResponseSuggestionsAssigneesList | undefined;
+  state?: UpdateResponseSuggestionsStateList | undefined;
 }
 export interface UpdateResponse {
   id: number;
@@ -2701,42 +2701,42 @@ export interface UpdateResponse {
   /** State of the issue; either 'open' or 'closed' */
   state: string;
   /** The reason for the current state */
-  state_reason?: UpdateResponseStateReason | null;
+  state_reason?: UpdateResponseStateReason | null | undefined;
   /** Title of the issue */
   title: string;
   /** Contents of the issue */
-  body?: string | null;
+  body?: string | null | undefined;
   user: NullableSimpleUser | null;
   /** Labels to associate with this issue; pass one or more label names to replace the set of labels on this issue; send an empty array to clear all labels from the issue; note that the labels are silently dropped for users without push access to the repository */
   labels: UpdateResponseLabelsList;
   assignee: NullableSimpleUser | null;
-  assignees?: UpdateResponseAssigneesList;
+  assignees?: UpdateResponseAssigneesList | undefined;
   milestone: NullableMilestone | null;
   locked: boolean;
-  active_lock_reason?: string | null;
+  active_lock_reason?: string | null | undefined;
   comments: number;
-  pull_request?: IssuePullRequest;
+  pull_request?: IssuePullRequest | undefined;
   closed_at: string | null;
   created_at: string;
   updated_at: string;
-  draft?: boolean;
-  closed_by?: NullableSimpleUser | null;
-  body_html?: string;
-  body_text?: string;
-  timeline_url?: string;
-  type?: IssueType | null;
-  repository?: Repository;
-  performed_via_github_app?: NullableIntegration | null;
-  author_association?: AuthorAssociation;
-  reactions?: ReactionRollup;
-  sub_issues_summary?: SubIssuesSummary;
+  draft?: boolean | undefined;
+  closed_by?: NullableSimpleUser | null | undefined;
+  body_html?: string | undefined;
+  body_text?: string | undefined;
+  timeline_url?: string | undefined;
+  type?: IssueType | null | undefined;
+  repository?: Repository | undefined;
+  performed_via_github_app?: NullableIntegration | null | undefined;
+  author_association?: AuthorAssociation | undefined;
+  reactions?: ReactionRollup | undefined;
+  sub_issues_summary?: SubIssuesSummary | undefined;
   /** URL to get the parent issue of this issue, if it is a sub-issue */
-  parent_issue_url?: string | null;
-  pinned_comment?: NullableIssueComment | null;
-  issue_dependencies_summary?: IssueDependenciesSummary;
-  issue_field_values?: UpdateResponseIssueFieldValuesList;
+  parent_issue_url?: string | null | undefined;
+  pinned_comment?: NullableIssueComment | null | undefined;
+  issue_dependencies_summary?: IssueDependenciesSummary | undefined;
+  issue_field_values?: UpdateResponseIssueFieldValuesList | undefined;
   /** Pending suggestions for each suggestible field (`type`, `issue_field_values`, `labels`, `assignees`, `state`) the request touched. Omitted for fields not in the request or with no pending or ignored suggestions. Items tagged `ignored` are echoes of the current request's inputs that were not persisted as pending suggestions. */
-  suggestions?: UpdateResponseSuggestions;
+  suggestions?: UpdateResponseSuggestions | undefined;
 }
 export interface UpdateCommentRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -2755,13 +2755,13 @@ export interface UpdateLabelRequest {
   repo: string;
   name: string;
   /** The new name of the label. Emoji can be added to label names, using either native emoji or colon-style markup. For example, typing `:strawberry:` will render the emoji ![:strawberry:](https://github.githubassets.com/images/icons/emoji/unicode/1f353.png ":strawberry:"). For a full list of available emoji and codes, see "[Emoji cheat sheet](https://github.com/ikatyang/emoji-cheat-sheet)." */
-  new_name?: string;
+  new_name?: string | undefined;
   /** The [hexadecimal color code](http://www.color-hex.com/) for the label, without the leading `#`. */
-  color?: string;
+  color?: string | undefined;
   /** A short description of the label. Must be 100 characters or fewer. */
-  description?: string;
+  description?: string | undefined;
   /** Whether to archive or unarchive the label. Archived labels cannot be added to issues or pull requests. For more information, see "[Archiving labels](https://docs.github.com/issues/organizing-your-work-with-labels/managing-labels)." */
-  archived?: boolean;
+  archived?: boolean | undefined;
 }
 /** The state of the milestone. Either `open` or `closed`. */
 export type UpdateMilestoneRequestState = "open" | "closed";
@@ -2773,13 +2773,13 @@ export interface UpdateMilestoneRequest {
   /** The number that identifies the milestone. */
   milestone_number: number;
   /** The title of the milestone. */
-  title?: string;
+  title?: string | undefined;
   /** The state of the milestone. Either `open` or `closed`. */
-  state?: UpdateMilestoneRequestState | (string & {});
+  state?: UpdateMilestoneRequestState | (string & {}) | undefined;
   /** A description of the milestone. */
-  description?: string;
+  description?: string | undefined;
   /** The milestone due date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  due_on?: string | null;
+  due_on?: string | null | undefined;
 }
 export type AddAssigneesError = GithubOpError;
 /** Add assignees to an issue Adds up to 10 assignees to an issue. Users already assigned to an issue are not replaced. */

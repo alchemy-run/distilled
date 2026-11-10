@@ -94,9 +94,9 @@ export type CreateStorageStoresBlobRequestRegion =
 export type CreateStorageStoresBlobRequestAccess = "public" | "private";
 export interface CreateStorageStoresBlobRequest {
   name: string;
-  region?: CreateStorageStoresBlobRequestRegion | (string & {});
-  access?: CreateStorageStoresBlobRequestAccess | (string & {});
-  projectId?: string;
+  region?: CreateStorageStoresBlobRequestRegion | (string & {}) | undefined;
+  access?: CreateStorageStoresBlobRequestAccess | (string & {}) | undefined;
+  projectId?: string | undefined;
 }
 export type CreateStorageStoresBlobResponseStoreProjectFilterGitOwnersList = Array<string>;
 export type CreateStorageStoresBlobResponseStoreProjectFilterGitProvidersCase0Item =
@@ -111,12 +111,12 @@ export type CreateStorageStoresBlobResponseStoreProjectFilterGitProviders =
   | CreateStorageStoresBlobResponseStoreProjectFilterGitProvidersCase1;
 export type CreateStorageStoresBlobResponseStoreProjectFilterGitReposList = Array<string>;
 export interface CreateStorageStoresBlobResponseStoreProjectFilterGit {
-  owners?: CreateStorageStoresBlobResponseStoreProjectFilterGitOwnersList;
+  owners?: CreateStorageStoresBlobResponseStoreProjectFilterGitOwnersList | undefined;
   providers: CreateStorageStoresBlobResponseStoreProjectFilterGitProviders;
-  repos?: CreateStorageStoresBlobResponseStoreProjectFilterGitReposList;
+  repos?: CreateStorageStoresBlobResponseStoreProjectFilterGitReposList | undefined;
 }
 export interface CreateStorageStoresBlobResponseStoreProjectFilter {
-  git?: CreateStorageStoresBlobResponseStoreProjectFilterGit;
+  git?: CreateStorageStoresBlobResponseStoreProjectFilterGit | undefined;
 }
 export type CreateStorageStoresBlobResponseStoreProjectsMetadataItemDeploymentsActionsItemEnvironmentsList =
   Array<string>;
@@ -210,14 +210,14 @@ export type CreateStorageStoresBlobResponseStoreProjectsMetadataItemFramework =
   | "xmcp"
   | "zola";
 export interface CreateStorageStoresBlobResponseStoreProjectsMetadataItem {
-  deployments?: CreateStorageStoresBlobResponseStoreProjectsMetadataItemDeployments;
+  deployments?: CreateStorageStoresBlobResponseStoreProjectsMetadataItemDeployments | undefined;
   environments: CreateStorageStoresBlobResponseStoreProjectsMetadataItemEnvironmentsList;
   environmentVariables: CreateStorageStoresBlobResponseStoreProjectsMetadataItemEnvironmentVariablesList;
   envVarPrefix: string | null;
-  framework?: CreateStorageStoresBlobResponseStoreProjectsMetadataItemFramework | null;
+  framework?: CreateStorageStoresBlobResponseStoreProjectsMetadataItemFramework | null | undefined;
   id: string;
-  latestDeployment?: string;
-  makeEnvVarsSensitive?: boolean;
+  latestDeployment?: string | undefined;
+  makeEnvVarsSensitive?: boolean | undefined;
   name: string;
   projectId: string;
 }
@@ -257,16 +257,16 @@ export type CreateStorageStoresBlobResponseStoreRegion =
   | "syd1"
   | "yul1";
 export interface CreateStorageStoresBlobResponseStore {
-  projectFilter?: CreateStorageStoresBlobResponseStoreProjectFilter;
+  projectFilter?: CreateStorageStoresBlobResponseStoreProjectFilter | undefined;
   projectsMetadata: CreateStorageStoresBlobResponseStoreProjectsMetadataList;
   status: CreateStorageStoresBlobResponseStoreStatus | null;
-  totalConnectedProjects?: number;
+  totalConnectedProjects?: number | undefined;
   usageQuotaExceeded: boolean;
-  access?: CreateStorageStoresBlobResponseStoreAccess;
+  access?: CreateStorageStoresBlobResponseStoreAccess | undefined;
   /** A project-default store is a private blob store that is lazily created per-project, uses OIDC auth instead of read-write tokens, and cannot be modified through standard store mutation APIs. Undefined for legacy stores. */
-  kind?: CreateStorageStoresBlobResponseStoreKind;
+  kind?: CreateStorageStoresBlobResponseStoreKind | undefined;
   /** The project this store is scoped to. Set for project-default stores and user-created stores with enforced project association. */
-  projectId?: string;
+  projectId?: string | undefined;
   count: number;
   isTokenExpired: boolean;
   region: CreateStorageStoresBlobResponseStoreRegion;
@@ -283,8 +283,8 @@ export interface DeleteStorageStoresBlobResponse {
 }
 export interface GetStorageStoreRequest {
   id: string;
-  skip_metadata?: boolean;
-  include_guides?: boolean;
+  skip_metadata?: boolean | undefined;
+  include_guides?: boolean | undefined;
 }
 export type GetStorageStoreResponseStoreProjectFilterGitOwnersList = Array<string>;
 export type GetStorageStoreResponseStoreProjectFilterGitProvidersCase0Item =
@@ -299,12 +299,12 @@ export type GetStorageStoreResponseStoreProjectFilterGitProviders =
   | GetStorageStoreResponseStoreProjectFilterGitProvidersCase1;
 export type GetStorageStoreResponseStoreProjectFilterGitReposList = Array<string>;
 export interface GetStorageStoreResponseStoreProjectFilterGit {
-  owners?: GetStorageStoreResponseStoreProjectFilterGitOwnersList;
+  owners?: GetStorageStoreResponseStoreProjectFilterGitOwnersList | undefined;
   providers: GetStorageStoreResponseStoreProjectFilterGitProviders;
-  repos?: GetStorageStoreResponseStoreProjectFilterGitReposList;
+  repos?: GetStorageStoreResponseStoreProjectFilterGitReposList | undefined;
 }
 export interface GetStorageStoreResponseStoreProjectFilter {
-  git?: GetStorageStoreResponseStoreProjectFilterGit;
+  git?: GetStorageStoreResponseStoreProjectFilterGit | undefined;
 }
 export type GetStorageStoreResponseStoreProjectsMetadataItemDeploymentsActionsItemEnvironmentsList =
   Array<string>;
@@ -397,14 +397,14 @@ export type GetStorageStoreResponseStoreProjectsMetadataItemFramework =
   | "xmcp"
   | "zola";
 export interface GetStorageStoreResponseStoreProjectsMetadataItem {
-  deployments?: GetStorageStoreResponseStoreProjectsMetadataItemDeployments;
+  deployments?: GetStorageStoreResponseStoreProjectsMetadataItemDeployments | undefined;
   environments: GetStorageStoreResponseStoreProjectsMetadataItemEnvironmentsList;
   environmentVariables: GetStorageStoreResponseStoreProjectsMetadataItemEnvironmentVariablesList;
   envVarPrefix: string | null;
-  framework?: GetStorageStoreResponseStoreProjectsMetadataItemFramework | null;
+  framework?: GetStorageStoreResponseStoreProjectsMetadataItemFramework | null | undefined;
   id: string;
-  latestDeployment?: string;
-  makeEnvVarsSensitive?: boolean;
+  latestDeployment?: string | undefined;
+  makeEnvVarsSensitive?: boolean | undefined;
   name: string;
   projectId: string;
 }
@@ -420,10 +420,10 @@ export type GetStorageStoreResponseStoreStatus =
   | "suspended"
   | "uninstalled";
 export interface GetStorageStoreResponseStore {
-  projectFilter?: GetStorageStoreResponseStoreProjectFilter;
+  projectFilter?: GetStorageStoreResponseStoreProjectFilter | undefined;
   projectsMetadata: GetStorageStoreResponseStoreProjectsMetadataList;
   status: GetStorageStoreResponseStoreStatus | null;
-  totalConnectedProjects?: number;
+  totalConnectedProjects?: number | undefined;
   usageQuotaExceeded: boolean;
 }
 export interface GetStorageStoreResponse {

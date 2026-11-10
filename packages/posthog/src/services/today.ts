@@ -27,7 +27,7 @@ export interface GetTodayBriefingRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** IANA timezone of the person's browser, for example Europe/Prague. The briefing day starts at 8:00 in it. Defaults to the project timezone. */
-  timezone?: string;
+  timezone?: string | undefined;
 }
 export interface BriefingSegment {
   /** A run of text in a paragraph. Includes its own spaces. */
@@ -194,7 +194,7 @@ export interface GetTodayCandidateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** IANA timezone of the person's browser, for example Europe/Prague. The briefing day starts at 8:00 in it. Defaults to the project timezone. */
-  timezone?: string;
+  timezone?: string | undefined;
 }
 export interface CandidateFact {
   /** Fact name, for example pct_change or unread_messages. */
@@ -233,7 +233,7 @@ export interface TodayBriefingRefreshCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** IANA timezone of the person's browser, for example Europe/Prague. The briefing day starts at 8:00 in it. Defaults to the project timezone. */
-  timezone?: string;
+  timezone?: string | undefined;
 }
 export type GetTodayBriefingError = PosthogOpError;
 /** Get today's briefing Today's personal briefing: a short text about up to 5 items and the same items for the left bar. A new one is written every morning from 8:00 local time. Starts generating today's when there is none yet and returns it as 'collecting'. While a refresh is being written, the ready briefing is returned as 'writing', so it can stay on screen; poll again after a few seconds. 404 when the person gets no briefing: the flag is off, the organization has not approved AI data processing, or it is out of AI credits. */

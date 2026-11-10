@@ -58,11 +58,11 @@ export interface ConfirmVpsTerminationRequest {
   /** Service name */
   serviceName: string;
   /** Commentary about your termination request */
-  commentary?: string;
+  commentary?: string | undefined;
   /** All future uses you can provide for a service termination */
-  futureUse?: ServiceTerminationFutureUseEnum | (string & {});
+  futureUse?: ServiceTerminationFutureUseEnum | (string & {}) | undefined;
   /** All reasons you can provide for a service termination */
-  reason?: ServiceTerminationReasonEnum | (string & {});
+  reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by email to the admin contact */
   token: string;
 }
@@ -111,11 +111,11 @@ export type VpsTaskTypeEnum =
   | "upgradeVm";
 /** Operation on a VPS Virtual Machine */
 export interface VpsTask {
-  date?: string;
-  id?: number;
-  progress?: number;
-  state?: VpsTaskStateEnum;
-  type?: VpsTaskTypeEnum;
+  date?: string | undefined;
+  id?: number | undefined;
+  progress?: number | undefined;
+  state?: VpsTaskStateEnum | undefined;
+  type?: VpsTaskTypeEnum | undefined;
 }
 export interface CreateVpsBackupftpAccessRequest {
   /** Service name */
@@ -123,7 +123,7 @@ export interface CreateVpsBackupftpAccessRequest {
   /** Whether to allow the CIFS (SMB) protocol for this ACL */
   cifs: boolean;
   /** Whether to allow the FTP protocol for this ACL */
-  ftp?: boolean;
+  ftp?: boolean | undefined;
   /** IP CIDR notation (e.g., 192.0.2.0/24) */
   ipBlock: string;
   /** Whether to allow the NFS protocol for this ACL */
@@ -183,37 +183,37 @@ export type DedicatedTaskStatusEnum =
   | "todo";
 /** complexType.SafeKeyValueCanBeNull_string */
 export interface ComplexTypeSafeKeyValueCanBeNullString {
-  key?: string | null;
-  value?: string;
+  key?: string | null | undefined;
+  value?: string | undefined;
 }
 /** Task result tags output */
 export type DedicatedServerTaskTagsList = Array<ComplexTypeSafeKeyValueCanBeNullString>;
 /** Server tasks */
 export interface DedicatedServerTask {
   /** Details of this task */
-  comment?: string | null;
+  comment?: string | null | undefined;
   /** Completion date */
-  doneDate?: string | null;
+  doneDate?: string | null | undefined;
   /** Function name */
-  function?: DedicatedTaskFunctionEnum;
+  function?: DedicatedTaskFunctionEnum | undefined;
   /** last update */
-  lastUpdate?: string | null;
+  lastUpdate?: string | null | undefined;
   /** Whether this task need to be scheduled or not */
-  needSchedule?: boolean;
+  needSchedule?: boolean | undefined;
   /** Extra information about this task */
-  note?: string | null;
+  note?: string | null | undefined;
   /** ID of the planned intervention for this task */
-  plannedInterventionId?: number | null;
+  plannedInterventionId?: number | null | undefined;
   /** Task Creation date */
-  startDate?: string;
+  startDate?: string | undefined;
   /** Task status */
-  status?: DedicatedTaskStatusEnum;
+  status?: DedicatedTaskStatusEnum | undefined;
   /** Task result tags output */
-  tags?: DedicatedServerTaskTagsList | null;
+  tags?: DedicatedServerTaskTagsList | null | undefined;
   /** the id of the task */
-  taskId?: number;
+  taskId?: number | undefined;
   /** Reference of the thread on the support tool */
-  ticketReference?: string | null;
+  ticketReference?: string | null | undefined;
 }
 export interface CreateVpsBackupftpPasswordRequest {
   /** Service name */
@@ -223,11 +223,11 @@ export interface CreateVpsChangeContactRequest {
   /** Service name */
   serviceName: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type CreateVpsChangeContactResponseBodyList = Array<number>;
 export type CreateVpsChangeContactResponse = CreateVpsChangeContactResponseBodyList;
@@ -243,13 +243,13 @@ export interface CreateVpsOpenConsoleAccessRequest {
   /** Service name */
   serviceName: string;
   /** All supported VNC protocols by VPS */
-  protocol?: VpsVncProtocolEnum | (string & {});
+  protocol?: VpsVncProtocolEnum | (string & {}) | undefined;
 }
 /** A VNC connection informations */
 export interface VpsVnc {
-  host?: string;
-  password?: string | Redacted.Redacted<string>;
-  port?: number;
+  host?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  port?: number | undefined;
 }
 /** Id of the vps.Software type fetched in /template/{id}/software */
 export type CreateVpsReinstallRequestSoftwareIdList = Array<number>;
@@ -259,15 +259,15 @@ export interface CreateVpsReinstallRequest {
   /** Service name */
   serviceName: string;
   /** If asked, the installation password will NOT be sent (only if sshKey defined) */
-  doNotSendPassword?: boolean;
+  doNotSendPassword?: boolean | undefined;
   /** Distribution language. default : en */
-  language?: string;
+  language?: string | undefined;
   /** Public SSH key to pre-install on your VPS */
-  publicSshKey?: string;
+  publicSshKey?: string | undefined;
   /** Id of the vps.Software type fetched in /template/{id}/software */
-  softwareId?: CreateVpsReinstallRequestSoftwareIdList;
+  softwareId?: CreateVpsReinstallRequestSoftwareIdList | undefined;
   /** SSH key names to pre-install on your VPS (name from /me/sshKey) */
-  sshKey?: CreateVpsReinstallRequestSshKeyList;
+  sshKey?: CreateVpsReinstallRequestSshKeyList | undefined;
   /** Id of the vps.Template fetched in /templates list */
   templateId: number;
 }
@@ -277,14 +277,14 @@ export interface CreateVpsSecondaryDnsDomainRequest {
   /** The domain to add */
   domain: string;
   /** IPv4 address (e.g., 192.0.2.0) */
-  ip?: string;
+  ip?: string | undefined;
 }
 export interface CreateVpsSecondaryDnsDomainResponse {}
 export interface CreateVpsSnapshotRequest {
   /** Service name */
   serviceName: string;
   /** A textual description for your snapshot */
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateVpsSnapshotRevertRequest {
   /** Service name */
@@ -333,13 +333,13 @@ export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** All values keymap can be in */
 export type VpsVpsKeymapEnum = "fr" | "us";
@@ -368,16 +368,16 @@ export type VpsVpsVersionEnum =
   | "2019v1";
 /** A structure describing characteristics of a VPS model */
 export interface VpsModel {
-  availableOptions?: VpsModelAvailableOptionsList;
-  datacenter?: VpsModelDatacenterList;
-  disk?: number;
-  maximumAdditionnalIp?: number;
-  memory?: number;
-  name?: string;
-  offer?: string;
-  vcore?: number;
+  availableOptions?: VpsModelAvailableOptionsList | undefined;
+  datacenter?: VpsModelDatacenterList | undefined;
+  disk?: number | undefined;
+  maximumAdditionnalIp?: number | undefined;
+  memory?: number | undefined;
+  name?: string | undefined;
+  offer?: string | undefined;
+  vcore?: number | undefined;
   /** All versions that VPS can have */
-  version?: VpsVpsVersionEnum;
+  version?: VpsVpsVersionEnum | undefined;
 }
 /** Ip blocks for OVH monitoring servers */
 export type VpsVPSWithIAMMonitoringIpBlocksList = Array<string>;
@@ -407,26 +407,26 @@ export type VpsVpsStateEnum =
 export type VpsZoneTypeEnum = "localzone" | "region";
 /** VPS Virtual Machine */
 export interface VpsVPSWithIAM {
-  cluster?: string;
+  cluster?: string | undefined;
   /** Set the name displayed in ManagerV6 for your VPS (max 50 chars) */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** Set KVM keyboard layout on VPS Cloud. Reboot your VPS after change */
-  keymap?: VpsVpsKeymapEnum | null;
-  memoryLimit?: number;
-  model?: VpsModel;
+  keymap?: VpsVpsKeymapEnum | null | undefined;
+  memoryLimit?: number | undefined;
+  model?: VpsModel | undefined;
   /** Ip blocks for OVH monitoring servers */
-  monitoringIpBlocks?: VpsVPSWithIAMMonitoringIpBlocksList;
-  name?: string;
+  monitoringIpBlocks?: VpsVPSWithIAMMonitoringIpBlocksList | undefined;
+  name?: string | undefined;
   /** All values a VPS netboot mode can be in */
-  netbootMode?: VpsVpsNetbootEnum;
-  offerType?: VpsVpsOfferEnum;
-  slaMonitoring?: boolean | null;
-  state?: VpsVpsStateEnum;
-  vcore?: number;
-  zone?: string;
-  zoneType?: VpsZoneTypeEnum;
+  netbootMode?: VpsVpsNetbootEnum | undefined;
+  offerType?: VpsVpsOfferEnum | undefined;
+  slaMonitoring?: boolean | null | undefined;
+  state?: VpsVpsStateEnum | undefined;
+  vcore?: number | undefined;
+  zone?: string | undefined;
+  zoneType?: VpsZoneTypeEnum | undefined;
 }
 export interface GetVpsAutomatedBackupRequest {
   /** Service name */
@@ -437,9 +437,9 @@ export type VpsBackupStateEnum = "disabled" | "enabled";
 /** Backup your VPS */
 export interface VpsAutomatedBackup {
   /** Scheduled time of your daily backup */
-  schedule?: string | null;
+  schedule?: string | null | undefined;
   /** Backup state */
-  state?: VpsBackupStateEnum;
+  state?: VpsBackupStateEnum | undefined;
 }
 export interface GetVpsBackupftpRequest {
   /** Service name */
@@ -447,21 +447,21 @@ export interface GetVpsBackupftpRequest {
 }
 /** complexType.UnitAndValue_long */
 export interface ComplexTypeUnitAndValueLong {
-  unit?: string;
-  value?: number;
+  unit?: string | undefined;
+  value?: number | undefined;
 }
 /** Backup Ftp assigned to this VPS */
 export interface VpsBackupFtp {
   /** The backup FTP server name */
-  ftpBackupName?: string;
+  ftpBackupName?: string | undefined;
   /** The disk space available on your backup FTP */
-  quota?: ComplexTypeUnitAndValueLong | null;
+  quota?: ComplexTypeUnitAndValueLong | null | undefined;
   /** If not-null, gives the date since when your account was set in read-only mode because the quota was exceeded */
-  readOnlyDate?: string | null;
+  readOnlyDate?: string | null | undefined;
   /** The backup FTP type */
-  type?: string;
+  type?: string | undefined;
   /** The disk space currently used on your backup FTP */
-  usage?: ComplexTypeUnitAndValueLong | null;
+  usage?: ComplexTypeUnitAndValueLong | null | undefined;
 }
 export interface GetVpsBackupftpAccessRequest {
   /** Service name */
@@ -472,17 +472,17 @@ export interface GetVpsBackupftpAccessRequest {
 /** Backup Ftp ACL for this server and Backup Ftp */
 export interface DedicatedServerBackupFtpAcl {
   /** Whether to allow the CIFS (SMB) protocol for this ACL */
-  cifs?: boolean;
+  cifs?: boolean | undefined;
   /** Whether to allow the FTP protocol for this ACL */
-  ftp?: boolean;
+  ftp?: boolean | undefined;
   /** The IP Block specific to this ACL */
-  ipBlock?: string;
+  ipBlock?: string | undefined;
   /** Whether the rule has been applied on the Backup Ftp */
-  isApplied?: boolean;
+  isApplied?: boolean | undefined;
   /** Date of the last object modification */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Whether to allow the NFS protocol for this ACL */
-  nfs?: boolean;
+  nfs?: boolean | undefined;
 }
 export interface GetVpsConsoleUrlRequest {
   /** Service name */
@@ -758,11 +758,11 @@ export type CoreTypesCountryEnum =
 /** Information about a datacenter of a VPS Virtual Machine */
 export interface VpsDatacenter {
   /** Datacenter ISO country code */
-  country?: CoreTypesCountryEnum;
+  country?: CoreTypesCountryEnum | undefined;
   /** Datacenter display name */
-  longName?: string;
+  longName?: string | undefined;
   /** Datacenter name */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetVpsDiskRequest {
   /** Service name */
@@ -776,17 +776,17 @@ export type VpsDiskStateEnum = "connected" | "disconnected" | "pending";
 export type VpsDiskTypeEnum = "additional" | "primary";
 /** Information about a disk of a VPS Virtual Machine */
 export interface VpsDisk {
-  bandwidthLimit?: number;
-  id?: number;
+  bandwidthLimit?: number | undefined;
+  id?: number | undefined;
   /** The low disk free space threshold in MiB */
-  lowFreeSpaceThreshold?: number | null;
+  lowFreeSpaceThreshold?: number | null | undefined;
   /** The monitoring state of this disk */
-  monitoring?: boolean | null;
+  monitoring?: boolean | null | undefined;
   /** Service name */
-  serviceName?: string | null;
-  size?: number;
-  state?: VpsDiskStateEnum;
-  type?: VpsDiskTypeEnum;
+  serviceName?: string | null | undefined;
+  size?: number | undefined;
+  state?: VpsDiskStateEnum | undefined;
+  type?: VpsDiskTypeEnum | undefined;
 }
 /** Available types for the Disk monitoring and use */
 export type VpsDiskStatisticTypeEnum = "max" | "used";
@@ -800,8 +800,8 @@ export interface GetVpsDiskUseRequest {
 }
 /** complexType.UnitAndValue_double */
 export interface ComplexTypeUnitAndValueDouble {
-  unit?: string;
-  value?: number;
+  unit?: string | undefined;
+  value?: number | undefined;
 }
 export interface GetVpsDistributionRequest {
   /** Service name */
@@ -812,12 +812,12 @@ export type VpsTemplateAvailableLanguageList = Array<string>;
 export type VpsTemplateBitFormatEnum = 32 | 64;
 /** Installation template for a VPS Virtual Machine */
 export interface VpsTemplate {
-  availableLanguage?: VpsTemplateAvailableLanguageList;
-  bitFormat?: VpsTemplateBitFormatEnum;
-  distribution?: string;
-  id?: number;
-  locale?: string;
-  name?: string;
+  availableLanguage?: VpsTemplateAvailableLanguageList | undefined;
+  bitFormat?: VpsTemplateBitFormatEnum | undefined;
+  distribution?: string | undefined;
+  id?: number | undefined;
+  locale?: string | undefined;
+  name?: string | undefined;
 }
 export interface GetVpsDistributionSoftwareRequest {
   /** Service name */
@@ -831,10 +831,10 @@ export type VpsSoftwareStatusEnum = "deprecated" | "stable" | "testing";
 export type VpsSoftwareTypeEnum = "database" | "environment" | "webserver";
 /** Available softwares on a Template */
 export interface VpsSoftware {
-  id?: number;
-  name?: string;
-  status?: VpsSoftwareStatusEnum;
-  type?: VpsSoftwareTypeEnum;
+  id?: number | undefined;
+  name?: string | undefined;
+  status?: VpsSoftwareStatusEnum | undefined;
+  type?: VpsSoftwareTypeEnum | undefined;
 }
 export interface GetVpsImageAvailableRequest {
   /** Service name */
@@ -844,8 +844,8 @@ export interface GetVpsImageAvailableRequest {
 }
 /** Installation image for a VPS */
 export interface VpsImage {
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
 }
 export interface GetVpsImageCurrentRequest {
   /** Service name */
@@ -884,14 +884,14 @@ export type VpsIpTypeEnum = "additional" | "primary";
 export type CoreTypesIpVersionEnum = "v4" | "v6";
 /** Information about an IP address for a VPS Virtual Machine */
 export interface VpsIp {
-  gateway?: string | null;
-  geolocation?: VpsIpGeolocationEnum;
+  gateway?: string | null | undefined;
+  geolocation?: VpsIpGeolocationEnum | undefined;
   /** The effective ip address of the Ip object */
-  ipAddress?: string;
-  macAddress?: string | null;
-  reverse?: string | null;
-  type?: VpsIpTypeEnum;
-  version?: CoreTypesIpVersionEnum;
+  ipAddress?: string | undefined;
+  macAddress?: string | null | undefined;
+  reverse?: string | null | undefined;
+  type?: VpsIpTypeEnum | undefined;
+  version?: CoreTypesIpVersionEnum | undefined;
 }
 /** All options a VPS can have */
 export type GetVpsOptionRequestOption =
@@ -914,9 +914,9 @@ export type VpsVpsOptionStateEnum = "released" | "subscribed";
 /** Information about the options of a VPS Virtual Machine */
 export interface VpsOption {
   /** The option name */
-  option?: VpsVpsOptionEnum;
+  option?: VpsVpsOptionEnum | undefined;
   /** The state of the option */
-  state?: VpsVpsOptionStateEnum;
+  state?: VpsVpsOptionStateEnum | undefined;
 }
 export interface GetVpsSecondaryDnsDomainRequest {
   /** Service name */
@@ -926,13 +926,13 @@ export interface GetVpsSecondaryDnsDomainRequest {
 }
 /** Secondary dns infos */
 export interface SecondaryDnsSecondaryDNS {
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** secondary dns server */
-  dns?: string;
+  dns?: string | undefined;
   /** domain on slave server */
-  domain?: string;
+  domain?: string | undefined;
   /** IPv4 address (e.g., 192.0.2.0) */
-  ipMaster?: string;
+  ipMaster?: string | undefined;
 }
 export interface GetVpsSecondaryDnsDomainDnsServerRequest {
   /** Service name */
@@ -943,10 +943,10 @@ export interface GetVpsSecondaryDnsDomainDnsServerRequest {
 /** A structure describing informations about available nameserver for secondary dns */
 export interface SecondaryDnsSecondaryDNSNameServer {
   /** the name server */
-  hostname?: string;
+  hostname?: string | undefined;
   /** IPv4 address (e.g., 192.0.2.0) */
-  ip?: string;
-  ipv6?: string | null;
+  ip?: string | undefined;
+  ipv6?: string | null | undefined;
 }
 export interface GetVpsSecondaryDnsNameServerAvailableRequest {
   /** Service name */
@@ -961,15 +961,15 @@ export type ServicesServicePossibleRenewPeriodList = Array<number>;
 /** Map a possible renew for a specific service */
 export interface ServiceRenewType {
   /** The service is automatically renewed */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** The service will be deleted at expiration */
-  deleteAtExpiration?: boolean;
+  deleteAtExpiration?: boolean | undefined;
   /** The service forced to be renewed */
-  forced?: boolean;
+  forced?: boolean | undefined;
   /** The service needs to be manually renewed and paid */
-  manualPayment?: boolean | null;
+  manualPayment?: boolean | null | undefined;
   /** period of renew in month */
-  period?: number | null;
+  period?: number | null | undefined;
 }
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -991,21 +991,21 @@ export type ServiceStateEnum =
 /** Details about a Service */
 export interface ServicesService {
   /** Indicates that the service can be set up to be deleted at expiration */
-  canDeleteAtExpiration?: boolean;
-  contactAdmin?: string;
-  contactBilling?: string;
-  contactTech?: string;
-  creation?: string;
-  domain?: string;
-  engagedUpTo?: string | null;
-  expiration?: string;
+  canDeleteAtExpiration?: boolean | undefined;
+  contactAdmin?: string | undefined;
+  contactBilling?: string | undefined;
+  contactTech?: string | undefined;
+  creation?: string | undefined;
+  domain?: string | undefined;
+  engagedUpTo?: string | null | undefined;
+  expiration?: string | undefined;
   /** All the possible renew period of your service in month */
-  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null;
+  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null | undefined;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
-  renewalType?: ServiceRenewalTypeEnum;
-  serviceId?: number;
-  status?: ServiceStateEnum;
+  renew?: ServiceRenewType | null | undefined;
+  renewalType?: ServiceRenewalTypeEnum | undefined;
+  serviceId?: number | undefined;
+  status?: ServiceStateEnum | undefined;
 }
 export interface GetVpsSnapshotRequest {
   /** Service name */
@@ -1013,10 +1013,10 @@ export interface GetVpsSnapshotRequest {
 }
 /** Information about the snapshot of a VPS Virtual Machine */
 export interface VpsSnapshot {
-  creationDate?: string;
-  description?: string;
-  id?: string;
-  region?: string | null;
+  creationDate?: string | undefined;
+  description?: string | undefined;
+  id?: string | undefined;
+  region?: string | null | undefined;
 }
 export interface GetVpsSnapshotDownloadRequest {
   /** Service name */
@@ -1025,9 +1025,9 @@ export interface GetVpsSnapshotDownloadRequest {
 /** URL to download the VPS snapshot */
 export interface VpsDownloadSnapshotURL {
   /** Snapshot size (bytes) */
-  size?: number;
+  size?: number | undefined;
   /** URL to download the snapshot */
-  url?: string;
+  url?: string | undefined;
 }
 export interface GetVpsStatusRequest {
   /** Service name */
@@ -1037,25 +1037,25 @@ export interface GetVpsStatusRequest {
 export type VpsIpServiceStatusStateEnum = "down" | "up";
 /** Port and state of a service on an IP */
 export interface VpsIpServiceStatusService {
-  port?: number;
+  port?: number | undefined;
   /** Possible states of a service (ping, port) */
-  state?: VpsIpServiceStatusStateEnum;
+  state?: VpsIpServiceStatusStateEnum | undefined;
 }
 /** Service states for an Ip */
 export interface VpsIpServiceStatus {
   /** Port and state of a service on an IP */
-  dns?: VpsIpServiceStatusService;
+  dns?: VpsIpServiceStatusService | undefined;
   /** Port and state of a service on an IP */
-  http?: VpsIpServiceStatusService;
+  http?: VpsIpServiceStatusService | undefined;
   /** Port and state of a service on an IP */
-  https?: VpsIpServiceStatusService;
+  https?: VpsIpServiceStatusService | undefined;
   /** Possible states of a service (ping, port) */
-  ping?: VpsIpServiceStatusStateEnum;
+  ping?: VpsIpServiceStatusStateEnum | undefined;
   /** Port and state of a service on an IP */
-  smtp?: VpsIpServiceStatusService;
+  smtp?: VpsIpServiceStatusService | undefined;
   /** Port and state of a service on an IP */
-  ssh?: VpsIpServiceStatusService;
-  tools?: VpsIpServiceStatusStateEnum | null;
+  ssh?: VpsIpServiceStatusService | undefined;
+  tools?: VpsIpServiceStatusStateEnum | null | undefined;
 }
 export interface GetVpsTaskRequest {
   /** Service name */
@@ -1084,7 +1084,7 @@ export interface GetVpsVeeamRequest {
 /** Informations about a VPS Veeam backups */
 export interface VpsVeeam {
   /** Backup state */
-  backup?: boolean;
+  backup?: boolean | undefined;
 }
 export interface GetVpsVeeamRestoredBackupRequest {
   /** Service name */
@@ -1093,20 +1093,20 @@ export interface GetVpsVeeamRestoredBackupRequest {
 /** A structure describing a Veeam backup's access informations */
 export interface VpsVeeamInfos {
   /** NFS URL of the backup */
-  nfs?: string;
+  nfs?: string | undefined;
   /** SMB URL of the backup */
-  smb?: string;
+  smb?: string | undefined;
 }
 /** A structure describing a Veeam restored backup's state */
 export type VpsVeeamStateEnum = "mounted" | "restoring" | "unmounted" | "unmounting";
 /** Currently restored backup */
 export interface VpsVeeamRestoredBackup {
   /** Backup access informations */
-  accessInfos?: VpsVeeamInfos;
+  accessInfos?: VpsVeeamInfos | undefined;
   /** The restore point id */
-  restorePointId?: number;
+  restorePointId?: number | undefined;
   /** The restored backup state */
-  state?: VpsVeeamStateEnum;
+  state?: VpsVeeamStateEnum | undefined;
 }
 export interface GetVpsVeeamRestorePointRequest {
   /** Service name */
@@ -1117,9 +1117,9 @@ export interface GetVpsVeeamRestorePointRequest {
 /** Informations about a VPS Veeam restore points */
 export interface VpsVeeamRestorePoint {
   /** The restore point's creation time */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** The restore point's id */
-  id?: number;
+  id?: number | undefined;
 }
 export interface GetVpsVersionRequest {
   /** Service name */
@@ -1127,7 +1127,7 @@ export interface GetVpsVersionRequest {
 }
 /** VPS billing version */
 export interface VpsVpsBillingVersion {
-  version?: number;
+  version?: number | undefined;
 }
 /** Resource tag filter */
 export interface IamResourceTagFilterInput {}
@@ -1137,7 +1137,7 @@ export type ListVpsRequestIamTagsMap = {
 };
 export interface ListVpsRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListVpsRequestIamTagsMap;
+  iamTags?: ListVpsRequestIamTagsMap | undefined;
 }
 export type ListVpsResponseBodyList = Array<string>;
 export type ListVpsResponse = ListVpsResponseBodyList;
@@ -1148,17 +1148,17 @@ export interface ListVpsAutomatedBackupAttachedBackupRequest {
 /** A structure describing a backup's access informations */
 export interface VpsAutomatedBackupAttachedInfos {
   /** Additional Disk details */
-  additionalDisk?: string | null;
+  additionalDisk?: string | null | undefined;
   /** NFS URL of the backup */
-  nfs?: string | null;
+  nfs?: string | null | undefined;
   /** SMB URL of the backup */
-  smb?: string | null;
+  smb?: string | null | undefined;
 }
 /** A backup attached to your VPS */
 export interface VpsAutomatedBackupAttached {
   /** A structure describing a backup's access informations */
-  access?: VpsAutomatedBackupAttachedInfos;
-  restorePoint?: string;
+  access?: VpsAutomatedBackupAttachedInfos | undefined;
+  restorePoint?: string | undefined;
 }
 export type ListVpsAutomatedBackupAttachedBackupResponseBodyList =
   Array<VpsAutomatedBackupAttached>;
@@ -1452,7 +1452,7 @@ export type NichandleCountryEnum =
   | "ZW";
 export interface ListVpsDatacenterRequest {
   /** Country targeted */
-  country?: NichandleCountryEnum | (string & {});
+  country?: NichandleCountryEnum | (string & {}) | undefined;
 }
 export type ListVpsDatacenterResponseBodyList = Array<string>;
 export type ListVpsDatacenterResponse = ListVpsDatacenterResponseBodyList;
@@ -1475,14 +1475,14 @@ export interface ListVpsDiskMonitoringRequest {
 }
 /** A timestamp associated to a value */
 export interface VpsVpsTimestampValue {
-  timestamp?: number;
-  value?: number | null;
+  timestamp?: number | undefined;
+  value?: number | null | undefined;
 }
 export type ComplexTypeUnitAndValuesVpsVpsTimestampValueValuesList = Array<VpsVpsTimestampValue>;
 /** complexType.UnitAndValues_vps.VpsTimestampValue */
 export interface ComplexTypeUnitAndValuesVpsVpsTimestampValue {
-  unit?: string;
-  values?: ComplexTypeUnitAndValuesVpsVpsTimestampValueValuesList;
+  unit?: string | undefined;
+  values?: ComplexTypeUnitAndValuesVpsVpsTimestampValueValuesList | undefined;
 }
 export interface ListVpsDisksRequest {
   /** Service name */
@@ -1531,37 +1531,37 @@ export type VpsMigrationDatacenterEnum =
 /** Mapping between a VPS 2016 option code and a VPS 2020 option code */
 export interface VpsMigrationOptionOptionMapping2016 {
   /** VPS option current plan code */
-  currentPlan?: string;
+  currentPlan?: string | undefined;
   /** New VPS option plan code after migration */
-  newPlan?: string;
+  newPlan?: string | undefined;
   /** VPS option product */
-  product?: string;
+  product?: string | undefined;
 }
 /** Mapping of VPS options of option from VPS 2016 to VPS 2020 */
 export type VpsMigrationOptionMapping2016OptionsList = Array<VpsMigrationOptionOptionMapping2016>;
 /** Mapping between a VPS 2016 option code and a VPS 2020 option code */
 export interface VpsMigrationOptionMapping2016 {
   /** VPS option current plan code */
-  currentPlan?: string;
+  currentPlan?: string | undefined;
   /** New VPS option plan code after migration */
-  newPlan?: string;
+  newPlan?: string | undefined;
   /** Mapping of VPS options of option from VPS 2016 to VPS 2020 */
-  options?: VpsMigrationOptionMapping2016OptionsList;
+  options?: VpsMigrationOptionMapping2016OptionsList | undefined;
   /** VPS option product */
-  product?: string;
+  product?: string | undefined;
 }
 /** Mapping of VPS options from VPS 2016 to VPS 2020 */
 export type VpsMigrationVPS2018to2020PlanOptionsList = Array<VpsMigrationOptionMapping2016>;
 /** A structure describing a migration plan from VPS 2016/2018 to VPS 2020 */
 export interface VpsMigrationVPS2018to2020Plan {
   /** VPS current plan code */
-  currentPlan?: string;
+  currentPlan?: string | undefined;
   /** New VPS plan code after migration */
-  newPlan?: string;
+  newPlan?: string | undefined;
   /** Mapping of VPS options from VPS 2016 to VPS 2020 */
-  options?: VpsMigrationVPS2018to2020PlanOptionsList;
+  options?: VpsMigrationVPS2018to2020PlanOptionsList | undefined;
   /** VPS product */
-  product?: string;
+  product?: string | undefined;
 }
 /** List of available plans to migrate */
 export type VpsMigrationVPS2018to2020PlansList = Array<VpsMigrationVPS2018to2020Plan>;
@@ -1575,13 +1575,13 @@ export type VpsMigrationStatusEnum =
 /** A structure describing a migration from VPS 2016/2018 to VPS 2020 */
 export interface VpsMigrationVPS2018to2020 {
   /** All datacenter of vps migration */
-  datacenter?: VpsMigrationDatacenterEnum;
+  datacenter?: VpsMigrationDatacenterEnum | undefined;
   /** Migration start date */
-  date?: string | null;
+  date?: string | null | undefined;
   /** List of available plans to migrate */
-  plans?: VpsMigrationVPS2018to2020PlansList;
+  plans?: VpsMigrationVPS2018to2020PlansList | undefined;
   /** All status a migration task can be in */
-  status?: VpsMigrationStatusEnum;
+  status?: VpsMigrationStatusEnum | undefined;
 }
 export interface ListVpsModelsRequest {
   /** Service name */
@@ -1615,7 +1615,7 @@ export type NichandleOvhSubsidiaryEnum =
   | "TN";
 export interface ListVpsOrderRuleDatacenterRequest {
   /** VPS OS selection in order api */
-  os?: string;
+  os?: string | undefined;
   /** Subsidiary to sort datacenters */
   ovhSubsidiary: NichandleOvhSubsidiaryEnum | (string & {});
   /** VPS plan code from order api */
@@ -1625,13 +1625,13 @@ export interface ListVpsOrderRuleDatacenterRequest {
 export type VpsOrderRuleDatacenterStatusEnum = "available" | "out-of-stock";
 /** Datacenter rules */
 export interface VpsOrderRuleDatacenter {
-  datacenter?: string;
-  status?: VpsOrderRuleDatacenterStatusEnum;
+  datacenter?: string | undefined;
+  status?: VpsOrderRuleDatacenterStatusEnum | undefined;
 }
 export type VpsOrderRuleDatacentersDatacentersList = Array<VpsOrderRuleDatacenter>;
 /** Datacenters rules */
 export interface VpsOrderRuleDatacenters {
-  datacenters?: VpsOrderRuleDatacentersDatacentersList;
+  datacenters?: VpsOrderRuleDatacentersDatacentersList | undefined;
 }
 export interface ListVpsOrderRuleOsChoicesRequest {
   /** VPS datacenter */
@@ -1643,13 +1643,13 @@ export interface ListVpsOrderRuleOsChoicesRequest {
 export type VpsOrderRuleOSChoiceStatusEnum = "available" | "checked-by-default" | "unavailable";
 /** OS choice rules */
 export interface VpsOrderRuleOSChoice {
-  name?: string;
-  status?: VpsOrderRuleOSChoiceStatusEnum;
+  name?: string | undefined;
+  status?: VpsOrderRuleOSChoiceStatusEnum | undefined;
 }
 export type VpsOrderRuleOSChoicesChoicesList = Array<VpsOrderRuleOSChoice>;
 /** OS choices rules */
 export interface VpsOrderRuleOSChoices {
-  choices?: VpsOrderRuleOSChoicesChoicesList;
+  choices?: VpsOrderRuleOSChoicesChoicesList | undefined;
 }
 export interface ListVpsSecondaryDnsDomainsRequest {
   /** Service name */
@@ -1661,9 +1661,9 @@ export interface ListVpsTasksRequest {
   /** Service name */
   serviceName: string;
   /** Filter the value of state property (=) */
-  state?: VpsTaskStateEnum | (string & {});
+  state?: VpsTaskStateEnum | (string & {}) | undefined;
   /** Filter the value of type property (=) */
-  type?: VpsTaskTypeEnum | (string & {});
+  type?: VpsTaskTypeEnum | (string & {}) | undefined;
 }
 export type ListVpsTasksResponseBodyList = Array<number>;
 export type ListVpsTasksResponse = ListVpsTasksResponseBodyList;
@@ -1685,7 +1685,7 @@ export interface ListVpsVeeamRestorePointsRequest {
   /** Service name */
   serviceName: string;
   /** Filter the value of creationTime property (like) */
-  creationTime?: string;
+  creationTime?: string | undefined;
 }
 export type ListVpsVeeamRestorePointsResponseBodyList = Array<number>;
 export type ListVpsVeeamRestorePointsResponse = ListVpsVeeamRestorePointsResponseBodyList;
@@ -1693,12 +1693,12 @@ export interface PutVpsRequest {
   /** Service name */
   serviceName: string;
   /** Set the name displayed in ManagerV6 for your VPS (max 50 chars) */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Set KVM keyboard layout on VPS Cloud. Reboot your VPS after change */
-  keymap?: VpsVpsKeymapEnum | (string & {}) | null;
+  keymap?: VpsVpsKeymapEnum | (string & {}) | null | undefined;
   /** All values a VPS netboot mode can be in */
-  netbootMode?: VpsVpsNetbootEnum | (string & {});
-  slaMonitoring?: boolean | null;
+  netbootMode?: VpsVpsNetbootEnum | (string & {}) | undefined;
+  slaMonitoring?: boolean | null | undefined;
 }
 export interface PutVpsResponse {}
 export interface PutVpsBackupftpAccessRequest {
@@ -1707,11 +1707,11 @@ export interface PutVpsBackupftpAccessRequest {
   /** Ip block */
   ipBlock: string;
   /** Whether to allow the CIFS (SMB) protocol for this ACL */
-  cifs?: boolean;
+  cifs?: boolean | undefined;
   /** Whether to allow the FTP protocol for this ACL */
-  ftp?: boolean;
+  ftp?: boolean | undefined;
   /** Whether to allow the NFS protocol for this ACL */
-  nfs?: boolean;
+  nfs?: boolean | undefined;
 }
 export interface PutVpsBackupftpAccessResponse {}
 export interface PutVpsDiskRequest {
@@ -1720,9 +1720,9 @@ export interface PutVpsDiskRequest {
   /** Id */
   id: number;
   /** The low disk free space threshold in MiB */
-  lowFreeSpaceThreshold?: number | null;
+  lowFreeSpaceThreshold?: number | null | undefined;
   /** The monitoring state of this disk */
-  monitoring?: boolean | null;
+  monitoring?: boolean | null | undefined;
 }
 export interface PutVpsDiskResponse {}
 export interface PutVpsIpsRequest {
@@ -1730,7 +1730,7 @@ export interface PutVpsIpsRequest {
   serviceName: string;
   /** Ip address */
   ipAddress: string;
-  reverse?: string | null;
+  reverse?: string | null | undefined;
 }
 export interface PutVpsIpsResponse {}
 export interface PutVpsSecondaryDnsDomainRequest {
@@ -1739,20 +1739,20 @@ export interface PutVpsSecondaryDnsDomainRequest {
   /** Domain */
   domain: string;
   /** IPv4 address (e.g., 192.0.2.0) */
-  ipMaster?: string;
+  ipMaster?: string | undefined;
 }
 export interface PutVpsSecondaryDnsDomainResponse {}
 export interface PutVpsServiceInfosRequest {
   /** Service name */
   serviceName: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutVpsServiceInfosResponse {}
 export interface PutVpsSnapshotRequest {
   /** Service name */
   serviceName: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface PutVpsSnapshotResponse {}
 export interface RebootVpsRequest {
@@ -1763,15 +1763,15 @@ export interface RebuildVpsRequest {
   /** Service name */
   serviceName: string;
   /** If asked, the installation password will NOT be sent (only if sshKey defined) */
-  doNotSendPassword?: boolean;
+  doNotSendPassword?: boolean | undefined;
   /** Id of the vps.Image fetched in /images list */
   imageId: string;
   /** If asked, RTM will be installed on your VPS */
-  installRTM?: boolean;
+  installRTM?: boolean | undefined;
   /** Public SSH key to pre-install on your VPS */
-  publicSshKey?: string;
+  publicSshKey?: string | undefined;
   /** SSH key name to pre-install on your VPS (name from /me/sshKey) */
-  sshKey?: string;
+  sshKey?: string | undefined;
 }
 /** Available restore types */
 export type VpsRestoreTypeEnum = "file" | "full";
@@ -1779,7 +1779,7 @@ export interface RestoreVpsAutomatedBackupRequest {
   /** Service name */
   serviceName: string;
   /** Only with restore full on VPS Cloud 2014 */
-  changePassword?: boolean;
+  changePassword?: boolean | undefined;
   /** Restore Point fetched in /automatedBackup/restorePoints */
   restorePoint: string;
   /** Available restore types */
@@ -1793,9 +1793,9 @@ export interface RestoreVpsVeeamRestorePointRequest {
   /** Id */
   id: number;
   /** (Full only) Change the restored VPS root password when done */
-  changePassword?: boolean;
+  changePassword?: boolean | undefined;
   /** A structure describing a Veeam backup's export options */
-  export?: VpsVeeamExportTypeEnum | (string & {});
+  export?: VpsVeeamExportTypeEnum | (string & {}) | undefined;
   /** Replace your current VPS by the restorePoint */
   full: boolean;
 }

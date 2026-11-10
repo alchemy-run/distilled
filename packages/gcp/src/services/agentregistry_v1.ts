@@ -103,7 +103,7 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -111,82 +111,82 @@ export type StringList = Array<string>;
 /** The AuthProvider of the Binding. */
 export interface AuthProviderBinding {
   /** Required. The resource name of the target AuthProvider. Format: * `projects/{project}/locations/{location}/authProviders/{auth_provider}` */
-  authProvider?: string;
+  authProvider?: string | undefined;
   /** Optional. The continue URI of the AuthProvider. The URI is used to reauthenticate the user and finalize the managed OAuth flow. */
-  continueUri?: string;
+  continueUri?: string | undefined;
   /** Optional. The list of OAuth2 scopes of the AuthProvider. */
-  scopes?: StringList;
+  scopes?: StringList | undefined;
 }
 /** The source of the Binding. */
 export interface Source {
   /** The identifier of the source Agent. Format: * `urn:agent:{publisher}:{namespace}:{name}` */
-  identifier?: string;
+  identifier?: string | undefined;
 }
 /** The target of the Binding. */
 export interface Target {
   /** The identifier of the target Agent, MCP Server, or Endpoint. Format: * `urn:agent:{publisher}:{namespace}:{name}` * `urn:mcp:{publisher}:{namespace}:{name}` * `urn:endpoint:{publisher}:{namespace}:{name}` */
-  identifier?: string;
+  identifier?: string | undefined;
 }
 /** Represents a user-defined Binding. */
 export interface Binding {
   /** Output only. Timestamp when this binding was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The binding for AuthProvider. */
-  authProviderBinding?: AuthProviderBinding;
+  authProviderBinding?: AuthProviderBinding | undefined;
   /** Required. The target Agent of the Binding. */
-  source?: Source;
+  source?: Source | undefined;
   /** Required. The target Agent Registry Resource of the Binding. */
-  target?: Target;
+  target?: Target | undefined;
   /** Required. Identifier. The resource name of the Binding. Format: `projects/{project}/locations/{location}/bindings/{binding}`. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. User-defined display name for the Binding. Can have a maximum length of `63` characters. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Optional. User-defined description of a Binding. Can have a maximum length of `2048` characters. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Timestamp when this binding was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsBindingsRequest {
   /** Required. The project and location to create the Binding in. Expected format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Required. The ID to use for the binding, which will become the final component of the binding's resource name. This value should be 4-63 characters, and must conform to RFC-1034. Specifically, it must match the regular expression `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
-  bindingId?: string;
+  bindingId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: Binding;
+  body?: Binding | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
 }
 export type AgentSpecTypeEnum = "TYPE_UNSPECIFIED" | "NO_SPEC" | "A2A_AGENT_CARD";
 /** The spec of the agent. */
 export interface AgentSpec {
   /** Optional. The content of the Agent spec in the JSON format. This payload is validated against the schema for the specified type. The content size is limited to `10KB`. */
-  content?: DocumentMap;
+  content?: DocumentMap | undefined;
   /** Required. The type of the agent spec content. */
-  type?: AgentSpecTypeEnum | (string & {});
+  type?: AgentSpecTypeEnum | (string & {}) | undefined;
 }
 export type InterfaceProtocolBindingEnum =
   | "PROTOCOL_BINDING_UNSPECIFIED"
@@ -196,65 +196,65 @@ export type InterfaceProtocolBindingEnum =
 /** Represents the connection details for an Agent or MCP Server. */
 export interface Interface {
   /** Required. The protocol binding of the interface. */
-  protocolBinding?: InterfaceProtocolBindingEnum | (string & {});
+  protocolBinding?: InterfaceProtocolBindingEnum | (string & {}) | undefined;
   /** Required. The destination URL. */
-  url?: string;
+  url?: string | undefined;
 }
 export type InterfaceList = Array<Interface>;
 export type McpServerSpecTypeEnum = "TYPE_UNSPECIFIED" | "NO_SPEC" | "TOOL_SPEC";
 /** The spec of the MCP Server. */
 export interface McpServerSpec {
   /** Optional. The content of the MCP Server spec. This payload is validated against the schema for the specified type. The content size is limited to `10KB`. */
-  content?: DocumentMap;
+  content?: DocumentMap | undefined;
   /** Required. The type of the MCP Server spec content. */
-  type?: McpServerSpecTypeEnum | (string & {});
+  type?: McpServerSpecTypeEnum | (string & {}) | undefined;
 }
 export type EndpointSpecTypeEnum = "TYPE_UNSPECIFIED" | "NO_SPEC";
 /** The spec of the endpoint. */
 export interface EndpointSpec {
   /** Required. The type of the endpoint spec content. */
-  type?: EndpointSpecTypeEnum | (string & {});
+  type?: EndpointSpecTypeEnum | (string & {}) | undefined;
   /** Optional. The content of the endpoint spec. Reserved for future use. */
-  content?: DocumentMap;
+  content?: DocumentMap | undefined;
 }
 /** Represents a user-defined Service. */
 export interface Service {
   /** Optional. The spec of the Agent. When `agent_spec` is set, the type of the service is Agent. */
-  agentSpec?: AgentSpec;
+  agentSpec?: AgentSpec | undefined;
   /** Optional. User-defined display name for the Service. Can have a maximum length of `63` characters. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Identifier. The resource name of the Service. Format: `projects/{project}/locations/{location}/services/{service}`. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Update time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. The connection details for the Service. */
-  interfaces?: InterfaceList;
+  interfaces?: InterfaceList | undefined;
   /** Optional. The spec of the MCP Server. When `mcp_server_spec` is set, the type of the service is MCP Server. */
-  mcpServerSpec?: McpServerSpec;
+  mcpServerSpec?: McpServerSpec | undefined;
   /** Output only. Create time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. The spec of the Endpoint. When `endpoint_spec` is set, the type of the service is Endpoint. */
-  endpointSpec?: EndpointSpec;
+  endpointSpec?: EndpointSpec | undefined;
   /** Output only. The resource name of the resulting Agent, MCP Server, or Endpoint. Format: * `projects/{project}/locations/{location}/mcpServers/{mcp_server}` * `projects/{project}/locations/{location}/agents/{agent}` * `projects/{project}/locations/{location}/endpoints/{endpoint}` */
-  registryResource?: string;
+  registryResource?: string | undefined;
   /** Optional. User-defined description of an Service. Can have a maximum length of `2048` characters. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateProjectsLocationsServicesRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The project and location to create the Service in. Expected format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Required. The ID to use for the service, which will become the final component of the service's resource name. This value should be 4-63 characters, and valid characters are `/a-z-/`. */
-  serviceId?: string;
+  serviceId?: string | undefined;
   /** Request body */
-  body?: Service;
+  body?: Service | undefined;
 }
 export interface DeleteProjectsLocationsBindingsRequest {
   /** Required. The name of the Binding. Format: `projects/{project}/locations/{location}/bindings/{binding}`. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -262,7 +262,7 @@ export interface DeleteProjectsLocationsOperationsRequest {
 }
 export interface DeleteProjectsLocationsServicesRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The name of the Service. Format: `projects/{project}/locations/{location}/services/{service}`. */
   name: string;
 }
@@ -270,25 +270,25 @@ export interface FetchAvailableProjectsLocationsBindingsRequest {
   /** Required. The parent, in the format `projects/{project}/locations/{location}`. */
   parent: string;
   /** Optional. The identifier of the target Agent, MCP Server, or Endpoint. Format: * `urn:agent:{publisher}:{namespace}:{name}` * `urn:mcp:{publisher}:{namespace}:{name}` * `urn:endpoint:{publisher}:{namespace}:{name}` */
-  targetIdentifier?: string;
+  targetIdentifier?: string | undefined;
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. Page size is 500 if unspecified and is capped at `500` even if a larger value is given. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The identifier of the source Agent. Format: * `urn:agent:{publisher}:{namespace}:{name}` */
-  sourceIdentifier?: string;
+  sourceIdentifier?: string | undefined;
 }
 export type BindingList = Array<Binding>;
 /** Message for response to fetching available Bindings. */
 export interface FetchAvailableBindingsResponse {
   /** The list of Bindings. */
-  bindings?: BindingList;
+  bindings?: BindingList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface GetIamPolicyProjectsLocationsAiApplicationsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
 }
@@ -300,50 +300,50 @@ export type GoogleIamV1AuditLogConfigLogTypeEnum =
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface GoogleIamV1AuditLogConfig {
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
+  exemptedMembers?: StringList | undefined;
   /** The log type that this config enables. */
-  logType?: GoogleIamV1AuditLogConfigLogTypeEnum | (string & {});
+  logType?: GoogleIamV1AuditLogConfigLogTypeEnum | (string & {}) | undefined;
 }
 export type GoogleIamV1AuditLogConfigList = Array<GoogleIamV1AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface GoogleIamV1AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string;
+  service?: string | undefined;
   /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: GoogleIamV1AuditLogConfigList;
+  auditLogConfigs?: GoogleIamV1AuditLogConfigList | undefined;
 }
 export type GoogleIamV1AuditConfigList = Array<GoogleIamV1AuditConfig>;
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
   /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
+  expression?: string | undefined;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
+  location?: string | undefined;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
+  title?: string | undefined;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface GoogleIamV1Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
+  role?: string | undefined;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
+  members?: StringList | undefined;
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
+  condition?: Expr | undefined;
 }
 export type GoogleIamV1BindingList = Array<GoogleIamV1Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface GoogleIamV1Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
+  version?: number | undefined;
   /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: GoogleIamV1AuditConfigList;
+  auditConfigs?: GoogleIamV1AuditConfigList | undefined;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: GoogleIamV1BindingList;
+  bindings?: GoogleIamV1BindingList | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -353,15 +353,15 @@ export type StringMap = { [key: string]: string | undefined };
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
 }
 export interface GetProjectsLocationsAgentsRequest {
   /** Required. Name of the resource */
@@ -372,63 +372,63 @@ export type ProtocolTypeEnum = "TYPE_UNSPECIFIED" | "A2A_AGENT" | "CUSTOM";
 /** Represents the protocol of an Agent. */
 export interface Protocol {
   /** Output only. The connection details for the Agent. */
-  interfaces?: InterfaceList;
+  interfaces?: InterfaceList | undefined;
   /** Output only. The version of the protocol, for example, the A2A Agent Card version. */
-  protocolVersion?: string;
+  protocolVersion?: string | undefined;
   /** Output only. The type of the protocol. */
-  type?: ProtocolTypeEnum;
+  type?: ProtocolTypeEnum | undefined;
 }
 export type ProtocolList = Array<Protocol>;
 export type CardTypeEnum = "TYPE_UNSPECIFIED" | "A2A_AGENT_CARD";
 /** Full Agent Card payload, often obtained from the A2A Agent Card. */
 export interface Card {
   /** Output only. The content of the agent card. */
-  content?: DocumentMap;
+  content?: DocumentMap | undefined;
   /** Output only. The type of agent card. */
-  type?: CardTypeEnum;
+  type?: CardTypeEnum | undefined;
 }
 /** Represents the skills of an Agent. */
 export interface A2ASkill {
   /** Output only. Keywords describing the skill. */
-  tags?: StringList;
+  tags?: StringList | undefined;
   /** Output only. A more detailed description of the skill. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. A human-readable name for the agent's skill. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Example prompts or scenarios this skill can handle. */
-  examples?: StringList;
+  examples?: StringList | undefined;
   /** Output only. A unique identifier for the agent's skill. */
-  id?: string;
+  id?: string | undefined;
 }
 export type A2ASkillList = Array<A2ASkill>;
 /** Represents an Agent. "A2A" below refers to the Agent-to-Agent protocol. */
 export interface Agent {
   /** Output only. A universally unique identifier for the Agent. */
-  uid?: string;
+  uid?: string | undefined;
   /** Output only. Attributes of the Agent. Valid values: * `agentregistry.googleapis.com/system/Framework`: {"framework": "google-adk"} - the agent framework used to develop the Agent. Example values: "google-adk", "langchain", "custom". * `agentregistry.googleapis.com/system/RuntimeIdentity`: {"principal": "principal://..."} - the runtime identity associated with the Agent. * `agentregistry.googleapis.com/system/RuntimeReference`: {"uri": "//..."} - the URI of the underlying resource hosting the Agent, for example, the Reasoning Engine URI. */
-  attributes?: DocumentMapMap;
+  attributes?: DocumentMapMap | undefined;
   /** Output only. The version of the Agent, often obtained from the A2A Agent Card. Empty if Agent Card has no version or agent is not an A2A Agent. */
-  version?: string;
+  version?: string | undefined;
   /** Output only. The location where agent is hosted. The value is defined by the hosting environment (i.e. cloud provider). */
-  location?: string;
+  location?: string | undefined;
   /** Output only. Create time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The display name of the agent, often obtained from the A2A Agent Card. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Update time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The connection details for the Agent. */
-  protocols?: ProtocolList;
+  protocols?: ProtocolList | undefined;
   /** Identifier. The resource name of an Agent. Format: `projects/{project}/locations/{location}/agents/{agent}`. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The description of the Agent, often obtained from the A2A Agent Card. Empty if Agent Card has no description. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Full Agent Card payload, when available. */
-  card?: Card;
+  card?: Card | undefined;
   /** Output only. Skills the agent possesses, often obtained from the A2A Agent Card. */
-  skills?: A2ASkillList;
+  skills?: A2ASkillList | undefined;
   /** Output only. A stable, globally unique identifier for agents. */
-  agentId?: string;
+  agentId?: string | undefined;
 }
 export interface GetProjectsLocationsBindingsRequest {
   /** Required. The name of the Binding. Format: `projects/{project}/locations/{location}/bindings/{binding}`. */
@@ -441,21 +441,21 @@ export interface GetProjectsLocationsEndpointsRequest {
 /** Represents an Endpoint. */
 export interface Endpoint {
   /** Output only. Display name for the Endpoint. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Description of an Endpoint. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Create time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Attributes of the Endpoint. Valid values: * `agentregistry.googleapis.com/system/RuntimeReference`: {"uri": "//..."} - the URI of the underlying resource hosting the Endpoint, for example, the GKE Deployment. */
-  attributes?: DocumentMapMap;
+  attributes?: DocumentMapMap | undefined;
   /** Required. The connection details for the Endpoint. */
-  interfaces?: InterfaceList;
+  interfaces?: InterfaceList | undefined;
   /** Identifier. The resource name of the Endpoint. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}`. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. A stable, globally unique identifier for Endpoint. */
-  endpointId?: string;
+  endpointId?: string | undefined;
   /** Output only. Update time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 export interface GetProjectsLocationsMcpServersRequest {
   /** Required. Name of the resource */
@@ -464,46 +464,46 @@ export interface GetProjectsLocationsMcpServersRequest {
 /** Annotations describing the characteristics and behavior of a tool or operation. */
 export interface Annotations {
   /** Output only. If true, the tool does not modify its environment. Default: false */
-  readOnlyHint?: boolean;
+  readOnlyHint?: boolean | undefined;
   /** Output only. A human-readable title for the tool. */
-  title?: string;
+  title?: string | undefined;
   /** Output only. If true, the tool may perform destructive updates to its environment. If false, the tool performs only additive updates. NOTE: This property is meaningful only when `read_only_hint == false` Default: true */
-  destructiveHint?: boolean;
+  destructiveHint?: boolean | undefined;
   /** Output only. If true, this tool may interact with an "open world" of external entities. If false, the tool's domain of interaction is closed. For example, the world of a web search tool is open, whereas that of a memory tool is not. Default: true */
-  openWorldHint?: boolean;
+  openWorldHint?: boolean | undefined;
   /** Output only. If true, calling the tool repeatedly with the same arguments will have no additional effect on its environment. NOTE: This property is meaningful only when `read_only_hint == false` Default: false */
-  idempotentHint?: boolean;
+  idempotentHint?: boolean | undefined;
 }
 /** Represents a single tool provided by an MCP Server. */
 export interface Tool {
   /** Output only. Human-readable name of the tool. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Description of what the tool does. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Annotations associated with the tool. */
-  annotations?: Annotations;
+  annotations?: Annotations | undefined;
 }
 export type ToolList = Array<Tool>;
 /** Represents an MCP (Model Context Protocol) Server. */
 export interface McpServer {
   /** Output only. Create time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Identifier. The resource name of the MCP Server. Format: `projects/{project}/locations/{location}/mcpServers/{mcp_server}`. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. A stable, globally unique identifier for MCP Servers. */
-  mcpServerId?: string;
+  mcpServerId?: string | undefined;
   /** Output only. The display name of the MCP Server. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The connection details for the MCP Server. */
-  interfaces?: InterfaceList;
+  interfaces?: InterfaceList | undefined;
   /** Output only. Update time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. Attributes of the MCP Server. Valid values: * `agentregistry.googleapis.com/system/RuntimeIdentity`: {"principal": "principal://..."} - the runtime identity associated with the MCP Server. * `agentregistry.googleapis.com/system/RuntimeReference`: {"uri": "//..."} - the URI of the underlying resource hosting the MCP Server, for example, the GKE Deployment. */
-  attributes?: DocumentMapMap;
+  attributes?: DocumentMapMap | undefined;
   /** Output only. The description of the MCP Server. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Tools provided by the MCP Server. */
-  tools?: ToolList;
+  tools?: ToolList | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -515,13 +515,13 @@ export interface GetProjectsLocationsServicesRequest {
 }
 export interface ListProjectsLocationsRequest {
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
 }
@@ -529,76 +529,76 @@ export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsAgentsRequest {
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Parent value for ListAgentsRequest */
   parent: string;
   /** Optional. Filtering results */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Hint for how to order the results */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type AgentList = Array<Agent>;
 /** Message for response to listing Agents */
 export interface ListAgentsResponse {
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of Agents. */
-  agents?: AgentList;
+  agents?: AgentList | undefined;
 }
 export interface ListProjectsLocationsBindingsRequest {
   /** Required. The project and location to list bindings in. Expected format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Hint for how to order the results */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. A query string used to filter the list of bindings returned. The filter expression must follow AIP-160 syntax. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. Page size is 500 if unspecified and is capped at `500` even if a larger value is given. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** Message for response to listing Bindings */
 export interface ListBindingsResponse {
   /** A token identifying a page of results the server should return. Used in page_token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of Binding resources matching the parent and filter criteria in the request. Each Binding resource follows the format: `projects/{project}/locations/{location}/bindings/{binding}`. */
-  bindings?: BindingList;
+  bindings?: BindingList | undefined;
 }
 export interface ListProjectsLocationsEndpointsRequest {
   /** Required. The project and location to list endpoints in. Expected format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. A query string used to filter the list of endpoints returned. The filter expression must follow AIP-160 syntax. Filtering is supported on the `name`, `display_name`, `description`, `version`, and `interfaces` fields. Some examples: * `name = "projects/p1/locations/l1/endpoints/e1"` * `display_name = "my-endpoint"` * `description = "my-endpoint-description"` * `version = "v1"` * `interfaces.transport = "HTTP_JSON"` */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type EndpointList = Array<Endpoint>;
 /** Message for response to listing Endpoints */
 export interface ListEndpointsResponse {
   /** The list of Endpoint resources matching the parent and filter criteria in the request. Each Endpoint resource follows the format: `projects/{project}/locations/{location}/endpoints/{endpoint}`. */
-  endpoints?: EndpointList;
+  endpoints?: EndpointList | undefined;
   /** A token identifying a page of results the server should return. Used in page_token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsMcpServersRequest {
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Hint for how to order the results */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Filtering results */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Parent value for ListMcpServersRequest. Format: `projects/{project}/locations/{location}`. */
   parent: string;
 }
@@ -606,142 +606,142 @@ export type McpServerList = Array<McpServer>;
 /** Message for response to listing McpServers */
 export interface ListMcpServersResponse {
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of McpServers. */
-  mcpServers?: McpServerList;
+  mcpServers?: McpServerList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsServicesRequest {
   /** Required. The project and location to list services in. Expected format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A query string used to filter the list of services returned. The filter expression must follow AIP-160 syntax. Filtering is supported on the `name`, `display_name`, `description`, and `labels` fields. Some examples: * `name = "projects/p1/locations/l1/services/s1"` * `display_name = "my-service"` * `description : "myservice description"` * `labels.env = "prod"` */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type ServiceList = Array<Service>;
 /** Message for response to listing Services */
 export interface ListServicesResponse {
   /** The list of Service resources matching the parent and filter criteria in the request. Each Service resource follows the format: `projects/{project}/locations/{location}/services/{service}`. */
-  services?: ServiceList;
+  services?: ServiceList | undefined;
   /** A token identifying a page of results the server should return. Used in page_token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface PatchProjectsLocationsBindingsRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Binding resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Identifier. The resource name of the Binding. Format: `projects/{project}/locations/{location}/bindings/{binding}`. */
   name: string;
   /** Request body */
-  body?: Binding;
+  body?: Binding | undefined;
 }
 export interface PatchProjectsLocationsServicesRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Service resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Identifier. The resource name of the Service. Format: `projects/{project}/locations/{location}/services/{service}`. */
   name: string;
   /** Request body */
-  body?: Service;
+  body?: Service | undefined;
 }
 /** Message for searching Agents */
 export interface SearchAgentsRequest {
   /** Optional. Search criteria used to select the Agents to return. If no search criteria is specified then all accessible Agents will be returned. Search expressions can be used to restrict results based upon searchable fields, where the operators can be used along with the suffix wildcard symbol `*`. See [instructions](https://docs.cloud.google.com/agent-registry/search-agents-and-tools) for more details. Allowed operators: `=`, `:`, `NOT`, `AND`, `OR`, and `()`. Searchable fields: | Field | `=` | `:` | `*` | Keyword Search | |--------------------|-----|-----|-----|----------------| | agentId | Yes | Yes | Yes | Included | | name | No | Yes | Yes | Included | | displayName | No | Yes | Yes | Included | | description | No | Yes | No | Included | | skills | No | Yes | No | Included | | skills.id | No | Yes | No | Included | | skills.name | No | Yes | No | Included | | skills.description | No | Yes | No | Included | | skills.tags | No | Yes | No | Included | | skills.examples | No | Yes | No | Included | Examples: * `agentId="urn:agent:projects-123:projects:123:locations:us-central1:reasoningEngines:1234"` to find the agent with the specified agent ID. * `name:important` to find agents whose name contains `important` as a word. * `displayName:works*` to find agents whose display name contains words that start with `works`. * `skills.tags:test` to find agents whose skills tags contain `test`. * `planner OR booking` to find agents whose metadata contains the words `planner` or `booking`. */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Optional. The maximum number of search results to return per page. The page size is capped at `100`, even if a larger value is specified. A negative value will result in an `INVALID_ARGUMENT` error. If unspecified or set to `0`, a default value of `20` will be used. The server may return fewer results than requested. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. If present, retrieve the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of all other method parameters, must be identical to those in the previous call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface SearchProjectsLocationsAgentsRequest {
   /** Required. Parent value for SearchAgentsRequest. Format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Request body */
-  body?: SearchAgentsRequest;
+  body?: SearchAgentsRequest | undefined;
 }
 /** Message for response to searching Agents */
 export interface SearchAgentsResponse {
   /** A list of Agents that match the `search_string`. */
-  agents?: AgentList;
+  agents?: AgentList | undefined;
   /** If there are more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 /** Message for searching MCP Servers */
 export interface SearchMcpServersRequest {
   /** Optional. If present, retrieve the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of all other method parameters, must be identical to those in the previous call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of search results to return per page. The page size is capped at `100`, even if a larger value is specified. A negative value will result in an `INVALID_ARGUMENT` error. If unspecified or set to `0`, a default value of `20` will be used. The server may return fewer results than requested. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Search criteria used to select the MCP Servers to return. If no search criteria is specified then all accessible MCP Servers will be returned. Search expressions can be used to restrict results based upon searchable fields, where the operators can be used along with the suffix wildcard symbol `*`. See [instructions](https://docs.cloud.google.com/agent-registry/search-agents-and-tools) for more details. Allowed operators: `=`, `:`, `NOT`, `AND`, `OR`, and `()`. Searchable fields: | Field | `=` | `:` | `*` | Keyword Search | |--------------------|-----|-----|-----|----------------| | mcpServerId | Yes | Yes | Yes | Included | | name | No | Yes | Yes | Included | | displayName | No | Yes | Yes | Included | Examples: * `mcpServerId="urn:mcp:projects-123:projects:123:locations:us-central1:agentregistry:services:service-id"` to find the MCP Server with the specified MCP Server ID. * `name:important` to find MCP Servers whose name contains `important` as a word. * `displayName:works*` to find MCP Servers whose display name contains words that start with `works`. * `planner OR booking` to find MCP Servers whose metadata contains the words `planner` or `booking`. * `mcpServerId:service-id AND (displayName:planner OR displayName:booking)` to find MCP Servers whose MCP Server ID contains `service-id` and whose display name contains `planner` or `booking`. */
-  searchString?: string;
+  searchString?: string | undefined;
 }
 export interface SearchProjectsLocationsMcpServersRequest {
   /** Required. Parent value for SearchMcpServersRequest. Format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Request body */
-  body?: SearchMcpServersRequest;
+  body?: SearchMcpServersRequest | undefined;
 }
 /** Message for response to searching MCP Servers */
 export interface SearchMcpServersResponse {
   /** A list of McpServers that match the `search_string`. */
-  mcpServers?: McpServerList;
+  mcpServers?: McpServerList | undefined;
   /** If there are more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: GoogleIamV1Policy;
+  policy?: GoogleIamV1Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string;
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsAiApplicationsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest;
+  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface GoogleIamV1TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsAiApplicationsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest;
+  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface GoogleIamV1TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound

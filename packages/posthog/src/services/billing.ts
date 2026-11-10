@@ -65,22 +65,22 @@ export interface BillingGetInvoicesRetrieveRequest {}
 export interface BillingGetInvoicesRetrieveResponse {}
 export interface BillingSpendExportRetrieveRequest {
   /** The `next` cursor from the previous page. Opaque. Ignored without page_size. */
-  after?: string;
+  after?: string | undefined;
   /** JSON-encoded array of breakdown dimensions. Valid values are "type" and "team", for example ["type","team"]. Omit for a single aggregate series. */
-  breakdowns?: string;
+  breakdowns?: string | undefined;
   /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
-  end_date?: string;
-  interval?: string;
+  end_date?: string | undefined;
+  interval?: string | undefined;
   /** Return at most this many series, ranked by total, with a `next` cursor for the page after. A caller that pages never approaches the size this endpoint refuses oversized breakdowns at. Requires a project breakdown. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token. */
-  team_ids?: string;
+  team_ids?: string | undefined;
   /** With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project. */
-  top_projects?: number;
+  top_projects?: number | undefined;
   /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
-  usage_types?: string;
+  usage_types?: string | undefined;
 }
 export interface BillingSpendExportRetrieveResponse {}
 export interface BillingStartupsApplyCreateRequest {
@@ -100,22 +100,22 @@ export interface BillingTrialsCancelCreateRequest {
 export interface BillingTrialsCancelCreateResponse {}
 export interface BillingUsageExportRetrieveRequest {
   /** The `next` cursor from the previous page. Opaque. Ignored without page_size. */
-  after?: string;
+  after?: string | undefined;
   /** JSON-encoded array of breakdown dimensions. Valid values are "type" and "team", for example ["type","team"]. Omit for a single aggregate series. */
-  breakdowns?: string;
+  breakdowns?: string | undefined;
   /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
-  end_date?: string;
-  interval?: string;
+  end_date?: string | undefined;
+  interval?: string | undefined;
   /** Return at most this many series, ranked by total, with a `next` cursor for the page after. A caller that pages never approaches the size this endpoint refuses oversized breakdowns at. Requires a project breakdown. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token. */
-  team_ids?: string;
+  team_ids?: string | undefined;
   /** With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project. */
-  top_projects?: number;
+  top_projects?: number | undefined;
   /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
-  usage_types?: string;
+  usage_types?: string | undefined;
 }
 export interface BillingUsageExportRetrieveResponse {}
 /** * `spend` - Spend * `projected_spend` - Projected spend */
@@ -134,18 +134,18 @@ export interface BillingAlertDestinationCreateData {
   /** Destination type. * `slack` - slack * `webhook` - webhook * `teams` - teams */
   type: NotificationDestinationTypeEnum | (string & {});
   /** Slack integration ID in the alert execution project. */
-  slack_workspace_id?: number;
+  slack_workspace_id?: number | undefined;
   /** Slack channel ID for alert delivery. */
-  slack_channel_id?: string;
+  slack_channel_id?: string | undefined;
   /** Optional Slack channel name shown in the UI. */
-  slack_channel_name?: string;
+  slack_channel_name?: string | undefined;
   /** HTTPS webhook URL for webhook or Microsoft Teams delivery. */
-  webhook_url?: string;
+  webhook_url?: string | undefined;
 }
 export type BillingAlertDestinationChangesCreateList = Array<BillingAlertDestinationCreateData>;
 export interface BillingAlertDestinationChanges {
-  delete?: BillingAlertDestinationChangesDeleteList;
-  create?: BillingAlertDestinationChangesCreateList;
+  delete?: BillingAlertDestinationChangesDeleteList | undefined;
+  create?: BillingAlertDestinationChangesCreateList | undefined;
 }
 export interface CreateBillingAlertRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -153,29 +153,29 @@ export interface CreateBillingAlertRequest {
   /** Display name for this billing alert. */
   name: string;
   /** Optional internal description. */
-  description?: string;
+  description?: string | undefined;
   /** Whether scheduled checks should evaluate this alert. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Billing-period total to evaluate: current spend so far, or projected period-end spend. * `spend` - Spend * `projected_spend` - Projected spend */
-  metric?: BillingAlertConfigurationMetricEnum | (string & {});
+  metric?: BillingAlertConfigurationMetricEnum | (string & {}) | undefined;
   /** Threshold rule type. The first version supports absolute value only. * `relative_increase` - Relative increase * `absolute_value` - Absolute value * `absolute_increase` - Absolute increase */
-  threshold_type?: BillingAlertConfigurationThresholdTypeEnum | (string & {});
+  threshold_type?: BillingAlertConfigurationThresholdTypeEnum | (string & {}) | undefined;
   /** Reserved for future increase-over-baseline rules. Not used by absolute value alerts. */
-  threshold_percentage?: string | null;
+  threshold_percentage?: string | null | undefined;
   /** Absolute value or absolute increase that triggers absolute threshold alerts. */
-  threshold_value?: string | null;
+  threshold_value?: string | null | undefined;
   /** Minimum current value before the alert can fire. */
-  minimum_value?: string;
+  minimum_value?: string | undefined;
   /** Reserved for future increase-over-baseline rules. Not used by absolute value alerts. */
-  baseline_window_days?: number;
+  baseline_window_days?: number | undefined;
   /** Hours after a UTC billing date ends before it becomes eligible for evaluation. */
-  evaluation_delay_hours?: number;
+  evaluation_delay_hours?: number | undefined;
   /** Minimum hours between repeated firing notifications. */
-  cooldown_hours?: number;
+  cooldown_hours?: number | undefined;
   /** ISO 8601 timestamp until which evaluation and notifications are snoozed, or null to resume. */
-  snoozed_until?: string | null;
+  snoozed_until?: string | null | undefined;
   /** Destination groups to create or delete in the same transaction as this configuration write. */
-  destination_changes?: BillingAlertDestinationChanges;
+  destination_changes?: BillingAlertDestinationChanges | undefined;
 }
 /** * `USD` - USD */
 export type CurrencyEnum = "USD";
@@ -207,33 +207,33 @@ export interface BillingAlertConfigurationOutput {
   /** Display name for this billing alert. */
   name: string;
   /** Optional internal description. */
-  description?: string;
+  description?: string | undefined;
   /** Whether scheduled checks should evaluate this alert. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Billing-period total to evaluate: current spend so far, or projected period-end spend. * `spend` - Spend * `projected_spend` - Projected spend */
-  metric?: BillingAlertConfigurationMetricEnum;
+  metric?: BillingAlertConfigurationMetricEnum | undefined;
   /** Server-controlled currency for spend values. * `USD` - USD */
   currency: CurrencyEnum;
   /** Revision incremented whenever evaluation behavior changes. */
   configuration_revision: number;
   /** Threshold rule type. The first version supports absolute value only. * `relative_increase` - Relative increase * `absolute_value` - Absolute value * `absolute_increase` - Absolute increase */
-  threshold_type?: BillingAlertConfigurationThresholdTypeEnum;
+  threshold_type?: BillingAlertConfigurationThresholdTypeEnum | undefined;
   /** Reserved for future increase-over-baseline rules. Not used by absolute value alerts. */
-  threshold_percentage?: string | null;
+  threshold_percentage?: string | null | undefined;
   /** Absolute value or absolute increase that triggers absolute threshold alerts. */
-  threshold_value?: string | null;
+  threshold_value?: string | null | undefined;
   /** Minimum current value before the alert can fire. */
-  minimum_value?: string;
+  minimum_value?: string | undefined;
   /** Reserved for future increase-over-baseline rules. Not used by absolute value alerts. */
-  baseline_window_days?: number;
+  baseline_window_days?: number | undefined;
   /** Hours after a UTC billing date ends before it becomes eligible for evaluation. */
-  evaluation_delay_hours?: number;
+  evaluation_delay_hours?: number | undefined;
   /** Current lifecycle state of this alert. * `not_firing` - Not firing * `firing` - Firing * `errored` - Errored * `snoozed` - Snoozed * `broken` - Broken */
   state: BillingAlertConfigurationStateEnum;
   /** Minimum hours between repeated firing notifications. */
-  cooldown_hours?: number;
+  cooldown_hours?: number | undefined;
   /** ISO 8601 timestamp until which evaluation and notifications are snoozed, or null to resume. */
-  snoozed_until?: string | null;
+  snoozed_until?: string | null | undefined;
   /** When the next scheduled evaluation is due. */
   next_check_at: string | null;
   /** When this alert was last evaluated. */
@@ -314,7 +314,7 @@ export interface BillingAlertEvent {
 }
 export interface BillingAlertCheckNowResponse {
   /** Evaluation event recorded by the manual check, or null for a paused preview. */
-  event?: BillingAlertEvent | null;
+  event?: BillingAlertEvent | null | undefined;
   /** Number of destination HogFunctions queued. */
   dispatched_destinations: number;
   /** True when the alert is paused: it was evaluated but no notifications were sent. */
@@ -322,7 +322,7 @@ export interface BillingAlertCheckNowResponse {
   /** Whether the evaluated billing-period total breached the configured threshold. */
   threshold_breached: boolean;
   /** Evaluated billing-period total, or null when billing data was not available. */
-  current_value?: string | null;
+  current_value?: string | null | undefined;
 }
 export interface CreateBillingAlertsDestinationRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -332,13 +332,13 @@ export interface CreateBillingAlertsDestinationRequest {
   /** Destination type. * `slack` - slack * `webhook` - webhook * `teams` - teams */
   type: NotificationDestinationTypeEnum | (string & {});
   /** Slack integration ID in the alert execution project. */
-  slack_workspace_id?: number;
+  slack_workspace_id?: number | undefined;
   /** Slack channel ID for alert delivery. */
-  slack_channel_id?: string;
+  slack_channel_id?: string | undefined;
   /** Optional Slack channel name shown in the UI. */
-  slack_channel_name?: string;
+  slack_channel_name?: string | undefined;
   /** HTTPS webhook URL for webhook or Microsoft Teams delivery. */
-  webhook_url?: string;
+  webhook_url?: string | undefined;
 }
 export type BillingAlertDestinationResponseHogFunctionIdsList = Array<string>;
 export interface BillingAlertDestinationResponse {
@@ -380,64 +380,64 @@ export interface GetBillingPortalRequest {}
 export interface GetBillingPortalResponse {}
 export interface GetBillingSpendRequest {
   /** The `next` cursor from the previous page. Opaque. Ignored without page_size. */
-  after?: string;
+  after?: string | undefined;
   /** JSON-encoded array of breakdown dimensions. Valid values are "type" and "team", for example ["type","team"]. Omit for a single aggregate series. */
-  breakdowns?: string;
+  breakdowns?: string | undefined;
   /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
-  end_date?: string;
-  interval?: string;
+  end_date?: string | undefined;
+  interval?: string | undefined;
   /** Return at most this many series, ranked by total, with a `next` cursor for the page after. A caller that pages never approaches the size this endpoint refuses oversized breakdowns at. Requires a project breakdown. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token. */
-  team_ids?: string;
+  team_ids?: string | undefined;
   /** With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project. */
-  top_projects?: number;
+  top_projects?: number | undefined;
   /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
-  usage_types?: string;
+  usage_types?: string | undefined;
 }
 export type BillingTimeSeriesPointDataList = Array<number>;
 export type BillingTimeSeriesPointDatesList = Array<string>;
 /** * `type` - type * `team` - team * `multiple` - multiple */
 export type BreakdownTypeEnum = "type" | "team" | "multiple";
 export interface BillingTimeSeriesPoint {
-  id?: number;
-  label?: string;
-  data?: BillingTimeSeriesPointDataList;
-  dates?: BillingTimeSeriesPointDatesList;
-  breakdown_type?: BreakdownTypeEnum | null;
-  breakdown_value?: unknown;
+  id?: number | undefined;
+  label?: string | undefined;
+  data?: BillingTimeSeriesPointDataList | undefined;
+  dates?: BillingTimeSeriesPointDatesList | undefined;
+  breakdown_type?: BreakdownTypeEnum | null | undefined;
+  breakdown_value?: unknown | undefined;
 }
 export type BillingTimeSeriesResponseResultsList = Array<BillingTimeSeriesPoint>;
 export type BillingTimeSeriesResponseTeamIdOptionsList = Array<number>;
 export interface BillingTimeSeriesResponse {
-  status?: string;
-  type?: string;
-  customer_id?: number;
+  status?: string | undefined;
+  type?: string | undefined;
+  customer_id?: number | undefined;
   results: BillingTimeSeriesResponseResultsList;
-  team_id_options?: BillingTimeSeriesResponseTeamIdOptionsList;
-  next?: string;
-  total_count?: number;
+  team_id_options?: BillingTimeSeriesResponseTeamIdOptionsList | undefined;
+  next?: string | undefined;
+  total_count?: number | undefined;
 }
 export interface GetBillingUsageRequest {
   /** The `next` cursor from the previous page. Opaque. Ignored without page_size. */
-  after?: string;
+  after?: string | undefined;
   /** JSON-encoded array of breakdown dimensions. Valid values are "type" and "team", for example ["type","team"]. Omit for a single aggregate series. */
-  breakdowns?: string;
+  breakdowns?: string | undefined;
   /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
-  end_date?: string;
-  interval?: string;
+  end_date?: string | undefined;
+  interval?: string | undefined;
   /** Return at most this many series, ranked by total, with a `next` cursor for the page after. A caller that pages never approaches the size this endpoint refuses oversized breakdowns at. Requires a project breakdown. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token. */
-  team_ids?: string;
+  team_ids?: string | undefined;
   /** With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project. */
-  top_projects?: number;
+  top_projects?: number | undefined;
   /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
-  usage_types?: string;
+  usage_types?: string | undefined;
 }
 export interface GetBillingUsageTeamOptionRequest {}
 /** Project ids that appear in the organization's usage reports. */
@@ -456,38 +456,38 @@ export interface BillingManagedByPartner {
   partner_name: string;
 }
 export interface BillingOverviewResponse {
-  customer_id?: string | null;
-  billing_plan?: string | null;
-  subscription_level?: string | null;
-  has_active_subscription?: boolean;
-  deactivated?: boolean;
-  is_annual_plan_customer?: boolean;
-  free_trial_until?: string | null;
-  current_total_amount_usd?: string | null;
-  current_total_amount_usd_after_discount?: string | null;
-  projected_total_amount_usd?: string | null;
-  projected_total_amount_usd_after_discount?: string | null;
-  projected_total_amount_usd_with_limit?: string | null;
-  projected_total_amount_usd_with_limit_after_discount?: string | null;
-  discount_amount_usd?: string | null;
-  discount_percent?: number | null;
-  amount_off_expires_at?: string | null;
-  startup_program_label?: string | null;
-  startup_program_label_previous?: string | null;
-  stripe_portal_url?: string;
-  external_billing_provider_invoices_url?: string;
+  customer_id?: string | null | undefined;
+  billing_plan?: string | null | undefined;
+  subscription_level?: string | null | undefined;
+  has_active_subscription?: boolean | undefined;
+  deactivated?: boolean | undefined;
+  is_annual_plan_customer?: boolean | undefined;
+  free_trial_until?: string | null | undefined;
+  current_total_amount_usd?: string | null | undefined;
+  current_total_amount_usd_after_discount?: string | null | undefined;
+  projected_total_amount_usd?: string | null | undefined;
+  projected_total_amount_usd_after_discount?: string | null | undefined;
+  projected_total_amount_usd_with_limit?: string | null | undefined;
+  projected_total_amount_usd_with_limit_after_discount?: string | null | undefined;
+  discount_amount_usd?: string | null | undefined;
+  discount_percent?: number | null | undefined;
+  amount_off_expires_at?: string | null | undefined;
+  startup_program_label?: string | null | undefined;
+  startup_program_label_previous?: string | null | undefined;
+  stripe_portal_url?: string | undefined;
+  external_billing_provider_invoices_url?: string | undefined;
   /** Subscribed and available products/addons with pricing, plan, limit, usage, and entitlement metadata. */
-  products?: BillingOverviewResponseProductsList;
-  available_product_features?: BillingOverviewResponseAvailableProductFeaturesList;
-  usage_summary?: unknown;
-  billing_period?: unknown;
-  custom_limits_usd?: unknown;
-  next_period_custom_limits_usd?: unknown;
-  trial?: unknown;
-  license?: unknown;
-  account_owner?: unknown;
-  customer_trust_scores?: unknown;
-  never_drop_data?: boolean;
+  products?: BillingOverviewResponseProductsList | undefined;
+  available_product_features?: BillingOverviewResponseAvailableProductFeaturesList | undefined;
+  usage_summary?: unknown | undefined;
+  billing_period?: unknown | undefined;
+  custom_limits_usd?: unknown | undefined;
+  next_period_custom_limits_usd?: unknown | undefined;
+  trial?: unknown | undefined;
+  license?: unknown | undefined;
+  account_owner?: unknown | undefined;
+  customer_trust_scores?: unknown | undefined;
+  never_drop_data?: boolean | undefined;
   /** Set when a provisioning partner pays for this organization and the organization has no Stripe customer of its own. Self-serve subscription and payment changes are refused while it is set. Null otherwise. */
   billing_managed_by_partner: BillingManagedByPartner | null;
 }
@@ -495,16 +495,16 @@ export interface ListBillingAlertsRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedBillingAlertConfigurationListOutputResultsList =
   Array<BillingAlertConfigurationOutput>;
 export interface PaginatedBillingAlertConfigurationListOutput {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedBillingAlertConfigurationListOutputResultsList;
 }
 export interface ListBillingAlertsEventsRequest {
@@ -513,15 +513,15 @@ export interface ListBillingAlertsEventsRequest {
   /** A UUID string identifying this billing alert configuration. */
   id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedBillingAlertEventListResultsList = Array<BillingAlertEvent>;
 export interface PaginatedBillingAlertEventList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedBillingAlertEventListResultsList;
 }
 export interface UpdateBillingAlertRequest {
@@ -532,29 +532,29 @@ export interface UpdateBillingAlertRequest {
   /** Display name for this billing alert. */
   name: string;
   /** Optional internal description. */
-  description?: string;
+  description?: string | undefined;
   /** Whether scheduled checks should evaluate this alert. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Billing-period total to evaluate: current spend so far, or projected period-end spend. * `spend` - Spend * `projected_spend` - Projected spend */
-  metric?: BillingAlertConfigurationMetricEnum | (string & {});
+  metric?: BillingAlertConfigurationMetricEnum | (string & {}) | undefined;
   /** Threshold rule type. The first version supports absolute value only. * `relative_increase` - Relative increase * `absolute_value` - Absolute value * `absolute_increase` - Absolute increase */
-  threshold_type?: BillingAlertConfigurationThresholdTypeEnum | (string & {});
+  threshold_type?: BillingAlertConfigurationThresholdTypeEnum | (string & {}) | undefined;
   /** Reserved for future increase-over-baseline rules. Not used by absolute value alerts. */
-  threshold_percentage?: string | null;
+  threshold_percentage?: string | null | undefined;
   /** Absolute value or absolute increase that triggers absolute threshold alerts. */
-  threshold_value?: string | null;
+  threshold_value?: string | null | undefined;
   /** Minimum current value before the alert can fire. */
-  minimum_value?: string;
+  minimum_value?: string | undefined;
   /** Reserved for future increase-over-baseline rules. Not used by absolute value alerts. */
-  baseline_window_days?: number;
+  baseline_window_days?: number | undefined;
   /** Hours after a UTC billing date ends before it becomes eligible for evaluation. */
-  evaluation_delay_hours?: number;
+  evaluation_delay_hours?: number | undefined;
   /** Minimum hours between repeated firing notifications. */
-  cooldown_hours?: number;
+  cooldown_hours?: number | undefined;
   /** ISO 8601 timestamp until which evaluation and notifications are snoozed, or null to resume. */
-  snoozed_until?: string | null;
+  snoozed_until?: string | null | undefined;
   /** Destination groups to create or delete in the same transaction as this configuration write. */
-  destination_changes?: BillingAlertDestinationChanges;
+  destination_changes?: BillingAlertDestinationChanges | undefined;
 }
 export interface UpdateBillingAlertsPartialRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -562,35 +562,35 @@ export interface UpdateBillingAlertsPartialRequest {
   /** A UUID string identifying this billing alert configuration. */
   id: string;
   /** Display name for this billing alert. */
-  name?: string;
+  name?: string | undefined;
   /** Optional internal description. */
-  description?: string;
+  description?: string | undefined;
   /** Whether scheduled checks should evaluate this alert. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Billing-period total to evaluate: current spend so far, or projected period-end spend. * `spend` - Spend * `projected_spend` - Projected spend */
-  metric?: BillingAlertConfigurationMetricEnum | (string & {});
+  metric?: BillingAlertConfigurationMetricEnum | (string & {}) | undefined;
   /** Threshold rule type. The first version supports absolute value only. * `relative_increase` - Relative increase * `absolute_value` - Absolute value * `absolute_increase` - Absolute increase */
-  threshold_type?: BillingAlertConfigurationThresholdTypeEnum | (string & {});
+  threshold_type?: BillingAlertConfigurationThresholdTypeEnum | (string & {}) | undefined;
   /** Reserved for future increase-over-baseline rules. Not used by absolute value alerts. */
-  threshold_percentage?: string | null;
+  threshold_percentage?: string | null | undefined;
   /** Absolute value or absolute increase that triggers absolute threshold alerts. */
-  threshold_value?: string | null;
+  threshold_value?: string | null | undefined;
   /** Minimum current value before the alert can fire. */
-  minimum_value?: string;
+  minimum_value?: string | undefined;
   /** Reserved for future increase-over-baseline rules. Not used by absolute value alerts. */
-  baseline_window_days?: number;
+  baseline_window_days?: number | undefined;
   /** Hours after a UTC billing date ends before it becomes eligible for evaluation. */
-  evaluation_delay_hours?: number;
+  evaluation_delay_hours?: number | undefined;
   /** Minimum hours between repeated firing notifications. */
-  cooldown_hours?: number;
+  cooldown_hours?: number | undefined;
   /** ISO 8601 timestamp until which evaluation and notifications are snoozed, or null to resume. */
-  snoozed_until?: string | null;
+  snoozed_until?: string | null | undefined;
   /** Destination groups to create or delete in the same transaction as this configuration write. */
-  destination_changes?: BillingAlertDestinationChanges;
+  destination_changes?: BillingAlertDestinationChanges | undefined;
 }
 export interface UpdateBillingLicensePartialRequest {
-  plan?: string;
-  billing_limit?: number;
+  plan?: string | undefined;
+  billing_limit?: number | undefined;
 }
 export interface UpdateBillingLicensePartialResponse {}
 export type BillingActivateAuthorizeCreateError = PosthogOpError;

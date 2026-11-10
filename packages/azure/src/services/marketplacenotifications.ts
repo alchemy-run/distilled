@@ -54,73 +54,73 @@ export type GetNotificationResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetNotificationResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetNotificationResponseSystemDataCreatedByType;
+  createdByType?: GetNotificationResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetNotificationResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetNotificationResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface OfferProperties {
   /** legacy offer id of the notification (publisher.offer) */
-  offerId?: string;
+  offerId?: string | undefined;
   /** date for creating the notification */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** offer display name */
-  offerDisplayName?: string;
+  offerDisplayName?: string | undefined;
   /** user's principal id */
-  principalId?: string;
+  principalId?: string | undefined;
 }
 export interface GetNotificationResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetNotificationResponseSystemData;
+  systemData?: GetNotificationResponseSystemData | undefined;
   /** The offer data structure. */
-  properties?: OfferProperties;
+  properties?: OfferProperties | undefined;
 }
 export interface GetNotificationOperationsRequest {}
 /** Operation display payload */
 export interface OperationDisplay {
   /** Resource of the operation */
-  resource?: string;
+  resource?: string | undefined;
   /** Name of the provider for display purposes */
-  provider?: string;
+  provider?: string | undefined;
   /** Name of the operation for display purposes */
-  operation?: string;
+  operation?: string | undefined;
   /** Localized friendly description for the operation */
-  description?: string;
+  description?: string | undefined;
 }
 /** Operation detail payload */
 export interface OperationDetail {
   /** Name of the operation */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Display of the operation */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** operation origin */
-  origin?: string;
+  origin?: string | undefined;
   /** operation properties */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** Collection of available operation details */
 export type AvailableOperationsValueList = Array<OperationDetail>;
 /** Available operations of the service */
 export interface AvailableOperations {
   /** Collection of available operation details */
-  value?: AvailableOperationsValueList;
+  value?: AvailableOperationsValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNotificationsRequest {
   /** user's subscription id */
@@ -143,37 +143,37 @@ export type NotificationSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface NotificationSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: NotificationSystemDataCreatedByType;
+  createdByType?: NotificationSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: NotificationSystemDataLastModifiedByType;
+  lastModifiedByType?: NotificationSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Review notification */
 export interface Notification {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: NotificationSystemData;
+  systemData?: NotificationSystemData | undefined;
   /** The offer data structure. */
-  properties?: OfferProperties;
+  properties?: OfferProperties | undefined;
 }
 export type NotificationListValueList = Array<Notification>;
 /** Notifications List */
 export interface NotificationList {
-  value?: NotificationListValueList;
+  value?: NotificationListValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type GetNotificationError = AzureOpError;
 export const GetNotification: API.OperationMethod<

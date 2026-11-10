@@ -108,25 +108,25 @@ export type StringList = Array<string>;
 /** A custom column. See Search Ads 360 custom column at https://support.google.com/sa360/answer/9633916 */
 export interface GoogleAdsSearchads360V0Resources__CustomColumn {
   /** Output only. True when the custom column is referring to one or more metrics. */
-  referencesMetrics?: boolean;
+  referencesMetrics?: boolean | undefined;
   /** Output only. The type of the result value of the custom column. */
-  valueType?: GoogleAdsSearchads360V0Resources__CustomColumnValueTypeEnum;
+  valueType?: GoogleAdsSearchads360V0Resources__CustomColumnValueTypeEnum | undefined;
   /** Output only. True when the custom column is available to be used in the query of SearchAds360Service.Search and SearchAds360Service.SearchStream. */
-  queryable?: boolean;
+  queryable?: boolean | undefined;
   /** Output only. User-defined name of the custom column. */
-  name?: string;
+  name?: string | undefined;
   /** Immutable. The resource name of the custom column. Custom column resource names have the form: `customers/{customer_id}/customColumns/{custom_column_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Output only. True when the custom column is referring to one or more attributes. */
-  referencesAttributes?: boolean;
+  referencesAttributes?: boolean | undefined;
   /** Output only. How the result value of the custom column should be interpreted. */
-  renderType?: GoogleAdsSearchads360V0Resources__CustomColumnRenderTypeEnum;
+  renderType?: GoogleAdsSearchads360V0Resources__CustomColumnRenderTypeEnum | undefined;
   /** Output only. ID of the custom column. */
-  id?: string;
+  id?: string | undefined;
   /** Output only. The list of the referenced system columns of this custom column. For example, A custom column "sum of impressions and clicks" has referenced system columns of {"metrics.clicks", "metrics.impressions"}. */
-  referencedSystemColumns?: StringList;
+  referencedSystemColumns?: StringList | undefined;
   /** Output only. User-defined description of the custom column. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface GetSearchAds360FieldsRequest {
   /** Required. The resource name of the field to get. */
@@ -156,39 +156,39 @@ export type GoogleAdsSearchads360V0Resources__SearchAds360FieldDataTypeEnum =
 /** A field or resource (artifact) used by SearchAds360Service. */
 export interface GoogleAdsSearchads360V0Resources__SearchAds360Field {
   /** Output only. The URL of proto describing the artifact's data type. */
-  typeUrl?: string;
+  typeUrl?: string | undefined;
   /** Output only. The name of the artifact. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Whether the field artifact is repeated. */
-  isRepeated?: boolean;
+  isRepeated?: boolean | undefined;
   /** Output only. The names of all resources that are selectable with the described artifact. Fields from these resources do not segment metrics when included in search queries. This field is only set for artifacts whose category is RESOURCE. */
-  attributeResources?: StringList;
+  attributeResources?: StringList | undefined;
   /** Output only. The category of the artifact. */
-  category?: GoogleAdsSearchads360V0Resources__SearchAds360FieldCategoryEnum;
+  category?: GoogleAdsSearchads360V0Resources__SearchAds360FieldCategoryEnum | undefined;
   /** Output only. Whether the artifact can be used in a ORDER BY clause in search queries. */
-  sortable?: boolean;
+  sortable?: boolean | undefined;
   /** Output only. This field lists the names of all artifacts, whether a segment or another resource, that segment metrics when included in search queries and when the described artifact is used in the FROM clause. It is only set for artifacts whose category is RESOURCE. */
-  segments?: StringList;
+  segments?: StringList | undefined;
   /** Output only. The resource name of the artifact. Artifact resource names have the form: `SearchAds360Fields/{name}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Output only. This field lists the names of all metrics that are selectable with the described artifact when it is used in the FROM clause. It is only set for artifacts whose category is RESOURCE. */
-  metrics?: StringList;
+  metrics?: StringList | undefined;
   /** Output only. This field determines the operators that can be used with the artifact in WHERE clauses. */
-  dataType?: GoogleAdsSearchads360V0Resources__SearchAds360FieldDataTypeEnum;
+  dataType?: GoogleAdsSearchads360V0Resources__SearchAds360FieldDataTypeEnum | undefined;
   /** Output only. The names of all resources, segments, and metrics that are selectable with the described artifact. */
-  selectableWith?: StringList;
+  selectableWith?: StringList | undefined;
   /** Output only. Whether the artifact can be used in a SELECT clause in search queries. */
-  selectable?: boolean;
+  selectable?: boolean | undefined;
   /** Output only. Values the artifact can assume if it is a field of type ENUM. This field is only set for artifacts of category SEGMENT or ATTRIBUTE. */
-  enumValues?: StringList;
+  enumValues?: StringList | undefined;
   /** Output only. Whether the artifact can be used in a WHERE clause in search queries. */
-  filterable?: boolean;
+  filterable?: boolean | undefined;
 }
 export interface ListAccessibleCustomersCustomersRequest {}
 /** Response message for CustomerService.ListAccessibleCustomers. */
 export interface GoogleAdsSearchads360V0Services__ListAccessibleCustomersResponse {
   /** Resource name of customers directly accessible by the user authenticating the call. */
-  resourceNames?: StringList;
+  resourceNames?: StringList | undefined;
 }
 export interface ListCustomersCustomColumnsRequest {
   /** Required. The ID of the customer to apply the CustomColumn list operation to. */
@@ -199,7 +199,7 @@ export type GoogleAdsSearchads360V0Resources__CustomColumnList =
 /** Response message for fetching all custom columns associated with a customer. */
 export interface GoogleAdsSearchads360V0Services__ListCustomColumnsResponse {
   /** The CustomColumns owned by the provided customer. */
-  customColumns?: GoogleAdsSearchads360V0Resources__CustomColumnList;
+  customColumns?: GoogleAdsSearchads360V0Resources__CustomColumnList | undefined;
 }
 export type GoogleAdsSearchads360V0Services__SearchSearchAds360RequestSummaryRowSettingEnum =
   | "UNSPECIFIED"
@@ -210,43 +210,44 @@ export type GoogleAdsSearchads360V0Services__SearchSearchAds360RequestSummaryRow
 /** Request message for SearchAds360Service.Search. */
 export interface GoogleAdsSearchads360V0Services__SearchSearchAds360Request {
   /** Token of the page to retrieve. If not specified, the first page of results will be returned. Use the value obtained from `next_page_token` in the previous response in order to request the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Determines whether a summary row will be returned. By default, summary row is not returned. If requested, the summary row will be sent in a response by itself after all other query results are returned. */
   summaryRowSetting?:
     | GoogleAdsSearchads360V0Services__SearchSearchAds360RequestSummaryRowSettingEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** If true, the request is validated but not executed. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Number of elements to retrieve in a single page. When too large a page is requested, the server may decide to further limit the number of returned resources. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** If true, the total number of results that match the query ignoring the LIMIT clause will be included in the response. Default is false. */
-  returnTotalResultsCount?: boolean;
+  returnTotalResultsCount?: boolean | undefined;
   /** Required. The query string. */
-  query?: string;
+  query?: string | undefined;
 }
 export interface SearchCustomersSearchAds360Request {
   /** Required. The ID of the customer being queried. */
   customerId: string;
   /** Request body */
-  body?: GoogleAdsSearchads360V0Services__SearchSearchAds360Request;
+  body?: GoogleAdsSearchads360V0Services__SearchSearchAds360Request | undefined;
 }
 /** Message for custom column header. */
 export interface GoogleAdsSearchads360V0Services__CustomColumnHeader {
   /** True when the custom column references metrics. */
-  referencesMetrics?: boolean;
+  referencesMetrics?: boolean | undefined;
   /** The custom column ID. */
-  id?: string;
+  id?: string | undefined;
   /** The user defined name of the custom column. */
-  name?: string;
+  name?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Services__CustomColumnHeaderList =
   Array<GoogleAdsSearchads360V0Services__CustomColumnHeader>;
 /** Message for conversion custom dimension header. */
 export interface GoogleAdsSearchads360V0Services__ConversionCustomDimensionHeader {
   /** The conversion custom dimension ID. */
-  id?: string;
+  id?: string | undefined;
   /** The user defined name of the conversion custom dimension. */
-  name?: string;
+  name?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Services__ConversionCustomDimensionHeaderList =
   Array<GoogleAdsSearchads360V0Services__ConversionCustomDimensionHeader>;
@@ -272,11 +273,11 @@ export type GoogleAdsSearchads360V0Resources__CustomerAccountStatusEnum =
 /** DoubleClick Campaign Manager (DCM) setting for a manager customer. */
 export interface GoogleAdsSearchads360V0Resources__DoubleClickCampaignManagerSetting {
   /** Output only. ID of the Campaign Manager advertiser associated with this customer. */
-  advertiserId?: string;
+  advertiserId?: string | undefined;
   /** Output only. Time zone of the Campaign Manager network associated with this customer in IANA Time Zone Database format, such as America/New_York. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Output only. ID of the Campaign Manager network associated with this customer. */
-  networkId?: string;
+  networkId?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__CustomerAccountLevelEnum =
   | "UNSPECIFIED"
@@ -306,70 +307,76 @@ export type GoogleAdsSearchads360V0Resources__ConversionTrackingSettingConversio
 /** A collection of customer-wide settings related to Search Ads 360 Conversion Tracking. */
 export interface GoogleAdsSearchads360V0Resources__ConversionTrackingSetting {
   /** Output only. Whether the customer is opted-in for enhanced conversions for leads. If using cross-account conversion tracking, this value is inherited from the manager. This field is read-only. */
-  enhancedConversionsForLeadsEnabled?: boolean;
+  enhancedConversionsForLeadsEnabled?: boolean | undefined;
   /** Output only. The conversion tracking id of the customer's manager. This is set when the customer is opted into conversion tracking, and it overrides conversion_tracking_id. This field can only be managed through the Google Ads UI. This field is read-only. */
-  googleAdsCrossAccountConversionTrackingId?: string;
+  googleAdsCrossAccountConversionTrackingId?: string | undefined;
   /** Output only. The conversion tracking id of the customer's manager. This is set when the customer is opted into cross-account conversion tracking, and it overrides conversion_tracking_id. */
-  crossAccountConversionTrackingId?: string;
+  crossAccountConversionTrackingId?: string | undefined;
   /** Output only. Conversion tracking status. It indicates whether the customer is using conversion tracking, and who is the conversion tracking owner of this customer. If this customer is using cross-account conversion tracking, the value returned will differ based on the `login-customer-id` of the request. */
-  conversionTrackingStatus?: GoogleAdsSearchads360V0Resources__ConversionTrackingSettingConversionTrackingStatusEnum;
+  conversionTrackingStatus?:
+    | GoogleAdsSearchads360V0Resources__ConversionTrackingSettingConversionTrackingStatusEnum
+    | undefined;
   /** Output only. The conversion tracking id used for this account. This id doesn't indicate whether the customer uses conversion tracking (conversion_tracking_status does). This field is read-only. */
-  conversionTrackingId?: string;
+  conversionTrackingId?: string | undefined;
   /** Output only. The resource name of the customer where conversions are created and managed. This field is read-only. */
-  googleAdsConversionCustomer?: string;
+  googleAdsConversionCustomer?: string | undefined;
   /** Output only. Whether the customer has accepted customer data terms. If using cross-account conversion tracking, this value is inherited from the manager. This field is read-only. For more information, see https://support.google.com/adspolicy/answer/7475709. */
-  acceptedCustomerDataTerms?: boolean;
+  acceptedCustomerDataTerms?: boolean | undefined;
 }
 /** A customer. */
 export interface GoogleAdsSearchads360V0Resources__Customer {
   /** Optional, non-unique descriptive name of the customer. */
-  descriptiveName?: string;
+  descriptiveName?: string | undefined;
   /** Output only. Whether the customer is a manager. */
-  manager?: boolean;
+  manager?: boolean | undefined;
   /** Output only. The descriptive name of the associate manager. */
-  associateManagerDescriptiveName?: string;
+  associateManagerDescriptiveName?: string | undefined;
   /** Output only. Engine account type, for example, Google Ads, Microsoft Advertising, Yahoo Japan, Baidu, Facebook, Engine Track, etc. */
-  accountType?: GoogleAdsSearchads360V0Resources__CustomerAccountTypeEnum;
+  accountType?: GoogleAdsSearchads360V0Resources__CustomerAccountTypeEnum | undefined;
   /** Immutable. The local timezone ID of the customer. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Output only. Account status, for example, Enabled, Paused, Removed, etc. */
-  accountStatus?: GoogleAdsSearchads360V0Resources__CustomerAccountStatusEnum;
+  accountStatus?: GoogleAdsSearchads360V0Resources__CustomerAccountStatusEnum | undefined;
   /** Output only. DoubleClick Campaign Manager (DCM) setting for a manager customer. */
-  doubleClickCampaignManagerSetting?: GoogleAdsSearchads360V0Resources__DoubleClickCampaignManagerSetting;
+  doubleClickCampaignManagerSetting?:
+    | GoogleAdsSearchads360V0Resources__DoubleClickCampaignManagerSetting
+    | undefined;
   /** Immutable. The resource name of the customer. Customer resource names have the form: `customers/{customer_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Whether auto-tagging is enabled for the customer. */
-  autoTaggingEnabled?: boolean;
+  autoTaggingEnabled?: boolean | undefined;
   /** Output only. The timestamp when this customer was created. The timestamp is in the customer's time zone and in "yyyy-MM-dd HH:mm:ss" format. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Output only. The account level of the customer: Manager, Sub-manager, Associate manager, Service account. */
-  accountLevel?: GoogleAdsSearchads360V0Resources__CustomerAccountLevelEnum;
+  accountLevel?: GoogleAdsSearchads360V0Resources__CustomerAccountLevelEnum | undefined;
   /** Output only. The customer ID of the manager. A 0 value indicates that the customer has no SA360 manager. */
-  managerId?: string;
+  managerId?: string | undefined;
   /** Output only. The customer ID of the associate manager. A 0 value indicates that the customer has no SA360 associate manager. */
-  associateManagerId?: string;
+  associateManagerId?: string | undefined;
   /** Output only. The status of the customer. */
-  status?: GoogleAdsSearchads360V0Resources__CustomerStatusEnum;
+  status?: GoogleAdsSearchads360V0Resources__CustomerStatusEnum | undefined;
   /** The URL template for appending params to the final URL. */
-  finalUrlSuffix?: string;
+  finalUrlSuffix?: string | undefined;
   /** Immutable. The currency in which the account operates. A subset of the currency codes from the ISO 4217 standard is supported. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** The URL template for constructing a tracking URL out of parameters. */
-  trackingUrlTemplate?: string;
+  trackingUrlTemplate?: string | undefined;
   /** Output only. ID of the account in the external engine account. */
-  engineId?: string;
+  engineId?: string | undefined;
   /** Output only. Conversion tracking setting for a customer. */
-  conversionTrackingSetting?: GoogleAdsSearchads360V0Resources__ConversionTrackingSetting;
+  conversionTrackingSetting?:
+    | GoogleAdsSearchads360V0Resources__ConversionTrackingSetting
+    | undefined;
   /** Output only. The descriptive name of the sub manager. */
-  subManagerDescriptiveName?: string;
+  subManagerDescriptiveName?: string | undefined;
   /** Output only. The descriptive name of the manager. */
-  managerDescriptiveName?: string;
+  managerDescriptiveName?: string | undefined;
   /** Output only. The ID of the customer. */
-  id?: string;
+  id?: string | undefined;
   /** Output only. The datetime when this customer was last modified. The datetime is in the customer's time zone and in "yyyy-MM-dd HH:mm:ss.ssssss" format. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Output only. The customer ID of the sub manager. A 0 value indicates that the customer has no sub SA360 manager. */
-  subManagerId?: string;
+  subManagerId?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__AdGroupAdStatusEnum =
   | "UNSPECIFIED"
@@ -400,37 +407,37 @@ export type GoogleAdsSearchads360V0Resources__AdGroupAdEngineStatusEnum =
 /** A text asset used inside an ad. */
 export interface GoogleAdsSearchads360V0Common__AdTextAsset {
   /** Asset text. */
-  text?: string;
+  text?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Common__AdTextAssetList =
   Array<GoogleAdsSearchads360V0Common__AdTextAsset>;
 /** A Search Ads 360 responsive search ad. */
 export interface GoogleAdsSearchads360V0Common__SearchAds360ResponsiveSearchAdInfo {
   /** Text appended to the auto-generated visible URL with a delimiter. */
-  path1?: string;
+  path1?: string | undefined;
   /** The tracking id of the ad. */
-  adTrackingId?: string;
+  adTrackingId?: string | undefined;
   /** List of text assets for descriptions. When the ad serves the descriptions will be selected from this list. */
-  descriptions?: GoogleAdsSearchads360V0Common__AdTextAssetList;
+  descriptions?: GoogleAdsSearchads360V0Common__AdTextAssetList | undefined;
   /** List of text assets for headlines. When the ad serves the headlines will be selected from this list. */
-  headlines?: GoogleAdsSearchads360V0Common__AdTextAssetList;
+  headlines?: GoogleAdsSearchads360V0Common__AdTextAssetList | undefined;
   /** Text appended to path1 with a delimiter. */
-  path2?: string;
+  path2?: string | undefined;
 }
 /** A Search Ads 360 text ad. */
 export interface GoogleAdsSearchads360V0Common__SearchAds360TextAdInfo {
   /** The first line of the ad's description. */
-  description1?: string;
+  description1?: string | undefined;
   /** The displayed URL of the ad. */
-  displayUrl?: string;
+  displayUrl?: string | undefined;
   /** The headline of the ad. */
-  headline?: string;
+  headline?: string | undefined;
   /** The displayed mobile URL of the ad. */
-  displayMobileUrl?: string;
+  displayMobileUrl?: string | undefined;
   /** The tracking id of the ad. */
-  adTrackingId?: string;
+  adTrackingId?: string | undefined;
   /** The second line of the ad's description. */
-  description2?: string;
+  description2?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Common__SyntheticContentAttestationStatusEnum =
   | "UNSPECIFIED"
@@ -446,25 +453,25 @@ export type GoogleAdsSearchads360V0Common__SyntheticContentAttestationSourceEnum
 /** Represents an attestation about synthetic content from a single source. */
 export interface GoogleAdsSearchads360V0Common__SyntheticContentAttestation {
   /** Indicates whether the content is considered synthetic by this source. */
-  status?: GoogleAdsSearchads360V0Common__SyntheticContentAttestationStatusEnum;
+  status?: GoogleAdsSearchads360V0Common__SyntheticContentAttestationStatusEnum | undefined;
   /** The source of the synthetic content attestation. */
-  source?: GoogleAdsSearchads360V0Common__SyntheticContentAttestationSourceEnum;
+  source?: GoogleAdsSearchads360V0Common__SyntheticContentAttestationSourceEnum | undefined;
 }
 /** Container for synthetic content attestations from different sources, such as the advertiser and Google systems. */
 export interface GoogleAdsSearchads360V0Common__SyntheticContentInfo {
   /** Output only. Information about synthetic content generated by Google's systems. */
-  systemAttestation?: GoogleAdsSearchads360V0Common__SyntheticContentAttestation;
+  systemAttestation?: GoogleAdsSearchads360V0Common__SyntheticContentAttestation | undefined;
   /** Input provided by the advertiser. */
-  advertiserAttestation?: GoogleAdsSearchads360V0Common__SyntheticContentAttestation;
+  advertiserAttestation?: GoogleAdsSearchads360V0Common__SyntheticContentAttestation | undefined;
 }
 /** An expanded dynamic search ad. */
 export interface GoogleAdsSearchads360V0Common__SearchAds360ExpandedDynamicSearchAdInfo {
   /** The second line of the ad's description. */
-  description2?: string;
+  description2?: string | undefined;
   /** The tracking id of the ad. */
-  adTrackingId?: string;
+  adTrackingId?: string | undefined;
   /** The first line of the ad's description. */
-  description1?: string;
+  description1?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__AdTypeEnum =
   | "UNSPECIFIED"
@@ -502,21 +509,21 @@ export type GoogleAdsSearchads360V0Resources__AdTypeEnum =
 /** A Search Ads 360 expanded text ad. Expanded text ads are deprecated. Use SearchAds360ResponsiveSearchAd instead. */
 export interface GoogleAdsSearchads360V0Common__SearchAds360ExpandedTextAdInfo {
   /** The second line of the ad's description. */
-  description2?: string;
+  description2?: string | undefined;
   /** The tracking id of the ad. */
-  adTrackingId?: string;
+  adTrackingId?: string | undefined;
   /** The headline of the ad. */
-  headline?: string;
+  headline?: string | undefined;
   /** Text appended to the auto-generated visible URL with a delimiter. */
-  path1?: string;
+  path1?: string | undefined;
   /** The second headline of the ad. */
-  headline2?: string;
+  headline2?: string | undefined;
   /** Text appended to path1 with a delimiter. */
-  path2?: string;
+  path2?: string | undefined;
   /** The first line of the ad's description. */
-  description1?: string;
+  description1?: string | undefined;
   /** The third headline of the ad. */
-  headline3?: string;
+  headline3?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Common__FinalAppUrlOsTypeEnum =
   | "UNSPECIFIED"
@@ -526,9 +533,9 @@ export type GoogleAdsSearchads360V0Common__FinalAppUrlOsTypeEnum =
 /** A URL for deep linking into an app for the given operating system. */
 export interface GoogleAdsSearchads360V0Common__FinalAppUrl {
   /** The app deep link URL. Deep links specify a location in an app that corresponds to the content you'd like to show, and should be of the form {scheme}://{host_path} The scheme identifies which app to open. For your app, you can use a custom scheme that starts with the app's name. The host and path specify the unique location in the app where your content exists. Example: "exampleapp://productid_1234". Required. */
-  url?: string;
+  url?: string | undefined;
   /** The operating system targeted by this URL. Required. */
-  osType?: GoogleAdsSearchads360V0Common__FinalAppUrlOsTypeEnum;
+  osType?: GoogleAdsSearchads360V0Common__FinalAppUrlOsTypeEnum | undefined;
 }
 export type GoogleAdsSearchads360V0Common__FinalAppUrlList =
   Array<GoogleAdsSearchads360V0Common__FinalAppUrl>;
@@ -537,80 +544,84 @@ export interface GoogleAdsSearchads360V0Common__SearchAds360ProductAdInfo {}
 /** An ad. */
 export interface GoogleAdsSearchads360V0Resources__Ad {
   /** Immutable. Details pertaining to a responsive search ad. */
-  responsiveSearchAd?: GoogleAdsSearchads360V0Common__SearchAds360ResponsiveSearchAdInfo;
+  responsiveSearchAd?:
+    | GoogleAdsSearchads360V0Common__SearchAds360ResponsiveSearchAdInfo
+    | undefined;
   /** Immutable. Details pertaining to a text ad. */
-  textAd?: GoogleAdsSearchads360V0Common__SearchAds360TextAdInfo;
+  textAd?: GoogleAdsSearchads360V0Common__SearchAds360TextAdInfo | undefined;
   /** Immutable. The name of the ad. This is only used to be able to identify the ad. It does not need to be unique and does not affect the served ad. */
-  name?: string;
+  name?: string | undefined;
   /** Synthetic content info for the ad. Only ads with specific ad types are eligible for updates using the `synthetic_content_info` field. Allowed `AdType` values: * `HTML5_UPLOAD_AD` * `DYNAMIC_HTML5_AD` * `IMAGE_AD` */
-  syntheticContentInfo?: GoogleAdsSearchads360V0Common__SyntheticContentInfo;
+  syntheticContentInfo?: GoogleAdsSearchads360V0Common__SyntheticContentInfo | undefined;
   /** Immutable. Details pertaining to an expanded dynamic search ad. */
-  expandedDynamicSearchAd?: GoogleAdsSearchads360V0Common__SearchAds360ExpandedDynamicSearchAdInfo;
+  expandedDynamicSearchAd?:
+    | GoogleAdsSearchads360V0Common__SearchAds360ExpandedDynamicSearchAdInfo
+    | undefined;
   /** Output only. The type of ad. */
-  type?: GoogleAdsSearchads360V0Resources__AdTypeEnum;
+  type?: GoogleAdsSearchads360V0Resources__AdTypeEnum | undefined;
   /** Immutable. Details pertaining to an expanded text ad. Expanded text ads are deprecated. Use `SearchAds360ResponsiveSearchAd` instead. */
-  expandedTextAd?: GoogleAdsSearchads360V0Common__SearchAds360ExpandedTextAdInfo;
+  expandedTextAd?: GoogleAdsSearchads360V0Common__SearchAds360ExpandedTextAdInfo | undefined;
   /** The suffix to use when constructing a final URL. */
-  finalUrlSuffix?: string;
+  finalUrlSuffix?: string | undefined;
   /** The list of possible final URLs after all cross-domain redirects for the ad. */
-  finalUrls?: StringList;
+  finalUrls?: StringList | undefined;
   /** Output only. The ID of the ad. */
-  id?: string;
+  id?: string | undefined;
   /** The list of possible final mobile URLs after all cross-domain redirects for the ad. */
-  finalMobileUrls?: StringList;
+  finalMobileUrls?: StringList | undefined;
   /** Immutable. The resource name of the ad. Ad resource names have the form: `customers/{customer_id}/ads/{ad_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** The URL template for constructing a tracking URL. */
-  trackingUrlTemplate?: string;
+  trackingUrlTemplate?: string | undefined;
   /** A list of final app URLs that will be used on mobile if the user has the specific app installed. */
-  finalAppUrls?: GoogleAdsSearchads360V0Common__FinalAppUrlList;
+  finalAppUrls?: GoogleAdsSearchads360V0Common__FinalAppUrlList | undefined;
   /** The URL that appears in the ad description for some ad formats. */
-  displayUrl?: string;
+  displayUrl?: string | undefined;
   /** Immutable. Details pertaining to a product ad. */
-  productAd?: GoogleAdsSearchads360V0Common__SearchAds360ProductAdInfo;
+  productAd?: GoogleAdsSearchads360V0Common__SearchAds360ProductAdInfo | undefined;
 }
 /** An ad group ad. */
 export interface GoogleAdsSearchads360V0Resources__AdGroupAd {
   /** The status of the ad. */
-  status?: GoogleAdsSearchads360V0Resources__AdGroupAdStatusEnum;
+  status?: GoogleAdsSearchads360V0Resources__AdGroupAdStatusEnum | undefined;
   /** Immutable. The resource name of the ad. Ad group ad resource names have the form: `customers/{customer_id}/adGroupAds/{ad_group_id}~{ad_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Output only. Additional status of the ad in the external engine account. Possible statuses (depending on the type of external account) include active, eligible, pending review, etc. */
-  engineStatus?: GoogleAdsSearchads360V0Resources__AdGroupAdEngineStatusEnum;
+  engineStatus?: GoogleAdsSearchads360V0Resources__AdGroupAdEngineStatusEnum | undefined;
   /** Output only. The timestamp when this ad_group_ad was created. The datetime is in the customer's time zone and in "yyyy-MM-dd HH:mm:ss.ssssss" format. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Output only. The resource names of labels attached to this ad group ad. */
-  labels?: StringList;
+  labels?: StringList | undefined;
   /** Output only. The resource names of effective labels attached to this ad. An effective label is a label inherited or directly assigned to this ad. */
-  effectiveLabels?: StringList;
+  effectiveLabels?: StringList | undefined;
   /** Output only. The datetime when this ad group ad was last modified. The datetime is in the customer's time zone and in "yyyy-MM-dd HH:mm:ss.ssssss" format. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Output only. ID of the ad in the external engine account. This field is for Search Ads 360 account only, for example, Yahoo Japan, Microsoft, Baidu etc. For non-Search Ads 360 entity, use "ad_group_ad.ad.id" instead. */
-  engineId?: string;
+  engineId?: string | undefined;
   /** Immutable. The ad. */
-  ad?: GoogleAdsSearchads360V0Resources__Ad;
+  ad?: GoogleAdsSearchads360V0Resources__Ad | undefined;
 }
 /** Represents a relationship between a campaign and a label. */
 export interface GoogleAdsSearchads360V0Resources__CampaignLabel {
   /** Immutable. The label assigned to the campaign. */
-  label?: string;
+  label?: string | undefined;
   /** Immutable. The campaign to which the label is attached. */
-  campaign?: string;
+  campaign?: string | undefined;
   /** Immutable. Name of the resource. Campaign label resource names have the form: `customers/{owner_customer_id}/campaignLabels/{campaign_id}~{label_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Output only. The ID of the Customer which owns the label. */
-  ownerCustomerId?: string;
+  ownerCustomerId?: string | undefined;
 }
 /** A relationship between an ad group criterion and a label. */
 export interface GoogleAdsSearchads360V0Resources__AdGroupCriterionLabel {
   /** Output only. The ID of the Customer which owns the label. */
-  ownerCustomerId?: string;
+  ownerCustomerId?: string | undefined;
   /** Immutable. The resource name of the ad group criterion label. Ad group criterion label resource names have the form: `customers/{owner_customer_id}/adGroupCriterionLabels/{ad_group_id}~{criterion_id}~{label_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Immutable. The ad group criterion to which the label is attached. */
-  adGroupCriterion?: string;
+  adGroupCriterion?: string | undefined;
   /** Immutable. The label assigned to the ad group criterion. */
-  label?: string;
+  label?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__LabelStatusEnum =
   | "UNSPECIFIED"
@@ -620,29 +631,29 @@ export type GoogleAdsSearchads360V0Resources__LabelStatusEnum =
 /** A type of label displaying text on a colored background. */
 export interface GoogleAdsSearchads360V0Common__TextLabel {
   /** Background color of the label in HEX format. This string must match the regular expression '^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$'. Note: The background color may not be visible for manager accounts. */
-  backgroundColor?: string;
+  backgroundColor?: string | undefined;
   /** A short description of the label. The length must be no more than 200 characters. */
-  description?: string;
+  description?: string | undefined;
 }
 /** A label. */
 export interface GoogleAdsSearchads360V0Resources__Label {
   /** Output only. ID of the label. Read only. */
-  id?: string;
+  id?: string | undefined;
   /** Output only. Status of the label. Read only. */
-  status?: GoogleAdsSearchads360V0Resources__LabelStatusEnum;
+  status?: GoogleAdsSearchads360V0Resources__LabelStatusEnum | undefined;
   /** The name of the label. This field is required and should not be empty when creating a new label. The length of this string should be between 1 and 80, inclusive. */
-  name?: string;
+  name?: string | undefined;
   /** Immutable. Name of the resource. Label resource names have the form: `customers/{owner_customer_id}/labels/{label_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** A type of label displaying text on a colored background. */
-  textLabel?: GoogleAdsSearchads360V0Common__TextLabel;
+  textLabel?: GoogleAdsSearchads360V0Common__TextLabel | undefined;
 }
 /** An asset set representing a collection of assets. Use AssetSetAsset to link an asset to the asset set. */
 export interface GoogleAdsSearchads360V0Resources__AssetSet {
   /** Output only. The ID of the asset set. */
-  id?: string;
+  id?: string | undefined;
   /** Immutable. The resource name of the asset set. Asset set resource names have the form: `customers/{customer_id}/assetSets/{asset_set_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__CustomerAssetStatusEnum =
   | "UNSPECIFIED"
@@ -653,16 +664,16 @@ export type GoogleAdsSearchads360V0Resources__CustomerAssetStatusEnum =
 /** A link between a customer and an asset. */
 export interface GoogleAdsSearchads360V0Resources__CustomerAsset {
   /** Status of the customer asset. */
-  status?: GoogleAdsSearchads360V0Resources__CustomerAssetStatusEnum;
+  status?: GoogleAdsSearchads360V0Resources__CustomerAssetStatusEnum | undefined;
   /** Required. Immutable. The asset which is linked to the customer. */
-  asset?: string;
+  asset?: string | undefined;
   /** Immutable. The resource name of the customer asset. CustomerAsset resource names have the form: `customers/{customer_id}/customerAssets/{asset_id}~{field_type}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
 }
 /** A webpage view. */
 export interface GoogleAdsSearchads360V0Resources__WebpageView {
   /** Output only. The resource name of the webpage view. Webpage view resource names have the form: `customers/{customer_id}/webpageViews/{ad_group_id}~{criterion_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Common__MetricsInteractionEventTypesItemEnum =
   | "UNSPECIFIED"
@@ -676,15 +687,15 @@ export type GoogleAdsSearchads360V0Common__MetricsInteractionEventTypesItemEnumL
 /** A generic data container. */
 export interface GoogleAdsSearchads360V0Common__Value {
   /** A string. */
-  stringValue?: string;
+  stringValue?: string | undefined;
   /** A double. */
-  doubleValue?: number;
+  doubleValue?: number | undefined;
   /** A float. */
-  floatValue?: number;
+  floatValue?: number | undefined;
   /** An int64. */
-  int64Value?: string;
+  int64Value?: string | undefined;
   /** A boolean. */
-  booleanValue?: boolean;
+  booleanValue?: boolean | undefined;
 }
 export type GoogleAdsSearchads360V0Common__ValueList = Array<GoogleAdsSearchads360V0Common__Value>;
 export type GoogleAdsSearchads360V0Common__MetricsHistoricalLandingPageQualityScoreEnum =
@@ -708,205 +719,213 @@ export type GoogleAdsSearchads360V0Common__MetricsHistoricalSearchPredictedCtrEn
 /** Metrics data. */
 export interface GoogleAdsSearchads360V0Common__Metrics {
   /** The sum of your cost-per-click (CPC) and cost-per-thousand impressions (CPM) costs during this period. This metric is a monetary value and returned in the customer's currency by default. See the `metrics_currency` parameter at [PARAMETERS clause](https://developers.google.com/search-ads/reporting/query/query-structure#parameters_clause) for more details. */
-  costMicros?: string;
+  costMicros?: string | undefined;
   /** The types of payable and free interactions. */
-  interactionEventTypes?: GoogleAdsSearchads360V0Common__MetricsInteractionEventTypesItemEnumList;
+  interactionEventTypes?:
+    | GoogleAdsSearchads360V0Common__MetricsInteractionEventTypesItemEnumList
+    | undefined;
   /** The total number of view-through conversions. These happen when a customer sees an image or rich media ad, then later completes a conversion on your site without interacting with (for example, clicking on) another ad. */
-  clientAccountViewThroughConversions?: string;
+  clientAccountViewThroughConversions?: string | undefined;
   /** The percentage of clicks that have been filtered out of your total number of clicks (filtered + non-filtered clicks) due to being general invalid clicks. These are clicks Google considers illegitimate that are detected through routine means of filtration (that is, known invalid data-center traffic, bots and spiders or other crawlers, irregular patterns, etc). You're not charged for them, and they don't affect your account statistics. See [Filtering invalid traffic to ensure quality](https://support.google.com/campaignmanager/answer/6076504). */
-  generalInvalidClickRate?: number;
+  generalInvalidClickRate?: number | undefined;
   /** Lead units sold is the total number of products sold as a result of advertising the same product. How it works: You report conversions with cart data for completed purchases on your website. If the ad that was interacted with before the purchase has an associated product (see Shopping Ads) then this product is considered the advertised product. Any product included in the order the customer places is a sold product. If the advertised and sold products match, then the total number of these products sold is shown under lead units sold. Example: Someone clicked on a Shopping ad for a hat then bought the same hat, a shirt and a jacket. The lead units sold in this order is 1. This metric is only available if you report conversions with cart data. */
-  leadUnitsSold?: number;
+  leadUnitsSold?: number | undefined;
   /** The average number of times a unique user saw your ad during the requested time period. This metric cannot be aggregated, and can only be requested for date ranges of 92 days or less. This metric is available for following campaign types - Display, Video, Discovery and App. */
-  averageImpressionFrequencyPerUser?: number;
+  averageImpressionFrequencyPerUser?: number | undefined;
   /** The number of unique users who saw your ad during the requested time period. This metric cannot be aggregated, and can only be requested for date ranges of 92 days or less. This metric is available for following campaign types - Display, Video, Discovery and App. */
-  uniqueUsers?: string;
+  uniqueUsers?: string | undefined;
   /** The impressions you've received on the Display Network divided by the estimated number of impressions you were eligible to receive. Note: Content impression share is reported in the range of 0.1 to 1. Any value below 0.1 is reported as 0.0999. */
-  contentImpressionShare?: number;
+  contentImpressionShare?: number | undefined;
   /** Revenue is the total amount you made from orders attributed to your ads. How it works: You report conversions with cart data for completed purchases on your website. Revenue is the total value of all the orders you received attributed to your ads, minus any discount. Example: Someone clicked on a Shopping ad for a hat then bought the same hat and a shirt in an order from your website. The hat is priced $10 and the shirt is priced $20. The entire order has a $5 discount. The revenue from this order is $25 = ($10 + $20) - $5. This metric is only available if you report conversions with cart data. */
-  revenueMicros?: string;
+  revenueMicros?: string | undefined;
   /** The value of all conversions from interactions divided by the total number of interactions. */
-  allConversionsFromInteractionsValuePerInteraction?: number;
+  allConversionsFromInteractionsValuePerInteraction?: number | undefined;
   /** Conversions from when a customer clicks on an ad on one device, then converts on a different device or browser. Cross-device conversions are already included in `all_conversions`. */
-  crossDeviceConversions?: number;
+  crossDeviceConversions?: number | undefined;
   /** The number of clicks. */
-  clicks?: string;
+  clicks?: string | undefined;
   /** Cross-sell revenue is the total amount you made from products sold as a result of advertising a different product. How it works: You report conversions with cart data for completed purchases on your website. If the ad that was interacted with before the purchase has an associated product (see Shopping Ads) then this product is considered the advertised product. Any product included in the order the customer places is a sold product. If these products don't match then this is considered cross-sell. Cross-sell revenue is the total value you made from cross-sell attributed to your ads. Example: Someone clicked on a Shopping ad for a hat then bought the same hat and a shirt. The hat is priced $10 and the shirt is priced $20. The cross-sell revenue of this order is $20. This metric is only available if you report conversions with cart data. This metric is a monetary value and returned in the customer's currency by default. See the `metrics_currency` parameter at [PARAMETERS clause](https://developers.google.com/search-ads/reporting/query/query-structure#parameters_clause). */
-  crossSellRevenueMicros?: string;
+  crossSellRevenueMicros?: string | undefined;
   /** Client account lead cost of goods sold (COGS) is the total cost of products sold as a result of advertising the same product. How it works: You report conversions with cart data for completed purchases on your website. If the ad that was interacted with has an associated product (see Shopping Ads) then this product is considered the advertised product. Any product included in the order the customer places is a sold product. If the advertised and sold products match, then the cost of these goods is counted under lead cost of goods sold. Example: Someone clicked on a Shopping ad for a hat then bought the same hat and a shirt. The hat has a cost of goods sold value of $3, the shirt has a cost of goods sold value of $5. The lead cost of goods sold for this order is $3. This metric is only available if you report conversions with cart data. This metric is a monetary value and returned in the customer's currency by default. See the `metrics_currency` parameter at [PARAMETERS clause](https://developers.google.com/search-ads/reporting/query/query-structure#parameters_clause). */
-  clientAccountLeadCostOfGoodsSoldMicros?: string;
+  clientAccountLeadCostOfGoodsSoldMicros?: string | undefined;
   /** Client account cross-sell units sold is the total number of products sold as a result of advertising a different product. How it works: You report conversions with cart data for completed purchases on your website. If the ad that was interacted with before the purchase has an associated product (see Shopping Ads) then this product is considered the advertised product. Any product included in the order the customer places is a sold product. If these products don't match then this is considered cross-sell. Cross-sell units sold is the total number of cross-sold products from all orders attributed to your ads. Example: Someone clicked on a Shopping ad for a hat then bought the same hat, a shirt and a jacket. The cross-sell units sold in this order is 2. This metric is only available if you report conversions with cart data. */
-  clientAccountCrossSellUnitsSold?: number;
+  clientAccountCrossSellUnitsSold?: number | undefined;
   /** The value of all conversions divided by the number of all conversions. When this column is selected with date, the values in date column means the conversion date. Details for the `by_conversion_date` columns are available at [About the "All conversions" column](https://support.google.com/sa360/answer/9250611). */
-  valuePerAllConversionsByConversionDate?: number;
+  valuePerAllConversionsByConversionDate?: number | undefined;
   /** The number of conversions. This only includes conversion actions which include_in_conversions_metric attribute is set to true. If you use conversion-based bidding, your bid strategies will optimize for these conversions. */
-  conversions?: number;
+  conversions?: number | undefined;
   /** The estimated percent of times that your ad was eligible to show on the Display Network but didn't because your budget was too low. Note: Content budget lost impression share is reported in the range of 0 to 0.9. Any value above 0.9 is reported as 0.9001. */
-  contentBudgetLostImpressionShare?: number;
+  contentBudgetLostImpressionShare?: number | undefined;
   /** Search absolute top impression share is the percentage of your Search ad impressions that are shown in the most prominent Search position. */
-  absoluteTopImpressionPercentage?: number;
+  absoluteTopImpressionPercentage?: number | undefined;
   /** Average cart size is the average number of products in each order attributed to your ads. How it works: You report conversions with cart data for completed purchases on your website. Average cart size is the total number of products sold divided by the total number of orders you received. Example: You received 2 orders, the first included 3 products and the second included 2. The average cart size is 2.5 products = (3+2)/2. This metric is only available if you report conversions with cart data. */
-  averageCartSize?: number;
+  averageCartSize?: number | undefined;
   /** Average biddable conversions (from interaction) per conversion eligible interaction. Shows how often, on average, an ad interaction leads to a biddable conversion. */
-  conversionsFromInteractionsRate?: number;
+  conversionsFromInteractionsRate?: number | undefined;
   /** Cross-sell gross profit is the profit you made from products sold as a result of advertising a different product, minus cost of goods sold (COGS). How it works: You report conversions with cart data for completed purchases on your website. If the ad that was interacted with before the purchase has an associated product (see Shopping Ads) then this product is considered the advertised product. Any product included in the purchase is a sold product. If these products don't match then this is considered cross-sell. Cross-sell gross profit is the revenue you made from cross-sell attributed to your ads minus the cost of the goods sold. Example: Someone clicked on a Shopping ad for a hat then bought the same hat and a shirt. The shirt is priced $20 and has a cost of goods sold value of $5. The cross-sell gross profit of this order is $15 = $20 - $5. This metric is only available if you report conversions with cart data. This metric is a monetary value and returned in the customer's currency by default. See the `metrics_currency` parameter at [PARAMETERS clause](https://developers.google.com/search-ads/reporting/query/query-structure#parameters_clause). */
-  crossSellGrossProfitMicros?: string;
+  crossSellGrossProfitMicros?: string | undefined;
   /** Average conversion eligible cost per biddable conversion. */
-  costPerConversion?: number;
+  costPerConversion?: number | undefined;
   /** The impressions you've received on the Search Network divided by the estimated number of impressions you were eligible to receive. Note: Search impression share is reported in the range of 0.1 to 1. Any value below 0.1 is reported as 0.0999. */
-  searchImpressionShare?: number;
+  searchImpressionShare?: number | undefined;
   /** The total cost of all clicks divided by the total number of clicks received. This metric is a monetary value and returned in the customer's currency by default. See the `metrics_currency` parameter at [PARAMETERS clause](https://developers.google.com/search-ads/reporting/query/query-structure#parameters_clause). */
-  averageCpc?: number;
+  averageCpc?: number | undefined;
   /** The sum of conversions by conversion date for biddable conversion types. Can be fractional due to attribution modeling. When this column is selected with date, the values in the date column mean the conversion date. */
-  conversionsByConversionDate?: number;
+  conversionsByConversionDate?: number | undefined;
   /** Count of how often your ad has appeared on a search results page or website on the Google Network. */
-  impressions?: string;
+  impressions?: string | undefined;
   /** The value of biddable conversion divided by the number of biddable conversions. Shows how much, on average, each of the biddable conversions is worth. */
-  valuePerConversion?: number;
+  valuePerConversion?: number | undefined;
   /** The number of times people clicked a link to view a business's menu after clicking an ad. This metric applies to feed items only. */
-  allConversionsFromMenu?: number;
+  allConversionsFromMenu?: number | undefined;
   /** The conversion custom metrics. */
-  conversionCustomMetrics?: GoogleAdsSearchads360V0Common__ValueList;
+  conversionCustomMetrics?: GoogleAdsSearchads360V0Common__ValueList | undefined;
   /** The estimated percent of times that your ad didn't show adjacent to the top organic search results due to a low budget. Note: Search budget lost top impression share is reported in the range of 0 to 0.9. Any value above 0.9 is reported as 0.9001. */
-  searchBudgetLostTopImpressionShare?: number;
+  searchBudgetLostTopImpressionShare?: number | undefined;
   /** The number of clicks you've received on the Search Network divided by the estimated number of clicks you were eligible to receive. Note: Search click share is reported in the range of 0.1 to 1. Any value below 0.1 is reported as 0.0999. */
-  searchClickShare?: number;
+  searchClickShare?: number | undefined;
   /** The historical quality score. */
-  historicalQualityScore?: string;
+  historicalQualityScore?: string | undefined;
   /** The sum of the value of cross-device conversions. */
-  crossDeviceConversionsValue?: number;
+  crossDeviceConversionsValue?: number | undefined;
   /** Gross profit is the profit you made from orders attributed to your ads minus the cost of goods sold (COGS). How it works: Gross profit is the revenue you made from sales attributed to your ads minus cost of goods sold. Gross profit calculations only include products that have a cost of goods sold value in Merchant Center. Example: Someone clicked on a Shopping ad for a hat then bought the same hat and a shirt in an order from your website. The hat is priced $10 and the shirt is priced $20. The hat has a cost of goods sold value of $3, but the shirt has no cost of goods sold value. Gross profit for this order will only take into account the hat, so it's $7 = $10 - $3. This metric is only available if you report conversions with cart data. */
-  grossProfitMicros?: string;
+  grossProfitMicros?: string | undefined;
   /** Client account cross-sell cost of goods sold (COGS) is the total cost of products sold as a result of advertising a different product. How it works: You report conversions with cart data for completed purchases on your website. If the ad that was interacted with before the purchase has an associated product (see Shopping Ads) then this product is considered the advertised product. Any product included in the order the customer places is a sold product. If these products don't match then this is considered cross-sell. Cross-sell cost of goods sold is the total cost of the products sold that weren't advertised. Example: Someone clicked on a Shopping ad for a hat then bought the same hat and a shirt. The hat has a cost of goods sold value of $3, the shirt has a cost of goods sold value of $5. The cross-sell cost of goods sold for this order is $5. This metric is only available if you report conversions with cart data. This metric is a monetary value and returned in the customer's currency by default. See the `metrics_currency` parameter at [PARAMETERS clause](https://developers.google.com/search-ads/reporting/query/query-structure#parameters_clause). */
-  clientAccountCrossSellCostOfGoodsSoldMicros?: string;
+  clientAccountCrossSellCostOfGoodsSoldMicros?: string | undefined;
   /** Client account lead revenue is the total amount you made from products sold as a result of advertising the same product. How it works: You report conversions with cart data for completed purchases on your website. If the ad that was interacted with before the purchase has an associated product (see Shopping Ads) then this product is considered the advertised product. Any product included in the order the customer places is a sold product. If the advertised and sold products match, then the total value you made from the sales of these products is shown under lead revenue. Example: Someone clicked on a Shopping ad for a hat then bought the same hat and a shirt. The hat is priced $10 and the shirt is priced $20. The lead revenue of this order is $10. This metric is only available if you report conversions with cart data. This metric is a monetary value and returned in the customer's currency by default. See the `metrics_currency` parameter at [PARAMETERS clause](https://developers.google.com/search-ads/reporting/query/query-structure#parameters_clause). */
-  clientAccountLeadRevenueMicros?: string;
+  clientAccountLeadRevenueMicros?: string | undefined;
   /** Lead revenue is the total amount you made from products sold as a result of advertising the same product. How it works: You report conversions with cart data for completed purchases on your website. If the ad that was interacted with before the purchase has an associated product (see Shopping Ads) then this product is considered the advertised product. Any product included in the order the customer places is a sold product. If the advertised and sold products match, then the total value you made from the sales of these products is shown under lead revenue. Example: Someone clicked on a Shopping ad for a hat then bought the same hat and a shirt. The hat is priced $10 and the shirt is priced $20. The lead revenue of this order is $10. This metric is only available if you report conversions with cart data. This metric is a monetary value and returned in the customer's currency by default. See the `metrics_currency` parameter at [PARAMETERS clause](https://developers.google.com/search-ads/reporting/query/query-structure#parameters_clause). */
-  leadRevenueMicros?: string;
+  leadRevenueMicros?: string | undefined;
   /** The impressions you've received among the top ads compared to the estimated number of impressions you were eligible to receive among the top ads. Note: Search top impression share is reported in the range of 0.1 to 1. Any value below 0.1 is reported as 0.0999. Top ads are generally above the top organic results, although they may show below the top organic results on certain queries. */
-  searchTopImpressionShare?: number;
+  searchTopImpressionShare?: number | undefined;
   /** The number of times people placed an order at a business after clicking an ad. This metric applies to feed items only. */
-  allConversionsFromOrder?: number;
+  allConversionsFromOrder?: number | undefined;
   /** The value of client account conversions. This only includes conversion actions which `include_in_client_account_conversions_metric` attribute is set to `true`. If you use conversion-based bidding, your bid strategies will optimize for these conversions. */
-  clientAccountConversionsValue?: number;
+  clientAccountConversionsValue?: number | undefined;
   /** The value of conversions from interactions divided by the number of ad interactions. This only includes conversion actions which `include_in_conversions_metric` attribute is set to `true`. If you use conversion-based bidding, your bid strategies will optimize for these conversions. */
-  conversionsFromInteractionsValuePerInteraction?: number;
+  conversionsFromInteractionsValuePerInteraction?: number | undefined;
   /** The percentage of the customer's Shopping or Search ad impressions that are shown in the most prominent Shopping position. See [About top and absolute top metrics](https://support.google.com/sa360/answer/9566729) for details. Any value below 0.1 is reported as 0.0999. */
-  searchAbsoluteTopImpressionShare?: number;
+  searchAbsoluteTopImpressionShare?: number | undefined;
   /** Gross profit margin is the percentage gross profit you made from orders attributed to your ads, after taking out the cost of goods sold (COGS). How it works: You report conversions with cart data for completed purchases on your website. Gross profit margin is the gross profit you made divided by your total revenue and multiplied by 100%. Gross profit margin calculations only include products that have a cost of goods sold value in Merchant Center. Example: Someone bought a hat and a shirt in an order on your website. The hat is priced $10 and has a cost of goods sold value of $3. The shirt is priced $20 but has no cost of goods sold value. Gross profit margin for this order will only take into account the hat because it has a cost of goods sold value, so it's 70% = ($10 - $3)/$10 x 100%. This metric is only available if you report conversions with cart data. */
-  grossProfitMargin?: number;
+  grossProfitMargin?: number | undefined;
   /** Lead gross profit is the profit you made from products sold as a result of advertising the same product, minus cost of goods sold (COGS). How it works: You report conversions with cart data for completed purchases on your website. If the ad that was interacted with before the purchase has an associated product (see Shopping Ads) then this product is considered the advertised product. Any product included in the order the customer places is a sold product. If the advertised and sold products match, then the revenue you made from these sales minus the cost of goods sold is your lead gross profit. Example: Someone clicked on a Shopping ad for a hat then bought the same hat and a shirt. The hat is priced $10 and has a cost of goods sold value of $3. The lead gross profit of this order is $7 = $10 - $3. This metric is only available if you report conversions with cart data. This metric is a monetary value and returned in the customer's currency by default. See the `metrics_currency` parameter at [PARAMETERS clause](https://developers.google.com/search-ads/reporting/query/query-structure#parameters_clause). */
-  leadGrossProfitMicros?: string;
+  leadGrossProfitMicros?: string | undefined;
   /** The number estimating how often your ad didn't show adjacent to the top organic search results due to poor Ad Rank. Note: Search rank lost top impression share is reported in the range of 0 to 0.9. Any value above 0.9 is reported as 0.9001. */
-  searchRankLostTopImpressionShare?: number;
+  searchRankLostTopImpressionShare?: number | undefined;
   /** The number of times people clicked the "Call" button to call a business during or after clicking an ad. This number doesn't include whether or not calls were connected, or the duration of any calls. This metric applies to feed items only. */
-  allConversionsFromClickToCall?: number;
+  allConversionsFromClickToCall?: number | undefined;
   /** The average quality score. */
-  averageQualityScore?: number;
+  averageQualityScore?: number | undefined;
   /** The percentage of mobile clicks that go to a mobile-friendly page. */
-  mobileFriendlyClicksPercentage?: number;
+  mobileFriendlyClicksPercentage?: number | undefined;
   /** The percent of your ad impressions that are shown adjacent to the top organic search results. */
-  topImpressionPercentage?: number;
+  topImpressionPercentage?: number | undefined;
   /** The number of times that people were taken to a business's URL after clicking an ad. This metric applies to feed items only. */
-  allConversionsFromStoreWebsite?: number;
+  allConversionsFromStoreWebsite?: number | undefined;
   /** Average order value is the average revenue you made per order attributed to your ads. How it works: You report conversions with cart data for completed purchases on your website. Average order value is the total revenue from your orders divided by the total number of orders. Example: You received 3 orders which made $10, $15 and $20 worth of revenue. The average order value is $15 = ($10 + $15 + $20)/3. This metric is only available if you report conversions with cart data. */
-  averageOrderValueMicros?: string;
+  averageOrderValueMicros?: string | undefined;
   /** The value of all conversions divided by the total cost of ad interactions (such as clicks for text ads or views for video ads). */
-  allConversionsValuePerCost?: number;
+  allConversionsValuePerCost?: number | undefined;
   /** The number of interactions. An interaction is the main user action associated with an ad format-clicks for text and shopping ads, views for video ads, and so on. */
-  interactions?: string;
+  interactions?: string | undefined;
   /** The quality of historical landing page experience. */
-  historicalLandingPageQualityScore?: GoogleAdsSearchads360V0Common__MetricsHistoricalLandingPageQualityScoreEnum;
+  historicalLandingPageQualityScore?:
+    | GoogleAdsSearchads360V0Common__MetricsHistoricalLandingPageQualityScoreEnum
+    | undefined;
   /** The number estimating how often your ad wasn't the very first ad among the top ads in the search results due to a low budget. Note: Search budget lost absolute top impression share is reported in the range of 0 to 0.9. Any value above 0.9 is reported as 0.9001. */
-  searchBudgetLostAbsoluteTopImpressionShare?: number;
+  searchBudgetLostAbsoluteTopImpressionShare?: number | undefined;
   /** The raw event conversion metrics. */
-  rawEventConversionMetrics?: GoogleAdsSearchads360V0Common__ValueList;
+  rawEventConversionMetrics?: GoogleAdsSearchads360V0Common__ValueList | undefined;
   /** Lead cost of goods sold (COGS) is the total cost of products sold as a result of advertising the same product. How it works: You report conversions with cart data for completed purchases on your website. If the ad that was interacted with has an associated product (see Shopping Ads) then this product is considered the advertised product. Any product included in the order the customer places is a sold product. If the advertised and sold products match, then the cost of these goods is counted under lead cost of goods sold. Example: Someone clicked on a Shopping ad for a hat then bought the same hat and a shirt. The hat has a cost of goods sold value of $3, the shirt has a cost of goods sold value of $5. The lead cost of goods sold for this order is $3. This metric is only available if you report conversions with cart data. This metric is a monetary value and returned in the customer's currency by default. See the `metrics_currency` parameter at [PARAMETERS clause](https://developers.google.com/search-ads/reporting/query/query-structure#parameters_clause). */
-  leadCostOfGoodsSoldMicros?: string;
+  leadCostOfGoodsSoldMicros?: string | undefined;
   /** Client account lead gross profit is the profit you made from products sold as a result of advertising the same product, minus cost of goods sold (COGS). How it works: You report conversions with cart data for completed purchases on your website. If the ad that was interacted with before the purchase has an associated product (see Shopping Ads) then this product is considered the advertised product. Any product included in the order the customer places is a sold product. If the advertised and sold products match, then the revenue you made from these sales minus the cost of goods sold is your lead gross profit. Example: Someone clicked on a Shopping ad for a hat then bought the same hat and a shirt. The hat is priced $10 and has a cost of goods sold value of $3. The lead gross profit of this order is $7 = $10 - $3. This metric is only available if you report conversions with cart data. This metric is a monetary value and returned in the customer's currency by default. See the `metrics_currency` parameter at [PARAMETERS clause](https://developers.google.com/search-ads/reporting/query/query-structure#parameters_clause). */
-  clientAccountLeadGrossProfitMicros?: string;
+  clientAccountLeadGrossProfitMicros?: string | undefined;
   /** The total number of conversions. This includes all conversions regardless of the value of include_in_conversions_metric. */
-  allConversions?: number;
+  allConversions?: number | undefined;
   /** Average cost-per-thousand impressions (CPM). This metric is a monetary value and returned in the customer's currency by default. See the `metrics_currency` parameter at [PARAMETERS clause](https://developers.google.com/search-ads/reporting/query/query-structure#parameters_clause). */
-  averageCpm?: number;
+  averageCpm?: number | undefined;
   /** The value of biddable conversion divided by the total cost of conversion eligible interactions. */
-  conversionsValuePerCost?: number;
+  conversionsValuePerCost?: number | undefined;
   /** The cost of ad interactions divided by current model attributed conversions. This only includes conversion actions which `include_in_conversions_metric` attribute is set to `true`. If you use conversion-based bidding, your bid strategies will optimize for these conversions. */
-  costPerCurrentModelAttributedConversion?: number;
+  costPerCurrentModelAttributedConversion?: number | undefined;
   /** The number of client account conversions. This only includes conversion actions which `include_in_client_account_conversions_metric` attribute is set to `true`. If you use conversion-based bidding, your bid strategies will optimize for these conversions. */
-  clientAccountConversions?: number;
+  clientAccountConversions?: number | undefined;
   /** The value of all conversions divided by the number of all conversions. */
-  valuePerAllConversions?: number;
+  valuePerAllConversions?: number | undefined;
   /** Client account cross-sell gross profit is the profit you made from products sold as a result of advertising a different product, minus cost of goods sold (COGS). How it works: You report conversions with cart data for completed purchases on your website. If the ad that was interacted with before the purchase has an associated product (see Shopping Ads) then this product is considered the advertised product. Any product included in the purchase is a sold product. If these products don't match then this is considered cross-sell. Cross-sell gross profit is the revenue you made from cross-sell attributed to your ads minus the cost of the goods sold. Example: Someone clicked on a Shopping ad for a hat then bought the same hat and a shirt. The shirt is priced $20 and has a cost of goods sold value of $5. The cross-sell gross profit of this order is $15 = $20 - $5. This metric is only available if you report conversions with cart data. This metric is a monetary value and returned in the customer's currency by default. See the `metrics_currency` parameter at [PARAMETERS clause](https://developers.google.com/search-ads/reporting/query/query-structure#parameters_clause). */
-  clientAccountCrossSellGrossProfitMicros?: string;
+  clientAccountCrossSellGrossProfitMicros?: string | undefined;
   /** Client account lead units sold is the total number of products sold as a result of advertising the same product. How it works: You report conversions with cart data for completed purchases on your website. If the ad that was interacted with before the purchase has an associated product (see Shopping Ads) then this product is considered the advertised product. Any product included in the order the customer places is a sold product. If the advertised and sold products match, then the total number of these products sold is shown under lead units sold. Example: Someone clicked on a Shopping ad for a hat then bought the same hat, a shirt and a jacket. The lead units sold in this order is 1. This metric is only available if you report conversions with cart data. */
-  clientAccountLeadUnitsSold?: number;
+  clientAccountLeadUnitsSold?: number | undefined;
   /** Cross-sell units sold is the total number of products sold as a result of advertising a different product. How it works: You report conversions with cart data for completed purchases on your website. If the ad that was interacted with before the purchase has an associated product (see Shopping Ads) then this product is considered the advertised product. Any product included in the order the customer places is a sold product. If these products don't match then this is considered cross-sell. Cross-sell units sold is the total number of cross-sold products from all orders attributed to your ads. Example: Someone clicked on a Shopping ad for a hat then bought the same hat, a shirt and a jacket. The cross-sell units sold in this order is 2. This metric is only available if you report conversions with cart data. */
-  crossSellUnitsSold?: number;
+  crossSellUnitsSold?: number | undefined;
   /** The sum of conversion values for the conversions included in the "conversions" field. This metric is useful only if you entered a value for your conversion actions. */
-  conversionsValue?: number;
+  conversionsValue?: number | undefined;
   /** Estimated number of times people visited a business after clicking an ad. This metric applies to feed items only. */
-  allConversionsFromStoreVisit?: number;
+  allConversionsFromStoreVisit?: number | undefined;
   /** The number of other conversions (for example, posting a review or saving a location for a business) that occurred after people clicked an ad. This metric applies to feed items only. */
-  allConversionsFromOtherEngagement?: number;
+  allConversionsFromOtherEngagement?: number | undefined;
   /** The value of all conversions. */
-  allConversionsValue?: number;
+  allConversionsValue?: number | undefined;
   /** The creative historical quality score. */
-  historicalCreativeQualityScore?: GoogleAdsSearchads360V0Common__MetricsHistoricalCreativeQualityScoreEnum;
+  historicalCreativeQualityScore?:
+    | GoogleAdsSearchads360V0Common__MetricsHistoricalCreativeQualityScoreEnum
+    | undefined;
   /** The number of cross-device conversions by conversion date. Details for the `by_conversion_date` columns are available at [About the "All conversions" column](https://support.google.com/sa360/answer/9250611) */
-  crossDeviceConversionsByConversionDate?: number;
+  crossDeviceConversionsByConversionDate?: number | undefined;
   /** All conversions from interactions (as oppose to view through conversions) divided by the number of ad interactions. */
-  allConversionsFromInteractionsRate?: number;
+  allConversionsFromInteractionsRate?: number | undefined;
   /** The average amount you pay per interaction. This amount is the total cost of your ads divided by the total number of interactions. */
-  averageCost?: number;
+  averageCost?: number | undefined;
   /** The value of all conversions. When this column is selected with date, the values in date column means the conversion date. Details for the `by_conversion_date` columns are available at [About the "All conversions" column](https://support.google.com/sa360/answer/9250611). */
-  allConversionsValueByConversionDate?: number;
+  allConversionsValueByConversionDate?: number | undefined;
   /** Biddable conversions value by conversion date divided by biddable conversions by conversion date. Shows how much, on average, each of the biddable conversions is worth (by conversion date). When this column is selected with date, the values in date column means the conversion date. */
-  valuePerConversionsByConversionDate?: number;
+  valuePerConversionsByConversionDate?: number | undefined;
   /** Orders is the total number of purchase conversions you received attributed to your ads. How it works: You report conversions with cart data for completed purchases on your website. If a conversion is attributed to previous interactions with your ads (clicks for text or Shopping ads, views for video ads etc.) it's counted as an order. Example: Someone clicked on a Shopping ad for a hat then bought the same hat and a shirt in an order on your website. Even though they bought 2 products, this would count as 1 order. This metric is only available if you report conversions with cart data. */
-  orders?: number;
+  orders?: number | undefined;
   /** Client account cross-sell revenue is the total amount you made from products sold as a result of advertising a different product. How it works: You report conversions with cart data for completed purchases on your website. If the ad that was interacted with before the purchase has an associated product (see Shopping Ads) then this product is considered the advertised product. Any product included in the order the customer places is a sold product. If these products don't match then this is considered cross-sell. Cross-sell revenue is the total value you made from cross-sell attributed to your ads. Example: Someone clicked on a Shopping ad for a hat then bought the same hat and a shirt. The hat is priced $10 and the shirt is priced $20. The cross-sell revenue of this order is $20. This metric is only available if you report conversions with cart data. This metric is a monetary value and returned in the customer's currency by default. See the `metrics_currency` parameter at [PARAMETERS clause](https://developers.google.com/search-ads/reporting/query/query-structure#parameters_clause). */
-  clientAccountCrossSellRevenueMicros?: string;
+  clientAccountCrossSellRevenueMicros?: string | undefined;
   /** Number of general invalid clicks. These are a subset of your invalid clicks that are detected through routine means of filtration (such as known invalid data-center traffic, bots and spiders or other crawlers, irregular patterns, etc.). You're not charged for them, and they don't affect your account statistics. See [Filtering invalid traffic to ensure quality](https://support.google.com/campaignmanager/answer/6076504). */
-  generalInvalidClicks?: string;
+  generalInvalidClicks?: string | undefined;
   /** Cost of goods sold (COGS) is the total cost of the products you sold in orders attributed to your ads. How it works: You can add a cost of goods sold value to every product in Merchant Center. If you report conversions with cart data, the products you sold are matched with their cost of goods sold value and this can be used to calculate the gross profit you made on each order. Example: Someone clicked on a Shopping ad for a hat then bought the same hat and a shirt. The hat has a cost of goods sold value of $3, the shirt has a cost of goods sold value of $5. The cost of goods sold for this order is $8 = $3 + $5. This metric is only available if you report conversions with cart data. */
-  costOfGoodsSoldMicros?: string;
+  costOfGoodsSoldMicros?: string | undefined;
   /** Units sold is the total number of products sold from orders attributed to your ads. How it works: You report conversions with cart data for completed purchases on your website. Units sold is the total number of products sold from all orders attributed to your ads. Example: Someone clicked on a Shopping ad for a hat then bought the same hat, a shirt and a jacket. The units sold in this order is 3. This metric is only available if you report conversions with cart data. */
-  unitsSold?: number;
+  unitsSold?: number | undefined;
   /** The number estimating how often your ad wasn't the very first ad among the top ads in the search results due to poor Ad Rank. Note: Search rank lost absolute top impression share is reported in the range of 0 to 0.9. Any value above 0.9 is reported as 0.9001. */
-  searchRankLostAbsoluteTopImpressionShare?: number;
+  searchRankLostAbsoluteTopImpressionShare?: number | undefined;
   /** The estimated percentage of impressions on the Display Network that your ads didn't receive due to poor Ad Rank. Note: Content rank lost impression share is reported in the range of 0 to 0.9. Any value above 0.9 is reported as 0.9001. */
-  contentRankLostImpressionShare?: number;
+  contentRankLostImpressionShare?: number | undefined;
   /** Clicks that Search Ads 360 has successfully recorded and forwarded to an advertiser's landing page. */
-  visits?: number;
+  visits?: number | undefined;
   /** The historical search predicted click through rate (CTR). */
-  historicalSearchPredictedCtr?: GoogleAdsSearchads360V0Common__MetricsHistoricalSearchPredictedCtrEnum;
+  historicalSearchPredictedCtr?:
+    | GoogleAdsSearchads360V0Common__MetricsHistoricalSearchPredictedCtrEnum
+    | undefined;
   /** Cross-sell cost of goods sold (COGS) is the total cost of products sold as a result of advertising a different product. How it works: You report conversions with cart data for completed purchases on your website. If the ad that was interacted with before the purchase has an associated product (see Shopping Ads) then this product is considered the advertised product. Any product included in the order the customer places is a sold product. If these products don't match then this is considered cross-sell. Cross-sell cost of goods sold is the total cost of the products sold that weren't advertised. Example: Someone clicked on a Shopping ad for a hat then bought the same hat and a shirt. The hat has a cost of goods sold value of $3, the shirt has a cost of goods sold value of $5. The cross-sell cost of goods sold for this order is $5. This metric is only available if you report conversions with cart data. This metric is a monetary value and returned in the customer's currency by default. See the `metrics_currency` parameter at [PARAMETERS clause](https://developers.google.com/search-ads/reporting/query/query-structure#parameters_clause). */
-  crossSellCostOfGoodsSoldMicros?: string;
+  crossSellCostOfGoodsSoldMicros?: string | undefined;
   /** The percentage of clicks filtered out of your total number of clicks (filtered + non-filtered clicks) during the reporting period. */
-  invalidClickRate?: number;
+  invalidClickRate?: number | undefined;
   /** How often people interact with your ad after it is shown to them. This is the number of interactions divided by the number of times your ad is shown. */
-  interactionRate?: number;
+  interactionRate?: number | undefined;
   /** The sum of cross-device conversions value by conversion date. Details for the `by_conversion_date` columns are available at [About the "All conversions" column](https://support.google.com/sa360/answer/9250611) */
-  crossDeviceConversionsValueByConversionDate?: number;
+  crossDeviceConversionsValueByConversionDate?: number | undefined;
   /** The estimated percentage of impressions on the Search Network that your ads didn't receive due to poor Ad Rank. Note: Search rank lost impression share is reported in the range of 0 to 0.9. Any value above 0.9 is reported as 0.9001. */
-  searchRankLostImpressionShare?: number;
+  searchRankLostImpressionShare?: number | undefined;
   /** The number of clicks your ad receives (Clicks) divided by the number of times your ad is shown (Impressions). */
-  ctr?: number;
+  ctr?: number | undefined;
   /** The impressions you've received divided by the estimated number of impressions you were eligible to receive on the Search Network for search terms that matched your keywords exactly (or were close variants of your keyword), regardless of your keyword match types. Note: Search exact match impression share is reported in the range of 0.1 to 1. Any value below 0.1 is reported as 0.0999. */
-  searchExactMatchImpressionShare?: number;
+  searchExactMatchImpressionShare?: number | undefined;
   /** Number of clicks Google considers illegitimate and doesn't charge you for. */
-  invalidClicks?: string;
+  invalidClicks?: string | undefined;
   /** The estimated percent of times that your ad was eligible to show on the Search Network but didn't because your budget was too low. Note: Search budget lost impression share is reported in the range of 0 to 0.9. Any value above 0.9 is reported as 0.9001. */
-  searchBudgetLostImpressionShare?: number;
+  searchBudgetLostImpressionShare?: number | undefined;
   /** The sum of biddable conversions value by conversion date. When this column is selected with date, the values in date column means the conversion date. */
-  conversionsValueByConversionDate?: number;
+  conversionsValueByConversionDate?: number | undefined;
   /** The cost of ad interactions divided by all conversions. */
-  costPerAllConversions?: number;
+  costPerAllConversions?: number | undefined;
   /** The total number of conversions. This includes all conversions regardless of the value of include_in_conversions_metric. When this column is selected with date, the values in date column means the conversion date. Details for the `by_conversion_date` columns are available at [About the "All conversions" column](https://support.google.com/sa360/answer/9250611). */
-  allConversionsByConversionDate?: number;
+  allConversionsByConversionDate?: number | undefined;
   /** The number of times people clicked a "Get directions" button to navigate to a business after clicking an ad. This metric applies to feed items only. */
-  allConversionsFromDirections?: number;
+  allConversionsFromDirections?: number | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__CustomerAssetSetStatusEnum =
   | "UNSPECIFIED"
@@ -916,13 +935,13 @@ export type GoogleAdsSearchads360V0Resources__CustomerAssetSetStatusEnum =
 /** CustomerAssetSet is the linkage between a customer and an asset set. Adding a CustomerAssetSet links an asset set with a customer. */
 export interface GoogleAdsSearchads360V0Resources__CustomerAssetSet {
   /** Immutable. The customer to which this asset set is linked. */
-  customer?: string;
+  customer?: string | undefined;
   /** Output only. The status of the customer asset set asset. Read-only. */
-  status?: GoogleAdsSearchads360V0Resources__CustomerAssetSetStatusEnum;
+  status?: GoogleAdsSearchads360V0Resources__CustomerAssetSetStatusEnum | undefined;
   /** Immutable. The asset set which is linked to the customer. */
-  assetSet?: string;
+  assetSet?: string | undefined;
   /** Immutable. The resource name of the customer asset set. Asset set asset resource names have the form: `customers/{customer_id}/customerAssetSets/{asset_set_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__AssetStatusEnum =
   | "UNSPECIFIED"
@@ -984,7 +1003,7 @@ export type GoogleAdsSearchads360V0Common__CallToActionAssetCallToActionEnum =
 /** A call to action asset. */
 export interface GoogleAdsSearchads360V0Common__CallToActionAsset {
   /** Call to action. */
-  callToAction?: GoogleAdsSearchads360V0Common__CallToActionAssetCallToActionEnum;
+  callToAction?: GoogleAdsSearchads360V0Common__CallToActionAssetCallToActionEnum | undefined;
 }
 export type GoogleAdsSearchads360V0Common__AdScheduleInfoDayOfWeekEnum =
   | "UNSPECIFIED"
@@ -1013,74 +1032,74 @@ export type GoogleAdsSearchads360V0Common__AdScheduleInfoEndMinuteEnum =
 /** Represents an AdSchedule criterion. AdSchedule is specified as the day of the week and a time interval within which ads will be shown. No more than six AdSchedules can be added for the same day. */
 export interface GoogleAdsSearchads360V0Common__AdScheduleInfo {
   /** Day of the week the schedule applies to. This field is required for CREATE operations and is prohibited on UPDATE operations. */
-  dayOfWeek?: GoogleAdsSearchads360V0Common__AdScheduleInfoDayOfWeekEnum;
+  dayOfWeek?: GoogleAdsSearchads360V0Common__AdScheduleInfoDayOfWeekEnum | undefined;
   /** Minutes after the start hour at which this schedule starts. This field is required for CREATE operations and is prohibited on UPDATE operations. */
-  startMinute?: GoogleAdsSearchads360V0Common__AdScheduleInfoStartMinuteEnum;
+  startMinute?: GoogleAdsSearchads360V0Common__AdScheduleInfoStartMinuteEnum | undefined;
   /** Ending hour in 24 hour time; 24 signifies end of the day. This field must be between 0 and 24, inclusive. This field is required for CREATE operations and is prohibited on UPDATE operations. */
-  endHour?: number;
+  endHour?: number | undefined;
   /** Minutes after the end hour at which this schedule ends. The schedule is exclusive of the end minute. This field is required for CREATE operations and is prohibited on UPDATE operations. */
-  endMinute?: GoogleAdsSearchads360V0Common__AdScheduleInfoEndMinuteEnum;
+  endMinute?: GoogleAdsSearchads360V0Common__AdScheduleInfoEndMinuteEnum | undefined;
   /** Starting hour in 24 hour time. This field must be between 0 and 23, inclusive. This field is required for CREATE operations and is prohibited on UPDATE operations. */
-  startHour?: number;
+  startHour?: number | undefined;
 }
 export type GoogleAdsSearchads360V0Common__AdScheduleInfoList =
   Array<GoogleAdsSearchads360V0Common__AdScheduleInfo>;
 /** A unified callout asset. */
 export interface GoogleAdsSearchads360V0Common__UnifiedCalloutAsset {
   /** The callout text. The length of this string should be between 1 and 25, inclusive. */
-  calloutText?: string;
+  calloutText?: string | undefined;
   /** Whether to show the asset in search user's time zone. Applies to Microsoft Ads. */
-  useSearcherTimeZone?: boolean;
+  useSearcherTimeZone?: boolean | undefined;
   /** Last date of when this asset is effective and still serving, in yyyy-MM-dd format. */
-  endDate?: string;
+  endDate?: string | undefined;
   /** List of non-overlapping schedules specifying all time intervals for which the asset may serve. There can be a maximum of 6 schedules per day, 42 in total. */
-  adScheduleTargets?: GoogleAdsSearchads360V0Common__AdScheduleInfoList;
+  adScheduleTargets?: GoogleAdsSearchads360V0Common__AdScheduleInfoList | undefined;
   /** Start date of when this asset is effective and can begin serving, in yyyy-MM-dd format. */
-  startDate?: string;
+  startDate?: string | undefined;
 }
 /** A mapping that can be used by custom parameter tags in a `tracking_url_template`, `final_urls`, or `mobile_final_urls`. */
 export interface GoogleAdsSearchads360V0Common__CustomParameter {
   /** The key matching the parameter tag name. */
-  key?: string;
+  key?: string | undefined;
   /** The value to be substituted. */
-  value?: string;
+  value?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Common__CustomParameterList =
   Array<GoogleAdsSearchads360V0Common__CustomParameter>;
 /** A unified sitelink asset. */
 export interface GoogleAdsSearchads360V0Common__UnifiedSitelinkAsset {
   /** Whether the preference is for the sitelink asset to be displayed on mobile devices. Applies to Microsoft Ads. */
-  mobilePreferred?: boolean;
+  mobilePreferred?: boolean | undefined;
   /** URL display text for the sitelink. The length of this string should be between 1 and 25, inclusive. */
-  linkText?: string;
+  linkText?: string | undefined;
   /** ID used for tracking clicks for the sitelink asset. This is a Yahoo! Japan only field. */
-  trackingId?: string;
+  trackingId?: string | undefined;
   /** Second line of the description for the sitelink. If set, the length should be between 1 and 35, inclusive, and description1 must also be set. */
-  description2?: string;
+  description2?: string | undefined;
   /** Last date of when this asset is effective and still serving, in yyyy-MM-dd format. */
-  endDate?: string;
+  endDate?: string | undefined;
   /** List of non-overlapping schedules specifying all time intervals for which the asset may serve. There can be a maximum of 6 schedules per day, 42 in total. */
-  adScheduleTargets?: GoogleAdsSearchads360V0Common__AdScheduleInfoList;
+  adScheduleTargets?: GoogleAdsSearchads360V0Common__AdScheduleInfoList | undefined;
   /** Whether to show the sitelink asset in search user's time zone. Applies to Microsoft Ads. */
-  useSearcherTimeZone?: boolean;
+  useSearcherTimeZone?: boolean | undefined;
   /** Start date of when this asset is effective and can begin serving, in yyyy-MM-dd format. */
-  startDate?: string;
+  startDate?: string | undefined;
   /** First line of the description for the sitelink. If set, the length should be between 1 and 35, inclusive, and description2 must also be set. */
-  description1?: string;
+  description1?: string | undefined;
 }
 /** A Text asset. */
 export interface GoogleAdsSearchads360V0Common__TextAsset {
   /** Text content of the text asset. */
-  text?: string;
+  text?: string | undefined;
 }
 /** Business Profile location data synced from the linked Business Profile account. */
 export interface GoogleAdsSearchads360V0Common__BusinessProfileLocation {
   /** Listing ID of this Business Profile location. This is synced from the linked Business Profile account. */
-  listingId?: string;
+  listingId?: string | undefined;
   /** Advertiser specified label for the location on the Business Profile account. This is synced from the Business Profile account. */
-  labels?: StringList;
+  labels?: StringList | undefined;
   /** Business Profile store code of this location. This is synced from the Business Profile account. */
-  storeCode?: string;
+  storeCode?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Common__BusinessProfileLocationList =
   Array<GoogleAdsSearchads360V0Common__BusinessProfileLocation>;
@@ -1092,11 +1111,13 @@ export type GoogleAdsSearchads360V0Common__UnifiedLocationAssetLocationOwnership
 /** A unified location asset. */
 export interface GoogleAdsSearchads360V0Common__UnifiedLocationAsset {
   /** Place IDs uniquely identify a place in the Google Places database and on Google Maps. This field is unique for a given customer ID and asset type. See https://developers.google.com/places/web-service/place-id to learn more about Place ID. */
-  placeId?: string;
+  placeId?: string | undefined;
   /** The list of business locations for the customer. This will only be returned if the Location Asset is syncing from the Business Profile account. It is possible to have multiple Business Profile listings under the same account that point to the same Place ID. */
-  businessProfileLocations?: GoogleAdsSearchads360V0Common__BusinessProfileLocationList;
+  businessProfileLocations?: GoogleAdsSearchads360V0Common__BusinessProfileLocationList | undefined;
   /** The type of location ownership. If the type is BUSINESS_OWNER, it will be served as a location extension. If the type is AFFILIATE, it will be served as an affiliate location. */
-  locationOwnershipType?: GoogleAdsSearchads360V0Common__UnifiedLocationAssetLocationOwnershipTypeEnum;
+  locationOwnershipType?:
+    | GoogleAdsSearchads360V0Common__UnifiedLocationAssetLocationOwnershipTypeEnum
+    | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__AssetEngineStatusEnum =
   | "UNSPECIFIED"
@@ -1109,25 +1130,25 @@ export type GoogleAdsSearchads360V0Resources__AssetEngineStatusEnum =
 /** A Unified Page Feed asset. */
 export interface GoogleAdsSearchads360V0Common__UnifiedPageFeedAsset {
   /** Labels used to group the page urls. */
-  labels?: StringList;
+  labels?: StringList | undefined;
   /** The webpage that advertisers want to target. */
-  pageUrl?: string;
+  pageUrl?: string | undefined;
 }
 /** A YouTube asset. */
 export interface GoogleAdsSearchads360V0Common__YoutubeVideoAsset {
   /** YouTube video id. This is the 11 character string value used in the YouTube video URL. */
-  youtubeVideoId?: string;
+  youtubeVideoId?: string | undefined;
   /** YouTube video title. */
-  youtubeVideoTitle?: string;
+  youtubeVideoTitle?: string | undefined;
 }
 /** Metadata for an image at a certain size, either original or resized. */
 export interface GoogleAdsSearchads360V0Common__ImageDimension {
   /** Height of the image. */
-  heightPixels?: string;
+  heightPixels?: string | undefined;
   /** A URL that returns the image with this height and width. */
-  url?: string;
+  url?: string | undefined;
   /** Width of the image. */
-  widthPixels?: string;
+  widthPixels?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Common__ImageAssetMimeTypeEnum =
   | "UNSPECIFIED"
@@ -1147,11 +1168,11 @@ export type GoogleAdsSearchads360V0Common__ImageAssetMimeTypeEnum =
 /** An Image asset. */
 export interface GoogleAdsSearchads360V0Common__ImageAsset {
   /** Metadata for this image at its original size. */
-  fullSize?: GoogleAdsSearchads360V0Common__ImageDimension;
+  fullSize?: GoogleAdsSearchads360V0Common__ImageDimension | undefined;
   /** File size of the image asset in bytes. */
-  fileSize?: string;
+  fileSize?: string | undefined;
   /** MIME type of the image asset. */
-  mimeType?: GoogleAdsSearchads360V0Common__ImageAssetMimeTypeEnum;
+  mimeType?: GoogleAdsSearchads360V0Common__ImageAssetMimeTypeEnum | undefined;
 }
 export type GoogleAdsSearchads360V0Common__UnifiedCallAssetCallConversionReportingStateEnum =
   | "UNSPECIFIED"
@@ -1162,25 +1183,27 @@ export type GoogleAdsSearchads360V0Common__UnifiedCallAssetCallConversionReporti
 /** A unified call asset. */
 export interface GoogleAdsSearchads360V0Common__UnifiedCallAsset {
   /** Output only. Indicates whether this CallAsset should use its own call conversion setting, follow the account level setting, or disable call conversion. */
-  callConversionReportingState?: GoogleAdsSearchads360V0Common__UnifiedCallAssetCallConversionReportingStateEnum;
+  callConversionReportingState?:
+    | GoogleAdsSearchads360V0Common__UnifiedCallAssetCallConversionReportingStateEnum
+    | undefined;
   /** Two-letter country code of the phone number. Examples: 'US', 'us'. */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** Start date of when this asset is effective and can begin serving, in yyyy-MM-dd format. */
-  startDate?: string;
+  startDate?: string | undefined;
   /** Whether the call should be enabled on call tracking. Applies to Microsoft Ads. */
-  callTrackingEnabled?: boolean;
+  callTrackingEnabled?: boolean | undefined;
   /** The advertiser's raw phone number. Examples: '1234567890', '(123)456-7890' */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
   /** Whether the call only shows the phone number without a link to the website. Applies to Microsoft Ads. */
-  callOnly?: boolean;
+  callOnly?: boolean | undefined;
   /** The conversion action to attribute a call conversion to. If not set, the default conversion action is used. This field only has effect if call_conversion_reporting_state is set to USE_RESOURCE_LEVEL_CALL_CONVERSION_ACTION. */
-  callConversionAction?: string;
+  callConversionAction?: string | undefined;
   /** List of non-overlapping schedules specifying all time intervals for which the asset may serve. There can be a maximum of 6 schedules per day, 42 in total. */
-  adScheduleTargets?: GoogleAdsSearchads360V0Common__AdScheduleInfoList;
+  adScheduleTargets?: GoogleAdsSearchads360V0Common__AdScheduleInfoList | undefined;
   /** Whether to show the call extension in search user's time zone. Applies to Microsoft Ads. */
-  useSearcherTimeZone?: boolean;
+  useSearcherTimeZone?: boolean | undefined;
   /** Last date of when this asset is effective and still serving, in yyyy-MM-dd format. */
-  endDate?: string;
+  endDate?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Common__MobileAppAssetAppStoreEnum =
   | "UNSPECIFIED"
@@ -1190,60 +1213,60 @@ export type GoogleAdsSearchads360V0Common__MobileAppAssetAppStoreEnum =
 /** An asset representing a mobile app. */
 export interface GoogleAdsSearchads360V0Common__MobileAppAsset {
   /** Required. The application store that distributes this specific app. */
-  appStore?: GoogleAdsSearchads360V0Common__MobileAppAssetAppStoreEnum;
+  appStore?: GoogleAdsSearchads360V0Common__MobileAppAssetAppStoreEnum | undefined;
   /** Required. A string that uniquely identifies a mobile application. It should just contain the platform native id, like "com.android.ebay" for Android or "12345689" for iOS. */
-  appId?: string;
+  appId?: string | undefined;
 }
 /** Asset is a part of an ad which can be shared across multiple ads. It can be an image (ImageAsset), a video (YoutubeVideoAsset), etc. Assets are immutable and cannot be removed. To stop an asset from serving, remove the asset from the entity that is using it. */
 export interface GoogleAdsSearchads360V0Resources__Asset {
   /** Output only. The status of the asset. */
-  status?: GoogleAdsSearchads360V0Resources__AssetStatusEnum;
+  status?: GoogleAdsSearchads360V0Resources__AssetStatusEnum | undefined;
   /** A list of possible final mobile URLs after all cross domain redirects. */
-  finalMobileUrls?: StringList;
+  finalMobileUrls?: StringList | undefined;
   /** Output only. Type of the asset. */
-  type?: GoogleAdsSearchads360V0Resources__AssetTypeEnum;
+  type?: GoogleAdsSearchads360V0Resources__AssetTypeEnum | undefined;
   /** Optional name of the asset. */
-  name?: string;
+  name?: string | undefined;
   /** Immutable. A call to action asset. */
-  callToActionAsset?: GoogleAdsSearchads360V0Common__CallToActionAsset;
+  callToActionAsset?: GoogleAdsSearchads360V0Common__CallToActionAsset | undefined;
   /** URL template for constructing a tracking URL. */
-  trackingUrlTemplate?: string;
+  trackingUrlTemplate?: string | undefined;
   /** Output only. The ID of the asset. */
-  id?: string;
+  id?: string | undefined;
   /** Output only. A unified callout asset. */
-  calloutAsset?: GoogleAdsSearchads360V0Common__UnifiedCalloutAsset;
+  calloutAsset?: GoogleAdsSearchads360V0Common__UnifiedCalloutAsset | undefined;
   /** A list of mappings to be used for substituting URL custom parameter tags in the tracking_url_template, final_urls, and/or final_mobile_urls. */
-  urlCustomParameters?: GoogleAdsSearchads360V0Common__CustomParameterList;
+  urlCustomParameters?: GoogleAdsSearchads360V0Common__CustomParameterList | undefined;
   /** Output only. A unified sitelink asset. */
-  sitelinkAsset?: GoogleAdsSearchads360V0Common__UnifiedSitelinkAsset;
+  sitelinkAsset?: GoogleAdsSearchads360V0Common__UnifiedSitelinkAsset | undefined;
   /** Output only. A text asset. */
-  textAsset?: GoogleAdsSearchads360V0Common__TextAsset;
+  textAsset?: GoogleAdsSearchads360V0Common__TextAsset | undefined;
   /** Output only. The datetime when this asset was last modified. The datetime is in the customer's time zone and in "yyyy-MM-dd HH:mm:ss.ssssss" format. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** URL template for appending params to landing page URLs served with parallel tracking. */
-  finalUrlSuffix?: string;
+  finalUrlSuffix?: string | undefined;
   /** A list of possible final URLs after all cross domain redirects. */
-  finalUrls?: StringList;
+  finalUrls?: StringList | undefined;
   /** Output only. The timestamp when this asset was created. The timestamp is in the customer's time zone and in "yyyy-MM-dd HH:mm:ss" format. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Output only. A unified location asset. */
-  locationAsset?: GoogleAdsSearchads360V0Common__UnifiedLocationAsset;
+  locationAsset?: GoogleAdsSearchads360V0Common__UnifiedLocationAsset | undefined;
   /** Output only. The Engine Status for an asset. */
-  engineStatus?: GoogleAdsSearchads360V0Resources__AssetEngineStatusEnum;
+  engineStatus?: GoogleAdsSearchads360V0Resources__AssetEngineStatusEnum | undefined;
   /** Synthetic content info for the asset. Only assets with specific asset types are eligible for updates using the `synthetic_content_info` field. Allowed `AssetType` values: * `IMAGE` * `MEDIA_BUNDLE` * `YOUTUBE_VIDEO` */
-  syntheticContentInfo?: GoogleAdsSearchads360V0Common__SyntheticContentInfo;
+  syntheticContentInfo?: GoogleAdsSearchads360V0Common__SyntheticContentInfo | undefined;
   /** Output only. A unified page feed asset. */
-  pageFeedAsset?: GoogleAdsSearchads360V0Common__UnifiedPageFeedAsset;
+  pageFeedAsset?: GoogleAdsSearchads360V0Common__UnifiedPageFeedAsset | undefined;
   /** Immutable. A YouTube video asset. */
-  youtubeVideoAsset?: GoogleAdsSearchads360V0Common__YoutubeVideoAsset;
+  youtubeVideoAsset?: GoogleAdsSearchads360V0Common__YoutubeVideoAsset | undefined;
   /** Immutable. The resource name of the asset. Asset resource names have the form: `customers/{customer_id}/assets/{asset_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Output only. An image asset. */
-  imageAsset?: GoogleAdsSearchads360V0Common__ImageAsset;
+  imageAsset?: GoogleAdsSearchads360V0Common__ImageAsset | undefined;
   /** Output only. A unified call asset. */
-  callAsset?: GoogleAdsSearchads360V0Common__UnifiedCallAsset;
+  callAsset?: GoogleAdsSearchads360V0Common__UnifiedCallAsset | undefined;
   /** A mobile app asset. */
-  mobileAppAsset?: GoogleAdsSearchads360V0Common__MobileAppAsset;
+  mobileAppAsset?: GoogleAdsSearchads360V0Common__MobileAppAsset | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__ConversionAssetFieldTypeEnum =
   | "UNSPECIFIED"
@@ -1296,58 +1319,58 @@ export type GoogleAdsSearchads360V0Resources__ConversionStatusEnum =
 /** A conversion. */
 export interface GoogleAdsSearchads360V0Resources__Conversion {
   /** Output only. The ID of the conversion */
-  id?: string;
+  id?: string | undefined;
   /** Output only. The timestamp of the last time the conversion was modified. */
-  conversionLastModifiedDateTime?: string;
+  conversionLastModifiedDateTime?: string | undefined;
   /** Output only. The Floodlight order ID provided by the advertiser for the conversion. */
-  floodlightOrderId?: string;
+  floodlightOrderId?: string | undefined;
   /** Output only. Asset field type of the conversion event. */
-  assetFieldType?: GoogleAdsSearchads360V0Resources__ConversionAssetFieldTypeEnum;
+  assetFieldType?: GoogleAdsSearchads360V0Resources__ConversionAssetFieldTypeEnum | undefined;
   /** Output only. The resource name of the conversion. Conversion resource names have the form: `customers/{customer_id}/conversions/{ad_group_id}~{criterion_id}~{ds_conversion_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Output only. The country (ISO-3166-format) registered for the inventory feed that contains the product clicked on. */
-  productCountryCode?: string;
+  productCountryCode?: string | undefined;
   /** Output only. The timestamp of the visit that the conversion is attributed to. */
-  conversionVisitDateTime?: string;
+  conversionVisitDateTime?: string | undefined;
   /** Output only. A unique string, for the visit that the conversion is attributed to, that is passed to the landing page as the click id URL parameter. */
-  clickId?: string;
+  clickId?: string | undefined;
   /** Output only. What the conversion is attributed to: Visit or Keyword+Ad. */
-  attributionType?: GoogleAdsSearchads360V0Resources__ConversionAttributionTypeEnum;
+  attributionType?: GoogleAdsSearchads360V0Resources__ConversionAttributionTypeEnum | undefined;
   /** Output only. The sales channel of the product that was clicked on: Online or Local. */
-  productChannel?: GoogleAdsSearchads360V0Resources__ConversionProductChannelEnum;
+  productChannel?: GoogleAdsSearchads360V0Resources__ConversionProductChannelEnum | undefined;
   /** Output only. The adjusted revenue in micros for the conversion event. This will always be in the currency of the serving account. */
-  conversionRevenueMicros?: string;
+  conversionRevenueMicros?: string | undefined;
   /** Output only. For offline conversions, this is an ID provided by advertisers. If an advertiser doesn't specify such an ID, Search Ads 360 generates one. For online conversions, this is equal to the id column or the floodlight_order_id column depending on the advertiser's Floodlight instructions. */
-  advertiserConversionId?: string;
+  advertiserConversionId?: string | undefined;
   /** Output only. The Search Ads 360 inventory account ID containing the product that was clicked on. Search Ads 360 generates this ID when you link an inventory account in Search Ads 360. */
-  merchantId?: string;
+  merchantId?: string | undefined;
   /** Output only. The ID of the product clicked on. */
-  productId?: string;
+  productId?: string | undefined;
   /** Output only. The Search Ads 360 visit ID that the conversion is attributed to. */
-  visitId?: string;
+  visitId?: string | undefined;
   /** Output only. The original, unchanged revenue associated with the Floodlight event (in the currency of the current report), before Floodlight currency instruction modifications. */
-  floodlightOriginalRevenue?: string;
+  floodlightOriginalRevenue?: string | undefined;
   /** Output only. The status of the conversion, either ENABLED or REMOVED.. */
-  status?: GoogleAdsSearchads360V0Resources__ConversionStatusEnum;
+  status?: GoogleAdsSearchads360V0Resources__ConversionStatusEnum | undefined;
   /** Output only. The store in the Local Inventory Ad that was clicked on. This should match the store IDs used in your local products feed. */
-  productStoreId?: string;
+  productStoreId?: string | undefined;
   /** Output only. The language (ISO-639-1) that has been set for the Merchant Center feed containing data about the product. */
-  productLanguageCode?: string;
+  productLanguageCode?: string | undefined;
   /** Output only. ID of the asset which was interacted with during the conversion event. */
-  assetId?: string;
+  assetId?: string | undefined;
   /** Output only. Search Ads 360 criterion ID. A value of 0 indicates that the criterion is unattributed. */
-  criterionId?: string;
+  criterionId?: string | undefined;
   /** Output only. The timestamp of the conversion event. */
-  conversionDateTime?: string;
+  conversionDateTime?: string | undefined;
   /** Output only. Ad ID. A value of 0 indicates that the ad is unattributed. */
-  adId?: string;
+  adId?: string | undefined;
   /** Output only. The quantity of items recorded by the conversion, as determined by the qty url parameter. The advertiser is responsible for dynamically populating the parameter (such as number of items sold in the conversion), otherwise it defaults to 1. */
-  conversionQuantity?: string;
+  conversionQuantity?: string | undefined;
 }
 /** A location view summarizes the performance of campaigns by a Location criterion. */
 export interface GoogleAdsSearchads360V0Resources__LocationView {
   /** Output only. The resource name of the location view. Location view resource names have the form: `customers/{customer_id}/locationViews/{campaign_id}~{criterion_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__CustomerManagerLinkStatusEnum =
   | "UNSPECIFIED"
@@ -1360,29 +1383,29 @@ export type GoogleAdsSearchads360V0Resources__CustomerManagerLinkStatusEnum =
 /** Represents customer-manager link relationship. */
 export interface GoogleAdsSearchads360V0Resources__CustomerManagerLink {
   /** Immutable. Name of the resource. CustomerManagerLink resource names have the form: `customers/{customer_id}/customerManagerLinks/{manager_customer_id}~{manager_link_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Output only. The timestamp when the CustomerManagerLink was created. The timestamp is in the customer's time zone and in "yyyy-MM-dd HH:mm:ss" format. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Status of the link between the customer and the manager. */
-  status?: GoogleAdsSearchads360V0Resources__CustomerManagerLinkStatusEnum;
+  status?: GoogleAdsSearchads360V0Resources__CustomerManagerLinkStatusEnum | undefined;
   /** Output only. The manager customer linked to the customer. */
-  managerCustomer?: string;
+  managerCustomer?: string | undefined;
   /** Output only. ID of the customer-manager link. This field is read only. */
-  managerLinkId?: string;
+  managerLinkId?: string | undefined;
 }
 /** An automated bidding strategy to help get the most conversion value for your campaigns while spending your budget. */
 export interface GoogleAdsSearchads360V0Common__MaximizeConversionValue {
   /** Minimum bid limit that can be set by the bid strategy. The limit applies to all keywords managed by the strategy. Mutable for portfolio bidding strategies only. */
-  cpcBidFloorMicros?: string;
+  cpcBidFloorMicros?: string | undefined;
   /** The target return on ad spend (ROAS) option. If set, the bid strategy will maximize revenue while averaging the target return on ad spend. If the target ROAS is high, the bid strategy may not be able to spend the full budget. If the target ROAS is not set, the bid strategy will aim to achieve the highest possible ROAS for the budget. */
-  targetRoas?: number;
+  targetRoas?: number | undefined;
   /** Maximum bid limit that can be set by the bid strategy. The limit applies to all keywords managed by the strategy. Mutable for portfolio bidding strategies only. */
-  cpcBidCeilingMicros?: string;
+  cpcBidCeilingMicros?: string | undefined;
 }
 /** An automated bidding strategy that sets bids based on the target fraction of auctions where the advertiser should outrank a specific competitor. This strategy is deprecated. */
 export interface GoogleAdsSearchads360V0Common__TargetOutrankShare {
   /** Maximum bid limit that can be set by the bid strategy. The limit applies to all keywords managed by the strategy. */
-  cpcBidCeilingMicros?: string;
+  cpcBidCeilingMicros?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Common__TargetImpressionShareLocationEnum =
   | "UNSPECIFIED"
@@ -1393,27 +1416,27 @@ export type GoogleAdsSearchads360V0Common__TargetImpressionShareLocationEnum =
 /** An automated bidding strategy that sets bids so that a certain percentage of search ads are shown at the top of the first page (or other targeted location). */
 export interface GoogleAdsSearchads360V0Common__TargetImpressionShare {
   /** The targeted location on the search results page. */
-  location?: GoogleAdsSearchads360V0Common__TargetImpressionShareLocationEnum;
+  location?: GoogleAdsSearchads360V0Common__TargetImpressionShareLocationEnum | undefined;
   /** The highest CPC bid the automated bidding system is permitted to specify. This is a required field entered by the advertiser that sets the ceiling and specified in local micros. */
-  cpcBidCeilingMicros?: string;
+  cpcBidCeilingMicros?: string | undefined;
   /** The chosen fraction of ads to be shown in the targeted location in micros. For example, 1% equals 10,000. */
-  locationFractionMicros?: string;
+  locationFractionMicros?: string | undefined;
 }
 /** An automated bid strategy that sets your bids to help get as many clicks as possible within your budget. */
 export interface GoogleAdsSearchads360V0Common__TargetSpend {
   /** Deprecated: The spend target under which to maximize clicks. A TargetSpend bidder will attempt to spend the smaller of this value or the natural throttling spend amount. If not specified, the budget is used as the spend target. This field is deprecated and should no longer be used. See https://ads-developers.googleblog.com/2020/05/reminder-about-sunset-creation-of.html for details. */
-  targetSpendMicros?: string;
+  targetSpendMicros?: string | undefined;
   /** Maximum bid limit that can be set by the bid strategy. The limit applies to all keywords managed by the strategy. */
-  cpcBidCeilingMicros?: string;
+  cpcBidCeilingMicros?: string | undefined;
 }
 /** An automated bid strategy that sets bids to help get as many conversions as possible at the target cost-per-acquisition (CPA) you set. */
 export interface GoogleAdsSearchads360V0Common__TargetCpa {
   /** Minimum bid limit that can be set by the bid strategy. The limit applies to all keywords managed by the strategy. This should only be set for portfolio bid strategies. */
-  cpcBidFloorMicros?: string;
+  cpcBidFloorMicros?: string | undefined;
   /** Maximum bid limit that can be set by the bid strategy. The limit applies to all keywords managed by the strategy. This should only be set for portfolio bid strategies. */
-  cpcBidCeilingMicros?: string;
+  cpcBidCeilingMicros?: string | undefined;
   /** Average CPA target. This target should be greater than or equal to minimum billable unit based on the currency for the account. */
-  targetCpaMicros?: string;
+  targetCpaMicros?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__BiddingStrategyStatusEnum =
   | "UNSPECIFIED"
@@ -1446,57 +1469,57 @@ export type GoogleAdsSearchads360V0Resources__BiddingStrategyTypeEnum =
 /** An automated bidding strategy to help get the most conversions for your campaigns while spending your budget. */
 export interface GoogleAdsSearchads360V0Common__MaximizeConversions {
   /** Maximum bid limit that can be set by the bid strategy. The limit applies to all keywords managed by the strategy. Mutable for portfolio bidding strategies only. */
-  cpcBidCeilingMicros?: string;
+  cpcBidCeilingMicros?: string | undefined;
   /** The target cost-per-action (CPA) option. This is the average amount that you would like to spend per conversion action specified in micro units of the bidding strategy's currency. If set, the bid strategy will get as many conversions as possible at or below the target cost-per-action. If the target CPA is not set, the bid strategy will aim to achieve the lowest possible CPA given the budget. */
-  targetCpaMicros?: string;
+  targetCpaMicros?: string | undefined;
   /** Minimum bid limit that can be set by the bid strategy. The limit applies to all keywords managed by the strategy. Mutable for portfolio bidding strategies only. */
-  cpcBidFloorMicros?: string;
+  cpcBidFloorMicros?: string | undefined;
 }
 /** An automated bidding strategy that helps you maximize revenue while averaging a specific target return on ad spend (ROAS). */
 export interface GoogleAdsSearchads360V0Common__TargetRoas {
   /** Maximum bid limit that can be set by the bid strategy. The limit applies to all keywords managed by the strategy. This should only be set for portfolio bid strategies. */
-  cpcBidCeilingMicros?: string;
+  cpcBidCeilingMicros?: string | undefined;
   /** Required. The chosen revenue (based on conversion data) per unit of spend. Value must be between 0.01 and 1000.0, inclusive. */
-  targetRoas?: number;
+  targetRoas?: number | undefined;
   /** Minimum bid limit that can be set by the bid strategy. The limit applies to all keywords managed by the strategy. This should only be set for portfolio bid strategies. */
-  cpcBidFloorMicros?: string;
+  cpcBidFloorMicros?: string | undefined;
 }
 /** A bidding strategy. */
 export interface GoogleAdsSearchads360V0Resources__BiddingStrategy {
   /** An automated bidding strategy to help get the most conversion value for your campaigns while spending your budget. */
-  maximizeConversionValue?: GoogleAdsSearchads360V0Common__MaximizeConversionValue;
+  maximizeConversionValue?: GoogleAdsSearchads360V0Common__MaximizeConversionValue | undefined;
   /** Output only. The ID of the bidding strategy. */
-  id?: string;
+  id?: string | undefined;
   /** A bidding strategy that sets bids based on the target fraction of auctions where the advertiser should outrank a specific competitor. This field is deprecated. Creating a new bidding strategy with this field or attaching bidding strategies with this field to a campaign will fail. Mutates to strategies that already have this scheme populated are allowed. */
-  targetOutrankShare?: GoogleAdsSearchads360V0Common__TargetOutrankShare;
+  targetOutrankShare?: GoogleAdsSearchads360V0Common__TargetOutrankShare | undefined;
   /** A bidding strategy that automatically optimizes towards a chosen percentage of impressions. */
-  targetImpressionShare?: GoogleAdsSearchads360V0Common__TargetImpressionShare;
+  targetImpressionShare?: GoogleAdsSearchads360V0Common__TargetImpressionShare | undefined;
   /** Output only. The number of non-removed campaigns attached to this bidding strategy. This field is read-only. */
-  nonRemovedCampaignCount?: string;
+  nonRemovedCampaignCount?: string | undefined;
   /** A bid strategy that sets your bids to help get as many clicks as possible within your budget. */
-  targetSpend?: GoogleAdsSearchads360V0Common__TargetSpend;
+  targetSpend?: GoogleAdsSearchads360V0Common__TargetSpend | undefined;
   /** Immutable. The currency used by the bidding strategy (ISO 4217 three-letter code). For bidding strategies in manager customers, this currency can be set on creation and defaults to the manager customer's currency. For serving customers, this field cannot be set; all strategies in a serving customer implicitly use the serving customer's currency. In all cases the effective_currency_code field returns the currency used by the strategy. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** Immutable. The resource name of the bidding strategy. Bidding strategy resource names have the form: `customers/{customer_id}/biddingStrategies/{bidding_strategy_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** A bidding strategy that sets bids to help get as many conversions as possible at the target cost-per-acquisition (CPA) you set. */
-  targetCpa?: GoogleAdsSearchads360V0Common__TargetCpa;
+  targetCpa?: GoogleAdsSearchads360V0Common__TargetCpa | undefined;
   /** Output only. The currency used by the bidding strategy (ISO 4217 three-letter code). For bidding strategies in manager customers, this is the currency set by the advertiser when creating the strategy. For serving customers, this is the customer's currency_code. Bidding strategy metrics are reported in this currency. This field is read-only. */
-  effectiveCurrencyCode?: string;
+  effectiveCurrencyCode?: string | undefined;
   /** Output only. The status of the bidding strategy. This field is read-only. */
-  status?: GoogleAdsSearchads360V0Resources__BiddingStrategyStatusEnum;
+  status?: GoogleAdsSearchads360V0Resources__BiddingStrategyStatusEnum | undefined;
   /** A bidding strategy that raises bids for clicks that seem more likely to lead to a conversion and lowers them for clicks where they seem less likely. */
-  enhancedCpc?: GoogleAdsSearchads360V0Common__SearchAds360ProductAdInfo;
+  enhancedCpc?: GoogleAdsSearchads360V0Common__SearchAds360ProductAdInfo | undefined;
   /** Output only. The number of campaigns attached to this bidding strategy. This field is read-only. */
-  campaignCount?: string;
+  campaignCount?: string | undefined;
   /** The name of the bidding strategy. All bidding strategies within an account must be named distinctly. The length of this string should be between 1 and 255, inclusive, in UTF-8 bytes, (trimmed). */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The type of the bidding strategy. Create a bidding strategy by setting the bidding scheme. This field is read-only. */
-  type?: GoogleAdsSearchads360V0Resources__BiddingStrategyTypeEnum;
+  type?: GoogleAdsSearchads360V0Resources__BiddingStrategyTypeEnum | undefined;
   /** An automated bidding strategy to help get the most conversions for your campaigns while spending your budget. */
-  maximizeConversions?: GoogleAdsSearchads360V0Common__MaximizeConversions;
+  maximizeConversions?: GoogleAdsSearchads360V0Common__MaximizeConversions | undefined;
   /** A bidding strategy that helps you maximize revenue while averaging a specific target Return On Ad Spend (ROAS). */
-  targetRoas?: GoogleAdsSearchads360V0Common__TargetRoas;
+  targetRoas?: GoogleAdsSearchads360V0Common__TargetRoas | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__CampaignAssetStatusEnum =
   | "UNSPECIFIED"
@@ -1507,13 +1530,13 @@ export type GoogleAdsSearchads360V0Resources__CampaignAssetStatusEnum =
 /** A link between a Campaign and an Asset. */
 export interface GoogleAdsSearchads360V0Resources__CampaignAsset {
   /** Immutable. The asset which is linked to the campaign. */
-  asset?: string;
+  asset?: string | undefined;
   /** Output only. Status of the campaign asset. */
-  status?: GoogleAdsSearchads360V0Resources__CampaignAssetStatusEnum;
+  status?: GoogleAdsSearchads360V0Resources__CampaignAssetStatusEnum | undefined;
   /** Immutable. The resource name of the campaign asset. CampaignAsset resource names have the form: `customers/{customer_id}/campaignAssets/{campaign_id}~{asset_id}~{field_type}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Immutable. The campaign to which the asset is linked. */
-  campaign?: string;
+  campaign?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__VisitAssetFieldTypeEnum =
   | "UNSPECIFIED"
@@ -1556,48 +1579,48 @@ export type GoogleAdsSearchads360V0Resources__VisitProductChannelEnum =
 /** A visit. */
 export interface GoogleAdsSearchads360V0Resources__Visit {
   /** Output only. Ad ID. A value of 0 indicates that the ad is unattributed. */
-  adId?: string;
+  adId?: string | undefined;
   /** Output only. The resource name of the visit. Visit resource names have the form: `customers/{customer_id}/visits/{ad_group_id}~{criterion_id}~{ds_visit_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Output only. The store in the Local Inventory Ad that was clicked on. This should match the store IDs used in your local products feed. */
-  productStoreId?: string;
+  productStoreId?: string | undefined;
   /** Output only. The timestamp of the visit event. The timestamp is in the customer's time zone and in "yyyy-MM-dd HH:mm:ss" format. */
-  visitDateTime?: string;
+  visitDateTime?: string | undefined;
   /** Output only. A unique string for each visit that is passed to the landing page as the click id URL parameter. */
-  clickId?: string;
+  clickId?: string | undefined;
   /** Output only. The country (ISO-3166 format) registered for the inventory feed that contains the product clicked on. */
-  productCountryCode?: string;
+  productCountryCode?: string | undefined;
   /** Output only. The ID of the visit. */
-  id?: string;
+  id?: string | undefined;
   /** Output only. Asset field type of the visit event. */
-  assetFieldType?: GoogleAdsSearchads360V0Resources__VisitAssetFieldTypeEnum;
+  assetFieldType?: GoogleAdsSearchads360V0Resources__VisitAssetFieldTypeEnum | undefined;
   /** Output only. The ID of the product clicked on. */
-  productId?: string;
+  productId?: string | undefined;
   /** Output only. ID of the asset which was interacted with during the visit event. */
-  assetId?: string;
+  assetId?: string | undefined;
   /** Output only. The sales channel of the product that was clicked on: Online or Local. */
-  productChannel?: GoogleAdsSearchads360V0Resources__VisitProductChannelEnum;
+  productChannel?: GoogleAdsSearchads360V0Resources__VisitProductChannelEnum | undefined;
   /** Output only. Search Ads 360 keyword ID. A value of 0 indicates that the keyword is unattributed. */
-  criterionId?: string;
+  criterionId?: string | undefined;
   /** Output only. The language (ISO-639-1) that has been set for the Merchant Center feed containing data about the product. */
-  productLanguageCode?: string;
+  productLanguageCode?: string | undefined;
   /** Output only. The Search Ads 360 inventory account ID containing the product that was clicked on. Search Ads 360 generates this ID when you link an inventory account in Search Ads 360. */
-  merchantId?: string;
+  merchantId?: string | undefined;
 }
 /** The setting for Shopping campaigns. Defines the universe of products that can be advertised by the campaign, and how this campaign interacts with other Shopping campaigns. */
 export interface GoogleAdsSearchads360V0Resources_Campaign_ShoppingSetting {
   /** Feed label of products to include in the campaign. Valid feed labels may contain a maximum of 20 characters including uppercase letters, numbers, hyphens, and underscores. If you previously used the deprecated `sales_country` in the two-letter country code (`XX`) format, the `feed_label` field should be used instead. For more information see the [feed label](//support.google.com/merchants/answer/12453549) support article. */
-  feedLabel?: string;
+  feedLabel?: string | undefined;
   /** Sales country of products to include in the campaign. */
-  salesCountry?: string;
+  salesCountry?: string | undefined;
   /** Immutable. Whether to target Vehicle Listing inventory. */
-  useVehicleInventory?: boolean;
+  useVehicleInventory?: boolean | undefined;
   /** Whether to include local products. */
-  enableLocal?: boolean;
+  enableLocal?: boolean | undefined;
   /** Priority of the campaign. Campaigns with numerically higher priorities take precedence over those with lower priorities. This field is required for Shopping campaigns, with values between 0 and 2, inclusive. This field is optional for Smart Shopping campaigns, but must be equal to 3 if set. */
-  campaignPriority?: number;
+  campaignPriority?: number | undefined;
   /** Immutable. ID of the Merchant Center account. This field is required for create operations. This field is immutable for Shopping campaigns. */
-  merchantId?: string;
+  merchantId?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__CampaignServingStatusEnum =
   | "UNSPECIFIED"
@@ -1669,7 +1692,7 @@ export type GoogleAdsSearchads360V0Resources__CampaignBiddingStrategySystemStatu
 /** Campaign-level settings for tracking information. */
 export interface GoogleAdsSearchads360V0Resources_Campaign_TrackingSetting {
   /** Output only. The url used for dynamic tracking. */
-  trackingUrl?: string;
+  trackingUrl?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__CampaignFeedTypesItemEnum =
   | "UNSPECIFIED"
@@ -1719,23 +1742,25 @@ export type GoogleAdsSearchads360V0Resources_Campaign_OptimizationGoalSettingOpt
 /** Optimization goal setting for this campaign, which includes a set of optimization goal types. */
 export interface GoogleAdsSearchads360V0Resources_Campaign_OptimizationGoalSetting {
   /** The list of optimization goal types. */
-  optimizationGoalTypes?: GoogleAdsSearchads360V0Resources_Campaign_OptimizationGoalSettingOptimizationGoalTypesItemEnumList;
+  optimizationGoalTypes?:
+    | GoogleAdsSearchads360V0Resources_Campaign_OptimizationGoalSettingOptimizationGoalTypesItemEnumList
+    | undefined;
 }
 /** The network settings for the campaign. */
 export interface GoogleAdsSearchads360V0Resources_Campaign_NetworkSettings {
   /** Whether ads will be served on specified placements in the Google Display Network. Placements are specified using the Placement criterion. */
-  targetContentNetwork?: boolean;
+  targetContentNetwork?: boolean | undefined;
   /** Whether ads will be served on the partner network. This is available only to some select partner accounts. Unless you have been instructed to use this field, it likely does not apply to your account. This does not control whether ads will be served on Google Search Partners Network; use `target_search_network` for that instead. */
-  targetPartnerSearchNetwork?: boolean;
+  targetPartnerSearchNetwork?: boolean | undefined;
   /** Whether ads will be served on sites in the Google Search Partners Network (requires `target_google_search` to also be `true`). */
-  targetSearchNetwork?: boolean;
+  targetSearchNetwork?: boolean | undefined;
   /** Whether ads will be served with google.com search results. */
-  targetGoogleSearch?: boolean;
+  targetGoogleSearch?: boolean | undefined;
 }
 /** Settings for Real-Time Bidding, a feature only available for campaigns targeting the Ad Exchange network. */
 export interface GoogleAdsSearchads360V0Common__RealTimeBiddingSetting {
   /** Whether the campaign is opted in to real-time bidding. */
-  optIn?: boolean;
+  optIn?: boolean | undefined;
 }
 /** Manual bidding strategy that allows advertiser to set the bid per advertiser-specified action. */
 export type GoogleAdsSearchads360V0Common__ManualCpa =
@@ -1743,14 +1768,14 @@ export type GoogleAdsSearchads360V0Common__ManualCpa =
 /** A bidding strategy where bids are a fraction of the advertised price for some good or service. */
 export interface GoogleAdsSearchads360V0Common__PercentCpc {
   /** Maximum bid limit that can be set by the bid strategy. This is an optional field entered by the advertiser and specified in local micros. Note: A zero value is interpreted in the same way as having bid_ceiling undefined. */
-  cpcBidCeilingMicros?: string;
+  cpcBidCeilingMicros?: string | undefined;
   /** Adjusts the bid for each auction upward or downward, depending on the likelihood of a conversion. Individual bids may exceed cpc_bid_ceiling_micros, but the average bid amount for a campaign should not. */
-  enhancedCpcEnabled?: boolean;
+  enhancedCpcEnabled?: boolean | undefined;
 }
 /** Selective optimization setting for this campaign, which includes a set of conversion actions to optimize this campaign towards. This feature only applies to app campaigns that use MULTI_CHANNEL as AdvertisingChannelType and APP_CAMPAIGN or APP_CAMPAIGN_FOR_ENGAGEMENT as AdvertisingChannelSubType. */
 export interface GoogleAdsSearchads360V0Resources_Campaign_SelectiveOptimization {
   /** The selected set of resource names for conversion actions for optimizing this campaign. */
-  conversionActions?: StringList;
+  conversionActions?: StringList | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__CampaignExcludedParentAssetFieldTypesItemEnum =
   | "UNSPECIFIED"
@@ -1821,16 +1846,16 @@ export type GoogleAdsSearchads360V0Resources__CampaignAdServingOptimizationStatu
 /** The setting for controlling Dynamic Search Ads (DSA). */
 export interface GoogleAdsSearchads360V0Resources_Campaign_DynamicSearchAdsSetting {
   /** Required. The Internet domain name that this setting represents, for example, "google.com" or "www.google.com". */
-  domainName?: string;
+  domainName?: string | undefined;
   /** Required. The language code specifying the language of the domain, for example, "en". */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Whether the campaign uses advertiser supplied URLs exclusively. */
-  useSuppliedUrlsOnly?: boolean;
+  useSuppliedUrlsOnly?: boolean | undefined;
 }
 /** Manual click-based bidding where user pays per click. */
 export interface GoogleAdsSearchads360V0Common__ManualCpc {
   /** Whether bids are to be enhanced based on conversion optimizer data. */
-  enhancedCpcEnabled?: boolean;
+  enhancedCpcEnabled?: boolean | undefined;
 }
 export type GoogleAdsSearchads360V0Resources_Campaign_GeoTargetTypeSettingPositiveGeoTargetTypeEnum =
   | "UNSPECIFIED"
@@ -1846,9 +1871,13 @@ export type GoogleAdsSearchads360V0Resources_Campaign_GeoTargetTypeSettingNegati
 /** Represents a collection of settings related to ads geotargeting. */
 export interface GoogleAdsSearchads360V0Resources_Campaign_GeoTargetTypeSetting {
   /** The setting used for positive geotargeting in this particular campaign. */
-  positiveGeoTargetType?: GoogleAdsSearchads360V0Resources_Campaign_GeoTargetTypeSettingPositiveGeoTargetTypeEnum;
+  positiveGeoTargetType?:
+    | GoogleAdsSearchads360V0Resources_Campaign_GeoTargetTypeSettingPositiveGeoTargetTypeEnum
+    | undefined;
   /** The setting used for negative geotargeting in this particular campaign. */
-  negativeGeoTargetType?: GoogleAdsSearchads360V0Resources_Campaign_GeoTargetTypeSettingNegativeGeoTargetTypeEnum;
+  negativeGeoTargetType?:
+    | GoogleAdsSearchads360V0Resources_Campaign_GeoTargetTypeSettingNegativeGeoTargetTypeEnum
+    | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__CampaignStatusEnum =
   | "UNSPECIFIED"
@@ -1859,110 +1888,128 @@ export type GoogleAdsSearchads360V0Resources__CampaignStatusEnum =
 /** A campaign. */
 export interface GoogleAdsSearchads360V0Resources__Campaign {
   /** The setting for controlling Shopping campaigns. */
-  shoppingSetting?: GoogleAdsSearchads360V0Resources_Campaign_ShoppingSetting;
+  shoppingSetting?: GoogleAdsSearchads360V0Resources_Campaign_ShoppingSetting | undefined;
   /** Output only. The ad serving status of the campaign. */
-  servingStatus?: GoogleAdsSearchads360V0Resources__CampaignServingStatusEnum;
+  servingStatus?: GoogleAdsSearchads360V0Resources__CampaignServingStatusEnum | undefined;
   /** Suffix used to append query parameters to landing pages that are served with parallel tracking. */
-  finalUrlSuffix?: string;
+  finalUrlSuffix?: string | undefined;
   /** The last day of the campaign in serving customer's timezone in YYYY-MM-DD format. On create, defaults to 2037-12-30, which means the campaign will run indefinitely. To set an existing campaign to run indefinitely, set this field to 2037-12-30. */
-  endDate?: string;
+  endDate?: string | undefined;
   /** Standard Manual CPM bidding strategy. Manual impression-based bidding where user pays per thousand impressions. */
-  manualCpm?: GoogleAdsSearchads360V0Common__SearchAds360ProductAdInfo;
+  manualCpm?: GoogleAdsSearchads360V0Common__SearchAds360ProductAdInfo | undefined;
   /** The URL template for constructing a tracking URL. */
-  trackingUrlTemplate?: string;
+  trackingUrlTemplate?: string | undefined;
   /** A list that limits how often each user will see this campaign's ads. */
-  frequencyCaps?: GoogleAdsSearchads360V0Common__FrequencyCapEntryList;
+  frequencyCaps?: GoogleAdsSearchads360V0Common__FrequencyCapEntryList | undefined;
   /** Immutable. Optional refinement to `advertising_channel_type`. Must be a valid sub-type of the parent channel type. Can be set only when creating campaigns. After campaign is created, the field can not be changed. */
-  advertisingChannelSubType?: GoogleAdsSearchads360V0Resources__CampaignAdvertisingChannelSubTypeEnum;
+  advertisingChannelSubType?:
+    | GoogleAdsSearchads360V0Resources__CampaignAdvertisingChannelSubTypeEnum
+    | undefined;
   /** Output only. The datetime when this campaign was last modified. The datetime is in the customer's time zone and in "yyyy-MM-dd HH:mm:ss.ssssss" format. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** The name of the campaign. This field is required and should not be empty when creating new campaigns. It must not contain any null (code point 0x0), NL line feed (code point 0xA) or carriage return (code point 0xD) characters. */
-  name?: string;
+  name?: string | undefined;
   /** Represents opting out of URL expansion to more targeted URLs. If opted out (true), only the final URLs in the asset group or URLs specified in the advertiser's Google Merchant Center or business data feeds are targeted. If opted in (false), the entire domain will be targeted. This field can only be set for Performance Max campaigns, where the default value is false. */
-  urlExpansionOptOut?: boolean;
+  urlExpansionOptOut?: boolean | undefined;
   /** Output only. The system status of the campaign's bidding strategy. */
-  biddingStrategySystemStatus?: GoogleAdsSearchads360V0Resources__CampaignBiddingStrategySystemStatusEnum;
+  biddingStrategySystemStatus?:
+    | GoogleAdsSearchads360V0Resources__CampaignBiddingStrategySystemStatusEnum
+    | undefined;
   /** The date when campaign started in serving customer's timezone in YYYY-MM-DD format. */
-  startDate?: string;
+  startDate?: string | undefined;
   /** Output only. The timestamp when this campaign was created. The timestamp is in the customer's time zone and in "yyyy-MM-dd HH:mm:ss" format. create_time will be deprecated in v1. Use creation_time instead. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The resource names of labels attached to this campaign. */
-  labels?: StringList;
+  labels?: StringList | undefined;
   /** Output only. Campaign-level settings for tracking information. */
-  trackingSetting?: GoogleAdsSearchads360V0Resources_Campaign_TrackingSetting;
+  trackingSetting?: GoogleAdsSearchads360V0Resources_Campaign_TrackingSetting | undefined;
   /** Output only. Types of feeds that are attached directly to this campaign. */
-  feedTypes?: GoogleAdsSearchads360V0Resources__CampaignFeedTypesItemEnumList;
+  feedTypes?: GoogleAdsSearchads360V0Resources__CampaignFeedTypesItemEnumList | undefined;
   /** Immutable. The primary serving target for ads within the campaign. The targeting options can be refined in `network_settings`. This field is required and should not be empty when creating new campaigns. Can be set only when creating campaigns. After the campaign is created, the field can not be changed. */
-  advertisingChannelType?: GoogleAdsSearchads360V0Resources__CampaignAdvertisingChannelTypeEnum;
+  advertisingChannelType?:
+    | GoogleAdsSearchads360V0Resources__CampaignAdvertisingChannelTypeEnum
+    | undefined;
   /** The resource name of the campaign budget of the campaign. */
-  campaignBudget?: string;
+  campaignBudget?: string | undefined;
   /** Optimization goal setting for this campaign, which includes a set of optimization goal types. */
-  optimizationGoalSetting?: GoogleAdsSearchads360V0Resources_Campaign_OptimizationGoalSetting;
+  optimizationGoalSetting?:
+    | GoogleAdsSearchads360V0Resources_Campaign_OptimizationGoalSetting
+    | undefined;
   /** Output only. The ID of the campaign. */
-  id?: string;
+  id?: string | undefined;
   /** The network settings for the campaign. */
-  networkSettings?: GoogleAdsSearchads360V0Resources_Campaign_NetworkSettings;
+  networkSettings?: GoogleAdsSearchads360V0Resources_Campaign_NetworkSettings | undefined;
   /** Immutable. The resource name of the campaign. Campaign resource names have the form: `customers/{customer_id}/campaigns/{campaign_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Output only. The timestamp when this campaign was created. The timestamp is in the customer's time zone and in "yyyy-MM-dd HH:mm:ss" format. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Output only. The resource names of effective labels attached to this campaign. An effective label is a label inherited or directly assigned to this campaign. */
-  effectiveLabels?: StringList;
+  effectiveLabels?: StringList | undefined;
   /** Settings for Real-Time Bidding, a feature only available for campaigns targeting the Ad Exchange network. */
-  realTimeBiddingSetting?: GoogleAdsSearchads360V0Common__RealTimeBiddingSetting;
+  realTimeBiddingSetting?: GoogleAdsSearchads360V0Common__RealTimeBiddingSetting | undefined;
   /** Standard Manual CPA bidding strategy. Manual bidding strategy that allows advertiser to set the bid per advertiser-specified action. Supported only for Local Services campaigns. */
-  manualCpa?: GoogleAdsSearchads360V0Common__SearchAds360ProductAdInfo;
+  manualCpa?: GoogleAdsSearchads360V0Common__SearchAds360ProductAdInfo | undefined;
   /** Standard Percent Cpc bidding strategy where bids are a fraction of the advertised price for some good or service. */
-  percentCpc?: GoogleAdsSearchads360V0Common__PercentCpc;
+  percentCpc?: GoogleAdsSearchads360V0Common__PercentCpc | undefined;
   /** Selective optimization setting for this campaign, which includes a set of conversion actions to optimize this campaign towards. This feature only applies to app campaigns that use MULTI_CHANNEL as AdvertisingChannelType and APP_CAMPAIGN or APP_CAMPAIGN_FOR_ENGAGEMENT as AdvertisingChannelSubType. */
-  selectiveOptimization?: GoogleAdsSearchads360V0Resources_Campaign_SelectiveOptimization;
+  selectiveOptimization?:
+    | GoogleAdsSearchads360V0Resources_Campaign_SelectiveOptimization
+    | undefined;
   /** The asset field types that should be excluded from this campaign. Asset links with these field types will not be inherited by this campaign from the upper level. */
-  excludedParentAssetFieldTypes?: GoogleAdsSearchads360V0Resources__CampaignExcludedParentAssetFieldTypesItemEnumList;
+  excludedParentAssetFieldTypes?:
+    | GoogleAdsSearchads360V0Resources__CampaignExcludedParentAssetFieldTypesItemEnumList
+    | undefined;
   /** A bidding strategy that automatically optimizes cost per thousand impressions. */
-  targetCpm?: GoogleAdsSearchads360V0Common__SearchAds360ProductAdInfo;
+  targetCpm?: GoogleAdsSearchads360V0Common__SearchAds360ProductAdInfo | undefined;
   /** The resource name of the portfolio bidding strategy used by the campaign. */
-  biddingStrategy?: string;
+  biddingStrategy?: string | undefined;
   /** Output only. The type of bidding strategy. A bidding strategy can be created by setting either the bidding scheme to create a standard bidding strategy or the `bidding_strategy` field to create a portfolio bidding strategy. This field is read-only. */
-  biddingStrategyType?: GoogleAdsSearchads360V0Resources__CampaignBiddingStrategyTypeEnum;
+  biddingStrategyType?:
+    | GoogleAdsSearchads360V0Resources__CampaignBiddingStrategyTypeEnum
+    | undefined;
   /** Standard Target Spend bidding strategy that automatically sets your bids to help get as many clicks as possible within your budget. */
-  targetSpend?: GoogleAdsSearchads360V0Common__TargetSpend;
+  targetSpend?: GoogleAdsSearchads360V0Common__TargetSpend | undefined;
   /** Output only. Resource name of AccessibleBiddingStrategy, a read-only view of the unrestricted attributes of the attached portfolio bidding strategy identified by 'bidding_strategy'. Empty, if the campaign does not use a portfolio strategy. Unrestricted strategy attributes are available to all customers with whom the strategy is shared and are read from the AccessibleBiddingStrategy resource. In contrast, restricted attributes are only available to the owner customer of the strategy and their managers. Restricted attributes can only be read from the BiddingStrategy resource. */
-  accessibleBiddingStrategy?: string;
+  accessibleBiddingStrategy?: string | undefined;
   /** Output only. ID of the campaign in the external engine account. This field is for non-Google Ads account only, for example, Yahoo Japan, Microsoft, Baidu etc. For Google Ads entity, use "campaign.id" instead. */
-  engineId?: string;
+  engineId?: string | undefined;
   /** Target Impression Share bidding strategy. An automated bidding strategy that sets bids to achieve a chosen percentage of impressions. */
-  targetImpressionShare?: GoogleAdsSearchads360V0Common__TargetImpressionShare;
+  targetImpressionShare?: GoogleAdsSearchads360V0Common__TargetImpressionShare | undefined;
   /** Standard Target ROAS bidding strategy that automatically maximizes revenue while averaging a specific target return on ad spend (ROAS). */
-  targetRoas?: GoogleAdsSearchads360V0Common__TargetRoas;
+  targetRoas?: GoogleAdsSearchads360V0Common__TargetRoas | undefined;
   /** The ad serving optimization status of the campaign. */
-  adServingOptimizationStatus?: GoogleAdsSearchads360V0Resources__CampaignAdServingOptimizationStatusEnum;
+  adServingOptimizationStatus?:
+    | GoogleAdsSearchads360V0Resources__CampaignAdServingOptimizationStatusEnum
+    | undefined;
   /** The setting for controlling Dynamic Search Ads (DSA). */
-  dynamicSearchAdsSetting?: GoogleAdsSearchads360V0Resources_Campaign_DynamicSearchAdsSetting;
+  dynamicSearchAdsSetting?:
+    | GoogleAdsSearchads360V0Resources_Campaign_DynamicSearchAdsSetting
+    | undefined;
   /** Standard Manual CPC bidding strategy. Manual click-based bidding where user pays per click. */
-  manualCpc?: GoogleAdsSearchads360V0Common__ManualCpc;
+  manualCpc?: GoogleAdsSearchads360V0Common__ManualCpc | undefined;
   /** The list of mappings used to substitute custom parameter tags in a `tracking_url_template`, `final_urls`, or `mobile_final_urls`. */
-  urlCustomParameters?: GoogleAdsSearchads360V0Common__CustomParameterList;
+  urlCustomParameters?: GoogleAdsSearchads360V0Common__CustomParameterList | undefined;
   /** Standard Maximize Conversions bidding strategy that automatically maximizes number of conversions while spending your budget. */
-  maximizeConversions?: GoogleAdsSearchads360V0Common__MaximizeConversions;
+  maximizeConversions?: GoogleAdsSearchads360V0Common__MaximizeConversions | undefined;
   /** The setting for ads geotargeting. */
-  geoTargetTypeSetting?: GoogleAdsSearchads360V0Resources_Campaign_GeoTargetTypeSetting;
+  geoTargetTypeSetting?: GoogleAdsSearchads360V0Resources_Campaign_GeoTargetTypeSetting | undefined;
   /** The status of the campaign. When a new campaign is added, the status defaults to ENABLED. */
-  status?: GoogleAdsSearchads360V0Resources__CampaignStatusEnum;
+  status?: GoogleAdsSearchads360V0Resources__CampaignStatusEnum | undefined;
   /** Standard Target CPA bidding strategy that automatically sets bids to help get as many conversions as possible at the target cost-per-acquisition (CPA) you set. */
-  targetCpa?: GoogleAdsSearchads360V0Common__TargetCpa;
+  targetCpa?: GoogleAdsSearchads360V0Common__TargetCpa | undefined;
   /** Standard Maximize Conversion Value bidding strategy that automatically sets bids to maximize revenue while spending your budget. */
-  maximizeConversionValue?: GoogleAdsSearchads360V0Common__MaximizeConversionValue;
+  maximizeConversionValue?: GoogleAdsSearchads360V0Common__MaximizeConversionValue | undefined;
 }
 /** A relationship between an ad group criterion and an effective label. An effective label is a label inherited or directly assigned to this ad group criterion. */
 export interface GoogleAdsSearchads360V0Resources__AdGroupCriterionEffectiveLabel {
   /** Immutable. The effective label assigned to the ad group criterion. */
-  label?: string;
+  label?: string | undefined;
   /** Immutable. The ad group criterion to which the effective label is attached. */
-  adGroupCriterion?: string;
+  adGroupCriterion?: string | undefined;
   /** Output only. The ID of the Customer which owns the effective label. */
-  ownerCustomerId?: string;
+  ownerCustomerId?: string | undefined;
   /** Immutable. The resource name of the ad group criterion effective label. Ad group criterion effective label resource names have the form: `customers/{owner_customer_id}/adGroupCriterionEffectiveLabels/{ad_group_id}~{criterion_id}~{label_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__UserListTypeEnum =
   | "UNSPECIFIED"
@@ -1976,13 +2023,13 @@ export type GoogleAdsSearchads360V0Resources__UserListTypeEnum =
 /** A user list. This is a list of users a customer may target. The unique key of a user list consists of the following fields: `id`. Note that the `name` must also be unique for user lists owned by a given customer, except in some cases where `access_reason` is set to `SHARED`. Violating the unique name constraint produces error: `UserListError.INVALID_NAME`. */
 export interface GoogleAdsSearchads360V0Resources__UserList {
   /** Output only. Type of this list. This field is read-only. */
-  type?: GoogleAdsSearchads360V0Resources__UserListTypeEnum;
+  type?: GoogleAdsSearchads360V0Resources__UserListTypeEnum | undefined;
   /** Output only. Id of the user list. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this user list. Unique per user list, except in some cases where a user list of the same name has `access_reason` set to `SHARED`. */
-  name?: string;
+  name?: string | undefined;
   /** Immutable. The resource name of the user list. User list resource names have the form: `customers/{customer_id}/userLists/{user_list_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Common__WebpageConditionInfoOperandEnum =
   | "UNSPECIFIED"
@@ -2000,27 +2047,27 @@ export type GoogleAdsSearchads360V0Common__WebpageConditionInfoOperatorEnum =
 /** Logical expression for targeting webpages of an advertiser's website. */
 export interface GoogleAdsSearchads360V0Common__WebpageConditionInfo {
   /** Argument of webpage targeting condition. */
-  argument?: string;
+  argument?: string | undefined;
   /** Operand of webpage targeting condition. */
-  operand?: GoogleAdsSearchads360V0Common__WebpageConditionInfoOperandEnum;
+  operand?: GoogleAdsSearchads360V0Common__WebpageConditionInfoOperandEnum | undefined;
   /** Operator of webpage targeting condition. */
-  operator?: GoogleAdsSearchads360V0Common__WebpageConditionInfoOperatorEnum;
+  operator?: GoogleAdsSearchads360V0Common__WebpageConditionInfoOperatorEnum | undefined;
 }
 export type GoogleAdsSearchads360V0Common__WebpageConditionInfoList =
   Array<GoogleAdsSearchads360V0Common__WebpageConditionInfo>;
 /** Represents a criterion for targeting webpages of an advertiser's website. */
 export interface GoogleAdsSearchads360V0Common__WebpageInfo {
   /** Conditions, or logical expressions, for webpage targeting. The list of webpage targeting conditions are and-ed together when evaluated for targeting. An empty list of conditions indicates all pages of the campaign's website are targeted. This field is required for CREATE operations and is prohibited on UPDATE operations. */
-  conditions?: GoogleAdsSearchads360V0Common__WebpageConditionInfoList;
+  conditions?: GoogleAdsSearchads360V0Common__WebpageConditionInfoList | undefined;
   /** Website criteria coverage percentage. This is the computed percentage of website coverage based on the website target, negative website target and negative keywords in the ad group and campaign. For instance, when coverage returns as 1, it indicates it has 100% coverage. This field is read-only. */
-  coveragePercentage?: number;
+  coveragePercentage?: number | undefined;
   /** The name of the criterion that is defined by this parameter. The name value will be used for identifying, sorting and filtering criteria with this type of parameters. This field is required for CREATE operations and is prohibited on UPDATE operations. */
-  criterionName?: string;
+  criterionName?: string | undefined;
 }
 /** A User List criterion. Represents a user list that is defined by the advertiser to be targeted. */
 export interface GoogleAdsSearchads360V0Common__UserListInfo {
   /** The User List resource name. */
-  userList?: string;
+  userList?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__CampaignCriterionStatusEnum =
   | "UNSPECIFIED"
@@ -2031,7 +2078,7 @@ export type GoogleAdsSearchads360V0Resources__CampaignCriterionStatusEnum =
 /** A language criterion. */
 export interface GoogleAdsSearchads360V0Common__LanguageInfo {
   /** The language constant resource name. */
-  languageConstant?: string;
+  languageConstant?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Common__GenderInfoTypeEnum =
   | "UNSPECIFIED"
@@ -2042,7 +2089,7 @@ export type GoogleAdsSearchads360V0Common__GenderInfoTypeEnum =
 /** A gender criterion. */
 export interface GoogleAdsSearchads360V0Common__GenderInfo {
   /** Type of the gender. */
-  type?: GoogleAdsSearchads360V0Common__GenderInfoTypeEnum;
+  type?: GoogleAdsSearchads360V0Common__GenderInfoTypeEnum | undefined;
 }
 export type GoogleAdsSearchads360V0Common__AgeRangeInfoTypeEnum =
   | "UNSPECIFIED"
@@ -2057,7 +2104,7 @@ export type GoogleAdsSearchads360V0Common__AgeRangeInfoTypeEnum =
 /** An age range criterion. */
 export interface GoogleAdsSearchads360V0Common__AgeRangeInfo {
   /** Type of the age range. */
-  type?: GoogleAdsSearchads360V0Common__AgeRangeInfoTypeEnum;
+  type?: GoogleAdsSearchads360V0Common__AgeRangeInfoTypeEnum | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__CampaignCriterionTypeEnum =
   | "UNSPECIFIED"
@@ -2109,9 +2156,9 @@ export type GoogleAdsSearchads360V0Common__KeywordInfoMatchTypeEnum =
 /** A keyword criterion. */
 export interface GoogleAdsSearchads360V0Common__KeywordInfo {
   /** The text of the keyword (at most 80 characters and 10 words). */
-  text?: string;
+  text?: string | undefined;
   /** The match type of the keyword. */
-  matchType?: GoogleAdsSearchads360V0Common__KeywordInfoMatchTypeEnum;
+  matchType?: GoogleAdsSearchads360V0Common__KeywordInfoMatchTypeEnum | undefined;
 }
 export type GoogleAdsSearchads360V0Common__DeviceInfoTypeEnum =
   | "UNSPECIFIED"
@@ -2124,12 +2171,12 @@ export type GoogleAdsSearchads360V0Common__DeviceInfoTypeEnum =
 /** A device criterion. */
 export interface GoogleAdsSearchads360V0Common__DeviceInfo {
   /** Type of the device. */
-  type?: GoogleAdsSearchads360V0Common__DeviceInfoTypeEnum;
+  type?: GoogleAdsSearchads360V0Common__DeviceInfoTypeEnum | undefined;
 }
 /** A location criterion. */
 export interface GoogleAdsSearchads360V0Common__LocationInfo {
   /** The geo target constant resource name. */
-  geoTargetConstant?: string;
+  geoTargetConstant?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Common__LocationGroupInfoRadiusUnitsEnum =
   | "UNSPECIFIED"
@@ -2140,79 +2187,79 @@ export type GoogleAdsSearchads360V0Common__LocationGroupInfoRadiusUnitsEnum =
 /** A radius around a list of locations specified through a feed. */
 export interface GoogleAdsSearchads360V0Common__LocationGroupInfo {
   /** FeedItemSets whose FeedItems are targeted. If multiple IDs are specified, then all items that appear in at least one set are targeted. This field cannot be used with geo_target_constants. This is optional and can only be set in CREATE operations. */
-  feedItemSets?: StringList;
+  feedItemSets?: StringList | undefined;
   /** Distance in units specifying the radius around targeted locations. This is required and must be set in CREATE operations. */
-  radius?: string;
+  radius?: string | undefined;
   /** Geo target constant(s) restricting the scope of the geographic area within the feed. Currently only one geo target constant is allowed. */
-  geoTargetConstants?: StringList;
+  geoTargetConstants?: StringList | undefined;
   /** Unit of the radius. Miles and meters are supported for geo target constants. Milli miles and meters are supported for feed item sets. This is required and must be set in CREATE operations. */
-  radiusUnits?: GoogleAdsSearchads360V0Common__LocationGroupInfoRadiusUnitsEnum;
+  radiusUnits?: GoogleAdsSearchads360V0Common__LocationGroupInfoRadiusUnitsEnum | undefined;
 }
 /** A campaign criterion. */
 export interface GoogleAdsSearchads360V0Resources__CampaignCriterion {
   /** Output only. The datetime when this campaign criterion was last modified. The datetime is in the customer's time zone and in "yyyy-MM-dd HH:mm:ss.ssssss" format. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Immutable. Webpage. */
-  webpage?: GoogleAdsSearchads360V0Common__WebpageInfo;
+  webpage?: GoogleAdsSearchads360V0Common__WebpageInfo | undefined;
   /** Immutable. User List. */
-  userList?: GoogleAdsSearchads360V0Common__UserListInfo;
+  userList?: GoogleAdsSearchads360V0Common__UserListInfo | undefined;
   /** Immutable. The resource name of the campaign criterion. Campaign criterion resource names have the form: `customers/{customer_id}/campaignCriteria/{campaign_id}~{criterion_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** The status of the criterion. */
-  status?: GoogleAdsSearchads360V0Resources__CampaignCriterionStatusEnum;
+  status?: GoogleAdsSearchads360V0Resources__CampaignCriterionStatusEnum | undefined;
   /** Immutable. Whether to target (`false`) or exclude (`true`) the criterion. */
-  negative?: boolean;
+  negative?: boolean | undefined;
   /** Immutable. Language. */
-  language?: GoogleAdsSearchads360V0Common__LanguageInfo;
+  language?: GoogleAdsSearchads360V0Common__LanguageInfo | undefined;
   /** Immutable. Gender. */
-  gender?: GoogleAdsSearchads360V0Common__GenderInfo;
+  gender?: GoogleAdsSearchads360V0Common__GenderInfo | undefined;
   /** Immutable. Age range. */
-  ageRange?: GoogleAdsSearchads360V0Common__AgeRangeInfo;
+  ageRange?: GoogleAdsSearchads360V0Common__AgeRangeInfo | undefined;
   /** Output only. The type of the criterion. */
-  type?: GoogleAdsSearchads360V0Resources__CampaignCriterionTypeEnum;
+  type?: GoogleAdsSearchads360V0Resources__CampaignCriterionTypeEnum | undefined;
   /** Immutable. Keyword. */
-  keyword?: GoogleAdsSearchads360V0Common__KeywordInfo;
+  keyword?: GoogleAdsSearchads360V0Common__KeywordInfo | undefined;
   /** Immutable. Device. */
-  device?: GoogleAdsSearchads360V0Common__DeviceInfo;
+  device?: GoogleAdsSearchads360V0Common__DeviceInfo | undefined;
   /** Immutable. Location. */
-  location?: GoogleAdsSearchads360V0Common__LocationInfo;
+  location?: GoogleAdsSearchads360V0Common__LocationInfo | undefined;
   /** Output only. The display name of the criterion. This field is ignored for mutates. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The modifier for the bids when the criterion matches. The modifier must be in the range: 0.1 - 10.0. Most targetable criteria types support modifiers. Use 0 to opt out of a Device type. */
-  bidModifier?: number;
+  bidModifier?: number | undefined;
   /** Output only. The ID of the criterion. This field is ignored during mutate. */
-  criterionId?: string;
+  criterionId?: string | undefined;
   /** Immutable. Location Group */
-  locationGroup?: GoogleAdsSearchads360V0Common__LocationGroupInfo;
+  locationGroup?: GoogleAdsSearchads360V0Common__LocationGroupInfo | undefined;
 }
 /** Represents a relationship between a campaign and an effective label. An effective label is a label inherited or directly assigned to this campaign. */
 export interface GoogleAdsSearchads360V0Resources__CampaignEffectiveLabel {
   /** Immutable. The effective label assigned to the campaign. */
-  label?: string;
+  label?: string | undefined;
   /** Immutable. Name of the resource. CampaignEffectivelabel resource names have the form: `customers/{owner_customer_id}/campaignEffectiveLabels/{campaign_id}~{label_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Immutable. The campaign to which the effective label is attached. */
-  campaign?: string;
+  campaign?: string | undefined;
   /** Output only. The ID of the Customer which owns the effective label. */
-  ownerCustomerId?: string;
+  ownerCustomerId?: string | undefined;
 }
 /** A gender view resource. Represents the view of a customer's performance metrics aggregated by gender. All statistics are aggregated at the ad group level. Note: While you can segment metrics by age range using `age_range_view` or by gender using `gender_view`, the Search Ads 360 API does not support segmenting metrics by both age range and gender simultaneously in a single query. Analyzing performance across both dimensions combined is not supported in the Search Ads 360 API. */
 export interface GoogleAdsSearchads360V0Resources__GenderView {
   /** Output only. The resource name of the gender view. Gender view resource names have the form: `customers/{customer_id}/genderViews/{ad_group_id}~{criterion_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
 }
 /** A language. */
 export interface GoogleAdsSearchads360V0Resources__LanguageConstant {
   /** Output only. The language code, for example, "en_US", "en_AU", "es", "fr", etc. */
-  code?: string;
+  code?: string | undefined;
   /** Output only. The full name of the language in English, for example, "English (US)", "Spanish", etc. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The resource name of the language constant. Language constant resource names have the form: `languageConstants/{criterion_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Output only. The ID of the language constant. */
-  id?: string;
+  id?: string | undefined;
   /** Output only. Whether the language is targetable. */
-  targetable?: boolean;
+  targetable?: boolean | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__CustomerClientStatusEnum =
   | "UNSPECIFIED"
@@ -2224,38 +2271,38 @@ export type GoogleAdsSearchads360V0Resources__CustomerClientStatusEnum =
 /** A link between the given customer and a client customer. CustomerClients only exist for manager customers. All direct and indirect client customers are included, as well as the manager itself. */
 export interface GoogleAdsSearchads360V0Resources__CustomerClient {
   /** Output only. The resource name of the customer client. CustomerClient resource names have the form: `customers/{customer_id}/customerClients/{client_customer_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Output only. The ID of the client customer. Read only. */
-  id?: string;
+  id?: string | undefined;
   /** Output only. Identifies if the client is a manager. Read only. */
-  manager?: boolean;
+  manager?: boolean | undefined;
   /** Output only. Distance between given customer and client. For self link, the level value will be 0. Read only. */
-  level?: string;
+  level?: string | undefined;
   /** Output only. The resource name of the client-customer which is linked to the given customer. Read only. */
-  clientCustomer?: string;
+  clientCustomer?: string | undefined;
   /** Output only. The status of the client customer. Read only. */
-  status?: GoogleAdsSearchads360V0Resources__CustomerClientStatusEnum;
+  status?: GoogleAdsSearchads360V0Resources__CustomerClientStatusEnum | undefined;
   /** Output only. Descriptive name for the client. Read only. */
-  descriptiveName?: string;
+  descriptiveName?: string | undefined;
   /** Output only. The resource names of the labels owned by the requesting customer that are applied to the client customer. Label resource names have the form: `customers/{customer_id}/labels/{label_id}` */
-  appliedLabels?: StringList;
+  appliedLabels?: StringList | undefined;
   /** Output only. Common Locale Data Repository (CLDR) string representation of the time zone of the client, for example, America/Los_Angeles. Read only. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Output only. Identifies if the client is a test account. Read only. */
-  testAccount?: boolean;
+  testAccount?: boolean | undefined;
   /** Output only. Currency code (for example, 'USD', 'EUR') for the client. Read only. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** Output only. Specifies whether this is a hidden account. Read only. */
-  hidden?: boolean;
+  hidden?: boolean | undefined;
 }
 /** A user location view. User Location View includes all metrics aggregated at the country level, one row per country. It reports metrics at the actual physical location of the user by targeted or not targeted location. If other segment fields are used, you may get more than one row per country. */
 export interface GoogleAdsSearchads360V0Resources__UserLocationView {
   /** Output only. The resource name of the user location view. UserLocation view resource names have the form: `customers/{customer_id}/userLocationViews/{country_criterion_id}~{targeting_location}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Output only. Indicates whether location was targeted or not. */
-  targetingLocation?: boolean;
+  targetingLocation?: boolean | undefined;
   /** Output only. Criterion Id for the country. */
-  countryCriterionId?: string;
+  countryCriterionId?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Common__SegmentsProductConditionEnum =
   | "UNSPECIFIED"
@@ -2303,9 +2350,9 @@ export type GoogleAdsSearchads360V0Common__SegmentsConversionActionCategoryEnum 
 /** A Keyword criterion segment. */
 export interface GoogleAdsSearchads360V0Common__Keyword {
   /** Keyword info. */
-  info?: GoogleAdsSearchads360V0Common__KeywordInfo;
+  info?: GoogleAdsSearchads360V0Common__KeywordInfo | undefined;
   /** The AdGroupCriterion resource name. */
-  adGroupCriterion?: string;
+  adGroupCriterion?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Common__SegmentsProductChannelExclusivityEnum =
   | "UNSPECIFIED"
@@ -2342,9 +2389,9 @@ export type GoogleAdsSearchads360V0Common__SegmentsDeviceEnum =
 /** An AssetInteractionTarget segment. */
 export interface GoogleAdsSearchads360V0Common__AssetInteractionTarget {
   /** Only used with CustomerAsset, CampaignAsset and AdGroupAsset metrics. Indicates whether the interaction metrics occurred on the asset itself or a different asset or ad unit. */
-  interactionOnThisAsset?: boolean;
+  interactionOnThisAsset?: boolean | undefined;
   /** The asset resource name. */
-  asset?: string;
+  asset?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Common__SegmentsProductSoldConditionEnum =
   | "UNSPECIFIED"
@@ -2365,180 +2412,186 @@ export type GoogleAdsSearchads360V0Common__SegmentsVerticalAdsVerticalEnum =
 /** Segment only fields. */
 export interface GoogleAdsSearchads360V0Common__Segments {
   /** Item ID of the product sold. */
-  productSoldItemId?: string;
+  productSoldItemId?: string | undefined;
   /** Year, formatted as yyyy. */
-  year?: number;
+  year?: number | undefined;
   /** Custom attribute 3 of the product sold. */
-  productSoldCustomAttribute3?: string;
+  productSoldCustomAttribute3?: string | undefined;
   /** Resource name of the conversion action. */
-  conversionAction?: string;
+  conversionAction?: string | undefined;
   /** Condition of the product. */
-  productCondition?: GoogleAdsSearchads360V0Common__SegmentsProductConditionEnum;
+  productCondition?: GoogleAdsSearchads360V0Common__SegmentsProductConditionEnum | undefined;
   /** Bidding category (level 4) of the product. */
-  productBiddingCategoryLevel4?: string;
+  productBiddingCategoryLevel4?: string | undefined;
   /** Title of the product. */
-  productTitle?: string;
+  productTitle?: string | undefined;
   /** A specific partner account within a Partner Center (for example, Hotel Center) that supplies inventory feed data for Vertical Ads. */
-  verticalAdsPartnerAccount?: string;
+  verticalAdsPartnerAccount?: string | undefined;
   /** The class of the hotel. Generally in the range of 1 to 5 stars, but fully customizable in the hotel feed. */
-  verticalAdsHotelClass?: string;
+  verticalAdsHotelClass?: string | undefined;
   /** Brand of the product. */
-  productBrand?: string;
+  productBrand?: string | undefined;
   /** Type (level 4) of the product sold. */
-  productSoldTypeL4?: string;
+  productSoldTypeL4?: string | undefined;
   /** Title of the product sold. */
-  productSoldTitle?: string;
+  productSoldTitle?: string | undefined;
   /** Channel of the product. */
-  productChannel?: GoogleAdsSearchads360V0Common__SegmentsProductChannelEnum;
+  productChannel?: GoogleAdsSearchads360V0Common__SegmentsProductChannelEnum | undefined;
   /** Custom attribute 4 of the product. */
-  productCustomAttribute4?: string;
+  productCustomAttribute4?: string | undefined;
   /** Bidding category (level 3) of the product. */
-  productBiddingCategoryLevel3?: string;
+  productBiddingCategoryLevel3?: string | undefined;
   /** Type (level 1) of the product sold. */
-  productSoldTypeL1?: string;
+  productSoldTypeL1?: string | undefined;
   /** Bidding category (level 2) of the product sold. */
-  productSoldBiddingCategoryLevel2?: string;
+  productSoldBiddingCategoryLevel2?: string | undefined;
   /** Month as represented by the date of the first day of a month. Formatted as yyyy-MM-dd. */
-  month?: string;
+  month?: string | undefined;
   /** Type (level 3) of the product sold. */
-  productSoldTypeL3?: string;
+  productSoldTypeL3?: string | undefined;
   /** The region where the vertical ads listing is located. */
-  verticalAdsListingRegion?: string;
+  verticalAdsListingRegion?: string | undefined;
   /** Ad Format type. */
-  adFormatType?: GoogleAdsSearchads360V0Common__SegmentsAdFormatTypeEnum;
+  adFormatType?: GoogleAdsSearchads360V0Common__SegmentsAdFormatTypeEnum | undefined;
   /** Brand of the product sold. */
-  productSoldBrand?: string;
+  productSoldBrand?: string | undefined;
   /** Resource name of the geo target constant that represents a postal code. */
-  geoTargetPostalCode?: string;
+  geoTargetPostalCode?: string | undefined;
   /** Bidding category (level 4) of the product sold. */
-  productSoldBiddingCategoryLevel4?: string;
+  productSoldBiddingCategoryLevel4?: string | undefined;
   /** Store ID of the product. */
-  productStoreId?: string;
+  productStoreId?: string | undefined;
   /** Custom attribute 0 of the product sold. */
-  productSoldCustomAttribute0?: string;
+  productSoldCustomAttribute0?: string | undefined;
   /** Bidding category (level 5) of the product sold. */
-  productSoldBiddingCategoryLevel5?: string;
+  productSoldBiddingCategoryLevel5?: string | undefined;
   /** Conversion action category. */
-  conversionActionCategory?: GoogleAdsSearchads360V0Common__SegmentsConversionActionCategoryEnum;
+  conversionActionCategory?:
+    | GoogleAdsSearchads360V0Common__SegmentsConversionActionCategoryEnum
+    | undefined;
   /** Bidding category (level 5) of the product. */
-  productBiddingCategoryLevel5?: string;
+  productBiddingCategoryLevel5?: string | undefined;
   /** Resource name of the geo target constant that represents a city. */
-  geoTargetCity?: string;
+  geoTargetCity?: string | undefined;
   /** Bidding category (level 3) of the product sold. */
-  productSoldBiddingCategoryLevel3?: string;
+  productSoldBiddingCategoryLevel3?: string | undefined;
   /** Resource name of the geo target constant that represents a metro. */
-  geoTargetMetro?: string;
+  geoTargetMetro?: string | undefined;
   /** Keyword criterion. */
-  keyword?: GoogleAdsSearchads360V0Common__Keyword;
+  keyword?: GoogleAdsSearchads360V0Common__Keyword | undefined;
   /** Channel exclusivity of the product. */
-  productChannelExclusivity?: GoogleAdsSearchads360V0Common__SegmentsProductChannelExclusivityEnum;
+  productChannelExclusivity?:
+    | GoogleAdsSearchads360V0Common__SegmentsProductChannelExclusivityEnum
+    | undefined;
   /** Hour of day as a number between 0 and 23, inclusive. */
-  hour?: number;
+  hour?: number | undefined;
   /** Day of the week, for example, MONDAY. */
-  dayOfWeek?: GoogleAdsSearchads360V0Common__SegmentsDayOfWeekEnum;
+  dayOfWeek?: GoogleAdsSearchads360V0Common__SegmentsDayOfWeekEnum | undefined;
   /** Week as defined as Monday through Sunday, and represented by the date of Monday. Formatted as yyyy-MM-dd. */
-  week?: string;
+  week?: string | undefined;
   /** The brand associated with a specific listing within a Vertical Ads context, for example, the brand of a car rental, a vacation home, or an event. */
-  verticalAdsListingBrand?: string;
+  verticalAdsListingBrand?: string | undefined;
   /** Ad network type. */
-  adNetworkType?: GoogleAdsSearchads360V0Common__SegmentsAdNetworkTypeEnum;
+  adNetworkType?: GoogleAdsSearchads360V0Common__SegmentsAdNetworkTypeEnum | undefined;
   /** Type (level 3) of the product. */
-  productTypeL3?: string;
+  productTypeL3?: string | undefined;
   /** Type (level 5) of the product sold. */
-  productSoldTypeL5?: string;
+  productSoldTypeL5?: string | undefined;
   /** Custom attribute 1 of the product. */
-  productCustomAttribute1?: string;
+  productCustomAttribute1?: string | undefined;
   /** Type (level 4) of the product. */
-  productTypeL4?: string;
+  productTypeL4?: string | undefined;
   /** The display names of participants in an event listing, like performers, speakers, or teams. */
-  verticalAdsEventParticipantDisplayNames?: string;
+  verticalAdsEventParticipantDisplayNames?: string | undefined;
   /** Resource name of the language constant for the language of the product. */
-  productLanguage?: string;
+  productLanguage?: string | undefined;
   /** The country where the vertical ads listing is located. */
-  verticalAdsListingCountry?: string;
+  verticalAdsListingCountry?: string | undefined;
   /** The city where the vertical ads listing is located. */
-  verticalAdsListingCity?: string;
+  verticalAdsListingCity?: string | undefined;
   /** Custom attribute 2 of the product sold. */
-  productSoldCustomAttribute2?: string;
+  productSoldCustomAttribute2?: string | undefined;
   /** Device to which metrics apply. */
-  device?: GoogleAdsSearchads360V0Common__SegmentsDeviceEnum;
+  device?: GoogleAdsSearchads360V0Common__SegmentsDeviceEnum | undefined;
   /** The listing associated with a listing impression, click or conversion. */
-  verticalAdsListing?: string;
+  verticalAdsListing?: string | undefined;
   /** Type (level 5) of the product. */
-  productTypeL5?: string;
+  productTypeL5?: string | undefined;
   /** Custom attribute 0 of the product. */
-  productCustomAttribute0?: string;
+  productCustomAttribute0?: string | undefined;
   /** Type (level 2) of the product. */
-  productTypeL2?: string;
+  productTypeL2?: string | undefined;
   /** Resource name of the geo target constant for the country of sale of the product. */
-  productCountry?: string;
+  productCountry?: string | undefined;
   /** The conversion custom dimensions. */
-  conversionCustomDimensions?: GoogleAdsSearchads360V0Common__ValueList;
+  conversionCustomDimensions?: GoogleAdsSearchads360V0Common__ValueList | undefined;
   /** Only used with CustomerAsset, CampaignAsset and AdGroupAsset metrics. Indicates whether the interaction metrics occurred on the asset itself or a different asset or ad unit. Interactions (for example, clicks) are counted across all the parts of the served ad (for example, Ad itself and other components like Sitelinks) when they are served together. When interaction_on_this_asset is true, it means the interactions are on this specific asset and when interaction_on_this_asset is false, it means the interactions is not on this specific asset but on other parts of the served ad this asset is served with. */
-  assetInteractionTarget?: GoogleAdsSearchads360V0Common__AssetInteractionTarget;
+  assetInteractionTarget?: GoogleAdsSearchads360V0Common__AssetInteractionTarget | undefined;
   /** Conversion action name. */
-  conversionActionName?: string;
+  conversionActionName?: string | undefined;
   /** Item ID of the product. */
-  productItemId?: string;
+  productItemId?: string | undefined;
   /** Bidding category (level 1) of the product sold. */
-  productSoldBiddingCategoryLevel1?: string;
+  productSoldBiddingCategoryLevel1?: string | undefined;
   /** Custom attribute 3 of the product. */
-  productCustomAttribute3?: string;
+  productCustomAttribute3?: string | undefined;
   /** Condition of the product sold. */
-  productSoldCondition?: GoogleAdsSearchads360V0Common__SegmentsProductSoldConditionEnum;
+  productSoldCondition?:
+    | GoogleAdsSearchads360V0Common__SegmentsProductSoldConditionEnum
+    | undefined;
   /** Custom attribute 1 of the product sold. */
-  productSoldCustomAttribute1?: string;
+  productSoldCustomAttribute1?: string | undefined;
   /** Type (level 1) of the product. */
-  productTypeL1?: string;
+  productTypeL1?: string | undefined;
   /** Custom attribute 4 of the product sold. */
-  productSoldCustomAttribute4?: string;
+  productSoldCustomAttribute4?: string | undefined;
   /** Bidding category (level 2) of the product. */
-  productBiddingCategoryLevel2?: string;
+  productBiddingCategoryLevel2?: string | undefined;
   /** Quarter as represented by the date of the first day of a quarter. Uses the calendar year for quarters, for example, the second quarter of 2018 starts on 2018-04-01. Formatted as yyyy-MM-dd. */
-  quarter?: string;
+  quarter?: string | undefined;
   /** Bidding category (level 1) of the product. */
-  productBiddingCategoryLevel1?: string;
+  productBiddingCategoryLevel1?: string | undefined;
   /** Date to which metrics apply. yyyy-MM-dd format, for example, 2018-04-17. */
-  date?: string;
+  date?: string | undefined;
   /** Type of vertical ad, such as Vacation Rentals, Car Rentals, or Events, used to categorize and segment data in the context of Vertical Ads. */
-  verticalAdsVertical?: GoogleAdsSearchads360V0Common__SegmentsVerticalAdsVerticalEnum;
+  verticalAdsVertical?: GoogleAdsSearchads360V0Common__SegmentsVerticalAdsVerticalEnum | undefined;
   /** The raw event conversion dimensions. */
-  rawEventConversionDimensions?: GoogleAdsSearchads360V0Common__ValueList;
+  rawEventConversionDimensions?: GoogleAdsSearchads360V0Common__ValueList | undefined;
   /** Resource name of the geo target constant that represents a country. */
-  geoTargetCountry?: string;
+  geoTargetCountry?: string | undefined;
   /** Resource name of the geo target constant that represents a region. */
-  geoTargetRegion?: string;
+  geoTargetRegion?: string | undefined;
   /** Custom attribute 2 of the product. */
-  productCustomAttribute2?: string;
+  productCustomAttribute2?: string | undefined;
   /** Type (level 2) of the product sold. */
-  productSoldTypeL2?: string;
+  productSoldTypeL2?: string | undefined;
 }
 /** Audience is an effective targeting option that lets you intersect different segment attributes, such as detailed demographics and affinities, to create audiences that represent sections of your target segments. */
 export interface GoogleAdsSearchads360V0Resources__Audience {
   /** Required. Name of the audience. It should be unique across all audiences. It must have a minimum length of 1 and maximum length of 255. */
-  name?: string;
+  name?: string | undefined;
   /** Description of this audience. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. ID of the audience. */
-  id?: string;
+  id?: string | undefined;
   /** Immutable. The resource name of the audience. Audience names have the form: `customers/{customer_id}/audiences/{audience_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
 }
 /** An ad group audience view. Includes performance data from interests and remarketing lists for Display Network and YouTube Network ads, and remarketing lists for search ads (RLSA), aggregated at the audience level. */
 export interface GoogleAdsSearchads360V0Resources__AdGroupAudienceView {
   /** Output only. The resource name of the ad group audience view. Ad group audience view resource names have the form: `customers/{customer_id}/adGroupAudienceViews/{ad_group_id}~{criterion_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
 }
 /** A relationship between an ad group ad and a label. */
 export interface GoogleAdsSearchads360V0Resources__AdGroupAdLabel {
   /** Immutable. The ad group ad to which the label is attached. */
-  adGroupAd?: string;
+  adGroupAd?: string | undefined;
   /** Output only. The ID of the Customer which owns the label. */
-  ownerCustomerId?: string;
+  ownerCustomerId?: string | undefined;
   /** Immutable. The resource name of the ad group ad label. Ad group ad label resource names have the form: `customers/{owner_customer_id}/adGroupAdLabels/{ad_group_id}~{ad_id}~{label_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Immutable. The label assigned to the ad group ad. */
-  label?: string;
+  label?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Common__AssetUsageServedAssetFieldTypeEnum =
   | "UNSPECIFIED"
@@ -2581,36 +2634,40 @@ export type GoogleAdsSearchads360V0Common__AssetUsageServedAssetFieldTypeEnum =
 /** Contains the usage information of the asset. */
 export interface GoogleAdsSearchads360V0Common__AssetUsage {
   /** The served field type of the asset. */
-  servedAssetFieldType?: GoogleAdsSearchads360V0Common__AssetUsageServedAssetFieldTypeEnum;
+  servedAssetFieldType?:
+    | GoogleAdsSearchads360V0Common__AssetUsageServedAssetFieldTypeEnum
+    | undefined;
   /** Resource name of the asset. */
-  asset?: string;
+  asset?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Common__AssetUsageList =
   Array<GoogleAdsSearchads360V0Common__AssetUsage>;
 /** Asset group asset combination data */
 export interface GoogleAdsSearchads360V0Resources__AssetGroupAssetCombinationData {
   /** Output only. Served assets. */
-  assetCombinationServedAssets?: GoogleAdsSearchads360V0Common__AssetUsageList;
+  assetCombinationServedAssets?: GoogleAdsSearchads360V0Common__AssetUsageList | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__AssetGroupAssetCombinationDataList =
   Array<GoogleAdsSearchads360V0Resources__AssetGroupAssetCombinationData>;
 /** A view on the usage of asset group asset top combinations. */
 export interface GoogleAdsSearchads360V0Resources__AssetGroupTopCombinationView {
   /** Output only. The resource name of the asset group top combination view. AssetGroup Top Combination view resource names have the form: `"customers/{customer_id}/assetGroupTopCombinationViews/{asset_group_id}~{asset_combination_category}" */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Output only. The top combinations of assets that served together. */
-  assetGroupTopCombinations?: GoogleAdsSearchads360V0Resources__AssetGroupAssetCombinationDataList;
+  assetGroupTopCombinations?:
+    | GoogleAdsSearchads360V0Resources__AssetGroupAssetCombinationDataList
+    | undefined;
 }
 /** A relationship between an ad group and an effective label. An effective label is a label inherited or directly assigned to this ad group. */
 export interface GoogleAdsSearchads360V0Resources__AdGroupEffectiveLabel {
   /** Immutable. The ad group to which the effective label is attached. */
-  adGroup?: string;
+  adGroup?: string | undefined;
   /** Immutable. The effective label assigned to the ad group. */
-  label?: string;
+  label?: string | undefined;
   /** Immutable. The resource name of the ad group effective label. Ad group effective label resource names have the form: `customers/{owner_customer_id}/adGroupEffectiveLabels/{ad_group_id}~{label_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Output only. The ID of the Customer which owns the effective label. */
-  ownerCustomerId?: string;
+  ownerCustomerId?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__CampaignBudgetDeliveryMethodEnum =
   | "UNSPECIFIED"
@@ -2626,22 +2683,22 @@ export type GoogleAdsSearchads360V0Resources__CampaignBudgetPeriodEnum =
 /** A campaign budget. */
 export interface GoogleAdsSearchads360V0Resources__CampaignBudget {
   /** The average daily amount to be spent by the campaign. This field is used when the CampaignBudget `period` is set to `DAILY`, which is the default. Amount is specified in micros in the account's local currency. One million micros is equivalent to one currency unit. The effective monthly spend is capped at 30.4 times this daily amount. This field is mutually exclusive with 'total_amount_micros'. Only one of 'amount_micros' or 'total_amount_micros' should be set. */
-  amountMicros?: string;
+  amountMicros?: string | undefined;
   /** The delivery method that determines the rate at which the campaign budget is spent. Defaults to STANDARD if unspecified in a create operation. */
-  deliveryMethod?: GoogleAdsSearchads360V0Resources__CampaignBudgetDeliveryMethodEnum;
+  deliveryMethod?: GoogleAdsSearchads360V0Resources__CampaignBudgetDeliveryMethodEnum | undefined;
   /** Immutable. Period over which to spend the budget. Defaults to DAILY if not specified. */
-  period?: GoogleAdsSearchads360V0Resources__CampaignBudgetPeriodEnum;
+  period?: GoogleAdsSearchads360V0Resources__CampaignBudgetPeriodEnum | undefined;
   /** Immutable. The resource name of the campaign budget. Campaign budget resource names have the form: `customers/{customer_id}/campaignBudgets/{campaign_budget_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
 }
 /** Represents an ad group bid modifier. */
 export interface GoogleAdsSearchads360V0Resources__AdGroupBidModifier {
   /** The modifier for the bid when the criterion matches. The modifier must be in the range: 0.1 - 10.0. Use 0 to opt out of a Device type. */
-  bidModifier?: number;
+  bidModifier?: number | undefined;
   /** Immutable. The resource name of the ad group bid modifier. Ad group bid modifier resource names have the form: `customers/{customer_id}/adGroupBidModifiers/{ad_group_id}~{criterion_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Immutable. A device criterion. */
-  device?: GoogleAdsSearchads360V0Common__DeviceInfo;
+  device?: GoogleAdsSearchads360V0Common__DeviceInfo | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__GeoTargetConstantStatusEnum =
   | "UNSPECIFIED"
@@ -2651,21 +2708,21 @@ export type GoogleAdsSearchads360V0Resources__GeoTargetConstantStatusEnum =
 /** A geo target constant. */
 export interface GoogleAdsSearchads360V0Resources__GeoTargetConstant {
   /** Output only. The ISO-3166-1 alpha-2 country code that is associated with the target. */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** Output only. The resource name of the parent geo target constant. Geo target constant resource names have the form: `geoTargetConstants/{parent_geo_target_constant_id}` */
-  parentGeoTarget?: string;
+  parentGeoTarget?: string | undefined;
   /** Output only. The resource name of the geo target constant. Geo target constant resource names have the form: `geoTargetConstants/{geo_target_constant_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Output only. Geo target constant status. */
-  status?: GoogleAdsSearchads360V0Resources__GeoTargetConstantStatusEnum;
+  status?: GoogleAdsSearchads360V0Resources__GeoTargetConstantStatusEnum | undefined;
   /** Output only. Geo target constant target type. */
-  targetType?: string;
+  targetType?: string | undefined;
   /** Output only. Geo target constant English name. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The ID of the geo target constant. */
-  id?: string;
+  id?: string | undefined;
   /** Output only. The fully qualified English name, consisting of the target's name and that of its parent and country. */
-  canonicalName?: string;
+  canonicalName?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__AssetGroupAssetStatusEnum =
   | "UNSPECIFIED"
@@ -2709,15 +2766,15 @@ export type GoogleAdsSearchads360V0Resources__AssetGroupAssetFieldTypeEnum =
 /** AssetGroupAsset is the link between an asset and an asset group. Adding an AssetGroupAsset links an asset with an asset group. */
 export interface GoogleAdsSearchads360V0Resources__AssetGroupAsset {
   /** The status of the link between an asset and asset group. */
-  status?: GoogleAdsSearchads360V0Resources__AssetGroupAssetStatusEnum;
+  status?: GoogleAdsSearchads360V0Resources__AssetGroupAssetStatusEnum | undefined;
   /** The description of the placement of the asset within the asset group. For example: HEADLINE, YOUTUBE_VIDEO etc */
-  fieldType?: GoogleAdsSearchads360V0Resources__AssetGroupAssetFieldTypeEnum;
+  fieldType?: GoogleAdsSearchads360V0Resources__AssetGroupAssetFieldTypeEnum | undefined;
   /** Immutable. The asset group which this asset group asset is linking. */
-  assetGroup?: string;
+  assetGroup?: string | undefined;
   /** Immutable. The resource name of the asset group asset. Asset group asset resource name have the form: `customers/{customer_id}/assetGroupAssets/{asset_group_id}~{asset_id}~{field_type}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Immutable. The asset which this asset group asset is linking. */
-  asset?: string;
+  asset?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__ProductBiddingCategoryConstantStatusEnum =
   | "UNSPECIFIED"
@@ -2735,43 +2792,43 @@ export type GoogleAdsSearchads360V0Resources__ProductBiddingCategoryConstantLeve
 /** A Product Bidding Category. */
 export interface GoogleAdsSearchads360V0Resources__ProductBiddingCategoryConstant {
   /** Output only. The resource name of the product bidding category. Product bidding category resource names have the form: `productBiddingCategoryConstants/{country_code}~{level}~{id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Output only. Display value of the product bidding category localized according to language_code. */
-  localizedName?: string;
+  localizedName?: string | undefined;
   /** Output only. Status of the product bidding category. */
-  status?: GoogleAdsSearchads360V0Resources__ProductBiddingCategoryConstantStatusEnum;
+  status?: GoogleAdsSearchads360V0Resources__ProductBiddingCategoryConstantStatusEnum | undefined;
   /** Output only. Level of the product bidding category. */
-  level?: GoogleAdsSearchads360V0Resources__ProductBiddingCategoryConstantLevelEnum;
+  level?: GoogleAdsSearchads360V0Resources__ProductBiddingCategoryConstantLevelEnum | undefined;
   /** Output only. Two-letter upper-case country code of the product bidding category. */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** Output only. ID of the product bidding category. This ID is equivalent to the google_product_category ID as described in this article: https://support.google.com/merchants/answer/6324436. */
-  id?: string;
+  id?: string | undefined;
   /** Output only. Resource name of the parent product bidding category. */
-  productBiddingCategoryConstantParent?: string;
+  productBiddingCategoryConstantParent?: string | undefined;
   /** Output only. Language code of the product bidding category. */
-  languageCode?: string;
+  languageCode?: string | undefined;
 }
 /** A relationship between an ad group and a label. */
 export interface GoogleAdsSearchads360V0Resources__AdGroupLabel {
   /** Immutable. The label assigned to the ad group. */
-  label?: string;
+  label?: string | undefined;
   /** Output only. The ID of the Customer which owns the label. */
-  ownerCustomerId?: string;
+  ownerCustomerId?: string | undefined;
   /** Immutable. The resource name of the ad group label. Ad group label resource names have the form: `customers/{owner_customer_id}/adGroupLabels/{ad_group_id}~{label_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Immutable. The ad group to which the label is attached. */
-  adGroup?: string;
+  adGroup?: string | undefined;
 }
 /** A relationship between an ad group ad and an effective label. An effective label is a label inherited or directly assigned to this ad group ad. */
 export interface GoogleAdsSearchads360V0Resources__AdGroupAdEffectiveLabel {
   /** Immutable. The effective label assigned to the ad group ad. */
-  label?: string;
+  label?: string | undefined;
   /** Immutable. The resource name of the ad group ad effective label. Ad group ad effective label resource names have the form: `customers/{owner_customer_id}/adGroupAdEffectiveLabels/{ad_group_id}~{ad_id}~{label_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Output only. The ID of the Customer which owns the effective label. */
-  ownerCustomerId?: string;
+  ownerCustomerId?: string | undefined;
   /** Immutable. The ad group ad to which the effective label is attached. */
-  adGroupAd?: string;
+  adGroupAd?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__AdGroupAssetSetStatusEnum =
   | "UNSPECIFIED"
@@ -2781,32 +2838,32 @@ export type GoogleAdsSearchads360V0Resources__AdGroupAssetSetStatusEnum =
 /** AdGroupAssetSet is the linkage between an ad group and an asset set. Creating an AdGroupAssetSet links an asset set with an ad group. */
 export interface GoogleAdsSearchads360V0Resources__AdGroupAssetSet {
   /** Output only. The status of the ad group asset set. Read-only. */
-  status?: GoogleAdsSearchads360V0Resources__AdGroupAssetSetStatusEnum;
+  status?: GoogleAdsSearchads360V0Resources__AdGroupAssetSetStatusEnum | undefined;
   /** Immutable. The resource name of the ad group asset set. Ad group asset set resource names have the form: `customers/{customer_id}/adGroupAssetSets/{ad_group_id}~{asset_set_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Immutable. The ad group to which this asset set is linked. */
-  adGroup?: string;
+  adGroup?: string | undefined;
   /** Immutable. The asset set which is linked to the ad group. */
-  assetSet?: string;
+  assetSet?: string | undefined;
 }
 /** A product group view. */
 export interface GoogleAdsSearchads360V0Resources__ProductGroupView {
   /** Output only. The resource name of the product group view. Product group view resource names have the form: `customers/{customer_id}/productGroupViews/{ad_group_id}~{criterion_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
 }
 /** A campaign audience view. Includes performance data from interests and remarketing lists for Display Network and YouTube Network ads, and remarketing lists for search ads (RLSA), aggregated by campaign and audience criterion. This view only includes audiences attached at the campaign level. */
 export interface GoogleAdsSearchads360V0Resources__CampaignAudienceView {
   /** Output only. The resource name of the campaign audience view. Campaign audience view resource names have the form: `customers/{customer_id}/campaignAudienceViews/{campaign_id}~{criterion_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
 }
 /** Settings related to a Floodlight conversion action. */
 export interface GoogleAdsSearchads360V0Resources_ConversionAction_FloodlightSettings {
   /** Output only. ID of the Floodlight activity in DoubleClick Campaign Manager (DCM). */
-  activityId?: string;
+  activityId?: string | undefined;
   /** Output only. String used to identify a Floodlight activity group when reporting conversions. */
-  activityGroupTag?: string;
+  activityGroupTag?: string | undefined;
   /** Output only. String used to identify a Floodlight activity when reporting conversions. */
-  activityTag?: string;
+  activityTag?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__ConversionActionStatusEnum =
   | "UNSPECIFIED"
@@ -2877,18 +2934,22 @@ export type GoogleAdsSearchads360V0Resources_ConversionAction_AttributionModelSe
 /** Settings related to this conversion action's attribution model. */
 export interface GoogleAdsSearchads360V0Resources_ConversionAction_AttributionModelSettings {
   /** The attribution model type of this conversion action. */
-  attributionModel?: GoogleAdsSearchads360V0Resources_ConversionAction_AttributionModelSettingsAttributionModelEnum;
+  attributionModel?:
+    | GoogleAdsSearchads360V0Resources_ConversionAction_AttributionModelSettingsAttributionModelEnum
+    | undefined;
   /** Output only. The status of the data-driven attribution model for the conversion action. */
-  dataDrivenModelStatus?: GoogleAdsSearchads360V0Resources_ConversionAction_AttributionModelSettingsDataDrivenModelStatusEnum;
+  dataDrivenModelStatus?:
+    | GoogleAdsSearchads360V0Resources_ConversionAction_AttributionModelSettingsDataDrivenModelStatusEnum
+    | undefined;
 }
 /** Settings related to the value for conversion events associated with this conversion action. */
 export interface GoogleAdsSearchads360V0Resources_ConversionAction_ValueSettings {
   /** The value to use when conversion events for this conversion action are sent with an invalid, disallowed or missing value, or when this conversion action is configured to always use the default value. */
-  defaultValue?: number;
+  defaultValue?: number | undefined;
   /** Controls whether the default value and default currency code are used in place of the value and currency code specified in conversion events for this conversion action. */
-  alwaysUseDefaultValue?: boolean;
+  alwaysUseDefaultValue?: boolean | undefined;
   /** The currency code to use when conversion events for this conversion action are sent with an invalid or missing currency code, or when this conversion action is configured to always use the default value. */
-  defaultCurrencyCode?: string;
+  defaultCurrencyCode?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__ConversionActionCategoryEnum =
   | "UNSPECIFIED"
@@ -2918,37 +2979,41 @@ export type GoogleAdsSearchads360V0Resources__ConversionActionCategoryEnum =
 /** A conversion action. */
 export interface GoogleAdsSearchads360V0Resources__ConversionAction {
   /** The maximum number of days that may elapse between an interaction (for example, a click) and a conversion event. */
-  clickThroughLookbackWindowDays?: string;
+  clickThroughLookbackWindowDays?: string | undefined;
   /** Whether this conversion action should be included in the "client_account_conversions" metric. */
-  includeInClientAccountConversionsMetric?: boolean;
+  includeInClientAccountConversionsMetric?: boolean | undefined;
   /** Output only. Floodlight settings for Floodlight conversion types. */
-  floodlightSettings?: GoogleAdsSearchads360V0Resources_ConversionAction_FloodlightSettings;
+  floodlightSettings?:
+    | GoogleAdsSearchads360V0Resources_ConversionAction_FloodlightSettings
+    | undefined;
   /** The status of this conversion action for conversion event accrual. */
-  status?: GoogleAdsSearchads360V0Resources__ConversionActionStatusEnum;
+  status?: GoogleAdsSearchads360V0Resources__ConversionActionStatusEnum | undefined;
   /** The name of the conversion action. This field is required and should not be empty when creating new conversion actions. */
-  name?: string;
+  name?: string | undefined;
   /** Immutable. The type of this conversion action. */
-  type?: GoogleAdsSearchads360V0Resources__ConversionActionTypeEnum;
+  type?: GoogleAdsSearchads360V0Resources__ConversionActionTypeEnum | undefined;
   /** Output only. The ID of the conversion action. */
-  id?: string;
+  id?: string | undefined;
   /** Settings related to this conversion action's attribution model. */
-  attributionModelSettings?: GoogleAdsSearchads360V0Resources_ConversionAction_AttributionModelSettings;
+  attributionModelSettings?:
+    | GoogleAdsSearchads360V0Resources_ConversionAction_AttributionModelSettings
+    | undefined;
   /** App ID for an app conversion action. */
-  appId?: string;
+  appId?: string | undefined;
   /** If a conversion action's primary_for_goal bit is false, the conversion action is non-biddable for all campaigns regardless of their customer conversion goal or campaign conversion goal. However, custom conversion goals do not respect primary_for_goal, so if a campaign has a custom conversion goal configured with a primary_for_goal = false conversion action, that conversion action is still biddable. By default, primary_for_goal will be true if not set. In V9, primary_for_goal can only be set to false after creation through an 'update' operation because it's not declared as optional. */
-  primaryForGoal?: boolean;
+  primaryForGoal?: boolean | undefined;
   /** Immutable. The resource name of the conversion action. Conversion action resource names have the form: `customers/{customer_id}/conversionActions/{conversion_action_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Settings related to the value for conversion events associated with this conversion action. */
-  valueSettings?: GoogleAdsSearchads360V0Resources_ConversionAction_ValueSettings;
+  valueSettings?: GoogleAdsSearchads360V0Resources_ConversionAction_ValueSettings | undefined;
   /** The category of conversions reported for this conversion action. */
-  category?: GoogleAdsSearchads360V0Resources__ConversionActionCategoryEnum;
+  category?: GoogleAdsSearchads360V0Resources__ConversionActionCategoryEnum | undefined;
   /** Output only. The resource name of the conversion action owner customer, or null if this is a system-defined conversion action. */
-  ownerCustomer?: string;
+  ownerCustomer?: string | undefined;
   /** Output only. Whether this conversion action should be included in the "conversions" metric. */
-  includeInConversionsMetric?: boolean;
+  includeInConversionsMetric?: boolean | undefined;
   /** Output only. Timestamp of the Floodlight activity's creation, formatted in ISO 8601. */
-  creationTime?: string;
+  creationTime?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__AdGroupAssetStatusEnum =
   | "UNSPECIFIED"
@@ -2959,13 +3024,13 @@ export type GoogleAdsSearchads360V0Resources__AdGroupAssetStatusEnum =
 /** A link between an ad group and an asset. */
 export interface GoogleAdsSearchads360V0Resources__AdGroupAsset {
   /** Status of the ad group asset. */
-  status?: GoogleAdsSearchads360V0Resources__AdGroupAssetStatusEnum;
+  status?: GoogleAdsSearchads360V0Resources__AdGroupAssetStatusEnum | undefined;
   /** Required. Immutable. The asset which is linked to the ad group. */
-  asset?: string;
+  asset?: string | undefined;
   /** Immutable. The resource name of the ad group asset. AdGroupAsset resource names have the form: `customers/{customer_id}/adGroupAssets/{ad_group_id}~{asset_id}~{field_type}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Required. Immutable. The ad group to which the asset is linked. */
-  adGroup?: string;
+  adGroup?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__AssetSetAssetStatusEnum =
   | "UNSPECIFIED"
@@ -2975,32 +3040,32 @@ export type GoogleAdsSearchads360V0Resources__AssetSetAssetStatusEnum =
 /** AssetSetAsset is the link between an asset and an asset set. Adding an AssetSetAsset links an asset with an asset set. */
 export interface GoogleAdsSearchads360V0Resources__AssetSetAsset {
   /** Immutable. The asset which this asset set asset is linking to. */
-  asset?: string;
+  asset?: string | undefined;
   /** Immutable. The resource name of the asset set asset. Asset set asset resource names have the form: `customers/{customer_id}/assetSetAssets/{asset_set_id}~{asset_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Immutable. The asset set which this asset set asset is linking to. */
-  assetSet?: string;
+  assetSet?: string | undefined;
   /** Output only. The status of the asset set asset. Read-only. */
-  status?: GoogleAdsSearchads360V0Resources__AssetSetAssetStatusEnum;
+  status?: GoogleAdsSearchads360V0Resources__AssetSetAssetStatusEnum | undefined;
 }
 /** An age range view. Represents the view of a customer's performance metrics (like impressions and clicks) aggregated by age range. All statistics are aggregated at the ad group level. Note: While you can segment metrics by age range using `age_range_view` or by gender using `gender_view`, the Search Ads 360 API does not support segmenting metrics by both age range and gender simultaneously in a single query. Analyzing performance across both dimensions combined is not supported in the Search Ads 360 API. */
 export interface GoogleAdsSearchads360V0Resources__AgeRangeView {
   /** Output only. The resource name of the age range view. Age range view resource names have the form: `customers/{customer_id}/ageRangeViews/{ad_group_id}~{criterion_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
 }
 /** An audience criterion. */
 export interface GoogleAdsSearchads360V0Common__AudienceInfo {
   /** The Audience resource name. */
-  audience?: string;
+  audience?: string | undefined;
 }
 /** AssetGroupSignal represents a signal in an asset group. The existence of a signal tells the performance max campaign who's most likely to convert. Performance Max uses the signal to look for new people with similar or stronger intent to find conversions across Search, Display, Video, and more. */
 export interface GoogleAdsSearchads360V0Resources__AssetGroupSignal {
   /** Immutable. The asset group which this asset group signal belongs to. */
-  assetGroup?: string;
+  assetGroup?: string | undefined;
   /** Immutable. The audience signal to be used by the performance max campaign. */
-  audience?: GoogleAdsSearchads360V0Common__AudienceInfo;
+  audience?: GoogleAdsSearchads360V0Common__AudienceInfo | undefined;
   /** Immutable. The resource name of the asset group signal. Asset group signal resource name have the form: `customers/{customer_id}/assetGroupSignals/{asset_group_id}~{signal_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__AdGroupTypeEnum =
   | "UNSPECIFIED"
@@ -3036,16 +3101,18 @@ export type GoogleAdsSearchads360V0Common__TargetRestrictionTargetingDimensionEn
 /** The list of per-targeting-dimension targeting settings. */
 export interface GoogleAdsSearchads360V0Common__TargetRestriction {
   /** The targeting dimension that these settings apply to. */
-  targetingDimension?: GoogleAdsSearchads360V0Common__TargetRestrictionTargetingDimensionEnum;
+  targetingDimension?:
+    | GoogleAdsSearchads360V0Common__TargetRestrictionTargetingDimensionEnum
+    | undefined;
   /** Indicates whether to restrict your ads to show only for the criteria you have selected for this targeting_dimension, or to target all values for this targeting_dimension and show ads based on your targeting in other TargetingDimensions. A value of `true` means that these criteria will only apply bid modifiers, and not affect targeting. A value of `false` means that these criteria will restrict targeting as well as applying bid modifiers. */
-  bidOnly?: boolean;
+  bidOnly?: boolean | undefined;
 }
 export type GoogleAdsSearchads360V0Common__TargetRestrictionList =
   Array<GoogleAdsSearchads360V0Common__TargetRestriction>;
 /** Settings for the targeting-related features, at the campaign and ad group levels. For more details about the targeting setting, visit https://support.google.com/google-ads/answer/7365594 */
 export interface GoogleAdsSearchads360V0Common__TargetingSetting {
   /** The per-targeting-dimension setting to restrict the reach of your campaign or ad group. */
-  targetRestrictions?: GoogleAdsSearchads360V0Common__TargetRestrictionList;
+  targetRestrictions?: GoogleAdsSearchads360V0Common__TargetRestrictionList | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__AdGroupAdRotationModeEnum =
   | "UNSPECIFIED"
@@ -3073,58 +3140,58 @@ export type GoogleAdsSearchads360V0Resources__AdGroupStatusEnum =
 /** An ad group. */
 export interface GoogleAdsSearchads360V0Resources__AdGroup {
   /** Output only. ID of the ad group in the external engine account. This field is for non-Google Ads account only, for example, Yahoo Japan, Microsoft, Baidu etc. For Google Ads entity, use "ad_group.id" instead. */
-  engineId?: string;
+  engineId?: string | undefined;
   /** Output only. Date when this ad group starts serving ads. By default, the ad group starts now or the ad group's start date, whichever is later. If this field is set, then the ad group starts at the beginning of the specified date in the customer's time zone. This field is only available for Microsoft Advertising and Facebook gateway accounts. Format: YYYY-MM-DD Example: 2019-03-14 */
-  startDate?: string;
+  startDate?: string | undefined;
   /** Output only. The datetime when this ad group was last modified. The datetime is in the customer's time zone and in "yyyy-MM-dd HH:mm:ss.ssssss" format. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** The maximum CPC (cost-per-click) bid. This field is used when the ad group's effective bidding strategy is Manual CPC. This field is not applicable and will be ignored if the ad group's campaign is using a portfolio bidding strategy. */
-  cpcBidMicros?: string;
+  cpcBidMicros?: string | undefined;
   /** Output only. The language of the ads and keywords in an ad group. This field is only available for Microsoft Advertising accounts. More details: https://docs.microsoft.com/en-us/advertising/guides/ad-languages?view=bingads-13#adlanguage */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Output only. The resource names of effective labels attached to this ad group. An effective label is a label inherited or directly assigned to this ad group. */
-  effectiveLabels?: StringList;
+  effectiveLabels?: StringList | undefined;
   /** Immutable. The resource name of the ad group. Ad group resource names have the form: `customers/{customer_id}/adGroups/{ad_group_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Immutable. The type of the ad group. */
-  type?: GoogleAdsSearchads360V0Resources__AdGroupTypeEnum;
+  type?: GoogleAdsSearchads360V0Resources__AdGroupTypeEnum | undefined;
   /** The name of the ad group. This field is required and should not be empty when creating new ad groups. It must contain fewer than 255 UTF-8 full-width characters. It must not contain any null (code point 0x0), NL line feed (code point 0xA) or carriage return (code point 0xD) characters. */
-  name?: string;
+  name?: string | undefined;
   /** Setting for targeting related features. */
-  targetingSetting?: GoogleAdsSearchads360V0Common__TargetingSetting;
+  targetingSetting?: GoogleAdsSearchads360V0Common__TargetingSetting | undefined;
   /** Output only. The timestamp when this ad_group was created. The timestamp is in the customer's time zone and in "yyyy-MM-dd HH:mm:ss" format. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** The ad rotation mode of the ad group. */
-  adRotationMode?: GoogleAdsSearchads360V0Resources__AdGroupAdRotationModeEnum;
+  adRotationMode?: GoogleAdsSearchads360V0Resources__AdGroupAdRotationModeEnum | undefined;
   /** Output only. The Engine Status for ad group. */
-  engineStatus?: GoogleAdsSearchads360V0Resources__AdGroupEngineStatusEnum;
+  engineStatus?: GoogleAdsSearchads360V0Resources__AdGroupEngineStatusEnum | undefined;
   /** URL template for appending params to Final URL. */
-  finalUrlSuffix?: string;
+  finalUrlSuffix?: string | undefined;
   /** The status of the ad group. */
-  status?: GoogleAdsSearchads360V0Resources__AdGroupStatusEnum;
+  status?: GoogleAdsSearchads360V0Resources__AdGroupStatusEnum | undefined;
   /** Output only. Date when the ad group ends serving ads. By default, the ad group ends on the ad group's end date. If this field is set, then the ad group ends at the end of the specified date in the customer's time zone. This field is only available for Microsoft Advertising and Facebook gateway accounts. Format: YYYY-MM-DD Example: 2019-03-14 */
-  endDate?: string;
+  endDate?: string | undefined;
   /** Output only. The resource names of labels attached to this ad group. */
-  labels?: StringList;
+  labels?: StringList | undefined;
   /** The URL template for constructing a tracking URL. */
-  trackingUrlTemplate?: string;
+  trackingUrlTemplate?: string | undefined;
   /** Output only. The ID of the ad group. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Shopping performance view. Provides Shopping campaign and Performance Max campaign statistics aggregated at several product dimension levels. Product dimension values from Merchant Center such as brand, category, custom attributes, product condition, and product type will reflect the state of each dimension as of the date and time when the corresponding event was recorded. The number of impressions and clicks that `shopping_performance_view` returns stats for may be different from campaign reports. `shopping_performance_view` shows impressions and clicks on products appearing in ads, while campaign reports show impressions and clicks on the ads themselves. Depending on the format, an ad can show from zero to several products, so the numbers may not match. In Search Ads 360 UI, you can query impressions and clicks of products appearing in ads by selecting a column from "Product attributes" in the report editor. For example, selecting the "Brand" column is equivalent to selecting `segments.product_brand`. */
 export interface GoogleAdsSearchads360V0Resources__ShoppingPerformanceView {
   /** Output only. The resource name of the Shopping performance view. Shopping performance view resource names have the form: `customers/{customer_id}/shoppingPerformanceView` */
-  resourceName?: string;
+  resourceName?: string | undefined;
 }
 /** An automated bid strategy that sets bids to help get as many conversions as possible at the target cost-per-acquisition (CPA) you set. */
 export interface GoogleAdsSearchads360V0Resources_AccessibleBiddingStrategy_TargetCpa {
   /** Output only. Average CPA target. This target should be greater than or equal to minimum billable unit based on the currency for the account. */
-  targetCpaMicros?: string;
+  targetCpaMicros?: string | undefined;
 }
 /** An automated bidding strategy that helps you maximize revenue while averaging a specific target return on ad spend (ROAS). */
 export interface GoogleAdsSearchads360V0Resources_AccessibleBiddingStrategy_TargetRoas {
   /** Output only. The chosen revenue (based on conversion data) per unit of spend. */
-  targetRoas?: number;
+  targetRoas?: number | undefined;
 }
 export type GoogleAdsSearchads360V0Resources_AccessibleBiddingStrategy_TargetImpressionShareLocationEnum =
   | "UNSPECIFIED"
@@ -3135,30 +3202,32 @@ export type GoogleAdsSearchads360V0Resources_AccessibleBiddingStrategy_TargetImp
 /** An automated bidding strategy that sets bids so that a certain percentage of search ads are shown at the top of the first page (or other targeted location). */
 export interface GoogleAdsSearchads360V0Resources_AccessibleBiddingStrategy_TargetImpressionShare {
   /** Output only. The highest CPC bid the automated bidding system is permitted to specify. This is a required field entered by the advertiser that sets the ceiling and specified in local micros. */
-  cpcBidCeilingMicros?: string;
+  cpcBidCeilingMicros?: string | undefined;
   /** The chosen fraction of ads to be shown in the targeted location in micros. For example, 1% equals 10,000. */
-  locationFractionMicros?: string;
+  locationFractionMicros?: string | undefined;
   /** Output only. The targeted location on the search results page. */
-  location?: GoogleAdsSearchads360V0Resources_AccessibleBiddingStrategy_TargetImpressionShareLocationEnum;
+  location?:
+    | GoogleAdsSearchads360V0Resources_AccessibleBiddingStrategy_TargetImpressionShareLocationEnum
+    | undefined;
 }
 /** An automated bid strategy that sets your bids to help get as many clicks as possible within your budget. */
 export interface GoogleAdsSearchads360V0Resources_AccessibleBiddingStrategy_TargetSpend {
   /** Output only. The spend target under which to maximize clicks. A TargetSpend bidder will attempt to spend the smaller of this value or the natural throttling spend amount. If not specified, the budget is used as the spend target. This field is deprecated and should no longer be used. See https://ads-developers.googleblog.com/2020/05/reminder-about-sunset-creation-of.html for details. */
-  targetSpendMicros?: string;
+  targetSpendMicros?: string | undefined;
   /** Output only. Maximum bid limit that can be set by the bid strategy. The limit applies to all keywords managed by the strategy. */
-  cpcBidCeilingMicros?: string;
+  cpcBidCeilingMicros?: string | undefined;
 }
 /** An automated bidding strategy to help get the most conversion value for your campaigns while spending your budget. */
 export interface GoogleAdsSearchads360V0Resources_AccessibleBiddingStrategy_MaximizeConversionValue {
   /** Output only. The target return on ad spend (ROAS) option. If set, the bid strategy will maximize revenue while averaging the target return on ad spend. If the target ROAS is high, the bid strategy may not be able to spend the full budget. If the target ROAS is not set, the bid strategy will aim to achieve the highest possible ROAS for the budget. */
-  targetRoas?: number;
+  targetRoas?: number | undefined;
 }
 /** An automated bidding strategy to help get the most conversions for your campaigns while spending your budget. */
 export interface GoogleAdsSearchads360V0Resources_AccessibleBiddingStrategy_MaximizeConversions {
   /** Output only. The target cost per acquisition (CPA) option. This is the average amount that you would like to spend per acquisition. */
-  targetCpaMicros?: string;
+  targetCpaMicros?: string | undefined;
   /** Output only. The target cost per acquisition (CPA) option. This is the average amount that you would like to spend per acquisition. */
-  targetCpa?: string;
+  targetCpa?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__AccessibleBiddingStrategyTypeEnum =
   | "UNSPECIFIED"
@@ -3183,29 +3252,35 @@ export type GoogleAdsSearchads360V0Resources__AccessibleBiddingStrategyTypeEnum 
 /** Represents a view of BiddingStrategies owned by and shared with the customer. In contrast to BiddingStrategy, this resource includes strategies owned by managers of the customer and shared with this customer - in addition to strategies owned by this customer. This resource does not provide metrics and only exposes a limited subset of the BiddingStrategy attributes. */
 export interface GoogleAdsSearchads360V0Resources__AccessibleBiddingStrategy {
   /** Output only. A bidding strategy that sets bids to help get as many conversions as possible at the target cost-per-acquisition (CPA) you set. */
-  targetCpa?: GoogleAdsSearchads360V0Resources_AccessibleBiddingStrategy_TargetCpa;
+  targetCpa?: GoogleAdsSearchads360V0Resources_AccessibleBiddingStrategy_TargetCpa | undefined;
   /** Output only. A bidding strategy that helps you maximize revenue while averaging a specific target Return On Ad Spend (ROAS). */
-  targetRoas?: GoogleAdsSearchads360V0Resources_AccessibleBiddingStrategy_TargetRoas;
+  targetRoas?: GoogleAdsSearchads360V0Resources_AccessibleBiddingStrategy_TargetRoas | undefined;
   /** Output only. descriptive_name of the Customer which owns the bidding strategy. */
-  ownerDescriptiveName?: string;
+  ownerDescriptiveName?: string | undefined;
   /** Output only. The ID of the Customer which owns the bidding strategy. */
-  ownerCustomerId?: string;
+  ownerCustomerId?: string | undefined;
   /** Output only. A bidding strategy that automatically optimizes towards a chosen percentage of impressions. */
-  targetImpressionShare?: GoogleAdsSearchads360V0Resources_AccessibleBiddingStrategy_TargetImpressionShare;
+  targetImpressionShare?:
+    | GoogleAdsSearchads360V0Resources_AccessibleBiddingStrategy_TargetImpressionShare
+    | undefined;
   /** Output only. A bid strategy that sets your bids to help get as many clicks as possible within your budget. */
-  targetSpend?: GoogleAdsSearchads360V0Resources_AccessibleBiddingStrategy_TargetSpend;
+  targetSpend?: GoogleAdsSearchads360V0Resources_AccessibleBiddingStrategy_TargetSpend | undefined;
   /** Output only. The resource name of the accessible bidding strategy. AccessibleBiddingStrategy resource names have the form: `customers/{customer_id}/accessibleBiddingStrategies/{bidding_strategy_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Output only. An automated bidding strategy to help get the most conversion value for your campaigns while spending your budget. */
-  maximizeConversionValue?: GoogleAdsSearchads360V0Resources_AccessibleBiddingStrategy_MaximizeConversionValue;
+  maximizeConversionValue?:
+    | GoogleAdsSearchads360V0Resources_AccessibleBiddingStrategy_MaximizeConversionValue
+    | undefined;
   /** Output only. The ID of the bidding strategy. */
-  id?: string;
+  id?: string | undefined;
   /** Output only. An automated bidding strategy to help get the most conversions for your campaigns while spending your budget. */
-  maximizeConversions?: GoogleAdsSearchads360V0Resources_AccessibleBiddingStrategy_MaximizeConversions;
+  maximizeConversions?:
+    | GoogleAdsSearchads360V0Resources_AccessibleBiddingStrategy_MaximizeConversions
+    | undefined;
   /** Output only. The name of the bidding strategy. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The type of the bidding strategy. */
-  type?: GoogleAdsSearchads360V0Resources__AccessibleBiddingStrategyTypeEnum;
+  type?: GoogleAdsSearchads360V0Resources__AccessibleBiddingStrategyTypeEnum | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__AssetGroupStatusEnum =
   | "UNSPECIFIED"
@@ -3225,25 +3300,25 @@ export type GoogleAdsSearchads360V0Resources__AssetGroupAdStrengthEnum =
 /** An asset group. AssetGroupAsset is used to link an asset to the asset group. AssetGroupSignal is used to associate a signal to an asset group. */
 export interface GoogleAdsSearchads360V0Resources__AssetGroup {
   /** Immutable. The campaign with which this asset group is associated. The asset which is linked to the asset group. */
-  campaign?: string;
+  campaign?: string | undefined;
   /** Second part of text that may appear appended to the url displayed in the ad. This field can only be set when path1 is set. */
-  path2?: string;
+  path2?: string | undefined;
   /** The status of the asset group. */
-  status?: GoogleAdsSearchads360V0Resources__AssetGroupStatusEnum;
+  status?: GoogleAdsSearchads360V0Resources__AssetGroupStatusEnum | undefined;
   /** Immutable. The resource name of the asset group. Asset group resource names have the form: `customers/{customer_id}/assetGroups/{asset_group_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Required. Name of the asset group. Required. It must have a minimum length of 1 and maximum length of 128. It must be unique under a campaign. */
-  name?: string;
+  name?: string | undefined;
   /** First part of text that may appear appended to the url displayed in the ad. */
-  path1?: string;
+  path1?: string | undefined;
   /** A list of final mobile URLs after all cross domain redirects. In performance max, by default, the urls are eligible for expansion unless opted out. */
-  finalMobileUrls?: StringList;
+  finalMobileUrls?: StringList | undefined;
   /** A list of final URLs after all cross domain redirects. In performance max, by default, the urls are eligible for expansion unless opted out. */
-  finalUrls?: StringList;
+  finalUrls?: StringList | undefined;
   /** Output only. The ID of the asset group. */
-  id?: string;
+  id?: string | undefined;
   /** Output only. Overall ad strength of this asset group. */
-  adStrength?: GoogleAdsSearchads360V0Resources__AssetGroupAdStrengthEnum;
+  adStrength?: GoogleAdsSearchads360V0Resources__AssetGroupAdStrengthEnum | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__AdGroupCriterionEngineStatusEnum =
   | "UNSPECIFIED"
@@ -3270,7 +3345,7 @@ export type GoogleAdsSearchads360V0Resources__AdGroupCriterionEngineStatusEnum =
 /** Estimates for criterion bids at various positions. */
 export interface GoogleAdsSearchads360V0Resources_AdGroupCriterion_PositionEstimates {
   /** Output only. The estimate of the CPC bid required for ad to be displayed at the top of the first page of search results. */
-  topOfPageCpcMicros?: string;
+  topOfPageCpcMicros?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Common__ListingGroupInfoTypeEnum =
   | "UNSPECIFIED"
@@ -3280,7 +3355,7 @@ export type GoogleAdsSearchads360V0Common__ListingGroupInfoTypeEnum =
 /** A listing group criterion. */
 export interface GoogleAdsSearchads360V0Common__ListingGroupInfo {
   /** Type of the listing group. */
-  type?: GoogleAdsSearchads360V0Common__ListingGroupInfoTypeEnum;
+  type?: GoogleAdsSearchads360V0Common__ListingGroupInfoTypeEnum | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__AdGroupCriterionStatusEnum =
   | "UNSPECIFIED"
@@ -3332,68 +3407,70 @@ export type GoogleAdsSearchads360V0Resources__AdGroupCriterionTypeEnum =
 /** A container for ad group criterion quality information. */
 export interface GoogleAdsSearchads360V0Resources_AdGroupCriterion_QualityInfo {
   /** Output only. The quality score. This field may not be populated if Google does not have enough information to determine a value. */
-  qualityScore?: number;
+  qualityScore?: number | undefined;
 }
 /** An ad group criterion. The ad_group_criterion report only returns criteria that were explicitly added to the ad group. */
 export interface GoogleAdsSearchads360V0Resources__AdGroupCriterion {
   /** Immutable. The ad group to which the criterion belongs. */
-  adGroup?: string;
+  adGroup?: string | undefined;
   /** Output only. The resource names of labels attached to this ad group criterion. */
-  labels?: StringList;
+  labels?: StringList | undefined;
   /** Immutable. Age range. */
-  ageRange?: GoogleAdsSearchads360V0Common__AgeRangeInfo;
+  ageRange?: GoogleAdsSearchads360V0Common__AgeRangeInfo | undefined;
   /** The modifier for the bid when the criterion matches. The modifier must be in the range: 0.1 - 10.0. Most targetable criteria types support modifiers. */
-  bidModifier?: number;
+  bidModifier?: number | undefined;
   /** Immutable. Webpage */
-  webpage?: GoogleAdsSearchads360V0Common__WebpageInfo;
+  webpage?: GoogleAdsSearchads360V0Common__WebpageInfo | undefined;
   /** Output only. The Engine Status for ad group criterion. */
-  engineStatus?: GoogleAdsSearchads360V0Resources__AdGroupCriterionEngineStatusEnum;
+  engineStatus?: GoogleAdsSearchads360V0Resources__AdGroupCriterionEngineStatusEnum | undefined;
   /** Immutable. User List. */
-  userList?: GoogleAdsSearchads360V0Common__UserListInfo;
+  userList?: GoogleAdsSearchads360V0Common__UserListInfo | undefined;
   /** The CPC (cost-per-click) bid. */
-  cpcBidMicros?: string;
+  cpcBidMicros?: string | undefined;
   /** The URL template for constructing a tracking URL. */
-  trackingUrlTemplate?: string;
+  trackingUrlTemplate?: string | undefined;
   /** Output only. Estimates for criterion bids at various positions. */
-  positionEstimates?: GoogleAdsSearchads360V0Resources_AdGroupCriterion_PositionEstimates;
+  positionEstimates?:
+    | GoogleAdsSearchads360V0Resources_AdGroupCriterion_PositionEstimates
+    | undefined;
   /** Immutable. Keyword. */
-  keyword?: GoogleAdsSearchads360V0Common__KeywordInfo;
+  keyword?: GoogleAdsSearchads360V0Common__KeywordInfo | undefined;
   /** Immutable. Listing group. */
-  listingGroup?: GoogleAdsSearchads360V0Common__ListingGroupInfo;
+  listingGroup?: GoogleAdsSearchads360V0Common__ListingGroupInfo | undefined;
   /** URL template for appending params to final URL. */
-  finalUrlSuffix?: string;
+  finalUrlSuffix?: string | undefined;
   /** Output only. The resource names of effective labels attached to this ad group criterion. An effective label is a label inherited or directly assigned to this ad group criterion. */
-  effectiveLabels?: StringList;
+  effectiveLabels?: StringList | undefined;
   /** Immutable. Gender. */
-  gender?: GoogleAdsSearchads360V0Common__GenderInfo;
+  gender?: GoogleAdsSearchads360V0Common__GenderInfo | undefined;
   /** The list of possible final URLs after all cross-domain redirects for the ad. */
-  finalUrls?: StringList;
+  finalUrls?: StringList | undefined;
   /** The status of the criterion. This is the status of the ad group criterion entity, set by the client. Note: UI reports may incorporate additional information that affects whether a criterion is eligible to run. In some cases a criterion that's REMOVED in the API can still show as enabled in the UI. For example, campaigns by default show to users of all age ranges unless excluded. The UI will show each age range as "enabled", since they're eligible to see the ads; but AdGroupCriterion.status will show "removed", since no positive criterion was added. */
-  status?: GoogleAdsSearchads360V0Resources__AdGroupCriterionStatusEnum;
+  status?: GoogleAdsSearchads360V0Resources__AdGroupCriterionStatusEnum | undefined;
   /** Immutable. Location. */
-  location?: GoogleAdsSearchads360V0Common__LocationInfo;
+  location?: GoogleAdsSearchads360V0Common__LocationInfo | undefined;
   /** Output only. The ID of the criterion. */
-  criterionId?: string;
+  criterionId?: string | undefined;
   /** Immutable. The resource name of the ad group criterion. Ad group criterion resource names have the form: `customers/{customer_id}/adGroupCriteria/{ad_group_id}~{criterion_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Output only. The datetime when this ad group criterion was last modified. The datetime is in the customer's time zone and in "yyyy-MM-dd HH:mm:ss.ssssss" format. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Output only. The effective CPC (cost-per-click) bid. */
-  effectiveCpcBidMicros?: string;
+  effectiveCpcBidMicros?: string | undefined;
   /** The list of mappings used to substitute custom parameter tags in a `tracking_url_template`, `final_urls`, or `mobile_final_urls`. */
-  urlCustomParameters?: GoogleAdsSearchads360V0Common__CustomParameterList;
+  urlCustomParameters?: GoogleAdsSearchads360V0Common__CustomParameterList | undefined;
   /** Output only. The timestamp when this ad group criterion was created. The timestamp is in the customer's time zone and in "yyyy-MM-dd HH:mm:ss" format. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Output only. The type of the criterion. */
-  type?: GoogleAdsSearchads360V0Resources__AdGroupCriterionTypeEnum;
+  type?: GoogleAdsSearchads360V0Resources__AdGroupCriterionTypeEnum | undefined;
   /** The list of possible final mobile URLs after all cross-domain redirects. */
-  finalMobileUrls?: StringList;
+  finalMobileUrls?: StringList | undefined;
   /** Immutable. Whether to target (`false`) or exclude (`true`) the criterion. This field is immutable. To switch a criterion from positive to negative, remove then re-add it. */
-  negative?: boolean;
+  negative?: boolean | undefined;
   /** Output only. Information regarding the quality of the criterion. */
-  qualityInfo?: GoogleAdsSearchads360V0Resources_AdGroupCriterion_QualityInfo;
+  qualityInfo?: GoogleAdsSearchads360V0Resources_AdGroupCriterion_QualityInfo | undefined;
   /** Output only. ID of the ad group criterion in the external engine account. This field is for non-Google Ads account only, for example, Yahoo Japan, Microsoft, Baidu etc. For Google Ads entity, use "ad_group_criterion.criterion_id" instead. */
-  engineId?: string;
+  engineId?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__CampaignAssetSetStatusEnum =
   | "UNSPECIFIED"
@@ -3403,25 +3480,25 @@ export type GoogleAdsSearchads360V0Resources__CampaignAssetSetStatusEnum =
 /** CampaignAssetSet is the linkage between a campaign and an asset set. Adding a CampaignAssetSet links an asset set with a campaign. */
 export interface GoogleAdsSearchads360V0Resources__CampaignAssetSet {
   /** Immutable. The resource name of the campaign asset set. Asset set asset resource names have the form: `customers/{customer_id}/campaignAssetSets/{campaign_id}~{asset_set_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Output only. The status of the campaign asset set asset. Read-only. */
-  status?: GoogleAdsSearchads360V0Resources__CampaignAssetSetStatusEnum;
+  status?: GoogleAdsSearchads360V0Resources__CampaignAssetSetStatusEnum | undefined;
   /** Immutable. The campaign to which this asset set is linked. */
-  campaign?: string;
+  campaign?: string | undefined;
   /** Immutable. The asset set which is linked to the campaign. */
-  assetSet?: string;
+  assetSet?: string | undefined;
 }
 /** Cart data sales view. Provides information about the products which were purchased if conversions with cart data is implemented. Performance metrics like revenue, gross profit, lead/cross-sell metrics etc. and Merchant Center attributes such as brand, category etc. are available for products defined in an inventory feed and sold as a result of Google ads. For purchases attributed to clicks on Shopping ads, dimensions of both clicked and sold products can be viewed together. */
 export interface GoogleAdsSearchads360V0Resources__CartDataSalesView {
   /** Output only. The resource name of the Cart data sales view. Cart data sales view resource names have the form: `customers/{customer_id}/cartDataSalesView` */
-  resourceName?: string;
+  resourceName?: string | undefined;
 }
 /** A dynamic search ads search term view. */
 export interface GoogleAdsSearchads360V0Resources__DynamicSearchAdsSearchTermView {
   /** Output only. The resource name of the dynamic search ads search term view. Dynamic search ads search term view resource names have the form: `customers/{customer_id}/dynamicSearchAdsSearchTermViews/{ad_group_id}~{search_term_fingerprint}~{headline_fingerprint}~{landing_page_fingerprint}~{page_url_fingerprint}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Output only. The dynamically selected landing page URL of the impression. This field is read-only. */
-  landingPage?: string;
+  landingPage?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__ConversionCustomVariableCardinalityEnum =
   | "UNSPECIFIED"
@@ -3444,9 +3521,13 @@ export type GoogleAdsSearchads360V0Resources_ConversionCustomVariable_Floodlight
 /** Information for Search Ads 360 Floodlight Conversion Custom Variables. */
 export interface GoogleAdsSearchads360V0Resources_ConversionCustomVariable_FloodlightConversionCustomVariableInfo {
   /** Output only. Floodlight variable data type defined in Search Ads 360. */
-  floodlightVariableDataType?: GoogleAdsSearchads360V0Resources_ConversionCustomVariable_FloodlightConversionCustomVariableInfoFloodlightVariableDataTypeEnum;
+  floodlightVariableDataType?:
+    | GoogleAdsSearchads360V0Resources_ConversionCustomVariable_FloodlightConversionCustomVariableInfoFloodlightVariableDataTypeEnum
+    | undefined;
   /** Output only. Floodlight variable type defined in Search Ads 360. */
-  floodlightVariableType?: GoogleAdsSearchads360V0Resources_ConversionCustomVariable_FloodlightConversionCustomVariableInfoFloodlightVariableTypeEnum;
+  floodlightVariableType?:
+    | GoogleAdsSearchads360V0Resources_ConversionCustomVariable_FloodlightConversionCustomVariableInfoFloodlightVariableTypeEnum
+    | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__ConversionCustomVariableFamilyEnum =
   | "UNSPECIFIED"
@@ -3462,30 +3543,34 @@ export type GoogleAdsSearchads360V0Resources__ConversionCustomVariableStatusEnum
 /** A conversion custom variable. See "About custom Floodlight metrics and dimensions in the new Search Ads 360" at https://support.google.com/sa360/answer/13567857 */
 export interface GoogleAdsSearchads360V0Resources__ConversionCustomVariable {
   /** Output only. Cardinality of the conversion custom variable. */
-  cardinality?: GoogleAdsSearchads360V0Resources__ConversionCustomVariableCardinalityEnum;
+  cardinality?:
+    | GoogleAdsSearchads360V0Resources__ConversionCustomVariableCardinalityEnum
+    | undefined;
   /** Output only. The IDs of custom columns that use this conversion custom variable. */
-  customColumnIds?: StringList;
+  customColumnIds?: StringList | undefined;
   /** Required. Immutable. The tag of the conversion custom variable. Tag should be unique and consist of a "u" character directly followed with a number less than ormequal to 100. For example: "u4". */
-  tag?: string;
+  tag?: string | undefined;
   /** Output only. Fields for Search Ads 360 floodlight conversion custom variables. */
-  floodlightConversionCustomVariableInfo?: GoogleAdsSearchads360V0Resources_ConversionCustomVariable_FloodlightConversionCustomVariableInfo;
+  floodlightConversionCustomVariableInfo?:
+    | GoogleAdsSearchads360V0Resources_ConversionCustomVariable_FloodlightConversionCustomVariableInfo
+    | undefined;
   /** Output only. The resource name of the customer that owns the conversion custom variable. */
-  ownerCustomer?: string;
+  ownerCustomer?: string | undefined;
   /** Immutable. The resource name of the conversion custom variable. Conversion custom variable resource names have the form: `customers/{customer_id}/conversionCustomVariables/{conversion_custom_variable_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Output only. Family of the conversion custom variable. */
-  family?: GoogleAdsSearchads360V0Resources__ConversionCustomVariableFamilyEnum;
+  family?: GoogleAdsSearchads360V0Resources__ConversionCustomVariableFamilyEnum | undefined;
   /** The status of the conversion custom variable for conversion event accrual. */
-  status?: GoogleAdsSearchads360V0Resources__ConversionCustomVariableStatusEnum;
+  status?: GoogleAdsSearchads360V0Resources__ConversionCustomVariableStatusEnum | undefined;
   /** Output only. The ID of the conversion custom variable. */
-  id?: string;
+  id?: string | undefined;
   /** Required. The name of the conversion custom variable. Name should be unique. The maximum length of name is 100 characters. There should not be any extra spaces before and after. */
-  name?: string;
+  name?: string | undefined;
 }
 /** A keyword view. */
 export interface GoogleAdsSearchads360V0Resources__KeywordView {
   /** Output only. The resource name of the keyword view. Keyword view resource names have the form: `customers/{customer_id}/keywordViews/{ad_group_id}~{criterion_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__AssetGroupListingGroupFilterTypeEnum =
   | "UNSPECIFIED"
@@ -3504,9 +3589,11 @@ export type GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_Product
 /** Type of a product offer. */
 export interface GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductType {
   /** Value of the type. */
-  value?: string;
+  value?: string | undefined;
   /** Level of the type. */
-  level?: GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductTypeLevelEnum;
+  level?:
+    | GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductTypeLevelEnum
+    | undefined;
 }
 export type GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductChannelChannelEnum =
   | "UNSPECIFIED"
@@ -3516,7 +3603,9 @@ export type GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_Product
 /** Locality of a product offer. */
 export interface GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductChannel {
   /** Value of the locality. */
-  channel?: GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductChannelChannelEnum;
+  channel?:
+    | GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductChannelChannelEnum
+    | undefined;
 }
 export type GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductCustomAttributeIndexEnum =
   | "UNSPECIFIED"
@@ -3529,19 +3618,21 @@ export type GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_Product
 /** Custom attribute of a product offer. */
 export interface GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductCustomAttribute {
   /** String value of the product custom attribute. */
-  value?: string;
+  value?: string | undefined;
   /** Indicates the index of the custom attribute. */
-  index?: GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductCustomAttributeIndexEnum;
+  index?:
+    | GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductCustomAttributeIndexEnum
+    | undefined;
 }
 /** Brand of the product. */
 export interface GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductBrand {
   /** String value of the product brand. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Item id of a product offer. */
 export interface GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductItemId {
   /** Value of the id. */
-  value?: string;
+  value?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductBiddingCategoryLevelEnum =
   | "UNSPECIFIED"
@@ -3554,9 +3645,11 @@ export type GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_Product
 /** One element of a bidding category at a certain level. Top-level categories are at level 1, their children at level 2, and so on. We currently support up to 5 levels. The user must specify a dimension type that indicates the level of the category. All cases of the same subdivision must have the same dimension type (category level). */
 export interface GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductBiddingCategory {
   /** ID of the product bidding category. This ID is equivalent to the google_product_category ID as described in this article: https://support.google.com/merchants/answer/6324436 */
-  id?: string;
+  id?: string | undefined;
   /** Indicates the level of the category in the taxonomy. */
-  level?: GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductBiddingCategoryLevelEnum;
+  level?:
+    | GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductBiddingCategoryLevelEnum
+    | undefined;
 }
 export type GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductConditionConditionEnum =
   | "UNSPECIFIED"
@@ -3567,31 +3660,47 @@ export type GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_Product
 /** Condition of a product offer. */
 export interface GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductCondition {
   /** Value of the condition. */
-  condition?: GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductConditionConditionEnum;
+  condition?:
+    | GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductConditionConditionEnum
+    | undefined;
 }
 /** Listing dimensions for the asset group listing group filter. */
 export interface GoogleAdsSearchads360V0Resources__ListingGroupFilterDimension {
   /** Type of a product offer. */
-  productType?: GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductType;
+  productType?:
+    | GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductType
+    | undefined;
   /** Locality of a product offer. */
-  productChannel?: GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductChannel;
+  productChannel?:
+    | GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductChannel
+    | undefined;
   /** Custom attribute of a product offer. */
-  productCustomAttribute?: GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductCustomAttribute;
+  productCustomAttribute?:
+    | GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductCustomAttribute
+    | undefined;
   /** Brand of a product offer. */
-  productBrand?: GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductBrand;
+  productBrand?:
+    | GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductBrand
+    | undefined;
   /** Item id of a product offer. */
-  productItemId?: GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductItemId;
+  productItemId?:
+    | GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductItemId
+    | undefined;
   /** Bidding category of a product offer. */
-  productBiddingCategory?: GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductBiddingCategory;
+  productBiddingCategory?:
+    | GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductBiddingCategory
+    | undefined;
   /** Condition of a product offer. */
-  productCondition?: GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductCondition;
+  productCondition?:
+    | GoogleAdsSearchads360V0Resources_ListingGroupFilterDimension_ProductCondition
+    | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__ListingGroupFilterDimensionList =
   Array<GoogleAdsSearchads360V0Resources__ListingGroupFilterDimension>;
 /** The path defining of dimensions defining a listing group filter. */
 export interface GoogleAdsSearchads360V0Resources__ListingGroupFilterDimensionPath {
   /** Output only. The complete path of dimensions through the listing group filter hierarchy (excluding the root node) to this listing group filter. */
-  dimensions?: GoogleAdsSearchads360V0Resources__ListingGroupFilterDimensionList;
+  dimensions?: GoogleAdsSearchads360V0Resources__ListingGroupFilterDimensionList | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__AssetGroupListingGroupFilterVerticalEnum =
   | "UNSPECIFIED"
@@ -3600,218 +3709,238 @@ export type GoogleAdsSearchads360V0Resources__AssetGroupListingGroupFilterVertic
 /** AssetGroupListingGroupFilter represents a listing group filter tree node in an asset group. */
 export interface GoogleAdsSearchads360V0Resources__AssetGroupListingGroupFilter {
   /** Immutable. Type of a listing group filter node. */
-  type?: GoogleAdsSearchads360V0Resources__AssetGroupListingGroupFilterTypeEnum;
+  type?: GoogleAdsSearchads360V0Resources__AssetGroupListingGroupFilterTypeEnum | undefined;
   /** Output only. The path of dimensions defining this listing group filter. */
-  path?: GoogleAdsSearchads360V0Resources__ListingGroupFilterDimensionPath;
+  path?: GoogleAdsSearchads360V0Resources__ListingGroupFilterDimensionPath | undefined;
   /** Immutable. Resource name of the parent listing group subdivision. Null for the root listing group filter node. */
-  parentListingGroupFilter?: string;
+  parentListingGroupFilter?: string | undefined;
   /** Output only. The ID of the ListingGroupFilter. */
-  id?: string;
+  id?: string | undefined;
   /** Immutable. The resource name of the asset group listing group filter. Asset group listing group filter resource name have the form: `customers/{customer_id}/assetGroupListingGroupFilters/{asset_group_id}~{listing_group_filter_id}` */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Immutable. The asset group which this asset group listing group filter is part of. */
-  assetGroup?: string;
+  assetGroup?: string | undefined;
   /** Immutable. The vertical the current node tree represents. All nodes in the same tree must belong to the same vertical. */
-  vertical?: GoogleAdsSearchads360V0Resources__AssetGroupListingGroupFilterVerticalEnum;
+  vertical?: GoogleAdsSearchads360V0Resources__AssetGroupListingGroupFilterVerticalEnum | undefined;
   /** Dimension value with which this listing group is refining its parent. Undefined for the root group. */
-  caseValue?: GoogleAdsSearchads360V0Resources__ListingGroupFilterDimension;
+  caseValue?: GoogleAdsSearchads360V0Resources__ListingGroupFilterDimension | undefined;
 }
 /** A returned row from the query. */
 export interface GoogleAdsSearchads360V0Services__SearchAds360Row {
   /** The customer referenced in the query. */
-  customer?: GoogleAdsSearchads360V0Resources__Customer;
+  customer?: GoogleAdsSearchads360V0Resources__Customer | undefined;
   /** The ad referenced in the query. */
-  adGroupAd?: GoogleAdsSearchads360V0Resources__AdGroupAd;
+  adGroupAd?: GoogleAdsSearchads360V0Resources__AdGroupAd | undefined;
   /** The campaign label referenced in the query. */
-  campaignLabel?: GoogleAdsSearchads360V0Resources__CampaignLabel;
+  campaignLabel?: GoogleAdsSearchads360V0Resources__CampaignLabel | undefined;
   /** The ad group criterion label referenced in the query. */
-  adGroupCriterionLabel?: GoogleAdsSearchads360V0Resources__AdGroupCriterionLabel;
+  adGroupCriterionLabel?: GoogleAdsSearchads360V0Resources__AdGroupCriterionLabel | undefined;
   /** The label referenced in the query. */
-  label?: GoogleAdsSearchads360V0Resources__Label;
+  label?: GoogleAdsSearchads360V0Resources__Label | undefined;
   /** The asset set referenced in the query. */
-  assetSet?: GoogleAdsSearchads360V0Resources__AssetSet;
+  assetSet?: GoogleAdsSearchads360V0Resources__AssetSet | undefined;
   /** The customer asset referenced in the query. */
-  customerAsset?: GoogleAdsSearchads360V0Resources__CustomerAsset;
+  customerAsset?: GoogleAdsSearchads360V0Resources__CustomerAsset | undefined;
   /** The webpage view referenced in the query. */
-  webpageView?: GoogleAdsSearchads360V0Resources__WebpageView;
+  webpageView?: GoogleAdsSearchads360V0Resources__WebpageView | undefined;
   /** The metrics. */
-  metrics?: GoogleAdsSearchads360V0Common__Metrics;
+  metrics?: GoogleAdsSearchads360V0Common__Metrics | undefined;
   /** The customer asset set referenced in the query. */
-  customerAssetSet?: GoogleAdsSearchads360V0Resources__CustomerAssetSet;
+  customerAssetSet?: GoogleAdsSearchads360V0Resources__CustomerAssetSet | undefined;
   /** The asset referenced in the query. */
-  asset?: GoogleAdsSearchads360V0Resources__Asset;
+  asset?: GoogleAdsSearchads360V0Resources__Asset | undefined;
   /** The event level conversion referenced in the query. */
-  conversion?: GoogleAdsSearchads360V0Resources__Conversion;
+  conversion?: GoogleAdsSearchads360V0Resources__Conversion | undefined;
   /** The location view referenced in the query. */
-  locationView?: GoogleAdsSearchads360V0Resources__LocationView;
+  locationView?: GoogleAdsSearchads360V0Resources__LocationView | undefined;
   /** The CustomerManagerLink referenced in the query. */
-  customerManagerLink?: GoogleAdsSearchads360V0Resources__CustomerManagerLink;
+  customerManagerLink?: GoogleAdsSearchads360V0Resources__CustomerManagerLink | undefined;
   /** The bidding strategy referenced in the query. */
-  biddingStrategy?: GoogleAdsSearchads360V0Resources__BiddingStrategy;
+  biddingStrategy?: GoogleAdsSearchads360V0Resources__BiddingStrategy | undefined;
   /** The custom columns. */
-  customColumns?: GoogleAdsSearchads360V0Common__ValueList;
+  customColumns?: GoogleAdsSearchads360V0Common__ValueList | undefined;
   /** The campaign asset referenced in the query. */
-  campaignAsset?: GoogleAdsSearchads360V0Resources__CampaignAsset;
+  campaignAsset?: GoogleAdsSearchads360V0Resources__CampaignAsset | undefined;
   /** The event level visit referenced in the query. */
-  visit?: GoogleAdsSearchads360V0Resources__Visit;
+  visit?: GoogleAdsSearchads360V0Resources__Visit | undefined;
   /** The campaign referenced in the query. */
-  campaign?: GoogleAdsSearchads360V0Resources__Campaign;
+  campaign?: GoogleAdsSearchads360V0Resources__Campaign | undefined;
   /** The ad group criterion effective label referenced in the query. */
-  adGroupCriterionEffectiveLabel?: GoogleAdsSearchads360V0Resources__AdGroupCriterionEffectiveLabel;
+  adGroupCriterionEffectiveLabel?:
+    | GoogleAdsSearchads360V0Resources__AdGroupCriterionEffectiveLabel
+    | undefined;
   /** The user list referenced in the query. */
-  userList?: GoogleAdsSearchads360V0Resources__UserList;
+  userList?: GoogleAdsSearchads360V0Resources__UserList | undefined;
   /** The campaign criterion referenced in the query. */
-  campaignCriterion?: GoogleAdsSearchads360V0Resources__CampaignCriterion;
+  campaignCriterion?: GoogleAdsSearchads360V0Resources__CampaignCriterion | undefined;
   /** The campaign effective label referenced in the query. */
-  campaignEffectiveLabel?: GoogleAdsSearchads360V0Resources__CampaignEffectiveLabel;
+  campaignEffectiveLabel?: GoogleAdsSearchads360V0Resources__CampaignEffectiveLabel | undefined;
   /** The gender view referenced in the query. */
-  genderView?: GoogleAdsSearchads360V0Resources__GenderView;
+  genderView?: GoogleAdsSearchads360V0Resources__GenderView | undefined;
   /** The language constant referenced in the query. */
-  languageConstant?: GoogleAdsSearchads360V0Resources__LanguageConstant;
+  languageConstant?: GoogleAdsSearchads360V0Resources__LanguageConstant | undefined;
   /** The CustomerClient referenced in the query. */
-  customerClient?: GoogleAdsSearchads360V0Resources__CustomerClient;
+  customerClient?: GoogleAdsSearchads360V0Resources__CustomerClient | undefined;
   /** The user location view referenced in the query. */
-  userLocationView?: GoogleAdsSearchads360V0Resources__UserLocationView;
+  userLocationView?: GoogleAdsSearchads360V0Resources__UserLocationView | undefined;
   /** The segments. */
-  segments?: GoogleAdsSearchads360V0Common__Segments;
+  segments?: GoogleAdsSearchads360V0Common__Segments | undefined;
   /** The Audience referenced in the query. */
-  audience?: GoogleAdsSearchads360V0Resources__Audience;
+  audience?: GoogleAdsSearchads360V0Resources__Audience | undefined;
   /** The ad group audience view referenced in the query. */
-  adGroupAudienceView?: GoogleAdsSearchads360V0Resources__AdGroupAudienceView;
+  adGroupAudienceView?: GoogleAdsSearchads360V0Resources__AdGroupAudienceView | undefined;
   /** The ad group ad label referenced in the query. */
-  adGroupAdLabel?: GoogleAdsSearchads360V0Resources__AdGroupAdLabel;
+  adGroupAdLabel?: GoogleAdsSearchads360V0Resources__AdGroupAdLabel | undefined;
   /** The asset group top combination view referenced in the query. */
-  assetGroupTopCombinationView?: GoogleAdsSearchads360V0Resources__AssetGroupTopCombinationView;
+  assetGroupTopCombinationView?:
+    | GoogleAdsSearchads360V0Resources__AssetGroupTopCombinationView
+    | undefined;
   /** The ad group effective label referenced in the query. */
-  adGroupEffectiveLabel?: GoogleAdsSearchads360V0Resources__AdGroupEffectiveLabel;
+  adGroupEffectiveLabel?: GoogleAdsSearchads360V0Resources__AdGroupEffectiveLabel | undefined;
   /** The campaign budget referenced in the query. */
-  campaignBudget?: GoogleAdsSearchads360V0Resources__CampaignBudget;
+  campaignBudget?: GoogleAdsSearchads360V0Resources__CampaignBudget | undefined;
   /** The bid modifier referenced in the query. */
-  adGroupBidModifier?: GoogleAdsSearchads360V0Resources__AdGroupBidModifier;
+  adGroupBidModifier?: GoogleAdsSearchads360V0Resources__AdGroupBidModifier | undefined;
   /** The geo target constant referenced in the query. */
-  geoTargetConstant?: GoogleAdsSearchads360V0Resources__GeoTargetConstant;
+  geoTargetConstant?: GoogleAdsSearchads360V0Resources__GeoTargetConstant | undefined;
   /** The asset group asset referenced in the query. */
-  assetGroupAsset?: GoogleAdsSearchads360V0Resources__AssetGroupAsset;
+  assetGroupAsset?: GoogleAdsSearchads360V0Resources__AssetGroupAsset | undefined;
   /** The Product Bidding Category referenced in the query. */
-  productBiddingCategoryConstant?: GoogleAdsSearchads360V0Resources__ProductBiddingCategoryConstant;
+  productBiddingCategoryConstant?:
+    | GoogleAdsSearchads360V0Resources__ProductBiddingCategoryConstant
+    | undefined;
   /** The ad group label referenced in the query. */
-  adGroupLabel?: GoogleAdsSearchads360V0Resources__AdGroupLabel;
+  adGroupLabel?: GoogleAdsSearchads360V0Resources__AdGroupLabel | undefined;
   /** The ad group ad effective label referenced in the query. */
-  adGroupAdEffectiveLabel?: GoogleAdsSearchads360V0Resources__AdGroupAdEffectiveLabel;
+  adGroupAdEffectiveLabel?: GoogleAdsSearchads360V0Resources__AdGroupAdEffectiveLabel | undefined;
   /** The ad group asset set referenced in the query. */
-  adGroupAssetSet?: GoogleAdsSearchads360V0Resources__AdGroupAssetSet;
+  adGroupAssetSet?: GoogleAdsSearchads360V0Resources__AdGroupAssetSet | undefined;
   /** The product group view referenced in the query. */
-  productGroupView?: GoogleAdsSearchads360V0Resources__ProductGroupView;
+  productGroupView?: GoogleAdsSearchads360V0Resources__ProductGroupView | undefined;
   /** The campaign audience view referenced in the query. */
-  campaignAudienceView?: GoogleAdsSearchads360V0Resources__CampaignAudienceView;
+  campaignAudienceView?: GoogleAdsSearchads360V0Resources__CampaignAudienceView | undefined;
   /** The conversion action referenced in the query. */
-  conversionAction?: GoogleAdsSearchads360V0Resources__ConversionAction;
+  conversionAction?: GoogleAdsSearchads360V0Resources__ConversionAction | undefined;
   /** The ad group asset referenced in the query. */
-  adGroupAsset?: GoogleAdsSearchads360V0Resources__AdGroupAsset;
+  adGroupAsset?: GoogleAdsSearchads360V0Resources__AdGroupAsset | undefined;
   /** The asset set asset referenced in the query. */
-  assetSetAsset?: GoogleAdsSearchads360V0Resources__AssetSetAsset;
+  assetSetAsset?: GoogleAdsSearchads360V0Resources__AssetSetAsset | undefined;
   /** The age range view referenced in the query. */
-  ageRangeView?: GoogleAdsSearchads360V0Resources__AgeRangeView;
+  ageRangeView?: GoogleAdsSearchads360V0Resources__AgeRangeView | undefined;
   /** The asset group signal referenced in the query. */
-  assetGroupSignal?: GoogleAdsSearchads360V0Resources__AssetGroupSignal;
+  assetGroupSignal?: GoogleAdsSearchads360V0Resources__AssetGroupSignal | undefined;
   /** The ad group referenced in the query. */
-  adGroup?: GoogleAdsSearchads360V0Resources__AdGroup;
+  adGroup?: GoogleAdsSearchads360V0Resources__AdGroup | undefined;
   /** The shopping performance view referenced in the query. */
-  shoppingPerformanceView?: GoogleAdsSearchads360V0Resources__ShoppingPerformanceView;
+  shoppingPerformanceView?: GoogleAdsSearchads360V0Resources__ShoppingPerformanceView | undefined;
   /** The accessible bidding strategy referenced in the query. */
-  accessibleBiddingStrategy?: GoogleAdsSearchads360V0Resources__AccessibleBiddingStrategy;
+  accessibleBiddingStrategy?:
+    | GoogleAdsSearchads360V0Resources__AccessibleBiddingStrategy
+    | undefined;
   /** The asset group referenced in the query. */
-  assetGroup?: GoogleAdsSearchads360V0Resources__AssetGroup;
+  assetGroup?: GoogleAdsSearchads360V0Resources__AssetGroup | undefined;
   /** The criterion referenced in the query. */
-  adGroupCriterion?: GoogleAdsSearchads360V0Resources__AdGroupCriterion;
+  adGroupCriterion?: GoogleAdsSearchads360V0Resources__AdGroupCriterion | undefined;
   /** The campaign asset set referenced in the query. */
-  campaignAssetSet?: GoogleAdsSearchads360V0Resources__CampaignAssetSet;
+  campaignAssetSet?: GoogleAdsSearchads360V0Resources__CampaignAssetSet | undefined;
   /** The cart data sales view referenced in the query. */
-  cartDataSalesView?: GoogleAdsSearchads360V0Resources__CartDataSalesView;
+  cartDataSalesView?: GoogleAdsSearchads360V0Resources__CartDataSalesView | undefined;
   /** The dynamic search ads search term view referenced in the query. */
-  dynamicSearchAdsSearchTermView?: GoogleAdsSearchads360V0Resources__DynamicSearchAdsSearchTermView;
+  dynamicSearchAdsSearchTermView?:
+    | GoogleAdsSearchads360V0Resources__DynamicSearchAdsSearchTermView
+    | undefined;
   /** The conversion custom variable referenced in the query. */
-  conversionCustomVariable?: GoogleAdsSearchads360V0Resources__ConversionCustomVariable;
+  conversionCustomVariable?: GoogleAdsSearchads360V0Resources__ConversionCustomVariable | undefined;
   /** The keyword view referenced in the query. */
-  keywordView?: GoogleAdsSearchads360V0Resources__KeywordView;
+  keywordView?: GoogleAdsSearchads360V0Resources__KeywordView | undefined;
   /** The asset group listing group filter referenced in the query. */
-  assetGroupListingGroupFilter?: GoogleAdsSearchads360V0Resources__AssetGroupListingGroupFilter;
+  assetGroupListingGroupFilter?:
+    | GoogleAdsSearchads360V0Resources__AssetGroupListingGroupFilter
+    | undefined;
 }
 export type GoogleAdsSearchads360V0Services__SearchAds360RowList =
   Array<GoogleAdsSearchads360V0Services__SearchAds360Row>;
 /** Message for conversion custom metric header. */
 export interface GoogleAdsSearchads360V0Services__ConversionCustomMetricHeader {
   /** The user defined name of the conversion custom metric. */
-  name?: string;
+  name?: string | undefined;
   /** The conversion custom metric ID. */
-  id?: string;
+  id?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Services__ConversionCustomMetricHeaderList =
   Array<GoogleAdsSearchads360V0Services__ConversionCustomMetricHeader>;
 /** Message for raw event conversion dimension header. */
 export interface GoogleAdsSearchads360V0Services__RawEventConversionDimensionHeader {
   /** The conversion custom variable ID. */
-  id?: string;
+  id?: string | undefined;
   /** The user defined name of the raw event dimension. */
-  name?: string;
+  name?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Services__RawEventConversionDimensionHeaderList =
   Array<GoogleAdsSearchads360V0Services__RawEventConversionDimensionHeader>;
 /** Message for raw event conversion metric header. */
 export interface GoogleAdsSearchads360V0Services__RawEventConversionMetricHeader {
   /** The conversion custom variable ID. */
-  id?: string;
+  id?: string | undefined;
   /** The user defined name of the raw event metric. */
-  name?: string;
+  name?: string | undefined;
 }
 export type GoogleAdsSearchads360V0Services__RawEventConversionMetricHeaderList =
   Array<GoogleAdsSearchads360V0Services__RawEventConversionMetricHeader>;
 /** Response message for SearchAds360Service.Search. */
 export interface GoogleAdsSearchads360V0Services__SearchSearchAds360Response {
   /** The headers of the custom columns in the results. */
-  customColumnHeaders?: GoogleAdsSearchads360V0Services__CustomColumnHeaderList;
+  customColumnHeaders?: GoogleAdsSearchads360V0Services__CustomColumnHeaderList | undefined;
   /** The headers of the conversion custom dimensions in the results. */
-  conversionCustomDimensionHeaders?: GoogleAdsSearchads360V0Services__ConversionCustomDimensionHeaderList;
+  conversionCustomDimensionHeaders?:
+    | GoogleAdsSearchads360V0Services__ConversionCustomDimensionHeaderList
+    | undefined;
   /** The list of rows that matched the query. */
-  results?: GoogleAdsSearchads360V0Services__SearchAds360RowList;
+  results?: GoogleAdsSearchads360V0Services__SearchAds360RowList | undefined;
   /** The headers of the conversion custom metrics in the results. */
-  conversionCustomMetricHeaders?: GoogleAdsSearchads360V0Services__ConversionCustomMetricHeaderList;
+  conversionCustomMetricHeaders?:
+    | GoogleAdsSearchads360V0Services__ConversionCustomMetricHeaderList
+    | undefined;
   /** Total number of results that match the query ignoring the LIMIT clause. */
-  totalResultsCount?: string;
+  totalResultsCount?: string | undefined;
   /** The headers of the raw event conversion dimensions in the results. */
-  rawEventConversionDimensionHeaders?: GoogleAdsSearchads360V0Services__RawEventConversionDimensionHeaderList;
+  rawEventConversionDimensionHeaders?:
+    | GoogleAdsSearchads360V0Services__RawEventConversionDimensionHeaderList
+    | undefined;
   /** The headers of the raw event conversion metrics in the results. */
-  rawEventConversionMetricHeaders?: GoogleAdsSearchads360V0Services__RawEventConversionMetricHeaderList;
+  rawEventConversionMetricHeaders?:
+    | GoogleAdsSearchads360V0Services__RawEventConversionMetricHeaderList
+    | undefined;
   /** FieldMask that represents what fields were requested by the user. */
-  fieldMask?: string;
+  fieldMask?: string | undefined;
   /** Pagination token used to retrieve the next page of results. Pass the content of this string as the `page_token` attribute of the next request. `next_page_token` is not returned for the last page. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Summary row that contains summary of metrics in results. Summary of metrics means aggregation of metrics across all results, here aggregation could be sum, average, rate, etc. */
-  summaryRow?: GoogleAdsSearchads360V0Services__SearchAds360Row;
+  summaryRow?: GoogleAdsSearchads360V0Services__SearchAds360Row | undefined;
 }
 /** Request message for SearchAds360FieldService.SearchSearchAds360Fields. */
 export interface GoogleAdsSearchads360V0Services__SearchSearchAds360FieldsRequest {
   /** Required. The query string. */
-  query?: string;
+  query?: string | undefined;
   /** Token of the page to retrieve. If not specified, the first page of results will be returned. Use the value obtained from `next_page_token` in the previous response in order to request the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Number of elements to retrieve in a single page. When too large a page is requested, the server may decide to further limit the number of returned resources. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface SearchSearchAds360FieldsRequest {
   /** Request body */
-  body?: GoogleAdsSearchads360V0Services__SearchSearchAds360FieldsRequest;
+  body?: GoogleAdsSearchads360V0Services__SearchSearchAds360FieldsRequest | undefined;
 }
 export type GoogleAdsSearchads360V0Resources__SearchAds360FieldList =
   Array<GoogleAdsSearchads360V0Resources__SearchAds360Field>;
 /** Response message for SearchAds360FieldService.SearchSearchAds360Fields. */
 export interface GoogleAdsSearchads360V0Services__SearchSearchAds360FieldsResponse {
   /** Total number of results that match the query ignoring the LIMIT clause. */
-  totalResultsCount?: string;
+  totalResultsCount?: string | undefined;
   /** Pagination token used to retrieve the next page of results. Pass the content of this string as the `page_token` attribute of the next request. `next_page_token` is not returned for the last page. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of fields that matched the query. */
-  results?: GoogleAdsSearchads360V0Resources__SearchAds360FieldList;
+  results?: GoogleAdsSearchads360V0Resources__SearchAds360FieldList | undefined;
 }
 export type GetCustomersCustomColumnsError = NotFound | Forbidden | GcpOpError;
 /** Returns the requested custom column in full detail. */

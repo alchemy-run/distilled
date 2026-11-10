@@ -37,19 +37,19 @@ export type CreateAccountRequestPropertiesKnownEmailsList = Array<string>;
 /** Typed account properties: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), and touchpoint matching lists: email_domains (the company's email domains) and known_emails (individual addresses pinned to the account). Defaults to an empty object. Unknown keys are rejected. User assignments live on account relationships, not here. */
 export interface CreateAccountRequestProperties {
   /** Primary company website hostname used for account identity and logo lookup. */
-  website_domain?: string | null;
+  website_domain?: string | null | undefined;
   /** Email domains owned by this account's company, used to match inbound touchpoints to the account. */
-  email_domains?: CreateAccountRequestPropertiesEmailDomainsList;
+  email_domains?: CreateAccountRequestPropertiesEmailDomainsList | undefined;
   /** Individual email addresses pinned to this account, matched before the domain fallback. */
-  known_emails?: CreateAccountRequestPropertiesKnownEmailsList;
-  stripe_customer_id?: string | null;
-  hubspot_deal_id?: string | null;
-  billing_id?: string | null;
-  sfdc_id?: string | null;
-  zendesk_id?: string | null;
-  slack_channel_id?: string | null;
-  usage_dashboard_link?: string | null;
-  metabase_link?: string | null;
+  known_emails?: CreateAccountRequestPropertiesKnownEmailsList | undefined;
+  stripe_customer_id?: string | null | undefined;
+  hubspot_deal_id?: string | null | undefined;
+  billing_id?: string | null | undefined;
+  sfdc_id?: string | null | undefined;
+  zendesk_id?: string | null | undefined;
+  slack_channel_id?: string | null | undefined;
+  usage_dashboard_link?: string | null | undefined;
+  metabase_link?: string | null | undefined;
 }
 /** Tag names attached to the account. Pass a list to replace existing tags. */
 export type CreateAccountRequestTagsList = Array<string>;
@@ -61,15 +61,15 @@ export interface CreateAccountRequest {
   /** Human-readable name of the account. */
   name: string;
   /** Identifier linking this account to its source customer -- the analytics group key (the customer's organization id), used to match billing and external records. Optional. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Typed account properties: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), and touchpoint matching lists: email_domains (the company's email domains) and known_emails (individual addresses pinned to the account). Defaults to an empty object. Unknown keys are rejected. User assignments live on account relationships, not here. */
-  properties?: CreateAccountRequestProperties | null;
+  properties?: CreateAccountRequestProperties | null | undefined;
   /** Tag names attached to the account. Pass a list to replace existing tags. */
-  tags?: CreateAccountRequestTagsList;
+  tags?: CreateAccountRequestTagsList | undefined;
   /** How often to generate an AI summary of the account's bound Slack channel (daily, weekly, or monthly). Null means summaries are off. * `daily` - daily * `weekly` - weekly * `monthly` - monthly */
-  slack_summary_cadence?: SlackSummaryCadenceEnum | (string & {}) | null;
+  slack_summary_cadence?: SlackSummaryCadenceEnum | (string & {}) | null | undefined;
   /** When the account churned. Null means the account has not churned. */
-  churned_at?: string | null;
+  churned_at?: string | null | undefined;
 }
 /** Email domains owned by this account's company, used to match inbound touchpoints to the account. */
 export type AccountPropertiesEmailDomainsList = Array<string>;
@@ -78,19 +78,19 @@ export type AccountPropertiesKnownEmailsList = Array<string>;
 /** Typed account properties: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), and touchpoint matching lists: email_domains (the company's email domains) and known_emails (individual addresses pinned to the account). Defaults to an empty object. Unknown keys are rejected. User assignments live on account relationships, not here. */
 export interface AccountProperties {
   /** Primary company website hostname used for account identity and logo lookup. */
-  website_domain?: string | null;
+  website_domain?: string | null | undefined;
   /** Email domains owned by this account's company, used to match inbound touchpoints to the account. */
-  email_domains?: AccountPropertiesEmailDomainsList;
+  email_domains?: AccountPropertiesEmailDomainsList | undefined;
   /** Individual email addresses pinned to this account, matched before the domain fallback. */
-  known_emails?: AccountPropertiesKnownEmailsList;
-  stripe_customer_id?: string | null;
-  hubspot_deal_id?: string | null;
-  billing_id?: string | null;
-  sfdc_id?: string | null;
-  zendesk_id?: string | null;
-  slack_channel_id?: string | null;
-  usage_dashboard_link?: string | null;
-  metabase_link?: string | null;
+  known_emails?: AccountPropertiesKnownEmailsList | undefined;
+  stripe_customer_id?: string | null | undefined;
+  hubspot_deal_id?: string | null | undefined;
+  billing_id?: string | null | undefined;
+  sfdc_id?: string | null | undefined;
+  zendesk_id?: string | null | undefined;
+  slack_channel_id?: string | null | undefined;
+  usage_dashboard_link?: string | null | undefined;
+  metabase_link?: string | null | undefined;
 }
 /** Tag names attached to the account. Pass a list to replace existing tags. */
 export type AccountTagsList = Array<string>;
@@ -102,17 +102,17 @@ export interface Account {
   /** Human-readable name of the account. */
   name: string;
   /** Identifier linking this account to its source customer -- the analytics group key (the customer's organization id), used to match billing and external records. Optional. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Typed account properties: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), and touchpoint matching lists: email_domains (the company's email domains) and known_emails (individual addresses pinned to the account). Defaults to an empty object. Unknown keys are rejected. User assignments live on account relationships, not here. */
-  properties?: AccountProperties | null;
+  properties?: AccountProperties | null | undefined;
   /** Tag names attached to the account. Pass a list to replace existing tags. */
-  tags?: AccountTagsList;
+  tags?: AccountTagsList | undefined;
   /** Short IDs of the internal notebooks linked to this account, used to persist investigations, call notes, and other free-form context. Empty list if no notebooks have been created for the account. */
   notebooks: AccountNotebooksList;
   /** How often to generate an AI summary of the account's bound Slack channel (daily, weekly, or monthly). Null means summaries are off. * `daily` - daily * `weekly` - weekly * `monthly` - monthly */
-  slack_summary_cadence?: SlackSummaryCadenceEnum | null;
+  slack_summary_cadence?: SlackSummaryCadenceEnum | null | undefined;
   /** When the account churned. Null means the account has not churned. */
-  churned_at?: string | null;
+  churned_at?: string | null | undefined;
   /** When Track Rules ignored the account. Null means the account is tracked. */
   ignored_at: string | null;
   created_at: string;
@@ -156,27 +156,27 @@ export interface ListAccountsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** When true, returns only accounts where no user actively holds any relationship. */
-  all_roles_unassigned?: boolean;
+  all_roles_unassigned?: boolean | undefined;
   /** Include churned accounts. Churned accounts are hidden by default. */
-  include_churned?: boolean;
+  include_churned?: boolean | undefined;
   /** Include ignored accounts. Ignored accounts are hidden by default. */
-  include_ignored?: boolean;
+  include_ignored?: boolean | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Sort order. Defaults to '-created_at'. */
-  ordering?: ListAccountsRequestOrdering | (string & {});
+  ordering?: ListAccountsRequestOrdering | (string & {}) | undefined;
   /** Case-insensitive substring search across account name and external ID. A query holding an email address also matches accounts that list it as a known email, and a query holding a domain matches accounts that own that email domain. */
-  search?: string;
+  search?: string | undefined;
   /** JSON-encoded array of tag names to filter by, e.g. `["enterprise","priority"]`. Returns accounts that have any of the listed tags. Malformed values (not a JSON-encoded list of strings) return a 400. */
-  tags?: string;
+  tags?: string | undefined;
 }
 export type PaginatedAccountListResultsList = Array<Account>;
 export interface PaginatedAccountList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedAccountListResultsList;
 }
 export interface ListAccountsEmailThreadMessagesRequest {
@@ -186,9 +186,9 @@ export interface ListAccountsEmailThreadMessagesRequest {
   id: string;
   thread_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface AccountEmailThreadAddress {
   /** Name from the email header. */
@@ -223,8 +223,8 @@ export interface AccountEmailThreadMessage {
 export type PaginatedAccountEmailThreadMessageListResultsList = Array<AccountEmailThreadMessage>;
 export interface PaginatedAccountEmailThreadMessageList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedAccountEmailThreadMessageListResultsList;
 }
 export interface ListAccountsEmailThreadsRequest {
@@ -233,9 +233,9 @@ export interface ListAccountsEmailThreadsRequest {
   /** A UUID string identifying this account. */
   id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface ConversationMessageSender {
   /** Display name of the message sender. */
@@ -292,8 +292,8 @@ export interface AccountEmailThread {
 export type PaginatedAccountEmailThreadListResultsList = Array<AccountEmailThread>;
 export interface PaginatedAccountEmailThreadList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedAccountEmailThreadListResultsList;
 }
 export interface ListAccountsMeetingsRequest {
@@ -302,11 +302,11 @@ export interface ListAccountsMeetingsRequest {
   /** A UUID string identifying this account. */
   id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter meetings by title or attendee email/name. */
-  search?: string;
+  search?: string | undefined;
 }
 /** One attendee of a synced calendar meeting (read-only). */
 export interface MeetingParticipant {
@@ -345,8 +345,8 @@ export interface Meeting {
 export type PaginatedMeetingListResultsList = Array<Meeting>;
 export interface PaginatedMeetingList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedMeetingListResultsList;
 }
 /** Up to 100 account IDs to read presence for. */
@@ -373,9 +373,9 @@ export interface ListAccountsSummariesRequest {
   /** A UUID string identifying this account. */
   id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** Metadata for one message a channel summary covered -- never the message text. */
 export interface ChannelSummaryMessage {
@@ -412,8 +412,8 @@ export interface AccountChannelSummary {
 export type PaginatedAccountChannelSummaryListResultsList = Array<AccountChannelSummary>;
 export interface PaginatedAccountChannelSummaryList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedAccountChannelSummaryListResultsList;
 }
 export interface ListAccountsSupportTicketMessagesRequest {
@@ -423,9 +423,9 @@ export interface ListAccountsSupportTicketMessagesRequest {
   id: string;
   ticket_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface AccountSupportTicketMessage {
   /** UUID of the support ticket message. */
@@ -445,8 +445,8 @@ export type PaginatedAccountSupportTicketMessageListResultsList =
   Array<AccountSupportTicketMessage>;
 export interface PaginatedAccountSupportTicketMessageList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedAccountSupportTicketMessageListResultsList;
 }
 export interface ListAccountsSupportTicketsRequest {
@@ -487,19 +487,19 @@ export type UpdateAccountRequestPropertiesKnownEmailsList = Array<string>;
 /** Typed account properties: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), and touchpoint matching lists: email_domains (the company's email domains) and known_emails (individual addresses pinned to the account). Defaults to an empty object. Unknown keys are rejected. User assignments live on account relationships, not here. */
 export interface UpdateAccountRequestProperties {
   /** Primary company website hostname used for account identity and logo lookup. */
-  website_domain?: string | null;
+  website_domain?: string | null | undefined;
   /** Email domains owned by this account's company, used to match inbound touchpoints to the account. */
-  email_domains?: UpdateAccountRequestPropertiesEmailDomainsList;
+  email_domains?: UpdateAccountRequestPropertiesEmailDomainsList | undefined;
   /** Individual email addresses pinned to this account, matched before the domain fallback. */
-  known_emails?: UpdateAccountRequestPropertiesKnownEmailsList;
-  stripe_customer_id?: string | null;
-  hubspot_deal_id?: string | null;
-  billing_id?: string | null;
-  sfdc_id?: string | null;
-  zendesk_id?: string | null;
-  slack_channel_id?: string | null;
-  usage_dashboard_link?: string | null;
-  metabase_link?: string | null;
+  known_emails?: UpdateAccountRequestPropertiesKnownEmailsList | undefined;
+  stripe_customer_id?: string | null | undefined;
+  hubspot_deal_id?: string | null | undefined;
+  billing_id?: string | null | undefined;
+  sfdc_id?: string | null | undefined;
+  zendesk_id?: string | null | undefined;
+  slack_channel_id?: string | null | undefined;
+  usage_dashboard_link?: string | null | undefined;
+  metabase_link?: string | null | undefined;
 }
 /** Tag names attached to the account. Pass a list to replace existing tags. */
 export type UpdateAccountRequestTagsList = Array<string>;
@@ -511,15 +511,15 @@ export interface UpdateAccountRequest {
   /** Human-readable name of the account. */
   name: string;
   /** Identifier linking this account to its source customer -- the analytics group key (the customer's organization id), used to match billing and external records. Optional. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Typed account properties: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), and touchpoint matching lists: email_domains (the company's email domains) and known_emails (individual addresses pinned to the account). Defaults to an empty object. Unknown keys are rejected. User assignments live on account relationships, not here. */
-  properties?: UpdateAccountRequestProperties | null;
+  properties?: UpdateAccountRequestProperties | null | undefined;
   /** Tag names attached to the account. Pass a list to replace existing tags. */
-  tags?: UpdateAccountRequestTagsList;
+  tags?: UpdateAccountRequestTagsList | undefined;
   /** How often to generate an AI summary of the account's bound Slack channel (daily, weekly, or monthly). Null means summaries are off. * `daily` - daily * `weekly` - weekly * `monthly` - monthly */
-  slack_summary_cadence?: SlackSummaryCadenceEnum | (string & {}) | null;
+  slack_summary_cadence?: SlackSummaryCadenceEnum | (string & {}) | null | undefined;
   /** When the account churned. Null means the account has not churned. */
-  churned_at?: string | null;
+  churned_at?: string | null | undefined;
 }
 /** Email domains owned by this account's company, used to match inbound touchpoints to the account. */
 export type UpdateAccountsPartialRequestPropertiesEmailDomainsList = Array<string>;
@@ -528,19 +528,19 @@ export type UpdateAccountsPartialRequestPropertiesKnownEmailsList = Array<string
 /** Typed account properties: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), and touchpoint matching lists: email_domains (the company's email domains) and known_emails (individual addresses pinned to the account). Defaults to an empty object. Unknown keys are rejected. User assignments live on account relationships, not here. */
 export interface UpdateAccountsPartialRequestProperties {
   /** Primary company website hostname used for account identity and logo lookup. */
-  website_domain?: string | null;
+  website_domain?: string | null | undefined;
   /** Email domains owned by this account's company, used to match inbound touchpoints to the account. */
-  email_domains?: UpdateAccountsPartialRequestPropertiesEmailDomainsList;
+  email_domains?: UpdateAccountsPartialRequestPropertiesEmailDomainsList | undefined;
   /** Individual email addresses pinned to this account, matched before the domain fallback. */
-  known_emails?: UpdateAccountsPartialRequestPropertiesKnownEmailsList;
-  stripe_customer_id?: string | null;
-  hubspot_deal_id?: string | null;
-  billing_id?: string | null;
-  sfdc_id?: string | null;
-  zendesk_id?: string | null;
-  slack_channel_id?: string | null;
-  usage_dashboard_link?: string | null;
-  metabase_link?: string | null;
+  known_emails?: UpdateAccountsPartialRequestPropertiesKnownEmailsList | undefined;
+  stripe_customer_id?: string | null | undefined;
+  hubspot_deal_id?: string | null | undefined;
+  billing_id?: string | null | undefined;
+  sfdc_id?: string | null | undefined;
+  zendesk_id?: string | null | undefined;
+  slack_channel_id?: string | null | undefined;
+  usage_dashboard_link?: string | null | undefined;
+  metabase_link?: string | null | undefined;
 }
 /** Tag names attached to the account. Pass a list to replace existing tags. */
 export type UpdateAccountsPartialRequestTagsList = Array<string>;
@@ -550,17 +550,17 @@ export interface UpdateAccountsPartialRequest {
   /** A UUID string identifying this account. */
   id: string;
   /** Human-readable name of the account. */
-  name?: string;
+  name?: string | undefined;
   /** Identifier linking this account to its source customer -- the analytics group key (the customer's organization id), used to match billing and external records. Optional. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Typed account properties: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), and touchpoint matching lists: email_domains (the company's email domains) and known_emails (individual addresses pinned to the account). Defaults to an empty object. Unknown keys are rejected. User assignments live on account relationships, not here. */
-  properties?: UpdateAccountsPartialRequestProperties | null;
+  properties?: UpdateAccountsPartialRequestProperties | null | undefined;
   /** Tag names attached to the account. Pass a list to replace existing tags. */
-  tags?: UpdateAccountsPartialRequestTagsList;
+  tags?: UpdateAccountsPartialRequestTagsList | undefined;
   /** How often to generate an AI summary of the account's bound Slack channel (daily, weekly, or monthly). Null means summaries are off. * `daily` - daily * `weekly` - weekly * `monthly` - monthly */
-  slack_summary_cadence?: SlackSummaryCadenceEnum | (string & {}) | null;
+  slack_summary_cadence?: SlackSummaryCadenceEnum | (string & {}) | null | undefined;
   /** When the account churned. Null means the account has not churned. */
-  churned_at?: string | null;
+  churned_at?: string | null | undefined;
 }
 export type AccountsDestroyError = PosthogOpError;
 export const accountsDestroy: API.OperationMethod<

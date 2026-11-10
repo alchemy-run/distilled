@@ -215,7 +215,7 @@ export type PacingStrategy = { abandonmentRate: AbandonmentRatePacingConfig };
 export type PacingStrategyList = PacingStrategy[];
 export interface PredictiveConfig {
   bandwidthAllocation: number;
-  pacingStrategies?: PacingStrategy[];
+  pacingStrategies?: PacingStrategy[] | undefined;
 }
 export interface AgentlessConfig {}
 export type TimeoutDuration = number;
@@ -227,29 +227,49 @@ export type AgentActions = string[];
 export interface PreviewConfig {
   bandwidthAllocation: number;
   timeoutConfig: TimeoutConfig;
-  agentActions?: string[];
+  agentActions?: string[] | undefined;
 }
 export type TelephonyOutboundMode =
-  | { progressive: ProgressiveConfig; predictive?: never; agentless?: never; preview?: never }
-  | { progressive?: never; predictive: PredictiveConfig; agentless?: never; preview?: never }
-  | { progressive?: never; predictive?: never; agentless: AgentlessConfig; preview?: never }
-  | { progressive?: never; predictive?: never; agentless?: never; preview: PreviewConfig };
+  | {
+      progressive: ProgressiveConfig;
+      predictive?: undefined;
+      agentless?: undefined;
+      preview?: undefined;
+    }
+  | {
+      progressive?: undefined;
+      predictive: PredictiveConfig;
+      agentless?: undefined;
+      preview?: undefined;
+    }
+  | {
+      progressive?: undefined;
+      predictive?: undefined;
+      agentless: AgentlessConfig;
+      preview?: undefined;
+    }
+  | {
+      progressive?: undefined;
+      predictive?: undefined;
+      agentless?: undefined;
+      preview: PreviewConfig;
+    };
 export type ContactFlowId = string;
 export type SourcePhoneNumber = string;
 export interface AnswerMachineDetectionConfig {
   enableAnswerMachineDetection: boolean;
-  awaitAnswerMachinePrompt?: boolean;
+  awaitAnswerMachinePrompt?: boolean | undefined;
 }
 export type RingTimeout = number;
 export interface TelephonyOutboundConfig {
   connectContactFlowId: string;
-  connectSourcePhoneNumber?: string;
-  answerMachineDetectionConfig?: AnswerMachineDetectionConfig;
-  ringTimeout?: number;
+  connectSourcePhoneNumber?: string | undefined;
+  answerMachineDetectionConfig?: AnswerMachineDetectionConfig | undefined;
+  ringTimeout?: number | undefined;
 }
 export interface TelephonyChannelSubtypeConfig {
-  capacity?: number;
-  connectQueueId?: string;
+  capacity?: number | undefined;
+  connectQueueId?: string | undefined;
   outboundMode: TelephonyOutboundMode;
   defaultOutboundConfig: TelephonyOutboundConfig;
 }
@@ -260,7 +280,7 @@ export interface SmsOutboundConfig {
   wisdomTemplateArn: string;
 }
 export interface SmsChannelSubtypeConfig {
-  capacity?: number;
+  capacity?: number | undefined;
   outboundMode: SmsOutboundMode;
   defaultOutboundConfig: SmsOutboundConfig;
 }
@@ -269,11 +289,11 @@ export type EmailAddress = string | redacted.Redacted<string>;
 export type EmailDisplayName = string | redacted.Redacted<string>;
 export interface EmailOutboundConfig {
   connectSourceEmailAddress: string | redacted.Redacted<string>;
-  sourceEmailAddressDisplayName?: string | redacted.Redacted<string>;
+  sourceEmailAddressDisplayName?: string | redacted.Redacted<string> | undefined;
   wisdomTemplateArn: string;
 }
 export interface EmailChannelSubtypeConfig {
-  capacity?: number;
+  capacity?: number | undefined;
   outboundMode: EmailOutboundMode;
   defaultOutboundConfig: EmailOutboundConfig;
 }
@@ -283,28 +303,28 @@ export interface WhatsAppOutboundConfig {
   wisdomTemplateArn: string;
 }
 export interface WhatsAppChannelSubtypeConfig {
-  capacity?: number;
+  capacity?: number | undefined;
   outboundMode: WhatsAppOutboundMode;
   defaultOutboundConfig: WhatsAppOutboundConfig;
 }
 export interface ChannelSubtypeConfig {
-  telephony?: TelephonyChannelSubtypeConfig;
-  sms?: SmsChannelSubtypeConfig;
-  email?: EmailChannelSubtypeConfig;
-  whatsApp?: WhatsAppChannelSubtypeConfig;
+  telephony?: TelephonyChannelSubtypeConfig | undefined;
+  sms?: SmsChannelSubtypeConfig | undefined;
+  email?: EmailChannelSubtypeConfig | undefined;
+  whatsApp?: WhatsAppChannelSubtypeConfig | undefined;
 }
 export type ExternalCampaignType = string;
 export interface EventTrigger {
-  customerProfilesDomainArn?: string;
+  customerProfilesDomainArn?: string | undefined;
 }
 export type Source =
-  | { customerProfilesSegmentArn: string; eventTrigger?: never }
-  | { customerProfilesSegmentArn?: never; eventTrigger: EventTrigger };
+  | { customerProfilesSegmentArn: string; eventTrigger?: undefined }
+  | { customerProfilesSegmentArn?: undefined; eventTrigger: EventTrigger };
 export type Iso8601Duration = string;
 export interface Schedule {
   startTime: Date;
   endTime: Date;
-  refreshFrequency?: string;
+  refreshFrequency?: string | undefined;
 }
 export interface EntryLimitsConfig {
   maxEntryCount: number;
@@ -315,9 +335,9 @@ export type LocalTimeZoneDetectionType = string;
 export type LocalTimeZoneDetection = string[];
 export type LocalTimeZoneDetectionScope = string;
 export interface LocalTimeZoneConfig {
-  defaultTimeZone?: string;
-  localTimeZoneDetection?: string[];
-  localTimeZoneDetectionScope?: string;
+  defaultTimeZone?: string | undefined;
+  localTimeZoneDetection?: string[] | undefined;
+  localTimeZoneDetectionScope?: string | undefined;
 }
 export type DayOfWeek = string;
 export type Iso8601Time = string;
@@ -331,7 +351,7 @@ export type OpenHours = { dailyHours: { [key: string]: TimeRange[] | undefined }
 export type RestrictedPeriodName = string;
 export type Iso8601Date = string;
 export interface RestrictedPeriod {
-  name?: string;
+  name?: string | undefined;
   startDate: string;
   endDate: string;
 }
@@ -339,14 +359,14 @@ export type RestrictedPeriodList = RestrictedPeriod[];
 export type RestrictedPeriods = { restrictedPeriodList: RestrictedPeriod[] };
 export interface TimeWindow {
   openHours: OpenHours;
-  restrictedPeriods?: RestrictedPeriods;
+  restrictedPeriods?: RestrictedPeriods | undefined;
 }
 export interface CommunicationTimeConfig {
   localTimeZoneConfig: LocalTimeZoneConfig;
-  telephony?: TimeWindow;
-  sms?: TimeWindow;
-  email?: TimeWindow;
-  whatsApp?: TimeWindow;
+  telephony?: TimeWindow | undefined;
+  sms?: TimeWindow | undefined;
+  email?: TimeWindow | undefined;
+  whatsApp?: TimeWindow | undefined;
 }
 export type CommunicationLimitTimeUnit = string;
 export interface CommunicationLimit {
@@ -358,8 +378,8 @@ export type CommunicationLimitList = CommunicationLimit[];
 export type CommunicationLimits = { communicationLimitsList: CommunicationLimit[] };
 export type InstanceLimitsHandling = string;
 export interface CommunicationLimitsConfig {
-  allChannelSubtypes?: CommunicationLimits;
-  instanceLimitsHandling?: string;
+  allChannelSubtypes?: CommunicationLimits | undefined;
+  instanceLimitsHandling?: string | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -367,22 +387,22 @@ export type TagMap = { [key: string]: string | undefined };
 export interface CreateCampaignRequest {
   name: string;
   connectInstanceId: string;
-  channelSubtypeConfig?: ChannelSubtypeConfig;
-  type?: string;
-  source?: Source;
-  connectCampaignFlowArn?: string;
-  schedule?: Schedule;
-  entryLimitsConfig?: EntryLimitsConfig;
-  communicationTimeConfig?: CommunicationTimeConfig;
-  communicationLimitsOverride?: CommunicationLimitsConfig;
-  tags?: { [key: string]: string | undefined };
+  channelSubtypeConfig?: ChannelSubtypeConfig | undefined;
+  type?: string | undefined;
+  source?: Source | undefined;
+  connectCampaignFlowArn?: string | undefined;
+  schedule?: Schedule | undefined;
+  entryLimitsConfig?: EntryLimitsConfig | undefined;
+  communicationTimeConfig?: CommunicationTimeConfig | undefined;
+  communicationLimitsOverride?: CommunicationLimitsConfig | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type CampaignId = string;
 export type CampaignArn = string;
 export interface CreateCampaignResponse {
-  id?: string;
-  arn?: string;
-  tags?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  arn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DeleteCampaignRequest {
   id: string;
@@ -413,7 +433,7 @@ export interface DeleteCampaignEntryLimitsResponse {}
 export type CampaignDeletionPolicy = string;
 export interface DeleteConnectInstanceConfigRequest {
   connectInstanceId: string;
-  campaignDeletionPolicy?: string;
+  campaignDeletionPolicy?: string | undefined;
 }
 export interface DeleteConnectInstanceConfigResponse {}
 export interface CustomerProfilesIntegrationIdentifier {
@@ -427,9 +447,13 @@ export interface LambdaIntegrationIdentifier {
   functionArn: string;
 }
 export type IntegrationIdentifier =
-  | { customerProfiles: CustomerProfilesIntegrationIdentifier; qConnect?: never; lambda?: never }
-  | { customerProfiles?: never; qConnect: QConnectIntegrationIdentifier; lambda?: never }
-  | { customerProfiles?: never; qConnect?: never; lambda: LambdaIntegrationIdentifier };
+  | {
+      customerProfiles: CustomerProfilesIntegrationIdentifier;
+      qConnect?: undefined;
+      lambda?: undefined;
+    }
+  | { customerProfiles?: undefined; qConnect: QConnectIntegrationIdentifier; lambda?: undefined }
+  | { customerProfiles?: undefined; qConnect?: undefined; lambda: LambdaIntegrationIdentifier };
 export interface DeleteConnectInstanceIntegrationRequest {
   connectInstanceId: string;
   integrationIdentifier: IntegrationIdentifier;
@@ -447,44 +471,44 @@ export interface Campaign {
   arn: string;
   name: string;
   connectInstanceId: string;
-  channelSubtypeConfig?: ChannelSubtypeConfig;
-  type?: string;
-  source?: Source;
-  connectCampaignFlowArn?: string;
-  schedule?: Schedule;
-  entryLimitsConfig?: EntryLimitsConfig;
-  communicationTimeConfig?: CommunicationTimeConfig;
-  communicationLimitsOverride?: CommunicationLimitsConfig;
-  tags?: { [key: string]: string | undefined };
+  channelSubtypeConfig?: ChannelSubtypeConfig | undefined;
+  type?: string | undefined;
+  source?: Source | undefined;
+  connectCampaignFlowArn?: string | undefined;
+  schedule?: Schedule | undefined;
+  entryLimitsConfig?: EntryLimitsConfig | undefined;
+  communicationTimeConfig?: CommunicationTimeConfig | undefined;
+  communicationLimitsOverride?: CommunicationLimitsConfig | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeCampaignResponse {
-  campaign?: Campaign;
+  campaign?: Campaign | undefined;
 }
 export interface GetCampaignStateRequest {
   id: string;
 }
 export type CampaignState = string;
 export interface GetCampaignStateResponse {
-  state?: string;
+  state?: string | undefined;
 }
 export type CampaignIdList = string[];
 export interface GetCampaignStateBatchRequest {
   campaignIds: string[];
 }
 export interface SuccessfulCampaignStateResponse {
-  campaignId?: string;
-  state?: string;
+  campaignId?: string | undefined;
+  state?: string | undefined;
 }
 export type SuccessfulCampaignStateResponseList = SuccessfulCampaignStateResponse[];
 export type GetCampaignStateBatchFailureCode = string;
 export interface FailedCampaignStateResponse {
-  campaignId?: string;
-  failureCode?: string;
+  campaignId?: string | undefined;
+  failureCode?: string | undefined;
 }
 export type FailedCampaignStateResponseList = FailedCampaignStateResponse[];
 export interface GetCampaignStateBatchResponse {
-  successfulRequests?: SuccessfulCampaignStateResponse[];
-  failedRequests?: FailedCampaignStateResponse[];
+  successfulRequests?: SuccessfulCampaignStateResponse[] | undefined;
+  failedRequests?: FailedCampaignStateResponse[] | undefined;
 }
 export interface GetConnectInstanceConfigRequest {
   connectInstanceId: string;
@@ -495,8 +519,8 @@ export type EncryptionType = string;
 export type EncryptionKey = string;
 export interface EncryptionConfig {
   enabled: boolean;
-  encryptionType?: string;
-  keyArn?: string;
+  encryptionType?: string | undefined;
+  keyArn?: string | undefined;
 }
 export interface InstanceConfig {
   connectInstanceId: string;
@@ -504,16 +528,16 @@ export interface InstanceConfig {
   encryptionConfig: EncryptionConfig;
 }
 export interface GetConnectInstanceConfigResponse {
-  connectInstanceConfig?: InstanceConfig;
+  connectInstanceConfig?: InstanceConfig | undefined;
 }
 export interface GetInstanceCommunicationLimitsRequest {
   connectInstanceId: string;
 }
 export interface InstanceCommunicationLimitsConfig {
-  allChannelSubtypes?: CommunicationLimits;
+  allChannelSubtypes?: CommunicationLimits | undefined;
 }
 export interface GetInstanceCommunicationLimitsResponse {
-  communicationLimitsConfig?: InstanceCommunicationLimitsConfig;
+  communicationLimitsConfig?: InstanceCommunicationLimitsConfig | undefined;
 }
 export interface GetInstanceOnboardingJobStatusRequest {
   connectInstanceId: string;
@@ -523,10 +547,10 @@ export type InstanceOnboardingJobFailureCode = string;
 export interface InstanceOnboardingJobStatus {
   connectInstanceId: string;
   status: string;
-  failureCode?: string;
+  failureCode?: string | undefined;
 }
 export interface GetInstanceOnboardingJobStatusResponse {
-  connectInstanceOnboardingJobStatus?: InstanceOnboardingJobStatus;
+  connectInstanceOnboardingJobStatus?: InstanceOnboardingJobStatus | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
@@ -536,12 +560,12 @@ export interface InstanceIdFilter {
   operator: string;
 }
 export interface CampaignFilters {
-  instanceIdFilter?: InstanceIdFilter;
+  instanceIdFilter?: InstanceIdFilter | undefined;
 }
 export interface ListCampaignsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  filters?: CampaignFilters;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filters?: CampaignFilters | undefined;
 }
 export type ChannelSubtypeList = string[];
 export interface CampaignSummary {
@@ -550,20 +574,20 @@ export interface CampaignSummary {
   name: string;
   connectInstanceId: string;
   channelSubtypes: string[];
-  type?: string;
-  schedule?: Schedule;
-  entryLimitsConfig?: EntryLimitsConfig;
-  connectCampaignFlowArn?: string;
+  type?: string | undefined;
+  schedule?: Schedule | undefined;
+  entryLimitsConfig?: EntryLimitsConfig | undefined;
+  connectCampaignFlowArn?: string | undefined;
 }
 export type CampaignSummaryList = CampaignSummary[];
 export interface ListCampaignsResponse {
-  nextToken?: string;
-  campaignSummaryList?: CampaignSummary[];
+  nextToken?: string | undefined;
+  campaignSummaryList?: CampaignSummary[] | undefined;
 }
 export interface ListConnectInstanceIntegrationsRequest {
   connectInstanceId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type EventType = string;
 export type ObjectTypeName = string;
@@ -579,19 +603,23 @@ export interface LambdaIntegrationSummary {
   functionArn: string;
 }
 export type IntegrationSummary =
-  | { customerProfiles: CustomerProfilesIntegrationSummary; qConnect?: never; lambda?: never }
-  | { customerProfiles?: never; qConnect: QConnectIntegrationSummary; lambda?: never }
-  | { customerProfiles?: never; qConnect?: never; lambda: LambdaIntegrationSummary };
+  | {
+      customerProfiles: CustomerProfilesIntegrationSummary;
+      qConnect?: undefined;
+      lambda?: undefined;
+    }
+  | { customerProfiles?: undefined; qConnect: QConnectIntegrationSummary; lambda?: undefined }
+  | { customerProfiles?: undefined; qConnect?: undefined; lambda: LambdaIntegrationSummary };
 export type IntegrationSummaryList = IntegrationSummary[];
 export interface ListConnectInstanceIntegrationsResponse {
-  nextToken?: string;
-  integrationSummaryList?: IntegrationSummary[];
+  nextToken?: string | undefined;
+  integrationSummaryList?: IntegrationSummary[] | undefined;
 }
 export interface ListTagsForResourceRequest {
   arn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PauseCampaignRequest {
   id: string;
@@ -608,9 +636,13 @@ export interface LambdaIntegrationConfig {
   functionArn: string;
 }
 export type IntegrationConfig =
-  | { customerProfiles: CustomerProfilesIntegrationConfig; qConnect?: never; lambda?: never }
-  | { customerProfiles?: never; qConnect: QConnectIntegrationConfig; lambda?: never }
-  | { customerProfiles?: never; qConnect?: never; lambda: LambdaIntegrationConfig };
+  | {
+      customerProfiles: CustomerProfilesIntegrationConfig;
+      qConnect?: undefined;
+      lambda?: undefined;
+    }
+  | { customerProfiles?: undefined; qConnect: QConnectIntegrationConfig; lambda?: undefined }
+  | { customerProfiles?: undefined; qConnect?: undefined; lambda: LambdaIntegrationConfig };
 export interface PutConnectInstanceIntegrationRequest {
   connectInstanceId: string;
   integrationConfig: IntegrationConfig;
@@ -629,33 +661,53 @@ export type Attributes = { [key: string]: string | undefined };
 export interface TelephonyChannelSubtypeParameters {
   destinationPhoneNumber: string | redacted.Redacted<string>;
   attributes: { [key: string]: string | undefined };
-  connectSourcePhoneNumber?: string;
-  answerMachineDetectionConfig?: AnswerMachineDetectionConfig;
-  ringTimeout?: number;
+  connectSourcePhoneNumber?: string | undefined;
+  answerMachineDetectionConfig?: AnswerMachineDetectionConfig | undefined;
+  ringTimeout?: number | undefined;
 }
 export interface SmsChannelSubtypeParameters {
   destinationPhoneNumber: string | redacted.Redacted<string>;
-  connectSourcePhoneNumberArn?: string;
-  templateArn?: string;
+  connectSourcePhoneNumberArn?: string | undefined;
+  templateArn?: string | undefined;
   templateParameters: { [key: string]: string | undefined };
 }
 export interface EmailChannelSubtypeParameters {
   destinationEmailAddress: string | redacted.Redacted<string>;
-  connectSourceEmailAddress?: string | redacted.Redacted<string>;
-  templateArn?: string;
+  connectSourceEmailAddress?: string | redacted.Redacted<string> | undefined;
+  templateArn?: string | undefined;
   templateParameters: { [key: string]: string | undefined };
 }
 export interface WhatsAppChannelSubtypeParameters {
   destinationPhoneNumber: string | redacted.Redacted<string>;
-  connectSourcePhoneNumberArn?: string;
-  templateArn?: string;
+  connectSourcePhoneNumberArn?: string | undefined;
+  templateArn?: string | undefined;
   templateParameters: { [key: string]: string | undefined };
 }
 export type ChannelSubtypeParameters =
-  | { telephony: TelephonyChannelSubtypeParameters; sms?: never; email?: never; whatsApp?: never }
-  | { telephony?: never; sms: SmsChannelSubtypeParameters; email?: never; whatsApp?: never }
-  | { telephony?: never; sms?: never; email: EmailChannelSubtypeParameters; whatsApp?: never }
-  | { telephony?: never; sms?: never; email?: never; whatsApp: WhatsAppChannelSubtypeParameters };
+  | {
+      telephony: TelephonyChannelSubtypeParameters;
+      sms?: undefined;
+      email?: undefined;
+      whatsApp?: undefined;
+    }
+  | {
+      telephony?: undefined;
+      sms: SmsChannelSubtypeParameters;
+      email?: undefined;
+      whatsApp?: undefined;
+    }
+  | {
+      telephony?: undefined;
+      sms?: undefined;
+      email: EmailChannelSubtypeParameters;
+      whatsApp?: undefined;
+    }
+  | {
+      telephony?: undefined;
+      sms?: undefined;
+      email?: undefined;
+      whatsApp: WhatsAppChannelSubtypeParameters;
+    };
 export interface OutboundRequest {
   clientToken: string;
   expirationTime: Date;
@@ -668,41 +720,41 @@ export interface PutOutboundRequestBatchRequest {
 }
 export type DialRequestId = string;
 export interface SuccessfulRequest {
-  clientToken?: string;
-  id?: string;
+  clientToken?: string | undefined;
+  id?: string | undefined;
 }
 export type SuccessfulRequestList = SuccessfulRequest[];
 export type FailureCode = string;
 export interface FailedRequest {
-  clientToken?: string;
-  id?: string;
-  failureCode?: string;
+  clientToken?: string | undefined;
+  id?: string | undefined;
+  failureCode?: string | undefined;
 }
 export type FailedRequestList = FailedRequest[];
 export interface PutOutboundRequestBatchResponse {
-  successfulRequests?: SuccessfulRequest[];
-  failedRequests?: FailedRequest[];
+  successfulRequests?: SuccessfulRequest[] | undefined;
+  failedRequests?: FailedRequest[] | undefined;
 }
 export type ProfileId = string;
 export type SourceEvent = string;
 export type SessionId = string;
 export type BrowserId = string;
 export interface WebNotificationContext {
-  sessionId?: string;
-  browserId?: string;
+  sessionId?: string | undefined;
+  browserId?: string | undefined;
 }
 export interface ChannelContext {
-  webNotificationContext?: WebNotificationContext;
+  webNotificationContext?: WebNotificationContext | undefined;
 }
 export interface EventTriggerContext {
-  sourceEvent?: string;
-  channelContext?: ChannelContext;
+  sourceEvent?: string | undefined;
+  channelContext?: ChannelContext | undefined;
 }
 export interface ProfileOutboundRequest {
   clientToken: string;
   profileId: string;
-  expirationTime?: Date;
-  eventTriggerContext?: EventTriggerContext;
+  expirationTime?: Date | undefined;
+  eventTriggerContext?: EventTriggerContext | undefined;
 }
 export type ProfileOutboundRequestList = ProfileOutboundRequest[];
 export interface PutProfileOutboundRequestBatchRequest {
@@ -711,20 +763,20 @@ export interface PutProfileOutboundRequestBatchRequest {
 }
 export type ProfileOutboundRequestId = string;
 export interface SuccessfulProfileOutboundRequest {
-  clientToken?: string;
-  id?: string;
+  clientToken?: string | undefined;
+  id?: string | undefined;
 }
 export type SuccessfulProfileOutboundRequestList = SuccessfulProfileOutboundRequest[];
 export type ProfileOutboundRequestFailureCode = string;
 export interface FailedProfileOutboundRequest {
-  clientToken?: string;
-  id?: string;
-  failureCode?: string;
+  clientToken?: string | undefined;
+  id?: string | undefined;
+  failureCode?: string | undefined;
 }
 export type FailedProfileOutboundRequestList = FailedProfileOutboundRequest[];
 export interface PutProfileOutboundRequestBatchResponse {
-  successfulRequests?: SuccessfulProfileOutboundRequest[];
-  failedRequests?: FailedProfileOutboundRequest[];
+  successfulRequests?: SuccessfulProfileOutboundRequest[] | undefined;
+  failedRequests?: FailedProfileOutboundRequest[] | undefined;
 }
 export interface ResumeCampaignRequest {
   id: string;
@@ -739,7 +791,7 @@ export interface StartInstanceOnboardingJobRequest {
   encryptionConfig: EncryptionConfig;
 }
 export interface StartInstanceOnboardingJobResponse {
-  connectInstanceOnboardingJobStatus?: InstanceOnboardingJobStatus;
+  connectInstanceOnboardingJobStatus?: InstanceOnboardingJobStatus | undefined;
 }
 export interface StopCampaignRequest {
   id: string;

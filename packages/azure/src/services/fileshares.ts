@@ -38,19 +38,19 @@ export interface CheckFileShareNameAvailabilityRequest {
   /** The name of the Azure region. */
   location: string;
   /** The name of the resource for which availability needs to be checked. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The reason why the given name is not available. */
 export type CheckFileShareNameAvailabilityResponseReason = "Invalid" | "AlreadyExists";
 export interface CheckFileShareNameAvailabilityResponse {
   /** Indicates if the resource name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the given name is not available. */
-  reason?: CheckFileShareNameAvailabilityResponseReason;
+  reason?: CheckFileShareNameAvailabilityResponseReason | undefined;
   /** Detailed reason why the given name is available. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The private endpoint resource. */
 export interface PrivateEndpointInput {}
@@ -59,16 +59,16 @@ export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "R
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus | (string & {});
+  status?: PrivateEndpointServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpointInput;
+  privateEndpoint?: PrivateEndpointInput | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
@@ -82,7 +82,7 @@ export interface CreatePrivateEndpointConnectionRequest {
   /** The name of the private endpoint connection associated with the Azure resource. */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -91,24 +91,24 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The group ids for the private endpoint resource. */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
 /** The private endpoint resource. */
 export interface PrivateEndpoint {
   /** The ARM identifier for private endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProvisioningState =
@@ -119,31 +119,31 @@ export type PrivateEndpointConnectionProvisioningState =
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 export interface CreatePrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteFileShareRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -155,9 +155,9 @@ export interface DeleteFileShareRequest {
 }
 export interface DeleteFileShareResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteFileShareSnapshotRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -171,9 +171,9 @@ export interface DeleteFileShareSnapshotRequest {
 }
 export interface DeleteFileShareSnapshotResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -187,11 +187,11 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type FileSharesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -208,41 +208,41 @@ export type EncryptionInTransitRequired = "Enabled" | "Disabled";
 /** Properties specific to the NFS protocol. */
 export interface NfsProtocolProperties {
   /** Root squash defines how root users on clients are mapped to the NFS share. */
-  rootSquash?: ShareRootSquash | (string & {});
+  rootSquash?: ShareRootSquash | (string & {}) | undefined;
   /** Encryption in transit defines whether data is encrypted for NFS shares. */
-  encryptionInTransitRequired?: EncryptionInTransitRequired | (string & {});
+  encryptionInTransitRequired?: EncryptionInTransitRequired | (string & {}) | undefined;
 }
 /** The allowed set of subnets when access is restricted. */
 export type PublicAccessPropertiesAllowedSubnetsList = Array<string>;
 /** The set of properties for control public access. */
 export interface PublicAccessProperties {
   /** The allowed set of subnets when access is restricted. */
-  allowedSubnets?: PublicAccessPropertiesAllowedSubnetsList;
+  allowedSubnets?: PublicAccessPropertiesAllowedSubnetsList | undefined;
 }
 /** State of the public network access. */
 export type PublicNetworkAccess = "Enabled" | "Disabled";
 /** File share properties */
 export interface FileSharePropertiesInput {
   /** The name of the file share as seen by the end user when mounting the share, such as in a URI or UNC format in their operating system. */
-  mountName?: string;
+  mountName?: string | undefined;
   /** The storage media tier of the file share. */
-  mediaTier?: MediaTier | (string & {});
+  mediaTier?: MediaTier | (string & {}) | undefined;
   /** The chosen redundancy level of the file share. */
-  redundancy?: Redundancy | (string & {});
+  redundancy?: Redundancy | (string & {}) | undefined;
   /** The file sharing protocol for this file share. */
-  protocol?: Protocol | (string & {});
+  protocol?: Protocol | (string & {}) | undefined;
   /** The provisioned storage size of the share in GiB (1 GiB is 1024^3 bytes or 1073741824 bytes). A component of the file share's bill is the provisioned storage, regardless of the amount of used storage. */
-  provisionedStorageGiB?: number;
+  provisionedStorageGiB?: number | undefined;
   /** The provisioned IO / sec of the share. */
-  provisionedIOPerSec?: number;
+  provisionedIOPerSec?: number | undefined;
   /** The provisioned throughput / sec of the share. */
-  provisionedThroughputMiBPerSec?: number;
+  provisionedThroughputMiBPerSec?: number | undefined;
   /** Protocol settings specific NFS. */
-  nfsProtocolProperties?: NfsProtocolProperties;
+  nfsProtocolProperties?: NfsProtocolProperties | undefined;
   /** The set of properties for control public access. */
-  publicAccessProperties?: PublicAccessProperties;
+  publicAccessProperties?: PublicAccessProperties | undefined;
   /** Gets or sets allow or disallow public network access to azure managed file share */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
 }
 export interface FileSharesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -252,11 +252,11 @@ export interface FileSharesCreateOrUpdateRequest {
   /** The resource name of the file share, as seen by the administrator through Azure Resource Manager. */
   resourceName: string;
   /** Resource tags. */
-  tags?: FileSharesCreateOrUpdateRequestTagsMap;
+  tags?: FileSharesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FileSharePropertiesInput;
+  properties?: FileSharePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type FileSharesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -277,15 +277,15 @@ export type FileShareProvisioningState =
 /** The private endpoint connection resource. */
 export interface FileSharePropertiesPrivateEndpointConnectionsItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** The list of associated private endpoint connections. */
 export type FileSharePropertiesPrivateEndpointConnectionsList =
@@ -293,70 +293,70 @@ export type FileSharePropertiesPrivateEndpointConnectionsList =
 /** File share properties */
 export interface FileShareProperties {
   /** The name of the file share as seen by the end user when mounting the share, such as in a URI or UNC format in their operating system. */
-  mountName?: string;
+  mountName?: string | undefined;
   /** The host name of the file share. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** The storage media tier of the file share. */
-  mediaTier?: MediaTier;
+  mediaTier?: MediaTier | undefined;
   /** The chosen redundancy level of the file share. */
-  redundancy?: Redundancy;
+  redundancy?: Redundancy | undefined;
   /** The file sharing protocol for this file share. */
-  protocol?: Protocol;
+  protocol?: Protocol | undefined;
   /** The provisioned storage size of the share in GiB (1 GiB is 1024^3 bytes or 1073741824 bytes). A component of the file share's bill is the provisioned storage, regardless of the amount of used storage. */
-  provisionedStorageGiB?: number;
+  provisionedStorageGiB?: number | undefined;
   /** A date/time value that specifies when the provisioned storage for the file share is permitted to be reduced. */
-  provisionedStorageNextAllowedDowngrade?: string;
+  provisionedStorageNextAllowedDowngrade?: string | undefined;
   /** The provisioned IO / sec of the share. */
-  provisionedIOPerSec?: number;
+  provisionedIOPerSec?: number | undefined;
   /** A date/time value that specifies when the provisioned IOPS for the file share is permitted to be reduced. */
-  provisionedIOPerSecNextAllowedDowngrade?: string;
+  provisionedIOPerSecNextAllowedDowngrade?: string | undefined;
   /** The provisioned throughput / sec of the share. */
-  provisionedThroughputMiBPerSec?: number;
+  provisionedThroughputMiBPerSec?: number | undefined;
   /** A date/time value that specifies when the provisioned throughput for the file share is permitted to be reduced. */
-  provisionedThroughputNextAllowedDowngrade?: string;
+  provisionedThroughputNextAllowedDowngrade?: string | undefined;
   /** Burst IOPS are extra buffer IOPS enabling you to consume more than your provisioned IOPS for a short period of time, depending on the burst credits available for your share. */
-  includedBurstIOPerSec?: number;
+  includedBurstIOPerSec?: number | undefined;
   /** Max burst IOPS credits shows the maximum number of burst credits the share can have at the current IOPS provisioning level. */
-  maxBurstIOPerSecCredits?: number;
+  maxBurstIOPerSecCredits?: number | undefined;
   /** Protocol settings specific NFS. */
-  nfsProtocolProperties?: NfsProtocolProperties;
+  nfsProtocolProperties?: NfsProtocolProperties | undefined;
   /** The set of properties for control public access. */
-  publicAccessProperties?: PublicAccessProperties;
+  publicAccessProperties?: PublicAccessProperties | undefined;
   /** The status of the last operation. */
-  provisioningState?: FileShareProvisioningState;
+  provisioningState?: FileShareProvisioningState | undefined;
   /** Gets or sets allow or disallow public network access to azure managed file share */
-  publicNetworkAccess?: PublicNetworkAccess;
+  publicNetworkAccess?: PublicNetworkAccess | undefined;
   /** The list of associated private endpoint connections. */
-  privateEndpointConnections?: FileSharePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: FileSharePropertiesPrivateEndpointConnectionsList | undefined;
 }
 export interface FileSharesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: FileSharesCreateOrUpdateResponseTagsMap;
+  tags?: FileSharesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FileShareProperties;
+  properties?: FileShareProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The metadata */
 export type FileShareSnapshotPropertiesInputMetadataMap = { [key: string]: string | undefined };
 /** FileShareSnapshot properties */
 export interface FileShareSnapshotPropertiesInput {
   /** The initiator of the FileShareSnapshot. This is a user-defined value. */
-  initiatorId?: string;
+  initiatorId?: string | undefined;
   /** The metadata */
-  metadata?: FileShareSnapshotPropertiesInputMetadataMap;
+  metadata?: FileShareSnapshotPropertiesInputMetadataMap | undefined;
 }
 export interface FileShareSnapshotCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -368,15 +368,15 @@ export interface FileShareSnapshotCreateOrUpdateRequest {
   /** The name of the FileShareSnapshot */
   name: string;
   /** The resource-specific properties for this resource. */
-  properties?: FileShareSnapshotPropertiesInput;
+  properties?: FileShareSnapshotPropertiesInput | undefined;
 }
 export interface FileShareSnapshotCreateOrUpdateResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetFileShareRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -390,19 +390,19 @@ export interface GetFileShareRequest {
 export type GetFileShareResponseTagsMap = { [key: string]: string | undefined };
 export interface GetFileShareResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetFileShareResponseTagsMap;
+  tags?: GetFileShareResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FileShareProperties;
+  properties?: FileShareProperties | undefined;
 }
 export interface GetFileShareLimitsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -505,23 +505,23 @@ export type FileShareSnapshotPropertiesMetadataMap = { [key: string]: string | u
 /** FileShareSnapshot properties */
 export interface FileShareSnapshotProperties {
   /** The FileShareSnapshot time in UTC in string representation */
-  snapshotTime?: string;
+  snapshotTime?: string | undefined;
   /** The initiator of the FileShareSnapshot. This is a user-defined value. */
-  initiatorId?: string;
+  initiatorId?: string | undefined;
   /** The metadata */
-  metadata?: FileShareSnapshotPropertiesMetadataMap;
+  metadata?: FileShareSnapshotPropertiesMetadataMap | undefined;
 }
 export interface GetFileShareSnapshotResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FileShareSnapshotProperties;
+  properties?: FileShareSnapshotProperties | undefined;
 }
 export interface GetFileShareUsageDataRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -556,15 +556,15 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -583,23 +583,23 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 export interface GetPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface ListFileShareByParentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -612,19 +612,19 @@ export type FileShareTagsMap = { [key: string]: string | undefined };
 /** File share resource */
 export interface FileShare {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: FileShareTagsMap;
+  tags?: FileShareTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FileShareProperties;
+  properties?: FileShareProperties | undefined;
 }
 /** The FileShare items on this page */
 export type FileShareListResultValueList = Array<FileShare>;
@@ -633,7 +633,7 @@ export interface FileShareListResult {
   /** The FileShare items on this page */
   value: FileShareListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFileShareBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -650,15 +650,15 @@ export interface ListFileShareSnapshotRequest {
 /** FileShareSnapshot resource */
 export interface FileShareSnapshot {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FileShareSnapshotProperties;
+  properties?: FileShareSnapshotProperties | undefined;
 }
 /** The FileShareSnapshot items on this page */
 export type FileShareSnapshotListResultValueList = Array<FileShareSnapshot>;
@@ -667,19 +667,19 @@ export interface FileShareSnapshotListResult {
   /** The FileShareSnapshot items on this page */
   value: FileShareSnapshotListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -688,23 +688,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionByFileShareRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -725,7 +725,7 @@ export interface PrivateEndpointConnectionListResult {
   /** The PrivateEndpointConnection items on this page */
   value: PrivateEndpointConnectionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourcesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -738,15 +738,15 @@ export interface ListPrivateLinkResourcesRequest {
 /** A private link resource. */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** The PrivateLinkResource items on this page */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
@@ -755,24 +755,24 @@ export interface PrivateLinkResourceListResult {
   /** The PrivateLinkResource items on this page */
   value: PrivateLinkResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateFileShareRequestTagsMap = { [key: string]: string | undefined };
 /** The updatable properties of the FileShare. */
 export interface FileShareUpdateProperties {
   /** The provisioned storage size of the share in GiB (1 GiB is 1024^3 bytes or 1073741824 bytes). A component of the file share's bill is the provisioned storage, regardless of the amount of used storage. */
-  provisionedStorageGiB?: number;
+  provisionedStorageGiB?: number | undefined;
   /** The provisioned IO / sec of the share. */
-  provisionedIOPerSec?: number;
+  provisionedIOPerSec?: number | undefined;
   /** The provisioned throughput / sec of the share. */
-  provisionedThroughputMiBPerSec?: number;
+  provisionedThroughputMiBPerSec?: number | undefined;
   /** Protocol settings specific NFS. */
-  nfsProtocolProperties?: NfsProtocolProperties;
+  nfsProtocolProperties?: NfsProtocolProperties | undefined;
   /** The set of properties for control public access. */
-  publicAccessProperties?: PublicAccessProperties;
+  publicAccessProperties?: PublicAccessProperties | undefined;
   /** Gets or sets allow or disallow public network access to azure managed file share */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
 }
 export interface UpdateFileShareRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -782,38 +782,38 @@ export interface UpdateFileShareRequest {
   /** The resource name of the file share, as seen by the administrator through Azure Resource Manager. */
   resourceName: string;
   /** Resource tags. */
-  tags?: UpdateFileShareRequestTagsMap;
+  tags?: UpdateFileShareRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FileShareUpdateProperties;
+  properties?: FileShareUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateFileShareResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateFileShareResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateFileShareResponseTagsMap;
+  tags?: UpdateFileShareResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FileShareProperties;
+  properties?: FileShareProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The metadata */
 export type FileShareSnapshotUpdatePropertiesMetadataMap = { [key: string]: string | undefined };
 /** The updatable properties of the FileShareSnapshot. */
 export interface FileShareSnapshotUpdateProperties {
   /** The metadata */
-  metadata?: FileShareSnapshotUpdatePropertiesMetadataMap;
+  metadata?: FileShareSnapshotUpdatePropertiesMetadataMap | undefined;
 }
 export interface UpdateFileShareSnapshotRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -825,25 +825,25 @@ export interface UpdateFileShareSnapshotRequest {
   /** The name of the FileShareSnapshot */
   name: string;
   /** The resource-specific properties for this resource. */
-  properties?: FileShareSnapshotUpdateProperties;
+  properties?: FileShareSnapshotUpdateProperties | undefined;
 }
 export interface UpdateFileShareSnapshotResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FileShareSnapshotProperties;
+  properties?: FileShareSnapshotProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type CheckFileShareNameAvailabilityError = AzureOpError;
 /** Implements local CheckNameAvailability operations */

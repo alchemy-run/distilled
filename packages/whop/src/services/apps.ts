@@ -81,29 +81,29 @@ export type CreateAppRequestAppType =
 /** The icon image for the app in PNG, JPEG, or GIF format, referencing an uploaded file: `{ id }` for an existing attachment or `{ direct_upload_id }` for a new direct upload. */
 export interface CreateAppRequestIcon {
   /** The signed id of a completed direct upload. */
-  direct_upload_id?: string;
+  direct_upload_id?: string | undefined;
   /** The tag of an already-uploaded attachment. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The whitelisted OAuth callback URLs that users are redirected to after authorizing the app. */
 export type CreateAppRequestRedirectUrisList = Array<string>;
 export interface CreateAppRequest {
   /** The account to create the app for (`biz_` tag). Defaults to the account behind the presented credential. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The type of app to create. Defaults to `b2c_app`. */
-  app_type?: CreateAppRequestAppType | (string & {});
+  app_type?: CreateAppRequestAppType | (string & {}) | undefined;
   /** The base production URL where the app is hosted, such as `https://myapp.example.com`. */
-  base_url?: string | null;
+  base_url?: string | null | undefined;
   /** The icon image for the app in PNG, JPEG, or GIF format, referencing an uploaded file: `{ id }` for an existing attachment or `{ direct_upload_id }` for a new direct upload. */
-  icon?: CreateAppRequestIcon;
+  icon?: CreateAppRequestIcon | undefined;
   /** The display name for the app, shown to users on the app store and product pages. */
   name: string;
   /** The whitelisted OAuth callback URLs that users are redirected to after authorizing the app. */
-  redirect_uris?: CreateAppRequestRedirectUrisList;
+  redirect_uris?: CreateAppRequestRedirectUrisList | undefined;
   /** The subdomain route where the app's hosted web builds are served, such as `myapp` for myapp.whop.site. */
-  route?: string | null;
+  route?: string | null | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface AccountParentFeesValue {
   /** Fixed markup in US dollars per transaction. */
@@ -115,7 +115,7 @@ export interface AccountParentFeesValue {
 export type AccountParentFeesMap = { [key: string]: AccountParentFeesValue | undefined };
 export interface AccountParent {
   /** Markup rates this parent charges the connected account being read, keyed by fee type (for example `crypto_deposit_markup`), each with `percentage_fee` and `fixed_fee_usd`. Resolved with the connected account's own overrides winning over the platform default. */
-  fees?: AccountParentFeesMap;
+  fees?: AccountParentFeesMap | undefined;
   /** Account ID, prefixed `biz_`. */
   id: string;
   /** Account logo image URL. */
@@ -387,9 +387,9 @@ export interface DeployAppRequest {
   /** The app to deploy, prefixed `app_`. */
   id: string;
   /** Upload the build without making it live. Defaults to `false`, which deploys and promotes in one step. */
-  draft?: boolean;
+  draft?: boolean | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface GetAppRequest {
   /** App ID (prefixed `app_`). Retrieval also accepts the app's claimed route, an active verified custom hostname, or its proxy domain id. */
@@ -400,47 +400,47 @@ export interface ListAppLogsRequest {
   /** The ID of the app, which will look like app_*************. */
   id: string;
   /** Only return logs from this build. */
-  app_build_id?: string;
+  app_build_id?: string | undefined;
   /** Only return console lines of this level. */
-  level?: ListAppLogsRequestLevel | (string & {});
+  level?: ListAppLogsRequestLevel | (string & {}) | undefined;
   /** Only return logs whose message contains this text (case-insensitive). */
-  query?: string;
+  query?: string | undefined;
   /** Start of the time window as an ISO 8601 timestamp. Defaults to 7 days before created_before. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** End of the time window as an ISO 8601 timestamp. Defaults to now. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListAppLogsResponseDataItemLevel = "log" | "debug" | "info" | "warn" | "error";
 export type ListAppLogsResponseDataItemSource = "console" | "exception" | "request";
 export interface ListAppLogsResponseDataItem {
   app_build_id: string;
   app_id: string;
-  cpu_time_ms?: number;
+  cpu_time_ms?: number | undefined;
   created_at: string;
   level: ListAppLogsResponseDataItemLevel;
   message: string;
-  outcome?: string | null;
+  outcome?: string | null | undefined;
   request_id: string;
-  request_method?: string | null;
-  request_path?: string | null;
-  response_status?: number | null;
+  request_method?: string | null | undefined;
+  request_path?: string | null | undefined;
+  response_status?: number | null | undefined;
   source: ListAppLogsResponseDataItemSource;
-  stack?: string | null;
-  truncated?: boolean;
-  wall_time_ms?: number;
+  stack?: string | null | undefined;
+  truncated?: boolean | undefined;
+  wall_time_ms?: number | undefined;
 }
 export type ListAppLogsResponseDataList = Array<ListAppLogsResponseDataItem>;
 export interface ListAppLogsResponsePageInfo {
-  end_cursor?: string | null;
+  end_cursor?: string | null | undefined;
   has_next_page: boolean;
   has_previous_page: boolean;
-  start_cursor?: string | null;
+  start_cursor?: string | null | undefined;
 }
 export interface ListAppLogsResponse {
   data: ListAppLogsResponseDataList;
@@ -469,31 +469,31 @@ export type ListAppsRequestOrder =
 export type ListAppsRequestDirection = "asc" | "desc";
 export interface ListAppsRequest {
   /** Only return apps created by this account (`biz_` tag). With developer access to the account this includes its unlisted and hidden apps. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Filter apps by the type of end-user they are built for. Apps of type `website` are left out unless you ask for them by name. */
-  app_type?: ListAppsRequestAppType | (string & {});
+  app_type?: ListAppsRequestAppType | (string & {}) | undefined;
   /** Only return apps supporting this view type, such as `dashboard` or `hub`. */
-  view_type?: ListAppsRequestViewType | (string & {});
+  view_type?: ListAppsRequestViewType | (string & {}) | undefined;
   /** Only return apps whose Whop verification status matches this value. Omit this filter to include every verification status the caller can see. */
-  verified?: boolean;
+  verified?: boolean | undefined;
   /** Legacy compatibility filter. Use `verified` for field equality. `true` returns verified apps; clients pinned before `2026-08-25-2` retain the earlier public website discovery behavior. */
-  verified_apps_only?: boolean;
+  verified_apps_only?: boolean | undefined;
   /** Only return apps Whop recommends (or, with `false`, only those it does not), independently of verification status. */
-  recommended?: boolean;
+  recommended?: boolean | undefined;
   /** A search string matched against app names. */
-  query?: string;
+  query?: string | undefined;
   /** The field to sort apps by. Defaults to discoverable_at, showing the most recently published apps first. `template_usage` ranks Whop-verified apps first, then by how many businesses created apps from each app as a template. */
-  order?: ListAppsRequestOrder | (string & {});
+  order?: ListAppsRequestOrder | (string & {}) | undefined;
   /** Sort direction. */
-  direction?: ListAppsRequestDirection | (string & {});
+  direction?: ListAppsRequestDirection | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The type of end-user the app is built for. */
 export type AppListItemAppType = "b2b_app" | "b2c_app" | "company_app" | "component" | "website";
@@ -581,45 +581,45 @@ export interface UpdateAppRequest {
   /** App ID (prefixed `app_`). Retrieval also accepts the app's claimed route, an active verified custom hostname, or its proxy domain id. */
   id: string;
   /** The detailed description shown on the app store's in-depth app view page. */
-  app_store_description?: string;
+  app_store_description?: string | undefined;
   /** The type of end-user the app is built for. Cannot be changed on an app whose type is already `website`. */
-  app_type?: UpdateAppRequestAppType | (string & {});
+  app_type?: UpdateAppRequestAppType | (string & {}) | undefined;
   /** The base production URL where the app is hosted. Set to `null` to take the app proxy offline. */
-  base_url?: string | null;
+  base_url?: string | null | undefined;
   /** The URL path for the account dashboard view. */
-  dashboard_path?: string | null;
+  dashboard_path?: string | null | undefined;
   /** A short description of the app shown in listings and search results. */
-  description?: string;
+  description?: string | undefined;
   /** The URL path for the discover view. */
-  discover_path?: string | null;
+  discover_path?: string | null | undefined;
   /** The URL path for the member-facing hub view, such as `/experiences/[experienceId]`. */
-  experience_path?: string | null;
+  experience_path?: string | null | undefined;
   /** The icon image for the app in PNG, JPEG, or GIF format, referencing an uploaded file: `{ id }` for an existing attachment or `{ direct_upload_id }` for a new direct upload. */
-  icon?: CreateAppRequestIcon;
+  icon?: CreateAppRequestIcon | undefined;
   /** The display name for the app, shown to users on the app store and product pages. */
-  name?: string;
+  name?: string | undefined;
   /** How the app authenticates at the OAuth token endpoint. */
-  oauth_client_type?: UpdateAppRequestOauthClientType | (string & {});
+  oauth_client_type?: UpdateAppRequestOauthClientType | (string & {}) | undefined;
   /** The URL path to the app's OpenAPI spec file (requires the ai_chat capability). */
-  openapi_path?: string | null;
+  openapi_path?: string | null | undefined;
   /** The app build (`abld_` tag) to serve as the Android production build, or `null` to unassign it. Same rules as `production_web_build_id`. */
-  production_android_build_id?: string | null;
+  production_android_build_id?: string | null | undefined;
   /** The app build (`abld_` tag) to serve as the iOS production build, or `null` to unassign it. Same rules as `production_web_build_id`. */
-  production_ios_build_id?: string | null;
+  production_ios_build_id?: string | null | undefined;
   /** The app build (`abld_` tag) to serve as the web production build, or `null` to unassign it. The build must belong to this app, target web, and be in the draft or approved status; a draft build is queued for approval and takes over once approved. Requires the `developer:manage_builds` scope. */
-  production_web_build_id?: string | null;
+  production_web_build_id?: string | null | undefined;
   /** The whitelisted OAuth callback URLs users are redirected to after authorizing the app. */
-  redirect_uris?: UpdateAppRequestRedirectUrisList;
+  redirect_uris?: UpdateAppRequestRedirectUrisList | undefined;
   /** The OAuth scopes the app requests from users when they install it. */
-  required_scopes?: UpdateAppRequestRequiredScopesList;
+  required_scopes?: UpdateAppRequestRequiredScopesList | undefined;
   /** The subdomain route where the app's hosted web builds are served. */
-  route?: string;
+  route?: string | undefined;
   /** Secrets to add or overwrite on the app, as an object of string values. Keys not included are left untouched; pass null or an empty string as the value to delete a secret. Encrypted at rest and injected into the app's hosted server runtime. */
-  secrets?: unknown;
+  secrets?: unknown | undefined;
   /** The URL path to the app's skills directory (requires the ai_chat capability). */
-  skills_path?: string | null;
+  skills_path?: string | null | undefined;
   /** Controls whether the app is published on Whop discovery or accessible only through its direct link. Publishing requires a name, icon, and description. */
-  status?: UpdateAppRequestStatus | (string & {});
+  status?: UpdateAppRequestStatus | (string & {}) | undefined;
 }
 export interface UpdateAppPermissionsRequestRequestedPermissionsItem {
   /** The permission action, for example `company:basic:read`. */

@@ -82,9 +82,9 @@ export interface CreateAuthTokenRequest {
   /** Name of the namespace the token is scoped to. It must exist. */
   namespace: string;
   /** Token lifetime in seconds, from 1 to the deployment's maximum. Defaults to the deployment's configured duration. */
-  duration?: number | null;
+  duration?: number | null | undefined;
   /** Opaque identifier of the end user, at most 256 UTF-8 bytes. Only used for correlation. */
-  subject?: string | null;
+  subject?: string | null | undefined;
   /** Access the token carries within its namespace. */
   grants: CreateAuthTokenRequestGrantsList;
 }

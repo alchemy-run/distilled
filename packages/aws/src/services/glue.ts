@@ -370,16 +370,16 @@ export type GlossaryTermIdList = string[];
 export type HashString = string;
 export interface AssociateGlossaryTermsRequest {
   AssetIdentifier: string;
-  IterableFormName?: string;
-  ItemIdentifier?: string;
+  IterableFormName?: string | undefined;
+  ItemIdentifier?: string | undefined;
   GlossaryTermIdentifiers: string[];
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface AssociateGlossaryTermsResponse {
-  AssetIdentifier?: string;
-  IterableFormName?: string;
-  ItemIdentifier?: string;
-  GlossaryTerms?: string[];
+  AssetIdentifier?: string | undefined;
+  IterableFormName?: string | undefined;
+  ItemIdentifier?: string | undefined;
+  GlossaryTerms?: string[] | undefined;
 }
 export type CatalogIdString = string;
 export type NameString = string;
@@ -392,18 +392,18 @@ export type ParametersMapValue = string;
 export type ParametersMap = { [key: string]: string | undefined };
 export interface Column {
   Name: string;
-  Type?: string;
-  Comment?: string;
-  Parameters?: { [key: string]: string | undefined };
+  Type?: string | undefined;
+  Comment?: string | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
 }
 export type ColumnList = Column[];
 export type LocationString = string;
 export type LocationStringList = string[];
 export type FormatString = string;
 export interface SerDeInfo {
-  Name?: string;
-  SerializationLibrary?: string;
-  Parameters?: { [key: string]: string | undefined };
+  Name?: string | undefined;
+  SerializationLibrary?: string | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
 }
 export type NameStringList = string[];
 export type IntegerFlag = number;
@@ -416,129 +416,129 @@ export type ColumnValuesString = string;
 export type ColumnValueStringList = string[];
 export type LocationMap = { [key: string]: string | undefined };
 export interface SkewedInfo {
-  SkewedColumnNames?: string[];
-  SkewedColumnValues?: string[];
-  SkewedColumnValueLocationMaps?: { [key: string]: string | undefined };
+  SkewedColumnNames?: string[] | undefined;
+  SkewedColumnValues?: string[] | undefined;
+  SkewedColumnValueLocationMaps?: { [key: string]: string | undefined } | undefined;
 }
 export type GlueResourceArn = string;
 export type SchemaRegistryNameString = string;
 export interface SchemaId {
-  SchemaArn?: string;
-  SchemaName?: string;
-  RegistryName?: string;
+  SchemaArn?: string | undefined;
+  SchemaName?: string | undefined;
+  RegistryName?: string | undefined;
 }
 export type SchemaVersionIdString = string;
 export type VersionLongNumber = number;
 export interface SchemaReference {
-  SchemaId?: SchemaId;
-  SchemaVersionId?: string;
-  SchemaVersionNumber?: number;
+  SchemaId?: SchemaId | undefined;
+  SchemaVersionId?: string | undefined;
+  SchemaVersionNumber?: number | undefined;
 }
 export interface StorageDescriptor {
-  Columns?: Column[];
-  Location?: string;
-  AdditionalLocations?: string[];
-  InputFormat?: string;
-  OutputFormat?: string;
-  Compressed?: boolean;
-  NumberOfBuckets?: number;
-  SerdeInfo?: SerDeInfo;
-  BucketColumns?: string[];
-  SortColumns?: Order[];
-  Parameters?: { [key: string]: string | undefined };
-  SkewedInfo?: SkewedInfo;
-  StoredAsSubDirectories?: boolean;
-  SchemaReference?: SchemaReference;
+  Columns?: Column[] | undefined;
+  Location?: string | undefined;
+  AdditionalLocations?: string[] | undefined;
+  InputFormat?: string | undefined;
+  OutputFormat?: string | undefined;
+  Compressed?: boolean | undefined;
+  NumberOfBuckets?: number | undefined;
+  SerdeInfo?: SerDeInfo | undefined;
+  BucketColumns?: string[] | undefined;
+  SortColumns?: Order[] | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  SkewedInfo?: SkewedInfo | undefined;
+  StoredAsSubDirectories?: boolean | undefined;
+  SchemaReference?: SchemaReference | undefined;
 }
 export interface PartitionInput {
-  Values?: string[];
-  LastAccessTime?: Date;
-  StorageDescriptor?: StorageDescriptor;
-  Parameters?: { [key: string]: string | undefined };
-  LastAnalyzedTime?: Date;
+  Values?: string[] | undefined;
+  LastAccessTime?: Date | undefined;
+  StorageDescriptor?: StorageDescriptor | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  LastAnalyzedTime?: Date | undefined;
 }
 export type PartitionInputList = PartitionInput[];
 export interface BatchCreatePartitionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   PartitionInputList: PartitionInput[];
 }
 export type DescriptionString = string;
 export interface ErrorDetail {
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export interface PartitionError {
-  PartitionValues?: string[];
-  ErrorDetail?: ErrorDetail;
+  PartitionValues?: string[] | undefined;
+  ErrorDetail?: ErrorDetail | undefined;
 }
 export type PartitionErrors = PartitionError[];
 export interface BatchCreatePartitionResponse {
-  Errors?: PartitionError[];
+  Errors?: PartitionError[] | undefined;
 }
 export type DeleteConnectionNameList = string[];
 export interface BatchDeleteConnectionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   ConnectionNameList: string[];
 }
 export type ErrorByName = { [key: string]: ErrorDetail | undefined };
 export interface BatchDeleteConnectionResponse {
-  Succeeded?: string[];
-  Errors?: { [key: string]: ErrorDetail | undefined };
+  Succeeded?: string[] | undefined;
+  Errors?: { [key: string]: ErrorDetail | undefined } | undefined;
 }
 export interface PartitionValueList {
   Values: string[];
 }
 export type BatchDeletePartitionValueList = PartitionValueList[];
 export interface BatchDeletePartitionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   PartitionsToDelete: PartitionValueList[];
 }
 export interface BatchDeletePartitionResponse {
-  Errors?: PartitionError[];
+  Errors?: PartitionError[] | undefined;
 }
 export type BatchDeleteTableNameList = string[];
 export type TransactionIdString = string;
 export interface BatchDeleteTableRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TablesToDelete: string[];
-  TransactionId?: string;
+  TransactionId?: string | undefined;
 }
 export interface TableError {
-  TableName?: string;
-  ErrorDetail?: ErrorDetail;
+  TableName?: string | undefined;
+  ErrorDetail?: ErrorDetail | undefined;
 }
 export type TableErrors = TableError[];
 export interface BatchDeleteTableResponse {
-  Errors?: TableError[];
+  Errors?: TableError[] | undefined;
 }
 export type VersionString = string;
 export type BatchDeleteTableVersionList = string[];
 export interface BatchDeleteTableVersionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   VersionIds: string[];
 }
 export interface TableVersionError {
-  TableName?: string;
-  VersionId?: string;
-  ErrorDetail?: ErrorDetail;
+  TableName?: string | undefined;
+  VersionId?: string | undefined;
+  ErrorDetail?: ErrorDetail | undefined;
 }
 export type TableVersionErrors = TableVersionError[];
 export interface BatchDeleteTableVersionResponse {
-  Errors?: TableVersionError[];
+  Errors?: TableVersionError[] | undefined;
 }
 export type OrchestrationNameString = string;
 export type BatchGetBlueprintNames = string[];
 export interface BatchGetBlueprintsRequest {
   Names: string[];
-  IncludeBlueprint?: boolean;
-  IncludeParameterSpec?: boolean;
+  IncludeBlueprint?: boolean | undefined;
+  IncludeParameterSpec?: boolean | undefined;
 }
 export type Generic512CharString = string;
 export type TimestampValue = Date;
@@ -546,29 +546,29 @@ export type BlueprintParameterSpec = string;
 export type BlueprintStatus = "CREATING" | "ACTIVE" | "UPDATING" | "FAILED" | (string & {});
 export type ErrorString = string;
 export interface LastActiveDefinition {
-  Description?: string;
-  LastModifiedOn?: Date;
-  ParameterSpec?: string;
-  BlueprintLocation?: string;
-  BlueprintServiceLocation?: string;
+  Description?: string | undefined;
+  LastModifiedOn?: Date | undefined;
+  ParameterSpec?: string | undefined;
+  BlueprintLocation?: string | undefined;
+  BlueprintServiceLocation?: string | undefined;
 }
 export interface Blueprint {
-  Name?: string;
-  Description?: string;
-  CreatedOn?: Date;
-  LastModifiedOn?: Date;
-  ParameterSpec?: string;
-  BlueprintLocation?: string;
-  BlueprintServiceLocation?: string;
-  Status?: BlueprintStatus;
-  ErrorMessage?: string;
-  LastActiveDefinition?: LastActiveDefinition;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CreatedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  ParameterSpec?: string | undefined;
+  BlueprintLocation?: string | undefined;
+  BlueprintServiceLocation?: string | undefined;
+  Status?: BlueprintStatus | undefined;
+  ErrorMessage?: string | undefined;
+  LastActiveDefinition?: LastActiveDefinition | undefined;
 }
 export type Blueprints = Blueprint[];
 export type BlueprintNames = string[];
 export interface BatchGetBlueprintsResponse {
-  Blueprints?: Blueprint[];
-  MissingBlueprints?: string[];
+  Blueprints?: Blueprint[] | undefined;
+  MissingBlueprints?: string[] | undefined;
 }
 export type CrawlerNameList = string[];
 export interface BatchGetCrawlersRequest {
@@ -580,74 +580,74 @@ export type PathList = string[];
 export type ConnectionName = string;
 export type EventQueueArn = string;
 export interface S3Target {
-  Path?: string;
-  Exclusions?: string[];
-  ConnectionName?: string;
-  SampleSize?: number;
-  EventQueueArn?: string;
-  DlqEventQueueArn?: string;
+  Path?: string | undefined;
+  Exclusions?: string[] | undefined;
+  ConnectionName?: string | undefined;
+  SampleSize?: number | undefined;
+  EventQueueArn?: string | undefined;
+  DlqEventQueueArn?: string | undefined;
 }
 export type S3TargetList = S3Target[];
 export type JdbcMetadataEntry = "COMMENTS" | "RAWTYPES" | (string & {});
 export type EnableAdditionalMetadata = JdbcMetadataEntry[];
 export interface JdbcTarget {
-  ConnectionName?: string;
-  Path?: string;
-  Exclusions?: string[];
-  EnableAdditionalMetadata?: JdbcMetadataEntry[];
+  ConnectionName?: string | undefined;
+  Path?: string | undefined;
+  Exclusions?: string[] | undefined;
+  EnableAdditionalMetadata?: JdbcMetadataEntry[] | undefined;
 }
 export type JdbcTargetList = JdbcTarget[];
 export interface MongoDBTarget {
-  ConnectionName?: string;
-  Path?: string;
-  ScanAll?: boolean;
+  ConnectionName?: string | undefined;
+  Path?: string | undefined;
+  ScanAll?: boolean | undefined;
 }
 export type MongoDBTargetList = MongoDBTarget[];
 export interface DynamoDBTarget {
-  Path?: string;
-  scanAll?: boolean;
-  scanRate?: number;
+  Path?: string | undefined;
+  scanAll?: boolean | undefined;
+  scanRate?: number | undefined;
 }
 export type DynamoDBTargetList = DynamoDBTarget[];
 export type CatalogTablesList = string[];
 export interface CatalogTarget {
   DatabaseName: string;
   Tables: string[];
-  ConnectionName?: string;
-  EventQueueArn?: string;
-  DlqEventQueueArn?: string;
+  ConnectionName?: string | undefined;
+  EventQueueArn?: string | undefined;
+  DlqEventQueueArn?: string | undefined;
 }
 export type CatalogTargetList = CatalogTarget[];
 export interface DeltaTarget {
-  DeltaTables?: string[];
-  ConnectionName?: string;
-  WriteManifest?: boolean;
-  CreateNativeDeltaTable?: boolean;
+  DeltaTables?: string[] | undefined;
+  ConnectionName?: string | undefined;
+  WriteManifest?: boolean | undefined;
+  CreateNativeDeltaTable?: boolean | undefined;
 }
 export type DeltaTargetList = DeltaTarget[];
 export interface IcebergTarget {
-  Paths?: string[];
-  ConnectionName?: string;
-  Exclusions?: string[];
-  MaximumTraversalDepth?: number;
+  Paths?: string[] | undefined;
+  ConnectionName?: string | undefined;
+  Exclusions?: string[] | undefined;
+  MaximumTraversalDepth?: number | undefined;
 }
 export type IcebergTargetList = IcebergTarget[];
 export interface HudiTarget {
-  Paths?: string[];
-  ConnectionName?: string;
-  Exclusions?: string[];
-  MaximumTraversalDepth?: number;
+  Paths?: string[] | undefined;
+  ConnectionName?: string | undefined;
+  Exclusions?: string[] | undefined;
+  MaximumTraversalDepth?: number | undefined;
 }
 export type HudiTargetList = HudiTarget[];
 export interface CrawlerTargets {
-  S3Targets?: S3Target[];
-  JdbcTargets?: JdbcTarget[];
-  MongoDBTargets?: MongoDBTarget[];
-  DynamoDBTargets?: DynamoDBTarget[];
-  CatalogTargets?: CatalogTarget[];
-  DeltaTargets?: DeltaTarget[];
-  IcebergTargets?: IcebergTarget[];
-  HudiTargets?: HudiTarget[];
+  S3Targets?: S3Target[] | undefined;
+  JdbcTargets?: JdbcTarget[] | undefined;
+  MongoDBTargets?: MongoDBTarget[] | undefined;
+  DynamoDBTargets?: DynamoDBTarget[] | undefined;
+  CatalogTargets?: CatalogTarget[] | undefined;
+  DeltaTargets?: DeltaTarget[] | undefined;
+  IcebergTargets?: IcebergTarget[] | undefined;
+  HudiTargets?: HudiTarget[] | undefined;
 }
 export type DatabaseName = string;
 export type ClassifierNameList = string[];
@@ -657,7 +657,7 @@ export type RecrawlBehavior =
   | "CRAWL_EVENT_MODE"
   | (string & {});
 export interface RecrawlPolicy {
-  RecrawlBehavior?: RecrawlBehavior;
+  RecrawlBehavior?: RecrawlBehavior | undefined;
 }
 export type UpdateBehavior = "LOG" | "UPDATE_IN_DATABASE" | (string & {});
 export type DeleteBehavior =
@@ -666,20 +666,20 @@ export type DeleteBehavior =
   | "DEPRECATE_IN_DATABASE"
   | (string & {});
 export interface SchemaChangePolicy {
-  UpdateBehavior?: UpdateBehavior;
-  DeleteBehavior?: DeleteBehavior;
+  UpdateBehavior?: UpdateBehavior | undefined;
+  DeleteBehavior?: DeleteBehavior | undefined;
 }
 export type CrawlerLineageSettings = "ENABLE" | "DISABLE" | (string & {});
 export interface LineageConfiguration {
-  CrawlerLineageSettings?: CrawlerLineageSettings;
+  CrawlerLineageSettings?: CrawlerLineageSettings | undefined;
 }
 export type CrawlerState = "READY" | "RUNNING" | "STOPPING" | (string & {});
 export type TablePrefix = string;
 export type CronExpression = string;
 export type ScheduleState = "SCHEDULED" | "NOT_SCHEDULED" | "TRANSITIONING" | (string & {});
 export interface Schedule {
-  ScheduleExpression?: string;
-  State?: ScheduleState;
+  ScheduleExpression?: string | undefined;
+  State?: ScheduleState | undefined;
 }
 export type MillisecondsCount = number;
 export type LastCrawlStatus = "SUCCEEDED" | "CANCELLED" | "FAILED" | (string & {});
@@ -687,48 +687,48 @@ export type LogGroup = string;
 export type LogStream = string;
 export type MessagePrefix = string;
 export interface LastCrawlInfo {
-  Status?: LastCrawlStatus;
-  ErrorMessage?: string;
-  LogGroup?: string;
-  LogStream?: string;
-  MessagePrefix?: string;
-  StartTime?: Date;
+  Status?: LastCrawlStatus | undefined;
+  ErrorMessage?: string | undefined;
+  LogGroup?: string | undefined;
+  LogStream?: string | undefined;
+  MessagePrefix?: string | undefined;
+  StartTime?: Date | undefined;
 }
 export type VersionId = number;
 export type CrawlerConfiguration = string;
 export type CrawlerSecurityConfiguration = string;
 export type AccountId = string;
 export interface LakeFormationConfiguration {
-  UseLakeFormationCredentials?: boolean;
-  AccountId?: string;
+  UseLakeFormationCredentials?: boolean | undefined;
+  AccountId?: string | undefined;
 }
 export interface Crawler {
-  Name?: string;
-  Role?: string;
-  Targets?: CrawlerTargets;
-  DatabaseName?: string;
-  Description?: string;
-  Classifiers?: string[];
-  RecrawlPolicy?: RecrawlPolicy;
-  SchemaChangePolicy?: SchemaChangePolicy;
-  LineageConfiguration?: LineageConfiguration;
-  State?: CrawlerState;
-  TablePrefix?: string;
-  Schedule?: Schedule;
-  CrawlElapsedTime?: number;
-  CreationTime?: Date;
-  LastUpdated?: Date;
-  LastCrawl?: LastCrawlInfo;
-  Version?: number;
-  Configuration?: string;
-  CrawlerSecurityConfiguration?: string;
-  LakeFormationConfiguration?: LakeFormationConfiguration;
-  CatalogId?: string;
+  Name?: string | undefined;
+  Role?: string | undefined;
+  Targets?: CrawlerTargets | undefined;
+  DatabaseName?: string | undefined;
+  Description?: string | undefined;
+  Classifiers?: string[] | undefined;
+  RecrawlPolicy?: RecrawlPolicy | undefined;
+  SchemaChangePolicy?: SchemaChangePolicy | undefined;
+  LineageConfiguration?: LineageConfiguration | undefined;
+  State?: CrawlerState | undefined;
+  TablePrefix?: string | undefined;
+  Schedule?: Schedule | undefined;
+  CrawlElapsedTime?: number | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdated?: Date | undefined;
+  LastCrawl?: LastCrawlInfo | undefined;
+  Version?: number | undefined;
+  Configuration?: string | undefined;
+  CrawlerSecurityConfiguration?: string | undefined;
+  LakeFormationConfiguration?: LakeFormationConfiguration | undefined;
+  CatalogId?: string | undefined;
 }
 export type CrawlerList = Crawler[];
 export interface BatchGetCrawlersResponse {
-  Crawlers?: Crawler[];
-  CrawlersNotFound?: string[];
+  Crawlers?: Crawler[] | undefined;
+  CrawlersNotFound?: string[] | undefined;
 }
 export type CustomEntityTypeNames = string[];
 export interface BatchGetCustomEntityTypesRequest {
@@ -738,12 +738,12 @@ export type ContextWords = string[];
 export interface CustomEntityType {
   Name: string;
   RegexString: string;
-  ContextWords?: string[];
+  ContextWords?: string[] | undefined;
 }
 export type CustomEntityTypes = CustomEntityType[];
 export interface BatchGetCustomEntityTypesResponse {
-  CustomEntityTypes?: CustomEntityType[];
-  CustomEntityTypesNotFound?: string[];
+  CustomEntityTypes?: CustomEntityType[] | undefined;
+  CustomEntityTypesNotFound?: string[] | undefined;
 }
 export type DataQualityResultIds = string[];
 export interface BatchGetDataQualityResultRequest {
@@ -754,22 +754,22 @@ export type GlueTableAdditionalOptions = { [key: string]: string | undefined };
 export interface GlueTable {
   DatabaseName: string;
   TableName: string;
-  CatalogId?: string;
-  ConnectionName?: string;
-  AdditionalOptions?: { [key: string]: string | undefined };
+  CatalogId?: string | undefined;
+  ConnectionName?: string | undefined;
+  AdditionalOptions?: { [key: string]: string | undefined } | undefined;
 }
 export type PreProcessingQueryString = string;
 export interface DataQualityGlueTable {
   DatabaseName: string;
   TableName: string;
-  CatalogId?: string;
-  ConnectionName?: string;
-  AdditionalOptions?: { [key: string]: string | undefined };
-  PreProcessingQuery?: string;
+  CatalogId?: string | undefined;
+  ConnectionName?: string | undefined;
+  AdditionalOptions?: { [key: string]: string | undefined } | undefined;
+  PreProcessingQuery?: string | undefined;
 }
 export interface DataSource {
-  GlueTable?: GlueTable;
-  DataQualityGlueTable?: DataQualityGlueTable;
+  GlueTable?: GlueTable | undefined;
+  DataQualityGlueTable?: DataQualityGlueTable | undefined;
 }
 export type DataQualityRuleResultDescription = string | redacted.Redacted<string>;
 export type DataQualityRuleResultStatus = "PASS" | "FAIL" | "ERROR" | (string & {});
@@ -777,80 +777,80 @@ export type EvaluatedMetricsMap = { [key: string]: number | undefined };
 export type RuleMetricsMap = { [key: string]: number | undefined };
 export type Labels = { [key: string]: string | undefined };
 export interface DataQualityRuleResult {
-  Name?: string;
-  Description?: string | redacted.Redacted<string>;
-  EvaluationMessage?: string | redacted.Redacted<string>;
-  Result?: DataQualityRuleResultStatus;
-  EvaluatedMetrics?: { [key: string]: number | undefined };
-  EvaluatedRule?: string | redacted.Redacted<string>;
-  RuleMetrics?: { [key: string]: number | undefined };
-  Labels?: { [key: string]: string | undefined };
+  Name?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  EvaluationMessage?: string | redacted.Redacted<string> | undefined;
+  Result?: DataQualityRuleResultStatus | undefined;
+  EvaluatedMetrics?: { [key: string]: number | undefined } | undefined;
+  EvaluatedRule?: string | redacted.Redacted<string> | undefined;
+  RuleMetrics?: { [key: string]: number | undefined } | undefined;
+  Labels?: { [key: string]: string | undefined } | undefined;
 }
 export type DataQualityRuleResults = DataQualityRuleResult[];
 export type BinEdges = string[];
 export type Count = number[];
 export interface DistributionData {
-  BinEdges?: string[];
-  Count?: number[];
-  DataType?: string;
+  BinEdges?: string[] | undefined;
+  Count?: number[] | undefined;
+  DataType?: string | undefined;
 }
 export type EvaluatedDistributionsMap = { [key: string]: DistributionData | undefined };
 export interface DataQualityAnalyzerResult {
-  Name?: string;
-  Description?: string | redacted.Redacted<string>;
-  EvaluationMessage?: string | redacted.Redacted<string>;
-  EvaluatedMetrics?: { [key: string]: number | undefined };
-  EvaluatedDistributions?: { [key: string]: DistributionData | undefined };
+  Name?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  EvaluationMessage?: string | redacted.Redacted<string> | undefined;
+  EvaluatedMetrics?: { [key: string]: number | undefined } | undefined;
+  EvaluatedDistributions?: { [key: string]: DistributionData | undefined } | undefined;
 }
 export type DataQualityAnalyzerResults = DataQualityAnalyzerResult[];
 export type DataQualityObservationDescription = string | redacted.Redacted<string>;
 export interface DataQualityMetricValues {
-  ActualValue?: number;
-  ExpectedValue?: number;
-  LowerLimit?: number;
-  UpperLimit?: number;
+  ActualValue?: number | undefined;
+  ExpectedValue?: number | undefined;
+  LowerLimit?: number | undefined;
+  UpperLimit?: number | undefined;
 }
 export type NewRules = string[];
 export interface MetricBasedObservation {
-  MetricName?: string;
-  StatisticId?: string;
-  MetricValues?: DataQualityMetricValues;
-  NewRules?: string[];
+  MetricName?: string | undefined;
+  StatisticId?: string | undefined;
+  MetricValues?: DataQualityMetricValues | undefined;
+  NewRules?: string[] | undefined;
 }
 export interface DataQualityObservation {
-  Description?: string | redacted.Redacted<string>;
-  MetricBasedObservation?: MetricBasedObservation;
+  Description?: string | redacted.Redacted<string> | undefined;
+  MetricBasedObservation?: MetricBasedObservation | undefined;
 }
 export type DataQualityObservations = DataQualityObservation[];
 export interface DataQualityAggregatedMetrics {
-  TotalRowsProcessed?: number;
-  TotalRowsPassed?: number;
-  TotalRowsFailed?: number;
-  TotalRulesProcessed?: number;
-  TotalRulesPassed?: number;
-  TotalRulesFailed?: number;
+  TotalRowsProcessed?: number | undefined;
+  TotalRowsPassed?: number | undefined;
+  TotalRowsFailed?: number | undefined;
+  TotalRulesProcessed?: number | undefined;
+  TotalRulesPassed?: number | undefined;
+  TotalRulesFailed?: number | undefined;
 }
 export interface DataQualityResult {
-  ResultId?: string;
-  ProfileId?: string;
-  Score?: number;
-  DataSource?: DataSource;
-  RulesetName?: string;
-  EvaluationContext?: string;
-  StartedOn?: Date;
-  CompletedOn?: Date;
-  JobName?: string;
-  JobRunId?: string;
-  RulesetEvaluationRunId?: string;
-  RuleResults?: DataQualityRuleResult[];
-  AnalyzerResults?: DataQualityAnalyzerResult[];
-  Observations?: DataQualityObservation[];
-  AggregatedMetrics?: DataQualityAggregatedMetrics;
+  ResultId?: string | undefined;
+  ProfileId?: string | undefined;
+  Score?: number | undefined;
+  DataSource?: DataSource | undefined;
+  RulesetName?: string | undefined;
+  EvaluationContext?: string | undefined;
+  StartedOn?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  JobName?: string | undefined;
+  JobRunId?: string | undefined;
+  RulesetEvaluationRunId?: string | undefined;
+  RuleResults?: DataQualityRuleResult[] | undefined;
+  AnalyzerResults?: DataQualityAnalyzerResult[] | undefined;
+  Observations?: DataQualityObservation[] | undefined;
+  AggregatedMetrics?: DataQualityAggregatedMetrics | undefined;
 }
 export type DataQualityResultsList = DataQualityResult[];
 export interface BatchGetDataQualityResultResponse {
   Results: DataQualityResult[];
-  ResultsNotFound?: string[];
+  ResultsNotFound?: string[] | undefined;
 }
 export type DataQualityResultV2IdList = string[];
 export interface BatchGetDataQualityResultV2Request {
@@ -861,25 +861,25 @@ export type PublishDataQualityResultTags = { [key: string]: string | undefined }
 export type PublishDataQualityResultDescriptors = { [key: string]: string | undefined };
 export interface DataQualityResultV2Item {
   ResultId: string;
-  DataSource?: DataSource;
-  Dimensions?: { [key: string]: string | undefined };
-  Tags?: { [key: string]: string | undefined };
-  ExecutionStartedOn?: Date;
-  ExecutionCompletedOn?: Date;
-  ResultPublishedOn?: Date;
-  Score?: number;
-  RuleResults?: DataQualityRuleResult[];
-  AnalyzerResults?: DataQualityAnalyzerResult[];
-  Observations?: DataQualityObservation[];
-  EvaluationContext?: string;
-  Descriptors?: { [key: string]: string | undefined };
-  AggregatedMetrics?: DataQualityAggregatedMetrics;
-  RulesetName?: string;
+  DataSource?: DataSource | undefined;
+  Dimensions?: { [key: string]: string | undefined } | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ExecutionStartedOn?: Date | undefined;
+  ExecutionCompletedOn?: Date | undefined;
+  ResultPublishedOn?: Date | undefined;
+  Score?: number | undefined;
+  RuleResults?: DataQualityRuleResult[] | undefined;
+  AnalyzerResults?: DataQualityAnalyzerResult[] | undefined;
+  Observations?: DataQualityObservation[] | undefined;
+  EvaluationContext?: string | undefined;
+  Descriptors?: { [key: string]: string | undefined } | undefined;
+  AggregatedMetrics?: DataQualityAggregatedMetrics | undefined;
+  RulesetName?: string | undefined;
 }
 export type DataQualityResultV2List = DataQualityResultV2Item[];
 export interface BatchGetDataQualityResultV2Response {
   Results: DataQualityResultV2Item[];
-  ResultsNotFound?: string[];
+  ResultsNotFound?: string[] | undefined;
 }
 export type DataQualityRulesetEvaluationRunIdList = string[];
 export interface BatchGetDataQualityRulesetEvaluationRunRequest {
@@ -891,46 +891,46 @@ export type UriString = string;
 export type DQCompositeRuleEvaluationMethod = "COLUMN" | "ROW" | (string & {});
 export type ResultTypeEnum = "ALL" | "PASSED_ONLY" | "FAILED_ONLY" | (string & {});
 export interface CatalogTableConfigOptions {
-  DatabaseName?: string;
-  TableName?: string;
-  S3Location?: string;
-  CatalogId?: string;
+  DatabaseName?: string | undefined;
+  TableName?: string | undefined;
+  S3Location?: string | undefined;
+  CatalogId?: string | undefined;
 }
 export interface RowLevelResultsOptions {
-  MaxRowsToWrite?: number;
-  ResultType?: ResultTypeEnum;
-  CatalogTableConfig?: CatalogTableConfigOptions;
+  MaxRowsToWrite?: number | undefined;
+  ResultType?: ResultTypeEnum | undefined;
+  CatalogTableConfig?: CatalogTableConfigOptions | undefined;
 }
 export interface DistributionResultsOptions {
-  WriteDistributionResultsEnabled?: boolean;
-  CatalogTableConfig?: CatalogTableConfigOptions;
+  WriteDistributionResultsEnabled?: boolean | undefined;
+  CatalogTableConfig?: CatalogTableConfigOptions | undefined;
 }
 export interface ProfilingResultsOptions {
-  WriteProfilingResultsEnabled?: boolean;
-  CatalogTableConfig?: CatalogTableConfigOptions;
-  DistributionResults?: DistributionResultsOptions;
+  WriteProfilingResultsEnabled?: boolean | undefined;
+  CatalogTableConfig?: CatalogTableConfigOptions | undefined;
+  DistributionResults?: DistributionResultsOptions | undefined;
 }
 export type ObservationConfiguration = "ALL" | "NONE" | (string & {});
 export type ObservationMode = "SCHEDULED" | "FIXED" | (string & {});
 export interface DataQualityRuleResultsOptions {
-  WriteDataQualityRuleResultsEnabled?: boolean;
-  CatalogTableConfig?: CatalogTableConfigOptions;
+  WriteDataQualityRuleResultsEnabled?: boolean | undefined;
+  CatalogTableConfig?: CatalogTableConfigOptions | undefined;
 }
 export interface ObservationResultsOptions {
-  WriteObservationResultsEnabled?: boolean;
-  CatalogTableConfig?: CatalogTableConfigOptions;
+  WriteObservationResultsEnabled?: boolean | undefined;
+  CatalogTableConfig?: CatalogTableConfigOptions | undefined;
 }
 export interface DataQualityEvaluationRunAdditionalRunOptions {
-  CloudWatchMetricsEnabled?: boolean;
-  ResultsS3Prefix?: string;
-  CompositeRuleEvaluationMethod?: DQCompositeRuleEvaluationMethod;
-  CustomLogGroupPrefix?: string;
-  RowLevelResults?: RowLevelResultsOptions;
-  ProfilingResults?: ProfilingResultsOptions;
-  ObservationScope?: ObservationConfiguration;
-  ObservationMode?: ObservationMode;
-  DataQualityRuleResults?: DataQualityRuleResultsOptions;
-  ObservationResults?: ObservationResultsOptions;
+  CloudWatchMetricsEnabled?: boolean | undefined;
+  ResultsS3Prefix?: string | undefined;
+  CompositeRuleEvaluationMethod?: DQCompositeRuleEvaluationMethod | undefined;
+  CustomLogGroupPrefix?: string | undefined;
+  RowLevelResults?: RowLevelResultsOptions | undefined;
+  ProfilingResults?: ProfilingResultsOptions | undefined;
+  ObservationScope?: ObservationConfiguration | undefined;
+  ObservationMode?: ObservationMode | undefined;
+  DataQualityRuleResults?: DataQualityRuleResultsOptions | undefined;
+  ObservationResults?: ObservationResultsOptions | undefined;
 }
 export type TaskStatusType =
   | "STARTING"
@@ -946,26 +946,26 @@ export type RulesetNames = string[];
 export type DataQualityResultIdList = string[];
 export type DataSourceMap = { [key: string]: DataSource | undefined };
 export interface DataQualityRulesetEvaluationRun {
-  RunId?: string;
-  DataSource?: DataSource;
-  Role?: string;
-  NumberOfWorkers?: number;
-  Timeout?: number;
-  AdditionalRunOptions?: DataQualityEvaluationRunAdditionalRunOptions;
-  Status?: TaskStatusType;
-  ErrorString?: string;
-  StartedOn?: Date;
-  LastModifiedOn?: Date;
-  CompletedOn?: Date;
-  ExecutionTime?: number;
-  RulesetNames?: string[];
-  ResultIds?: string[];
-  AdditionalDataSources?: { [key: string]: DataSource | undefined };
+  RunId?: string | undefined;
+  DataSource?: DataSource | undefined;
+  Role?: string | undefined;
+  NumberOfWorkers?: number | undefined;
+  Timeout?: number | undefined;
+  AdditionalRunOptions?: DataQualityEvaluationRunAdditionalRunOptions | undefined;
+  Status?: TaskStatusType | undefined;
+  ErrorString?: string | undefined;
+  StartedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  ExecutionTime?: number | undefined;
+  RulesetNames?: string[] | undefined;
+  ResultIds?: string[] | undefined;
+  AdditionalDataSources?: { [key: string]: DataSource | undefined } | undefined;
 }
 export type DataQualityRulesetEvaluationRunsList = DataQualityRulesetEvaluationRun[];
 export interface BatchGetDataQualityRulesetEvaluationRunResponse {
-  Runs?: DataQualityRulesetEvaluationRun[];
-  RunsNotFound?: string[];
+  Runs?: DataQualityRulesetEvaluationRun[] | undefined;
+  RunsNotFound?: string[] | undefined;
 }
 export type DevEndpointNames = string[];
 export interface BatchGetDevEndpointsRequest {
@@ -987,36 +987,36 @@ export type GlueVersionString = string;
 export type PublicKeysList = string[];
 export type MapValue = { [key: string]: string | undefined };
 export interface DevEndpoint {
-  EndpointName?: string;
-  RoleArn?: string;
-  SecurityGroupIds?: string[];
-  SubnetId?: string;
-  YarnEndpointAddress?: string;
-  PrivateAddress?: string;
-  ZeppelinRemoteSparkInterpreterPort?: number;
-  PublicAddress?: string;
-  Status?: string;
-  WorkerType?: WorkerType;
-  GlueVersion?: string;
-  NumberOfWorkers?: number;
-  NumberOfNodes?: number;
-  AvailabilityZone?: string;
-  VpcId?: string;
-  ExtraPythonLibsS3Path?: string;
-  ExtraJarsS3Path?: string;
-  FailureReason?: string;
-  LastUpdateStatus?: string;
-  CreatedTimestamp?: Date;
-  LastModifiedTimestamp?: Date;
-  PublicKey?: string;
-  PublicKeys?: string[];
-  SecurityConfiguration?: string;
-  Arguments?: { [key: string]: string | undefined };
+  EndpointName?: string | undefined;
+  RoleArn?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  SubnetId?: string | undefined;
+  YarnEndpointAddress?: string | undefined;
+  PrivateAddress?: string | undefined;
+  ZeppelinRemoteSparkInterpreterPort?: number | undefined;
+  PublicAddress?: string | undefined;
+  Status?: string | undefined;
+  WorkerType?: WorkerType | undefined;
+  GlueVersion?: string | undefined;
+  NumberOfWorkers?: number | undefined;
+  NumberOfNodes?: number | undefined;
+  AvailabilityZone?: string | undefined;
+  VpcId?: string | undefined;
+  ExtraPythonLibsS3Path?: string | undefined;
+  ExtraJarsS3Path?: string | undefined;
+  FailureReason?: string | undefined;
+  LastUpdateStatus?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastModifiedTimestamp?: Date | undefined;
+  PublicKey?: string | undefined;
+  PublicKeys?: string[] | undefined;
+  SecurityConfiguration?: string | undefined;
+  Arguments?: { [key: string]: string | undefined } | undefined;
 }
 export type DevEndpointList = DevEndpoint[];
 export interface BatchGetDevEndpointsResponse {
-  DevEndpoints?: DevEndpoint[];
-  DevEndpointsNotFound?: string[];
+  DevEndpoints?: DevEndpoint[] | undefined;
+  DevEndpointsNotFound?: string[] | undefined;
 }
 export type ItemIdentifierList = string[];
 export interface BatchGetIterableFormsRequest {
@@ -1030,29 +1030,29 @@ export type AssetFormKey = string;
 export type FormTypeId = string;
 export type FormContent = string;
 export interface AssetFormEntry {
-  FormTypeId?: string;
-  Content?: string;
+  FormTypeId?: string | undefined;
+  Content?: string | undefined;
 }
 export type AssetFormMap = { [key: string]: AssetFormEntry | undefined };
 export interface IterableFormItem {
-  ItemId?: string;
-  ItemName?: string;
-  GlossaryTerms?: string[];
-  Forms?: { [key: string]: AssetFormEntry | undefined };
-  Attachments?: { [key: string]: AssetFormEntry | undefined };
+  ItemId?: string | undefined;
+  ItemName?: string | undefined;
+  GlossaryTerms?: string[] | undefined;
+  Forms?: { [key: string]: AssetFormEntry | undefined } | undefined;
+  Attachments?: { [key: string]: AssetFormEntry | undefined } | undefined;
 }
 export type IterableFormItemList = IterableFormItem[];
 export type ItemErrorCode = string;
 export type ItemErrorMessage = string;
 export interface ItemError {
-  ItemIdentifier?: string;
-  Code?: string;
-  Message?: string;
+  ItemIdentifier?: string | undefined;
+  Code?: string | undefined;
+  Message?: string | undefined;
 }
 export type ItemErrorList = ItemError[];
 export interface BatchGetIterableFormsResponse {
-  Items?: IterableFormItem[];
-  Errors?: ItemError[];
+  Items?: IterableFormItem[] | undefined;
+  Errors?: ItemError[] | undefined;
 }
 export type JobNameList = string[];
 export interface BatchGetJobsRequest {
@@ -1061,27 +1061,27 @@ export interface BatchGetJobsRequest {
 export type JobMode = "SCRIPT" | "VISUAL" | "NOTEBOOK" | (string & {});
 export type MaxConcurrentRuns = number;
 export interface ExecutionProperty {
-  MaxConcurrentRuns?: number;
+  MaxConcurrentRuns?: number | undefined;
 }
 export type ScriptLocationString = string;
 export type PythonVersionString = string;
 export type RuntimeNameString = string;
 export interface JobCommand {
-  Name?: string;
-  ScriptLocation?: string;
-  PythonVersion?: string;
-  Runtime?: string;
+  Name?: string | undefined;
+  ScriptLocation?: string | undefined;
+  PythonVersion?: string | undefined;
+  Runtime?: string | undefined;
 }
 export type GenericMap = { [key: string]: string | undefined };
 export type ConnectionString = string;
 export type ConnectionStringList = string[];
 export interface ConnectionsList {
-  Connections?: string[];
+  Connections?: string[] | undefined;
 }
 export type MaxRetries = number;
 export type NotifyDelayAfter = number;
 export interface NotificationProperty {
-  NotifyDelayAfter?: number;
+  NotifyDelayAfter?: number | undefined;
 }
 export type NodeId = string;
 export type NodeName = string;
@@ -1090,12 +1090,12 @@ export type EnclosedInStringPropertyWithQuote = string;
 export type GlueStudioColumnNameString = string;
 export interface GlueStudioSchemaColumn {
   Name: string;
-  Type?: string;
-  GlueStudioType?: string;
+  Type?: string | undefined;
+  GlueStudioType?: string | undefined;
 }
 export type GlueStudioSchemaColumnList = GlueStudioSchemaColumn[];
 export interface GlueSchema {
-  Columns?: GlueStudioSchemaColumn[];
+  Columns?: GlueStudioSchemaColumn[] | undefined;
 }
 export type GlueSchemas = GlueSchema[];
 export interface AthenaConnectorSource {
@@ -1103,9 +1103,9 @@ export interface AthenaConnectorSource {
   ConnectionName: string;
   ConnectorName: string;
   ConnectionType: string;
-  ConnectionTable?: string;
+  ConnectionTable?: string | undefined;
   SchemaName: string;
-  OutputSchemas?: GlueSchema[];
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export type BoxedNonNegativeLong = number;
 export type EnclosedInStringProperties = string[];
@@ -1162,16 +1162,16 @@ export type GlueRecordType =
   | "SHORT"
   | "DOUBLE"
   | (string & {});
-export type JDBCDataTypeMapping = { [key in JDBCDataType]?: GlueRecordType };
+export type JDBCDataTypeMapping = { [key in JDBCDataType]?: GlueRecordType | undefined };
 export interface JDBCConnectorOptions {
-  FilterPredicate?: string;
-  PartitionColumn?: string;
-  LowerBound?: number;
-  UpperBound?: number;
-  NumPartitions?: number;
-  JobBookmarkKeys?: string[];
-  JobBookmarkKeysSortOrder?: string;
-  DataTypeMapping?: { [key: string]: GlueRecordType | undefined };
+  FilterPredicate?: string | undefined;
+  PartitionColumn?: string | undefined;
+  LowerBound?: number | undefined;
+  UpperBound?: number | undefined;
+  NumPartitions?: number | undefined;
+  JobBookmarkKeys?: string[] | undefined;
+  JobBookmarkKeysSortOrder?: string | undefined;
+  DataTypeMapping?: { [key: string]: GlueRecordType | undefined } | undefined;
 }
 export type SqlQuery = string;
 export interface JDBCConnectorSource {
@@ -1179,10 +1179,10 @@ export interface JDBCConnectorSource {
   ConnectionName: string;
   ConnectorName: string;
   ConnectionType: string;
-  AdditionalOptions?: JDBCConnectorOptions;
-  ConnectionTable?: string;
-  Query?: string;
-  OutputSchemas?: GlueSchema[];
+  AdditionalOptions?: JDBCConnectorOptions | undefined;
+  ConnectionTable?: string | undefined;
+  Query?: string | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export type AdditionalOptions = { [key: string]: string | undefined };
 export interface SparkConnectorSource {
@@ -1190,81 +1190,81 @@ export interface SparkConnectorSource {
   ConnectionName: string;
   ConnectorName: string;
   ConnectionType: string;
-  AdditionalOptions?: { [key: string]: string | undefined };
-  OutputSchemas?: GlueSchema[];
+  AdditionalOptions?: { [key: string]: string | undefined } | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface CatalogSource {
   Name: string;
   Database: string;
   Table: string;
-  PartitionPredicate?: string;
-  OutputSchemas?: GlueSchema[];
+  PartitionPredicate?: string | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface RedshiftSource {
   Name: string;
   Database: string;
   Table: string;
-  RedshiftTmpDir?: string;
-  TmpDirIAMRole?: string;
+  RedshiftTmpDir?: string | undefined;
+  TmpDirIAMRole?: string | undefined;
 }
 export type BoxedLong = number;
 export interface S3SourceAdditionalOptions {
-  BoundedSize?: number;
-  BoundedFiles?: number;
+  BoundedSize?: number | undefined;
+  BoundedFiles?: number | undefined;
 }
 export interface S3CatalogSource {
   Name: string;
   Database: string;
   Table: string;
-  PartitionPredicate?: string;
-  AdditionalOptions?: S3SourceAdditionalOptions;
+  PartitionPredicate?: string | undefined;
+  AdditionalOptions?: S3SourceAdditionalOptions | undefined;
 }
 export type CompressionType = "gzip" | "bzip2" | (string & {});
 export type BoxedBoolean = boolean;
 export type BoxedNonNegativeInt = number;
 export interface S3DirectSourceAdditionalOptions {
-  BoundedSize?: number;
-  BoundedFiles?: number;
-  EnableSamplePath?: boolean;
-  SamplePath?: string;
+  BoundedSize?: number | undefined;
+  BoundedFiles?: number | undefined;
+  EnableSamplePath?: boolean | undefined;
+  SamplePath?: string | undefined;
 }
 export type Separator = "comma" | "ctrla" | "pipe" | "semicolon" | "tab" | (string & {});
 export type QuoteChar = "quote" | "quillemet" | "single_quote" | "disabled" | (string & {});
 export interface S3CsvSource {
   Name: string;
   Paths: string[];
-  CompressionType?: CompressionType;
-  Exclusions?: string[];
-  GroupSize?: string;
-  GroupFiles?: string;
-  Recurse?: boolean;
-  MaxBand?: number;
-  MaxFilesInBand?: number;
-  AdditionalOptions?: S3DirectSourceAdditionalOptions;
+  CompressionType?: CompressionType | undefined;
+  Exclusions?: string[] | undefined;
+  GroupSize?: string | undefined;
+  GroupFiles?: string | undefined;
+  Recurse?: boolean | undefined;
+  MaxBand?: number | undefined;
+  MaxFilesInBand?: number | undefined;
+  AdditionalOptions?: S3DirectSourceAdditionalOptions | undefined;
   Separator: Separator;
-  Escaper?: string;
+  Escaper?: string | undefined;
   QuoteChar: QuoteChar;
-  Multiline?: boolean;
-  WithHeader?: boolean;
-  WriteHeader?: boolean;
-  SkipFirst?: boolean;
-  OptimizePerformance?: boolean;
-  OutputSchemas?: GlueSchema[];
+  Multiline?: boolean | undefined;
+  WithHeader?: boolean | undefined;
+  WriteHeader?: boolean | undefined;
+  SkipFirst?: boolean | undefined;
+  OptimizePerformance?: boolean | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface S3JsonSource {
   Name: string;
   Paths: string[];
-  CompressionType?: CompressionType;
-  Exclusions?: string[];
-  GroupSize?: string;
-  GroupFiles?: string;
-  Recurse?: boolean;
-  MaxBand?: number;
-  MaxFilesInBand?: number;
-  AdditionalOptions?: S3DirectSourceAdditionalOptions;
-  JsonPath?: string;
-  Multiline?: boolean;
-  OutputSchemas?: GlueSchema[];
+  CompressionType?: CompressionType | undefined;
+  Exclusions?: string[] | undefined;
+  GroupSize?: string | undefined;
+  GroupFiles?: string | undefined;
+  Recurse?: boolean | undefined;
+  MaxBand?: number | undefined;
+  MaxFilesInBand?: number | undefined;
+  AdditionalOptions?: S3DirectSourceAdditionalOptions | undefined;
+  JsonPath?: string | undefined;
+  Multiline?: boolean | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export type ParquetCompressionType =
   | "snappy"
@@ -1278,15 +1278,15 @@ export type ParquetCompressionType =
 export interface S3ParquetSource {
   Name: string;
   Paths: string[];
-  CompressionType?: ParquetCompressionType;
-  Exclusions?: string[];
-  GroupSize?: string;
-  GroupFiles?: string;
-  Recurse?: boolean;
-  MaxBand?: number;
-  MaxFilesInBand?: number;
-  AdditionalOptions?: S3DirectSourceAdditionalOptions;
-  OutputSchemas?: GlueSchema[];
+  CompressionType?: ParquetCompressionType | undefined;
+  Exclusions?: string[] | undefined;
+  GroupSize?: string | undefined;
+  GroupFiles?: string | undefined;
+  Recurse?: boolean | undefined;
+  MaxBand?: number | undefined;
+  MaxFilesInBand?: number | undefined;
+  AdditionalOptions?: S3DirectSourceAdditionalOptions | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface RelationalCatalogSource {
   Name: string;
@@ -1294,15 +1294,15 @@ export interface RelationalCatalogSource {
   Table: string;
 }
 export interface DDBELTCatalogAdditionalOptions {
-  DynamodbExport?: string;
-  DynamodbUnnestDDBJson?: boolean;
+  DynamodbExport?: string | undefined;
+  DynamodbUnnestDDBJson?: boolean | undefined;
 }
 export interface DynamoDBCatalogSource {
   Name: string;
   Database: string;
   Table: string;
-  PitrEnabled?: boolean;
-  AdditionalOptions?: DDBELTCatalogAdditionalOptions;
+  PitrEnabled?: boolean | undefined;
+  AdditionalOptions?: DDBELTCatalogAdditionalOptions | undefined;
 }
 export type OneInput = string[];
 export interface JDBCConnectorTarget {
@@ -1312,8 +1312,8 @@ export interface JDBCConnectorTarget {
   ConnectionTable: string;
   ConnectorName: string;
   ConnectionType: string;
-  AdditionalOptions?: { [key: string]: string | undefined };
-  OutputSchemas?: GlueSchema[];
+  AdditionalOptions?: { [key: string]: string | undefined } | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface SparkConnectorTarget {
   Name: string;
@@ -1321,66 +1321,66 @@ export interface SparkConnectorTarget {
   ConnectionName: string;
   ConnectorName: string;
   ConnectionType: string;
-  AdditionalOptions?: { [key: string]: string | undefined };
-  OutputSchemas?: GlueSchema[];
+  AdditionalOptions?: { [key: string]: string | undefined } | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export type GlueStudioPathList = string[][];
 export interface BasicCatalogTarget {
   Name: string;
   Inputs: string[];
-  PartitionKeys?: string[][];
+  PartitionKeys?: string[][] | undefined;
   Database: string;
   Table: string;
 }
 export type EnclosedInStringPropertiesMinOne = string[];
 export interface UpsertRedshiftTargetOptions {
-  TableLocation?: string;
-  ConnectionName?: string;
-  UpsertKeys?: string[];
+  TableLocation?: string | undefined;
+  ConnectionName?: string | undefined;
+  UpsertKeys?: string[] | undefined;
 }
 export interface RedshiftTarget {
   Name: string;
   Inputs: string[];
   Database: string;
   Table: string;
-  RedshiftTmpDir?: string;
-  TmpDirIAMRole?: string;
-  UpsertRedshiftOptions?: UpsertRedshiftTargetOptions;
+  RedshiftTmpDir?: string | undefined;
+  TmpDirIAMRole?: string | undefined;
+  UpsertRedshiftOptions?: UpsertRedshiftTargetOptions | undefined;
 }
 export type UpdateCatalogBehavior = "UPDATE_IN_DATABASE" | "LOG" | (string & {});
 export interface CatalogSchemaChangePolicy {
-  EnableUpdateCatalog?: boolean;
-  UpdateBehavior?: UpdateCatalogBehavior;
+  EnableUpdateCatalog?: boolean | undefined;
+  UpdateBehavior?: UpdateCatalogBehavior | undefined;
 }
 export interface AutoDataQuality {
-  IsEnabled?: boolean;
-  EvaluationContext?: string;
+  IsEnabled?: boolean | undefined;
+  EvaluationContext?: string | undefined;
 }
 export interface S3CatalogTarget {
   Name: string;
   Inputs: string[];
-  PartitionKeys?: string[][];
+  PartitionKeys?: string[][] | undefined;
   Table: string;
   Database: string;
-  SchemaChangePolicy?: CatalogSchemaChangePolicy;
-  AutoDataQuality?: AutoDataQuality;
+  SchemaChangePolicy?: CatalogSchemaChangePolicy | undefined;
+  AutoDataQuality?: AutoDataQuality | undefined;
 }
 export type NumberTargetPartitionsString = string;
 export interface DirectSchemaChangePolicy {
-  EnableUpdateCatalog?: boolean;
-  UpdateBehavior?: UpdateCatalogBehavior;
-  Table?: string;
-  Database?: string;
+  EnableUpdateCatalog?: boolean | undefined;
+  UpdateBehavior?: UpdateCatalogBehavior | undefined;
+  Table?: string | undefined;
+  Database?: string | undefined;
 }
 export interface S3GlueParquetTarget {
   Name: string;
   Inputs: string[];
-  PartitionKeys?: string[][];
+  PartitionKeys?: string[][] | undefined;
   Path: string;
-  Compression?: ParquetCompressionType;
-  NumberTargetPartitions?: string;
-  SchemaChangePolicy?: DirectSchemaChangePolicy;
-  AutoDataQuality?: AutoDataQuality;
+  Compression?: ParquetCompressionType | undefined;
+  NumberTargetPartitions?: string | undefined;
+  SchemaChangePolicy?: DirectSchemaChangePolicy | undefined;
+  AutoDataQuality?: AutoDataQuality | undefined;
 }
 export type TargetFormat =
   | "json"
@@ -1397,22 +1397,22 @@ export type TargetFormat =
 export interface S3DirectTarget {
   Name: string;
   Inputs: string[];
-  PartitionKeys?: string[][];
+  PartitionKeys?: string[][] | undefined;
   Path: string;
-  Compression?: string;
-  NumberTargetPartitions?: string;
+  Compression?: string | undefined;
+  NumberTargetPartitions?: string | undefined;
   Format: TargetFormat;
-  SchemaChangePolicy?: DirectSchemaChangePolicy;
-  AutoDataQuality?: AutoDataQuality;
-  OutputSchemas?: GlueSchema[];
+  SchemaChangePolicy?: DirectSchemaChangePolicy | undefined;
+  AutoDataQuality?: AutoDataQuality | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface Mapping {
-  ToKey?: string;
-  FromPath?: string[];
-  FromType?: string;
-  ToType?: string;
-  Dropped?: boolean;
-  Children?: Mapping[];
+  ToKey?: string | undefined;
+  FromPath?: string[] | undefined;
+  FromType?: string | undefined;
+  ToType?: string | undefined;
+  Dropped?: boolean | undefined;
+  Children?: Mapping[] | undefined;
 }
 export type Mappings = Mapping[];
 export interface ApplyMapping {
@@ -1442,8 +1442,8 @@ export interface Spigot {
   Name: string;
   Inputs: string[];
   Path: string;
-  Topk?: number;
-  Prob?: number;
+  Topk?: number | undefined;
+  Prob?: number | undefined;
 }
 export type TwoInputs = string[];
 export type JoinType =
@@ -1480,7 +1480,7 @@ export interface FillMissingValues {
   Name: string;
   Inputs: string[];
   ImputedPath: string;
-  FilledPath?: string;
+  FilledPath?: string | undefined;
 }
 export type FilterLogicalOperator = "AND" | "OR" | (string & {});
 export type FilterOperation =
@@ -1500,7 +1500,7 @@ export interface FilterValue {
 export type FilterValues = FilterValue[];
 export interface FilterExpression {
   Operation: FilterOperation;
-  Negated?: boolean;
+  Negated?: boolean | undefined;
   Values: FilterValue[];
 }
 export type FilterExpressions = FilterExpression[];
@@ -1517,7 +1517,7 @@ export interface CustomCode {
   Inputs: string[];
   Code: string;
   ClassName: string;
-  OutputSchemas?: GlueSchema[];
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface SqlAlias {
   From: string;
@@ -1529,98 +1529,98 @@ export interface SparkSQL {
   Inputs: string[];
   SqlQuery: string;
   SqlAliases: SqlAlias[];
-  OutputSchemas?: GlueSchema[];
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export type BoxedPositiveInt = number;
 export type StartingPosition = "latest" | "trim_horizon" | "earliest" | "timestamp" | (string & {});
 export type Iso8601DateTime = Date;
 export interface KinesisStreamingSourceOptions {
-  EndpointUrl?: string;
-  StreamName?: string;
-  Classification?: string;
-  Delimiter?: string;
-  StartingPosition?: StartingPosition;
-  MaxFetchTimeInMs?: number;
-  MaxFetchRecordsPerShard?: number;
-  MaxRecordPerRead?: number;
-  AddIdleTimeBetweenReads?: boolean;
-  IdleTimeBetweenReadsInMs?: number;
-  DescribeShardInterval?: number;
-  NumRetries?: number;
-  RetryIntervalMs?: number;
-  MaxRetryIntervalMs?: number;
-  AvoidEmptyBatches?: boolean;
-  StreamArn?: string;
-  RoleArn?: string;
-  RoleSessionName?: string;
-  AddRecordTimestamp?: string;
-  EmitConsumerLagMetrics?: string;
-  StartingTimestamp?: Date;
-  FanoutConsumerARN?: string;
+  EndpointUrl?: string | undefined;
+  StreamName?: string | undefined;
+  Classification?: string | undefined;
+  Delimiter?: string | undefined;
+  StartingPosition?: StartingPosition | undefined;
+  MaxFetchTimeInMs?: number | undefined;
+  MaxFetchRecordsPerShard?: number | undefined;
+  MaxRecordPerRead?: number | undefined;
+  AddIdleTimeBetweenReads?: boolean | undefined;
+  IdleTimeBetweenReadsInMs?: number | undefined;
+  DescribeShardInterval?: number | undefined;
+  NumRetries?: number | undefined;
+  RetryIntervalMs?: number | undefined;
+  MaxRetryIntervalMs?: number | undefined;
+  AvoidEmptyBatches?: boolean | undefined;
+  StreamArn?: string | undefined;
+  RoleArn?: string | undefined;
+  RoleSessionName?: string | undefined;
+  AddRecordTimestamp?: string | undefined;
+  EmitConsumerLagMetrics?: string | undefined;
+  StartingTimestamp?: Date | undefined;
+  FanoutConsumerARN?: string | undefined;
 }
 export type PollingTime = number;
 export type PositiveLong = number;
 export interface StreamingDataPreviewOptions {
-  PollingTime?: number;
-  RecordPollingLimit?: number;
+  PollingTime?: number | undefined;
+  RecordPollingLimit?: number | undefined;
 }
 export interface DirectKinesisSource {
   Name: string;
-  WindowSize?: number;
-  DetectSchema?: boolean;
-  StreamingOptions?: KinesisStreamingSourceOptions;
-  DataPreviewOptions?: StreamingDataPreviewOptions;
+  WindowSize?: number | undefined;
+  DetectSchema?: boolean | undefined;
+  StreamingOptions?: KinesisStreamingSourceOptions | undefined;
+  DataPreviewOptions?: StreamingDataPreviewOptions | undefined;
 }
 export interface KafkaStreamingSourceOptions {
-  BootstrapServers?: string;
-  SecurityProtocol?: string;
-  ConnectionName?: string;
-  TopicName?: string;
-  Assign?: string;
-  SubscribePattern?: string;
-  Classification?: string;
-  Delimiter?: string;
-  StartingOffsets?: string;
-  EndingOffsets?: string;
-  PollTimeoutMs?: number;
-  NumRetries?: number;
-  RetryIntervalMs?: number;
-  MaxOffsetsPerTrigger?: number;
-  MinPartitions?: number;
-  IncludeHeaders?: boolean;
-  AddRecordTimestamp?: string;
-  EmitConsumerLagMetrics?: string;
-  StartingTimestamp?: Date;
+  BootstrapServers?: string | undefined;
+  SecurityProtocol?: string | undefined;
+  ConnectionName?: string | undefined;
+  TopicName?: string | undefined;
+  Assign?: string | undefined;
+  SubscribePattern?: string | undefined;
+  Classification?: string | undefined;
+  Delimiter?: string | undefined;
+  StartingOffsets?: string | undefined;
+  EndingOffsets?: string | undefined;
+  PollTimeoutMs?: number | undefined;
+  NumRetries?: number | undefined;
+  RetryIntervalMs?: number | undefined;
+  MaxOffsetsPerTrigger?: number | undefined;
+  MinPartitions?: number | undefined;
+  IncludeHeaders?: boolean | undefined;
+  AddRecordTimestamp?: string | undefined;
+  EmitConsumerLagMetrics?: string | undefined;
+  StartingTimestamp?: Date | undefined;
 }
 export interface DirectKafkaSource {
   Name: string;
-  StreamingOptions?: KafkaStreamingSourceOptions;
-  WindowSize?: number;
-  DetectSchema?: boolean;
-  DataPreviewOptions?: StreamingDataPreviewOptions;
+  StreamingOptions?: KafkaStreamingSourceOptions | undefined;
+  WindowSize?: number | undefined;
+  DetectSchema?: boolean | undefined;
+  DataPreviewOptions?: StreamingDataPreviewOptions | undefined;
 }
 export interface CatalogKinesisSource {
   Name: string;
-  WindowSize?: number;
-  DetectSchema?: boolean;
+  WindowSize?: number | undefined;
+  DetectSchema?: boolean | undefined;
   Table: string;
   Database: string;
-  StreamingOptions?: KinesisStreamingSourceOptions;
-  DataPreviewOptions?: StreamingDataPreviewOptions;
+  StreamingOptions?: KinesisStreamingSourceOptions | undefined;
+  DataPreviewOptions?: StreamingDataPreviewOptions | undefined;
 }
 export interface CatalogKafkaSource {
   Name: string;
-  WindowSize?: number;
-  DetectSchema?: boolean;
+  WindowSize?: number | undefined;
+  DetectSchema?: boolean | undefined;
   Table: string;
   Database: string;
-  StreamingOptions?: KafkaStreamingSourceOptions;
-  DataPreviewOptions?: StreamingDataPreviewOptions;
+  StreamingOptions?: KafkaStreamingSourceOptions | undefined;
+  DataPreviewOptions?: StreamingDataPreviewOptions | undefined;
 }
 export interface NullCheckBoxList {
-  IsEmpty?: boolean;
-  IsNullString?: boolean;
-  IsNegOne?: boolean;
+  IsEmpty?: boolean | undefined;
+  IsNullString?: boolean | undefined;
+  IsNegOne?: boolean | undefined;
 }
 export type GenericLimitedString = string;
 export interface Datatype {
@@ -1635,8 +1635,8 @@ export type NullValueFields = NullValueField[];
 export interface DropNullFields {
   Name: string;
   Inputs: string[];
-  NullCheckBoxList?: NullCheckBoxList;
-  NullTextList?: NullValueField[];
+  NullCheckBoxList?: NullCheckBoxList | undefined;
+  NullTextList?: NullValueField[] | undefined;
 }
 export interface Merge {
   Name: string;
@@ -1666,17 +1666,17 @@ export interface PIIDetection {
   Inputs: string[];
   PiiType: PiiType;
   EntityTypesToDetect: string[];
-  OutputColumnName?: string;
-  SampleFraction?: number;
-  ThresholdFraction?: number;
-  MaskValue?: string;
-  RedactText?: string;
-  RedactChar?: string;
-  MatchPattern?: string;
-  NumLeftCharsToExclude?: number;
-  NumRightCharsToExclude?: number;
-  DetectionParameters?: string;
-  DetectionSensitivity?: string;
+  OutputColumnName?: string | undefined;
+  SampleFraction?: number | undefined;
+  ThresholdFraction?: number | undefined;
+  MaskValue?: string | undefined;
+  RedactText?: string | undefined;
+  RedactChar?: string | undefined;
+  MatchPattern?: string | undefined;
+  NumLeftCharsToExclude?: number | undefined;
+  NumRightCharsToExclude?: number | undefined;
+  DetectionParameters?: string | undefined;
+  DetectionSensitivity?: string | undefined;
 }
 export type AggFunction =
   | "avg"
@@ -1711,22 +1711,22 @@ export type LimitedPathList = string[][];
 export interface DropDuplicates {
   Name: string;
   Inputs: string[];
-  Columns?: string[][];
+  Columns?: string[][] | undefined;
 }
 export interface GovernedCatalogTarget {
   Name: string;
   Inputs: string[];
-  PartitionKeys?: string[][];
+  PartitionKeys?: string[][] | undefined;
   Table: string;
   Database: string;
-  SchemaChangePolicy?: CatalogSchemaChangePolicy;
+  SchemaChangePolicy?: CatalogSchemaChangePolicy | undefined;
 }
 export interface GovernedCatalogSource {
   Name: string;
   Database: string;
   Table: string;
-  PartitionPredicate?: string;
-  AdditionalOptions?: S3SourceAdditionalOptions;
+  PartitionPredicate?: string | undefined;
+  AdditionalOptions?: S3SourceAdditionalOptions | undefined;
 }
 export interface MicrosoftSQLServerCatalogSource {
   Name: string;
@@ -1795,74 +1795,74 @@ export type ParamType =
 export interface TransformConfigParameter {
   Name: string;
   Type: ParamType;
-  ValidationRule?: string;
-  ValidationMessage?: string;
-  Value?: string[];
-  ListType?: ParamType;
-  IsOptional?: boolean;
+  ValidationRule?: string | undefined;
+  ValidationMessage?: string | undefined;
+  Value?: string[] | undefined;
+  ListType?: ParamType | undefined;
+  IsOptional?: boolean | undefined;
 }
 export type TransformConfigParameterList = TransformConfigParameter[];
 export interface DynamicTransform {
   Name: string;
   TransformName: string;
   Inputs: string[];
-  Parameters?: TransformConfigParameter[];
+  Parameters?: TransformConfigParameter[] | undefined;
   FunctionName: string;
   Path: string;
-  Version?: string;
-  OutputSchemas?: GlueSchema[];
+  Version?: string | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export type DQDLString = string;
 export type DQTransformOutput = "PrimaryInput" | "EvaluationResults" | (string & {});
 export interface DQResultsPublishingOptions {
-  EvaluationContext?: string;
-  ResultsS3Prefix?: string;
-  CloudWatchMetricsEnabled?: boolean;
-  ResultsPublishingEnabled?: boolean;
+  EvaluationContext?: string | undefined;
+  ResultsS3Prefix?: string | undefined;
+  CloudWatchMetricsEnabled?: boolean | undefined;
+  ResultsPublishingEnabled?: boolean | undefined;
 }
 export type DQStopJobOnFailureTiming = "Immediate" | "AfterDataLoad" | (string & {});
 export interface DQStopJobOnFailureOptions {
-  StopJobOnFailureTiming?: DQStopJobOnFailureTiming;
+  StopJobOnFailureTiming?: DQStopJobOnFailureTiming | undefined;
 }
 export interface EvaluateDataQuality {
   Name: string;
   Inputs: string[];
   Ruleset: string;
-  Output?: DQTransformOutput;
-  PublishingOptions?: DQResultsPublishingOptions;
-  StopJobOnFailureOptions?: DQStopJobOnFailureOptions;
+  Output?: DQTransformOutput | undefined;
+  PublishingOptions?: DQResultsPublishingOptions | undefined;
+  StopJobOnFailureOptions?: DQStopJobOnFailureOptions | undefined;
 }
 export interface S3CatalogHudiSource {
   Name: string;
   Database: string;
   Table: string;
-  AdditionalHudiOptions?: { [key: string]: string | undefined };
-  OutputSchemas?: GlueSchema[];
+  AdditionalHudiOptions?: { [key: string]: string | undefined } | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface CatalogHudiSource {
   Name: string;
   Database: string;
   Table: string;
-  AdditionalHudiOptions?: { [key: string]: string | undefined };
-  OutputSchemas?: GlueSchema[];
+  AdditionalHudiOptions?: { [key: string]: string | undefined } | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface S3HudiSource {
   Name: string;
   Paths: string[];
-  AdditionalHudiOptions?: { [key: string]: string | undefined };
-  AdditionalOptions?: S3DirectSourceAdditionalOptions;
-  OutputSchemas?: GlueSchema[];
+  AdditionalHudiOptions?: { [key: string]: string | undefined } | undefined;
+  AdditionalOptions?: S3DirectSourceAdditionalOptions | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface S3HudiCatalogTarget {
   Name: string;
   Inputs: string[];
-  PartitionKeys?: string[][];
+  PartitionKeys?: string[][] | undefined;
   Table: string;
   Database: string;
   AdditionalOptions: { [key: string]: string | undefined };
-  SchemaChangePolicy?: CatalogSchemaChangePolicy;
-  AutoDataQuality?: AutoDataQuality;
-  OutputSchemas?: GlueSchema[];
+  SchemaChangePolicy?: CatalogSchemaChangePolicy | undefined;
+  AutoDataQuality?: AutoDataQuality | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export type HudiTargetCompressionType = "gzip" | "lzo" | "uncompressed" | "snappy" | (string & {});
 export interface S3HudiDirectTarget {
@@ -1870,12 +1870,12 @@ export interface S3HudiDirectTarget {
   Inputs: string[];
   Path: string;
   Compression: HudiTargetCompressionType;
-  NumberTargetPartitions?: string;
-  PartitionKeys?: string[][];
+  NumberTargetPartitions?: string | undefined;
+  PartitionKeys?: string[][] | undefined;
   Format: TargetFormat;
   AdditionalOptions: { [key: string]: string | undefined };
-  SchemaChangePolicy?: DirectSchemaChangePolicy;
-  AutoDataQuality?: AutoDataQuality;
+  SchemaChangePolicy?: DirectSchemaChangePolicy | undefined;
+  AutoDataQuality?: AutoDataQuality | undefined;
 }
 export type JDBCConnectionType =
   | "sqlserver"
@@ -1890,101 +1890,101 @@ export interface DirectJDBCSource {
   Table: string;
   ConnectionName: string;
   ConnectionType: JDBCConnectionType;
-  RedshiftTmpDir?: string;
-  OutputSchemas?: GlueSchema[];
+  RedshiftTmpDir?: string | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface S3CatalogDeltaSource {
   Name: string;
   Database: string;
   Table: string;
-  AdditionalDeltaOptions?: { [key: string]: string | undefined };
-  OutputSchemas?: GlueSchema[];
+  AdditionalDeltaOptions?: { [key: string]: string | undefined } | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface CatalogDeltaSource {
   Name: string;
   Database: string;
   Table: string;
-  AdditionalDeltaOptions?: { [key: string]: string | undefined };
-  OutputSchemas?: GlueSchema[];
+  AdditionalDeltaOptions?: { [key: string]: string | undefined } | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface S3DeltaSource {
   Name: string;
   Paths: string[];
-  AdditionalDeltaOptions?: { [key: string]: string | undefined };
-  AdditionalOptions?: S3DirectSourceAdditionalOptions;
-  OutputSchemas?: GlueSchema[];
+  AdditionalDeltaOptions?: { [key: string]: string | undefined } | undefined;
+  AdditionalOptions?: S3DirectSourceAdditionalOptions | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface S3DeltaCatalogTarget {
   Name: string;
   Inputs: string[];
-  PartitionKeys?: string[][];
+  PartitionKeys?: string[][] | undefined;
   Table: string;
   Database: string;
-  AdditionalOptions?: { [key: string]: string | undefined };
-  SchemaChangePolicy?: CatalogSchemaChangePolicy;
-  AutoDataQuality?: AutoDataQuality;
-  OutputSchemas?: GlueSchema[];
+  AdditionalOptions?: { [key: string]: string | undefined } | undefined;
+  SchemaChangePolicy?: CatalogSchemaChangePolicy | undefined;
+  AutoDataQuality?: AutoDataQuality | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export type DeltaTargetCompressionType = "uncompressed" | "snappy" | (string & {});
 export interface S3DeltaDirectTarget {
   Name: string;
   Inputs: string[];
-  PartitionKeys?: string[][];
+  PartitionKeys?: string[][] | undefined;
   Path: string;
   Compression: DeltaTargetCompressionType;
-  NumberTargetPartitions?: string;
+  NumberTargetPartitions?: string | undefined;
   Format: TargetFormat;
-  AdditionalOptions?: { [key: string]: string | undefined };
-  SchemaChangePolicy?: DirectSchemaChangePolicy;
-  AutoDataQuality?: AutoDataQuality;
+  AdditionalOptions?: { [key: string]: string | undefined } | undefined;
+  SchemaChangePolicy?: DirectSchemaChangePolicy | undefined;
+  AutoDataQuality?: AutoDataQuality | undefined;
 }
 export interface Option {
-  Value?: string;
-  Label?: string;
-  Description?: string;
+  Value?: string | undefined;
+  Label?: string | undefined;
+  Description?: string | undefined;
 }
 export interface AmazonRedshiftAdvancedOption {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type AmazonRedshiftAdvancedOptions = AmazonRedshiftAdvancedOption[];
 export type OptionList = Option[];
 export interface AmazonRedshiftNodeData {
-  AccessType?: string;
-  SourceType?: string;
-  Connection?: Option;
-  Schema?: Option;
-  Table?: Option;
-  CatalogDatabase?: Option;
-  CatalogTable?: Option;
-  CatalogRedshiftSchema?: string;
-  CatalogRedshiftTable?: string;
-  TempDir?: string;
-  IamRole?: Option;
-  AdvancedOptions?: AmazonRedshiftAdvancedOption[];
-  SampleQuery?: string;
-  PreAction?: string;
-  PostAction?: string;
-  Action?: string;
-  TablePrefix?: string;
-  Upsert?: boolean;
-  MergeAction?: string;
-  MergeWhenMatched?: string;
-  MergeWhenNotMatched?: string;
-  MergeClause?: string;
-  CrawlerConnection?: string;
-  TableSchema?: Option[];
-  StagingTable?: string;
-  SelectedColumns?: Option[];
+  AccessType?: string | undefined;
+  SourceType?: string | undefined;
+  Connection?: Option | undefined;
+  Schema?: Option | undefined;
+  Table?: Option | undefined;
+  CatalogDatabase?: Option | undefined;
+  CatalogTable?: Option | undefined;
+  CatalogRedshiftSchema?: string | undefined;
+  CatalogRedshiftTable?: string | undefined;
+  TempDir?: string | undefined;
+  IamRole?: Option | undefined;
+  AdvancedOptions?: AmazonRedshiftAdvancedOption[] | undefined;
+  SampleQuery?: string | undefined;
+  PreAction?: string | undefined;
+  PostAction?: string | undefined;
+  Action?: string | undefined;
+  TablePrefix?: string | undefined;
+  Upsert?: boolean | undefined;
+  MergeAction?: string | undefined;
+  MergeWhenMatched?: string | undefined;
+  MergeWhenNotMatched?: string | undefined;
+  MergeClause?: string | undefined;
+  CrawlerConnection?: string | undefined;
+  TableSchema?: Option[] | undefined;
+  StagingTable?: string | undefined;
+  SelectedColumns?: Option[] | undefined;
 }
 export interface AmazonRedshiftSource {
-  Name?: string;
-  Data?: AmazonRedshiftNodeData;
+  Name?: string | undefined;
+  Data?: AmazonRedshiftNodeData | undefined;
 }
 export interface AmazonRedshiftTarget {
-  Name?: string;
-  Data?: AmazonRedshiftNodeData;
-  Inputs?: string[];
+  Name?: string | undefined;
+  Data?: AmazonRedshiftNodeData | undefined;
+  Inputs?: string[] | undefined;
 }
 export type DQDLAliases = { [key: string]: string | undefined };
 export type AdditionalOptionKeys =
@@ -1992,15 +1992,15 @@ export type AdditionalOptionKeys =
   | "observations.scope"
   | "compositeRuleEvaluation.method"
   | (string & {});
-export type DQAdditionalOptions = { [key in AdditionalOptionKeys]?: string };
+export type DQAdditionalOptions = { [key in AdditionalOptionKeys]?: string | undefined };
 export interface EvaluateDataQualityMultiFrame {
   Name: string;
   Inputs: string[];
-  AdditionalDataSources?: { [key: string]: string | undefined };
+  AdditionalDataSources?: { [key: string]: string | undefined } | undefined;
   Ruleset: string;
-  PublishingOptions?: DQResultsPublishingOptions;
-  AdditionalOptions?: { [key: string]: string | undefined };
-  StopJobOnFailureOptions?: DQStopJobOnFailureOptions;
+  PublishingOptions?: DQResultsPublishingOptions | undefined;
+  AdditionalOptions?: { [key: string]: string | undefined } | undefined;
+  StopJobOnFailureOptions?: DQStopJobOnFailureOptions | undefined;
 }
 export type RecipeVersion = string;
 export interface RecipeReference {
@@ -2013,97 +2013,97 @@ export type ParameterValue = string;
 export type ParameterMap = { [key: string]: string | undefined };
 export interface RecipeAction {
   Operation: string;
-  Parameters?: { [key: string]: string | undefined };
+  Parameters?: { [key: string]: string | undefined } | undefined;
 }
 export type DatabrewCondition = string;
 export type DatabrewConditionValue = string;
 export type TargetColumn = string;
 export interface ConditionExpression {
   Condition: string;
-  Value?: string;
+  Value?: string | undefined;
   TargetColumn: string;
 }
 export type ConditionExpressionList = ConditionExpression[];
 export interface RecipeStep {
   Action: RecipeAction;
-  ConditionExpressions?: ConditionExpression[];
+  ConditionExpressions?: ConditionExpression[] | undefined;
 }
 export type RecipeSteps = RecipeStep[];
 export interface Recipe {
   Name: string;
   Inputs: string[];
-  RecipeReference?: RecipeReference;
-  RecipeSteps?: RecipeStep[];
+  RecipeReference?: RecipeReference | undefined;
+  RecipeSteps?: RecipeStep[] | undefined;
 }
 export interface SnowflakeNodeData {
-  SourceType?: string;
-  Connection?: Option;
-  Schema?: string;
-  Table?: string;
-  Database?: string;
-  TempDir?: string;
-  IamRole?: Option;
-  AdditionalOptions?: { [key: string]: string | undefined };
-  SampleQuery?: string;
-  PreAction?: string;
-  PostAction?: string;
-  Action?: string;
-  Upsert?: boolean;
-  MergeAction?: string;
-  MergeWhenMatched?: string;
-  MergeWhenNotMatched?: string;
-  MergeClause?: string;
-  StagingTable?: string;
-  SelectedColumns?: Option[];
-  AutoPushdown?: boolean;
-  TableSchema?: Option[];
+  SourceType?: string | undefined;
+  Connection?: Option | undefined;
+  Schema?: string | undefined;
+  Table?: string | undefined;
+  Database?: string | undefined;
+  TempDir?: string | undefined;
+  IamRole?: Option | undefined;
+  AdditionalOptions?: { [key: string]: string | undefined } | undefined;
+  SampleQuery?: string | undefined;
+  PreAction?: string | undefined;
+  PostAction?: string | undefined;
+  Action?: string | undefined;
+  Upsert?: boolean | undefined;
+  MergeAction?: string | undefined;
+  MergeWhenMatched?: string | undefined;
+  MergeWhenNotMatched?: string | undefined;
+  MergeClause?: string | undefined;
+  StagingTable?: string | undefined;
+  SelectedColumns?: Option[] | undefined;
+  AutoPushdown?: boolean | undefined;
+  TableSchema?: Option[] | undefined;
 }
 export interface SnowflakeSource {
   Name: string;
   Data: SnowflakeNodeData;
-  OutputSchemas?: GlueSchema[];
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface SnowflakeTarget {
   Name: string;
   Data: SnowflakeNodeData;
-  Inputs?: string[];
+  Inputs?: string[] | undefined;
 }
 export type ConnectorOptions = { [key: string]: string | undefined };
 export interface ConnectorDataSource {
   Name: string;
   ConnectionType: string;
   Data: { [key: string]: string | undefined };
-  OutputSchemas?: GlueSchema[];
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface ConnectorDataTarget {
   Name: string;
   ConnectionType: string;
   Data: { [key: string]: string | undefined };
-  Inputs?: string[];
+  Inputs?: string[] | undefined;
 }
 export interface S3CatalogIcebergSource {
   Name: string;
   Database: string;
   Table: string;
-  AdditionalIcebergOptions?: { [key: string]: string | undefined };
-  OutputSchemas?: GlueSchema[];
+  AdditionalIcebergOptions?: { [key: string]: string | undefined } | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface CatalogIcebergSource {
   Name: string;
   Database: string;
   Table: string;
-  AdditionalIcebergOptions?: { [key: string]: string | undefined };
-  OutputSchemas?: GlueSchema[];
+  AdditionalIcebergOptions?: { [key: string]: string | undefined } | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface S3IcebergCatalogTarget {
   Name: string;
   Inputs: string[];
-  PartitionKeys?: string[][];
+  PartitionKeys?: string[][] | undefined;
   Table: string;
   Database: string;
-  AdditionalOptions?: { [key: string]: string | undefined };
-  SchemaChangePolicy?: CatalogSchemaChangePolicy;
-  AutoDataQuality?: AutoDataQuality;
+  AdditionalOptions?: { [key: string]: string | undefined } | undefined;
+  SchemaChangePolicy?: CatalogSchemaChangePolicy | undefined;
+  AutoDataQuality?: AutoDataQuality | undefined;
 }
 export type IcebergTargetCompressionType =
   | "gzip"
@@ -2114,138 +2114,138 @@ export type IcebergTargetCompressionType =
 export interface S3IcebergDirectTarget {
   Name: string;
   Inputs: string[];
-  PartitionKeys?: string[][];
+  PartitionKeys?: string[][] | undefined;
   Path: string;
   Format: TargetFormat;
-  AdditionalOptions?: { [key: string]: string | undefined };
-  SchemaChangePolicy?: DirectSchemaChangePolicy;
-  AutoDataQuality?: AutoDataQuality;
+  AdditionalOptions?: { [key: string]: string | undefined } | undefined;
+  SchemaChangePolicy?: DirectSchemaChangePolicy | undefined;
+  AutoDataQuality?: AutoDataQuality | undefined;
   Compression: IcebergTargetCompressionType;
-  NumberTargetPartitions?: string;
-  OutputSchemas?: GlueSchema[];
+  NumberTargetPartitions?: string | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface S3ExcelSource {
   Name: string;
   Paths: string[];
-  CompressionType?: ParquetCompressionType;
-  Exclusions?: string[];
-  GroupSize?: string;
-  GroupFiles?: string;
-  Recurse?: boolean;
-  MaxBand?: number;
-  MaxFilesInBand?: number;
-  AdditionalOptions?: S3DirectSourceAdditionalOptions;
-  NumberRows?: number;
-  SkipFooter?: number;
-  OutputSchemas?: GlueSchema[];
+  CompressionType?: ParquetCompressionType | undefined;
+  Exclusions?: string[] | undefined;
+  GroupSize?: string | undefined;
+  GroupFiles?: string | undefined;
+  Recurse?: boolean | undefined;
+  MaxBand?: number | undefined;
+  MaxFilesInBand?: number | undefined;
+  AdditionalOptions?: S3DirectSourceAdditionalOptions | undefined;
+  NumberRows?: number | undefined;
+  SkipFooter?: number | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export type HyperTargetCompressionType = "uncompressed" | (string & {});
 export interface S3HyperDirectTarget {
   Name: string;
   Inputs: string[];
-  Format?: TargetFormat;
-  PartitionKeys?: string[][];
+  Format?: TargetFormat | undefined;
+  PartitionKeys?: string[][] | undefined;
   Path: string;
-  Compression?: HyperTargetCompressionType;
-  SchemaChangePolicy?: DirectSchemaChangePolicy;
-  AutoDataQuality?: AutoDataQuality;
-  OutputSchemas?: GlueSchema[];
+  Compression?: HyperTargetCompressionType | undefined;
+  SchemaChangePolicy?: DirectSchemaChangePolicy | undefined;
+  AutoDataQuality?: AutoDataQuality | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export type DdbExportType = "ddb" | "s3" | (string & {});
 export interface DDBELTConnectionOptions {
-  DynamodbExport?: DdbExportType;
-  DynamodbUnnestDDBJson?: boolean;
+  DynamodbExport?: DdbExportType | undefined;
+  DynamodbUnnestDDBJson?: boolean | undefined;
   DynamodbTableArn: string;
-  DynamodbS3Bucket?: string;
-  DynamodbS3Prefix?: string;
-  DynamodbS3BucketOwner?: string;
-  DynamodbStsRoleArn?: string;
+  DynamodbS3Bucket?: string | undefined;
+  DynamodbS3Prefix?: string | undefined;
+  DynamodbS3BucketOwner?: string | undefined;
+  DynamodbStsRoleArn?: string | undefined;
 }
 export interface DynamoDBELTConnectorSource {
   Name: string;
-  ConnectionOptions?: DDBELTConnectionOptions;
-  OutputSchemas?: GlueSchema[];
+  ConnectionOptions?: DDBELTConnectionOptions | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface CodeGenConfigurationNode {
-  AthenaConnectorSource?: AthenaConnectorSource;
-  JDBCConnectorSource?: JDBCConnectorSource;
-  SparkConnectorSource?: SparkConnectorSource;
-  CatalogSource?: CatalogSource;
-  RedshiftSource?: RedshiftSource;
-  S3CatalogSource?: S3CatalogSource;
-  S3CsvSource?: S3CsvSource;
-  S3JsonSource?: S3JsonSource;
-  S3ParquetSource?: S3ParquetSource;
-  RelationalCatalogSource?: RelationalCatalogSource;
-  DynamoDBCatalogSource?: DynamoDBCatalogSource;
-  JDBCConnectorTarget?: JDBCConnectorTarget;
-  SparkConnectorTarget?: SparkConnectorTarget;
-  CatalogTarget?: BasicCatalogTarget;
-  RedshiftTarget?: RedshiftTarget;
-  S3CatalogTarget?: S3CatalogTarget;
-  S3GlueParquetTarget?: S3GlueParquetTarget;
-  S3DirectTarget?: S3DirectTarget;
-  ApplyMapping?: ApplyMapping;
-  SelectFields?: SelectFields;
-  DropFields?: DropFields;
-  RenameField?: RenameField;
-  Spigot?: Spigot;
-  Join?: Join;
-  SplitFields?: SplitFields;
-  SelectFromCollection?: SelectFromCollection;
-  FillMissingValues?: FillMissingValues;
-  Filter?: Filter;
-  CustomCode?: CustomCode;
-  SparkSQL?: SparkSQL;
-  DirectKinesisSource?: DirectKinesisSource;
-  DirectKafkaSource?: DirectKafkaSource;
-  CatalogKinesisSource?: CatalogKinesisSource;
-  CatalogKafkaSource?: CatalogKafkaSource;
-  DropNullFields?: DropNullFields;
-  Merge?: Merge;
-  Union?: Union;
-  PIIDetection?: PIIDetection;
-  Aggregate?: Aggregate;
-  DropDuplicates?: DropDuplicates;
-  GovernedCatalogTarget?: GovernedCatalogTarget;
-  GovernedCatalogSource?: GovernedCatalogSource;
-  MicrosoftSQLServerCatalogSource?: MicrosoftSQLServerCatalogSource;
-  MySQLCatalogSource?: MySQLCatalogSource;
-  OracleSQLCatalogSource?: OracleSQLCatalogSource;
-  PostgreSQLCatalogSource?: PostgreSQLCatalogSource;
-  MicrosoftSQLServerCatalogTarget?: MicrosoftSQLServerCatalogTarget;
-  MySQLCatalogTarget?: MySQLCatalogTarget;
-  OracleSQLCatalogTarget?: OracleSQLCatalogTarget;
-  PostgreSQLCatalogTarget?: PostgreSQLCatalogTarget;
-  Route?: Route;
-  DynamicTransform?: DynamicTransform;
-  EvaluateDataQuality?: EvaluateDataQuality;
-  S3CatalogHudiSource?: S3CatalogHudiSource;
-  CatalogHudiSource?: CatalogHudiSource;
-  S3HudiSource?: S3HudiSource;
-  S3HudiCatalogTarget?: S3HudiCatalogTarget;
-  S3HudiDirectTarget?: S3HudiDirectTarget;
-  DirectJDBCSource?: DirectJDBCSource;
-  S3CatalogDeltaSource?: S3CatalogDeltaSource;
-  CatalogDeltaSource?: CatalogDeltaSource;
-  S3DeltaSource?: S3DeltaSource;
-  S3DeltaCatalogTarget?: S3DeltaCatalogTarget;
-  S3DeltaDirectTarget?: S3DeltaDirectTarget;
-  AmazonRedshiftSource?: AmazonRedshiftSource;
-  AmazonRedshiftTarget?: AmazonRedshiftTarget;
-  EvaluateDataQualityMultiFrame?: EvaluateDataQualityMultiFrame;
-  Recipe?: Recipe;
-  SnowflakeSource?: SnowflakeSource;
-  SnowflakeTarget?: SnowflakeTarget;
-  ConnectorDataSource?: ConnectorDataSource;
-  ConnectorDataTarget?: ConnectorDataTarget;
-  S3CatalogIcebergSource?: S3CatalogIcebergSource;
-  CatalogIcebergSource?: CatalogIcebergSource;
-  S3IcebergCatalogTarget?: S3IcebergCatalogTarget;
-  S3IcebergDirectTarget?: S3IcebergDirectTarget;
-  S3ExcelSource?: S3ExcelSource;
-  S3HyperDirectTarget?: S3HyperDirectTarget;
-  DynamoDBELTConnectorSource?: DynamoDBELTConnectorSource;
+  AthenaConnectorSource?: AthenaConnectorSource | undefined;
+  JDBCConnectorSource?: JDBCConnectorSource | undefined;
+  SparkConnectorSource?: SparkConnectorSource | undefined;
+  CatalogSource?: CatalogSource | undefined;
+  RedshiftSource?: RedshiftSource | undefined;
+  S3CatalogSource?: S3CatalogSource | undefined;
+  S3CsvSource?: S3CsvSource | undefined;
+  S3JsonSource?: S3JsonSource | undefined;
+  S3ParquetSource?: S3ParquetSource | undefined;
+  RelationalCatalogSource?: RelationalCatalogSource | undefined;
+  DynamoDBCatalogSource?: DynamoDBCatalogSource | undefined;
+  JDBCConnectorTarget?: JDBCConnectorTarget | undefined;
+  SparkConnectorTarget?: SparkConnectorTarget | undefined;
+  CatalogTarget?: BasicCatalogTarget | undefined;
+  RedshiftTarget?: RedshiftTarget | undefined;
+  S3CatalogTarget?: S3CatalogTarget | undefined;
+  S3GlueParquetTarget?: S3GlueParquetTarget | undefined;
+  S3DirectTarget?: S3DirectTarget | undefined;
+  ApplyMapping?: ApplyMapping | undefined;
+  SelectFields?: SelectFields | undefined;
+  DropFields?: DropFields | undefined;
+  RenameField?: RenameField | undefined;
+  Spigot?: Spigot | undefined;
+  Join?: Join | undefined;
+  SplitFields?: SplitFields | undefined;
+  SelectFromCollection?: SelectFromCollection | undefined;
+  FillMissingValues?: FillMissingValues | undefined;
+  Filter?: Filter | undefined;
+  CustomCode?: CustomCode | undefined;
+  SparkSQL?: SparkSQL | undefined;
+  DirectKinesisSource?: DirectKinesisSource | undefined;
+  DirectKafkaSource?: DirectKafkaSource | undefined;
+  CatalogKinesisSource?: CatalogKinesisSource | undefined;
+  CatalogKafkaSource?: CatalogKafkaSource | undefined;
+  DropNullFields?: DropNullFields | undefined;
+  Merge?: Merge | undefined;
+  Union?: Union | undefined;
+  PIIDetection?: PIIDetection | undefined;
+  Aggregate?: Aggregate | undefined;
+  DropDuplicates?: DropDuplicates | undefined;
+  GovernedCatalogTarget?: GovernedCatalogTarget | undefined;
+  GovernedCatalogSource?: GovernedCatalogSource | undefined;
+  MicrosoftSQLServerCatalogSource?: MicrosoftSQLServerCatalogSource | undefined;
+  MySQLCatalogSource?: MySQLCatalogSource | undefined;
+  OracleSQLCatalogSource?: OracleSQLCatalogSource | undefined;
+  PostgreSQLCatalogSource?: PostgreSQLCatalogSource | undefined;
+  MicrosoftSQLServerCatalogTarget?: MicrosoftSQLServerCatalogTarget | undefined;
+  MySQLCatalogTarget?: MySQLCatalogTarget | undefined;
+  OracleSQLCatalogTarget?: OracleSQLCatalogTarget | undefined;
+  PostgreSQLCatalogTarget?: PostgreSQLCatalogTarget | undefined;
+  Route?: Route | undefined;
+  DynamicTransform?: DynamicTransform | undefined;
+  EvaluateDataQuality?: EvaluateDataQuality | undefined;
+  S3CatalogHudiSource?: S3CatalogHudiSource | undefined;
+  CatalogHudiSource?: CatalogHudiSource | undefined;
+  S3HudiSource?: S3HudiSource | undefined;
+  S3HudiCatalogTarget?: S3HudiCatalogTarget | undefined;
+  S3HudiDirectTarget?: S3HudiDirectTarget | undefined;
+  DirectJDBCSource?: DirectJDBCSource | undefined;
+  S3CatalogDeltaSource?: S3CatalogDeltaSource | undefined;
+  CatalogDeltaSource?: CatalogDeltaSource | undefined;
+  S3DeltaSource?: S3DeltaSource | undefined;
+  S3DeltaCatalogTarget?: S3DeltaCatalogTarget | undefined;
+  S3DeltaDirectTarget?: S3DeltaDirectTarget | undefined;
+  AmazonRedshiftSource?: AmazonRedshiftSource | undefined;
+  AmazonRedshiftTarget?: AmazonRedshiftTarget | undefined;
+  EvaluateDataQualityMultiFrame?: EvaluateDataQualityMultiFrame | undefined;
+  Recipe?: Recipe | undefined;
+  SnowflakeSource?: SnowflakeSource | undefined;
+  SnowflakeTarget?: SnowflakeTarget | undefined;
+  ConnectorDataSource?: ConnectorDataSource | undefined;
+  ConnectorDataTarget?: ConnectorDataTarget | undefined;
+  S3CatalogIcebergSource?: S3CatalogIcebergSource | undefined;
+  CatalogIcebergSource?: CatalogIcebergSource | undefined;
+  S3IcebergCatalogTarget?: S3IcebergCatalogTarget | undefined;
+  S3IcebergDirectTarget?: S3IcebergDirectTarget | undefined;
+  S3ExcelSource?: S3ExcelSource | undefined;
+  S3HyperDirectTarget?: S3HyperDirectTarget | undefined;
+  DynamoDBELTConnectorSource?: DynamoDBELTConnectorSource | undefined;
 }
 export type CodeGenConfigurationNodes = { [key: string]: CodeGenConfigurationNode | undefined };
 export type ExecutionClass = "FLEX" | "STANDARD" | (string & {});
@@ -2260,93 +2260,93 @@ export type SourceControlAuthStrategy =
   | "AWS_SECRETS_MANAGER"
   | (string & {});
 export interface SourceControlDetails {
-  Provider?: SourceControlProvider;
-  Repository?: string;
-  Owner?: string;
-  Branch?: string;
-  Folder?: string;
-  LastCommitId?: string;
-  AuthStrategy?: SourceControlAuthStrategy;
-  AuthToken?: string;
+  Provider?: SourceControlProvider | undefined;
+  Repository?: string | undefined;
+  Owner?: string | undefined;
+  Branch?: string | undefined;
+  Folder?: string | undefined;
+  LastCommitId?: string | undefined;
+  AuthStrategy?: SourceControlAuthStrategy | undefined;
+  AuthToken?: string | undefined;
 }
 export type MaintenanceWindow = string;
 export interface Job {
-  Name?: string;
-  JobMode?: JobMode;
-  JobRunQueuingEnabled?: boolean;
-  Description?: string;
-  LogUri?: string;
-  Role?: string;
-  CreatedOn?: Date;
-  LastModifiedOn?: Date;
-  ExecutionProperty?: ExecutionProperty;
-  Command?: JobCommand;
-  DefaultArguments?: { [key: string]: string | undefined };
-  NonOverridableArguments?: { [key: string]: string | undefined };
-  Connections?: ConnectionsList;
-  MaxRetries?: number;
-  AllocatedCapacity?: number;
-  Timeout?: number;
-  MaxCapacity?: number;
-  WorkerType?: WorkerType;
-  NumberOfWorkers?: number;
-  SecurityConfiguration?: string;
-  NotificationProperty?: NotificationProperty;
-  GlueVersion?: string;
-  CodeGenConfigurationNodes?: { [key: string]: CodeGenConfigurationNode | undefined };
-  ExecutionClass?: ExecutionClass;
-  SourceControlDetails?: SourceControlDetails;
-  MaintenanceWindow?: string;
-  ProfileName?: string;
+  Name?: string | undefined;
+  JobMode?: JobMode | undefined;
+  JobRunQueuingEnabled?: boolean | undefined;
+  Description?: string | undefined;
+  LogUri?: string | undefined;
+  Role?: string | undefined;
+  CreatedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  ExecutionProperty?: ExecutionProperty | undefined;
+  Command?: JobCommand | undefined;
+  DefaultArguments?: { [key: string]: string | undefined } | undefined;
+  NonOverridableArguments?: { [key: string]: string | undefined } | undefined;
+  Connections?: ConnectionsList | undefined;
+  MaxRetries?: number | undefined;
+  AllocatedCapacity?: number | undefined;
+  Timeout?: number | undefined;
+  MaxCapacity?: number | undefined;
+  WorkerType?: WorkerType | undefined;
+  NumberOfWorkers?: number | undefined;
+  SecurityConfiguration?: string | undefined;
+  NotificationProperty?: NotificationProperty | undefined;
+  GlueVersion?: string | undefined;
+  CodeGenConfigurationNodes?: { [key: string]: CodeGenConfigurationNode | undefined } | undefined;
+  ExecutionClass?: ExecutionClass | undefined;
+  SourceControlDetails?: SourceControlDetails | undefined;
+  MaintenanceWindow?: string | undefined;
+  ProfileName?: string | undefined;
 }
 export type JobList = Job[];
 export interface BatchGetJobsResponse {
-  Jobs?: Job[];
-  JobsNotFound?: string[];
+  Jobs?: Job[] | undefined;
+  JobsNotFound?: string[] | undefined;
 }
 export type BatchGetPartitionValueList = PartitionValueList[];
 export type AuditContextString = string;
 export type ColumnNameString = string;
 export type AuditColumnNamesList = string[];
 export interface AuditContext {
-  AdditionalAuditContext?: string;
-  RequestedColumns?: string[];
-  AllColumnsRequested?: boolean;
+  AdditionalAuditContext?: string | undefined;
+  RequestedColumns?: string[] | undefined;
+  AllColumnsRequested?: boolean | undefined;
 }
 export type NullableString = string;
 export type ContextKey = string;
 export type ContextValue = string;
 export type AdditionalContextMap = { [key: string]: string | undefined };
 export interface QuerySessionContext {
-  QueryId?: string;
-  QueryStartTime?: Date;
-  ClusterId?: string;
-  QueryAuthorizationId?: string;
-  AdditionalContext?: { [key: string]: string | undefined };
+  QueryId?: string | undefined;
+  QueryStartTime?: Date | undefined;
+  ClusterId?: string | undefined;
+  QueryAuthorizationId?: string | undefined;
+  AdditionalContext?: { [key: string]: string | undefined } | undefined;
 }
 export interface BatchGetPartitionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   PartitionsToGet: PartitionValueList[];
-  AuditContext?: AuditContext;
-  QuerySessionContext?: QuerySessionContext;
+  AuditContext?: AuditContext | undefined;
+  QuerySessionContext?: QuerySessionContext | undefined;
 }
 export interface Partition {
-  Values?: string[];
-  DatabaseName?: string;
-  TableName?: string;
-  CreationTime?: Date;
-  LastAccessTime?: Date;
-  StorageDescriptor?: StorageDescriptor;
-  Parameters?: { [key: string]: string | undefined };
-  LastAnalyzedTime?: Date;
-  CatalogId?: string;
+  Values?: string[] | undefined;
+  DatabaseName?: string | undefined;
+  TableName?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastAccessTime?: Date | undefined;
+  StorageDescriptor?: StorageDescriptor | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  LastAnalyzedTime?: Date | undefined;
+  CatalogId?: string | undefined;
 }
 export type PartitionList = Partition[];
 export interface BatchGetPartitionResponse {
-  Partitions?: Partition[];
-  UnprocessedKeys?: PartitionValueList[];
+  Partitions?: Partition[] | undefined;
+  UnprocessedKeys?: PartitionValueList[] | undefined;
 }
 export type DatabaseNameString = string;
 export type TableNameString = string;
@@ -2356,10 +2356,10 @@ export type TableOptimizerType =
   | "orphan_file_deletion"
   | (string & {});
 export interface BatchGetTableOptimizerEntry {
-  catalogId?: string;
-  databaseName?: string;
-  tableName?: string;
-  type?: TableOptimizerType;
+  catalogId?: string | undefined;
+  databaseName?: string | undefined;
+  tableName?: string | undefined;
+  type?: TableOptimizerType | undefined;
 }
 export type BatchGetTableOptimizerEntries = BatchGetTableOptimizerEntry[];
 export interface BatchGetTableOptimizerRequest {
@@ -2370,38 +2370,38 @@ export type GlueConnectionNameString = string;
 export type TableOptimizerVpcConfiguration = { glueConnectionName: string };
 export type CompactionStrategy = "binpack" | "sort" | "z-order" | (string & {});
 export interface IcebergCompactionConfiguration {
-  strategy?: CompactionStrategy;
-  minInputFiles?: number;
-  deleteFileThreshold?: number;
+  strategy?: CompactionStrategy | undefined;
+  minInputFiles?: number | undefined;
+  deleteFileThreshold?: number | undefined;
 }
 export interface CompactionConfiguration {
-  icebergConfiguration?: IcebergCompactionConfiguration;
+  icebergConfiguration?: IcebergCompactionConfiguration | undefined;
 }
 export interface IcebergRetentionConfiguration {
-  snapshotRetentionPeriodInDays?: number;
-  numberOfSnapshotsToRetain?: number;
-  cleanExpiredFiles?: boolean;
-  runRateInHours?: number;
+  snapshotRetentionPeriodInDays?: number | undefined;
+  numberOfSnapshotsToRetain?: number | undefined;
+  cleanExpiredFiles?: boolean | undefined;
+  runRateInHours?: number | undefined;
 }
 export interface RetentionConfiguration {
-  icebergConfiguration?: IcebergRetentionConfiguration;
+  icebergConfiguration?: IcebergRetentionConfiguration | undefined;
 }
 export type MessageString = string;
 export interface IcebergOrphanFileDeletionConfiguration {
-  orphanFileRetentionPeriodInDays?: number;
-  location?: string;
-  runRateInHours?: number;
+  orphanFileRetentionPeriodInDays?: number | undefined;
+  location?: string | undefined;
+  runRateInHours?: number | undefined;
 }
 export interface OrphanFileDeletionConfiguration {
-  icebergConfiguration?: IcebergOrphanFileDeletionConfiguration;
+  icebergConfiguration?: IcebergOrphanFileDeletionConfiguration | undefined;
 }
 export interface TableOptimizerConfiguration {
-  roleArn?: string;
-  enabled?: boolean;
-  vpcConfiguration?: TableOptimizerVpcConfiguration;
-  compactionConfiguration?: CompactionConfiguration;
-  retentionConfiguration?: RetentionConfiguration;
-  orphanFileDeletionConfiguration?: OrphanFileDeletionConfiguration;
+  roleArn?: string | undefined;
+  enabled?: boolean | undefined;
+  vpcConfiguration?: TableOptimizerVpcConfiguration | undefined;
+  compactionConfiguration?: CompactionConfiguration | undefined;
+  retentionConfiguration?: RetentionConfiguration | undefined;
+  orphanFileDeletionConfiguration?: OrphanFileDeletionConfiguration | undefined;
 }
 export type TableOptimizerEventType =
   | "starting"
@@ -2411,81 +2411,81 @@ export type TableOptimizerEventType =
   | (string & {});
 export type TableOptimizerRunTimestamp = Date;
 export interface RunMetrics {
-  NumberOfBytesCompacted?: string;
-  NumberOfFilesCompacted?: string;
-  NumberOfDpus?: string;
-  JobDurationInHour?: string;
+  NumberOfBytesCompacted?: string | undefined;
+  NumberOfFilesCompacted?: string | undefined;
+  NumberOfDpus?: string | undefined;
+  JobDurationInHour?: string | undefined;
 }
 export type MetricCounts = number;
 export type DpuHours = number;
 export type DpuCounts = number;
 export type DpuDurationInHour = number;
 export interface IcebergCompactionMetrics {
-  NumberOfBytesCompacted?: number;
-  NumberOfFilesCompacted?: number;
-  DpuHours?: number;
-  NumberOfDpus?: number;
-  JobDurationInHour?: number;
+  NumberOfBytesCompacted?: number | undefined;
+  NumberOfFilesCompacted?: number | undefined;
+  DpuHours?: number | undefined;
+  NumberOfDpus?: number | undefined;
+  JobDurationInHour?: number | undefined;
 }
 export interface CompactionMetrics {
-  IcebergMetrics?: IcebergCompactionMetrics;
+  IcebergMetrics?: IcebergCompactionMetrics | undefined;
 }
 export interface IcebergRetentionMetrics {
-  NumberOfDataFilesDeleted?: number;
-  NumberOfManifestFilesDeleted?: number;
-  NumberOfManifestListsDeleted?: number;
-  DpuHours?: number;
-  NumberOfDpus?: number;
-  JobDurationInHour?: number;
+  NumberOfDataFilesDeleted?: number | undefined;
+  NumberOfManifestFilesDeleted?: number | undefined;
+  NumberOfManifestListsDeleted?: number | undefined;
+  DpuHours?: number | undefined;
+  NumberOfDpus?: number | undefined;
+  JobDurationInHour?: number | undefined;
 }
 export interface RetentionMetrics {
-  IcebergMetrics?: IcebergRetentionMetrics;
+  IcebergMetrics?: IcebergRetentionMetrics | undefined;
 }
 export interface IcebergOrphanFileDeletionMetrics {
-  NumberOfOrphanFilesDeleted?: number;
-  DpuHours?: number;
-  NumberOfDpus?: number;
-  JobDurationInHour?: number;
+  NumberOfOrphanFilesDeleted?: number | undefined;
+  DpuHours?: number | undefined;
+  NumberOfDpus?: number | undefined;
+  JobDurationInHour?: number | undefined;
 }
 export interface OrphanFileDeletionMetrics {
-  IcebergMetrics?: IcebergOrphanFileDeletionMetrics;
+  IcebergMetrics?: IcebergOrphanFileDeletionMetrics | undefined;
 }
 export interface TableOptimizerRun {
-  eventType?: TableOptimizerEventType;
-  startTimestamp?: Date;
-  endTimestamp?: Date;
-  metrics?: RunMetrics;
-  error?: string;
-  compactionMetrics?: CompactionMetrics;
-  compactionStrategy?: CompactionStrategy;
-  retentionMetrics?: RetentionMetrics;
-  orphanFileDeletionMetrics?: OrphanFileDeletionMetrics;
+  eventType?: TableOptimizerEventType | undefined;
+  startTimestamp?: Date | undefined;
+  endTimestamp?: Date | undefined;
+  metrics?: RunMetrics | undefined;
+  error?: string | undefined;
+  compactionMetrics?: CompactionMetrics | undefined;
+  compactionStrategy?: CompactionStrategy | undefined;
+  retentionMetrics?: RetentionMetrics | undefined;
+  orphanFileDeletionMetrics?: OrphanFileDeletionMetrics | undefined;
 }
 export type ConfigurationSource = "catalog" | "table" | (string & {});
 export interface TableOptimizer {
-  type?: TableOptimizerType;
-  configuration?: TableOptimizerConfiguration;
-  lastRun?: TableOptimizerRun;
-  configurationSource?: ConfigurationSource;
+  type?: TableOptimizerType | undefined;
+  configuration?: TableOptimizerConfiguration | undefined;
+  lastRun?: TableOptimizerRun | undefined;
+  configurationSource?: ConfigurationSource | undefined;
 }
 export interface BatchTableOptimizer {
-  catalogId?: string;
-  databaseName?: string;
-  tableName?: string;
-  tableOptimizer?: TableOptimizer;
+  catalogId?: string | undefined;
+  databaseName?: string | undefined;
+  tableName?: string | undefined;
+  tableOptimizer?: TableOptimizer | undefined;
 }
 export type BatchTableOptimizers = BatchTableOptimizer[];
 export interface BatchGetTableOptimizerError_ {
-  error?: ErrorDetail;
-  catalogId?: string;
-  databaseName?: string;
-  tableName?: string;
-  type?: TableOptimizerType;
+  error?: ErrorDetail | undefined;
+  catalogId?: string | undefined;
+  databaseName?: string | undefined;
+  tableName?: string | undefined;
+  type?: TableOptimizerType | undefined;
 }
 export type BatchGetTableOptimizerErrors = BatchGetTableOptimizerError_[];
 export interface BatchGetTableOptimizerResponse {
-  TableOptimizers?: BatchTableOptimizer[];
-  Failures?: BatchGetTableOptimizerError_[];
+  TableOptimizers?: BatchTableOptimizer[] | undefined;
+  Failures?: BatchGetTableOptimizerError_[] | undefined;
 }
 export type TriggerNameList = string[];
 export interface BatchGetTriggersRequest {
@@ -2504,12 +2504,12 @@ export type TriggerState =
   | "UPDATING"
   | (string & {});
 export interface Action {
-  JobName?: string;
-  Arguments?: { [key: string]: string | undefined };
-  Timeout?: number;
-  SecurityConfiguration?: string;
-  NotificationProperty?: NotificationProperty;
-  CrawlerName?: string;
+  JobName?: string | undefined;
+  Arguments?: { [key: string]: string | undefined } | undefined;
+  Timeout?: number | undefined;
+  SecurityConfiguration?: string | undefined;
+  NotificationProperty?: NotificationProperty | undefined;
+  CrawlerName?: string | undefined;
 }
 export type ActionList = Action[];
 export type Logical = "AND" | "ANY" | (string & {});
@@ -2535,44 +2535,44 @@ export type CrawlState =
   | "ERROR"
   | (string & {});
 export interface Condition {
-  LogicalOperator?: LogicalOperator;
-  JobName?: string;
-  State?: JobRunState;
-  CrawlerName?: string;
-  CrawlState?: CrawlState;
+  LogicalOperator?: LogicalOperator | undefined;
+  JobName?: string | undefined;
+  State?: JobRunState | undefined;
+  CrawlerName?: string | undefined;
+  CrawlState?: CrawlState | undefined;
 }
 export type ConditionList = Condition[];
 export interface Predicate {
-  Logical?: Logical;
-  Conditions?: Condition[];
+  Logical?: Logical | undefined;
+  Conditions?: Condition[] | undefined;
 }
 export type BatchSize = number;
 export type BatchWindow = number;
 export interface EventBatchingCondition {
   BatchSize: number;
-  BatchWindow?: number;
+  BatchWindow?: number | undefined;
 }
 export interface Trigger {
-  Name?: string;
-  WorkflowName?: string;
-  Id?: string;
-  Type?: TriggerType;
-  State?: TriggerState;
-  Description?: string;
-  Schedule?: string;
-  Actions?: Action[];
-  Predicate?: Predicate;
-  EventBatchingCondition?: EventBatchingCondition;
+  Name?: string | undefined;
+  WorkflowName?: string | undefined;
+  Id?: string | undefined;
+  Type?: TriggerType | undefined;
+  State?: TriggerState | undefined;
+  Description?: string | undefined;
+  Schedule?: string | undefined;
+  Actions?: Action[] | undefined;
+  Predicate?: Predicate | undefined;
+  EventBatchingCondition?: EventBatchingCondition | undefined;
 }
 export type TriggerList = Trigger[];
 export interface BatchGetTriggersResponse {
-  Triggers?: Trigger[];
-  TriggersNotFound?: string[];
+  Triggers?: Trigger[] | undefined;
+  TriggersNotFound?: string[] | undefined;
 }
 export type WorkflowNames = string[];
 export interface BatchGetWorkflowsRequest {
   Names: string[];
-  IncludeGraph?: boolean;
+  IncludeGraph?: boolean | undefined;
 }
 export type WorkflowRunProperties = { [key: string]: string | undefined };
 export type WorkflowRunStatus =
@@ -2583,149 +2583,149 @@ export type WorkflowRunStatus =
   | "ERROR"
   | (string & {});
 export interface WorkflowRunStatistics {
-  TotalActions?: number;
-  TimeoutActions?: number;
-  FailedActions?: number;
-  StoppedActions?: number;
-  SucceededActions?: number;
-  RunningActions?: number;
-  ErroredActions?: number;
-  WaitingActions?: number;
+  TotalActions?: number | undefined;
+  TimeoutActions?: number | undefined;
+  FailedActions?: number | undefined;
+  StoppedActions?: number | undefined;
+  SucceededActions?: number | undefined;
+  RunningActions?: number | undefined;
+  ErroredActions?: number | undefined;
+  WaitingActions?: number | undefined;
 }
 export type NodeType = "CRAWLER" | "JOB" | "TRIGGER" | (string & {});
 export interface TriggerNodeDetails {
-  Trigger?: Trigger;
+  Trigger?: Trigger | undefined;
 }
 export type AttemptCount = number;
 export interface Predecessor {
-  JobName?: string;
-  RunId?: string;
+  JobName?: string | undefined;
+  RunId?: string | undefined;
 }
 export type PredecessorList = Predecessor[];
 export type OrchestrationMessageString = string;
 export type OrchestrationPolicyJsonString = string;
 export interface JobRun {
-  Id?: string;
-  Attempt?: number;
-  PreviousRunId?: string;
-  TriggerName?: string;
-  JobName?: string;
-  JobMode?: JobMode;
-  JobRunQueuingEnabled?: boolean;
-  StartedOn?: Date;
-  LastModifiedOn?: Date;
-  CompletedOn?: Date;
-  JobRunState?: JobRunState;
-  Arguments?: { [key: string]: string | undefined };
-  ErrorMessage?: string;
-  PredecessorRuns?: Predecessor[];
-  AllocatedCapacity?: number;
-  ExecutionTime?: number;
-  Timeout?: number;
-  MaxCapacity?: number;
-  WorkerType?: WorkerType;
-  NumberOfWorkers?: number;
-  SecurityConfiguration?: string;
-  LogGroupName?: string;
-  NotificationProperty?: NotificationProperty;
-  GlueVersion?: string;
-  DPUSeconds?: number;
-  ExecutionClass?: ExecutionClass;
-  MaintenanceWindow?: string;
-  ProfileName?: string;
-  StateDetail?: string;
-  ExecutionRoleSessionPolicy?: string;
+  Id?: string | undefined;
+  Attempt?: number | undefined;
+  PreviousRunId?: string | undefined;
+  TriggerName?: string | undefined;
+  JobName?: string | undefined;
+  JobMode?: JobMode | undefined;
+  JobRunQueuingEnabled?: boolean | undefined;
+  StartedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  JobRunState?: JobRunState | undefined;
+  Arguments?: { [key: string]: string | undefined } | undefined;
+  ErrorMessage?: string | undefined;
+  PredecessorRuns?: Predecessor[] | undefined;
+  AllocatedCapacity?: number | undefined;
+  ExecutionTime?: number | undefined;
+  Timeout?: number | undefined;
+  MaxCapacity?: number | undefined;
+  WorkerType?: WorkerType | undefined;
+  NumberOfWorkers?: number | undefined;
+  SecurityConfiguration?: string | undefined;
+  LogGroupName?: string | undefined;
+  NotificationProperty?: NotificationProperty | undefined;
+  GlueVersion?: string | undefined;
+  DPUSeconds?: number | undefined;
+  ExecutionClass?: ExecutionClass | undefined;
+  MaintenanceWindow?: string | undefined;
+  ProfileName?: string | undefined;
+  StateDetail?: string | undefined;
+  ExecutionRoleSessionPolicy?: string | undefined;
 }
 export type JobRunList = JobRun[];
 export interface JobNodeDetails {
-  JobRuns?: JobRun[];
+  JobRuns?: JobRun[] | undefined;
 }
 export interface Crawl {
-  State?: CrawlState;
-  StartedOn?: Date;
-  CompletedOn?: Date;
-  ErrorMessage?: string;
-  LogGroup?: string;
-  LogStream?: string;
+  State?: CrawlState | undefined;
+  StartedOn?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  ErrorMessage?: string | undefined;
+  LogGroup?: string | undefined;
+  LogStream?: string | undefined;
 }
 export type CrawlList = Crawl[];
 export interface CrawlerNodeDetails {
-  Crawls?: Crawl[];
+  Crawls?: Crawl[] | undefined;
 }
 export interface Node {
-  Type?: NodeType;
-  Name?: string;
-  UniqueId?: string;
-  TriggerDetails?: TriggerNodeDetails;
-  JobDetails?: JobNodeDetails;
-  CrawlerDetails?: CrawlerNodeDetails;
+  Type?: NodeType | undefined;
+  Name?: string | undefined;
+  UniqueId?: string | undefined;
+  TriggerDetails?: TriggerNodeDetails | undefined;
+  JobDetails?: JobNodeDetails | undefined;
+  CrawlerDetails?: CrawlerNodeDetails | undefined;
 }
 export type NodeList = Node[];
 export interface Edge {
-  SourceId?: string;
-  DestinationId?: string;
+  SourceId?: string | undefined;
+  DestinationId?: string | undefined;
 }
 export type EdgeList = Edge[];
 export interface WorkflowGraph {
-  Nodes?: Node[];
-  Edges?: Edge[];
+  Nodes?: Node[] | undefined;
+  Edges?: Edge[] | undefined;
 }
 export interface StartingEventBatchCondition {
-  BatchSize?: number;
-  BatchWindow?: number;
+  BatchSize?: number | undefined;
+  BatchWindow?: number | undefined;
 }
 export interface WorkflowRun {
-  Name?: string;
-  WorkflowRunId?: string;
-  PreviousRunId?: string;
-  WorkflowRunProperties?: { [key: string]: string | undefined };
-  StartedOn?: Date;
-  CompletedOn?: Date;
-  Status?: WorkflowRunStatus;
-  ErrorMessage?: string;
-  Statistics?: WorkflowRunStatistics;
-  Graph?: WorkflowGraph;
-  StartingEventBatchCondition?: StartingEventBatchCondition;
+  Name?: string | undefined;
+  WorkflowRunId?: string | undefined;
+  PreviousRunId?: string | undefined;
+  WorkflowRunProperties?: { [key: string]: string | undefined } | undefined;
+  StartedOn?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  Status?: WorkflowRunStatus | undefined;
+  ErrorMessage?: string | undefined;
+  Statistics?: WorkflowRunStatistics | undefined;
+  Graph?: WorkflowGraph | undefined;
+  StartingEventBatchCondition?: StartingEventBatchCondition | undefined;
 }
 export interface BlueprintDetails {
-  BlueprintName?: string;
-  RunId?: string;
+  BlueprintName?: string | undefined;
+  RunId?: string | undefined;
 }
 export interface Workflow {
-  Name?: string;
-  Description?: string;
-  DefaultRunProperties?: { [key: string]: string | undefined };
-  CreatedOn?: Date;
-  LastModifiedOn?: Date;
-  LastRun?: WorkflowRun;
-  Graph?: WorkflowGraph;
-  MaxConcurrentRuns?: number;
-  BlueprintDetails?: BlueprintDetails;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  DefaultRunProperties?: { [key: string]: string | undefined } | undefined;
+  CreatedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  LastRun?: WorkflowRun | undefined;
+  Graph?: WorkflowGraph | undefined;
+  MaxConcurrentRuns?: number | undefined;
+  BlueprintDetails?: BlueprintDetails | undefined;
 }
 export type Workflows = Workflow[];
 export interface BatchGetWorkflowsResponse {
-  Workflows?: Workflow[];
-  MissingWorkflows?: string[];
+  Workflows?: Workflow[] | undefined;
+  MissingWorkflows?: string[] | undefined;
 }
 export type InclusionAnnotationValue = "INCLUDE" | "EXCLUDE" | (string & {});
 export interface DatapointInclusionAnnotation {
-  ProfileId?: string;
-  StatisticId?: string;
-  InclusionAnnotation?: InclusionAnnotationValue;
+  ProfileId?: string | undefined;
+  StatisticId?: string | undefined;
+  InclusionAnnotation?: InclusionAnnotationValue | undefined;
 }
 export type InclusionAnnotationList = DatapointInclusionAnnotation[];
 export interface BatchPutDataQualityStatisticAnnotationRequest {
   InclusionAnnotations: DatapointInclusionAnnotation[];
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface AnnotationError {
-  ProfileId?: string;
-  StatisticId?: string;
-  FailureReason?: string;
+  ProfileId?: string | undefined;
+  StatisticId?: string | undefined;
+  FailureReason?: string | undefined;
 }
 export type AnnotationErrorList = AnnotationError[];
 export interface BatchPutDataQualityStatisticAnnotationResponse {
-  FailedInclusionAnnotations?: AnnotationError[];
+  FailedInclusionAnnotations?: AnnotationError[] | undefined;
 }
 export type BatchStopJobRunJobRunIdList = string[];
 export interface BatchStopJobRunRequest {
@@ -2733,19 +2733,19 @@ export interface BatchStopJobRunRequest {
   JobRunIds: string[];
 }
 export interface BatchStopJobRunSuccessfulSubmission {
-  JobName?: string;
-  JobRunId?: string;
+  JobName?: string | undefined;
+  JobRunId?: string | undefined;
 }
 export type BatchStopJobRunSuccessfulSubmissionList = BatchStopJobRunSuccessfulSubmission[];
 export interface BatchStopJobRunError_ {
-  JobName?: string;
-  JobRunId?: string;
-  ErrorDetail?: ErrorDetail;
+  JobName?: string | undefined;
+  JobRunId?: string | undefined;
+  ErrorDetail?: ErrorDetail | undefined;
 }
 export type BatchStopJobRunErrorList = BatchStopJobRunError_[];
 export interface BatchStopJobRunResponse {
-  SuccessfulSubmissions?: BatchStopJobRunSuccessfulSubmission[];
-  Errors?: BatchStopJobRunError_[];
+  SuccessfulSubmissions?: BatchStopJobRunSuccessfulSubmission[] | undefined;
+  Errors?: BatchStopJobRunError_[] | undefined;
 }
 export type BoundedPartitionValueList = string[];
 export interface BatchUpdatePartitionRequestEntry {
@@ -2754,18 +2754,18 @@ export interface BatchUpdatePartitionRequestEntry {
 }
 export type BatchUpdatePartitionRequestEntryList = BatchUpdatePartitionRequestEntry[];
 export interface BatchUpdatePartitionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   Entries: BatchUpdatePartitionRequestEntry[];
 }
 export interface BatchUpdatePartitionFailureEntry {
-  PartitionValueList?: string[];
-  ErrorDetail?: ErrorDetail;
+  PartitionValueList?: string[] | undefined;
+  ErrorDetail?: ErrorDetail | undefined;
 }
 export type BatchUpdatePartitionFailureList = BatchUpdatePartitionFailureEntry[];
 export interface BatchUpdatePartitionResponse {
-  Errors?: BatchUpdatePartitionFailureEntry[];
+  Errors?: BatchUpdatePartitionFailureEntry[] | undefined;
 }
 export interface CancelDataQualityRuleRecommendationRunRequest {
   RunId: string;
@@ -2780,14 +2780,14 @@ export interface CancelMLTaskRunRequest {
   TaskRunId: string;
 }
 export interface CancelMLTaskRunResponse {
-  TransformId?: string;
-  TaskRunId?: string;
-  Status?: TaskStatusType;
+  TransformId?: string | undefined;
+  TaskRunId?: string | undefined;
+  Status?: TaskStatusType | undefined;
 }
 export interface CancelStatementRequest {
   SessionId: string;
   Id: number;
-  RequestOrigin?: string;
+  RequestOrigin?: string | undefined;
 }
 export interface CancelStatementResponse {}
 export type DataFormat = "AVRO" | "JSON" | "PROTOBUF" | (string & {});
@@ -2799,8 +2799,8 @@ export interface CheckSchemaVersionValidityInput {
 export type IsVersionValid = boolean;
 export type SchemaValidationError = string;
 export interface CheckSchemaVersionValidityResponse {
-  Valid?: boolean;
-  Error?: string;
+  Valid?: boolean | undefined;
+  Error?: string | undefined;
 }
 export type OrchestrationS3Location = string;
 export type TagKey = string;
@@ -2808,19 +2808,19 @@ export type TagValue = string;
 export type TagsMap = { [key: string]: string | undefined };
 export interface CreateBlueprintRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   BlueprintLocation: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateBlueprintResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type CatalogNameString = string;
 export type FederationIdentifier = string;
 export interface FederatedCatalog {
-  Identifier?: string;
-  ConnectionName?: string;
-  ConnectionType?: string;
+  Identifier?: string | undefined;
+  ConnectionName?: string | undefined;
+  ConnectionType?: string | undefined;
 }
 export type ResourceArnString = string;
 export interface TargetRedshiftCatalog {
@@ -2828,25 +2828,25 @@ export interface TargetRedshiftCatalog {
 }
 export type IAMRoleArn = string;
 export interface DataLakeAccessProperties {
-  DataLakeAccess?: boolean;
-  DataTransferRole?: string;
-  KmsKey?: string;
-  CatalogType?: string;
+  DataLakeAccess?: boolean | undefined;
+  DataTransferRole?: string | undefined;
+  KmsKey?: string | undefined;
+  CatalogType?: string | undefined;
 }
 export interface IcebergOptimizationProperties {
-  RoleArn?: string;
-  Compaction?: { [key: string]: string | undefined };
-  Retention?: { [key: string]: string | undefined };
-  OrphanFileDeletion?: { [key: string]: string | undefined };
+  RoleArn?: string | undefined;
+  Compaction?: { [key: string]: string | undefined } | undefined;
+  Retention?: { [key: string]: string | undefined } | undefined;
+  OrphanFileDeletion?: { [key: string]: string | undefined } | undefined;
 }
 export interface CatalogProperties {
-  DataLakeAccessProperties?: DataLakeAccessProperties;
-  IcebergOptimizationProperties?: IcebergOptimizationProperties;
-  CustomProperties?: { [key: string]: string | undefined };
+  DataLakeAccessProperties?: DataLakeAccessProperties | undefined;
+  IcebergOptimizationProperties?: IcebergOptimizationProperties | undefined;
+  CustomProperties?: { [key: string]: string | undefined } | undefined;
 }
 export type DataLakePrincipalString = string;
 export interface DataLakePrincipal {
-  DataLakePrincipalIdentifier?: string;
+  DataLakePrincipalIdentifier?: string | undefined;
 }
 export type Permission =
   | "ALL"
@@ -2861,27 +2861,29 @@ export type Permission =
   | (string & {});
 export type PermissionList = Permission[];
 export interface PrincipalPermissions {
-  Principal?: DataLakePrincipal;
-  Permissions?: Permission[];
+  Principal?: DataLakePrincipal | undefined;
+  Permissions?: Permission[] | undefined;
 }
 export type PrincipalPermissionsList = PrincipalPermissions[];
 export type AllowFullTableExternalDataAccessEnum = "True" | "False" | (string & {});
 export type OverwriteChildResourcePermissionsWithDefaultEnum = "Accept" | "Deny" | (string & {});
 export interface CatalogInput {
-  Description?: string;
-  FederatedCatalog?: FederatedCatalog;
-  Parameters?: { [key: string]: string | undefined };
-  TargetRedshiftCatalog?: TargetRedshiftCatalog;
-  CatalogProperties?: CatalogProperties;
-  CreateTableDefaultPermissions?: PrincipalPermissions[];
-  CreateDatabaseDefaultPermissions?: PrincipalPermissions[];
-  AllowFullTableExternalDataAccess?: AllowFullTableExternalDataAccessEnum;
-  OverwriteChildResourcePermissionsWithDefault?: OverwriteChildResourcePermissionsWithDefaultEnum;
+  Description?: string | undefined;
+  FederatedCatalog?: FederatedCatalog | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  TargetRedshiftCatalog?: TargetRedshiftCatalog | undefined;
+  CatalogProperties?: CatalogProperties | undefined;
+  CreateTableDefaultPermissions?: PrincipalPermissions[] | undefined;
+  CreateDatabaseDefaultPermissions?: PrincipalPermissions[] | undefined;
+  AllowFullTableExternalDataAccess?: AllowFullTableExternalDataAccessEnum | undefined;
+  OverwriteChildResourcePermissionsWithDefault?:
+    | OverwriteChildResourcePermissionsWithDefaultEnum
+    | undefined;
 }
 export interface CreateCatalogRequest {
   Name: string;
   CatalogInput: CatalogInput;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateCatalogResponse {}
 export type Classification = string;
@@ -2891,13 +2893,13 @@ export interface CreateGrokClassifierRequest {
   Classification: string;
   Name: string;
   GrokPattern: string;
-  CustomPatterns?: string;
+  CustomPatterns?: string | undefined;
 }
 export type RowTag = string;
 export interface CreateXMLClassifierRequest {
   Classification: string;
   Name: string;
-  RowTag?: string;
+  RowTag?: string | undefined;
 }
 export type JsonPath = string;
 export interface CreateJsonClassifierRequest {
@@ -2912,21 +2914,21 @@ export type CustomDatatypes = string[];
 export type CsvSerdeOption = "OpenCSVSerDe" | "LazySimpleSerDe" | "None" | (string & {});
 export interface CreateCsvClassifierRequest {
   Name: string;
-  Delimiter?: string;
-  QuoteSymbol?: string;
-  ContainsHeader?: CsvHeaderOption;
-  Header?: string[];
-  DisableValueTrimming?: boolean;
-  AllowSingleColumn?: boolean;
-  CustomDatatypeConfigured?: boolean;
-  CustomDatatypes?: string[];
-  Serde?: CsvSerdeOption;
+  Delimiter?: string | undefined;
+  QuoteSymbol?: string | undefined;
+  ContainsHeader?: CsvHeaderOption | undefined;
+  Header?: string[] | undefined;
+  DisableValueTrimming?: boolean | undefined;
+  AllowSingleColumn?: boolean | undefined;
+  CustomDatatypeConfigured?: boolean | undefined;
+  CustomDatatypes?: string[] | undefined;
+  Serde?: CsvSerdeOption | undefined;
 }
 export interface CreateClassifierRequest {
-  GrokClassifier?: CreateGrokClassifierRequest;
-  XMLClassifier?: CreateXMLClassifierRequest;
-  JsonClassifier?: CreateJsonClassifierRequest;
-  CsvClassifier?: CreateCsvClassifierRequest;
+  GrokClassifier?: CreateGrokClassifierRequest | undefined;
+  XMLClassifier?: CreateXMLClassifierRequest | undefined;
+  JsonClassifier?: CreateJsonClassifierRequest | undefined;
+  CsvClassifier?: CreateCsvClassifierRequest | undefined;
 }
 export interface CreateClassifierResponse {}
 export type ColumnNameList = string[];
@@ -2935,12 +2937,12 @@ export interface CreateColumnStatisticsTaskSettingsRequest {
   DatabaseName: string;
   TableName: string;
   Role: string;
-  Schedule?: string;
-  ColumnNameList?: string[];
-  SampleSize?: number;
-  CatalogID?: string;
-  SecurityConfiguration?: string;
-  Tags?: { [key: string]: string | undefined };
+  Schedule?: string | undefined;
+  ColumnNameList?: string[] | undefined;
+  SampleSize?: number | undefined;
+  CatalogID?: string | undefined;
+  SecurityConfiguration?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateColumnStatisticsTaskSettingsResponse {}
 export type ConnectionType =
@@ -3089,15 +3091,15 @@ export type ConnectionPropertyKey =
   | "CLUSTER_IDENTIFIER"
   | "DATABASE"
   | (string & {});
-export type ConnectionProperties = { [key in ConnectionPropertyKey]?: string };
+export type ConnectionProperties = { [key in ConnectionPropertyKey]?: string | undefined };
 export type PropertyKey = string;
 export type PropertyValue = string;
 export type PropertyMap = { [key: string]: string | undefined };
 export type SecurityGroupIdList = string[];
 export interface PhysicalConnectionRequirements {
-  SubnetId?: string;
-  SecurityGroupIdList?: string[];
-  AvailabilityZone?: string;
+  SubnetId?: string | undefined;
+  SecurityGroupIdList?: string[] | undefined;
+  AvailabilityZone?: string | undefined;
 }
 export type AuthenticationType = "BASIC" | "OAUTH2" | "CUSTOM" | "IAM" | (string & {});
 export type OAuth2GrantType =
@@ -3109,8 +3111,8 @@ export type OAuth2GrantType =
 export type UserManagedClientApplicationClientId = string;
 export type AWSManagedClientApplicationReference = string;
 export interface OAuth2ClientApplication {
-  UserManagedClientApplicationClientId?: string;
-  AWSManagedClientApplicationReference?: string;
+  UserManagedClientApplicationClientId?: string | undefined;
+  AWSManagedClientApplicationReference?: string | undefined;
 }
 export type TokenUrl = string;
 export type TokenUrlParameterKey = string;
@@ -3119,193 +3121,193 @@ export type TokenUrlParametersMap = { [key: string]: string | undefined };
 export type AuthorizationCode = string | redacted.Redacted<string>;
 export type RedirectUri = string;
 export interface AuthorizationCodeProperties {
-  AuthorizationCode?: string | redacted.Redacted<string>;
-  RedirectUri?: string;
+  AuthorizationCode?: string | redacted.Redacted<string> | undefined;
+  RedirectUri?: string | undefined;
 }
 export type UserManagedClientApplicationClientSecret = string | redacted.Redacted<string>;
 export type AccessToken = string | redacted.Redacted<string>;
 export type RefreshToken = string | redacted.Redacted<string>;
 export type JwtToken = string | redacted.Redacted<string>;
 export interface OAuth2Credentials {
-  UserManagedClientApplicationClientSecret?: string | redacted.Redacted<string>;
-  AccessToken?: string | redacted.Redacted<string>;
-  RefreshToken?: string | redacted.Redacted<string>;
-  JwtToken?: string | redacted.Redacted<string>;
+  UserManagedClientApplicationClientSecret?: string | redacted.Redacted<string> | undefined;
+  AccessToken?: string | redacted.Redacted<string> | undefined;
+  RefreshToken?: string | redacted.Redacted<string> | undefined;
+  JwtToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface OAuth2PropertiesInput {
-  OAuth2GrantType?: OAuth2GrantType;
-  OAuth2ClientApplication?: OAuth2ClientApplication;
-  TokenUrl?: string;
-  TokenUrlParametersMap?: { [key: string]: string | undefined };
-  AuthorizationCodeProperties?: AuthorizationCodeProperties;
-  OAuth2Credentials?: OAuth2Credentials;
+  OAuth2GrantType?: OAuth2GrantType | undefined;
+  OAuth2ClientApplication?: OAuth2ClientApplication | undefined;
+  TokenUrl?: string | undefined;
+  TokenUrlParametersMap?: { [key: string]: string | undefined } | undefined;
+  AuthorizationCodeProperties?: AuthorizationCodeProperties | undefined;
+  OAuth2Credentials?: OAuth2Credentials | undefined;
 }
 export type SecretArn = string;
 export type KmsKeyArn = string;
 export type Username = string;
 export type Password = string | redacted.Redacted<string>;
 export interface BasicAuthenticationCredentials {
-  Username?: string;
-  Password?: string | redacted.Redacted<string>;
+  Username?: string | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
 }
 export type CredentialKey = string;
 export type CredentialValue = string;
 export type CredentialMap = { [key: string]: string | undefined };
 export interface AuthenticationConfigurationInput {
-  AuthenticationType?: AuthenticationType;
-  OAuth2Properties?: OAuth2PropertiesInput;
-  SecretArn?: string;
-  KmsKeyArn?: string;
-  BasicAuthenticationCredentials?: BasicAuthenticationCredentials;
-  CustomAuthenticationCredentials?: { [key: string]: string | undefined };
+  AuthenticationType?: AuthenticationType | undefined;
+  OAuth2Properties?: OAuth2PropertiesInput | undefined;
+  SecretArn?: string | undefined;
+  KmsKeyArn?: string | undefined;
+  BasicAuthenticationCredentials?: BasicAuthenticationCredentials | undefined;
+  CustomAuthenticationCredentials?: { [key: string]: string | undefined } | undefined;
 }
 export type ComputeEnvironment = "SPARK" | "ATHENA" | "PYTHON" | (string & {});
 export type ComputeEnvironmentList = ComputeEnvironment[];
 export interface ConnectionInput {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   ConnectionType: ConnectionType;
-  MatchCriteria?: string[];
+  MatchCriteria?: string[] | undefined;
   ConnectionProperties: { [key: string]: string | undefined };
-  SparkProperties?: { [key: string]: string | undefined };
-  AthenaProperties?: { [key: string]: string | undefined };
-  PythonProperties?: { [key: string]: string | undefined };
-  PhysicalConnectionRequirements?: PhysicalConnectionRequirements;
-  AuthenticationConfiguration?: AuthenticationConfigurationInput;
-  ValidateCredentials?: boolean;
-  ValidateForComputeEnvironments?: ComputeEnvironment[];
+  SparkProperties?: { [key: string]: string | undefined } | undefined;
+  AthenaProperties?: { [key: string]: string | undefined } | undefined;
+  PythonProperties?: { [key: string]: string | undefined } | undefined;
+  PhysicalConnectionRequirements?: PhysicalConnectionRequirements | undefined;
+  AuthenticationConfiguration?: AuthenticationConfigurationInput | undefined;
+  ValidateCredentials?: boolean | undefined;
+  ValidateForComputeEnvironments?: ComputeEnvironment[] | undefined;
 }
 export interface CreateConnectionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   ConnectionInput: ConnectionInput;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ConnectionStatus = "READY" | "IN_PROGRESS" | "FAILED" | (string & {});
 export interface CreateConnectionResponse {
-  CreateConnectionStatus?: ConnectionStatus;
+  CreateConnectionStatus?: ConnectionStatus | undefined;
 }
 export interface CreateCrawlerRequest {
   Name: string;
   Role: string;
-  DatabaseName?: string;
-  Description?: string;
+  DatabaseName?: string | undefined;
+  Description?: string | undefined;
   Targets: CrawlerTargets;
-  Schedule?: string;
-  Classifiers?: string[];
-  TablePrefix?: string;
-  SchemaChangePolicy?: SchemaChangePolicy;
-  RecrawlPolicy?: RecrawlPolicy;
-  LineageConfiguration?: LineageConfiguration;
-  LakeFormationConfiguration?: LakeFormationConfiguration;
-  Configuration?: string;
-  CrawlerSecurityConfiguration?: string;
-  Tags?: { [key: string]: string | undefined };
-  CatalogId?: string;
+  Schedule?: string | undefined;
+  Classifiers?: string[] | undefined;
+  TablePrefix?: string | undefined;
+  SchemaChangePolicy?: SchemaChangePolicy | undefined;
+  RecrawlPolicy?: RecrawlPolicy | undefined;
+  LineageConfiguration?: LineageConfiguration | undefined;
+  LakeFormationConfiguration?: LakeFormationConfiguration | undefined;
+  Configuration?: string | undefined;
+  CrawlerSecurityConfiguration?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  CatalogId?: string | undefined;
 }
 export interface CreateCrawlerResponse {}
 export interface CreateCustomEntityTypeRequest {
   Name: string;
   RegexString: string;
-  ContextWords?: string[];
-  Tags?: { [key: string]: string | undefined };
+  ContextWords?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateCustomEntityTypeResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type URI = string;
 export interface DatabaseIdentifier {
-  CatalogId?: string;
-  DatabaseName?: string;
-  Region?: string;
+  CatalogId?: string | undefined;
+  DatabaseName?: string | undefined;
+  Region?: string | undefined;
 }
 export interface FederatedDatabase {
-  Identifier?: string;
-  ConnectionName?: string;
-  ConnectionType?: string;
+  Identifier?: string | undefined;
+  ConnectionName?: string | undefined;
+  ConnectionType?: string | undefined;
 }
 export interface DatabaseInput {
   Name: string;
-  Description?: string;
-  LocationUri?: string;
-  Parameters?: { [key: string]: string | undefined };
-  CreateTableDefaultPermissions?: PrincipalPermissions[];
-  TargetDatabase?: DatabaseIdentifier;
-  FederatedDatabase?: FederatedDatabase;
+  Description?: string | undefined;
+  LocationUri?: string | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  CreateTableDefaultPermissions?: PrincipalPermissions[] | undefined;
+  TargetDatabase?: DatabaseIdentifier | undefined;
+  FederatedDatabase?: FederatedDatabase | undefined;
 }
 export interface CreateDatabaseRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseInput: DatabaseInput;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDatabaseResponse {}
 export type DataQualityRulesetString = string;
 export interface DataQualityTargetTable {
   TableName: string;
   DatabaseName: string;
-  CatalogId?: string;
+  CatalogId?: string | undefined;
 }
 export interface CreateDataQualityRulesetRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Ruleset: string;
-  Tags?: { [key: string]: string | undefined };
-  TargetTable?: DataQualityTargetTable;
-  DataQualitySecurityConfiguration?: string;
-  ClientToken?: string;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  TargetTable?: DataQualityTargetTable | undefined;
+  DataQualitySecurityConfiguration?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export interface CreateDataQualityRulesetResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface CreateDevEndpointRequest {
   EndpointName: string;
   RoleArn: string;
-  SecurityGroupIds?: string[];
-  SubnetId?: string;
-  PublicKey?: string;
-  PublicKeys?: string[];
-  NumberOfNodes?: number;
-  WorkerType?: WorkerType;
-  GlueVersion?: string;
-  NumberOfWorkers?: number;
-  ExtraPythonLibsS3Path?: string;
-  ExtraJarsS3Path?: string;
-  SecurityConfiguration?: string;
-  Tags?: { [key: string]: string | undefined };
-  Arguments?: { [key: string]: string | undefined };
+  SecurityGroupIds?: string[] | undefined;
+  SubnetId?: string | undefined;
+  PublicKey?: string | undefined;
+  PublicKeys?: string[] | undefined;
+  NumberOfNodes?: number | undefined;
+  WorkerType?: WorkerType | undefined;
+  GlueVersion?: string | undefined;
+  NumberOfWorkers?: number | undefined;
+  ExtraPythonLibsS3Path?: string | undefined;
+  ExtraJarsS3Path?: string | undefined;
+  SecurityConfiguration?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Arguments?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDevEndpointResponse {
-  EndpointName?: string;
-  Status?: string;
-  SecurityGroupIds?: string[];
-  SubnetId?: string;
-  RoleArn?: string;
-  YarnEndpointAddress?: string;
-  ZeppelinRemoteSparkInterpreterPort?: number;
-  NumberOfNodes?: number;
-  WorkerType?: WorkerType;
-  GlueVersion?: string;
-  NumberOfWorkers?: number;
-  AvailabilityZone?: string;
-  VpcId?: string;
-  ExtraPythonLibsS3Path?: string;
-  ExtraJarsS3Path?: string;
-  FailureReason?: string;
-  SecurityConfiguration?: string;
-  CreatedTimestamp?: Date;
-  Arguments?: { [key: string]: string | undefined };
+  EndpointName?: string | undefined;
+  Status?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  SubnetId?: string | undefined;
+  RoleArn?: string | undefined;
+  YarnEndpointAddress?: string | undefined;
+  ZeppelinRemoteSparkInterpreterPort?: number | undefined;
+  NumberOfNodes?: number | undefined;
+  WorkerType?: WorkerType | undefined;
+  GlueVersion?: string | undefined;
+  NumberOfWorkers?: number | undefined;
+  AvailabilityZone?: string | undefined;
+  VpcId?: string | undefined;
+  ExtraPythonLibsS3Path?: string | undefined;
+  ExtraJarsS3Path?: string | undefined;
+  FailureReason?: string | undefined;
+  SecurityConfiguration?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
+  Arguments?: { [key: string]: string | undefined } | undefined;
 }
 export type GlossaryName = string;
 export type MetadataDescription = string;
 export interface CreateGlossaryRequest {
   Name: string;
-  Description?: string;
-  ClientToken?: string;
+  Description?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export type GlossaryId = string;
 export interface CreateGlossaryResponse {
-  Id?: string;
-  Name?: string;
-  Description?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export type GlossaryTermName = string;
 export type GlossaryShortDescription = string;
@@ -3313,28 +3315,28 @@ export type GlossaryLongDescription = string;
 export interface CreateGlossaryTermRequest {
   GlossaryIdentifier: string;
   Name: string;
-  ShortDescription?: string;
-  LongDescription?: string;
-  ClientToken?: string;
+  ShortDescription?: string | undefined;
+  LongDescription?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export interface CreateGlossaryTermResponse {
-  Id?: string;
-  GlossaryId?: string;
-  Name?: string;
-  ShortDescription?: string;
-  LongDescription?: string;
+  Id?: string | undefined;
+  GlossaryId?: string | undefined;
+  Name?: string | undefined;
+  ShortDescription?: string | undefined;
+  LongDescription?: string | undefined;
 }
 export type IdentityCenterInstanceArn = string;
 export type IdentityCenterScope = string;
 export type IdentityCenterScopesList = string[];
 export interface CreateGlueIdentityCenterConfigurationRequest {
   InstanceArn: string;
-  Scopes?: string[];
-  UserBackgroundSessionsEnabled?: boolean;
+  Scopes?: string[] | undefined;
+  UserBackgroundSessionsEnabled?: boolean | undefined;
 }
 export type ApplicationArn = string;
 export interface CreateGlueIdentityCenterConfigurationResponse {
-  ApplicationArn?: string;
+  ApplicationArn?: string | undefined;
 }
 export type String128 = string;
 export type String512 = string;
@@ -3343,29 +3345,29 @@ export type String2048 = string;
 export type IntegrationString = string;
 export type IntegrationAdditionalEncryptionContextMap = { [key: string]: string | undefined };
 export interface Tag {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type IntegrationTagsList = Tag[];
 export type IntegrationSourcePropertiesMap = { [key: string]: string | undefined };
 export type ContinuousSync = boolean;
 export type TargetNamespace = string;
 export interface IntegrationConfig {
-  RefreshInterval?: string;
-  SourceProperties?: { [key: string]: string | undefined };
-  ContinuousSync?: boolean;
-  TargetNamespace?: string;
+  RefreshInterval?: string | undefined;
+  SourceProperties?: { [key: string]: string | undefined } | undefined;
+  ContinuousSync?: boolean | undefined;
+  TargetNamespace?: string | undefined;
 }
 export interface CreateIntegrationRequest {
   IntegrationName: string;
   SourceArn: string;
   TargetArn: string;
-  Description?: string;
-  DataFilter?: string;
-  KmsKeyId?: string;
-  AdditionalEncryptionContext?: { [key: string]: string | undefined };
-  Tags?: Tag[];
-  IntegrationConfig?: IntegrationConfig;
+  Description?: string | undefined;
+  DataFilter?: string | undefined;
+  KmsKeyId?: string | undefined;
+  AdditionalEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  Tags?: Tag[] | undefined;
+  IntegrationConfig?: IntegrationConfig | undefined;
 }
 export type IntegrationStatus =
   | "CREATING"
@@ -3378,145 +3380,145 @@ export type IntegrationStatus =
   | (string & {});
 export type IntegrationTimestamp = Date;
 export interface IntegrationError {
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type IntegrationErrorList = IntegrationError[];
 export interface CreateIntegrationResponse {
   SourceArn: string;
   TargetArn: string;
   IntegrationName: string;
-  Description?: string;
+  Description?: string | undefined;
   IntegrationArn: string;
-  KmsKeyId?: string;
-  AdditionalEncryptionContext?: { [key: string]: string | undefined };
-  Tags?: Tag[];
+  KmsKeyId?: string | undefined;
+  AdditionalEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  Tags?: Tag[] | undefined;
   Status: IntegrationStatus;
   CreateTime: Date;
-  Errors?: IntegrationError[];
-  DataFilter?: string;
-  IntegrationConfig?: IntegrationConfig;
+  Errors?: IntegrationError[] | undefined;
+  DataFilter?: string | undefined;
+  IntegrationConfig?: IntegrationConfig | undefined;
 }
 export interface SourceProcessingProperties {
-  RoleArn?: string;
+  RoleArn?: string | undefined;
 }
 export interface TargetProcessingProperties {
-  RoleArn?: string;
-  KmsArn?: string;
-  ConnectionName?: string;
-  EventBusArn?: string;
+  RoleArn?: string | undefined;
+  KmsArn?: string | undefined;
+  ConnectionName?: string | undefined;
+  EventBusArn?: string | undefined;
 }
 export interface CreateIntegrationResourcePropertyRequest {
   ResourceArn: string;
-  SourceProcessingProperties?: SourceProcessingProperties;
-  TargetProcessingProperties?: TargetProcessingProperties;
-  Tags?: Tag[];
+  SourceProcessingProperties?: SourceProcessingProperties | undefined;
+  TargetProcessingProperties?: TargetProcessingProperties | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateIntegrationResourcePropertyResponse {
   ResourceArn: string;
-  ResourcePropertyArn?: string;
-  SourceProcessingProperties?: SourceProcessingProperties;
-  TargetProcessingProperties?: TargetProcessingProperties;
+  ResourcePropertyArn?: string | undefined;
+  SourceProcessingProperties?: SourceProcessingProperties | undefined;
+  TargetProcessingProperties?: TargetProcessingProperties | undefined;
 }
 export type SourceTableFieldsList = string[];
 export type PrimaryKeyList = string[];
 export interface SourceTableConfig {
-  Fields?: string[];
-  FilterPredicate?: string;
-  PrimaryKey?: string[];
-  RecordUpdateField?: string;
+  Fields?: string[] | undefined;
+  FilterPredicate?: string | undefined;
+  PrimaryKey?: string[] | undefined;
+  RecordUpdateField?: string | undefined;
 }
 export type UnnestSpec = "TOPLEVEL" | "FULL" | "NOUNNEST" | (string & {});
 export interface IntegrationPartition {
-  FieldName?: string;
-  FunctionSpec?: string;
-  ConversionSpec?: string;
+  FieldName?: string | undefined;
+  FunctionSpec?: string | undefined;
+  ConversionSpec?: string | undefined;
 }
 export type IntegrationPartitionSpecList = IntegrationPartition[];
 export interface TargetTableConfig {
-  UnnestSpec?: UnnestSpec;
-  PartitionSpec?: IntegrationPartition[];
-  TargetTableName?: string;
-  IntegrationArn?: string;
+  UnnestSpec?: UnnestSpec | undefined;
+  PartitionSpec?: IntegrationPartition[] | undefined;
+  TargetTableName?: string | undefined;
+  IntegrationArn?: string | undefined;
 }
 export interface CreateIntegrationTablePropertiesRequest {
   ResourceArn: string;
   TableName: string;
-  SourceTableConfig?: SourceTableConfig;
-  TargetTableConfig?: TargetTableConfig;
+  SourceTableConfig?: SourceTableConfig | undefined;
+  TargetTableConfig?: TargetTableConfig | undefined;
 }
 export interface CreateIntegrationTablePropertiesResponse {}
 export interface CreateJobRequest {
   Name: string;
-  JobMode?: JobMode;
-  JobRunQueuingEnabled?: boolean;
-  Description?: string;
-  LogUri?: string;
+  JobMode?: JobMode | undefined;
+  JobRunQueuingEnabled?: boolean | undefined;
+  Description?: string | undefined;
+  LogUri?: string | undefined;
   Role: string;
-  ExecutionProperty?: ExecutionProperty;
+  ExecutionProperty?: ExecutionProperty | undefined;
   Command: JobCommand;
-  DefaultArguments?: { [key: string]: string | undefined };
-  NonOverridableArguments?: { [key: string]: string | undefined };
-  Connections?: ConnectionsList;
-  MaxRetries?: number;
-  AllocatedCapacity?: number;
-  Timeout?: number;
-  MaxCapacity?: number;
-  SecurityConfiguration?: string;
-  Tags?: { [key: string]: string | undefined };
-  NotificationProperty?: NotificationProperty;
-  GlueVersion?: string;
-  NumberOfWorkers?: number;
-  WorkerType?: WorkerType;
-  CodeGenConfigurationNodes?: { [key: string]: CodeGenConfigurationNode | undefined };
-  ExecutionClass?: ExecutionClass;
-  SourceControlDetails?: SourceControlDetails;
-  MaintenanceWindow?: string;
+  DefaultArguments?: { [key: string]: string | undefined } | undefined;
+  NonOverridableArguments?: { [key: string]: string | undefined } | undefined;
+  Connections?: ConnectionsList | undefined;
+  MaxRetries?: number | undefined;
+  AllocatedCapacity?: number | undefined;
+  Timeout?: number | undefined;
+  MaxCapacity?: number | undefined;
+  SecurityConfiguration?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  NotificationProperty?: NotificationProperty | undefined;
+  GlueVersion?: string | undefined;
+  NumberOfWorkers?: number | undefined;
+  WorkerType?: WorkerType | undefined;
+  CodeGenConfigurationNodes?: { [key: string]: CodeGenConfigurationNode | undefined } | undefined;
+  ExecutionClass?: ExecutionClass | undefined;
+  SourceControlDetails?: SourceControlDetails | undefined;
+  MaintenanceWindow?: string | undefined;
 }
 export interface CreateJobResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type GlueTables = GlueTable[];
 export type TransformType = "FIND_MATCHES" | (string & {});
 export interface FindMatchesParameters {
-  PrimaryKeyColumnName?: string;
-  PrecisionRecallTradeoff?: number;
-  AccuracyCostTradeoff?: number;
-  EnforceProvidedLabels?: boolean;
+  PrimaryKeyColumnName?: string | undefined;
+  PrecisionRecallTradeoff?: number | undefined;
+  AccuracyCostTradeoff?: number | undefined;
+  EnforceProvidedLabels?: boolean | undefined;
 }
 export interface TransformParameters {
   TransformType: TransformType;
-  FindMatchesParameters?: FindMatchesParameters;
+  FindMatchesParameters?: FindMatchesParameters | undefined;
 }
 export type MLUserDataEncryptionModeString = "DISABLED" | "SSE-KMS" | (string & {});
 export interface MLUserDataEncryption {
   MlUserDataEncryptionMode: MLUserDataEncryptionModeString;
-  KmsKeyId?: string;
+  KmsKeyId?: string | undefined;
 }
 export interface TransformEncryption {
-  MlUserDataEncryption?: MLUserDataEncryption;
-  TaskRunSecurityConfigurationName?: string;
+  MlUserDataEncryption?: MLUserDataEncryption | undefined;
+  TaskRunSecurityConfigurationName?: string | undefined;
 }
 export interface CreateMLTransformRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   InputRecordTables: GlueTable[];
   Parameters: TransformParameters;
   Role: string;
-  GlueVersion?: string;
-  MaxCapacity?: number;
-  WorkerType?: WorkerType;
-  NumberOfWorkers?: number;
-  Timeout?: number;
-  MaxRetries?: number;
-  Tags?: { [key: string]: string | undefined };
-  TransformEncryption?: TransformEncryption;
+  GlueVersion?: string | undefined;
+  MaxCapacity?: number | undefined;
+  WorkerType?: WorkerType | undefined;
+  NumberOfWorkers?: number | undefined;
+  Timeout?: number | undefined;
+  MaxRetries?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  TransformEncryption?: TransformEncryption | undefined;
 }
 export interface CreateMLTransformResponse {
-  TransformId?: string;
+  TransformId?: string | undefined;
 }
 export interface CreatePartitionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   PartitionInput: PartitionInput;
@@ -3528,7 +3530,7 @@ export interface PartitionIndex {
   IndexName: string;
 }
 export interface CreatePartitionIndexRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   PartitionIndex: PartitionIndex;
@@ -3536,18 +3538,18 @@ export interface CreatePartitionIndexRequest {
 export interface CreatePartitionIndexResponse {}
 export interface CreateRegistryInput {
   RegistryName: string;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateRegistryResponse {
-  RegistryArn?: string;
-  RegistryName?: string;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
+  RegistryArn?: string | undefined;
+  RegistryName?: string | undefined;
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RegistryId {
-  RegistryName?: string;
-  RegistryArn?: string;
+  RegistryName?: string | undefined;
+  RegistryArn?: string | undefined;
 }
 export type Compatibility =
   | "NONE"
@@ -3560,32 +3562,32 @@ export type Compatibility =
   | "FULL_ALL"
   | (string & {});
 export interface CreateSchemaInput {
-  RegistryId?: RegistryId;
+  RegistryId?: RegistryId | undefined;
   SchemaName: string;
   DataFormat: DataFormat;
-  Compatibility?: Compatibility;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
-  SchemaDefinition?: string;
+  Compatibility?: Compatibility | undefined;
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  SchemaDefinition?: string | undefined;
 }
 export type SchemaCheckpointNumber = number;
 export type SchemaStatus = "AVAILABLE" | "PENDING" | "DELETING" | (string & {});
 export type SchemaVersionStatus = "AVAILABLE" | "PENDING" | "FAILURE" | "DELETING" | (string & {});
 export interface CreateSchemaResponse {
-  RegistryName?: string;
-  RegistryArn?: string;
-  SchemaName?: string;
-  SchemaArn?: string;
-  Description?: string;
-  DataFormat?: DataFormat;
-  Compatibility?: Compatibility;
-  SchemaCheckpoint?: number;
-  LatestSchemaVersion?: number;
-  NextSchemaVersion?: number;
-  SchemaStatus?: SchemaStatus;
-  Tags?: { [key: string]: string | undefined };
-  SchemaVersionId?: string;
-  SchemaVersionStatus?: SchemaVersionStatus;
+  RegistryName?: string | undefined;
+  RegistryArn?: string | undefined;
+  SchemaName?: string | undefined;
+  SchemaArn?: string | undefined;
+  Description?: string | undefined;
+  DataFormat?: DataFormat | undefined;
+  Compatibility?: Compatibility | undefined;
+  SchemaCheckpoint?: number | undefined;
+  LatestSchemaVersion?: number | undefined;
+  NextSchemaVersion?: number | undefined;
+  SchemaStatus?: SchemaStatus | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  SchemaVersionId?: string | undefined;
+  SchemaVersionStatus?: SchemaVersionStatus | undefined;
 }
 export type CodeGenIdentifier = string;
 export type CodeGenNodeType = string;
@@ -3594,94 +3596,94 @@ export type CodeGenArgValue = string;
 export interface CodeGenNodeArg {
   Name: string;
   Value: string;
-  Param?: boolean;
+  Param?: boolean | undefined;
 }
 export type CodeGenNodeArgs = CodeGenNodeArg[];
 export interface CodeGenNode {
   Id: string;
   NodeType: string;
   Args: CodeGenNodeArg[];
-  LineNumber?: number;
+  LineNumber?: number | undefined;
 }
 export type DagNodes = CodeGenNode[];
 export interface CodeGenEdge {
   Source: string;
   Target: string;
-  TargetParameter?: string;
+  TargetParameter?: string | undefined;
 }
 export type DagEdges = CodeGenEdge[];
 export type Language = "PYTHON" | "SCALA" | (string & {});
 export interface CreateScriptRequest {
-  DagNodes?: CodeGenNode[];
-  DagEdges?: CodeGenEdge[];
-  Language?: Language;
+  DagNodes?: CodeGenNode[] | undefined;
+  DagEdges?: CodeGenEdge[] | undefined;
+  Language?: Language | undefined;
 }
 export type PythonScript = string;
 export type ScalaCode = string;
 export interface CreateScriptResponse {
-  PythonScript?: string;
-  ScalaCode?: string;
+  PythonScript?: string | undefined;
+  ScalaCode?: string | undefined;
 }
 export type S3EncryptionMode = "DISABLED" | "SSE-KMS" | "SSE-S3" | (string & {});
 export interface S3Encryption {
-  S3EncryptionMode?: S3EncryptionMode;
-  KmsKeyArn?: string;
+  S3EncryptionMode?: S3EncryptionMode | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export type S3EncryptionList = S3Encryption[];
 export type CloudWatchEncryptionMode = "DISABLED" | "SSE-KMS" | (string & {});
 export interface CloudWatchEncryption {
-  CloudWatchEncryptionMode?: CloudWatchEncryptionMode;
-  KmsKeyArn?: string;
+  CloudWatchEncryptionMode?: CloudWatchEncryptionMode | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export type JobBookmarksEncryptionMode = "DISABLED" | "CSE-KMS" | (string & {});
 export interface JobBookmarksEncryption {
-  JobBookmarksEncryptionMode?: JobBookmarksEncryptionMode;
-  KmsKeyArn?: string;
+  JobBookmarksEncryptionMode?: JobBookmarksEncryptionMode | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export type DataQualityEncryptionMode = "DISABLED" | "SSE-KMS" | (string & {});
 export interface DataQualityEncryption {
-  DataQualityEncryptionMode?: DataQualityEncryptionMode;
-  KmsKeyArn?: string;
+  DataQualityEncryptionMode?: DataQualityEncryptionMode | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export interface EncryptionConfiguration {
-  S3Encryption?: S3Encryption[];
-  CloudWatchEncryption?: CloudWatchEncryption;
-  JobBookmarksEncryption?: JobBookmarksEncryption;
-  DataQualityEncryption?: DataQualityEncryption;
+  S3Encryption?: S3Encryption[] | undefined;
+  CloudWatchEncryption?: CloudWatchEncryption | undefined;
+  JobBookmarksEncryption?: JobBookmarksEncryption | undefined;
+  DataQualityEncryption?: DataQualityEncryption | undefined;
 }
 export interface CreateSecurityConfigurationRequest {
   Name: string;
   EncryptionConfiguration: EncryptionConfiguration;
 }
 export interface CreateSecurityConfigurationResponse {
-  Name?: string;
-  CreatedTimestamp?: Date;
+  Name?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
 }
 export type OrchestrationRoleArn = string;
 export interface SessionCommand {
-  Name?: string;
-  PythonVersion?: string;
+  Name?: string | undefined;
+  PythonVersion?: string | undefined;
 }
 export type OrchestrationArgumentsValue = string;
 export type OrchestrationArgumentsMap = { [key: string]: string | undefined };
 export type SessionType = "LIVY" | "SPARK_CONNECT" | (string & {});
 export interface CreateSessionRequest {
   Id: string;
-  Description?: string;
+  Description?: string | undefined;
   Role: string;
   Command: SessionCommand;
-  Timeout?: number;
-  IdleTimeout?: number;
-  DefaultArguments?: { [key: string]: string | undefined };
-  Connections?: ConnectionsList;
-  MaxCapacity?: number;
-  NumberOfWorkers?: number;
-  WorkerType?: WorkerType;
-  SecurityConfiguration?: string;
-  GlueVersion?: string;
-  Tags?: { [key: string]: string | undefined };
-  RequestOrigin?: string;
-  SessionType?: SessionType;
+  Timeout?: number | undefined;
+  IdleTimeout?: number | undefined;
+  DefaultArguments?: { [key: string]: string | undefined } | undefined;
+  Connections?: ConnectionsList | undefined;
+  MaxCapacity?: number | undefined;
+  NumberOfWorkers?: number | undefined;
+  WorkerType?: WorkerType | undefined;
+  SecurityConfiguration?: string | undefined;
+  GlueVersion?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  RequestOrigin?: string | undefined;
+  SessionType?: SessionType | undefined;
 }
 export type SessionStatus =
   | "PROVISIONING"
@@ -3694,54 +3696,54 @@ export type SessionStatus =
 export type DoubleValue = number;
 export type IdleTimeout = number;
 export interface Session {
-  Id?: string;
-  CreatedOn?: Date;
-  Status?: SessionStatus;
-  ErrorMessage?: string;
-  Description?: string;
-  Role?: string;
-  Command?: SessionCommand;
-  DefaultArguments?: { [key: string]: string | undefined };
-  Connections?: ConnectionsList;
-  Progress?: number;
-  MaxCapacity?: number;
-  SecurityConfiguration?: string;
-  GlueVersion?: string;
-  NumberOfWorkers?: number;
-  WorkerType?: WorkerType;
-  CompletedOn?: Date;
-  ExecutionTime?: number;
-  DPUSeconds?: number;
-  IdleTimeout?: number;
-  ProfileName?: string;
-  SessionType?: SessionType;
+  Id?: string | undefined;
+  CreatedOn?: Date | undefined;
+  Status?: SessionStatus | undefined;
+  ErrorMessage?: string | undefined;
+  Description?: string | undefined;
+  Role?: string | undefined;
+  Command?: SessionCommand | undefined;
+  DefaultArguments?: { [key: string]: string | undefined } | undefined;
+  Connections?: ConnectionsList | undefined;
+  Progress?: number | undefined;
+  MaxCapacity?: number | undefined;
+  SecurityConfiguration?: string | undefined;
+  GlueVersion?: string | undefined;
+  NumberOfWorkers?: number | undefined;
+  WorkerType?: WorkerType | undefined;
+  CompletedOn?: Date | undefined;
+  ExecutionTime?: number | undefined;
+  DPUSeconds?: number | undefined;
+  IdleTimeout?: number | undefined;
+  ProfileName?: string | undefined;
+  SessionType?: SessionType | undefined;
 }
 export interface CreateSessionResponse {
-  Session?: Session;
+  Session?: Session | undefined;
 }
 export type NonNegativeInteger = number;
 export type ViewTextString = string;
 export type TableTypeString = string;
 export interface TableIdentifier {
-  CatalogId?: string;
-  DatabaseName?: string;
-  Name?: string;
-  Region?: string;
+  CatalogId?: string | undefined;
+  DatabaseName?: string | undefined;
+  Name?: string | undefined;
+  Region?: string | undefined;
 }
 export interface FederatedTable {
-  Identifier?: string;
-  DatabaseIdentifier?: string;
-  ConnectionName?: string;
-  ConnectionType?: string;
+  Identifier?: string | undefined;
+  DatabaseIdentifier?: string | undefined;
+  ConnectionName?: string | undefined;
+  ConnectionType?: string | undefined;
 }
 export type ViewDialect = "REDSHIFT" | "ATHENA" | "SPARK" | (string & {});
 export type ViewDialectVersionString = string;
 export interface ViewRepresentationInput {
-  Dialect?: ViewDialect;
-  DialectVersion?: string;
-  ViewOriginalText?: string;
-  ValidationConnection?: string;
-  ViewExpandedText?: string;
+  Dialect?: ViewDialect | undefined;
+  DialectVersion?: string | undefined;
+  ViewOriginalText?: string | undefined;
+  ValidationConnection?: string | undefined;
+  ViewExpandedText?: string | undefined;
 }
 export type ViewRepresentationInputList = ViewRepresentationInput[];
 export type TableVersionId = number;
@@ -3758,46 +3760,46 @@ export type SubObjectSourceType =
   | "ICEBERG"
   | (string & {});
 export interface SubObjectStatistics {
-  SourceType?: SubObjectSourceType;
-  GlueVersionId?: string;
-  PartitionCount?: number;
-  FileCount?: number;
-  TotalFileBytes?: number;
+  SourceType?: SubObjectSourceType | undefined;
+  GlueVersionId?: string | undefined;
+  PartitionCount?: number | undefined;
+  FileCount?: number | undefined;
+  TotalFileBytes?: number | undefined;
 }
 export type SubObjectsStatisticsList = SubObjectStatistics[];
 export type SparkPipelineInfoKey = string;
 export type SparkPipelineInfoValue = string;
 export type SparkPipelineInfoMap = { [key: string]: string | undefined };
 export interface ViewDefinitionInput {
-  IsProtected?: boolean;
-  IsManaged?: boolean;
-  Definer?: string;
-  Representations?: ViewRepresentationInput[];
-  ViewVersionId?: number;
-  ViewVersionToken?: string;
-  RefreshSeconds?: number;
-  LastRefreshType?: LastRefreshType;
-  SubObjects?: string[];
-  SubObjectVersionIds?: number[];
-  SubObjectsStatistics?: SubObjectStatistics[];
-  SparkPipelineInfo?: { [key: string]: string | undefined };
+  IsProtected?: boolean | undefined;
+  IsManaged?: boolean | undefined;
+  Definer?: string | undefined;
+  Representations?: ViewRepresentationInput[] | undefined;
+  ViewVersionId?: number | undefined;
+  ViewVersionToken?: string | undefined;
+  RefreshSeconds?: number | undefined;
+  LastRefreshType?: LastRefreshType | undefined;
+  SubObjects?: string[] | undefined;
+  SubObjectVersionIds?: number[] | undefined;
+  SubObjectsStatistics?: SubObjectStatistics[] | undefined;
+  SparkPipelineInfo?: { [key: string]: string | undefined } | undefined;
 }
 export interface TableInput {
   Name: string;
-  Description?: string;
-  Owner?: string;
-  LastAccessTime?: Date;
-  LastAnalyzedTime?: Date;
-  Retention?: number;
-  StorageDescriptor?: StorageDescriptor;
-  PartitionKeys?: Column[];
-  ViewOriginalText?: string;
-  ViewExpandedText?: string;
-  TableType?: string;
-  Parameters?: { [key: string]: string | undefined };
-  TargetTable?: TableIdentifier;
-  FederatedTable?: FederatedTable;
-  ViewDefinition?: ViewDefinitionInput;
+  Description?: string | undefined;
+  Owner?: string | undefined;
+  LastAccessTime?: Date | undefined;
+  LastAnalyzedTime?: Date | undefined;
+  Retention?: number | undefined;
+  StorageDescriptor?: StorageDescriptor | undefined;
+  PartitionKeys?: Column[] | undefined;
+  ViewOriginalText?: string | undefined;
+  ViewExpandedText?: string | undefined;
+  TableType?: string | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  TargetTable?: TableIdentifier | undefined;
+  FederatedTable?: FederatedTable | undefined;
+  ViewDefinition?: ViewDefinitionInput | undefined;
 }
 export type PartitionIndexList = PartitionIndex[];
 export type MetadataOperation = "CREATE" | (string & {});
@@ -3809,15 +3811,15 @@ export interface IcebergStructField {
   Name: string;
   Type: any;
   Required: boolean;
-  Doc?: string;
-  InitialDefault?: any;
-  WriteDefault?: any;
+  Doc?: string | undefined;
+  InitialDefault?: any | undefined;
+  WriteDefault?: any | undefined;
 }
 export type IcebergStructFieldList = IcebergStructField[];
 export interface IcebergSchema {
-  SchemaId?: number;
-  IdentifierFieldIds?: number[];
-  Type?: IcebergStructTypeEnum;
+  SchemaId?: number | undefined;
+  IdentifierFieldIds?: number[] | undefined;
+  Type?: IcebergStructTypeEnum | undefined;
   Fields: IcebergStructField[];
 }
 export type IcebergTransformString = string;
@@ -3825,12 +3827,12 @@ export interface IcebergPartitionField {
   SourceId: number;
   Transform: string;
   Name: string;
-  FieldId?: number;
+  FieldId?: number | undefined;
 }
 export type IcebergPartitionSpecFieldList = IcebergPartitionField[];
 export interface IcebergPartitionSpec {
   Fields: IcebergPartitionField[];
-  SpecId?: number;
+  SpecId?: number | undefined;
 }
 export type IcebergSortDirection = "asc" | "desc" | (string & {});
 export type IcebergNullOrder = "nulls-first" | "nulls-last" | (string & {});
@@ -3849,26 +3851,26 @@ export type StringToStringMap = { [key: string]: string | undefined };
 export interface CreateIcebergTableInput {
   Location: string;
   Schema: IcebergSchema;
-  PartitionSpec?: IcebergPartitionSpec;
-  WriteOrder?: IcebergSortOrder;
-  Properties?: { [key: string]: string | undefined };
+  PartitionSpec?: IcebergPartitionSpec | undefined;
+  WriteOrder?: IcebergSortOrder | undefined;
+  Properties?: { [key: string]: string | undefined } | undefined;
 }
 export interface IcebergInput {
   MetadataOperation: MetadataOperation;
-  Version?: string;
-  CreateIcebergTableInput?: CreateIcebergTableInput;
+  Version?: string | undefined;
+  CreateIcebergTableInput?: CreateIcebergTableInput | undefined;
 }
 export interface OpenTableFormatInput {
-  IcebergInput?: IcebergInput;
+  IcebergInput?: IcebergInput | undefined;
 }
 export interface CreateTableRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
-  Name?: string;
-  TableInput?: TableInput;
-  PartitionIndexes?: PartitionIndex[];
-  TransactionId?: string;
-  OpenTableFormatInput?: OpenTableFormatInput;
+  Name?: string | undefined;
+  TableInput?: TableInput | undefined;
+  PartitionIndexes?: PartitionIndex[] | undefined;
+  TransactionId?: string | undefined;
+  OpenTableFormatInput?: OpenTableFormatInput | undefined;
 }
 export interface CreateTableResponse {}
 export interface CreateTableOptimizerRequest {
@@ -3881,40 +3883,40 @@ export interface CreateTableOptimizerRequest {
 export interface CreateTableOptimizerResponse {}
 export interface CreateTriggerRequest {
   Name: string;
-  WorkflowName?: string;
+  WorkflowName?: string | undefined;
   Type: TriggerType;
-  Schedule?: string;
-  Predicate?: Predicate;
+  Schedule?: string | undefined;
+  Predicate?: Predicate | undefined;
   Actions: Action[];
-  Description?: string;
-  StartOnCreation?: boolean;
-  Tags?: { [key: string]: string | undefined };
-  EventBatchingCondition?: EventBatchingCondition;
+  Description?: string | undefined;
+  StartOnCreation?: boolean | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  EventBatchingCondition?: EventBatchingCondition | undefined;
 }
 export interface CreateTriggerResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type ConfigValueString = string;
 export type AllowedValuesStringList = string[];
 export interface ConfigurationObject {
-  DefaultValue?: string;
-  AllowedValues?: string[];
-  MinValue?: string;
-  MaxValue?: string;
+  DefaultValue?: string | undefined;
+  AllowedValues?: string[] | undefined;
+  MinValue?: string | undefined;
+  MaxValue?: string | undefined;
 }
 export type ConfigurationMap = { [key: string]: ConfigurationObject | undefined };
 export interface ProfileConfiguration {
-  SessionConfiguration?: { [key: string]: ConfigurationObject | undefined };
-  JobConfiguration?: { [key: string]: ConfigurationObject | undefined };
+  SessionConfiguration?: { [key: string]: ConfigurationObject | undefined } | undefined;
+  JobConfiguration?: { [key: string]: ConfigurationObject | undefined } | undefined;
 }
 export interface CreateUsageProfileRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Configuration: ProfileConfiguration;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateUsageProfileResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type FunctionType =
   | "REGULAR_FUNCTION"
@@ -3924,20 +3926,20 @@ export type FunctionType =
 export type PrincipalType = "USER" | "ROLE" | "GROUP" | (string & {});
 export type ResourceType = "JAR" | "FILE" | "ARCHIVE" | (string & {});
 export interface ResourceUri {
-  ResourceType?: ResourceType;
-  Uri?: string;
+  ResourceType?: ResourceType | undefined;
+  Uri?: string | undefined;
 }
 export type ResourceUriList = ResourceUri[];
 export interface UserDefinedFunctionInput {
-  FunctionName?: string;
-  ClassName?: string;
-  OwnerName?: string;
-  FunctionType?: FunctionType;
-  OwnerType?: PrincipalType;
-  ResourceUris?: ResourceUri[];
+  FunctionName?: string | undefined;
+  ClassName?: string | undefined;
+  OwnerName?: string | undefined;
+  FunctionType?: FunctionType | undefined;
+  OwnerType?: PrincipalType | undefined;
+  ResourceUris?: ResourceUri[] | undefined;
 }
 export interface CreateUserDefinedFunctionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   FunctionInput: UserDefinedFunctionInput;
 }
@@ -3945,13 +3947,13 @@ export interface CreateUserDefinedFunctionResponse {}
 export type WorkflowDescriptionString = string;
 export interface CreateWorkflowRequest {
   Name: string;
-  Description?: string;
-  DefaultRunProperties?: { [key: string]: string | undefined };
-  Tags?: { [key: string]: string | undefined };
-  MaxConcurrentRuns?: number;
+  Description?: string | undefined;
+  DefaultRunProperties?: { [key: string]: string | undefined } | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  MaxConcurrentRuns?: number | undefined;
 }
 export interface CreateWorkflowResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DeleteAssetRequest {
   Identifier: string;
@@ -3965,20 +3967,20 @@ export interface DeleteAssetTypeResponse {}
 export type AttachmentName = string;
 export interface DeleteAttachmentRequest {
   AssetIdentifier: string;
-  IterableFormName?: string;
-  ItemIdentifier?: string;
+  IterableFormName?: string | undefined;
+  ItemIdentifier?: string | undefined;
   AttachmentName: string;
 }
 export interface DeleteAttachmentResponse {
-  AssetIdentifier?: string;
-  IterableFormName?: string;
-  ItemIdentifier?: string;
+  AssetIdentifier?: string | undefined;
+  IterableFormName?: string | undefined;
+  ItemIdentifier?: string | undefined;
 }
 export interface DeleteBlueprintRequest {
   Name: string;
 }
 export interface DeleteBlueprintResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DeleteCatalogRequest {
   CatalogId: string;
@@ -3989,7 +3991,7 @@ export interface DeleteClassifierRequest {
 }
 export interface DeleteClassifierResponse {}
 export interface DeleteColumnStatisticsForPartitionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   PartitionValues: string[];
@@ -3997,7 +3999,7 @@ export interface DeleteColumnStatisticsForPartitionRequest {
 }
 export interface DeleteColumnStatisticsForPartitionResponse {}
 export interface DeleteColumnStatisticsForTableRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   ColumnName: string;
@@ -4006,11 +4008,11 @@ export interface DeleteColumnStatisticsForTableResponse {}
 export interface DeleteColumnStatisticsTaskSettingsRequest {
   DatabaseName: string;
   TableName: string;
-  CatalogID?: string;
+  CatalogID?: string | undefined;
 }
 export interface DeleteColumnStatisticsTaskSettingsResponse {}
 export interface DeleteConnectionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   ConnectionName: string;
 }
 export interface DeleteConnectionResponse {}
@@ -4026,10 +4028,10 @@ export interface DeleteCustomEntityTypeRequest {
   Name: string;
 }
 export interface DeleteCustomEntityTypeResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DeleteDatabaseRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Name: string;
 }
 export interface DeleteDatabaseResponse {}
@@ -4062,15 +4064,15 @@ export interface DeleteIntegrationResponse {
   SourceArn: string;
   TargetArn: string;
   IntegrationName: string;
-  Description?: string;
+  Description?: string | undefined;
   IntegrationArn: string;
-  KmsKeyId?: string;
-  AdditionalEncryptionContext?: { [key: string]: string | undefined };
-  Tags?: Tag[];
+  KmsKeyId?: string | undefined;
+  AdditionalEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  Tags?: Tag[] | undefined;
   Status: IntegrationStatus;
   CreateTime: Date;
-  Errors?: IntegrationError[];
-  DataFilter?: string;
+  Errors?: IntegrationError[] | undefined;
+  DataFilter?: string | undefined;
 }
 export interface DeleteIntegrationResourcePropertyRequest {
   ResourceArn: string;
@@ -4085,23 +4087,23 @@ export interface DeleteJobRequest {
   JobName: string;
 }
 export interface DeleteJobResponse {
-  JobName?: string;
+  JobName?: string | undefined;
 }
 export interface DeleteMLTransformRequest {
   TransformId: string;
 }
 export interface DeleteMLTransformResponse {
-  TransformId?: string;
+  TransformId?: string | undefined;
 }
 export interface DeletePartitionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   PartitionValues: string[];
 }
 export interface DeletePartitionResponse {}
 export interface DeletePartitionIndexRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   IndexName: string;
@@ -4112,22 +4114,22 @@ export interface DeleteRegistryInput {
 }
 export type RegistryStatus = "AVAILABLE" | "DELETING" | (string & {});
 export interface DeleteRegistryResponse {
-  RegistryName?: string;
-  RegistryArn?: string;
-  Status?: RegistryStatus;
+  RegistryName?: string | undefined;
+  RegistryArn?: string | undefined;
+  Status?: RegistryStatus | undefined;
 }
 export interface DeleteResourcePolicyRequest {
-  PolicyHashCondition?: string;
-  ResourceArn?: string;
+  PolicyHashCondition?: string | undefined;
+  ResourceArn?: string | undefined;
 }
 export interface DeleteResourcePolicyResponse {}
 export interface DeleteSchemaInput {
   SchemaId: SchemaId;
 }
 export interface DeleteSchemaResponse {
-  SchemaArn?: string;
-  SchemaName?: string;
-  Status?: SchemaStatus;
+  SchemaArn?: string | undefined;
+  SchemaName?: string | undefined;
+  Status?: SchemaStatus | undefined;
 }
 export type VersionsString = string;
 export interface DeleteSchemaVersionsInput {
@@ -4137,16 +4139,16 @@ export interface DeleteSchemaVersionsInput {
 export type ErrorCodeString = string;
 export type ErrorMessageString = string;
 export interface ErrorDetails {
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export interface SchemaVersionErrorItem {
-  VersionNumber?: number;
-  ErrorDetails?: ErrorDetails;
+  VersionNumber?: number | undefined;
+  ErrorDetails?: ErrorDetails | undefined;
 }
 export type SchemaVersionErrorList = SchemaVersionErrorItem[];
 export interface DeleteSchemaVersionsResponse {
-  SchemaVersionErrors?: SchemaVersionErrorItem[];
+  SchemaVersionErrors?: SchemaVersionErrorItem[] | undefined;
 }
 export interface DeleteSecurityConfigurationRequest {
   Name: string;
@@ -4154,16 +4156,16 @@ export interface DeleteSecurityConfigurationRequest {
 export interface DeleteSecurityConfigurationResponse {}
 export interface DeleteSessionRequest {
   Id: string;
-  RequestOrigin?: string;
+  RequestOrigin?: string | undefined;
 }
 export interface DeleteSessionResponse {
-  Id?: string;
+  Id?: string | undefined;
 }
 export interface DeleteTableRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   Name: string;
-  TransactionId?: string;
+  TransactionId?: string | undefined;
 }
 export interface DeleteTableResponse {}
 export interface DeleteTableOptimizerRequest {
@@ -4174,7 +4176,7 @@ export interface DeleteTableOptimizerRequest {
 }
 export interface DeleteTableOptimizerResponse {}
 export interface DeleteTableVersionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   VersionId: string;
@@ -4184,14 +4186,14 @@ export interface DeleteTriggerRequest {
   Name: string;
 }
 export interface DeleteTriggerResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DeleteUsageProfileRequest {
   Name: string;
 }
 export interface DeleteUsageProfileResponse {}
 export interface DeleteUserDefinedFunctionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   FunctionName: string;
 }
@@ -4200,7 +4202,7 @@ export interface DeleteWorkflowRequest {
   Name: string;
 }
 export interface DeleteWorkflowResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DescribeConnectionTypeRequest {
   ConnectionType: string;
@@ -4228,7 +4230,7 @@ export type PropertyTypes = PropertyType[];
 export type AllowedValueDescriptionString = string;
 export type AllowedValueValueString = string;
 export interface AllowedValue {
-  Description?: string;
+  Description?: string | undefined;
   Value: string;
 }
 export type AllowedValues = AllowedValue[];
@@ -4237,20 +4239,20 @@ export interface Property {
   Name: string;
   Description: string;
   Required: boolean;
-  DefaultValue?: string;
+  DefaultValue?: string | undefined;
   PropertyTypes: PropertyType[];
-  AllowedValues?: AllowedValue[];
-  DataOperationScopes?: DataOperation[];
-  KeyOverride?: string;
-  PropertyLocation?: PropertyLocation;
+  AllowedValues?: AllowedValue[] | undefined;
+  DataOperationScopes?: DataOperation[] | undefined;
+  KeyOverride?: string | undefined;
+  PropertyLocation?: PropertyLocation | undefined;
 }
 export type PropertiesMap = { [key: string]: Property | undefined };
 export interface AuthConfiguration {
   AuthenticationType: Property;
-  SecretArn?: Property;
-  OAuth2Properties?: { [key: string]: Property | undefined };
-  BasicAuthenticationProperties?: { [key: string]: Property | undefined };
-  CustomAuthenticationProperties?: { [key: string]: Property | undefined };
+  SecretArn?: Property | undefined;
+  OAuth2Properties?: { [key: string]: Property | undefined } | undefined;
+  BasicAuthenticationProperties?: { [key: string]: Property | undefined } | undefined;
+  CustomAuthenticationProperties?: { [key: string]: Property | undefined } | undefined;
 }
 export type ComputeEnvironmentName = string;
 export type ComputeEnvironmentConfigurationDescriptionString = string;
@@ -4265,7 +4267,7 @@ export interface ComputeEnvironmentConfiguration {
   ConnectionPropertyNameOverrides: { [key: string]: string | undefined };
   ConnectionOptionNameOverrides: { [key: string]: string | undefined };
   ConnectionPropertiesRequiredOverrides: string[];
-  PhysicalConnectionPropertiesRequired?: boolean;
+  PhysicalConnectionPropertiesRequired?: boolean | undefined;
 }
 export type ComputeEnvironmentConfigurationMap = {
   [key: string]: ComputeEnvironmentConfiguration | undefined;
@@ -4275,70 +4277,70 @@ export type PathString = string;
 export type ConnectorPropertyKey = string;
 export interface ConnectorProperty {
   Name: string;
-  KeyOverride?: string;
+  KeyOverride?: string | undefined;
   Required: boolean;
-  DefaultValue?: string;
-  AllowedValues?: string[];
-  PropertyLocation?: PropertyLocation;
+  DefaultValue?: string | undefined;
+  AllowedValues?: string[] | undefined;
+  PropertyLocation?: PropertyLocation | undefined;
   PropertyType: PropertyType;
-  Format?: string;
+  Format?: string | undefined;
 }
 export type ConnectorPropertyList = ConnectorProperty[];
 export type JsonPathString = string;
 export interface ResponseConfiguration {
   ResultPath: string;
-  ErrorPath?: string;
+  ErrorPath?: string | undefined;
 }
 export type DefaultValue = string;
 export interface ResponseExtractionMapping {
-  ContentPath?: string;
-  HeaderKey?: string;
+  ContentPath?: string | undefined;
+  HeaderKey?: string | undefined;
 }
 export interface ExtractedParameter {
-  Key?: string;
-  DefaultValue?: string;
-  PropertyLocation?: PropertyLocation;
-  Value?: ResponseExtractionMapping;
+  Key?: string | undefined;
+  DefaultValue?: string | undefined;
+  PropertyLocation?: PropertyLocation | undefined;
+  Value?: ResponseExtractionMapping | undefined;
 }
 export interface CursorConfiguration {
   NextPage: ExtractedParameter;
-  LimitParameter?: ExtractedParameter;
+  LimitParameter?: ExtractedParameter | undefined;
 }
 export interface OffsetConfiguration {
   OffsetParameter: ExtractedParameter;
   LimitParameter: ExtractedParameter;
 }
 export interface PaginationConfiguration {
-  CursorConfiguration?: CursorConfiguration;
-  OffsetConfiguration?: OffsetConfiguration;
+  CursorConfiguration?: CursorConfiguration | undefined;
+  OffsetConfiguration?: OffsetConfiguration | undefined;
 }
 export type FilterMode = "QUERY_PARAMS" | "FILTER_STRING" | (string & {});
 export type ConnectionStringToStringMap = { [key: string]: string | undefined };
 export interface BetweenConfiguration {
-  LowBoundKey?: string;
-  HighBoundKey?: string;
-  Template?: string;
+  LowBoundKey?: string | undefined;
+  HighBoundKey?: string | undefined;
+  Template?: string | undefined;
 }
 export interface FilterStringConfiguration {
   QueryParameterName: string;
-  QuoteStringValues?: boolean;
-  QuoteCharacter?: string;
+  QuoteStringValues?: boolean | undefined;
+  QuoteCharacter?: string | undefined;
 }
 export interface FilterConfiguration {
   FilterMode: FilterMode;
-  OperatorMappings?: { [key: string]: string | undefined };
-  DateTimeFormat?: string;
-  StripQuotes?: boolean;
-  BetweenConfiguration?: BetweenConfiguration;
-  FilterStringConfiguration?: FilterStringConfiguration;
+  OperatorMappings?: { [key: string]: string | undefined } | undefined;
+  DateTimeFormat?: string | undefined;
+  StripQuotes?: boolean | undefined;
+  BetweenConfiguration?: BetweenConfiguration | undefined;
+  FilterStringConfiguration?: FilterStringConfiguration | undefined;
 }
 export interface SourceConfiguration {
-  RequestMethod?: HTTPMethod;
-  RequestPath?: string;
-  RequestParameters?: ConnectorProperty[];
-  ResponseConfiguration?: ResponseConfiguration;
-  PaginationConfiguration?: PaginationConfiguration;
-  FilterConfiguration?: FilterConfiguration;
+  RequestMethod?: HTTPMethod | undefined;
+  RequestPath?: string | undefined;
+  RequestParameters?: ConnectorProperty[] | undefined;
+  ResponseConfiguration?: ResponseConfiguration | undefined;
+  PaginationConfiguration?: PaginationConfiguration | undefined;
+  FilterConfiguration?: FilterConfiguration | undefined;
 }
 export type EntityConfigurationMapKeyString = string;
 export type FieldDefinitionMapKeyString = string;
@@ -4363,55 +4365,57 @@ export type FieldDataType =
   | "UNION"
   | (string & {});
 export interface FilterOverrides {
-  FieldName?: string;
-  OperatorMappings?: { [key: string]: string | undefined };
-  BetweenConfiguration?: BetweenConfiguration;
-  DateTimeFormat?: string;
+  FieldName?: string | undefined;
+  OperatorMappings?: { [key: string]: string | undefined } | undefined;
+  BetweenConfiguration?: BetweenConfiguration | undefined;
+  DateTimeFormat?: string | undefined;
 }
 export interface FieldDefinition {
   Name: string;
   FieldDataType: FieldDataType;
-  ResponseDateFormat?: string;
-  IsPartitionable?: boolean;
-  IsNullable?: boolean;
-  IsQueryable?: boolean;
-  IsOrderable?: boolean;
-  FilterOverrides?: FilterOverrides;
+  ResponseDateFormat?: string | undefined;
+  IsPartitionable?: boolean | undefined;
+  IsNullable?: boolean | undefined;
+  IsQueryable?: boolean | undefined;
+  IsOrderable?: boolean | undefined;
+  FilterOverrides?: FilterOverrides | undefined;
 }
 export type FieldDefinitionMap = { [key: string]: FieldDefinition | undefined };
 export interface EntityConfiguration {
-  SourceConfiguration?: SourceConfiguration;
-  Schema?: { [key: string]: FieldDefinition | undefined };
+  SourceConfiguration?: SourceConfiguration | undefined;
+  Schema?: { [key: string]: FieldDefinition | undefined } | undefined;
 }
 export type EntityConfigurationMap = { [key: string]: EntityConfiguration | undefined };
 export interface RestConfiguration {
-  GlobalSourceConfiguration?: SourceConfiguration;
-  ValidationEndpointConfiguration?: SourceConfiguration;
-  EntityConfigurations?: { [key: string]: EntityConfiguration | undefined };
+  GlobalSourceConfiguration?: SourceConfiguration | undefined;
+  ValidationEndpointConfiguration?: SourceConfiguration | undefined;
+  EntityConfigurations?: { [key: string]: EntityConfiguration | undefined } | undefined;
 }
 export interface DescribeConnectionTypeResponse {
-  ConnectionType?: string;
-  Description?: string;
-  Capabilities?: Capabilities;
-  ConnectionProperties?: { [key: string]: Property | undefined };
-  ConnectionOptions?: { [key: string]: Property | undefined };
-  AuthenticationConfiguration?: AuthConfiguration;
-  ComputeEnvironmentConfigurations?: { [key: string]: ComputeEnvironmentConfiguration | undefined };
-  PhysicalConnectionRequirements?: { [key: string]: Property | undefined };
-  AthenaConnectionProperties?: { [key: string]: Property | undefined };
-  PythonConnectionProperties?: { [key: string]: Property | undefined };
-  SparkConnectionProperties?: { [key: string]: Property | undefined };
-  RestConfiguration?: RestConfiguration;
+  ConnectionType?: string | undefined;
+  Description?: string | undefined;
+  Capabilities?: Capabilities | undefined;
+  ConnectionProperties?: { [key: string]: Property | undefined } | undefined;
+  ConnectionOptions?: { [key: string]: Property | undefined } | undefined;
+  AuthenticationConfiguration?: AuthConfiguration | undefined;
+  ComputeEnvironmentConfigurations?:
+    | { [key: string]: ComputeEnvironmentConfiguration | undefined }
+    | undefined;
+  PhysicalConnectionRequirements?: { [key: string]: Property | undefined } | undefined;
+  AthenaConnectionProperties?: { [key: string]: Property | undefined } | undefined;
+  PythonConnectionProperties?: { [key: string]: Property | undefined } | undefined;
+  SparkConnectionProperties?: { [key: string]: Property | undefined } | undefined;
+  RestConfiguration?: RestConfiguration | undefined;
 }
 export type EntityName = string;
 export type NextToken = string;
 export type ApiVersion = string;
 export interface DescribeEntityRequest {
   ConnectionName: string;
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   EntityName: string;
-  NextToken?: string;
-  DataStoreApiVersion?: string;
+  NextToken?: string | undefined;
+  DataStoreApiVersion?: string | undefined;
 }
 export type EntityFieldName = string;
 export type FieldLabel = string;
@@ -4430,36 +4434,36 @@ export type FieldFilterOperator =
 export type FieldFilterOperatorsList = FieldFilterOperator[];
 export type CustomProperties = { [key: string]: string | undefined };
 export interface Field {
-  FieldName?: string;
-  Label?: string;
-  Description?: string;
-  FieldType?: FieldDataType;
-  IsPrimaryKey?: boolean;
-  IsNullable?: boolean;
-  IsRetrievable?: boolean;
-  IsFilterable?: boolean;
-  IsPartitionable?: boolean;
-  IsCreateable?: boolean;
-  IsUpdateable?: boolean;
-  IsUpsertable?: boolean;
-  IsDefaultOnCreate?: boolean;
-  SupportedValues?: string[];
-  SupportedFilterOperators?: FieldFilterOperator[];
-  ParentField?: string;
-  NativeDataType?: string;
-  CustomProperties?: { [key: string]: string | undefined };
+  FieldName?: string | undefined;
+  Label?: string | undefined;
+  Description?: string | undefined;
+  FieldType?: FieldDataType | undefined;
+  IsPrimaryKey?: boolean | undefined;
+  IsNullable?: boolean | undefined;
+  IsRetrievable?: boolean | undefined;
+  IsFilterable?: boolean | undefined;
+  IsPartitionable?: boolean | undefined;
+  IsCreateable?: boolean | undefined;
+  IsUpdateable?: boolean | undefined;
+  IsUpsertable?: boolean | undefined;
+  IsDefaultOnCreate?: boolean | undefined;
+  SupportedValues?: string[] | undefined;
+  SupportedFilterOperators?: FieldFilterOperator[] | undefined;
+  ParentField?: string | undefined;
+  NativeDataType?: string | undefined;
+  CustomProperties?: { [key: string]: string | undefined } | undefined;
 }
 export type FieldsList = Field[];
 export interface DescribeEntityResponse {
-  Fields?: Field[];
-  NextToken?: string;
+  Fields?: Field[] | undefined;
+  NextToken?: string | undefined;
 }
 export type IntegrationInteger = number;
 export interface DescribeInboundIntegrationsRequest {
-  IntegrationArn?: string;
-  Marker?: string;
-  MaxRecords?: number;
-  TargetArn?: string;
+  IntegrationArn?: string | undefined;
+  Marker?: string | undefined;
+  MaxRecords?: number | undefined;
+  TargetArn?: string | undefined;
 }
 export interface InboundIntegration {
   SourceArn: string;
@@ -4467,58 +4471,58 @@ export interface InboundIntegration {
   IntegrationArn: string;
   Status: IntegrationStatus;
   CreateTime: Date;
-  IntegrationConfig?: IntegrationConfig;
-  Errors?: IntegrationError[];
+  IntegrationConfig?: IntegrationConfig | undefined;
+  Errors?: IntegrationError[] | undefined;
 }
 export type InboundIntegrationsList = InboundIntegration[];
 export interface DescribeInboundIntegrationsResponse {
-  InboundIntegrations?: InboundIntegration[];
-  Marker?: string;
+  InboundIntegrations?: InboundIntegration[] | undefined;
+  Marker?: string | undefined;
 }
 export type IntegrationFilterValues = string[];
 export interface IntegrationFilter {
-  Name?: string;
-  Values?: string[];
+  Name?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type IntegrationFilterList = IntegrationFilter[];
 export interface DescribeIntegrationsRequest {
-  IntegrationIdentifier?: string;
-  Marker?: string;
-  MaxRecords?: number;
-  Filters?: IntegrationFilter[];
+  IntegrationIdentifier?: string | undefined;
+  Marker?: string | undefined;
+  MaxRecords?: number | undefined;
+  Filters?: IntegrationFilter[] | undefined;
 }
 export interface Integration {
   SourceArn: string;
   TargetArn: string;
-  Description?: string;
+  Description?: string | undefined;
   IntegrationName: string;
   IntegrationArn: string;
-  KmsKeyId?: string;
-  AdditionalEncryptionContext?: { [key: string]: string | undefined };
-  Tags?: Tag[];
+  KmsKeyId?: string | undefined;
+  AdditionalEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  Tags?: Tag[] | undefined;
   Status: IntegrationStatus;
   CreateTime: Date;
-  IntegrationConfig?: IntegrationConfig;
-  Errors?: IntegrationError[];
-  DataFilter?: string;
+  IntegrationConfig?: IntegrationConfig | undefined;
+  Errors?: IntegrationError[] | undefined;
+  DataFilter?: string | undefined;
 }
 export type IntegrationsList = Integration[];
 export interface DescribeIntegrationsResponse {
-  Integrations?: Integration[];
-  Marker?: string;
+  Integrations?: Integration[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DisassociateGlossaryTermsRequest {
   AssetIdentifier: string;
-  IterableFormName?: string;
-  ItemIdentifier?: string;
+  IterableFormName?: string | undefined;
+  ItemIdentifier?: string | undefined;
   GlossaryTermIdentifiers: string[];
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface DisassociateGlossaryTermsResponse {
-  AssetIdentifier?: string;
-  IterableFormName?: string;
-  ItemIdentifier?: string;
-  GlossaryTerms?: string[];
+  AssetIdentifier?: string | undefined;
+  IterableFormName?: string | undefined;
+  ItemIdentifier?: string | undefined;
+  GlossaryTerms?: string[] | undefined;
 }
 export interface GetAssetInput {
   Identifier: string;
@@ -4529,20 +4533,20 @@ export type CreatedAt = Date;
 export type UpdatedAt = Date;
 export type IterableFormKey = string;
 export interface IterableFormEntry {
-  FormTypeId?: string;
+  FormTypeId?: string | undefined;
 }
 export type IterableFormMap = { [key: string]: IterableFormEntry | undefined };
 export interface GetAssetOutput {
   Id: string;
-  Name?: string;
-  Description?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
   AssetTypeId: string;
-  GlossaryTerms?: string[];
-  Forms?: { [key: string]: AssetFormEntry | undefined };
-  Attachments?: { [key: string]: AssetFormEntry | undefined };
-  IterableForms?: { [key: string]: IterableFormEntry | undefined };
+  GlossaryTerms?: string[] | undefined;
+  Forms?: { [key: string]: AssetFormEntry | undefined } | undefined;
+  Attachments?: { [key: string]: AssetFormEntry | undefined } | undefined;
+  IterableForms?: { [key: string]: IterableFormEntry | undefined } | undefined;
 }
 export interface GetAssetTypeRequest {
   Identifier: string;
@@ -4554,17 +4558,17 @@ export interface AssetTypeFormReference {
 }
 export type AssetTypeFormsMap = { [key: string]: AssetTypeFormReference | undefined };
 export interface GetAssetTypeResponse {
-  Id?: string;
-  Name?: string;
-  Forms?: { [key: string]: AssetTypeFormReference | undefined };
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Forms?: { [key: string]: AssetTypeFormReference | undefined } | undefined;
 }
 export interface GetBlueprintRequest {
   Name: string;
-  IncludeBlueprint?: boolean;
-  IncludeParameterSpec?: boolean;
+  IncludeBlueprint?: boolean | undefined;
+  IncludeParameterSpec?: boolean | undefined;
 }
 export interface GetBlueprintResponse {
-  Blueprint?: Blueprint;
+  Blueprint?: Blueprint | undefined;
 }
 export interface GetBlueprintRunRequest {
   BlueprintName: string;
@@ -4574,98 +4578,98 @@ export type BlueprintRunState = "RUNNING" | "SUCCEEDED" | "FAILED" | "ROLLING_BA
 export type BlueprintParameters = string;
 export type OrchestrationIAMRoleArn = string;
 export interface BlueprintRun {
-  BlueprintName?: string;
-  RunId?: string;
-  WorkflowName?: string;
-  State?: BlueprintRunState;
-  StartedOn?: Date;
-  CompletedOn?: Date;
-  ErrorMessage?: string;
-  RollbackErrorMessage?: string;
-  Parameters?: string;
-  RoleArn?: string;
+  BlueprintName?: string | undefined;
+  RunId?: string | undefined;
+  WorkflowName?: string | undefined;
+  State?: BlueprintRunState | undefined;
+  StartedOn?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  ErrorMessage?: string | undefined;
+  RollbackErrorMessage?: string | undefined;
+  Parameters?: string | undefined;
+  RoleArn?: string | undefined;
 }
 export interface GetBlueprintRunResponse {
-  BlueprintRun?: BlueprintRun;
+  BlueprintRun?: BlueprintRun | undefined;
 }
 export type PageSize = number;
 export interface GetBlueprintRunsRequest {
   BlueprintName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type BlueprintRuns = BlueprintRun[];
 export interface GetBlueprintRunsResponse {
-  BlueprintRuns?: BlueprintRun[];
-  NextToken?: string;
+  BlueprintRuns?: BlueprintRun[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetCatalogRequest {
   CatalogId: string;
 }
 export interface DataLakeAccessPropertiesOutput {
-  DataLakeAccess?: boolean;
-  DataTransferRole?: string;
-  KmsKey?: string;
-  ManagedWorkgroupName?: string;
-  ManagedWorkgroupStatus?: string;
-  RedshiftDatabaseName?: string;
-  StatusMessage?: string;
-  CatalogType?: string;
+  DataLakeAccess?: boolean | undefined;
+  DataTransferRole?: string | undefined;
+  KmsKey?: string | undefined;
+  ManagedWorkgroupName?: string | undefined;
+  ManagedWorkgroupStatus?: string | undefined;
+  RedshiftDatabaseName?: string | undefined;
+  StatusMessage?: string | undefined;
+  CatalogType?: string | undefined;
 }
 export interface IcebergOptimizationPropertiesOutput {
-  RoleArn?: string;
-  Compaction?: { [key: string]: string | undefined };
-  Retention?: { [key: string]: string | undefined };
-  OrphanFileDeletion?: { [key: string]: string | undefined };
-  LastUpdatedTime?: Date;
+  RoleArn?: string | undefined;
+  Compaction?: { [key: string]: string | undefined } | undefined;
+  Retention?: { [key: string]: string | undefined } | undefined;
+  OrphanFileDeletion?: { [key: string]: string | undefined } | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export interface CatalogPropertiesOutput {
-  DataLakeAccessProperties?: DataLakeAccessPropertiesOutput;
-  IcebergOptimizationProperties?: IcebergOptimizationPropertiesOutput;
-  CustomProperties?: { [key: string]: string | undefined };
+  DataLakeAccessProperties?: DataLakeAccessPropertiesOutput | undefined;
+  IcebergOptimizationProperties?: IcebergOptimizationPropertiesOutput | undefined;
+  CustomProperties?: { [key: string]: string | undefined } | undefined;
 }
 export interface Catalog {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Name: string;
-  ResourceArn?: string;
-  Description?: string;
-  Parameters?: { [key: string]: string | undefined };
-  CreateTime?: Date;
-  UpdateTime?: Date;
-  TargetRedshiftCatalog?: TargetRedshiftCatalog;
-  FederatedCatalog?: FederatedCatalog;
-  CatalogProperties?: CatalogPropertiesOutput;
-  CreateTableDefaultPermissions?: PrincipalPermissions[];
-  CreateDatabaseDefaultPermissions?: PrincipalPermissions[];
-  AllowFullTableExternalDataAccess?: AllowFullTableExternalDataAccessEnum;
+  ResourceArn?: string | undefined;
+  Description?: string | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  CreateTime?: Date | undefined;
+  UpdateTime?: Date | undefined;
+  TargetRedshiftCatalog?: TargetRedshiftCatalog | undefined;
+  FederatedCatalog?: FederatedCatalog | undefined;
+  CatalogProperties?: CatalogPropertiesOutput | undefined;
+  CreateTableDefaultPermissions?: PrincipalPermissions[] | undefined;
+  CreateDatabaseDefaultPermissions?: PrincipalPermissions[] | undefined;
+  AllowFullTableExternalDataAccess?: AllowFullTableExternalDataAccessEnum | undefined;
 }
 export interface GetCatalogResponse {
-  Catalog?: Catalog;
+  Catalog?: Catalog | undefined;
 }
 export interface GetCatalogImportStatusRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
 }
 export interface CatalogImportStatus {
-  ImportCompleted?: boolean;
-  ImportTime?: Date;
-  ImportedBy?: string;
+  ImportCompleted?: boolean | undefined;
+  ImportTime?: Date | undefined;
+  ImportedBy?: string | undefined;
 }
 export interface GetCatalogImportStatusResponse {
-  ImportStatus?: CatalogImportStatus;
+  ImportStatus?: CatalogImportStatus | undefined;
 }
 export type Token = string;
 export interface GetCatalogsRequest {
-  ParentCatalogId?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  Recursive?: boolean;
-  IncludeRoot?: boolean;
-  HasDatabases?: boolean;
+  ParentCatalogId?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Recursive?: boolean | undefined;
+  IncludeRoot?: boolean | undefined;
+  HasDatabases?: boolean | undefined;
 }
 export type CatalogList = Catalog[];
 export interface GetCatalogsResponse {
   CatalogList: Catalog[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetClassifierRequest {
   Name: string;
@@ -4673,63 +4677,63 @@ export interface GetClassifierRequest {
 export interface GrokClassifier {
   Name: string;
   Classification: string;
-  CreationTime?: Date;
-  LastUpdated?: Date;
-  Version?: number;
+  CreationTime?: Date | undefined;
+  LastUpdated?: Date | undefined;
+  Version?: number | undefined;
   GrokPattern: string;
-  CustomPatterns?: string;
+  CustomPatterns?: string | undefined;
 }
 export interface XMLClassifier {
   Name: string;
   Classification: string;
-  CreationTime?: Date;
-  LastUpdated?: Date;
-  Version?: number;
-  RowTag?: string;
+  CreationTime?: Date | undefined;
+  LastUpdated?: Date | undefined;
+  Version?: number | undefined;
+  RowTag?: string | undefined;
 }
 export interface JsonClassifier {
   Name: string;
-  CreationTime?: Date;
-  LastUpdated?: Date;
-  Version?: number;
+  CreationTime?: Date | undefined;
+  LastUpdated?: Date | undefined;
+  Version?: number | undefined;
   JsonPath: string;
 }
 export interface CsvClassifier {
   Name: string;
-  CreationTime?: Date;
-  LastUpdated?: Date;
-  Version?: number;
-  Delimiter?: string;
-  QuoteSymbol?: string;
-  ContainsHeader?: CsvHeaderOption;
-  Header?: string[];
-  DisableValueTrimming?: boolean;
-  AllowSingleColumn?: boolean;
-  CustomDatatypeConfigured?: boolean;
-  CustomDatatypes?: string[];
-  Serde?: CsvSerdeOption;
+  CreationTime?: Date | undefined;
+  LastUpdated?: Date | undefined;
+  Version?: number | undefined;
+  Delimiter?: string | undefined;
+  QuoteSymbol?: string | undefined;
+  ContainsHeader?: CsvHeaderOption | undefined;
+  Header?: string[] | undefined;
+  DisableValueTrimming?: boolean | undefined;
+  AllowSingleColumn?: boolean | undefined;
+  CustomDatatypeConfigured?: boolean | undefined;
+  CustomDatatypes?: string[] | undefined;
+  Serde?: CsvSerdeOption | undefined;
 }
 export interface Classifier {
-  GrokClassifier?: GrokClassifier;
-  XMLClassifier?: XMLClassifier;
-  JsonClassifier?: JsonClassifier;
-  CsvClassifier?: CsvClassifier;
+  GrokClassifier?: GrokClassifier | undefined;
+  XMLClassifier?: XMLClassifier | undefined;
+  JsonClassifier?: JsonClassifier | undefined;
+  CsvClassifier?: CsvClassifier | undefined;
 }
 export interface GetClassifierResponse {
-  Classifier?: Classifier;
+  Classifier?: Classifier | undefined;
 }
 export interface GetClassifiersRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ClassifierList = Classifier[];
 export interface GetClassifiersResponse {
-  Classifiers?: Classifier[];
-  NextToken?: string;
+  Classifiers?: Classifier[] | undefined;
+  NextToken?: string | undefined;
 }
 export type GetColumnNamesList = string[];
 export interface GetColumnStatisticsForPartitionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   PartitionValues: string[];
@@ -4752,8 +4756,8 @@ export interface BooleanColumnStatisticsData {
   NumberOfNulls: number;
 }
 export interface DateColumnStatisticsData {
-  MinimumValue?: Date;
-  MaximumValue?: Date;
+  MinimumValue?: Date | undefined;
+  MaximumValue?: Date | undefined;
   NumberOfNulls: number;
   NumberOfDistinctValues: number;
 }
@@ -4762,20 +4766,20 @@ export interface DecimalNumber {
   Scale: number;
 }
 export interface DecimalColumnStatisticsData {
-  MinimumValue?: DecimalNumber;
-  MaximumValue?: DecimalNumber;
+  MinimumValue?: DecimalNumber | undefined;
+  MaximumValue?: DecimalNumber | undefined;
   NumberOfNulls: number;
   NumberOfDistinctValues: number;
 }
 export interface DoubleColumnStatisticsData {
-  MinimumValue?: number;
-  MaximumValue?: number;
+  MinimumValue?: number | undefined;
+  MaximumValue?: number | undefined;
   NumberOfNulls: number;
   NumberOfDistinctValues: number;
 }
 export interface LongColumnStatisticsData {
-  MinimumValue?: number;
-  MaximumValue?: number;
+  MinimumValue?: number | undefined;
+  MaximumValue?: number | undefined;
   NumberOfNulls: number;
   NumberOfDistinctValues: number;
 }
@@ -4793,13 +4797,13 @@ export interface BinaryColumnStatisticsData {
 }
 export interface ColumnStatisticsData {
   Type: ColumnStatisticsType;
-  BooleanColumnStatisticsData?: BooleanColumnStatisticsData;
-  DateColumnStatisticsData?: DateColumnStatisticsData;
-  DecimalColumnStatisticsData?: DecimalColumnStatisticsData;
-  DoubleColumnStatisticsData?: DoubleColumnStatisticsData;
-  LongColumnStatisticsData?: LongColumnStatisticsData;
-  StringColumnStatisticsData?: StringColumnStatisticsData;
-  BinaryColumnStatisticsData?: BinaryColumnStatisticsData;
+  BooleanColumnStatisticsData?: BooleanColumnStatisticsData | undefined;
+  DateColumnStatisticsData?: DateColumnStatisticsData | undefined;
+  DecimalColumnStatisticsData?: DecimalColumnStatisticsData | undefined;
+  DoubleColumnStatisticsData?: DoubleColumnStatisticsData | undefined;
+  LongColumnStatisticsData?: LongColumnStatisticsData | undefined;
+  StringColumnStatisticsData?: StringColumnStatisticsData | undefined;
+  BinaryColumnStatisticsData?: BinaryColumnStatisticsData | undefined;
 }
 export interface ColumnStatistics {
   ColumnName: string;
@@ -4809,23 +4813,23 @@ export interface ColumnStatistics {
 }
 export type ColumnStatisticsList = ColumnStatistics[];
 export interface ColumnError {
-  ColumnName?: string;
-  Error?: ErrorDetail;
+  ColumnName?: string | undefined;
+  Error?: ErrorDetail | undefined;
 }
 export type ColumnErrors = ColumnError[];
 export interface GetColumnStatisticsForPartitionResponse {
-  ColumnStatisticsList?: ColumnStatistics[];
-  Errors?: ColumnError[];
+  ColumnStatisticsList?: ColumnStatistics[] | undefined;
+  Errors?: ColumnError[] | undefined;
 }
 export interface GetColumnStatisticsForTableRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   ColumnNames: string[];
 }
 export interface GetColumnStatisticsForTableResponse {
-  ColumnStatisticsList?: ColumnStatistics[];
-  Errors?: ColumnError[];
+  ColumnStatisticsList?: ColumnStatistics[] | undefined;
+  Errors?: ColumnError[] | undefined;
 }
 export interface GetColumnStatisticsTaskRunRequest {
   ColumnStatisticsTaskRunId: string;
@@ -4841,219 +4845,219 @@ export type ColumnStatisticsState =
   | "STOPPED"
   | (string & {});
 export interface ColumnStatisticsTaskRun {
-  CustomerId?: string;
-  ColumnStatisticsTaskRunId?: string;
-  DatabaseName?: string;
-  TableName?: string;
-  ColumnNameList?: string[];
-  CatalogID?: string;
-  Role?: string;
-  SampleSize?: number;
-  SecurityConfiguration?: string;
-  NumberOfWorkers?: number;
-  WorkerType?: string;
-  ComputationType?: ComputationType;
-  Status?: ColumnStatisticsState;
-  CreationTime?: Date;
-  LastUpdated?: Date;
-  StartTime?: Date;
-  EndTime?: Date;
-  ErrorMessage?: string;
-  DPUSeconds?: number;
+  CustomerId?: string | undefined;
+  ColumnStatisticsTaskRunId?: string | undefined;
+  DatabaseName?: string | undefined;
+  TableName?: string | undefined;
+  ColumnNameList?: string[] | undefined;
+  CatalogID?: string | undefined;
+  Role?: string | undefined;
+  SampleSize?: number | undefined;
+  SecurityConfiguration?: string | undefined;
+  NumberOfWorkers?: number | undefined;
+  WorkerType?: string | undefined;
+  ComputationType?: ComputationType | undefined;
+  Status?: ColumnStatisticsState | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdated?: Date | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  ErrorMessage?: string | undefined;
+  DPUSeconds?: number | undefined;
 }
 export interface GetColumnStatisticsTaskRunResponse {
-  ColumnStatisticsTaskRun?: ColumnStatisticsTaskRun;
+  ColumnStatisticsTaskRun?: ColumnStatisticsTaskRun | undefined;
 }
 export interface GetColumnStatisticsTaskRunsRequest {
   DatabaseName: string;
   TableName: string;
-  MaxResults?: number;
-  NextToken?: string;
-  CatalogID?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  CatalogID?: string | undefined;
 }
 export type ColumnStatisticsTaskRunsList = ColumnStatisticsTaskRun[];
 export interface GetColumnStatisticsTaskRunsResponse {
-  ColumnStatisticsTaskRuns?: ColumnStatisticsTaskRun[];
-  NextToken?: string;
+  ColumnStatisticsTaskRuns?: ColumnStatisticsTaskRun[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetColumnStatisticsTaskSettingsRequest {
   DatabaseName: string;
   TableName: string;
-  CatalogID?: string;
+  CatalogID?: string | undefined;
 }
 export type ScheduleType = "CRON" | "AUTO" | (string & {});
 export type SettingSource = "CATALOG" | "TABLE" | (string & {});
 export type ExecutionStatus = "FAILED" | "STARTED" | (string & {});
 export interface ExecutionAttempt {
-  Status?: ExecutionStatus;
-  ColumnStatisticsTaskRunId?: string;
-  ExecutionTimestamp?: Date;
-  ErrorMessage?: string;
+  Status?: ExecutionStatus | undefined;
+  ColumnStatisticsTaskRunId?: string | undefined;
+  ExecutionTimestamp?: Date | undefined;
+  ErrorMessage?: string | undefined;
 }
 export interface ColumnStatisticsTaskSettings {
-  DatabaseName?: string;
-  TableName?: string;
-  Schedule?: Schedule;
-  ColumnNameList?: string[];
-  CatalogID?: string;
-  Role?: string;
-  SampleSize?: number;
-  SecurityConfiguration?: string;
-  ScheduleType?: ScheduleType;
-  SettingSource?: SettingSource;
-  LastExecutionAttempt?: ExecutionAttempt;
+  DatabaseName?: string | undefined;
+  TableName?: string | undefined;
+  Schedule?: Schedule | undefined;
+  ColumnNameList?: string[] | undefined;
+  CatalogID?: string | undefined;
+  Role?: string | undefined;
+  SampleSize?: number | undefined;
+  SecurityConfiguration?: string | undefined;
+  ScheduleType?: ScheduleType | undefined;
+  SettingSource?: SettingSource | undefined;
+  LastExecutionAttempt?: ExecutionAttempt | undefined;
 }
 export interface GetColumnStatisticsTaskSettingsResponse {
-  ColumnStatisticsTaskSettings?: ColumnStatisticsTaskSettings;
+  ColumnStatisticsTaskSettings?: ColumnStatisticsTaskSettings | undefined;
 }
 export interface GetConnectionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Name: string;
-  HidePassword?: boolean;
-  ApplyOverrideForComputeEnvironment?: ComputeEnvironment;
+  HidePassword?: boolean | undefined;
+  ApplyOverrideForComputeEnvironment?: ComputeEnvironment | undefined;
 }
 export type LongValueString = string;
 export interface OAuth2Properties {
-  OAuth2GrantType?: OAuth2GrantType;
-  OAuth2ClientApplication?: OAuth2ClientApplication;
-  TokenUrl?: string;
-  TokenUrlParametersMap?: { [key: string]: string | undefined };
+  OAuth2GrantType?: OAuth2GrantType | undefined;
+  OAuth2ClientApplication?: OAuth2ClientApplication | undefined;
+  TokenUrl?: string | undefined;
+  TokenUrlParametersMap?: { [key: string]: string | undefined } | undefined;
 }
 export interface AuthenticationConfiguration {
-  AuthenticationType?: AuthenticationType;
-  SecretArn?: string;
-  KmsKeyArn?: string;
-  OAuth2Properties?: OAuth2Properties;
+  AuthenticationType?: AuthenticationType | undefined;
+  SecretArn?: string | undefined;
+  KmsKeyArn?: string | undefined;
+  OAuth2Properties?: OAuth2Properties | undefined;
 }
 export type ConnectionSchemaVersion = number;
 export interface Connection {
-  Name?: string;
-  Description?: string;
-  ConnectionType?: ConnectionType;
-  MatchCriteria?: string[];
-  ConnectionProperties?: { [key: string]: string | undefined };
-  SparkProperties?: { [key: string]: string | undefined };
-  AthenaProperties?: { [key: string]: string | undefined };
-  PythonProperties?: { [key: string]: string | undefined };
-  PhysicalConnectionRequirements?: PhysicalConnectionRequirements;
-  CreationTime?: Date;
-  LastUpdatedTime?: Date;
-  LastUpdatedBy?: string;
-  Status?: ConnectionStatus;
-  StatusReason?: string;
-  LastConnectionValidationTime?: Date;
-  AuthenticationConfiguration?: AuthenticationConfiguration;
-  ConnectionSchemaVersion?: number;
-  CompatibleComputeEnvironments?: ComputeEnvironment[];
+  Name?: string | undefined;
+  Description?: string | undefined;
+  ConnectionType?: ConnectionType | undefined;
+  MatchCriteria?: string[] | undefined;
+  ConnectionProperties?: { [key: string]: string | undefined } | undefined;
+  SparkProperties?: { [key: string]: string | undefined } | undefined;
+  AthenaProperties?: { [key: string]: string | undefined } | undefined;
+  PythonProperties?: { [key: string]: string | undefined } | undefined;
+  PhysicalConnectionRequirements?: PhysicalConnectionRequirements | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  LastUpdatedBy?: string | undefined;
+  Status?: ConnectionStatus | undefined;
+  StatusReason?: string | undefined;
+  LastConnectionValidationTime?: Date | undefined;
+  AuthenticationConfiguration?: AuthenticationConfiguration | undefined;
+  ConnectionSchemaVersion?: number | undefined;
+  CompatibleComputeEnvironments?: ComputeEnvironment[] | undefined;
 }
 export interface GetConnectionResponse {
-  Connection?: Connection;
+  Connection?: Connection | undefined;
 }
 export interface GetConnectionsFilter {
-  MatchCriteria?: string[];
-  ConnectionType?: ConnectionType;
-  ConnectionSchemaVersion?: number;
+  MatchCriteria?: string[] | undefined;
+  ConnectionType?: ConnectionType | undefined;
+  ConnectionSchemaVersion?: number | undefined;
 }
 export interface GetConnectionsRequest {
-  CatalogId?: string;
-  Filter?: GetConnectionsFilter;
-  HidePassword?: boolean;
-  NextToken?: string;
-  MaxResults?: number;
+  CatalogId?: string | undefined;
+  Filter?: GetConnectionsFilter | undefined;
+  HidePassword?: boolean | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ConnectionList = Connection[];
 export interface GetConnectionsResponse {
-  ConnectionList?: Connection[];
-  NextToken?: string;
+  ConnectionList?: Connection[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetCrawlerRequest {
   Name: string;
 }
 export interface GetCrawlerResponse {
-  Crawler?: Crawler;
+  Crawler?: Crawler | undefined;
 }
 export interface GetCrawlerMetricsRequest {
-  CrawlerNameList?: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  CrawlerNameList?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface CrawlerMetrics {
-  CrawlerName?: string;
-  TimeLeftSeconds?: number;
-  StillEstimating?: boolean;
-  LastRuntimeSeconds?: number;
-  MedianRuntimeSeconds?: number;
-  TablesCreated?: number;
-  TablesUpdated?: number;
-  TablesDeleted?: number;
+  CrawlerName?: string | undefined;
+  TimeLeftSeconds?: number | undefined;
+  StillEstimating?: boolean | undefined;
+  LastRuntimeSeconds?: number | undefined;
+  MedianRuntimeSeconds?: number | undefined;
+  TablesCreated?: number | undefined;
+  TablesUpdated?: number | undefined;
+  TablesDeleted?: number | undefined;
 }
 export type CrawlerMetricsList = CrawlerMetrics[];
 export interface GetCrawlerMetricsResponse {
-  CrawlerMetricsList?: CrawlerMetrics[];
-  NextToken?: string;
+  CrawlerMetricsList?: CrawlerMetrics[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetCrawlersRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetCrawlersResponse {
-  Crawlers?: Crawler[];
-  NextToken?: string;
+  Crawlers?: Crawler[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetCustomEntityTypeRequest {
   Name: string;
 }
 export interface GetCustomEntityTypeResponse {
-  Name?: string;
-  RegexString?: string;
-  ContextWords?: string[];
+  Name?: string | undefined;
+  RegexString?: string | undefined;
+  ContextWords?: string[] | undefined;
 }
 export type GlueResourceType = "JOB" | "SESSION" | (string & {});
 export interface GetDashboardUrlRequest {
   ResourceId: string;
   ResourceType: GlueResourceType;
-  RequestOrigin?: string;
+  RequestOrigin?: string | undefined;
 }
 export type SensitiveUrl = string | redacted.Redacted<string>;
 export interface GetDashboardUrlResponse {
   Url: string | redacted.Redacted<string>;
 }
 export interface GetDatabaseRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Name: string;
 }
 export interface Database {
   Name: string;
-  Description?: string;
-  LocationUri?: string;
-  Parameters?: { [key: string]: string | undefined };
-  CreateTime?: Date;
-  CreateTableDefaultPermissions?: PrincipalPermissions[];
-  TargetDatabase?: DatabaseIdentifier;
-  CatalogId?: string;
-  FederatedDatabase?: FederatedDatabase;
+  Description?: string | undefined;
+  LocationUri?: string | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  CreateTime?: Date | undefined;
+  CreateTableDefaultPermissions?: PrincipalPermissions[] | undefined;
+  TargetDatabase?: DatabaseIdentifier | undefined;
+  CatalogId?: string | undefined;
+  FederatedDatabase?: FederatedDatabase | undefined;
 }
 export interface GetDatabaseResponse {
-  Database?: Database;
+  Database?: Database | undefined;
 }
 export type CatalogGetterPageSize = number;
 export type ResourceShareType = "FOREIGN" | "ALL" | "FEDERATED" | (string & {});
 export type DatabaseAttributes = "NAME" | "TARGET_DATABASE" | (string & {});
 export type DatabaseAttributesList = DatabaseAttributes[];
 export interface GetDatabasesRequest {
-  CatalogId?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  ResourceShareType?: ResourceShareType;
-  AttributesToGet?: DatabaseAttributes[];
+  CatalogId?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ResourceShareType?: ResourceShareType | undefined;
+  AttributesToGet?: DatabaseAttributes[] | undefined;
 }
 export type DatabaseList = Database[];
 export interface GetDatabasesResponse {
   DatabaseList: Database[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetDataCatalogEncryptionSettingsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
 }
 export type CatalogEncryptionMode =
   | "DISABLED"
@@ -5062,19 +5066,19 @@ export type CatalogEncryptionMode =
   | (string & {});
 export interface EncryptionAtRest {
   CatalogEncryptionMode: CatalogEncryptionMode;
-  SseAwsKmsKeyId?: string;
-  CatalogEncryptionServiceRole?: string;
+  SseAwsKmsKeyId?: string | undefined;
+  CatalogEncryptionServiceRole?: string | undefined;
 }
 export interface ConnectionPasswordEncryption {
   ReturnConnectionPasswordEncrypted: boolean;
-  AwsKmsKeyId?: string;
+  AwsKmsKeyId?: string | undefined;
 }
 export interface DataCatalogEncryptionSettings {
-  EncryptionAtRest?: EncryptionAtRest;
-  ConnectionPasswordEncryption?: ConnectionPasswordEncryption;
+  EncryptionAtRest?: EncryptionAtRest | undefined;
+  ConnectionPasswordEncryption?: ConnectionPasswordEncryption | undefined;
 }
 export interface GetDataCatalogEncryptionSettingsResponse {
-  DataCatalogEncryptionSettings?: DataCatalogEncryptionSettings;
+  DataCatalogEncryptionSettings?: DataCatalogEncryptionSettings | undefined;
 }
 export interface GetDataCatalogExportConfigurationInput {}
 export type ExportSetting = "ENABLED" | "DISABLED" | (string & {});
@@ -5088,165 +5092,165 @@ export type ExportStatus =
 export type SseAlgorithm = string;
 export type KmsKeyArnString = string;
 export interface ExportEncryptionConfiguration {
-  SseAlgorithm?: string;
-  KmsKeyArn?: string;
+  SseAlgorithm?: string | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export type S3TableBucketArn = string;
 export interface GetDataCatalogExportConfigurationOutput {
-  ExportSetting?: ExportSetting;
-  Status?: ExportStatus;
-  EncryptionConfiguration?: ExportEncryptionConfiguration;
-  S3TableBucketArn?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  ExportSetting?: ExportSetting | undefined;
+  Status?: ExportStatus | undefined;
+  EncryptionConfiguration?: ExportEncryptionConfiguration | undefined;
+  S3TableBucketArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetDataflowGraphRequest {
-  PythonScript?: string;
+  PythonScript?: string | undefined;
 }
 export interface GetDataflowGraphResponse {
-  DagNodes?: CodeGenNode[];
-  DagEdges?: CodeGenEdge[];
+  DagNodes?: CodeGenNode[] | undefined;
+  DagEdges?: CodeGenEdge[] | undefined;
 }
 export interface GetDataQualityModelRequest {
-  StatisticId?: string;
+  StatisticId?: string | undefined;
   ProfileId: string;
 }
 export type DataQualityModelStatus = "RUNNING" | "SUCCEEDED" | "FAILED" | (string & {});
 export interface GetDataQualityModelResponse {
-  Status?: DataQualityModelStatus;
-  StartedOn?: Date;
-  CompletedOn?: Date;
-  FailureReason?: string;
+  Status?: DataQualityModelStatus | undefined;
+  StartedOn?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  FailureReason?: string | undefined;
 }
 export interface GetDataQualityModelResultRequest {
   StatisticId: string;
   ProfileId: string;
 }
 export interface StatisticModelResult {
-  LowerBound?: number;
-  UpperBound?: number;
-  PredictedValue?: number;
-  ActualValue?: number;
-  Date?: Date;
-  InclusionAnnotation?: InclusionAnnotationValue;
+  LowerBound?: number | undefined;
+  UpperBound?: number | undefined;
+  PredictedValue?: number | undefined;
+  ActualValue?: number | undefined;
+  Date?: Date | undefined;
+  InclusionAnnotation?: InclusionAnnotationValue | undefined;
 }
 export type StatisticModelResults = StatisticModelResult[];
 export interface GetDataQualityModelResultResponse {
-  CompletedOn?: Date;
-  Model?: StatisticModelResult[];
+  CompletedOn?: Date | undefined;
+  Model?: StatisticModelResult[] | undefined;
 }
 export interface GetDataQualityResultRequest {
   ResultId: string;
 }
 export interface GetDataQualityResultResponse {
-  ResultId?: string;
-  ProfileId?: string;
-  Score?: number;
-  DataSource?: DataSource;
-  RulesetName?: string;
-  EvaluationContext?: string;
-  StartedOn?: Date;
-  CompletedOn?: Date;
-  JobName?: string;
-  JobRunId?: string;
-  RulesetEvaluationRunId?: string;
-  RuleResults?: DataQualityRuleResult[];
-  AnalyzerResults?: DataQualityAnalyzerResult[];
-  Observations?: DataQualityObservation[];
-  AggregatedMetrics?: DataQualityAggregatedMetrics;
+  ResultId?: string | undefined;
+  ProfileId?: string | undefined;
+  Score?: number | undefined;
+  DataSource?: DataSource | undefined;
+  RulesetName?: string | undefined;
+  EvaluationContext?: string | undefined;
+  StartedOn?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  JobName?: string | undefined;
+  JobRunId?: string | undefined;
+  RulesetEvaluationRunId?: string | undefined;
+  RuleResults?: DataQualityRuleResult[] | undefined;
+  AnalyzerResults?: DataQualityAnalyzerResult[] | undefined;
+  Observations?: DataQualityObservation[] | undefined;
+  AggregatedMetrics?: DataQualityAggregatedMetrics | undefined;
 }
 export interface GetDataQualityResultV2Request {
   ResultId: string;
 }
 export interface GetDataQualityResultV2Response {
-  ResultId?: string;
-  DataSource?: DataSource;
-  ProfileId?: string;
-  Dimensions?: { [key: string]: string | undefined };
-  Tags?: { [key: string]: string | undefined };
-  ExecutionStartedOn?: Date;
-  ExecutionCompletedOn?: Date;
-  ResultPublishedOn?: Date;
-  Score?: number;
-  RuleResults?: DataQualityRuleResult[];
-  AnalyzerResults?: DataQualityAnalyzerResult[];
-  Observations?: DataQualityObservation[];
-  EvaluationContext?: string;
-  Descriptors?: { [key: string]: string | undefined };
-  AggregatedMetrics?: DataQualityAggregatedMetrics;
-  RulesetName?: string;
+  ResultId?: string | undefined;
+  DataSource?: DataSource | undefined;
+  ProfileId?: string | undefined;
+  Dimensions?: { [key: string]: string | undefined } | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ExecutionStartedOn?: Date | undefined;
+  ExecutionCompletedOn?: Date | undefined;
+  ResultPublishedOn?: Date | undefined;
+  Score?: number | undefined;
+  RuleResults?: DataQualityRuleResult[] | undefined;
+  AnalyzerResults?: DataQualityAnalyzerResult[] | undefined;
+  Observations?: DataQualityObservation[] | undefined;
+  EvaluationContext?: string | undefined;
+  Descriptors?: { [key: string]: string | undefined } | undefined;
+  AggregatedMetrics?: DataQualityAggregatedMetrics | undefined;
+  RulesetName?: string | undefined;
 }
 export interface GetDataQualityRuleRecommendationRunRequest {
   RunId: string;
 }
 export interface DataQualityRuleRecommendationRunAdditionalRunOptions {
-  CustomLogGroupPrefix?: string;
+  CustomLogGroupPrefix?: string | undefined;
 }
 export type RecommendationMode = "BASIC" | "ADVANCED" | (string & {});
 export interface GetDataQualityRuleRecommendationRunResponse {
-  RunId?: string;
-  DataSource?: DataSource;
-  Role?: string;
-  NumberOfWorkers?: number;
-  Timeout?: number;
-  Status?: TaskStatusType;
-  ErrorString?: string;
-  StartedOn?: Date;
-  LastModifiedOn?: Date;
-  CompletedOn?: Date;
-  ExecutionTime?: number;
-  RecommendedRuleset?: string;
-  CreatedRulesetName?: string;
-  DataQualitySecurityConfiguration?: string;
-  AdditionalRunOptions?: DataQualityRuleRecommendationRunAdditionalRunOptions;
-  RecommendationMode?: RecommendationMode;
+  RunId?: string | undefined;
+  DataSource?: DataSource | undefined;
+  Role?: string | undefined;
+  NumberOfWorkers?: number | undefined;
+  Timeout?: number | undefined;
+  Status?: TaskStatusType | undefined;
+  ErrorString?: string | undefined;
+  StartedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  ExecutionTime?: number | undefined;
+  RecommendedRuleset?: string | undefined;
+  CreatedRulesetName?: string | undefined;
+  DataQualitySecurityConfiguration?: string | undefined;
+  AdditionalRunOptions?: DataQualityRuleRecommendationRunAdditionalRunOptions | undefined;
+  RecommendationMode?: RecommendationMode | undefined;
 }
 export interface GetDataQualityRulesetRequest {
   Name: string;
 }
 export interface GetDataQualityRulesetResponse {
-  Name?: string;
-  Description?: string;
-  Ruleset?: string;
-  TargetTable?: DataQualityTargetTable;
-  CreatedOn?: Date;
-  LastModifiedOn?: Date;
-  RecommendationRunId?: string;
-  DataQualitySecurityConfiguration?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Ruleset?: string | undefined;
+  TargetTable?: DataQualityTargetTable | undefined;
+  CreatedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  RecommendationRunId?: string | undefined;
+  DataQualitySecurityConfiguration?: string | undefined;
 }
 export interface GetDataQualityRulesetEvaluationRunRequest {
   RunId: string;
 }
 export interface GetDataQualityRulesetEvaluationRunResponse {
-  RunId?: string;
-  DataSource?: DataSource;
-  Role?: string;
-  NumberOfWorkers?: number;
-  Timeout?: number;
-  AdditionalRunOptions?: DataQualityEvaluationRunAdditionalRunOptions;
-  Status?: TaskStatusType;
-  ErrorString?: string;
-  StartedOn?: Date;
-  LastModifiedOn?: Date;
-  CompletedOn?: Date;
-  ExecutionTime?: number;
-  RulesetNames?: string[];
-  ResultIds?: string[];
-  AdditionalDataSources?: { [key: string]: DataSource | undefined };
+  RunId?: string | undefined;
+  DataSource?: DataSource | undefined;
+  Role?: string | undefined;
+  NumberOfWorkers?: number | undefined;
+  Timeout?: number | undefined;
+  AdditionalRunOptions?: DataQualityEvaluationRunAdditionalRunOptions | undefined;
+  Status?: TaskStatusType | undefined;
+  ErrorString?: string | undefined;
+  StartedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  ExecutionTime?: number | undefined;
+  RulesetNames?: string[] | undefined;
+  ResultIds?: string[] | undefined;
+  AdditionalDataSources?: { [key: string]: DataSource | undefined } | undefined;
 }
 export interface GetDevEndpointRequest {
   EndpointName: string;
 }
 export interface GetDevEndpointResponse {
-  DevEndpoint?: DevEndpoint;
+  DevEndpoint?: DevEndpoint | undefined;
 }
 export interface GetDevEndpointsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetDevEndpointsResponse {
-  DevEndpoints?: DevEndpoint[];
-  NextToken?: string;
+  DevEndpoints?: DevEndpoint[] | undefined;
+  NextToken?: string | undefined;
 }
 export type OptionKey = string;
 export type OptionValue = string;
@@ -5255,22 +5259,22 @@ export type FilterPredicate = string;
 export type Limit = number;
 export type SelectedFields = string[];
 export interface GetEntityRecordsRequest {
-  ConnectionName?: string;
-  CatalogId?: string;
+  ConnectionName?: string | undefined;
+  CatalogId?: string | undefined;
   EntityName: string;
-  NextToken?: string;
-  DataStoreApiVersion?: string;
-  ConnectionOptions?: { [key: string]: string | undefined };
-  FilterPredicate?: string;
+  NextToken?: string | undefined;
+  DataStoreApiVersion?: string | undefined;
+  ConnectionOptions?: { [key: string]: string | undefined } | undefined;
+  FilterPredicate?: string | undefined;
   Limit: number;
-  OrderBy?: string;
-  SelectedFields?: string[];
+  OrderBy?: string | undefined;
+  SelectedFields?: string[] | undefined;
 }
 export type Record = unknown;
 export type Records = any[];
 export interface GetEntityRecordsResponse {
-  Records?: any[];
-  NextToken?: string;
+  Records?: any[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetFormTypeRequest {
   Identifier: string;
@@ -5278,105 +5282,105 @@ export interface GetFormTypeRequest {
 export type FormTypeName = string;
 export type FormTypeSchema = string;
 export interface GetFormTypeResponse {
-  Id?: string;
-  Name?: string;
-  Schema?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Schema?: string | undefined;
 }
 export interface GetGlossaryRequest {
   Identifier: string;
 }
 export interface GetGlossaryResponse {
-  Id?: string;
-  Name?: string;
-  Description?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export interface GetGlossaryTermRequest {
   Identifier: string;
 }
 export interface GetGlossaryTermResponse {
-  Id?: string;
-  GlossaryId?: string;
-  Name?: string;
-  ShortDescription?: string;
-  LongDescription?: string;
+  Id?: string | undefined;
+  GlossaryId?: string | undefined;
+  Name?: string | undefined;
+  ShortDescription?: string | undefined;
+  LongDescription?: string | undefined;
 }
 export interface GetGlueIdentityCenterConfigurationRequest {}
 export type OrchestrationStringList = string[];
 export interface GetGlueIdentityCenterConfigurationResponse {
-  ApplicationArn?: string;
-  InstanceArn?: string;
-  Scopes?: string[];
-  UserBackgroundSessionsEnabled?: boolean;
+  ApplicationArn?: string | undefined;
+  InstanceArn?: string | undefined;
+  Scopes?: string[] | undefined;
+  UserBackgroundSessionsEnabled?: boolean | undefined;
 }
 export interface GetIntegrationResourcePropertyRequest {
   ResourceArn: string;
 }
 export interface GetIntegrationResourcePropertyResponse {
-  ResourceArn?: string;
-  ResourcePropertyArn?: string;
-  SourceProcessingProperties?: SourceProcessingProperties;
-  TargetProcessingProperties?: TargetProcessingProperties;
+  ResourceArn?: string | undefined;
+  ResourcePropertyArn?: string | undefined;
+  SourceProcessingProperties?: SourceProcessingProperties | undefined;
+  TargetProcessingProperties?: TargetProcessingProperties | undefined;
 }
 export interface GetIntegrationTablePropertiesRequest {
   ResourceArn: string;
   TableName: string;
 }
 export interface GetIntegrationTablePropertiesResponse {
-  ResourceArn?: string;
-  TableName?: string;
-  SourceTableConfig?: SourceTableConfig;
-  TargetTableConfig?: TargetTableConfig;
+  ResourceArn?: string | undefined;
+  TableName?: string | undefined;
+  SourceTableConfig?: SourceTableConfig | undefined;
+  TargetTableConfig?: TargetTableConfig | undefined;
 }
 export interface GetJobRequest {
   JobName: string;
 }
 export interface GetJobResponse {
-  Job?: Job;
+  Job?: Job | undefined;
 }
 export type JobName = string;
 export type RunId = string;
 export interface GetJobBookmarkRequest {
   JobName: string;
-  RunId?: string;
+  RunId?: string | undefined;
 }
 export type JsonValue = string;
 export interface JobBookmarkEntry {
-  JobName?: string;
-  Version?: number;
-  Run?: number;
-  Attempt?: number;
-  PreviousRunId?: string;
-  RunId?: string;
-  JobBookmark?: string;
+  JobName?: string | undefined;
+  Version?: number | undefined;
+  Run?: number | undefined;
+  Attempt?: number | undefined;
+  PreviousRunId?: string | undefined;
+  RunId?: string | undefined;
+  JobBookmark?: string | undefined;
 }
 export interface GetJobBookmarkResponse {
-  JobBookmarkEntry?: JobBookmarkEntry;
+  JobBookmarkEntry?: JobBookmarkEntry | undefined;
 }
 export interface GetJobRunRequest {
   JobName: string;
   RunId: string;
-  PredecessorsIncluded?: boolean;
+  PredecessorsIncluded?: boolean | undefined;
 }
 export interface GetJobRunResponse {
-  JobRun?: JobRun;
+  JobRun?: JobRun | undefined;
 }
 export type OrchestrationPageSize200 = number;
 export interface GetJobRunsRequest {
   JobName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface GetJobRunsResponse {
-  JobRuns?: JobRun[];
-  NextToken?: string;
+  JobRuns?: JobRun[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetJobsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface GetJobsResponse {
-  Jobs?: Job[];
-  NextToken?: string;
+  Jobs?: Job[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface CatalogEntry {
   DatabaseName: string;
@@ -5384,24 +5388,24 @@ export interface CatalogEntry {
 }
 export type CatalogEntries = CatalogEntry[];
 export interface Location {
-  Jdbc?: CodeGenNodeArg[];
-  S3?: CodeGenNodeArg[];
-  DynamoDB?: CodeGenNodeArg[];
+  Jdbc?: CodeGenNodeArg[] | undefined;
+  S3?: CodeGenNodeArg[] | undefined;
+  DynamoDB?: CodeGenNodeArg[] | undefined;
 }
 export interface GetMappingRequest {
   Source: CatalogEntry;
-  Sinks?: CatalogEntry[];
-  Location?: Location;
+  Sinks?: CatalogEntry[] | undefined;
+  Location?: Location | undefined;
 }
 export type SchemaPathString = string;
 export type FieldType = string;
 export interface MappingEntry {
-  SourceTable?: string;
-  SourcePath?: string;
-  SourceType?: string;
-  TargetTable?: string;
-  TargetPath?: string;
-  TargetType?: string;
+  SourceTable?: string | undefined;
+  SourcePath?: string | undefined;
+  SourceType?: string | undefined;
+  TargetTable?: string | undefined;
+  TargetPath?: string | undefined;
+  TargetType?: string | undefined;
 }
 export type MappingList = MappingEntry[];
 export interface GetMappingResponse {
@@ -5422,24 +5426,24 @@ export type MaterializedViewRefreshState =
 export type MaterializedViewRefreshType = "FULL" | "INCREMENTAL" | (string & {});
 export type ByteCount = number;
 export interface MaterializedViewRefreshTaskRun {
-  CustomerId?: string;
-  MaterializedViewRefreshTaskRunId?: string;
-  DatabaseName?: string;
-  TableName?: string;
-  CatalogId?: string;
-  Role?: string;
-  Status?: MaterializedViewRefreshState;
-  CreationTime?: Date;
-  LastUpdated?: Date;
-  StartTime?: Date;
-  EndTime?: Date;
-  ErrorMessage?: string;
-  DPUSeconds?: number;
-  RefreshType?: MaterializedViewRefreshType;
-  ProcessedBytes?: number;
+  CustomerId?: string | undefined;
+  MaterializedViewRefreshTaskRunId?: string | undefined;
+  DatabaseName?: string | undefined;
+  TableName?: string | undefined;
+  CatalogId?: string | undefined;
+  Role?: string | undefined;
+  Status?: MaterializedViewRefreshState | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdated?: Date | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  ErrorMessage?: string | undefined;
+  DPUSeconds?: number | undefined;
+  RefreshType?: MaterializedViewRefreshType | undefined;
+  ProcessedBytes?: number | undefined;
 }
 export interface GetMaterializedViewRefreshTaskRunResponse {
-  MaterializedViewRefreshTaskRun?: MaterializedViewRefreshTaskRun;
+  MaterializedViewRefreshTaskRun?: MaterializedViewRefreshTaskRun | undefined;
 }
 export interface GetMLTaskRunRequest {
   TransformId: string;
@@ -5454,45 +5458,45 @@ export type TaskType =
   | (string & {});
 export type ReplaceBoolean = boolean;
 export interface ImportLabelsTaskRunProperties {
-  InputS3Path?: string;
-  Replace?: boolean;
+  InputS3Path?: string | undefined;
+  Replace?: boolean | undefined;
 }
 export interface ExportLabelsTaskRunProperties {
-  OutputS3Path?: string;
+  OutputS3Path?: string | undefined;
 }
 export interface LabelingSetGenerationTaskRunProperties {
-  OutputS3Path?: string;
+  OutputS3Path?: string | undefined;
 }
 export interface FindMatchesTaskRunProperties {
-  JobId?: string;
-  JobName?: string;
-  JobRunId?: string;
+  JobId?: string | undefined;
+  JobName?: string | undefined;
+  JobRunId?: string | undefined;
 }
 export interface TaskRunProperties {
-  TaskType?: TaskType;
-  ImportLabelsTaskRunProperties?: ImportLabelsTaskRunProperties;
-  ExportLabelsTaskRunProperties?: ExportLabelsTaskRunProperties;
-  LabelingSetGenerationTaskRunProperties?: LabelingSetGenerationTaskRunProperties;
-  FindMatchesTaskRunProperties?: FindMatchesTaskRunProperties;
+  TaskType?: TaskType | undefined;
+  ImportLabelsTaskRunProperties?: ImportLabelsTaskRunProperties | undefined;
+  ExportLabelsTaskRunProperties?: ExportLabelsTaskRunProperties | undefined;
+  LabelingSetGenerationTaskRunProperties?: LabelingSetGenerationTaskRunProperties | undefined;
+  FindMatchesTaskRunProperties?: FindMatchesTaskRunProperties | undefined;
 }
 export interface GetMLTaskRunResponse {
-  TransformId?: string;
-  TaskRunId?: string;
-  Status?: TaskStatusType;
-  LogGroupName?: string;
-  Properties?: TaskRunProperties;
-  ErrorString?: string;
-  StartedOn?: Date;
-  LastModifiedOn?: Date;
-  CompletedOn?: Date;
-  ExecutionTime?: number;
+  TransformId?: string | undefined;
+  TaskRunId?: string | undefined;
+  Status?: TaskStatusType | undefined;
+  LogGroupName?: string | undefined;
+  Properties?: TaskRunProperties | undefined;
+  ErrorString?: string | undefined;
+  StartedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  ExecutionTime?: number | undefined;
 }
 export type PaginationToken = string;
 export interface TaskRunFilterCriteria {
-  TaskRunType?: TaskType;
-  Status?: TaskStatusType;
-  StartedBefore?: Date;
-  StartedAfter?: Date;
+  TaskRunType?: TaskType | undefined;
+  Status?: TaskStatusType | undefined;
+  StartedBefore?: Date | undefined;
+  StartedAfter?: Date | undefined;
 }
 export type TaskRunSortColumnType = "TASK_RUN_TYPE" | "STATUS" | "STARTED" | (string & {});
 export type SortDirectionType = "DESCENDING" | "ASCENDING" | (string & {});
@@ -5502,27 +5506,27 @@ export interface TaskRunSortCriteria {
 }
 export interface GetMLTaskRunsRequest {
   TransformId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  Filter?: TaskRunFilterCriteria;
-  Sort?: TaskRunSortCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filter?: TaskRunFilterCriteria | undefined;
+  Sort?: TaskRunSortCriteria | undefined;
 }
 export interface TaskRun {
-  TransformId?: string;
-  TaskRunId?: string;
-  Status?: TaskStatusType;
-  LogGroupName?: string;
-  Properties?: TaskRunProperties;
-  ErrorString?: string;
-  StartedOn?: Date;
-  LastModifiedOn?: Date;
-  CompletedOn?: Date;
-  ExecutionTime?: number;
+  TransformId?: string | undefined;
+  TaskRunId?: string | undefined;
+  Status?: TaskStatusType | undefined;
+  LogGroupName?: string | undefined;
+  Properties?: TaskRunProperties | undefined;
+  ErrorString?: string | undefined;
+  StartedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  ExecutionTime?: number | undefined;
 }
 export type TaskRunList = TaskRun[];
 export interface GetMLTaskRunsResponse {
-  TaskRuns?: TaskRun[];
-  NextToken?: string;
+  TaskRuns?: TaskRun[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetMLTransformRequest {
   TransformId: string;
@@ -5530,65 +5534,65 @@ export interface GetMLTransformRequest {
 export type TransformStatusType = "NOT_READY" | "READY" | "DELETING" | (string & {});
 export type RecordsCount = number;
 export interface ConfusionMatrix {
-  NumTruePositives?: number;
-  NumFalsePositives?: number;
-  NumTrueNegatives?: number;
-  NumFalseNegatives?: number;
+  NumTruePositives?: number | undefined;
+  NumFalsePositives?: number | undefined;
+  NumTrueNegatives?: number | undefined;
+  NumFalseNegatives?: number | undefined;
 }
 export interface ColumnImportance {
-  ColumnName?: string;
-  Importance?: number;
+  ColumnName?: string | undefined;
+  Importance?: number | undefined;
 }
 export type ColumnImportanceList = ColumnImportance[];
 export interface FindMatchesMetrics {
-  AreaUnderPRCurve?: number;
-  Precision?: number;
-  Recall?: number;
-  F1?: number;
-  ConfusionMatrix?: ConfusionMatrix;
-  ColumnImportances?: ColumnImportance[];
+  AreaUnderPRCurve?: number | undefined;
+  Precision?: number | undefined;
+  Recall?: number | undefined;
+  F1?: number | undefined;
+  ConfusionMatrix?: ConfusionMatrix | undefined;
+  ColumnImportances?: ColumnImportance[] | undefined;
 }
 export interface EvaluationMetrics {
   TransformType: TransformType;
-  FindMatchesMetrics?: FindMatchesMetrics;
+  FindMatchesMetrics?: FindMatchesMetrics | undefined;
 }
 export type LabelCount = number;
 export interface SchemaColumn {
-  Name?: string;
-  DataType?: string;
+  Name?: string | undefined;
+  DataType?: string | undefined;
 }
 export type TransformSchema = SchemaColumn[];
 export interface GetMLTransformResponse {
-  TransformId?: string;
-  Name?: string;
-  Description?: string;
-  Status?: TransformStatusType;
-  CreatedOn?: Date;
-  LastModifiedOn?: Date;
-  InputRecordTables?: GlueTable[];
-  Parameters?: TransformParameters;
-  EvaluationMetrics?: EvaluationMetrics;
-  LabelCount?: number;
-  Schema?: SchemaColumn[];
-  Role?: string;
-  GlueVersion?: string;
-  MaxCapacity?: number;
-  WorkerType?: WorkerType;
-  NumberOfWorkers?: number;
-  Timeout?: number;
-  MaxRetries?: number;
-  TransformEncryption?: TransformEncryption;
+  TransformId?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Status?: TransformStatusType | undefined;
+  CreatedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  InputRecordTables?: GlueTable[] | undefined;
+  Parameters?: TransformParameters | undefined;
+  EvaluationMetrics?: EvaluationMetrics | undefined;
+  LabelCount?: number | undefined;
+  Schema?: SchemaColumn[] | undefined;
+  Role?: string | undefined;
+  GlueVersion?: string | undefined;
+  MaxCapacity?: number | undefined;
+  WorkerType?: WorkerType | undefined;
+  NumberOfWorkers?: number | undefined;
+  Timeout?: number | undefined;
+  MaxRetries?: number | undefined;
+  TransformEncryption?: TransformEncryption | undefined;
 }
 export interface TransformFilterCriteria {
-  Name?: string;
-  TransformType?: TransformType;
-  Status?: TransformStatusType;
-  GlueVersion?: string;
-  CreatedBefore?: Date;
-  CreatedAfter?: Date;
-  LastModifiedBefore?: Date;
-  LastModifiedAfter?: Date;
-  Schema?: SchemaColumn[];
+  Name?: string | undefined;
+  TransformType?: TransformType | undefined;
+  Status?: TransformStatusType | undefined;
+  GlueVersion?: string | undefined;
+  CreatedBefore?: Date | undefined;
+  CreatedAfter?: Date | undefined;
+  LastModifiedBefore?: Date | undefined;
+  LastModifiedAfter?: Date | undefined;
+  Schema?: SchemaColumn[] | undefined;
 }
 export type TransformSortColumnType =
   | "NAME"
@@ -5602,52 +5606,52 @@ export interface TransformSortCriteria {
   SortDirection: SortDirectionType;
 }
 export interface GetMLTransformsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filter?: TransformFilterCriteria;
-  Sort?: TransformSortCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filter?: TransformFilterCriteria | undefined;
+  Sort?: TransformSortCriteria | undefined;
 }
 export interface MLTransform {
-  TransformId?: string;
-  Name?: string;
-  Description?: string;
-  Status?: TransformStatusType;
-  CreatedOn?: Date;
-  LastModifiedOn?: Date;
-  InputRecordTables?: GlueTable[];
-  Parameters?: TransformParameters;
-  EvaluationMetrics?: EvaluationMetrics;
-  LabelCount?: number;
-  Schema?: SchemaColumn[];
-  Role?: string;
-  GlueVersion?: string;
-  MaxCapacity?: number;
-  WorkerType?: WorkerType;
-  NumberOfWorkers?: number;
-  Timeout?: number;
-  MaxRetries?: number;
-  TransformEncryption?: TransformEncryption;
+  TransformId?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Status?: TransformStatusType | undefined;
+  CreatedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  InputRecordTables?: GlueTable[] | undefined;
+  Parameters?: TransformParameters | undefined;
+  EvaluationMetrics?: EvaluationMetrics | undefined;
+  LabelCount?: number | undefined;
+  Schema?: SchemaColumn[] | undefined;
+  Role?: string | undefined;
+  GlueVersion?: string | undefined;
+  MaxCapacity?: number | undefined;
+  WorkerType?: WorkerType | undefined;
+  NumberOfWorkers?: number | undefined;
+  Timeout?: number | undefined;
+  MaxRetries?: number | undefined;
+  TransformEncryption?: TransformEncryption | undefined;
 }
 export type TransformList = MLTransform[];
 export interface GetMLTransformsResponse {
   Transforms: MLTransform[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetPartitionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   PartitionValues: string[];
-  AuditContext?: AuditContext;
+  AuditContext?: AuditContext | undefined;
 }
 export interface GetPartitionResponse {
-  Partition?: Partition;
+  Partition?: Partition | undefined;
 }
 export interface GetPartitionIndexesRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface KeySchemaElement {
   Name: string;
@@ -5664,20 +5668,20 @@ export type BackfillErrorCode =
   | (string & {});
 export type BackfillErroredPartitionsList = PartitionValueList[];
 export interface BackfillError {
-  Code?: BackfillErrorCode;
-  Partitions?: PartitionValueList[];
+  Code?: BackfillErrorCode | undefined;
+  Partitions?: PartitionValueList[] | undefined;
 }
 export type BackfillErrors = BackfillError[];
 export interface PartitionIndexDescriptor {
   IndexName: string;
   Keys: KeySchemaElement[];
   IndexStatus: PartitionIndexStatus;
-  BackfillErrors?: BackfillError[];
+  BackfillErrors?: BackfillError[] | undefined;
 }
 export type PartitionIndexDescriptorList = PartitionIndexDescriptor[];
 export interface GetPartitionIndexesResponse {
-  PartitionIndexDescriptorList?: PartitionIndexDescriptor[];
-  NextToken?: string;
+  PartitionIndexDescriptorList?: PartitionIndexDescriptor[] | undefined;
+  NextToken?: string | undefined;
 }
 export type PredicateString = string;
 export type TotalSegmentsInteger = number;
@@ -5687,34 +5691,34 @@ export interface Segment {
 }
 export type BooleanNullable = boolean;
 export interface GetPartitionsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
-  Expression?: string;
-  NextToken?: string;
-  Segment?: Segment;
-  MaxResults?: number;
-  ExcludeColumnSchema?: boolean;
-  TransactionId?: string;
-  QueryAsOfTime?: Date;
-  AuditContext?: AuditContext;
+  Expression?: string | undefined;
+  NextToken?: string | undefined;
+  Segment?: Segment | undefined;
+  MaxResults?: number | undefined;
+  ExcludeColumnSchema?: boolean | undefined;
+  TransactionId?: string | undefined;
+  QueryAsOfTime?: Date | undefined;
+  AuditContext?: AuditContext | undefined;
 }
 export interface GetPartitionsResponse {
-  Partitions?: Partition[];
-  NextToken?: string;
+  Partitions?: Partition[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AdditionalPlanOptionsMap = { [key: string]: string | undefined };
 export interface GetPlanRequest {
   Mapping: MappingEntry[];
   Source: CatalogEntry;
-  Sinks?: CatalogEntry[];
-  Location?: Location;
-  Language?: Language;
-  AdditionalPlanOptionsMap?: { [key: string]: string | undefined };
+  Sinks?: CatalogEntry[] | undefined;
+  Location?: Location | undefined;
+  Language?: Language | undefined;
+  AdditionalPlanOptionsMap?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetPlanResponse {
-  PythonScript?: string;
-  ScalaCode?: string;
+  PythonScript?: string | undefined;
+  ScalaCode?: string | undefined;
 }
 export interface GetRegistryInput {
   RegistryId: RegistryId;
@@ -5722,85 +5726,85 @@ export interface GetRegistryInput {
 export type CreatedTimestamp = string;
 export type UpdatedTimestamp = string;
 export interface GetRegistryResponse {
-  RegistryName?: string;
-  RegistryArn?: string;
-  Description?: string;
-  Status?: RegistryStatus;
-  CreatedTime?: string;
-  UpdatedTime?: string;
+  RegistryName?: string | undefined;
+  RegistryArn?: string | undefined;
+  Description?: string | undefined;
+  Status?: RegistryStatus | undefined;
+  CreatedTime?: string | undefined;
+  UpdatedTime?: string | undefined;
 }
 export interface GetResourcePoliciesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type PolicyJsonString = string;
 export interface GluePolicy {
-  PolicyInJson?: string;
-  PolicyHash?: string;
-  CreateTime?: Date;
-  UpdateTime?: Date;
+  PolicyInJson?: string | undefined;
+  PolicyHash?: string | undefined;
+  CreateTime?: Date | undefined;
+  UpdateTime?: Date | undefined;
 }
 export type GetResourcePoliciesResponseList = GluePolicy[];
 export interface GetResourcePoliciesResponse {
-  GetResourcePoliciesResponseList?: GluePolicy[];
-  NextToken?: string;
+  GetResourcePoliciesResponseList?: GluePolicy[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetResourcePolicyRequest {
-  ResourceArn?: string;
+  ResourceArn?: string | undefined;
 }
 export interface GetResourcePolicyResponse {
-  PolicyInJson?: string;
-  PolicyHash?: string;
-  CreateTime?: Date;
-  UpdateTime?: Date;
+  PolicyInJson?: string | undefined;
+  PolicyHash?: string | undefined;
+  CreateTime?: Date | undefined;
+  UpdateTime?: Date | undefined;
 }
 export interface GetSchemaInput {
   SchemaId: SchemaId;
 }
 export interface GetSchemaResponse {
-  RegistryName?: string;
-  RegistryArn?: string;
-  SchemaName?: string;
-  SchemaArn?: string;
-  Description?: string;
-  DataFormat?: DataFormat;
-  Compatibility?: Compatibility;
-  SchemaCheckpoint?: number;
-  LatestSchemaVersion?: number;
-  NextSchemaVersion?: number;
-  SchemaStatus?: SchemaStatus;
-  CreatedTime?: string;
-  UpdatedTime?: string;
+  RegistryName?: string | undefined;
+  RegistryArn?: string | undefined;
+  SchemaName?: string | undefined;
+  SchemaArn?: string | undefined;
+  Description?: string | undefined;
+  DataFormat?: DataFormat | undefined;
+  Compatibility?: Compatibility | undefined;
+  SchemaCheckpoint?: number | undefined;
+  LatestSchemaVersion?: number | undefined;
+  NextSchemaVersion?: number | undefined;
+  SchemaStatus?: SchemaStatus | undefined;
+  CreatedTime?: string | undefined;
+  UpdatedTime?: string | undefined;
 }
 export interface GetSchemaByDefinitionInput {
   SchemaId: SchemaId;
   SchemaDefinition: string;
 }
 export interface GetSchemaByDefinitionResponse {
-  SchemaVersionId?: string;
-  SchemaArn?: string;
-  DataFormat?: DataFormat;
-  Status?: SchemaVersionStatus;
-  CreatedTime?: string;
+  SchemaVersionId?: string | undefined;
+  SchemaArn?: string | undefined;
+  DataFormat?: DataFormat | undefined;
+  Status?: SchemaVersionStatus | undefined;
+  CreatedTime?: string | undefined;
 }
 export type LatestSchemaVersionBoolean = boolean;
 export interface SchemaVersionNumber {
-  LatestVersion?: boolean;
-  VersionNumber?: number;
+  LatestVersion?: boolean | undefined;
+  VersionNumber?: number | undefined;
 }
 export interface GetSchemaVersionInput {
-  SchemaId?: SchemaId;
-  SchemaVersionId?: string;
-  SchemaVersionNumber?: SchemaVersionNumber;
+  SchemaId?: SchemaId | undefined;
+  SchemaVersionId?: string | undefined;
+  SchemaVersionNumber?: SchemaVersionNumber | undefined;
 }
 export interface GetSchemaVersionResponse {
-  SchemaVersionId?: string;
-  SchemaDefinition?: string;
-  DataFormat?: DataFormat;
-  SchemaArn?: string;
-  VersionNumber?: number;
-  Status?: SchemaVersionStatus;
-  CreatedTime?: string;
+  SchemaVersionId?: string | undefined;
+  SchemaDefinition?: string | undefined;
+  DataFormat?: DataFormat | undefined;
+  SchemaArn?: string | undefined;
+  VersionNumber?: number | undefined;
+  Status?: SchemaVersionStatus | undefined;
+  CreatedTime?: string | undefined;
 }
 export type SchemaDiffType = "SYNTAX_DIFF" | (string & {});
 export interface GetSchemaVersionsDiffInput {
@@ -5811,34 +5815,34 @@ export interface GetSchemaVersionsDiffInput {
 }
 export type SchemaDefinitionDiff = string;
 export interface GetSchemaVersionsDiffResponse {
-  Diff?: string;
+  Diff?: string | undefined;
 }
 export interface GetSecurityConfigurationRequest {
   Name: string;
 }
 export interface SecurityConfiguration {
-  Name?: string;
-  CreatedTimeStamp?: Date;
-  EncryptionConfiguration?: EncryptionConfiguration;
+  Name?: string | undefined;
+  CreatedTimeStamp?: Date | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export interface GetSecurityConfigurationResponse {
-  SecurityConfiguration?: SecurityConfiguration;
+  SecurityConfiguration?: SecurityConfiguration | undefined;
 }
 export interface GetSecurityConfigurationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type SecurityConfigurationList = SecurityConfiguration[];
 export interface GetSecurityConfigurationsResponse {
-  SecurityConfigurations?: SecurityConfiguration[];
-  NextToken?: string;
+  SecurityConfigurations?: SecurityConfiguration[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetSessionRequest {
   Id: string;
-  RequestOrigin?: string;
+  RequestOrigin?: string | undefined;
 }
 export interface GetSessionResponse {
-  Session?: Session;
+  Session?: Session | undefined;
 }
 export interface GetSessionEndpointRequest {
   SessionId: string;
@@ -5856,7 +5860,7 @@ export interface GetSessionEndpointResponse {
 export interface GetStatementRequest {
   SessionId: string;
   Id: number;
-  RequestOrigin?: string;
+  RequestOrigin?: string | undefined;
 }
 export type StatementState =
   | "WAITING"
@@ -5867,28 +5871,28 @@ export type StatementState =
   | "ERROR"
   | (string & {});
 export interface StatementOutputData {
-  TextPlain?: string;
+  TextPlain?: string | undefined;
 }
 export interface StatementOutput {
-  Data?: StatementOutputData;
-  ExecutionCount?: number;
-  Status?: StatementState;
-  ErrorName?: string;
-  ErrorValue?: string;
-  Traceback?: string[];
+  Data?: StatementOutputData | undefined;
+  ExecutionCount?: number | undefined;
+  Status?: StatementState | undefined;
+  ErrorName?: string | undefined;
+  ErrorValue?: string | undefined;
+  Traceback?: string[] | undefined;
 }
 export type LongValue = number;
 export interface Statement {
-  Id?: number;
-  Code?: string;
-  State?: StatementState;
-  Output?: StatementOutput;
-  Progress?: number;
-  StartedOn?: number;
-  CompletedOn?: number;
+  Id?: number | undefined;
+  Code?: string | undefined;
+  State?: StatementState | undefined;
+  Output?: StatementOutput | undefined;
+  Progress?: number | undefined;
+  StartedOn?: number | undefined;
+  CompletedOn?: number | undefined;
 }
 export interface GetStatementResponse {
-  Statement?: Statement;
+  Statement?: Statement | undefined;
 }
 export interface GetSystemLogsForJobRunRequest {
   JobName: string;
@@ -5896,13 +5900,13 @@ export interface GetSystemLogsForJobRunRequest {
 }
 export type Url = string;
 export interface GetSystemLogsForJobRunResponse {
-  SystemLogsUrl?: string;
+  SystemLogsUrl?: string | undefined;
 }
 export interface GetSystemLogsForSessionRequest {
   Id: string;
 }
 export interface GetSystemLogsForSessionResponse {
-  SystemLogsUrl?: string;
+  SystemLogsUrl?: string | undefined;
 }
 export type TableAttributes =
   | "NAME"
@@ -5912,55 +5916,55 @@ export type TableAttributes =
   | (string & {});
 export type TableAttributesList = TableAttributes[];
 export interface GetTableRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   Name: string;
-  TransactionId?: string;
-  QueryAsOfTime?: Date;
-  AuditContext?: AuditContext;
-  IncludeStatusDetails?: boolean;
-  AttributesToGet?: TableAttributes[];
+  TransactionId?: string | undefined;
+  QueryAsOfTime?: Date | undefined;
+  AuditContext?: AuditContext | undefined;
+  IncludeStatusDetails?: boolean | undefined;
+  AttributesToGet?: TableAttributes[] | undefined;
 }
 export interface ViewRepresentation {
-  Dialect?: ViewDialect;
-  DialectVersion?: string;
-  ViewOriginalText?: string;
-  ViewExpandedText?: string;
-  ValidationConnection?: string;
-  IsStale?: boolean;
+  Dialect?: ViewDialect | undefined;
+  DialectVersion?: string | undefined;
+  ViewOriginalText?: string | undefined;
+  ViewExpandedText?: string | undefined;
+  ValidationConnection?: string | undefined;
+  IsStale?: boolean | undefined;
 }
 export type ViewRepresentationList = ViewRepresentation[];
 export interface ViewDefinition {
-  IsProtected?: boolean;
-  IsManaged?: boolean;
-  Definer?: string;
-  ViewVersionId?: number;
-  ViewVersionToken?: string;
-  RefreshSeconds?: number;
-  LastRefreshType?: LastRefreshType;
-  SubObjects?: string[];
-  SubObjectVersionIds?: number[];
-  SubObjectsStatistics?: SubObjectStatistics[];
-  Representations?: ViewRepresentation[];
-  SparkPipelineInfo?: { [key: string]: string | undefined };
+  IsProtected?: boolean | undefined;
+  IsManaged?: boolean | undefined;
+  Definer?: string | undefined;
+  ViewVersionId?: number | undefined;
+  ViewVersionToken?: string | undefined;
+  RefreshSeconds?: number | undefined;
+  LastRefreshType?: LastRefreshType | undefined;
+  SubObjects?: string[] | undefined;
+  SubObjectVersionIds?: number[] | undefined;
+  SubObjectsStatistics?: SubObjectStatistics[] | undefined;
+  Representations?: ViewRepresentation[] | undefined;
+  SparkPipelineInfo?: { [key: string]: string | undefined } | undefined;
 }
 export type TableIdString = string;
 export type IcebergSchemaList = IcebergSchema[];
 export type IcebergPartitionSpecList = IcebergPartitionSpec[];
 export type IcebergSortOrderList = IcebergSortOrder[];
 export interface IcebergTableMetadata {
-  FormatVersion?: string;
-  TableUuid?: string;
-  Location?: string;
-  Properties?: { [key: string]: string | undefined };
-  Schemas?: IcebergSchema[];
-  CurrentSchemaId?: number;
-  LastColumnId?: number;
-  PartitionSpecs?: IcebergPartitionSpec[];
-  DefaultSpecId?: number;
-  LastPartitionId?: number;
-  SortOrders?: IcebergSortOrder[];
-  DefaultSortOrderId?: number;
+  FormatVersion?: string | undefined;
+  TableUuid?: string | undefined;
+  Location?: string | undefined;
+  Properties?: { [key: string]: string | undefined } | undefined;
+  Schemas?: IcebergSchema[] | undefined;
+  CurrentSchemaId?: number | undefined;
+  LastColumnId?: number | undefined;
+  PartitionSpecs?: IcebergPartitionSpec[] | undefined;
+  DefaultSpecId?: number | undefined;
+  LastPartitionId?: number | undefined;
+  SortOrders?: IcebergSortOrder[] | undefined;
+  DefaultSortOrderId?: number | undefined;
 }
 export type ResourceAction = "UPDATE" | "CREATE" | (string & {});
 export type ResourceState =
@@ -5971,62 +5975,62 @@ export type ResourceState =
   | "FAILED"
   | (string & {});
 export interface ViewValidation {
-  Dialect?: ViewDialect;
-  DialectVersion?: string;
-  ViewValidationText?: string;
-  UpdateTime?: Date;
-  State?: ResourceState;
-  Error?: ErrorDetail;
+  Dialect?: ViewDialect | undefined;
+  DialectVersion?: string | undefined;
+  ViewValidationText?: string | undefined;
+  UpdateTime?: Date | undefined;
+  State?: ResourceState | undefined;
+  Error?: ErrorDetail | undefined;
 }
 export type ViewValidationList = ViewValidation[];
 export interface StatusDetails {
-  RequestedChange?: Table;
-  ViewValidations?: ViewValidation[];
+  RequestedChange?: Table | undefined;
+  ViewValidations?: ViewValidation[] | undefined;
 }
 export interface TableStatus {
-  RequestedBy?: string;
-  UpdatedBy?: string;
-  RequestTime?: Date;
-  UpdateTime?: Date;
-  Action?: ResourceAction;
-  State?: ResourceState;
-  Error?: ErrorDetail;
-  Details?: StatusDetails;
+  RequestedBy?: string | undefined;
+  UpdatedBy?: string | undefined;
+  RequestTime?: Date | undefined;
+  UpdateTime?: Date | undefined;
+  Action?: ResourceAction | undefined;
+  State?: ResourceState | undefined;
+  Error?: ErrorDetail | undefined;
+  Details?: StatusDetails | undefined;
 }
 export interface RLSProperties {
-  DefaultRLSPolicy?: string;
+  DefaultRLSPolicy?: string | undefined;
 }
 export interface Table {
   Name: string;
-  DatabaseName?: string;
-  Description?: string;
-  Owner?: string;
-  CreateTime?: Date;
-  UpdateTime?: Date;
-  LastAccessTime?: Date;
-  LastAnalyzedTime?: Date;
-  Retention?: number;
-  StorageDescriptor?: StorageDescriptor;
-  PartitionKeys?: Column[];
-  ViewOriginalText?: string;
-  ViewExpandedText?: string;
-  TableType?: string;
-  Parameters?: { [key: string]: string | undefined };
-  CreatedBy?: string;
-  IsRegisteredWithLakeFormation?: boolean;
-  TargetTable?: TableIdentifier;
-  CatalogId?: string;
-  VersionId?: string;
-  FederatedTable?: FederatedTable;
-  ViewDefinition?: ViewDefinition;
-  IsMultiDialectView?: boolean;
-  IsMaterializedView?: boolean;
-  IcebergTableMetadata?: IcebergTableMetadata;
-  Status?: TableStatus;
-  RLSProperties?: RLSProperties;
+  DatabaseName?: string | undefined;
+  Description?: string | undefined;
+  Owner?: string | undefined;
+  CreateTime?: Date | undefined;
+  UpdateTime?: Date | undefined;
+  LastAccessTime?: Date | undefined;
+  LastAnalyzedTime?: Date | undefined;
+  Retention?: number | undefined;
+  StorageDescriptor?: StorageDescriptor | undefined;
+  PartitionKeys?: Column[] | undefined;
+  ViewOriginalText?: string | undefined;
+  ViewExpandedText?: string | undefined;
+  TableType?: string | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  CreatedBy?: string | undefined;
+  IsRegisteredWithLakeFormation?: boolean | undefined;
+  TargetTable?: TableIdentifier | undefined;
+  CatalogId?: string | undefined;
+  VersionId?: string | undefined;
+  FederatedTable?: FederatedTable | undefined;
+  ViewDefinition?: ViewDefinition | undefined;
+  IsMultiDialectView?: boolean | undefined;
+  IsMaterializedView?: boolean | undefined;
+  IcebergTableMetadata?: IcebergTableMetadata | undefined;
+  Status?: TableStatus | undefined;
+  RLSProperties?: RLSProperties | undefined;
 }
 export interface GetTableResponse {
-  Table?: Table;
+  Table?: Table | undefined;
 }
 export interface GetTableOptimizerRequest {
   CatalogId: string;
@@ -6035,78 +6039,78 @@ export interface GetTableOptimizerRequest {
   Type: TableOptimizerType;
 }
 export interface GetTableOptimizerResponse {
-  CatalogId?: string;
-  DatabaseName?: string;
-  TableName?: string;
-  TableOptimizer?: TableOptimizer;
+  CatalogId?: string | undefined;
+  DatabaseName?: string | undefined;
+  TableName?: string | undefined;
+  TableOptimizer?: TableOptimizer | undefined;
 }
 export type FilterString = string;
 export type TableResourceShareType = "FEDERATED" | "ALL" | (string & {});
 export interface GetTablesRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
-  Expression?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  TransactionId?: string;
-  QueryAsOfTime?: Date;
-  AuditContext?: AuditContext;
-  ResourceShareType?: TableResourceShareType;
-  IncludeStatusDetails?: boolean;
-  AttributesToGet?: TableAttributes[];
+  Expression?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  TransactionId?: string | undefined;
+  QueryAsOfTime?: Date | undefined;
+  AuditContext?: AuditContext | undefined;
+  ResourceShareType?: TableResourceShareType | undefined;
+  IncludeStatusDetails?: boolean | undefined;
+  AttributesToGet?: TableAttributes[] | undefined;
 }
 export type TableList = Table[];
 export interface GetTablesResponse {
-  TableList?: Table[];
-  NextToken?: string;
+  TableList?: Table[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetTableVersionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
-  VersionId?: string;
-  AuditContext?: AuditContext;
+  VersionId?: string | undefined;
+  AuditContext?: AuditContext | undefined;
 }
 export interface TableVersion {
-  Table?: Table;
-  VersionId?: string;
+  Table?: Table | undefined;
+  VersionId?: string | undefined;
 }
 export interface GetTableVersionResponse {
-  TableVersion?: TableVersion;
+  TableVersion?: TableVersion | undefined;
 }
 export interface GetTableVersionsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
-  NextToken?: string;
-  MaxResults?: number;
-  AuditContext?: AuditContext;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  AuditContext?: AuditContext | undefined;
 }
 export type GetTableVersionsList = TableVersion[];
 export interface GetTableVersionsResponse {
-  TableVersions?: TableVersion[];
-  NextToken?: string;
+  TableVersions?: TableVersion[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetTagsRequest {
   ResourceArn: string;
 }
 export interface GetTagsResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetTriggerRequest {
   Name: string;
 }
 export interface GetTriggerResponse {
-  Trigger?: Trigger;
+  Trigger?: Trigger | undefined;
 }
 export interface GetTriggersRequest {
-  NextToken?: string;
-  DependentJobName?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  DependentJobName?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface GetTriggersResponse {
-  Triggers?: Trigger[];
-  NextToken?: string;
+  Triggers?: Trigger[] | undefined;
+  NextToken?: string | undefined;
 }
 export type PermissionType =
   | "COLUMN_PERMISSION"
@@ -6116,227 +6120,227 @@ export type PermissionType =
   | (string & {});
 export type PermissionTypeList = PermissionType[];
 export interface GetUnfilteredPartitionMetadataRequest {
-  Region?: string;
+  Region?: string | undefined;
   CatalogId: string;
   DatabaseName: string;
   TableName: string;
   PartitionValues: string[];
-  AuditContext?: AuditContext;
+  AuditContext?: AuditContext | undefined;
   SupportedPermissionTypes: PermissionType[];
-  QuerySessionContext?: QuerySessionContext;
+  QuerySessionContext?: QuerySessionContext | undefined;
 }
 export interface GetUnfilteredPartitionMetadataResponse {
-  Partition?: Partition;
-  AuthorizedColumns?: string[];
-  IsRegisteredWithLakeFormation?: boolean;
+  Partition?: Partition | undefined;
+  AuthorizedColumns?: string[] | undefined;
+  IsRegisteredWithLakeFormation?: boolean | undefined;
 }
 export interface GetUnfilteredPartitionsMetadataRequest {
-  Region?: string;
+  Region?: string | undefined;
   CatalogId: string;
   DatabaseName: string;
   TableName: string;
-  Expression?: string;
-  AuditContext?: AuditContext;
+  Expression?: string | undefined;
+  AuditContext?: AuditContext | undefined;
   SupportedPermissionTypes: PermissionType[];
-  NextToken?: string;
-  Segment?: Segment;
-  MaxResults?: number;
-  QuerySessionContext?: QuerySessionContext;
+  NextToken?: string | undefined;
+  Segment?: Segment | undefined;
+  MaxResults?: number | undefined;
+  QuerySessionContext?: QuerySessionContext | undefined;
 }
 export interface UnfilteredPartition {
-  Partition?: Partition;
-  AuthorizedColumns?: string[];
-  IsRegisteredWithLakeFormation?: boolean;
+  Partition?: Partition | undefined;
+  AuthorizedColumns?: string[] | undefined;
+  IsRegisteredWithLakeFormation?: boolean | undefined;
 }
 export type UnfilteredPartitionList = UnfilteredPartition[];
 export interface GetUnfilteredPartitionsMetadataResponse {
-  UnfilteredPartitions?: UnfilteredPartition[];
-  NextToken?: string;
+  UnfilteredPartitions?: UnfilteredPartition[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface SupportedDialect {
-  Dialect?: ViewDialect;
-  DialectVersion?: string;
+  Dialect?: ViewDialect | undefined;
+  DialectVersion?: string | undefined;
 }
 export interface GetUnfilteredTableMetadataRequest {
-  Region?: string;
+  Region?: string | undefined;
   CatalogId: string;
   DatabaseName: string;
   Name: string;
-  AuditContext?: AuditContext;
+  AuditContext?: AuditContext | undefined;
   SupportedPermissionTypes: PermissionType[];
-  ParentResourceArn?: string;
-  RootResourceArn?: string;
-  SupportedDialect?: SupportedDialect;
-  Permissions?: Permission[];
-  QuerySessionContext?: QuerySessionContext;
+  ParentResourceArn?: string | undefined;
+  RootResourceArn?: string | undefined;
+  SupportedDialect?: SupportedDialect | undefined;
+  Permissions?: Permission[] | undefined;
+  QuerySessionContext?: QuerySessionContext | undefined;
 }
 export interface ColumnRowFilter {
-  ColumnName?: string;
-  RowFilterExpression?: string;
+  ColumnName?: string | undefined;
+  RowFilterExpression?: string | undefined;
 }
 export type ColumnRowFilterList = ColumnRowFilter[];
 export interface GetUnfilteredTableMetadataResponse {
-  Table?: Table;
-  AuthorizedColumns?: string[];
-  IsRegisteredWithLakeFormation?: boolean;
-  CellFilters?: ColumnRowFilter[];
-  QueryAuthorizationId?: string;
-  IsMultiDialectView?: boolean;
-  IsMaterializedView?: boolean;
-  ResourceArn?: string;
-  IsProtected?: boolean;
-  Permissions?: Permission[];
-  RowFilter?: string;
+  Table?: Table | undefined;
+  AuthorizedColumns?: string[] | undefined;
+  IsRegisteredWithLakeFormation?: boolean | undefined;
+  CellFilters?: ColumnRowFilter[] | undefined;
+  QueryAuthorizationId?: string | undefined;
+  IsMultiDialectView?: boolean | undefined;
+  IsMaterializedView?: boolean | undefined;
+  ResourceArn?: string | undefined;
+  IsProtected?: boolean | undefined;
+  Permissions?: Permission[] | undefined;
+  RowFilter?: string | undefined;
 }
 export interface GetUsageProfileRequest {
   Name: string;
 }
 export interface GetUsageProfileResponse {
-  Name?: string;
-  Description?: string;
-  Configuration?: ProfileConfiguration;
-  CreatedOn?: Date;
-  LastModifiedOn?: Date;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Configuration?: ProfileConfiguration | undefined;
+  CreatedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
 }
 export interface GetUserDefinedFunctionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   FunctionName: string;
 }
 export interface UserDefinedFunction {
-  FunctionName?: string;
-  DatabaseName?: string;
-  ClassName?: string;
-  OwnerName?: string;
-  FunctionType?: FunctionType;
-  OwnerType?: PrincipalType;
-  CreateTime?: Date;
-  ResourceUris?: ResourceUri[];
-  CatalogId?: string;
+  FunctionName?: string | undefined;
+  DatabaseName?: string | undefined;
+  ClassName?: string | undefined;
+  OwnerName?: string | undefined;
+  FunctionType?: FunctionType | undefined;
+  OwnerType?: PrincipalType | undefined;
+  CreateTime?: Date | undefined;
+  ResourceUris?: ResourceUri[] | undefined;
+  CatalogId?: string | undefined;
 }
 export interface GetUserDefinedFunctionResponse {
-  UserDefinedFunction?: UserDefinedFunction;
+  UserDefinedFunction?: UserDefinedFunction | undefined;
 }
 export interface GetUserDefinedFunctionsRequest {
-  CatalogId?: string;
-  DatabaseName?: string;
+  CatalogId?: string | undefined;
+  DatabaseName?: string | undefined;
   Pattern: string;
-  FunctionType?: FunctionType;
-  NextToken?: string;
-  MaxResults?: number;
+  FunctionType?: FunctionType | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type UserDefinedFunctionList = UserDefinedFunction[];
 export interface GetUserDefinedFunctionsResponse {
-  UserDefinedFunctions?: UserDefinedFunction[];
-  NextToken?: string;
+  UserDefinedFunctions?: UserDefinedFunction[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetWorkflowRequest {
   Name: string;
-  IncludeGraph?: boolean;
+  IncludeGraph?: boolean | undefined;
 }
 export interface GetWorkflowResponse {
-  Workflow?: Workflow;
+  Workflow?: Workflow | undefined;
 }
 export interface GetWorkflowRunRequest {
   Name: string;
   RunId: string;
-  IncludeGraph?: boolean;
+  IncludeGraph?: boolean | undefined;
 }
 export interface GetWorkflowRunResponse {
-  Run?: WorkflowRun;
+  Run?: WorkflowRun | undefined;
 }
 export interface GetWorkflowRunPropertiesRequest {
   Name: string;
   RunId: string;
 }
 export interface GetWorkflowRunPropertiesResponse {
-  RunProperties?: { [key: string]: string | undefined };
+  RunProperties?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetWorkflowRunsRequest {
   Name: string;
-  IncludeGraph?: boolean;
-  NextToken?: string;
-  MaxResults?: number;
+  IncludeGraph?: boolean | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type WorkflowRuns = WorkflowRun[];
 export interface GetWorkflowRunsResponse {
-  Runs?: WorkflowRun[];
-  NextToken?: string;
+  Runs?: WorkflowRun[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ImportCatalogToGlueRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
 }
 export interface ImportCatalogToGlueResponse {}
 export interface ListAssetTypesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AssetTypeItem {
-  Id?: string;
-  Name?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
 }
 export type AssetTypeItemList = AssetTypeItem[];
 export interface ListAssetTypesResponse {
-  Items?: AssetTypeItem[];
-  NextToken?: string;
+  Items?: AssetTypeItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export type OrchestrationPageSize25 = number;
 export interface ListBlueprintsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Tags?: { [key: string]: string | undefined };
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListBlueprintsResponse {
-  Blueprints?: string[];
-  NextToken?: string;
+  Blueprints?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListColumnStatisticsTaskRunsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ColumnStatisticsTaskRunIdList = string[];
 export interface ListColumnStatisticsTaskRunsResponse {
-  ColumnStatisticsTaskRunIds?: string[];
-  NextToken?: string;
+  ColumnStatisticsTaskRunIds?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResults = number;
 export interface ListConnectionTypesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type DisplayName = string;
 export type Vendor = string;
 export type UrlString = string;
 export interface ConnectionTypeVariant {
-  ConnectionTypeVariantName?: string;
-  DisplayName?: string;
-  Description?: string;
-  LogoUrl?: string;
+  ConnectionTypeVariantName?: string | undefined;
+  DisplayName?: string | undefined;
+  Description?: string | undefined;
+  LogoUrl?: string | undefined;
 }
 export type ConnectionTypeVariantList = ConnectionTypeVariant[];
 export interface ConnectionTypeBrief {
-  ConnectionType?: ConnectionType;
-  DisplayName?: string;
-  Vendor?: string;
-  Description?: string;
-  Categories?: string[];
-  Capabilities?: Capabilities;
-  LogoUrl?: string;
-  ConnectionTypeVariants?: ConnectionTypeVariant[];
+  ConnectionType?: ConnectionType | undefined;
+  DisplayName?: string | undefined;
+  Vendor?: string | undefined;
+  Description?: string | undefined;
+  Categories?: string[] | undefined;
+  Capabilities?: Capabilities | undefined;
+  LogoUrl?: string | undefined;
+  ConnectionTypeVariants?: ConnectionTypeVariant[] | undefined;
 }
 export type ConnectionTypeList = ConnectionTypeBrief[];
 export interface ListConnectionTypesResponse {
-  ConnectionTypes?: ConnectionTypeBrief[];
-  NextToken?: string;
+  ConnectionTypes?: ConnectionTypeBrief[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCrawlersRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListCrawlersResponse {
-  CrawlerNames?: string[];
-  NextToken?: string;
+  CrawlerNames?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export type FieldName =
   | "CRAWL_ID"
@@ -6347,479 +6351,479 @@ export type FieldName =
   | (string & {});
 export type FilterOperator = "GT" | "GE" | "LT" | "LE" | "EQ" | "NE" | (string & {});
 export interface CrawlsFilter {
-  FieldName?: FieldName;
-  FilterOperator?: FilterOperator;
-  FieldValue?: string;
+  FieldName?: FieldName | undefined;
+  FilterOperator?: FilterOperator | undefined;
+  FieldValue?: string | undefined;
 }
 export type CrawlsFilterList = CrawlsFilter[];
 export interface ListCrawlsRequest {
   CrawlerName: string;
-  MaxResults?: number;
-  Filters?: CrawlsFilter[];
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  Filters?: CrawlsFilter[] | undefined;
+  NextToken?: string | undefined;
 }
 export type CrawlId = string;
 export type CrawlerHistoryState = "RUNNING" | "COMPLETED" | "FAILED" | "STOPPED" | (string & {});
 export interface CrawlerHistory {
-  CrawlId?: string;
-  State?: CrawlerHistoryState;
-  StartTime?: Date;
-  EndTime?: Date;
-  Summary?: string;
-  ErrorMessage?: string;
-  LogGroup?: string;
-  LogStream?: string;
-  MessagePrefix?: string;
-  DPUHour?: number;
+  CrawlId?: string | undefined;
+  State?: CrawlerHistoryState | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Summary?: string | undefined;
+  ErrorMessage?: string | undefined;
+  LogGroup?: string | undefined;
+  LogStream?: string | undefined;
+  MessagePrefix?: string | undefined;
+  DPUHour?: number | undefined;
 }
 export type CrawlerHistoryList = CrawlerHistory[];
 export interface ListCrawlsResponse {
-  Crawls?: CrawlerHistory[];
-  NextToken?: string;
+  Crawls?: CrawlerHistory[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCustomEntityTypesRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Tags?: { [key: string]: string | undefined };
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListCustomEntityTypesResponse {
-  CustomEntityTypes?: CustomEntityType[];
-  NextToken?: string;
+  CustomEntityTypes?: CustomEntityType[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DataQualityResultFilterCriteria {
-  DataSource?: DataSource;
-  JobName?: string;
-  JobRunId?: string;
-  StartedAfter?: Date;
-  StartedBefore?: Date;
+  DataSource?: DataSource | undefined;
+  JobName?: string | undefined;
+  JobRunId?: string | undefined;
+  StartedAfter?: Date | undefined;
+  StartedBefore?: Date | undefined;
 }
 export interface ListDataQualityResultsRequest {
-  Filter?: DataQualityResultFilterCriteria;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: DataQualityResultFilterCriteria | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DataQualityResultDescription {
-  ResultId?: string;
-  DataSource?: DataSource;
-  JobName?: string;
-  JobRunId?: string;
-  StartedOn?: Date;
+  ResultId?: string | undefined;
+  DataSource?: DataSource | undefined;
+  JobName?: string | undefined;
+  JobRunId?: string | undefined;
+  StartedOn?: Date | undefined;
 }
 export type DataQualityResultDescriptionList = DataQualityResultDescription[];
 export interface ListDataQualityResultsResponse {
   Results: DataQualityResultDescription[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface DataQualityResultsV2FilterCriteria {
-  DataSource?: DataSource;
-  PublishedAfter?: Date;
-  PublishedBefore?: Date;
-  Dimensions?: { [key: string]: string | undefined };
-  EvaluationContext?: string;
+  DataSource?: DataSource | undefined;
+  PublishedAfter?: Date | undefined;
+  PublishedBefore?: Date | undefined;
+  Dimensions?: { [key: string]: string | undefined } | undefined;
+  EvaluationContext?: string | undefined;
 }
 export interface ListDataQualityResultsV2Request {
-  Filter?: DataQualityResultsV2FilterCriteria;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: DataQualityResultsV2FilterCriteria | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DataQualityResultsV2Description {
-  ResultId?: string;
-  DataSource?: DataSource;
-  ResultPublishedOn?: Date;
-  Dimensions?: { [key: string]: string | undefined };
-  EvaluationContext?: string;
-  Descriptors?: { [key: string]: string | undefined };
+  ResultId?: string | undefined;
+  DataSource?: DataSource | undefined;
+  ResultPublishedOn?: Date | undefined;
+  Dimensions?: { [key: string]: string | undefined } | undefined;
+  EvaluationContext?: string | undefined;
+  Descriptors?: { [key: string]: string | undefined } | undefined;
 }
 export type DataQualityResultsV2DescriptionList = DataQualityResultsV2Description[];
 export interface ListDataQualityResultsV2Response {
   Results: DataQualityResultsV2Description[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface DataQualityRuleRecommendationRunFilter {
   DataSource: DataSource;
-  StartedBefore?: Date;
-  StartedAfter?: Date;
+  StartedBefore?: Date | undefined;
+  StartedAfter?: Date | undefined;
 }
 export interface ListDataQualityRuleRecommendationRunsRequest {
-  Filter?: DataQualityRuleRecommendationRunFilter;
-  NextToken?: string;
-  MaxResults?: number;
-  Tags?: { [key: string]: string | undefined };
+  Filter?: DataQualityRuleRecommendationRunFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DataQualityRuleRecommendationRunDescription {
-  RunId?: string;
-  Status?: TaskStatusType;
-  StartedOn?: Date;
-  DataSource?: DataSource;
-  CreatedRulesetName?: string;
-  RecommendationMode?: RecommendationMode;
+  RunId?: string | undefined;
+  Status?: TaskStatusType | undefined;
+  StartedOn?: Date | undefined;
+  DataSource?: DataSource | undefined;
+  CreatedRulesetName?: string | undefined;
+  RecommendationMode?: RecommendationMode | undefined;
 }
 export type DataQualityRuleRecommendationRunList = DataQualityRuleRecommendationRunDescription[];
 export interface ListDataQualityRuleRecommendationRunsResponse {
-  Runs?: DataQualityRuleRecommendationRunDescription[];
-  NextToken?: string;
+  Runs?: DataQualityRuleRecommendationRunDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DataQualityRulesetEvaluationRunFilter {
   DataSource: DataSource;
-  StartedBefore?: Date;
-  StartedAfter?: Date;
-  RulesetName?: string;
+  StartedBefore?: Date | undefined;
+  StartedAfter?: Date | undefined;
+  RulesetName?: string | undefined;
 }
 export interface ListDataQualityRulesetEvaluationRunsRequest {
-  Filter?: DataQualityRulesetEvaluationRunFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: DataQualityRulesetEvaluationRunFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DataQualityRulesetEvaluationRunDescription {
-  RunId?: string;
-  Status?: TaskStatusType;
-  StartedOn?: Date;
-  DataSource?: DataSource;
+  RunId?: string | undefined;
+  Status?: TaskStatusType | undefined;
+  StartedOn?: Date | undefined;
+  DataSource?: DataSource | undefined;
 }
 export type DataQualityRulesetEvaluationRunList = DataQualityRulesetEvaluationRunDescription[];
 export interface ListDataQualityRulesetEvaluationRunsResponse {
-  Runs?: DataQualityRulesetEvaluationRunDescription[];
-  NextToken?: string;
+  Runs?: DataQualityRulesetEvaluationRunDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DataQualityRulesetFilterCriteria {
-  Name?: string;
-  Description?: string;
-  CreatedBefore?: Date;
-  CreatedAfter?: Date;
-  LastModifiedBefore?: Date;
-  LastModifiedAfter?: Date;
-  TargetTable?: DataQualityTargetTable;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CreatedBefore?: Date | undefined;
+  CreatedAfter?: Date | undefined;
+  LastModifiedBefore?: Date | undefined;
+  LastModifiedAfter?: Date | undefined;
+  TargetTable?: DataQualityTargetTable | undefined;
 }
 export interface ListDataQualityRulesetsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filter?: DataQualityRulesetFilterCriteria;
-  Tags?: { [key: string]: string | undefined };
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filter?: DataQualityRulesetFilterCriteria | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DataQualityRulesetListDetails {
-  Name?: string;
-  Description?: string;
-  CreatedOn?: Date;
-  LastModifiedOn?: Date;
-  TargetTable?: DataQualityTargetTable;
-  RecommendationRunId?: string;
-  RuleCount?: number;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CreatedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  TargetTable?: DataQualityTargetTable | undefined;
+  RecommendationRunId?: string | undefined;
+  RuleCount?: number | undefined;
 }
 export type DataQualityRulesetList = DataQualityRulesetListDetails[];
 export interface ListDataQualityRulesetsResponse {
-  Rulesets?: DataQualityRulesetListDetails[];
-  NextToken?: string;
+  Rulesets?: DataQualityRulesetListDetails[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface TimestampFilter {
-  RecordedBefore?: Date;
-  RecordedAfter?: Date;
+  RecordedBefore?: Date | undefined;
+  RecordedAfter?: Date | undefined;
 }
 export interface ListDataQualityStatisticAnnotationsRequest {
-  StatisticId?: string;
-  ProfileId?: string;
-  TimestampFilter?: TimestampFilter;
-  MaxResults?: number;
-  NextToken?: string;
+  StatisticId?: string | undefined;
+  ProfileId?: string | undefined;
+  TimestampFilter?: TimestampFilter | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface TimestampedInclusionAnnotation {
-  Value?: InclusionAnnotationValue;
-  LastModifiedOn?: Date;
+  Value?: InclusionAnnotationValue | undefined;
+  LastModifiedOn?: Date | undefined;
 }
 export interface StatisticAnnotation {
-  ProfileId?: string;
-  StatisticId?: string;
-  StatisticRecordedOn?: Date;
-  InclusionAnnotation?: TimestampedInclusionAnnotation;
+  ProfileId?: string | undefined;
+  StatisticId?: string | undefined;
+  StatisticRecordedOn?: Date | undefined;
+  InclusionAnnotation?: TimestampedInclusionAnnotation | undefined;
 }
 export type AnnotationList = StatisticAnnotation[];
 export interface ListDataQualityStatisticAnnotationsResponse {
-  Annotations?: StatisticAnnotation[];
-  NextToken?: string;
+  Annotations?: StatisticAnnotation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDataQualityStatisticsRequest {
-  StatisticId?: string;
-  ProfileId?: string;
-  TimestampFilter?: TimestampFilter;
-  MaxResults?: number;
-  NextToken?: string;
+  StatisticId?: string | undefined;
+  ProfileId?: string | undefined;
+  TimestampFilter?: TimestampFilter | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface RunIdentifier {
-  RunId?: string;
-  JobRunId?: string;
+  RunId?: string | undefined;
+  JobRunId?: string | undefined;
 }
 export type StatisticNameString = string;
 export type StatisticEvaluationLevel = "Dataset" | "Column" | "Multicolumn" | (string & {});
 export type ReferenceDatasetsList = string[];
 export type StatisticPropertiesMap = { [key: string]: string | undefined };
 export interface StatisticSummary {
-  StatisticId?: string;
-  ProfileId?: string;
-  RunIdentifier?: RunIdentifier;
-  StatisticName?: string;
-  DoubleValue?: number;
-  DistributionValue?: DistributionData;
-  EvaluationLevel?: StatisticEvaluationLevel;
-  ColumnsReferenced?: string[];
-  ReferencedDatasets?: string[];
-  StatisticProperties?: { [key: string]: string | undefined };
-  RecordedOn?: Date;
-  InclusionAnnotation?: TimestampedInclusionAnnotation;
+  StatisticId?: string | undefined;
+  ProfileId?: string | undefined;
+  RunIdentifier?: RunIdentifier | undefined;
+  StatisticName?: string | undefined;
+  DoubleValue?: number | undefined;
+  DistributionValue?: DistributionData | undefined;
+  EvaluationLevel?: StatisticEvaluationLevel | undefined;
+  ColumnsReferenced?: string[] | undefined;
+  ReferencedDatasets?: string[] | undefined;
+  StatisticProperties?: { [key: string]: string | undefined } | undefined;
+  RecordedOn?: Date | undefined;
+  InclusionAnnotation?: TimestampedInclusionAnnotation | undefined;
 }
 export type StatisticSummaryList = StatisticSummary[];
 export interface ListDataQualityStatisticsResponse {
-  Statistics?: StatisticSummary[];
-  NextToken?: string;
+  Statistics?: StatisticSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDevEndpointsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Tags?: { [key: string]: string | undefined };
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DevEndpointNameList = string[];
 export interface ListDevEndpointsResponse {
-  DevEndpointNames?: string[];
-  NextToken?: string;
+  DevEndpointNames?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListEntitiesRequest {
-  ConnectionName?: string;
-  CatalogId?: string;
-  ParentEntityName?: string;
-  NextToken?: string;
-  DataStoreApiVersion?: string;
+  ConnectionName?: string | undefined;
+  CatalogId?: string | undefined;
+  ParentEntityName?: string | undefined;
+  NextToken?: string | undefined;
+  DataStoreApiVersion?: string | undefined;
 }
 export type EntityLabel = string;
 export type IsParentEntity = boolean;
 export type EntityDescription = string;
 export type Category = string;
 export interface Entity {
-  EntityName?: string;
-  Label?: string;
-  IsParentEntity?: boolean;
-  Description?: string;
-  Category?: string;
-  CustomProperties?: { [key: string]: string | undefined };
+  EntityName?: string | undefined;
+  Label?: string | undefined;
+  IsParentEntity?: boolean | undefined;
+  Description?: string | undefined;
+  Category?: string | undefined;
+  CustomProperties?: { [key: string]: string | undefined } | undefined;
 }
 export type EntityList = Entity[];
 export interface ListEntitiesResponse {
-  Entities?: Entity[];
-  NextToken?: string;
+  Entities?: Entity[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListFormTypesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface FormTypeItem {
-  Id?: string;
-  Name?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
 }
 export type FormTypeItemList = FormTypeItem[];
 export interface ListFormTypesResponse {
   Items: FormTypeItem[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListGlossariesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface GlossaryItem {
-  Id?: string;
-  Name?: string;
-  Description?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export type GlossaryItemList = GlossaryItem[];
 export interface ListGlossariesResponse {
-  Items?: GlossaryItem[];
-  NextToken?: string;
+  Items?: GlossaryItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListGlossaryTermsRequest {
   GlossaryIdentifier: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface GlossaryTermItem {
-  Id?: string;
-  Name?: string;
-  ShortDescription?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  ShortDescription?: string | undefined;
 }
 export type GlossaryTermItemList = GlossaryTermItem[];
 export interface ListGlossaryTermsResponse {
-  Items?: GlossaryTermItem[];
-  NextToken?: string;
+  Items?: GlossaryTermItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export type String4096 = string;
 export type IntegrationResourcePropertyFilterValues = string[];
 export interface IntegrationResourcePropertyFilter {
-  Name?: string;
-  Values?: string[];
+  Name?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type IntegrationResourcePropertyFilterList = IntegrationResourcePropertyFilter[];
 export interface ListIntegrationResourcePropertiesRequest {
-  Marker?: string;
-  Filters?: IntegrationResourcePropertyFilter[];
-  MaxRecords?: number;
+  Marker?: string | undefined;
+  Filters?: IntegrationResourcePropertyFilter[] | undefined;
+  MaxRecords?: number | undefined;
 }
 export interface IntegrationResourceProperty {
   ResourceArn: string;
-  ResourcePropertyArn?: string;
-  SourceProcessingProperties?: SourceProcessingProperties;
-  TargetProcessingProperties?: TargetProcessingProperties;
+  ResourcePropertyArn?: string | undefined;
+  SourceProcessingProperties?: SourceProcessingProperties | undefined;
+  TargetProcessingProperties?: TargetProcessingProperties | undefined;
 }
 export type IntegrationResourcePropertyList = IntegrationResourceProperty[];
 export interface ListIntegrationResourcePropertiesResponse {
-  IntegrationResourcePropertyList?: IntegrationResourceProperty[];
-  Marker?: string;
+  IntegrationResourcePropertyList?: IntegrationResourceProperty[] | undefined;
+  Marker?: string | undefined;
 }
 export type IntegrationTablePropertiesFilterValues = string[];
 export interface IntegrationTablePropertiesFilter {
-  Name?: string;
-  Values?: string[];
+  Name?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type IntegrationTablePropertiesFilterList = IntegrationTablePropertiesFilter[];
 export interface ListIntegrationTablePropertiesRequest {
-  Marker?: string;
-  Filters?: IntegrationTablePropertiesFilter[];
-  MaxRecords?: number;
+  Marker?: string | undefined;
+  Filters?: IntegrationTablePropertiesFilter[] | undefined;
+  MaxRecords?: number | undefined;
 }
 export interface IntegrationTableProperties {
   ResourceArn: string;
   TableName: string;
-  SourceTableConfig?: SourceTableConfig;
-  TargetTableConfig?: TargetTableConfig;
+  SourceTableConfig?: SourceTableConfig | undefined;
+  TargetTableConfig?: TargetTableConfig | undefined;
 }
 export type IntegrationTablePropertiesList = IntegrationTableProperties[];
 export interface ListIntegrationTablePropertiesResponse {
-  IntegrationTablePropertiesList?: IntegrationTableProperties[];
-  Marker?: string;
+  IntegrationTablePropertiesList?: IntegrationTableProperties[] | undefined;
+  Marker?: string | undefined;
 }
 export interface ListIterableFormsRequest {
   AssetIdentifier: string;
   IterableFormName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ItemDescription = string;
 export interface IterableFormListItem {
-  ItemId?: string;
-  ItemName?: string;
-  Description?: string;
-  GlossaryTerms?: string[];
+  ItemId?: string | undefined;
+  ItemName?: string | undefined;
+  Description?: string | undefined;
+  GlossaryTerms?: string[] | undefined;
 }
 export type IterableFormListItemList = IterableFormListItem[];
 export interface ListIterableFormsResponse {
-  Items?: IterableFormListItem[];
-  NextToken?: string;
+  Items?: IterableFormListItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListJobsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Tags?: { [key: string]: string | undefined };
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListJobsResponse {
-  JobNames?: string[];
-  NextToken?: string;
+  JobNames?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMaterializedViewRefreshTaskRunsRequest {
   CatalogId: string;
-  DatabaseName?: string;
-  TableName?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  DatabaseName?: string | undefined;
+  TableName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type MaterializedViewRefreshTaskRunsList = MaterializedViewRefreshTaskRun[];
 export interface ListMaterializedViewRefreshTaskRunsResponse {
-  MaterializedViewRefreshTaskRuns?: MaterializedViewRefreshTaskRun[];
-  NextToken?: string;
+  MaterializedViewRefreshTaskRuns?: MaterializedViewRefreshTaskRun[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMLTransformsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filter?: TransformFilterCriteria;
-  Sort?: TransformSortCriteria;
-  Tags?: { [key: string]: string | undefined };
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filter?: TransformFilterCriteria | undefined;
+  Sort?: TransformSortCriteria | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type TransformIdList = string[];
 export interface ListMLTransformsResponse {
   TransformIds: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type MaxResultsNumber = number;
 export type SchemaRegistryTokenString = string;
 export interface ListRegistriesInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface RegistryListItem {
-  RegistryName?: string;
-  RegistryArn?: string;
-  Description?: string;
-  Status?: RegistryStatus;
-  CreatedTime?: string;
-  UpdatedTime?: string;
+  RegistryName?: string | undefined;
+  RegistryArn?: string | undefined;
+  Description?: string | undefined;
+  Status?: RegistryStatus | undefined;
+  CreatedTime?: string | undefined;
+  UpdatedTime?: string | undefined;
 }
 export type RegistryListDefinition = RegistryListItem[];
 export interface ListRegistriesResponse {
-  Registries?: RegistryListItem[];
-  NextToken?: string;
+  Registries?: RegistryListItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSchemasInput {
-  RegistryId?: RegistryId;
-  MaxResults?: number;
-  NextToken?: string;
+  RegistryId?: RegistryId | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface SchemaListItem {
-  RegistryName?: string;
-  SchemaName?: string;
-  SchemaArn?: string;
-  Description?: string;
-  SchemaStatus?: SchemaStatus;
-  CreatedTime?: string;
-  UpdatedTime?: string;
+  RegistryName?: string | undefined;
+  SchemaName?: string | undefined;
+  SchemaArn?: string | undefined;
+  Description?: string | undefined;
+  SchemaStatus?: SchemaStatus | undefined;
+  CreatedTime?: string | undefined;
+  UpdatedTime?: string | undefined;
 }
 export type SchemaListDefinition = SchemaListItem[];
 export interface ListSchemasResponse {
-  Schemas?: SchemaListItem[];
-  NextToken?: string;
+  Schemas?: SchemaListItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSchemaVersionsInput {
   SchemaId: SchemaId;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface SchemaVersionListItem {
-  SchemaArn?: string;
-  SchemaVersionId?: string;
-  VersionNumber?: number;
-  Status?: SchemaVersionStatus;
-  CreatedTime?: string;
+  SchemaArn?: string | undefined;
+  SchemaVersionId?: string | undefined;
+  VersionNumber?: number | undefined;
+  Status?: SchemaVersionStatus | undefined;
+  CreatedTime?: string | undefined;
 }
 export type SchemaVersionList = SchemaVersionListItem[];
 export interface ListSchemaVersionsResponse {
-  Schemas?: SchemaVersionListItem[];
-  NextToken?: string;
+  Schemas?: SchemaVersionListItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export type OrchestrationToken = string;
 export interface ListSessionsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Tags?: { [key: string]: string | undefined };
-  RequestOrigin?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  RequestOrigin?: string | undefined;
 }
 export type SessionIdList = string[];
 export type SessionList = Session[];
 export interface ListSessionsResponse {
-  Ids?: string[];
-  Sessions?: Session[];
-  NextToken?: string;
+  Ids?: string[] | undefined;
+  Sessions?: Session[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListStatementsRequest {
   SessionId: string;
-  RequestOrigin?: string;
-  NextToken?: string;
+  RequestOrigin?: string | undefined;
+  NextToken?: string | undefined;
 }
 export type StatementList = Statement[];
 export interface ListStatementsResponse {
-  Statements?: Statement[];
-  NextToken?: string;
+  Statements?: Statement[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxListTableOptimizerRunsTokenResults = number;
 export type ListTableOptimizerRunsToken = string;
@@ -6828,105 +6832,105 @@ export interface ListTableOptimizerRunsRequest {
   DatabaseName: string;
   TableName: string;
   Type: TableOptimizerType;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type TableOptimizerRuns = TableOptimizerRun[];
 export interface ListTableOptimizerRunsResponse {
-  CatalogId?: string;
-  DatabaseName?: string;
-  TableName?: string;
-  NextToken?: string;
-  TableOptimizerRuns?: TableOptimizerRun[];
+  CatalogId?: string | undefined;
+  DatabaseName?: string | undefined;
+  TableName?: string | undefined;
+  NextToken?: string | undefined;
+  TableOptimizerRuns?: TableOptimizerRun[] | undefined;
 }
 export interface ListTriggersRequest {
-  NextToken?: string;
-  DependentJobName?: string;
-  MaxResults?: number;
-  Tags?: { [key: string]: string | undefined };
+  NextToken?: string | undefined;
+  DependentJobName?: string | undefined;
+  MaxResults?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTriggersResponse {
-  TriggerNames?: string[];
-  NextToken?: string;
+  TriggerNames?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListUsageProfilesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface UsageProfileDefinition {
-  Name?: string;
-  Description?: string;
-  CreatedOn?: Date;
-  LastModifiedOn?: Date;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CreatedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
 }
 export type UsageProfileDefinitionList = UsageProfileDefinition[];
 export interface ListUsageProfilesResponse {
-  Profiles?: UsageProfileDefinition[];
-  NextToken?: string;
+  Profiles?: UsageProfileDefinition[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListWorkflowsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListWorkflowsResponse {
-  Workflows?: string[];
-  NextToken?: string;
+  Workflows?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ModifyIntegrationRequest {
   IntegrationIdentifier: string;
-  Description?: string;
-  DataFilter?: string;
-  IntegrationConfig?: IntegrationConfig;
-  IntegrationName?: string;
+  Description?: string | undefined;
+  DataFilter?: string | undefined;
+  IntegrationConfig?: IntegrationConfig | undefined;
+  IntegrationName?: string | undefined;
 }
 export interface ModifyIntegrationResponse {
   SourceArn: string;
   TargetArn: string;
   IntegrationName: string;
-  Description?: string;
+  Description?: string | undefined;
   IntegrationArn: string;
-  KmsKeyId?: string;
-  AdditionalEncryptionContext?: { [key: string]: string | undefined };
-  Tags?: Tag[];
+  KmsKeyId?: string | undefined;
+  AdditionalEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  Tags?: Tag[] | undefined;
   Status: IntegrationStatus;
   CreateTime: Date;
-  Errors?: IntegrationError[];
-  DataFilter?: string;
-  IntegrationConfig?: IntegrationConfig;
+  Errors?: IntegrationError[] | undefined;
+  DataFilter?: string | undefined;
+  IntegrationConfig?: IntegrationConfig | undefined;
 }
 export interface DataQualityConfigurationV2 {
-  ObservationsEnabled?: ObservationConfiguration;
-  ObservationMode?: ObservationMode;
+  ObservationsEnabled?: ObservationConfiguration | undefined;
+  ObservationMode?: ObservationMode | undefined;
 }
 export type ClientTokenString = string;
 export type DataQualityFlagsEnabled = { [key: string]: string | undefined };
 export type DataQualityEngine = "SPARK" | "PYTHON" | (string & {});
 export interface DataQualityTelemetry {
-  VcpuHours?: number;
-  FlagsEnabled?: { [key: string]: string | undefined };
-  LibraryVersion?: string;
-  SparkVersion?: string;
-  HostRuntimeVersion?: string;
-  Engine?: DataQualityEngine;
+  VcpuHours?: number | undefined;
+  FlagsEnabled?: { [key: string]: string | undefined } | undefined;
+  LibraryVersion?: string | undefined;
+  SparkVersion?: string | undefined;
+  HostRuntimeVersion?: string | undefined;
+  Engine?: DataQualityEngine | undefined;
 }
 export interface PublishDataQualityResultV2Request {
   Dimensions: { [key: string]: string | undefined };
-  Tags?: { [key: string]: string | undefined };
-  ExecutionStartedOn?: Date;
-  ExecutionCompletedOn?: Date;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ExecutionStartedOn?: Date | undefined;
+  ExecutionCompletedOn?: Date | undefined;
   Score: number;
   RuleResults: DataQualityRuleResult[];
-  AnalyzerResults?: DataQualityAnalyzerResult[];
-  Observations?: DataQualityObservation[];
-  AggregatedMetrics?: DataQualityAggregatedMetrics;
-  Statistics?: StatisticSummary[];
-  RunConfiguration?: DataQualityConfigurationV2;
-  ClientToken?: string;
+  AnalyzerResults?: DataQualityAnalyzerResult[] | undefined;
+  Observations?: DataQualityObservation[] | undefined;
+  AggregatedMetrics?: DataQualityAggregatedMetrics | undefined;
+  Statistics?: StatisticSummary[] | undefined;
+  RunConfiguration?: DataQualityConfigurationV2 | undefined;
+  ClientToken?: string | undefined;
   EvaluationContext: string;
-  Descriptors?: { [key: string]: string | undefined };
-  RulesetName?: string;
-  DataQualitySecurityConfiguration?: string;
-  Telemetry?: DataQualityTelemetry;
+  Descriptors?: { [key: string]: string | undefined } | undefined;
+  RulesetName?: string | undefined;
+  DataQualitySecurityConfiguration?: string | undefined;
+  Telemetry?: DataQualityTelemetry | undefined;
 }
 export interface PublishDataQualityResultV2Response {
   ResultId: string;
@@ -6935,56 +6939,56 @@ export interface PutAssetRequest {
   AssetTypeId: string;
   Identifier: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Forms: { [key: string]: AssetFormEntry | undefined };
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface PutAssetResponse {
   Id: string;
   Name: string;
-  Description?: string;
-  CreatedAt?: Date;
-  Forms?: { [key: string]: AssetFormEntry | undefined };
+  Description?: string | undefined;
+  CreatedAt?: Date | undefined;
+  Forms?: { [key: string]: AssetFormEntry | undefined } | undefined;
 }
 export interface PutAssetTypeRequest {
   Name: string;
   Forms: { [key: string]: AssetTypeFormReference | undefined };
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface PutAssetTypeResponse {
-  Id?: string;
-  Name?: string;
-  Forms?: { [key: string]: AssetTypeFormReference | undefined };
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Forms?: { [key: string]: AssetTypeFormReference | undefined } | undefined;
 }
 export interface PutAttachmentRequest {
   AssetIdentifier: string;
-  IterableFormName?: string;
-  ItemIdentifier?: string;
+  IterableFormName?: string | undefined;
+  ItemIdentifier?: string | undefined;
   AttachmentName: string;
   Content: string;
   FormTypeId: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface PutAttachmentResponse {
-  AssetIdentifier?: string;
-  IterableFormName?: string;
-  ItemIdentifier?: string;
-  AttachmentName?: string;
-  FormTypeId?: string;
+  AssetIdentifier?: string | undefined;
+  IterableFormName?: string | undefined;
+  ItemIdentifier?: string | undefined;
+  AttachmentName?: string | undefined;
+  FormTypeId?: string | undefined;
 }
 export interface PutDataCatalogEncryptionSettingsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DataCatalogEncryptionSettings: DataCatalogEncryptionSettings;
 }
 export interface PutDataCatalogEncryptionSettingsResponse {}
 export interface PutDataCatalogExportConfigurationInput {
   ExportSetting: ExportSetting;
-  EncryptionConfiguration?: ExportEncryptionConfiguration;
-  ClientToken?: string;
+  EncryptionConfiguration?: ExportEncryptionConfiguration | undefined;
+  ClientToken?: string | undefined;
 }
 export interface PutDataCatalogExportConfigurationOutput {
-  ExportSetting?: ExportSetting;
-  EncryptionConfiguration?: ExportEncryptionConfiguration;
+  ExportSetting?: ExportSetting | undefined;
+  EncryptionConfiguration?: ExportEncryptionConfiguration | undefined;
 }
 export interface PutDataQualityProfileAnnotationRequest {
   ProfileId: string;
@@ -6994,46 +6998,46 @@ export interface PutDataQualityProfileAnnotationResponse {}
 export interface PutFormTypeRequest {
   Name: string;
   Schema: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface PutFormTypeResponse {
-  Id?: string;
-  Name?: string;
-  Schema?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Schema?: string | undefined;
 }
 export type ExistCondition = "MUST_EXIST" | "NOT_EXIST" | "NONE" | (string & {});
 export type EnableHybridValues = "TRUE" | "FALSE" | (string & {});
 export interface PutResourcePolicyRequest {
   PolicyInJson: string;
-  ResourceArn?: string;
-  PolicyHashCondition?: string;
-  PolicyExistsCondition?: ExistCondition;
-  EnableHybrid?: EnableHybridValues;
+  ResourceArn?: string | undefined;
+  PolicyHashCondition?: string | undefined;
+  PolicyExistsCondition?: ExistCondition | undefined;
+  EnableHybrid?: EnableHybridValues | undefined;
 }
 export interface PutResourcePolicyResponse {
-  PolicyHash?: string;
+  PolicyHash?: string | undefined;
 }
 export type MetadataKeyString = string;
 export type MetadataValueString = string;
 export interface MetadataKeyValuePair {
-  MetadataKey?: string;
-  MetadataValue?: string;
+  MetadataKey?: string | undefined;
+  MetadataValue?: string | undefined;
 }
 export interface PutSchemaVersionMetadataInput {
-  SchemaId?: SchemaId;
-  SchemaVersionNumber?: SchemaVersionNumber;
-  SchemaVersionId?: string;
+  SchemaId?: SchemaId | undefined;
+  SchemaVersionNumber?: SchemaVersionNumber | undefined;
+  SchemaVersionId?: string | undefined;
   MetadataKeyValue: MetadataKeyValuePair;
 }
 export interface PutSchemaVersionMetadataResponse {
-  SchemaArn?: string;
-  SchemaName?: string;
-  RegistryName?: string;
-  LatestVersion?: boolean;
-  VersionNumber?: number;
-  SchemaVersionId?: string;
-  MetadataKey?: string;
-  MetadataValue?: string;
+  SchemaArn?: string | undefined;
+  SchemaName?: string | undefined;
+  RegistryName?: string | undefined;
+  LatestVersion?: boolean | undefined;
+  VersionNumber?: number | undefined;
+  SchemaVersionId?: string | undefined;
+  MetadataKey?: string | undefined;
+  MetadataValue?: string | undefined;
 }
 export interface PutWorkflowRunPropertiesRequest {
   Name: string;
@@ -7044,33 +7048,33 @@ export interface PutWorkflowRunPropertiesResponse {}
 export type MetadataList = MetadataKeyValuePair[];
 export type QuerySchemaVersionMetadataMaxResults = number;
 export interface QuerySchemaVersionMetadataInput {
-  SchemaId?: SchemaId;
-  SchemaVersionNumber?: SchemaVersionNumber;
-  SchemaVersionId?: string;
-  MetadataList?: MetadataKeyValuePair[];
-  MaxResults?: number;
-  NextToken?: string;
+  SchemaId?: SchemaId | undefined;
+  SchemaVersionNumber?: SchemaVersionNumber | undefined;
+  SchemaVersionId?: string | undefined;
+  MetadataList?: MetadataKeyValuePair[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface OtherMetadataValueListItem {
-  MetadataValue?: string;
-  CreatedTime?: string;
+  MetadataValue?: string | undefined;
+  CreatedTime?: string | undefined;
 }
 export type OtherMetadataValueList = OtherMetadataValueListItem[];
 export interface MetadataInfo {
-  MetadataValue?: string;
-  CreatedTime?: string;
-  OtherMetadataValueList?: OtherMetadataValueListItem[];
+  MetadataValue?: string | undefined;
+  CreatedTime?: string | undefined;
+  OtherMetadataValueList?: OtherMetadataValueListItem[] | undefined;
 }
 export type MetadataInfoMap = { [key: string]: MetadataInfo | undefined };
 export interface QuerySchemaVersionMetadataResponse {
-  MetadataInfoMap?: { [key: string]: MetadataInfo | undefined };
-  SchemaVersionId?: string;
-  NextToken?: string;
+  MetadataInfoMap?: { [key: string]: MetadataInfo | undefined } | undefined;
+  SchemaVersionId?: string | undefined;
+  NextToken?: string | undefined;
 }
 export type IntegrationType = "REST" | (string & {});
 export interface ConnectionPropertiesConfiguration {
-  Url?: ConnectorProperty;
-  AdditionalRequestParameters?: ConnectorProperty[];
+  Url?: ConnectorProperty | undefined;
+  AdditionalRequestParameters?: ConnectorProperty[] | undefined;
 }
 export type ConnectorOAuth2GrantType =
   | "CLIENT_CREDENTIALS"
@@ -7079,96 +7083,96 @@ export type ConnectorOAuth2GrantType =
   | (string & {});
 export type ContentType = "APPLICATION_JSON" | "URL_ENCODED" | (string & {});
 export interface ClientCredentialsProperties {
-  TokenUrl?: ConnectorProperty;
-  RequestMethod?: HTTPMethod;
-  ContentType?: ContentType;
-  ClientId?: ConnectorProperty;
-  ClientSecret?: ConnectorProperty;
-  Scope?: ConnectorProperty;
-  TokenUrlParameters?: ConnectorProperty[];
+  TokenUrl?: ConnectorProperty | undefined;
+  RequestMethod?: HTTPMethod | undefined;
+  ContentType?: ContentType | undefined;
+  ClientId?: ConnectorProperty | undefined;
+  ClientSecret?: ConnectorProperty | undefined;
+  Scope?: ConnectorProperty | undefined;
+  TokenUrlParameters?: ConnectorProperty[] | undefined;
 }
 export interface JWTBearerProperties {
-  TokenUrl?: ConnectorProperty;
-  RequestMethod?: HTTPMethod;
-  ContentType?: ContentType;
-  JwtToken?: ConnectorProperty;
-  TokenUrlParameters?: ConnectorProperty[];
+  TokenUrl?: ConnectorProperty | undefined;
+  RequestMethod?: HTTPMethod | undefined;
+  ContentType?: ContentType | undefined;
+  JwtToken?: ConnectorProperty | undefined;
+  TokenUrlParameters?: ConnectorProperty[] | undefined;
 }
 export interface ConnectorAuthorizationCodeProperties {
-  AuthorizationCodeUrl?: ConnectorProperty;
-  AuthorizationCode?: ConnectorProperty;
-  RedirectUri?: ConnectorProperty;
-  TokenUrl?: ConnectorProperty;
-  RequestMethod?: HTTPMethod;
-  ContentType?: ContentType;
-  ClientId?: ConnectorProperty;
-  ClientSecret?: ConnectorProperty;
-  Scope?: ConnectorProperty;
-  Prompt?: ConnectorProperty;
-  TokenUrlParameters?: ConnectorProperty[];
+  AuthorizationCodeUrl?: ConnectorProperty | undefined;
+  AuthorizationCode?: ConnectorProperty | undefined;
+  RedirectUri?: ConnectorProperty | undefined;
+  TokenUrl?: ConnectorProperty | undefined;
+  RequestMethod?: HTTPMethod | undefined;
+  ContentType?: ContentType | undefined;
+  ClientId?: ConnectorProperty | undefined;
+  ClientSecret?: ConnectorProperty | undefined;
+  Scope?: ConnectorProperty | undefined;
+  Prompt?: ConnectorProperty | undefined;
+  TokenUrlParameters?: ConnectorProperty[] | undefined;
 }
 export interface ConnectorOAuth2Properties {
   OAuth2GrantType: ConnectorOAuth2GrantType;
-  ClientCredentialsProperties?: ClientCredentialsProperties;
-  JWTBearerProperties?: JWTBearerProperties;
-  AuthorizationCodeProperties?: ConnectorAuthorizationCodeProperties;
+  ClientCredentialsProperties?: ClientCredentialsProperties | undefined;
+  JWTBearerProperties?: JWTBearerProperties | undefined;
+  AuthorizationCodeProperties?: ConnectorAuthorizationCodeProperties | undefined;
 }
 export interface BasicAuthenticationProperties {
-  Username?: ConnectorProperty;
-  Password?: ConnectorProperty;
+  Username?: ConnectorProperty | undefined;
+  Password?: ConnectorProperty | undefined;
 }
 export interface CustomAuthenticationProperties {
   AuthenticationParameters: ConnectorProperty[];
 }
 export interface ConnectorAuthenticationConfiguration {
   AuthenticationTypes: AuthenticationType[];
-  OAuth2Properties?: ConnectorOAuth2Properties;
-  BasicAuthenticationProperties?: BasicAuthenticationProperties;
-  CustomAuthenticationProperties?: CustomAuthenticationProperties;
+  OAuth2Properties?: ConnectorOAuth2Properties | undefined;
+  BasicAuthenticationProperties?: BasicAuthenticationProperties | undefined;
+  CustomAuthenticationProperties?: CustomAuthenticationProperties | undefined;
 }
 export interface RegisterConnectionTypeRequest {
   ConnectionType: string;
   IntegrationType: IntegrationType;
-  Description?: string;
+  Description?: string | undefined;
   ConnectionProperties: ConnectionPropertiesConfiguration;
   ConnectorAuthenticationConfiguration: ConnectorAuthenticationConfiguration;
   RestConfiguration: RestConfiguration;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RegisterConnectionTypeResponse {
-  ConnectionTypeArn?: string;
+  ConnectionTypeArn?: string | undefined;
 }
 export interface RegisterSchemaVersionInput {
   SchemaId: SchemaId;
   SchemaDefinition: string;
 }
 export interface RegisterSchemaVersionResponse {
-  SchemaVersionId?: string;
-  VersionNumber?: number;
-  Status?: SchemaVersionStatus;
+  SchemaVersionId?: string | undefined;
+  VersionNumber?: number | undefined;
+  Status?: SchemaVersionStatus | undefined;
 }
 export interface RemoveSchemaVersionMetadataInput {
-  SchemaId?: SchemaId;
-  SchemaVersionNumber?: SchemaVersionNumber;
-  SchemaVersionId?: string;
+  SchemaId?: SchemaId | undefined;
+  SchemaVersionNumber?: SchemaVersionNumber | undefined;
+  SchemaVersionId?: string | undefined;
   MetadataKeyValue: MetadataKeyValuePair;
 }
 export interface RemoveSchemaVersionMetadataResponse {
-  SchemaArn?: string;
-  SchemaName?: string;
-  RegistryName?: string;
-  LatestVersion?: boolean;
-  VersionNumber?: number;
-  SchemaVersionId?: string;
-  MetadataKey?: string;
-  MetadataValue?: string;
+  SchemaArn?: string | undefined;
+  SchemaName?: string | undefined;
+  RegistryName?: string | undefined;
+  LatestVersion?: boolean | undefined;
+  VersionNumber?: number | undefined;
+  SchemaVersionId?: string | undefined;
+  MetadataKey?: string | undefined;
+  MetadataValue?: string | undefined;
 }
 export interface ResetJobBookmarkRequest {
   JobName: string;
-  RunId?: string;
+  RunId?: string | undefined;
 }
 export interface ResetJobBookmarkResponse {
-  JobBookmarkEntry?: JobBookmarkEntry;
+  JobBookmarkEntry?: JobBookmarkEntry | undefined;
 }
 export type NodeIdList = string[];
 export interface ResumeWorkflowRunRequest {
@@ -7177,17 +7181,17 @@ export interface ResumeWorkflowRunRequest {
   NodeIds: string[];
 }
 export interface ResumeWorkflowRunResponse {
-  RunId?: string;
-  NodeIds?: string[];
+  RunId?: string | undefined;
+  NodeIds?: string[] | undefined;
 }
 export type OrchestrationStatementCodeString = string;
 export interface RunStatementRequest {
   SessionId: string;
   Code: string;
-  RequestOrigin?: string;
+  RequestOrigin?: string | undefined;
 }
 export interface RunStatementResponse {
-  Id?: number;
+  Id?: number | undefined;
 }
 export type SearchText = string;
 export type SearchMaxResults = number;
@@ -7196,7 +7200,7 @@ export type SearchAttribute = string;
 export type SearchSortOrder = "ASCENDING" | "DESCENDING" | (string & {});
 export interface SearchSort {
   Attribute: string;
-  Order?: SearchSortOrder;
+  Order?: SearchSortOrder | undefined;
 }
 export type SearchFilterClauseList = SearchFilterClause[];
 export type SearchFilterOperator =
@@ -7210,12 +7214,12 @@ export type SearchFilterOperator =
 export type SearchFilterStringValue = string;
 export type SearchFilterLongValue = number;
 export type SearchFilterValue =
-  | { StringValue: string; LongValue?: never }
-  | { StringValue?: never; LongValue: number };
+  | { StringValue: string; LongValue?: undefined }
+  | { StringValue?: undefined; LongValue: number };
 export interface SearchAttributeFilter {
   Attribute: string;
   Operator: SearchFilterOperator;
-  Value?: SearchFilterValue;
+  Value?: SearchFilterValue | undefined;
 }
 export type SearchMapKey = string;
 export type SearchMapFilterValue = { StringValue: string };
@@ -7227,47 +7231,47 @@ export interface SearchMapFilter {
 export type SearchFilterClause =
   | {
       AndAllFilters: SearchFilterClause[];
-      OrAnyFilters?: never;
-      AttributeFilter?: never;
-      MapFilter?: never;
+      OrAnyFilters?: undefined;
+      AttributeFilter?: undefined;
+      MapFilter?: undefined;
     }
   | {
-      AndAllFilters?: never;
+      AndAllFilters?: undefined;
       OrAnyFilters: SearchFilterClause[];
-      AttributeFilter?: never;
-      MapFilter?: never;
+      AttributeFilter?: undefined;
+      MapFilter?: undefined;
     }
   | {
-      AndAllFilters?: never;
-      OrAnyFilters?: never;
+      AndAllFilters?: undefined;
+      OrAnyFilters?: undefined;
       AttributeFilter: SearchAttributeFilter;
-      MapFilter?: never;
+      MapFilter?: undefined;
     }
   | {
-      AndAllFilters?: never;
-      OrAnyFilters?: never;
-      AttributeFilter?: never;
+      AndAllFilters?: undefined;
+      OrAnyFilters?: undefined;
+      AttributeFilter?: undefined;
       MapFilter: SearchMapFilter;
     };
 export interface SearchAssetsInput {
-  SearchText?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Sort?: SearchSort;
-  FilterClause?: SearchFilterClause;
+  SearchText?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Sort?: SearchSort | undefined;
+  FilterClause?: SearchFilterClause | undefined;
 }
 export type SearchResultName = string;
 export interface SearchResultItem {
-  Id?: string;
-  AssetName?: string;
-  AssetDescription?: string;
-  UpdatedAt?: Date;
-  AssetTypeId?: string;
+  Id?: string | undefined;
+  AssetName?: string | undefined;
+  AssetDescription?: string | undefined;
+  UpdatedAt?: Date | undefined;
+  AssetTypeId?: string | undefined;
 }
 export type SearchResultItemList = SearchResultItem[];
 export interface SearchAssetsOutput {
-  Items?: SearchResultItem[];
-  NextToken?: string;
+  Items?: SearchResultItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export type Comparator =
   | "EQUALS"
@@ -7277,55 +7281,55 @@ export type Comparator =
   | "LESS_THAN_EQUALS"
   | (string & {});
 export interface PropertyPredicate {
-  Key?: string;
-  Value?: string;
-  Comparator?: Comparator;
+  Key?: string | undefined;
+  Value?: string | undefined;
+  Comparator?: Comparator | undefined;
 }
 export type SearchPropertyPredicates = PropertyPredicate[];
 export type Sort = "ASC" | "DESC" | (string & {});
 export interface SortCriterion {
-  FieldName?: string;
-  Sort?: Sort;
+  FieldName?: string | undefined;
+  Sort?: Sort | undefined;
 }
 export type SortCriteria = SortCriterion[];
 export interface SearchTablesRequest {
-  CatalogId?: string;
-  NextToken?: string;
-  Filters?: PropertyPredicate[];
-  SearchText?: string;
-  SortCriteria?: SortCriterion[];
-  MaxResults?: number;
-  ResourceShareType?: ResourceShareType;
-  IncludeStatusDetails?: boolean;
+  CatalogId?: string | undefined;
+  NextToken?: string | undefined;
+  Filters?: PropertyPredicate[] | undefined;
+  SearchText?: string | undefined;
+  SortCriteria?: SortCriterion[] | undefined;
+  MaxResults?: number | undefined;
+  ResourceShareType?: ResourceShareType | undefined;
+  IncludeStatusDetails?: boolean | undefined;
 }
 export interface SearchTablesResponse {
-  NextToken?: string;
-  TableList?: Table[];
+  NextToken?: string | undefined;
+  TableList?: Table[] | undefined;
 }
 export interface StartBlueprintRunRequest {
   BlueprintName: string;
-  Parameters?: string;
+  Parameters?: string | undefined;
   RoleArn: string;
 }
 export interface StartBlueprintRunResponse {
-  RunId?: string;
+  RunId?: string | undefined;
 }
 export interface StartColumnStatisticsTaskRunRequest {
   DatabaseName: string;
   TableName: string;
-  ColumnNameList?: string[];
+  ColumnNameList?: string[] | undefined;
   Role: string;
-  SampleSize?: number;
-  CatalogID?: string;
-  SecurityConfiguration?: string;
+  SampleSize?: number | undefined;
+  CatalogID?: string | undefined;
+  SecurityConfiguration?: string | undefined;
 }
 export interface StartColumnStatisticsTaskRunResponse {
-  ColumnStatisticsTaskRunId?: string;
+  ColumnStatisticsTaskRunId?: string | undefined;
 }
 export interface StartColumnStatisticsTaskRunScheduleRequest {
   DatabaseName: string;
   TableName: string;
-  CatalogID?: string;
+  CatalogID?: string | undefined;
 }
 export interface StartColumnStatisticsTaskRunScheduleResponse {}
 export interface StartCrawlerRequest {
@@ -7339,108 +7343,108 @@ export interface StartCrawlerScheduleResponse {}
 export interface StartDataQualityRuleRecommendationRunRequest {
   DataSource: DataSource;
   Role: string;
-  NumberOfWorkers?: number;
-  Timeout?: number;
-  CreatedRulesetName?: string;
-  DataQualitySecurityConfiguration?: string;
-  ClientToken?: string;
-  AdditionalRunOptions?: DataQualityRuleRecommendationRunAdditionalRunOptions;
-  RecommendationMode?: RecommendationMode;
+  NumberOfWorkers?: number | undefined;
+  Timeout?: number | undefined;
+  CreatedRulesetName?: string | undefined;
+  DataQualitySecurityConfiguration?: string | undefined;
+  ClientToken?: string | undefined;
+  AdditionalRunOptions?: DataQualityRuleRecommendationRunAdditionalRunOptions | undefined;
+  RecommendationMode?: RecommendationMode | undefined;
 }
 export interface StartDataQualityRuleRecommendationRunResponse {
-  RunId?: string;
+  RunId?: string | undefined;
 }
 export interface StartDataQualityRulesetEvaluationRunRequest {
   DataSource: DataSource;
   Role: string;
-  NumberOfWorkers?: number;
-  Timeout?: number;
-  ClientToken?: string;
-  AdditionalRunOptions?: DataQualityEvaluationRunAdditionalRunOptions;
+  NumberOfWorkers?: number | undefined;
+  Timeout?: number | undefined;
+  ClientToken?: string | undefined;
+  AdditionalRunOptions?: DataQualityEvaluationRunAdditionalRunOptions | undefined;
   RulesetNames: string[];
-  AdditionalDataSources?: { [key: string]: DataSource | undefined };
+  AdditionalDataSources?: { [key: string]: DataSource | undefined } | undefined;
 }
 export interface StartDataQualityRulesetEvaluationRunResponse {
-  RunId?: string;
+  RunId?: string | undefined;
 }
 export interface StartExportLabelsTaskRunRequest {
   TransformId: string;
   OutputS3Path: string;
 }
 export interface StartExportLabelsTaskRunResponse {
-  TaskRunId?: string;
+  TaskRunId?: string | undefined;
 }
 export interface StartImportLabelsTaskRunRequest {
   TransformId: string;
   InputS3Path: string;
-  ReplaceAllLabels?: boolean;
+  ReplaceAllLabels?: boolean | undefined;
 }
 export interface StartImportLabelsTaskRunResponse {
-  TaskRunId?: string;
+  TaskRunId?: string | undefined;
 }
 export interface StartJobRunRequest {
   JobName: string;
-  JobRunQueuingEnabled?: boolean;
-  JobRunId?: string;
-  Arguments?: { [key: string]: string | undefined };
-  AllocatedCapacity?: number;
-  Timeout?: number;
-  MaxCapacity?: number;
-  SecurityConfiguration?: string;
-  NotificationProperty?: NotificationProperty;
-  WorkerType?: WorkerType;
-  NumberOfWorkers?: number;
-  ExecutionClass?: ExecutionClass;
-  ExecutionRoleSessionPolicy?: string;
+  JobRunQueuingEnabled?: boolean | undefined;
+  JobRunId?: string | undefined;
+  Arguments?: { [key: string]: string | undefined } | undefined;
+  AllocatedCapacity?: number | undefined;
+  Timeout?: number | undefined;
+  MaxCapacity?: number | undefined;
+  SecurityConfiguration?: string | undefined;
+  NotificationProperty?: NotificationProperty | undefined;
+  WorkerType?: WorkerType | undefined;
+  NumberOfWorkers?: number | undefined;
+  ExecutionClass?: ExecutionClass | undefined;
+  ExecutionRoleSessionPolicy?: string | undefined;
 }
 export interface StartJobRunResponse {
-  JobRunId?: string;
+  JobRunId?: string | undefined;
 }
 export interface StartMaterializedViewRefreshTaskRunRequest {
   CatalogId: string;
   DatabaseName: string;
   TableName: string;
-  FullRefresh?: boolean;
+  FullRefresh?: boolean | undefined;
 }
 export interface StartMaterializedViewRefreshTaskRunResponse {
-  MaterializedViewRefreshTaskRunId?: string;
+  MaterializedViewRefreshTaskRunId?: string | undefined;
 }
 export interface StartMLEvaluationTaskRunRequest {
   TransformId: string;
 }
 export interface StartMLEvaluationTaskRunResponse {
-  TaskRunId?: string;
+  TaskRunId?: string | undefined;
 }
 export interface StartMLLabelingSetGenerationTaskRunRequest {
   TransformId: string;
   OutputS3Path: string;
 }
 export interface StartMLLabelingSetGenerationTaskRunResponse {
-  TaskRunId?: string;
+  TaskRunId?: string | undefined;
 }
 export interface StartTriggerRequest {
   Name: string;
 }
 export interface StartTriggerResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface StartWorkflowRunRequest {
   Name: string;
-  RunProperties?: { [key: string]: string | undefined };
+  RunProperties?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartWorkflowRunResponse {
-  RunId?: string;
+  RunId?: string | undefined;
 }
 export interface StopColumnStatisticsTaskRunRequest {
   DatabaseName: string;
   TableName: string;
-  CatalogID?: string;
+  CatalogID?: string | undefined;
 }
 export interface StopColumnStatisticsTaskRunResponse {}
 export interface StopColumnStatisticsTaskRunScheduleRequest {
   DatabaseName: string;
   TableName: string;
-  CatalogID?: string;
+  CatalogID?: string | undefined;
 }
 export interface StopColumnStatisticsTaskRunScheduleResponse {}
 export interface StopCrawlerRequest {
@@ -7459,16 +7463,16 @@ export interface StopMaterializedViewRefreshTaskRunRequest {
 export interface StopMaterializedViewRefreshTaskRunResponse {}
 export interface StopSessionRequest {
   Id: string;
-  RequestOrigin?: string;
+  RequestOrigin?: string | undefined;
 }
 export interface StopSessionResponse {
-  Id?: string;
+  Id?: string | undefined;
 }
 export interface StopTriggerRequest {
   Name: string;
 }
 export interface StopTriggerResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface StopWorkflowRunRequest {
   Name: string;
@@ -7483,12 +7487,12 @@ export interface TagResourceResponse {}
 export interface TestConnectionInput {
   ConnectionType: ConnectionType;
   ConnectionProperties: { [key: string]: string | undefined };
-  AuthenticationConfiguration?: AuthenticationConfigurationInput;
+  AuthenticationConfiguration?: AuthenticationConfigurationInput | undefined;
 }
 export interface TestConnectionRequest {
-  ConnectionName?: string;
-  CatalogId?: string;
-  TestConnectionInput?: TestConnectionInput;
+  ConnectionName?: string | undefined;
+  CatalogId?: string | undefined;
+  TestConnectionInput?: TestConnectionInput | undefined;
 }
 export interface TestConnectionResponse {}
 export type TagKeysList = string[];
@@ -7499,23 +7503,23 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateAssetRequest {
   Identifier: string;
-  Name?: string;
-  Description?: string;
-  ClientToken?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export interface UpdateAssetResponse {
   Id: string;
-  Name?: string;
-  Description?: string;
-  UpdatedAt?: Date;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface UpdateBlueprintRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   BlueprintLocation: string;
 }
 export interface UpdateBlueprintResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface UpdateCatalogRequest {
   CatalogId: string;
@@ -7524,76 +7528,76 @@ export interface UpdateCatalogRequest {
 export interface UpdateCatalogResponse {}
 export interface UpdateGrokClassifierRequest {
   Name: string;
-  Classification?: string;
-  GrokPattern?: string;
-  CustomPatterns?: string;
+  Classification?: string | undefined;
+  GrokPattern?: string | undefined;
+  CustomPatterns?: string | undefined;
 }
 export interface UpdateXMLClassifierRequest {
   Name: string;
-  Classification?: string;
-  RowTag?: string;
+  Classification?: string | undefined;
+  RowTag?: string | undefined;
 }
 export interface UpdateJsonClassifierRequest {
   Name: string;
-  JsonPath?: string;
+  JsonPath?: string | undefined;
 }
 export interface UpdateCsvClassifierRequest {
   Name: string;
-  Delimiter?: string;
-  QuoteSymbol?: string;
-  ContainsHeader?: CsvHeaderOption;
-  Header?: string[];
-  DisableValueTrimming?: boolean;
-  AllowSingleColumn?: boolean;
-  CustomDatatypeConfigured?: boolean;
-  CustomDatatypes?: string[];
-  Serde?: CsvSerdeOption;
+  Delimiter?: string | undefined;
+  QuoteSymbol?: string | undefined;
+  ContainsHeader?: CsvHeaderOption | undefined;
+  Header?: string[] | undefined;
+  DisableValueTrimming?: boolean | undefined;
+  AllowSingleColumn?: boolean | undefined;
+  CustomDatatypeConfigured?: boolean | undefined;
+  CustomDatatypes?: string[] | undefined;
+  Serde?: CsvSerdeOption | undefined;
 }
 export interface UpdateClassifierRequest {
-  GrokClassifier?: UpdateGrokClassifierRequest;
-  XMLClassifier?: UpdateXMLClassifierRequest;
-  JsonClassifier?: UpdateJsonClassifierRequest;
-  CsvClassifier?: UpdateCsvClassifierRequest;
+  GrokClassifier?: UpdateGrokClassifierRequest | undefined;
+  XMLClassifier?: UpdateXMLClassifierRequest | undefined;
+  JsonClassifier?: UpdateJsonClassifierRequest | undefined;
+  CsvClassifier?: UpdateCsvClassifierRequest | undefined;
 }
 export interface UpdateClassifierResponse {}
 export type UpdateColumnStatisticsList = ColumnStatistics[];
 export interface UpdateColumnStatisticsForPartitionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   PartitionValues: string[];
   ColumnStatisticsList: ColumnStatistics[];
 }
 export interface ColumnStatisticsError {
-  ColumnStatistics?: ColumnStatistics;
-  Error?: ErrorDetail;
+  ColumnStatistics?: ColumnStatistics | undefined;
+  Error?: ErrorDetail | undefined;
 }
 export type ColumnStatisticsErrors = ColumnStatisticsError[];
 export interface UpdateColumnStatisticsForPartitionResponse {
-  Errors?: ColumnStatisticsError[];
+  Errors?: ColumnStatisticsError[] | undefined;
 }
 export interface UpdateColumnStatisticsForTableRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   ColumnStatisticsList: ColumnStatistics[];
 }
 export interface UpdateColumnStatisticsForTableResponse {
-  Errors?: ColumnStatisticsError[];
+  Errors?: ColumnStatisticsError[] | undefined;
 }
 export interface UpdateColumnStatisticsTaskSettingsRequest {
   DatabaseName: string;
   TableName: string;
-  Role?: string;
-  Schedule?: string;
-  ColumnNameList?: string[];
-  SampleSize?: number;
-  CatalogID?: string;
-  SecurityConfiguration?: string;
+  Role?: string | undefined;
+  Schedule?: string | undefined;
+  ColumnNameList?: string[] | undefined;
+  SampleSize?: number | undefined;
+  CatalogID?: string | undefined;
+  SecurityConfiguration?: string | undefined;
 }
 export interface UpdateColumnStatisticsTaskSettingsResponse {}
 export interface UpdateConnectionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Name: string;
   ConnectionInput: ConnectionInput;
 }
@@ -7601,172 +7605,172 @@ export interface UpdateConnectionResponse {}
 export type DescriptionStringRemovable = string;
 export interface UpdateCrawlerRequest {
   Name: string;
-  Role?: string;
-  DatabaseName?: string;
-  Description?: string;
-  Targets?: CrawlerTargets;
-  Schedule?: string;
-  Classifiers?: string[];
-  TablePrefix?: string;
-  SchemaChangePolicy?: SchemaChangePolicy;
-  RecrawlPolicy?: RecrawlPolicy;
-  LineageConfiguration?: LineageConfiguration;
-  LakeFormationConfiguration?: LakeFormationConfiguration;
-  Configuration?: string;
-  CrawlerSecurityConfiguration?: string;
-  CatalogId?: string;
+  Role?: string | undefined;
+  DatabaseName?: string | undefined;
+  Description?: string | undefined;
+  Targets?: CrawlerTargets | undefined;
+  Schedule?: string | undefined;
+  Classifiers?: string[] | undefined;
+  TablePrefix?: string | undefined;
+  SchemaChangePolicy?: SchemaChangePolicy | undefined;
+  RecrawlPolicy?: RecrawlPolicy | undefined;
+  LineageConfiguration?: LineageConfiguration | undefined;
+  LakeFormationConfiguration?: LakeFormationConfiguration | undefined;
+  Configuration?: string | undefined;
+  CrawlerSecurityConfiguration?: string | undefined;
+  CatalogId?: string | undefined;
 }
 export interface UpdateCrawlerResponse {}
 export interface UpdateCrawlerScheduleRequest {
   CrawlerName: string;
-  Schedule?: string;
+  Schedule?: string | undefined;
 }
 export interface UpdateCrawlerScheduleResponse {}
 export interface UpdateDatabaseRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Name: string;
   DatabaseInput: DatabaseInput;
 }
 export interface UpdateDatabaseResponse {}
 export interface UpdateDataQualityRulesetRequest {
   Name: string;
-  Description?: string;
-  Ruleset?: string;
+  Description?: string | undefined;
+  Ruleset?: string | undefined;
 }
 export interface UpdateDataQualityRulesetResponse {
-  Name?: string;
-  Description?: string;
-  Ruleset?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Ruleset?: string | undefined;
 }
 export interface DevEndpointCustomLibraries {
-  ExtraPythonLibsS3Path?: string;
-  ExtraJarsS3Path?: string;
+  ExtraPythonLibsS3Path?: string | undefined;
+  ExtraJarsS3Path?: string | undefined;
 }
 export interface UpdateDevEndpointRequest {
   EndpointName: string;
-  PublicKey?: string;
-  AddPublicKeys?: string[];
-  DeletePublicKeys?: string[];
-  CustomLibraries?: DevEndpointCustomLibraries;
-  UpdateEtlLibraries?: boolean;
-  DeleteArguments?: string[];
-  AddArguments?: { [key: string]: string | undefined };
+  PublicKey?: string | undefined;
+  AddPublicKeys?: string[] | undefined;
+  DeletePublicKeys?: string[] | undefined;
+  CustomLibraries?: DevEndpointCustomLibraries | undefined;
+  UpdateEtlLibraries?: boolean | undefined;
+  DeleteArguments?: string[] | undefined;
+  AddArguments?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateDevEndpointResponse {}
 export interface UpdateGlossaryRequest {
   Identifier: string;
-  Name?: string;
-  Description?: string;
-  ClientToken?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export interface UpdateGlossaryResponse {
-  Id?: string;
-  Name?: string;
-  Description?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateGlossaryTermRequest {
   Identifier: string;
-  Name?: string;
-  ShortDescription?: string;
-  LongDescription?: string;
-  ClientToken?: string;
+  Name?: string | undefined;
+  ShortDescription?: string | undefined;
+  LongDescription?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export interface UpdateGlossaryTermResponse {
-  Id?: string;
-  GlossaryId?: string;
-  Name?: string;
-  ShortDescription?: string;
-  LongDescription?: string;
+  Id?: string | undefined;
+  GlossaryId?: string | undefined;
+  Name?: string | undefined;
+  ShortDescription?: string | undefined;
+  LongDescription?: string | undefined;
 }
 export interface UpdateGlueIdentityCenterConfigurationRequest {
-  Scopes?: string[];
-  UserBackgroundSessionsEnabled?: boolean;
+  Scopes?: string[] | undefined;
+  UserBackgroundSessionsEnabled?: boolean | undefined;
 }
 export interface UpdateGlueIdentityCenterConfigurationResponse {}
 export interface UpdateIntegrationResourcePropertyRequest {
   ResourceArn: string;
-  SourceProcessingProperties?: SourceProcessingProperties;
-  TargetProcessingProperties?: TargetProcessingProperties;
+  SourceProcessingProperties?: SourceProcessingProperties | undefined;
+  TargetProcessingProperties?: TargetProcessingProperties | undefined;
 }
 export interface UpdateIntegrationResourcePropertyResponse {
-  ResourceArn?: string;
-  ResourcePropertyArn?: string;
-  SourceProcessingProperties?: SourceProcessingProperties;
-  TargetProcessingProperties?: TargetProcessingProperties;
+  ResourceArn?: string | undefined;
+  ResourcePropertyArn?: string | undefined;
+  SourceProcessingProperties?: SourceProcessingProperties | undefined;
+  TargetProcessingProperties?: TargetProcessingProperties | undefined;
 }
 export interface UpdateIntegrationTablePropertiesRequest {
   ResourceArn: string;
   TableName: string;
-  SourceTableConfig?: SourceTableConfig;
-  TargetTableConfig?: TargetTableConfig;
+  SourceTableConfig?: SourceTableConfig | undefined;
+  TargetTableConfig?: TargetTableConfig | undefined;
 }
 export interface UpdateIntegrationTablePropertiesResponse {}
 export interface JobUpdate {
-  JobMode?: JobMode;
-  JobRunQueuingEnabled?: boolean;
-  Description?: string;
-  LogUri?: string;
-  Role?: string;
-  ExecutionProperty?: ExecutionProperty;
-  Command?: JobCommand;
-  DefaultArguments?: { [key: string]: string | undefined };
-  NonOverridableArguments?: { [key: string]: string | undefined };
-  Connections?: ConnectionsList;
-  MaxRetries?: number;
-  AllocatedCapacity?: number;
-  Timeout?: number;
-  MaxCapacity?: number;
-  WorkerType?: WorkerType;
-  NumberOfWorkers?: number;
-  SecurityConfiguration?: string;
-  NotificationProperty?: NotificationProperty;
-  GlueVersion?: string;
-  CodeGenConfigurationNodes?: { [key: string]: CodeGenConfigurationNode | undefined };
-  ExecutionClass?: ExecutionClass;
-  SourceControlDetails?: SourceControlDetails;
-  MaintenanceWindow?: string;
+  JobMode?: JobMode | undefined;
+  JobRunQueuingEnabled?: boolean | undefined;
+  Description?: string | undefined;
+  LogUri?: string | undefined;
+  Role?: string | undefined;
+  ExecutionProperty?: ExecutionProperty | undefined;
+  Command?: JobCommand | undefined;
+  DefaultArguments?: { [key: string]: string | undefined } | undefined;
+  NonOverridableArguments?: { [key: string]: string | undefined } | undefined;
+  Connections?: ConnectionsList | undefined;
+  MaxRetries?: number | undefined;
+  AllocatedCapacity?: number | undefined;
+  Timeout?: number | undefined;
+  MaxCapacity?: number | undefined;
+  WorkerType?: WorkerType | undefined;
+  NumberOfWorkers?: number | undefined;
+  SecurityConfiguration?: string | undefined;
+  NotificationProperty?: NotificationProperty | undefined;
+  GlueVersion?: string | undefined;
+  CodeGenConfigurationNodes?: { [key: string]: CodeGenConfigurationNode | undefined } | undefined;
+  ExecutionClass?: ExecutionClass | undefined;
+  SourceControlDetails?: SourceControlDetails | undefined;
+  MaintenanceWindow?: string | undefined;
 }
 export interface UpdateJobRequest {
   JobName: string;
   JobUpdate: JobUpdate;
 }
 export interface UpdateJobResponse {
-  JobName?: string;
+  JobName?: string | undefined;
 }
 export type CommitIdString = string;
 export type AuthTokenString = string;
 export interface UpdateJobFromSourceControlRequest {
-  JobName?: string;
-  Provider?: SourceControlProvider;
-  RepositoryName?: string;
-  RepositoryOwner?: string;
-  BranchName?: string;
-  Folder?: string;
-  CommitId?: string;
-  AuthStrategy?: SourceControlAuthStrategy;
-  AuthToken?: string;
+  JobName?: string | undefined;
+  Provider?: SourceControlProvider | undefined;
+  RepositoryName?: string | undefined;
+  RepositoryOwner?: string | undefined;
+  BranchName?: string | undefined;
+  Folder?: string | undefined;
+  CommitId?: string | undefined;
+  AuthStrategy?: SourceControlAuthStrategy | undefined;
+  AuthToken?: string | undefined;
 }
 export interface UpdateJobFromSourceControlResponse {
-  JobName?: string;
+  JobName?: string | undefined;
 }
 export interface UpdateMLTransformRequest {
   TransformId: string;
-  Name?: string;
-  Description?: string;
-  Parameters?: TransformParameters;
-  Role?: string;
-  GlueVersion?: string;
-  MaxCapacity?: number;
-  WorkerType?: WorkerType;
-  NumberOfWorkers?: number;
-  Timeout?: number;
-  MaxRetries?: number;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Parameters?: TransformParameters | undefined;
+  Role?: string | undefined;
+  GlueVersion?: string | undefined;
+  MaxCapacity?: number | undefined;
+  WorkerType?: WorkerType | undefined;
+  NumberOfWorkers?: number | undefined;
+  Timeout?: number | undefined;
+  MaxRetries?: number | undefined;
 }
 export interface UpdateMLTransformResponse {
-  TransformId?: string;
+  TransformId?: string | undefined;
 }
 export interface UpdatePartitionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   PartitionValueList: string[];
@@ -7778,33 +7782,33 @@ export interface UpdateRegistryInput {
   Description: string;
 }
 export interface UpdateRegistryResponse {
-  RegistryName?: string;
-  RegistryArn?: string;
+  RegistryName?: string | undefined;
+  RegistryArn?: string | undefined;
 }
 export interface UpdateSchemaInput {
   SchemaId: SchemaId;
-  SchemaVersionNumber?: SchemaVersionNumber;
-  Compatibility?: Compatibility;
-  Description?: string;
+  SchemaVersionNumber?: SchemaVersionNumber | undefined;
+  Compatibility?: Compatibility | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateSchemaResponse {
-  SchemaArn?: string;
-  SchemaName?: string;
-  RegistryName?: string;
+  SchemaArn?: string | undefined;
+  SchemaName?: string | undefined;
+  RegistryName?: string | undefined;
 }
 export interface UpdateSourceControlFromJobRequest {
-  JobName?: string;
-  Provider?: SourceControlProvider;
-  RepositoryName?: string;
-  RepositoryOwner?: string;
-  BranchName?: string;
-  Folder?: string;
-  CommitId?: string;
-  AuthStrategy?: SourceControlAuthStrategy;
-  AuthToken?: string;
+  JobName?: string | undefined;
+  Provider?: SourceControlProvider | undefined;
+  RepositoryName?: string | undefined;
+  RepositoryOwner?: string | undefined;
+  BranchName?: string | undefined;
+  Folder?: string | undefined;
+  CommitId?: string | undefined;
+  AuthStrategy?: SourceControlAuthStrategy | undefined;
+  AuthToken?: string | undefined;
 }
 export interface UpdateSourceControlFromJobResponse {
-  JobName?: string;
+  JobName?: string | undefined;
 }
 export type ViewUpdateAction = "ADD" | "REPLACE" | "ADD_OR_REPLACE" | "DROP" | (string & {});
 export type IcebergUpdateAction =
@@ -7825,18 +7829,18 @@ export type EncryptedKeyMetadataString = string;
 export interface IcebergEncryptedKey {
   KeyId: string;
   EncryptedKeyMetadata: string;
-  EncryptedById?: string;
-  Properties?: { [key: string]: string | undefined };
+  EncryptedById?: string | undefined;
+  Properties?: { [key: string]: string | undefined } | undefined;
 }
 export interface IcebergTableUpdate {
   Schema: IcebergSchema;
-  PartitionSpec?: IcebergPartitionSpec;
-  SortOrder?: IcebergSortOrder;
+  PartitionSpec?: IcebergPartitionSpec | undefined;
+  SortOrder?: IcebergSortOrder | undefined;
   Location: string;
-  Properties?: { [key: string]: string | undefined };
-  Action?: IcebergUpdateAction;
-  EncryptionKey?: IcebergEncryptedKey;
-  KeyId?: string;
+  Properties?: { [key: string]: string | undefined } | undefined;
+  Action?: IcebergUpdateAction | undefined;
+  EncryptionKey?: IcebergEncryptedKey | undefined;
+  KeyId?: string | undefined;
 }
 export type IcebergTableUpdateList = IcebergTableUpdate[];
 export interface UpdateIcebergTableInput {
@@ -7846,19 +7850,19 @@ export interface UpdateIcebergInput {
   UpdateIcebergTableInput: UpdateIcebergTableInput;
 }
 export interface UpdateOpenTableFormatInput {
-  UpdateIcebergInput?: UpdateIcebergInput;
+  UpdateIcebergInput?: UpdateIcebergInput | undefined;
 }
 export interface UpdateTableRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
-  Name?: string;
-  TableInput?: TableInput;
-  SkipArchive?: boolean;
-  TransactionId?: string;
-  VersionId?: string;
-  ViewUpdateAction?: ViewUpdateAction;
-  Force?: boolean;
-  UpdateOpenTableFormatInput?: UpdateOpenTableFormatInput;
+  Name?: string | undefined;
+  TableInput?: TableInput | undefined;
+  SkipArchive?: boolean | undefined;
+  TransactionId?: string | undefined;
+  VersionId?: string | undefined;
+  ViewUpdateAction?: ViewUpdateAction | undefined;
+  Force?: boolean | undefined;
+  UpdateOpenTableFormatInput?: UpdateOpenTableFormatInput | undefined;
 }
 export interface UpdateTableResponse {}
 export interface UpdateTableOptimizerRequest {
@@ -7870,30 +7874,30 @@ export interface UpdateTableOptimizerRequest {
 }
 export interface UpdateTableOptimizerResponse {}
 export interface TriggerUpdate {
-  Name?: string;
-  Description?: string;
-  Schedule?: string;
-  Actions?: Action[];
-  Predicate?: Predicate;
-  EventBatchingCondition?: EventBatchingCondition;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Schedule?: string | undefined;
+  Actions?: Action[] | undefined;
+  Predicate?: Predicate | undefined;
+  EventBatchingCondition?: EventBatchingCondition | undefined;
 }
 export interface UpdateTriggerRequest {
   Name: string;
   TriggerUpdate: TriggerUpdate;
 }
 export interface UpdateTriggerResponse {
-  Trigger?: Trigger;
+  Trigger?: Trigger | undefined;
 }
 export interface UpdateUsageProfileRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Configuration: ProfileConfiguration;
 }
 export interface UpdateUsageProfileResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface UpdateUserDefinedFunctionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   FunctionName: string;
   FunctionInput: UserDefinedFunctionInput;
@@ -7901,12 +7905,12 @@ export interface UpdateUserDefinedFunctionRequest {
 export interface UpdateUserDefinedFunctionResponse {}
 export interface UpdateWorkflowRequest {
   Name: string;
-  Description?: string;
-  DefaultRunProperties?: { [key: string]: string | undefined };
-  MaxConcurrentRuns?: number;
+  Description?: string | undefined;
+  DefaultRunProperties?: { [key: string]: string | undefined } | undefined;
+  MaxConcurrentRuns?: number | undefined;
 }
 export interface UpdateWorkflowResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type FederationSourceErrorCode =
   | "AccessDeniedException"

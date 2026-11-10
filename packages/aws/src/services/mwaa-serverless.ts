@@ -176,12 +176,12 @@ export type IdempotencyTokenString = string;
 export interface DefinitionS3Location {
   Bucket: string;
   ObjectKey: string;
-  VersionId?: string;
+  VersionId?: string | undefined;
 }
 export interface S3Location {
   Bucket: string;
   ObjectKey: string;
-  VersionId?: string;
+  VersionId?: string | undefined;
 }
 export type Code = { S3Location: S3Location };
 export type RoleARN = string;
@@ -189,7 +189,7 @@ export type DescriptionString = string;
 export type EncryptionType = "AWS_MANAGED_KEY" | "CUSTOMER_MANAGED_KEY" | (string & {});
 export interface EncryptionConfiguration {
   Type: EncryptionType;
-  KmsKeyId?: string;
+  KmsKeyId?: string | undefined;
 }
 export interface LoggingConfiguration {
   LogGroupName: string;
@@ -200,25 +200,25 @@ export type SecurityGroupIds = string[];
 export type SubnetString = string;
 export type SubnetIds = string[];
 export interface NetworkConfiguration {
-  SecurityGroupIds?: string[];
-  SubnetIds?: string[];
+  SecurityGroupIds?: string[] | undefined;
+  SubnetIds?: string[] | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
 export interface CreateWorkflowRequest {
   Name: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   DefinitionS3Location: DefinitionS3Location;
-  Code?: Code;
+  Code?: Code | undefined;
   RoleArn: string;
-  Description?: string;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  LoggingConfiguration?: LoggingConfiguration;
-  EngineVersion?: EngineVersion;
-  NetworkConfiguration?: NetworkConfiguration;
-  Tags?: { [key: string]: string | undefined };
-  TriggerMode?: string;
+  Description?: string | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  LoggingConfiguration?: LoggingConfiguration | undefined;
+  EngineVersion?: EngineVersion | undefined;
+  NetworkConfiguration?: NetworkConfiguration | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  TriggerMode?: string | undefined;
 }
 export type WorkflowArn = string;
 export type TimestampValue = Date;
@@ -228,20 +228,20 @@ export type IsLatestVersion = boolean;
 export type WarningMessages = string[];
 export interface CreateWorkflowResponse {
   WorkflowArn: string;
-  CreatedAt?: Date;
-  RevisionId?: string;
-  WorkflowStatus?: WorkflowStatus;
-  WorkflowVersion?: string;
-  IsLatestVersion?: boolean;
-  Warnings?: string[];
+  CreatedAt?: Date | undefined;
+  RevisionId?: string | undefined;
+  WorkflowStatus?: WorkflowStatus | undefined;
+  WorkflowVersion?: string | undefined;
+  IsLatestVersion?: boolean | undefined;
+  Warnings?: string[] | undefined;
 }
 export interface DeleteWorkflowRequest {
   WorkflowArn: string;
-  WorkflowVersion?: string;
+  WorkflowVersion?: string | undefined;
 }
 export interface DeleteWorkflowResponse {
   WorkflowArn: string;
-  WorkflowVersion?: string;
+  WorkflowVersion?: string | undefined;
 }
 export type IdString = string;
 export interface GetTaskInstanceRequest {
@@ -271,45 +271,45 @@ export interface GetTaskInstanceResponse {
   WorkflowArn: string;
   RunId: string;
   TaskInstanceId: string;
-  WorkflowVersion?: string;
-  Status?: TaskInstanceStatus;
-  DurationInSeconds?: number;
-  OperatorName?: string;
-  ModifiedAt?: Date;
-  EndedAt?: Date;
-  StartedAt?: Date;
-  AttemptNumber?: number;
-  ErrorMessage?: string;
-  TaskId?: string;
-  LogStream?: string;
-  Xcom?: { [key: string]: string | undefined };
+  WorkflowVersion?: string | undefined;
+  Status?: TaskInstanceStatus | undefined;
+  DurationInSeconds?: number | undefined;
+  OperatorName?: string | undefined;
+  ModifiedAt?: Date | undefined;
+  EndedAt?: Date | undefined;
+  StartedAt?: Date | undefined;
+  AttemptNumber?: number | undefined;
+  ErrorMessage?: string | undefined;
+  TaskId?: string | undefined;
+  LogStream?: string | undefined;
+  Xcom?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetWorkflowRequest {
   WorkflowArn: string;
-  WorkflowVersion?: string;
+  WorkflowVersion?: string | undefined;
 }
 export interface ScheduleConfiguration {
-  CronExpression?: string;
+  CronExpression?: string | undefined;
 }
 export interface GetWorkflowResponse {
   WorkflowArn: string;
-  WorkflowVersion?: string;
-  Name?: string;
-  Description?: string;
-  CreatedAt?: Date;
-  ModifiedAt?: Date;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  LoggingConfiguration?: LoggingConfiguration;
-  EngineVersion?: EngineVersion;
-  WorkflowStatus?: WorkflowStatus;
-  DefinitionS3Location?: DefinitionS3Location;
-  Code?: Code;
-  CodeSnapshottedAt?: Date;
-  ScheduleConfiguration?: ScheduleConfiguration;
-  RoleArn?: string;
-  NetworkConfiguration?: NetworkConfiguration;
-  TriggerMode?: string;
-  WorkflowDefinition?: string;
+  WorkflowVersion?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CreatedAt?: Date | undefined;
+  ModifiedAt?: Date | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  LoggingConfiguration?: LoggingConfiguration | undefined;
+  EngineVersion?: EngineVersion | undefined;
+  WorkflowStatus?: WorkflowStatus | undefined;
+  DefinitionS3Location?: DefinitionS3Location | undefined;
+  Code?: Code | undefined;
+  CodeSnapshottedAt?: Date | undefined;
+  ScheduleConfiguration?: ScheduleConfiguration | undefined;
+  RoleArn?: string | undefined;
+  NetworkConfiguration?: NetworkConfiguration | undefined;
+  TriggerMode?: string | undefined;
+  WorkflowDefinition?: string | undefined;
 }
 export interface GetWorkflowRunRequest {
   WorkflowArn: string;
@@ -329,137 +329,137 @@ export type WorkflowRunStatus =
   | "STOPPED"
   | (string & {});
 export interface WorkflowRunDetail {
-  WorkflowArn?: string;
-  WorkflowVersion?: string;
-  RunId?: string;
-  RunType?: RunType;
-  StartedOn?: Date;
-  CreatedAt?: Date;
-  CompletedOn?: Date;
-  ModifiedAt?: Date;
-  Duration?: number;
-  ErrorMessage?: string;
-  TaskInstances?: string[];
-  RunState?: WorkflowRunStatus;
+  WorkflowArn?: string | undefined;
+  WorkflowVersion?: string | undefined;
+  RunId?: string | undefined;
+  RunType?: RunType | undefined;
+  StartedOn?: Date | undefined;
+  CreatedAt?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  ModifiedAt?: Date | undefined;
+  Duration?: number | undefined;
+  ErrorMessage?: string | undefined;
+  TaskInstances?: string[] | undefined;
+  RunState?: WorkflowRunStatus | undefined;
 }
 export interface GetWorkflowRunResponse {
-  WorkflowArn?: string;
-  WorkflowVersion?: string;
-  RunId?: string;
-  RunType?: RunType;
-  OverrideParameters?: { [key: string]: any | undefined };
-  RunDetail?: WorkflowRunDetail;
+  WorkflowArn?: string | undefined;
+  WorkflowVersion?: string | undefined;
+  RunId?: string | undefined;
+  RunType?: RunType | undefined;
+  OverrideParameters?: { [key: string]: any | undefined } | undefined;
+  RunDetail?: WorkflowRunDetail | undefined;
 }
 export type TaggableResourceArn = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTaskInstancesRequest {
   WorkflowArn: string;
   RunId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface TaskInstanceSummary {
-  WorkflowArn?: string;
-  WorkflowVersion?: string;
-  RunId?: string;
-  TaskInstanceId?: string;
-  Status?: TaskInstanceStatus;
-  DurationInSeconds?: number;
-  OperatorName?: string;
+  WorkflowArn?: string | undefined;
+  WorkflowVersion?: string | undefined;
+  RunId?: string | undefined;
+  TaskInstanceId?: string | undefined;
+  Status?: TaskInstanceStatus | undefined;
+  DurationInSeconds?: number | undefined;
+  OperatorName?: string | undefined;
 }
 export type TaskInstanceSummaries = TaskInstanceSummary[];
 export interface ListTaskInstancesResponse {
-  TaskInstances?: TaskInstanceSummary[];
-  NextToken?: string;
+  TaskInstances?: TaskInstanceSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListWorkflowRunsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   WorkflowArn: string;
-  WorkflowVersion?: string;
+  WorkflowVersion?: string | undefined;
 }
 export interface RunDetailSummary {
-  Status?: WorkflowRunStatus;
-  CreatedOn?: Date;
-  StartedAt?: Date;
-  EndedAt?: Date;
+  Status?: WorkflowRunStatus | undefined;
+  CreatedOn?: Date | undefined;
+  StartedAt?: Date | undefined;
+  EndedAt?: Date | undefined;
 }
 export interface WorkflowRunSummary {
-  RunId?: string;
-  WorkflowArn?: string;
-  WorkflowVersion?: string;
-  RunType?: RunType;
-  RunDetailSummary?: RunDetailSummary;
+  RunId?: string | undefined;
+  WorkflowArn?: string | undefined;
+  WorkflowVersion?: string | undefined;
+  RunType?: RunType | undefined;
+  RunDetailSummary?: RunDetailSummary | undefined;
 }
 export type WorkflowRunSummaries = WorkflowRunSummary[];
 export interface ListWorkflowRunsResponse {
-  WorkflowRuns?: WorkflowRunSummary[];
-  NextToken?: string;
+  WorkflowRuns?: WorkflowRunSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListWorkflowsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface WorkflowSummary {
   WorkflowArn: string;
-  WorkflowVersion?: string;
-  Name?: string;
-  Description?: string;
-  CreatedAt?: Date;
-  ModifiedAt?: Date;
-  WorkflowStatus?: WorkflowStatus;
-  TriggerMode?: string;
+  WorkflowVersion?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CreatedAt?: Date | undefined;
+  ModifiedAt?: Date | undefined;
+  WorkflowStatus?: WorkflowStatus | undefined;
+  TriggerMode?: string | undefined;
 }
 export type WorkflowSummaries = WorkflowSummary[];
 export interface ListWorkflowsResponse {
   Workflows: WorkflowSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListWorkflowVersionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   WorkflowArn: string;
 }
 export interface WorkflowVersionSummary {
   WorkflowVersion: string;
   WorkflowArn: string;
-  IsLatestVersion?: boolean;
-  CreatedAt?: Date;
-  ModifiedAt?: Date;
-  DefinitionS3Location?: DefinitionS3Location;
-  ScheduleConfiguration?: ScheduleConfiguration;
-  TriggerMode?: string;
+  IsLatestVersion?: boolean | undefined;
+  CreatedAt?: Date | undefined;
+  ModifiedAt?: Date | undefined;
+  DefinitionS3Location?: DefinitionS3Location | undefined;
+  ScheduleConfiguration?: ScheduleConfiguration | undefined;
+  TriggerMode?: string | undefined;
 }
 export type WorkflowVersionSummaries = WorkflowVersionSummary[];
 export interface ListWorkflowVersionsResponse {
-  WorkflowVersions?: WorkflowVersionSummary[];
-  NextToken?: string;
+  WorkflowVersions?: WorkflowVersionSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface StartWorkflowRunRequest {
   WorkflowArn: string;
-  ClientToken?: string;
-  OverrideParameters?: { [key: string]: any | undefined };
-  WorkflowVersion?: string;
+  ClientToken?: string | undefined;
+  OverrideParameters?: { [key: string]: any | undefined } | undefined;
+  WorkflowVersion?: string | undefined;
 }
 export interface StartWorkflowRunResponse {
-  RunId?: string;
-  Status?: WorkflowRunStatus;
-  StartedAt?: Date;
+  RunId?: string | undefined;
+  Status?: WorkflowRunStatus | undefined;
+  StartedAt?: Date | undefined;
 }
 export interface StopWorkflowRunRequest {
   WorkflowArn: string;
   RunId: string;
 }
 export interface StopWorkflowRunResponse {
-  WorkflowArn?: string;
-  WorkflowVersion?: string;
-  RunId?: string;
-  Status?: WorkflowRunStatus;
+  WorkflowArn?: string | undefined;
+  WorkflowVersion?: string | undefined;
+  RunId?: string | undefined;
+  Status?: WorkflowRunStatus | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -475,19 +475,19 @@ export interface UntagResourceResponse {}
 export interface UpdateWorkflowRequest {
   WorkflowArn: string;
   DefinitionS3Location: DefinitionS3Location;
-  Code?: Code;
+  Code?: Code | undefined;
   RoleArn: string;
-  Description?: string;
-  LoggingConfiguration?: LoggingConfiguration;
-  EngineVersion?: EngineVersion;
-  NetworkConfiguration?: NetworkConfiguration;
-  TriggerMode?: string;
+  Description?: string | undefined;
+  LoggingConfiguration?: LoggingConfiguration | undefined;
+  EngineVersion?: EngineVersion | undefined;
+  NetworkConfiguration?: NetworkConfiguration | undefined;
+  TriggerMode?: string | undefined;
 }
 export interface UpdateWorkflowResponse {
   WorkflowArn: string;
-  ModifiedAt?: Date;
-  WorkflowVersion?: string;
-  Warnings?: string[];
+  ModifiedAt?: Date | undefined;
+  WorkflowVersion?: string | undefined;
+  Warnings?: string[] | undefined;
 }
 export type ErrorMessage = string;
 export type ValidationExceptionReason =

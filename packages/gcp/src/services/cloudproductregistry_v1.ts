@@ -71,19 +71,19 @@ export type StringList = Array<string>;
 /** Represents an independent service offering that can be provisioned by a customer. */
 export interface LogicalProduct {
   /** Display name of the LogicalProduct. */
-  title?: string;
+  title?: string | undefined;
   /** Product suite associated with the logical product. Format: productSuites/{product_suite}. */
-  productSuite?: string;
+  productSuite?: string | undefined;
   /** Output only. Indicates whether the logical product has been replaced. If `false`, the product is active. If `true`, the product has been replaced by another type, and the `replacement` field contains the resource name of that replacement. */
-  replaced?: boolean;
+  replaced?: boolean | undefined;
   /** Output only. Current Lifecycle state of the logical product. */
-  lifecycleState?: LogicalProductLifecycleStateEnum;
+  lifecycleState?: LogicalProductLifecycleStateEnum | undefined;
   /** Output only. The resource name of the Logical Entity that the logical product is replaced by. This field is only populated when this logical product is replaced by some other type. Eg: logicalProducts/{logical_product}/variants/{variant}, productSuites/{product_suite}, etc. */
-  replacement?: string;
+  replacement?: string | undefined;
   /** Identifier. The resource name of the LogicalProduct. Format: logicalProducts/{logical_product}. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Child variant resource references. Format: logicalProducts/{logical_product}/variants/{variant} */
-  variants?: StringList;
+  variants?: StringList | undefined;
 }
 export interface GetLogicalProductsVariantsRequest {
   /** Required. The name of the LogicalProductVariant to retrieve. Format: logicalProducts/{logical_product}/variants/{variant} */
@@ -98,15 +98,15 @@ export type LogicalProductVariantLifecycleStateEnum =
 /** Represents a distinct offering derived from a primary product that retains core functionalities but offers specialized features for a specific market segment. */
 export interface LogicalProductVariant {
   /** Identifier. The resource name of the LogicalProductVariant. Format: logicalProducts/{logical_product}/variants/{variant} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Current Lifecycle state of the logical product variant. */
-  lifecycleState?: LogicalProductVariantLifecycleStateEnum;
+  lifecycleState?: LogicalProductVariantLifecycleStateEnum | undefined;
   /** Display name of the LogicalProductVariant. */
-  title?: string;
+  title?: string | undefined;
   /** Output only. Indicates whether the logical product variant has been replaced. If `false`, the variant is active. If `true`, the variant has been replaced by another type, and the `replacement` field contains the resource name of that replacement. */
-  replaced?: boolean;
+  replaced?: boolean | undefined;
   /** Output only. The resource name of the Logical Entity that the logical product variant is replaced by. This field is only populated when this logical product variant is replaced by some other type. Eg: logicalProducts/{logical_product}, productSuites/{product_suite}, etc. */
-  replacement?: string;
+  replacement?: string | undefined;
 }
 export interface GetProductSuitesRequest {
   /** Required. The name of the ProductSuite to retrieve. Format: productSuites/{product_suite} */
@@ -115,61 +115,61 @@ export interface GetProductSuitesRequest {
 /** Represents a unified grouping of products sharing a common brand and market positioning. */
 export interface ProductSuite {
   /** Identifier. The resource name of the ProductSuite. Format: productSuites/{product_suite} */
-  name?: string;
+  name?: string | undefined;
   /** Title of the ProductSuite. */
-  title?: string;
+  title?: string | undefined;
   /** Output only. Indicates whether the product suite has been replaced. If `false`, the product suite is active. If `true`, the product suite has been replaced by another type, and the `replacement` field contains the resource name of that replacement. */
-  replaced?: boolean;
+  replaced?: boolean | undefined;
   /** Output only. LogicalProducts under this suite. Format: logicalProducts/{logical_product} */
-  logicalProducts?: StringList;
+  logicalProducts?: StringList | undefined;
   /** Output only. The resource name of the Logical Entity that the product suite is replaced by. This field is only populated when this product suite is replaced by some other type. Eg: logicalProducts/{logical_product}, logicalProducts/{logical_product}/variants/{variant}, etc. */
-  replacement?: string;
+  replacement?: string | undefined;
 }
 export interface ListLogicalProductsRequest {
   /** Optional. The maximum number of logical products to return. The service may return fewer than this value. If unspecified, at most 100 logical products will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The filter expression for listing logical products. Filter syntax: https://google.aip.dev/160 Supported fields: suite_id */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. A page token, received from a previous `ListLogicalProducts` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListLogicalProducts` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type LogicalProductList = Array<LogicalProduct>;
 /** Response message for ListLogicalProducts. */
 export interface ListLogicalProductsResponse {
   /** Matched LogicalProducts */
-  logicalProducts?: LogicalProductList;
+  logicalProducts?: LogicalProductList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListLogicalProductsVariantsRequest {
   /** Required. Parent logical product id. Format: logicalProducts/{logical_product} */
   parent: string;
   /** Optional. A page token, received from a previous `ListLogicalProductVariants` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListLogicalProductVariants` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of logical product variants to return. The service may return fewer than this value. If unspecified, at most 100 logical product variants will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type LogicalProductVariantList = Array<LogicalProductVariant>;
 /** Response message for ListLogicalProductVariants. */
 export interface ListLogicalProductVariantsResponse {
   /** Matched LogicalProductVariants */
-  logicalProductVariants?: LogicalProductVariantList;
+  logicalProductVariants?: LogicalProductVariantList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProductSuitesRequest {
   /** Optional. The maximum number of suites to return. The service may return fewer than this value. If unspecified, at most 100 suites will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListProductSuites` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListProductSuites` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ProductSuiteList = Array<ProductSuite>;
 /** Response message for ListProductSuites. */
 export interface ListProductSuitesResponse {
   /** Matched ProductSuites */
-  productSuites?: ProductSuiteList;
+  productSuites?: ProductSuiteList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface LookupEntityLogicalProductsRequest {
   /** Required. Entity uri to look up. Supported Formats: logicalProducts/{logical_product} logicalProducts/{logical_product}/variants/{variant} productSuites/{product_suite} */
@@ -178,11 +178,11 @@ export interface LookupEntityLogicalProductsRequest {
 /** Response message for LookupEntity. */
 export interface LookupEntityResponse {
   /** Matched ProductSuite. */
-  productSuite?: ProductSuite;
+  productSuite?: ProductSuite | undefined;
   /** Matched LogicalProductVariant. */
-  logicalProductVariant?: LogicalProductVariant;
+  logicalProductVariant?: LogicalProductVariant | undefined;
   /** Matched LogicalProduct. */
-  logicalProduct?: LogicalProduct;
+  logicalProduct?: LogicalProduct | undefined;
 }
 export interface LookupEntityLogicalProductsVariantsRequest {
   /** Required. Entity uri to look up. Supported Formats: logicalProducts/{logical_product} logicalProducts/{logical_product}/variants/{variant} productSuites/{product_suite} */

@@ -49,7 +49,7 @@ export type AzureResourceManagerResourceProvisioningState = "Succeeded" | "Faile
 /** The artifact download properties */
 export interface ArtifactDownloadResult {
   /** The resource provisioning state */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
   /** The artifact display order */
   artifactOrder: number;
   /** The artifact title */
@@ -57,7 +57,7 @@ export interface ArtifactDownloadResult {
   /** The artifact description */
   description: string;
   /** The artifact size in MB */
-  size?: number;
+  size?: number | undefined;
   /** The download URI */
   downloadLink: string;
   /** The download link expiry time */
@@ -68,17 +68,17 @@ export type SolutionDependencyParameterDependenciesList = Array<SolutionDependen
 /** Solution Dependency Context */
 export interface SolutionDependencyParameter {
   /** Solution Version Id */
-  solutionVersionId?: string;
+  solutionVersionId?: string | undefined;
   /** Solution Template Id */
-  solutionTemplateId?: string;
+  solutionTemplateId?: string | undefined;
   /** Solution Template Version */
-  solutionTemplateVersion?: string;
+  solutionTemplateVersion?: string | undefined;
   /** Solution Instance Name */
-  solutionInstanceName?: string;
+  solutionInstanceName?: string | undefined;
   /** Target Id */
-  targetId?: string;
+  targetId?: string | undefined;
   /** Solution dependencies */
-  dependencies?: SolutionDependencyParameterDependenciesList;
+  dependencies?: SolutionDependencyParameterDependenciesList | undefined;
 }
 /** Solution dependencies */
 export type BulkReviewTargetDetailsSolutionDependenciesList = Array<SolutionDependencyParameter>;
@@ -87,11 +87,11 @@ export interface BulkReviewTargetDetails {
   /** ArmId of Target */
   targetId: string;
   /** Solution dependencies */
-  solutionDependencies?: BulkReviewTargetDetailsSolutionDependenciesList;
+  solutionDependencies?: BulkReviewTargetDetailsSolutionDependenciesList | undefined;
   /** Name of the solution instance */
-  solutionInstanceName?: string;
+  solutionInstanceName?: string | undefined;
   /** Configuration of solution */
-  solutionConfiguration?: string;
+  solutionConfiguration?: string | undefined;
 }
 /** Targets to which solution needs to be published */
 export type BulkSolutionTemplateVersionReviewSolutionRequestTargetsList =
@@ -111,26 +111,28 @@ export interface BulkSolutionTemplateVersionReviewSolutionRequest {
   /** Targets to which solution needs to be published */
   targets: BulkSolutionTemplateVersionReviewSolutionRequestTargetsList;
   /** Name of the solution instance */
-  solutionInstanceName?: string;
+  solutionInstanceName?: string | undefined;
   /** Solution dependencies */
-  solutionDependencies?: BulkSolutionTemplateVersionReviewSolutionRequestSolutionDependenciesList;
+  solutionDependencies?:
+    | BulkSolutionTemplateVersionReviewSolutionRequestSolutionDependenciesList
+    | undefined;
   /** Configuration of solution */
-  solutionConfiguration?: string;
+  solutionConfiguration?: string | undefined;
 }
 export interface BulkSolutionTemplateVersionReviewSolutionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Hierarchy Ids */
 export type HierarchyMetadataHierarchyIdsList = Array<string>;
 /** Hierarchy Ids With Level for applying config Template which will further generate ARG objects */
 export interface HierarchyMetadata {
   /** Hierarchy Ids */
-  hierarchyIds?: HierarchyMetadataHierarchyIdsList;
+  hierarchyIds?: HierarchyMetadataHierarchyIdsList | undefined;
   /** Hierarchy Level */
-  level?: string;
+  level?: string | undefined;
 }
 /** Hierarchy ARM Ids */
 export type ConfigTemplateMetadataPropertiesInputLinkedHierarchiesList = Array<HierarchyMetadata>;
@@ -139,11 +141,11 @@ export type ConfigTemplateMetadataPropertiesInputUnLinkedHierarchiesList = Array
 /** ConfigTemplateMetadata Properties */
 export interface ConfigTemplateMetadataPropertiesInput {
   /** ArmId of Context */
-  contextId?: string;
+  contextId?: string | undefined;
   /** Hierarchy ARM Ids */
-  linkedHierarchies?: ConfigTemplateMetadataPropertiesInputLinkedHierarchiesList;
+  linkedHierarchies?: ConfigTemplateMetadataPropertiesInputLinkedHierarchiesList | undefined;
   /** Hierarchy ARM Ids */
-  unLinkedHierarchies?: ConfigTemplateMetadataPropertiesInputUnLinkedHierarchiesList;
+  unLinkedHierarchies?: ConfigTemplateMetadataPropertiesInputUnLinkedHierarchiesList | undefined;
 }
 export interface ConfigTemplateMetadatasCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -155,7 +157,7 @@ export interface ConfigTemplateMetadatasCreateOrUpdateRequest {
   /** The name of the ConfigTemplateMetadataProperties */
   configTemplateMetadataName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigTemplateMetadataPropertiesInput;
+  properties?: ConfigTemplateMetadataPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -164,17 +166,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Hierarchy ARM Ids */
 export type ConfigTemplateMetadataPropertiesLinkedHierarchiesList = Array<HierarchyMetadata>;
@@ -191,33 +193,33 @@ export type ProvisioningState =
 /** ConfigTemplateMetadata Properties */
 export interface ConfigTemplateMetadataProperties {
   /** ArmId of Context */
-  contextId?: string;
+  contextId?: string | undefined;
   /** Hierarchy ARM Ids */
-  linkedHierarchies?: ConfigTemplateMetadataPropertiesLinkedHierarchiesList;
+  linkedHierarchies?: ConfigTemplateMetadataPropertiesLinkedHierarchiesList | undefined;
   /** Hierarchy ARM Ids */
-  unLinkedHierarchies?: ConfigTemplateMetadataPropertiesUnLinkedHierarchiesList;
+  unLinkedHierarchies?: ConfigTemplateMetadataPropertiesUnLinkedHierarchiesList | undefined;
   /** Unique identifier for the config template, generated by the system */
-  templateUniqueIdentifier?: string;
+  templateUniqueIdentifier?: string | undefined;
   /** Provisioning state of resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface ConfigTemplateMetadatasCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigTemplateMetadataProperties;
+  properties?: ConfigTemplateMetadataProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type ConfigTemplatesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -234,46 +236,46 @@ export interface ConfigTemplatesCreateOrUpdateRequest {
   /** The name of the ConfigTemplate */
   configTemplateName: string;
   /** Resource tags. */
-  tags?: ConfigTemplatesCreateOrUpdateRequestTagsMap;
+  tags?: ConfigTemplatesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigTemplatePropertiesInput;
+  properties?: ConfigTemplatePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type ConfigTemplatesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 /** Config Template Properties */
 export interface ConfigTemplateProperties {
   /** A unique identifier for the config template, generated by the system */
-  uniqueIdentifier?: string;
+  uniqueIdentifier?: string | undefined;
   /** Description of config template */
   description: string;
   /** Latest config template version */
-  latestVersion?: string;
+  latestVersion?: string | undefined;
   /** Provisioning state of resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface ConfigTemplatesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ConfigTemplatesCreateOrUpdateResponseTagsMap;
+  tags?: ConfigTemplatesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigTemplateProperties;
+  properties?: ConfigTemplateProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Hierarchy Ids */
 export type ConfigTemplatesLinkToHierarchiesRequestHierarchyIdsList = Array<string>;
@@ -287,15 +289,15 @@ export interface ConfigTemplatesLinkToHierarchiesRequest {
   /** Context Id */
   contextId: string;
   /** Hierarchy Ids */
-  hierarchyIds?: ConfigTemplatesLinkToHierarchiesRequestHierarchyIdsList;
+  hierarchyIds?: ConfigTemplatesLinkToHierarchiesRequestHierarchyIdsList | undefined;
   /** Hierarchy Level */
-  level?: string;
+  level?: string | undefined;
 }
 export interface ConfigTemplatesLinkToHierarchiesResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Hierarchy Ids */
 export type ConfigTemplatesUnLinkFromHierarchiesRequestHierarchyIdsList = Array<string>;
@@ -309,15 +311,15 @@ export interface ConfigTemplatesUnLinkFromHierarchiesRequest {
   /** Context Id */
   contextId: string;
   /** Hierarchy Ids */
-  hierarchyIds?: ConfigTemplatesUnLinkFromHierarchiesRequestHierarchyIdsList;
+  hierarchyIds?: ConfigTemplatesUnLinkFromHierarchiesRequestHierarchyIdsList | undefined;
   /** Hierarchy Level */
-  level?: string;
+  level?: string | undefined;
 }
 export interface ConfigTemplatesUnLinkFromHierarchiesResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Config Template Version Properties */
 export interface ConfigTemplateVersionPropertiesInput {
@@ -334,37 +336,37 @@ export interface ConfigTemplateVersionsCreateOrUpdateRequest {
   /** The name of the ConfigTemplateVersion */
   configTemplateVersionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigTemplateVersionPropertiesInput;
+  properties?: ConfigTemplateVersionPropertiesInput | undefined;
 }
 /** Config Template Version Properties */
 export interface ConfigTemplateVersionProperties {
   /** Configuration values */
   configurations: unknown;
   /** Provisioning state of resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface ConfigTemplateVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigTemplateVersionProperties;
+  properties?: ConfigTemplateVersionProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Properties for ConfigurationReference Resource */
 export interface ConfigurationReferencePropertiesInput {
   /** ArmId of Configuration resource */
-  configurationResourceId?: string;
+  configurationResourceId?: string | undefined;
 }
 export interface ConfigurationReferencesCreateOrUpdateRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -372,26 +374,26 @@ export interface ConfigurationReferencesCreateOrUpdateRequest {
   /** The name of the ConfigurationReference */
   configurationReferenceName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationReferencePropertiesInput;
+  properties?: ConfigurationReferencePropertiesInput | undefined;
 }
 /** Properties for ConfigurationReference Resource */
 export interface ConfigurationReferenceProperties {
   /** The status of the last operation. */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
   /** ArmId of Configuration resource */
-  configurationResourceId?: string;
+  configurationResourceId?: string | undefined;
 }
 export interface ConfigurationReferencesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationReferenceProperties;
+  properties?: ConfigurationReferenceProperties | undefined;
 }
 /** Resource tags. */
 export type ConfigurationsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -405,34 +407,34 @@ export interface ConfigurationsCreateOrUpdateRequest {
   /** Name of the Configuration */
   configurationName: string;
   /** Resource tags. */
-  tags?: ConfigurationsCreateOrUpdateRequestTagsMap;
+  tags?: ConfigurationsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationPropertiesInput;
+  properties?: ConfigurationPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type ConfigurationsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 /** Configuration Properties */
 export interface ConfigurationProperties {
   /** Provisioning state of resource */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
 }
 export interface ConfigurationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ConfigurationsCreateOrUpdateResponseTagsMap;
+  tags?: ConfigurationsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationProperties;
+  properties?: ConfigurationProperties | undefined;
 }
 /** Resource tags. */
 export type ContextsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -445,7 +447,7 @@ export interface Capability {
   /** Description of Capability */
   description: string;
   /** State of resource */
-  state?: ResourceState | (string & {});
+  state?: ResourceState | (string & {}) | undefined;
 }
 /** List of Capabilities */
 export type ContextPropertiesInputCapabilitiesList = Array<Capability>;
@@ -473,11 +475,11 @@ export interface ContextsCreateOrUpdateRequest {
   /** The name of the Context. */
   contextName: string;
   /** Resource tags. */
-  tags?: ContextsCreateOrUpdateRequestTagsMap;
+  tags?: ContextsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ContextPropertiesInput;
+  properties?: ContextPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type ContextsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -488,40 +490,40 @@ export type ContextPropertiesHierarchiesList = Array<Hierarchy>;
 /** Context Properties */
 export interface ContextProperties {
   /** A unique identifier for the context, generated by the system */
-  uniqueIdentifier?: string;
+  uniqueIdentifier?: string | undefined;
   /** List of Capabilities */
   capabilities: ContextPropertiesCapabilitiesList;
   /** List of Hierarchies */
   hierarchies: ContextPropertiesHierarchiesList;
   /** Provisioning state of resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface ContextsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ContextsCreateOrUpdateResponseTagsMap;
+  tags?: ContextsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ContextProperties;
+  properties?: ContextProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Denotes which part of the version number will be updated */
 export type UpdateType = "Major" | "Minor" | "Patch";
 /** Config Template Version Resource */
 export interface ConfigTemplateVersionInput {
   /** The resource-specific properties for this resource. */
-  properties?: ConfigTemplateVersionPropertiesInput;
+  properties?: ConfigTemplateVersionPropertiesInput | undefined;
 }
 export interface CreateConfigTemplateVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -531,29 +533,29 @@ export interface CreateConfigTemplateVersionRequest {
   /** The name of the ConfigTemplate */
   configTemplateName: string;
   /** Update type */
-  updateType?: UpdateType | (string & {});
+  updateType?: UpdateType | (string & {}) | undefined;
   /** Version to create */
-  version?: string;
+  version?: string | undefined;
   /** Config Template Version */
   configTemplateVersion: ConfigTemplateVersionInput;
 }
 export interface CreateConfigTemplateVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigTemplateVersionProperties;
+  properties?: ConfigTemplateVersionProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Schema Version Properties */
 export interface SchemaVersionPropertiesInput {
@@ -563,7 +565,7 @@ export interface SchemaVersionPropertiesInput {
 /** Schema Version Resource */
 export interface SchemaVersionInput {
   /** The resource-specific properties for this resource. */
-  properties?: SchemaVersionPropertiesInput;
+  properties?: SchemaVersionPropertiesInput | undefined;
 }
 export interface CreateSchemaVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -573,9 +575,9 @@ export interface CreateSchemaVersionRequest {
   /** The name of the Schema */
   schemaName: string;
   /** Update type */
-  updateType?: UpdateType | (string & {});
+  updateType?: UpdateType | (string & {}) | undefined;
   /** Version to create */
-  version?: string;
+  version?: string | undefined;
   /** Schema Version */
   schemaVersion: SchemaVersionInput;
 }
@@ -584,25 +586,25 @@ export interface SchemaVersionProperties {
   /** Value of schema version */
   value: unknown;
   /** Provisioning state of resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface CreateSchemaVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaVersionProperties;
+  properties?: SchemaVersionProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** App components spec */
 export type SolutionTemplateVersionPropertiesInputSpecificationMap = {
@@ -613,16 +615,16 @@ export type OrchestratorType = "TO";
 /** Solution Template Version Properties */
 export interface SolutionTemplateVersionPropertiesInput {
   /** Config expressions for this solution version */
-  configurations?: unknown;
+  configurations?: unknown | undefined;
   /** App components spec */
   specification: SolutionTemplateVersionPropertiesInputSpecificationMap;
   /** Orchestrator type */
-  orchestratorType?: OrchestratorType | (string & {});
+  orchestratorType?: OrchestratorType | (string & {}) | undefined;
 }
 /** Solution Template Version Resource. Contains configurations that use expressions which can be resolved hierarchically along with edge specifications. */
 export interface SolutionTemplateVersionInput {
   /** The resource-specific properties for this resource. */
-  properties?: SolutionTemplateVersionPropertiesInput;
+  properties?: SolutionTemplateVersionPropertiesInput | undefined;
 }
 export interface CreateSolutionTemplateVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -632,9 +634,9 @@ export interface CreateSolutionTemplateVersionRequest {
   /** The name of the SolutionTemplate */
   solutionTemplateName: string;
   /** Update type */
-  updateType?: UpdateType | (string & {});
+  updateType?: UpdateType | (string & {}) | undefined;
   /** Version to create */
-  version?: string;
+  version?: string | undefined;
   /** Solution Template Version */
   solutionTemplateVersion: SolutionTemplateVersionInput;
 }
@@ -651,33 +653,33 @@ export type InternalState =
 /** Solution Template Version Properties */
 export interface SolutionTemplateVersionProperties {
   /** Config expressions for this solution version */
-  configurations?: unknown;
+  configurations?: unknown | undefined;
   /** App components spec */
   specification: SolutionTemplateVersionPropertiesSpecificationMap;
   /** Orchestrator type */
-  orchestratorType?: OrchestratorType;
+  orchestratorType?: OrchestratorType | undefined;
   /** Internal State of resource */
-  internalState?: InternalState;
+  internalState?: InternalState | undefined;
   /** Provisioning state of resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface CreateSolutionTemplateVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionTemplateVersionProperties;
+  properties?: SolutionTemplateVersionProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteConfigTemplateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -689,9 +691,9 @@ export interface DeleteConfigTemplateRequest {
 }
 export interface DeleteConfigTemplateResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteConfigTemplateMetadatasRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -705,9 +707,9 @@ export interface DeleteConfigTemplateMetadatasRequest {
 }
 export interface DeleteConfigTemplateMetadatasResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteConfigTemplateVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -721,9 +723,9 @@ export interface DeleteConfigTemplateVersionRequest {
 }
 export interface DeleteConfigTemplateVersionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -751,9 +753,9 @@ export interface DeleteContextRequest {
 }
 export interface DeleteContextResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDiagnosticRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -765,9 +767,9 @@ export interface DeleteDiagnosticRequest {
 }
 export interface DeleteDiagnosticResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDisconnectedOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -779,9 +781,9 @@ export interface DeleteDisconnectedOperationRequest {
 }
 export interface DeleteDisconnectedOperationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDynamicConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -819,9 +821,9 @@ export interface DeleteDynamicSchemaRequest {
 }
 export interface DeleteDynamicSchemaResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDynamicSchemaVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -837,9 +839,9 @@ export interface DeleteDynamicSchemaVersionRequest {
 }
 export interface DeleteDynamicSchemaVersionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteExecutionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -857,9 +859,9 @@ export interface DeleteExecutionRequest {
 }
 export interface DeleteExecutionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteHardwareSettingsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -873,9 +875,9 @@ export interface DeleteHardwareSettingsRequest {
 }
 export interface DeleteHardwareSettingsResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -891,9 +893,9 @@ export interface DeleteInstanceRequest {
 }
 export interface DeleteInstanceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSchemaRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -905,9 +907,9 @@ export interface DeleteSchemaRequest {
 }
 export interface DeleteSchemaResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSchemaReferenceRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -917,9 +919,9 @@ export interface DeleteSchemaReferenceRequest {
 }
 export interface DeleteSchemaReferenceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSchemaVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -933,9 +935,9 @@ export interface DeleteSchemaVersionRequest {
 }
 export interface DeleteSchemaVersionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSiteRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -958,9 +960,9 @@ export interface DeleteSiteReferenceRequest {
 }
 export interface DeleteSiteReferenceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSitesByServiceGroupRequest {
   /** The name of the service group */
@@ -988,9 +990,9 @@ export interface DeleteSolutionRequest {
 }
 export interface DeleteSolutionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSolutionTemplateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1002,9 +1004,9 @@ export interface DeleteSolutionTemplateRequest {
 }
 export interface DeleteSolutionTemplateResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSolutionTemplateVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1018,9 +1020,9 @@ export interface DeleteSolutionTemplateVersionRequest {
 }
 export interface DeleteSolutionTemplateVersionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSolutionVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1036,9 +1038,9 @@ export interface DeleteSolutionVersionRequest {
 }
 export interface DeleteSolutionVersionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteTargetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1048,13 +1050,13 @@ export interface DeleteTargetRequest {
   /** Name of the target */
   targetName: string;
   /** Force delete */
-  forceDelete?: boolean;
+  forceDelete?: boolean | undefined;
 }
 export interface DeleteTargetResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteWorkflowRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1068,9 +1070,9 @@ export interface DeleteWorkflowRequest {
 }
 export interface DeleteWorkflowResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteWorkflowVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1086,9 +1088,9 @@ export interface DeleteWorkflowVersionRequest {
 }
 export interface DeleteWorkflowVersionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type DiagnosticsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1111,44 +1113,44 @@ export interface DiagnosticsCreateOrUpdateRequest {
   /** Name of Diagnostic. */
   diagnosticName: string;
   /** Resource tags. */
-  tags?: DiagnosticsCreateOrUpdateRequestTagsMap;
+  tags?: DiagnosticsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationPropertiesInput;
+  properties?: ConfigurationPropertiesInput | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
 }
 /** Resource tags. */
 export type DiagnosticsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 /** The properties of a Diagnostic resource. */
 export interface DiagnosticProperties {
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface DiagnosticsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DiagnosticsCreateOrUpdateResponseTagsMap;
+  tags?: DiagnosticsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: DiagnosticProperties;
+  properties?: DiagnosticProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type DisconnectedOperationsCreateOrUpdateRequestTagsMap = {
@@ -1176,29 +1178,29 @@ export interface BillingConfigurationInput {
   /** The current billing configuration */
   current: BillingPeriodInput;
   /** The upcoming billing configuration */
-  upcoming?: BillingPeriodInput;
+  upcoming?: BillingPeriodInput | undefined;
 }
 /** Benefit plans status */
 export type BenefitPlanStatus = "Enabled" | "Disabled";
 /** The benefit plans */
 export interface BenefitPlans {
   /** Azure Hybrid Windows Server Benefit plan */
-  azureHybridWindowsServerBenefit?: BenefitPlanStatus | (string & {});
+  azureHybridWindowsServerBenefit?: BenefitPlanStatus | (string & {}) | undefined;
   /** Number of Windows Server VMs to license under the Azure Hybrid Benefit plan */
-  windowsServerVmCount?: number;
+  windowsServerVmCount?: number | undefined;
 }
 /** The disconnected operation properties */
 export interface DisconnectedOperationPropertiesInput {
   /** The connection intent */
   connectionIntent: ConnectionIntent | (string & {});
   /** The registration intent */
-  registrationStatus?: RegistrationStatus | (string & {});
+  registrationStatus?: RegistrationStatus | (string & {}) | undefined;
   /** The device version */
-  deviceVersion?: string;
+  deviceVersion?: string | undefined;
   /** The billing configuration */
-  billingConfiguration?: BillingConfigurationInput;
+  billingConfiguration?: BillingConfigurationInput | undefined;
   /** The benefit plans */
-  benefitPlans?: BenefitPlans;
+  benefitPlans?: BenefitPlans | undefined;
 }
 export interface DisconnectedOperationsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1208,11 +1210,11 @@ export interface DisconnectedOperationsCreateOrUpdateRequest {
   /** Name of the resource */
   name: string;
   /** Resource tags. */
-  tags?: DisconnectedOperationsCreateOrUpdateRequestTagsMap;
+  tags?: DisconnectedOperationsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: DisconnectedOperationPropertiesInput;
+  properties?: DisconnectedOperationPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type DisconnectedOperationsCreateOrUpdateResponseTagsMap = {
@@ -1231,9 +1233,9 @@ export interface BillingPeriod {
   /** The pricing model */
   pricingModel: PricingModel;
   /** The billing start date */
-  startDate?: string;
+  startDate?: string | undefined;
   /** The billing end date */
-  endDate?: string;
+  endDate?: string | undefined;
 }
 /** The billing configuration */
 export interface BillingConfiguration {
@@ -1244,12 +1246,12 @@ export interface BillingConfiguration {
   /** The current billing configuration */
   current: BillingPeriod;
   /** The upcoming billing configuration */
-  upcoming?: BillingPeriod;
+  upcoming?: BillingPeriod | undefined;
 }
 /** The disconnected operation properties */
 export interface DisconnectedOperationProperties {
   /** The resource provisioning state */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
   /** The unique GUID of the stamp */
   stampId: string;
   /** The billing model */
@@ -1257,35 +1259,35 @@ export interface DisconnectedOperationProperties {
   /** The connection intent */
   connectionIntent: ConnectionIntent;
   /** The connection status */
-  connectionStatus?: ConnectionStatus;
+  connectionStatus?: ConnectionStatus | undefined;
   /** The registration intent */
-  registrationStatus?: RegistrationStatus;
+  registrationStatus?: RegistrationStatus | undefined;
   /** The device version */
-  deviceVersion?: string;
+  deviceVersion?: string | undefined;
   /** The billing configuration */
-  billingConfiguration?: BillingConfiguration;
+  billingConfiguration?: BillingConfiguration | undefined;
   /** The benefit plans */
-  benefitPlans?: BenefitPlans;
+  benefitPlans?: BenefitPlans | undefined;
 }
 export interface DisconnectedOperationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DisconnectedOperationsCreateOrUpdateResponseTagsMap;
+  tags?: DisconnectedOperationsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: DisconnectedOperationProperties;
+  properties?: DisconnectedOperationProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Dynamic Configuration Properties */
 export interface DynamicConfigurationPropertiesInput {
@@ -1302,7 +1304,7 @@ export interface DynamicConfigurationsCreateOrUpdateRequest {
   /** Name of the dynamic configuration */
   dynamicConfigurationName: string;
   /** The resource-specific properties for this resource. */
-  properties?: DynamicConfigurationPropertiesInput;
+  properties?: DynamicConfigurationPropertiesInput | undefined;
 }
 /** Available configuration types */
 export type ConfigurationType = "Shared" | "Hierarchy";
@@ -1313,29 +1315,29 @@ export interface DynamicConfigurationProperties {
   /** Current Version of dynamic configuration */
   currentVersion: string;
   /** Display name of the dynamic configuration */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Type of dynamic configuration */
-  dynamicConfigurationType?: ConfigurationType;
+  dynamicConfigurationType?: ConfigurationType | undefined;
   /** Type of dynamic configuration model */
-  dynamicConfigurationModel?: ConfigurationModel;
+  dynamicConfigurationModel?: ConfigurationModel | undefined;
   /** Provisioning state of resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface DynamicConfigurationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DynamicConfigurationProperties;
+  properties?: DynamicConfigurationProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Dynamic Configuration Properties */
 export interface DynamicConfigurationVersionPropertiesInput {
@@ -1354,7 +1356,7 @@ export interface DynamicConfigurationVersionsCreateOrUpdateRequest {
   /** The name of the DynamicConfigurationVersion */
   dynamicConfigurationVersionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: DynamicConfigurationVersionPropertiesInput;
+  properties?: DynamicConfigurationVersionPropertiesInput | undefined;
 }
 /** Configuration State Enums */
 export type ConfigurationState = "ConfigurationCompleted" | "ConfigurationPending";
@@ -1363,31 +1365,31 @@ export interface DynamicConfigurationVersionProperties {
   /** Values of configuration version */
   values: unknown;
   /** Schema Id for configuration */
-  schemaId?: string;
+  schemaId?: string | undefined;
   /** Dynamic schema version Id for configuration */
-  dynamicSchemaVersionId?: string;
+  dynamicSchemaVersionId?: string | undefined;
   /** Display state */
-  displayState?: string;
+  displayState?: string | undefined;
   /** Configuration state */
-  state?: ConfigurationState;
+  state?: ConfigurationState | undefined;
   /** Provisioning state of resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface DynamicConfigurationVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DynamicConfigurationVersionProperties;
+  properties?: DynamicConfigurationVersionProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** DynamicSchema Properties */
 export type DynamicSchemaPropertiesInput = ConfigurationPropertiesInput;
@@ -1401,36 +1403,36 @@ export interface DynamicSchemasCreateOrUpdateRequest {
   /** The name of the DynamicSchema */
   dynamicSchemaName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationPropertiesInput;
+  properties?: ConfigurationPropertiesInput | undefined;
 }
 /** DynamicSchema Properties */
 export interface DynamicSchemaProperties {
   /** Display name of the dynamic schema */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Type of configuration */
-  configurationType?: ConfigurationType;
+  configurationType?: ConfigurationType | undefined;
   /** Type of configuration model */
-  configurationModel?: ConfigurationModel;
+  configurationModel?: ConfigurationModel | undefined;
   /** Provisioning state of resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface DynamicSchemasCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DynamicSchemaProperties;
+  properties?: DynamicSchemaProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DynamicSchemaVersionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1444,25 +1446,25 @@ export interface DynamicSchemaVersionsCreateOrUpdateRequest {
   /** The name of the DynamicSchemaVersion */
   dynamicSchemaVersionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaVersionPropertiesInput;
+  properties?: SchemaVersionPropertiesInput | undefined;
 }
 export interface DynamicSchemaVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaVersionProperties;
+  properties?: SchemaVersionProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Execution specification */
 export type ExecutionPropertiesInputSpecificationMap = { [key: string]: unknown | undefined };
@@ -1471,7 +1473,7 @@ export interface ExecutionPropertiesInput {
   /** Workflow version of execution */
   workflowVersionId: string;
   /** Execution specification */
-  specification?: ExecutionPropertiesInputSpecificationMap;
+  specification?: ExecutionPropertiesInputSpecificationMap | undefined;
 }
 export interface ExecutionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1487,9 +1489,9 @@ export interface ExecutionsCreateOrUpdateRequest {
   /** The name of the Execution. */
   executionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ExecutionPropertiesInput;
+  properties?: ExecutionPropertiesInput | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
 }
 /** Execution specification */
 export type ExecutionPropertiesSpecificationMap = { [key: string]: unknown | undefined };
@@ -1502,65 +1504,65 @@ export type StageStatusOutputsMap = { [key: string]: unknown | undefined };
 /** Result of Stage execution */
 export interface StageStatus {
   /** Deployment status */
-  status?: number;
+  status?: number | undefined;
   /** Status message */
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   /** Current stage */
-  stage?: string;
+  stage?: string | undefined;
   /** Next stage */
-  nextstage?: string;
+  nextstage?: string | undefined;
   /** Error message */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** whether this stage is active or inactive */
-  isActive?: ActiveState;
+  isActive?: ActiveState | undefined;
   /** The inputs of the StageHistory, Inputs holds a key-value map of user-defined parameters for the initial stage */
-  inputs?: StageStatusInputsMap;
+  inputs?: StageStatusInputsMap | undefined;
   /** The outputs of the StageHistory, it is different as the different input stages. */
-  outputs?: StageStatusOutputsMap;
+  outputs?: StageStatusOutputsMap | undefined;
 }
 /** target resource statuses */
 export type ExecutionStatusStageHistoryList = Array<StageStatus>;
 /** Execution Status */
 export interface ExecutionStatus {
   /** The lastModified timestamp of the Status */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Deployment status */
-  status?: number;
+  status?: number | undefined;
   /** status details */
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   /** target resource statuses */
-  stageHistory?: ExecutionStatusStageHistoryList;
+  stageHistory?: ExecutionStatusStageHistoryList | undefined;
 }
 /** Execution Properties */
 export interface ExecutionProperties {
   /** Workflow version of execution */
   workflowVersionId: string;
   /** Execution specification */
-  specification?: ExecutionPropertiesSpecificationMap;
+  specification?: ExecutionPropertiesSpecificationMap | undefined;
   /** Status of Execution */
-  status?: ExecutionStatus;
+  status?: ExecutionStatus | undefined;
   /** Provisioning state of resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface ExecutionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ExecutionProperties;
+  properties?: ExecutionProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetArtifactRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1577,7 +1579,7 @@ export interface GetArtifactRequest {
 /** The artifact properties */
 export interface ArtifactProperties {
   /** The resource provisioning state */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
   /** The artifact display order */
   artifactOrder: number;
   /** The artifact title */
@@ -1585,19 +1587,19 @@ export interface ArtifactProperties {
   /** The artifact description */
   description: string;
   /** The artifact size in MB */
-  size?: number;
+  size?: number | undefined;
 }
 export interface GetArtifactResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ArtifactProperties;
+  properties?: ArtifactProperties | undefined;
 }
 export interface GetConfigTemplateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1611,21 +1613,21 @@ export interface GetConfigTemplateRequest {
 export type GetConfigTemplateResponseTagsMap = { [key: string]: string | undefined };
 export interface GetConfigTemplateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetConfigTemplateResponseTagsMap;
+  tags?: GetConfigTemplateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigTemplateProperties;
+  properties?: ConfigTemplateProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetConfigTemplateMetadatasRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1639,17 +1641,17 @@ export interface GetConfigTemplateMetadatasRequest {
 }
 export interface GetConfigTemplateMetadatasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigTemplateMetadataProperties;
+  properties?: ConfigTemplateMetadataProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetConfigTemplateSchemaRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1666,25 +1668,25 @@ export interface GetConfigTemplateSchemaRequest {
 /** ConfigTemplateSchema Properties */
 export interface ConfigTemplateSchemaProperties {
   /** Value of schema */
-  value?: unknown;
+  value?: unknown | undefined;
   /** Unique identifier for the config template, generated by the system */
-  templateUniqueIdentifier?: string;
+  templateUniqueIdentifier?: string | undefined;
   /** Provisioning state of resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetConfigTemplateSchemaResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigTemplateSchemaProperties;
+  properties?: ConfigTemplateSchemaProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetConfigTemplateVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1698,17 +1700,17 @@ export interface GetConfigTemplateVersionRequest {
 }
 export interface GetConfigTemplateVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigTemplateVersionProperties;
+  properties?: ConfigTemplateVersionProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1722,19 +1724,19 @@ export interface GetConfigurationRequest {
 export type GetConfigurationResponseTagsMap = { [key: string]: string | undefined };
 export interface GetConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetConfigurationResponseTagsMap;
+  tags?: GetConfigurationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationProperties;
+  properties?: ConfigurationProperties | undefined;
 }
 export interface GetConfigurationReferenceRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -1744,15 +1746,15 @@ export interface GetConfigurationReferenceRequest {
 }
 export interface GetConfigurationReferenceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationReferenceProperties;
+  properties?: ConfigurationReferenceProperties | undefined;
 }
 export interface GetContextRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1766,19 +1768,19 @@ export interface GetContextRequest {
 export type GetContextResponseTagsMap = { [key: string]: string | undefined };
 export interface GetContextResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetContextResponseTagsMap;
+  tags?: GetContextResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ContextProperties;
+  properties?: ContextProperties | undefined;
 }
 export interface GetDiagnosticRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1792,23 +1794,23 @@ export interface GetDiagnosticRequest {
 export type GetDiagnosticResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDiagnosticResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetDiagnosticResponseTagsMap;
+  tags?: GetDiagnosticResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: DiagnosticProperties;
+  properties?: DiagnosticProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetDisconnectedOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1822,19 +1824,19 @@ export interface GetDisconnectedOperationRequest {
 export type GetDisconnectedOperationResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDisconnectedOperationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetDisconnectedOperationResponseTagsMap;
+  tags?: GetDisconnectedOperationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: DisconnectedOperationProperties;
+  properties?: DisconnectedOperationProperties | undefined;
 }
 export interface GetDynamicConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1848,15 +1850,15 @@ export interface GetDynamicConfigurationRequest {
 }
 export interface GetDynamicConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DynamicConfigurationProperties;
+  properties?: DynamicConfigurationProperties | undefined;
 }
 export interface GetDynamicConfigurationVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1872,15 +1874,15 @@ export interface GetDynamicConfigurationVersionRequest {
 }
 export interface GetDynamicConfigurationVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DynamicConfigurationVersionProperties;
+  properties?: DynamicConfigurationVersionProperties | undefined;
 }
 export interface GetDynamicSchemaRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1894,17 +1896,17 @@ export interface GetDynamicSchemaRequest {
 }
 export interface GetDynamicSchemaResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DynamicSchemaProperties;
+  properties?: DynamicSchemaProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetDynamicSchemaVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1920,17 +1922,17 @@ export interface GetDynamicSchemaVersionRequest {
 }
 export interface GetDynamicSchemaVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaVersionProperties;
+  properties?: SchemaVersionProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetExecutionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1948,19 +1950,19 @@ export interface GetExecutionRequest {
 }
 export interface GetExecutionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ExecutionProperties;
+  properties?: ExecutionProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetHardwareSettingsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1975,7 +1977,7 @@ export interface GetHardwareSettingsRequest {
 /** The hardware setting properties */
 export interface HardwareSettingProperties {
   /** The resource provisioning state */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
   /** The total number of cores */
   totalCores: number;
   /** The disk space in GB */
@@ -1997,15 +1999,15 @@ export interface HardwareSettingProperties {
 }
 export interface GetHardwareSettingsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: HardwareSettingProperties;
+  properties?: HardwareSettingProperties | undefined;
 }
 export interface GetHierarchyConfigurationMetadatasRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -2016,21 +2018,21 @@ export interface GetHierarchyConfigurationMetadatasRequest {
 /** Hierarchy Configuration Metadata Properties */
 export interface HierarchyConfigurationMetadataProperties {
   /** Display name of the hierarchy configuration metadata resource */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Configuration template Id */
-  configTemplateId?: string;
+  configTemplateId?: string | undefined;
 }
 export interface GetHierarchyConfigurationMetadatasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: HierarchyConfigurationMetadataProperties;
+  properties?: HierarchyConfigurationMetadataProperties | undefined;
 }
 export interface GetHierarchyConfigurationMetadataVersionRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -2045,27 +2047,27 @@ export type ConfigTemplateConfigurationState = "ConfigurationCompleted" | "Confi
 /** Hierarchy Configuration Metadata Version Properties */
 export interface HierarchyConfigurationMetadataVersionProperties {
   /** Display name of the hierarchy configuration metadata resource */
-  parentDisplayName?: string;
+  parentDisplayName?: string | undefined;
   /** Configuration template version Id */
-  configTemplateVersionId?: string;
+  configTemplateVersionId?: string | undefined;
   /** Schema Id for the config template version at the hierarchy */
-  schemaId?: string;
+  schemaId?: string | undefined;
   /** Dynamic Configuration Id for the config template version */
-  dynamicConfigurationVersionId?: string;
+  dynamicConfigurationVersionId?: string | undefined;
   /** Configuration status of the config template version */
-  configurationStatus?: ConfigTemplateConfigurationState;
+  configurationStatus?: ConfigTemplateConfigurationState | undefined;
 }
 export interface GetHierarchyConfigurationMetadataVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: HierarchyConfigurationMetadataVersionProperties;
+  properties?: HierarchyConfigurationMetadataVersionProperties | undefined;
 }
 export interface GetImageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2099,7 +2101,7 @@ export interface ImageUpdateProperties {
 /** The image properties */
 export interface ImageProperties {
   /** The resource provisioning state */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
   /** The version of the package in the format 1.1.1 */
   releaseVersion: string;
   /** The release name */
@@ -2111,21 +2113,21 @@ export interface ImageProperties {
   /** The release type */
   releaseType: ReleaseType;
   /** The versions that are compatible for this update package. */
-  compatibleVersions?: ImagePropertiesCompatibleVersionsList;
+  compatibleVersions?: ImagePropertiesCompatibleVersionsList | undefined;
   /** Image update properties for update release type image. */
-  updateProperties?: ImageUpdateProperties;
+  updateProperties?: ImageUpdateProperties | undefined;
 }
 export interface GetImageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ImageProperties;
+  properties?: ImageProperties | undefined;
 }
 export interface GetInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2151,41 +2153,41 @@ export interface ReconciliationPolicyProperties {
 /** Component Status */
 export interface ComponentStatus {
   /** Component name */
-  name?: string;
+  name?: string | undefined;
   /** Component status */
-  status?: string;
+  status?: string | undefined;
 }
 /** Component statuses */
 export type TargetStatusComponentStatusesList = Array<ComponentStatus>;
 /** Target Status */
 export interface TargetStatus {
   /** Target name */
-  name?: string;
+  name?: string | undefined;
   /** Target status */
-  status?: string;
+  status?: string | undefined;
   /** Component statuses */
-  componentStatuses?: TargetStatusComponentStatusesList;
+  componentStatuses?: TargetStatusComponentStatusesList | undefined;
 }
 /** Target resource statuses */
 export type DeploymentStatusTargetStatusesList = Array<TargetStatus>;
 /** Deployment Status */
 export interface DeploymentStatus {
   /** The lastModified of the Status */
-  lastModified?: string;
+  lastModified?: string | undefined;
   /** Indicates if Instance is deployed */
-  deployed?: number;
+  deployed?: number | undefined;
   /** The expected running job id */
-  expectedRunningJobId?: number;
+  expectedRunningJobId?: number | undefined;
   /** The running job id */
-  runningJobId?: number;
+  runningJobId?: number | undefined;
   /** Deployment status */
-  status?: string;
+  status?: string | undefined;
   /** Status details */
-  statusDetails?: string;
+  statusDetails?: string | undefined;
   /** Deployment Generation */
-  generation?: number;
+  generation?: number | undefined;
   /** Target resource statuses */
-  targetStatuses?: DeploymentStatusTargetStatusesList;
+  targetStatuses?: DeploymentStatusTargetStatusesList | undefined;
 }
 /** Instance Properties */
 export interface InstanceProperties {
@@ -2194,33 +2196,33 @@ export interface InstanceProperties {
   /** Target of instance */
   targetId: string;
   /** State of instance */
-  activeState?: ActiveState;
+  activeState?: ActiveState | undefined;
   /** Reconciliation policy of instance */
-  reconciliationPolicy?: ReconciliationPolicyProperties;
+  reconciliationPolicy?: ReconciliationPolicyProperties | undefined;
   /** Scope of instance */
-  solutionScope?: string;
+  solutionScope?: string | undefined;
   /** Status of instance */
-  status?: DeploymentStatus;
+  status?: DeploymentStatus | undefined;
   /** Deployment timestamp of instance */
-  deploymentTimestampEpoch?: number;
+  deploymentTimestampEpoch?: number | undefined;
   /** Provisioning state of resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: InstanceProperties;
+  properties?: InstanceProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetInstanceHistoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2241,20 +2243,20 @@ export type SolutionVersionSnapshotSpecificationMap = { [key: string]: unknown |
 /** Solution Version Snapshot */
 export interface SolutionVersionSnapshot {
   /** Solution version of instance */
-  solutionVersionId?: string;
+  solutionVersionId?: string | undefined;
   /** App components spec */
-  specification?: SolutionVersionSnapshotSpecificationMap;
+  specification?: SolutionVersionSnapshotSpecificationMap | undefined;
 }
 /** target spec */
 export type TargetSnapshotTargetSpecificationMap = { [key: string]: unknown | undefined };
 /** Target Snapshot */
 export interface TargetSnapshot {
   /** Target of instance */
-  targetId?: string;
+  targetId?: string | undefined;
   /** target spec */
-  targetSpecification?: TargetSnapshotTargetSpecificationMap;
+  targetSpecification?: TargetSnapshotTargetSpecificationMap | undefined;
   /** Scope of the target resource */
-  solutionScope?: string;
+  solutionScope?: string | undefined;
 }
 /** Instance History Properties */
 export interface InstanceHistoryProperties {
@@ -2263,31 +2265,31 @@ export interface InstanceHistoryProperties {
   /** Target of instance */
   target: TargetSnapshot;
   /** Scope of instance */
-  solutionScope?: string;
+  solutionScope?: string | undefined;
   /** State of instance */
-  activeState?: ActiveState;
+  activeState?: ActiveState | undefined;
   /** Reconciliation policy of instance */
-  reconciliationPolicy?: ReconciliationPolicyProperties;
+  reconciliationPolicy?: ReconciliationPolicyProperties | undefined;
   /** Deployment Status of instance */
-  status?: DeploymentStatus;
+  status?: DeploymentStatus | undefined;
   /** Provisioning state of resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetInstanceHistoryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: InstanceHistoryProperties;
+  properties?: InstanceHistoryProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetJobRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -2316,24 +2318,24 @@ export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** The error details. */
 export type JobStepErrorDetailsDetailsList = Array<ErrorDetail>;
@@ -2342,15 +2344,15 @@ export type JobStepErrorDetailsAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface JobStepErrorDetails {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: JobStepErrorDetailsDetailsList;
+  details?: JobStepErrorDetailsDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: JobStepErrorDetailsAdditionalInfoList;
+  additionalInfo?: JobStepErrorDetailsAdditionalInfoList | undefined;
 }
 /** Job Step */
 export interface JobStep {
@@ -2359,17 +2361,17 @@ export interface JobStep {
   /** Status of the step */
   status: JobStatus;
   /** Start time of the step (ISO8601) */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time of the step (ISO8601) */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Message for the step */
-  message?: string;
+  message?: string | undefined;
   /** Statistics for the step */
-  statistics?: JobStepStatisticsBase;
+  statistics?: JobStepStatisticsBase | undefined;
   /** Nested substeps for this step */
-  steps?: JobStepStepsList;
+  steps?: JobStepStepsList | undefined;
   /** The error detail. */
-  errorDetails?: JobStepErrorDetails;
+  errorDetails?: JobStepErrorDetails | undefined;
 }
 /** Steps and substatuses for the job. */
 export type JobPropertiesStepsList = Array<JobStep>;
@@ -2380,59 +2382,59 @@ export type JobPropertiesErrorDetailsAdditionalInfoList = Array<ErrorAdditionalI
 /** The error detail. */
 export interface JobPropertiesErrorDetails {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: JobPropertiesErrorDetailsDetailsList;
+  details?: JobPropertiesErrorDetailsDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: JobPropertiesErrorDetailsAdditionalInfoList;
+  additionalInfo?: JobPropertiesErrorDetailsAdditionalInfoList | undefined;
 }
 /** Additional metadata or properties. */
 export interface AdditionalData {
   /** Id of the workflow. */
-  workflowId?: string;
+  workflowId?: string | undefined;
 }
 /** Properties of a Job resource, including type, status, parameters, steps, and error details. */
 export interface JobProperties {
   /** The type of job. */
   jobType: JobType;
   /** Start time of the job (ISO8601). */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time of the job (ISO8601). */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Status of the job. */
   status: JobStatus;
   /** Parameters for the job. */
-  jobParameter?: JobParameterBase;
+  jobParameter?: JobParameterBase | undefined;
   /** Correlation ID for tracking. */
-  correlationId?: string;
+  correlationId?: string | undefined;
   /** Steps and substatuses for the job. */
-  steps?: JobPropertiesStepsList;
+  steps?: JobPropertiesStepsList | undefined;
   /** The OID or identity that triggered the job. */
-  triggeredBy?: string;
+  triggeredBy?: string | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The error detail. */
-  errorDetails?: JobPropertiesErrorDetails;
+  errorDetails?: JobPropertiesErrorDetails | undefined;
   /** Additional metadata or properties. */
-  additionalData?: AdditionalData;
+  additionalData?: AdditionalData | undefined;
 }
 export interface GetJobResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: JobProperties;
+  properties?: JobProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetSchemaRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2447,27 +2449,27 @@ export type GetSchemaResponseTagsMap = { [key: string]: string | undefined };
 /** Schema Properties */
 export interface SchemaProperties {
   /** Current Version of schema */
-  currentVersion?: string;
+  currentVersion?: string | undefined;
   /** Provisioning state of resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetSchemaResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSchemaResponseTagsMap;
+  tags?: GetSchemaResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaProperties;
+  properties?: SchemaProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetSchemaReferenceRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -2480,21 +2482,21 @@ export interface SchemaReferenceProperties {
   /** Schema Id of schema reference */
   schemaId: string;
   /** Provisioning state of resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetSchemaReferenceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaReferenceProperties;
+  properties?: SchemaReferenceProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetSchemaVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2508,17 +2510,17 @@ export interface GetSchemaVersionRequest {
 }
 export interface GetSchemaVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaVersionProperties;
+  properties?: SchemaVersionProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetSiteRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2531,44 +2533,44 @@ export interface GetSiteRequest {
 /** Site address properties */
 export interface SiteAddressProperties {
   /** First line of the street address */
-  streetAddress1?: string;
+  streetAddress1?: string | undefined;
   /** Second line of the street address */
-  streetAddress2?: string;
+  streetAddress2?: string | undefined;
   /** City of the address */
-  city?: string;
+  city?: string | undefined;
   /** State or province of the address */
-  stateOrProvince?: string;
+  stateOrProvince?: string | undefined;
   /** Country of the address */
-  country?: string;
+  country?: string | undefined;
   /** Postal or ZIP code of the address */
-  postalCode?: string;
+  postalCode?: string | undefined;
 }
 /** Key-value pairs for labeling the site resource. */
 export type SitePropertiesLabelsMap = { [key: string]: string | undefined };
 /** Site properties */
 export interface SiteProperties {
   /** displayName of Site resource */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Description of Site resource */
-  description?: string;
+  description?: string | undefined;
   /** Physical address of the site */
-  siteAddress?: SiteAddressProperties;
+  siteAddress?: SiteAddressProperties | undefined;
   /** Key-value pairs for labeling the site resource. */
-  labels?: SitePropertiesLabelsMap;
+  labels?: SitePropertiesLabelsMap | undefined;
   /** Provisioning state of last operation */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
 }
 export interface GetSiteResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SiteProperties;
+  properties?: SiteProperties | undefined;
 }
 export interface GetSiteReferenceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2585,19 +2587,19 @@ export interface SiteReferenceProperties {
   /** Azure Resource ID for Site */
   siteId: string;
   /** Provisioning State */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetSiteReferenceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SiteReferenceProperties;
+  properties?: SiteReferenceProperties | undefined;
 }
 export interface GetSitesByServiceGroupRequest {
   /** The name of the service group */
@@ -2607,15 +2609,15 @@ export interface GetSitesByServiceGroupRequest {
 }
 export interface GetSitesByServiceGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SiteProperties;
+  properties?: SiteProperties | undefined;
 }
 export interface GetSitesBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2625,15 +2627,15 @@ export interface GetSitesBySubscriptionRequest {
 }
 export interface GetSitesBySubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SiteProperties;
+  properties?: SiteProperties | undefined;
 }
 export interface GetSolutionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2660,29 +2662,31 @@ export type SolutionPropertiesAvailableSolutionTemplateVersionsList =
 /** Solution Properties */
 export interface SolutionProperties {
   /** Solution template Id */
-  solutionTemplateId?: string;
+  solutionTemplateId?: string | undefined;
   /** Display name of the solution */
-  displayName?: string;
+  displayName?: string | undefined;
   /** List of latest revisions for available solution template versions */
-  availableSolutionTemplateVersions?: SolutionPropertiesAvailableSolutionTemplateVersionsList;
+  availableSolutionTemplateVersions?:
+    | SolutionPropertiesAvailableSolutionTemplateVersionsList
+    | undefined;
   /** Provisioning state of resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetSolutionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionProperties;
+  properties?: SolutionProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetSolutionMetadatasRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -2693,25 +2697,25 @@ export interface GetSolutionMetadatasRequest {
 /** Solution Metadata Properties */
 export interface SolutionMetadataProperties {
   /** Display name of the solution metadata resource */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Solution template Id */
-  solutionTemplateId?: string;
+  solutionTemplateId?: string | undefined;
   /** Latest solution template version */
-  latestVersion?: string;
+  latestVersion?: string | undefined;
   /** Current solution template version */
-  currentVersion?: string;
+  currentVersion?: string | undefined;
 }
 export interface GetSolutionMetadatasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionMetadataProperties;
+  properties?: SolutionMetadataProperties | undefined;
 }
 export interface GetSolutionMetadataVersionRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -2724,27 +2728,27 @@ export interface GetSolutionMetadataVersionRequest {
 /** Solution Metadata Version Properties */
 export interface SolutionMetadataVersionProperties {
   /** Display name of the solution metadata resource */
-  parentDisplayName?: string;
+  parentDisplayName?: string | undefined;
   /** Solution template version Id */
-  solutionTemplateVersionId?: string;
+  solutionTemplateVersionId?: string | undefined;
   /** Schema Id for the solution template version at the hierarchy */
-  schemaId?: string;
+  schemaId?: string | undefined;
   /** Dynamic Configuration Id for the solution template version */
-  dynamicConfigurationVersionId?: string;
+  dynamicConfigurationVersionId?: string | undefined;
   /** Configuration status of the solution template version */
-  configurationStatus?: ConfigurationState;
+  configurationStatus?: ConfigurationState | undefined;
 }
 export interface GetSolutionMetadataVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionMetadataVersionProperties;
+  properties?: SolutionMetadataVersionProperties | undefined;
 }
 export interface GetSolutionSchemaRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2761,27 +2765,27 @@ export interface GetSolutionSchemaRequest {
 /** SolutionSchema Properties */
 export interface SolutionSchemaProperties {
   /** Value of schema */
-  value?: unknown;
+  value?: unknown | undefined;
   /** Hierarchy Level */
-  level?: string;
+  level?: string | undefined;
   /** Unique identifier for the solution template, generated by the system */
-  templateUniqueIdentifier?: string;
+  templateUniqueIdentifier?: string | undefined;
   /** Provisioning state of resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetSolutionSchemaResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionSchemaProperties;
+  properties?: SolutionSchemaProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetSolutionTemplateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2798,37 +2802,37 @@ export type SolutionTemplatePropertiesCapabilitiesList = Array<string>;
 /** Solution Template Properties */
 export interface SolutionTemplateProperties {
   /** A unique identifier for the solution template, generated by the system */
-  uniqueIdentifier?: string;
+  uniqueIdentifier?: string | undefined;
   /** Description of Solution template */
   description: string;
   /** List of capabilities */
   capabilities: SolutionTemplatePropertiesCapabilitiesList;
   /** Latest solution template version */
-  latestVersion?: string;
+  latestVersion?: string | undefined;
   /** State of resource */
-  state?: ResourceState;
+  state?: ResourceState | undefined;
   /** Flag to enable external validation */
-  enableExternalValidation?: boolean;
+  enableExternalValidation?: boolean | undefined;
   /** Provisioning state of resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetSolutionTemplateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSolutionTemplateResponseTagsMap;
+  tags?: GetSolutionTemplateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionTemplateProperties;
+  properties?: SolutionTemplateProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetSolutionTemplateVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2842,17 +2846,17 @@ export interface GetSolutionTemplateVersionRequest {
 }
 export interface GetSolutionTemplateVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionTemplateVersionProperties;
+  properties?: SolutionTemplateVersionProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetSolutionVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2904,11 +2908,11 @@ export interface StageMap {
   /** Stage status */
   status: StateCategory;
   /** Stage start time */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Stage end time */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Child stages which represents more granular level stage status if any */
-  childStages?: StageMapChildStagesList;
+  childStages?: StageMapChildStagesList | undefined;
 }
 /** Stages of revision */
 export type SolutionVersionPropertiesStagesList = Array<StageMap>;
@@ -2919,13 +2923,13 @@ export interface SolutionDependency {
   /** Solution Version Id */
   solutionVersionId: string;
   /** Solution Instance Name */
-  solutionInstanceName?: string;
+  solutionInstanceName?: string | undefined;
   /** Solution Template Version Id */
   solutionTemplateVersionId: string;
   /** Target Id */
   targetId: string;
   /** Solution dependencies */
-  dependencies?: SolutionDependencyDependenciesList;
+  dependencies?: SolutionDependencyDependenciesList | undefined;
 }
 /** Solution Dependency Context */
 export type SolutionVersionPropertiesSolutionDependenciesList = Array<SolutionDependency>;
@@ -2936,70 +2940,70 @@ export type SolutionVersionPropertiesErrorDetailsAdditionalInfoList = Array<Erro
 /** The error detail. */
 export interface SolutionVersionPropertiesErrorDetails {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: SolutionVersionPropertiesErrorDetailsDetailsList;
+  details?: SolutionVersionPropertiesErrorDetailsDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: SolutionVersionPropertiesErrorDetailsAdditionalInfoList;
+  additionalInfo?: SolutionVersionPropertiesErrorDetailsAdditionalInfoList | undefined;
 }
 /** Solution Version Properties */
 export interface SolutionVersionProperties {
   /** Solution Template Version Id */
-  solutionTemplateVersionId?: string;
+  solutionTemplateVersionId?: string | undefined;
   /** Revision number of resolved config for this solution version */
-  revision?: number;
+  revision?: number | undefined;
   /** Name of applicable target's display name */
-  targetDisplayName?: string;
+  targetDisplayName?: string | undefined;
   /** Resolved configuration values */
-  configuration?: unknown;
+  configuration?: unknown | undefined;
   /** Configuration on the line level across all solution template versions */
-  targetLevelConfiguration?: unknown;
+  targetLevelConfiguration?: unknown | undefined;
   /** App components spec */
   specification: SolutionVersionPropertiesSpecificationMap;
   /** Review id of resolved config for this solution version */
-  reviewId?: string;
+  reviewId?: string | undefined;
   /** External validation id */
-  externalValidationId?: string;
+  externalValidationId?: string | undefined;
   /** State of solution instance */
-  state?: State;
+  state?: State | undefined;
   /** Current Stage of revision */
-  currentStage?: StageMap;
+  currentStage?: StageMap | undefined;
   /** Stages of revision */
-  stages?: SolutionVersionPropertiesStagesList;
+  stages?: SolutionVersionPropertiesStagesList | undefined;
   /** Solution instance name */
-  solutionInstanceName?: string;
+  solutionInstanceName?: string | undefined;
   /** Solution Dependency Context */
-  solutionDependencies?: SolutionVersionPropertiesSolutionDependenciesList;
+  solutionDependencies?: SolutionVersionPropertiesSolutionDependenciesList | undefined;
   /** The error detail. */
-  errorDetails?: SolutionVersionPropertiesErrorDetails;
+  errorDetails?: SolutionVersionPropertiesErrorDetails | undefined;
   /** The URI for tracking the latest action performed on this solution version. */
-  latestActionTrackingUri?: string;
+  latestActionTrackingUri?: string | undefined;
   /** Object Id of user who triggered the latest action on this solution version. */
-  latestActionTriggeredBy?: string;
+  latestActionTriggeredBy?: string | undefined;
   /** The type of the latest action performed on this solution version. */
-  actionType?: JobType;
+  actionType?: JobType | undefined;
   /** Provisioning state of resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetSolutionVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionVersionProperties;
+  properties?: SolutionVersionProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetTargetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3024,39 +3028,39 @@ export interface TargetProperties {
   /** ArmId of Context */
   contextId: string;
   /** target spec */
-  targetSpecification?: TargetPropertiesTargetSpecificationMap;
+  targetSpecification?: TargetPropertiesTargetSpecificationMap | undefined;
   /** List of capabilities */
   capabilities: TargetPropertiesCapabilitiesList;
   /** Hierarchy Level */
   hierarchyLevel: string;
   /** Status of target */
-  status?: DeploymentStatus;
+  status?: DeploymentStatus | undefined;
   /** Scope of the target resource */
-  solutionScope?: string;
+  solutionScope?: string | undefined;
   /** State of resource */
-  state?: ResourceState;
+  state?: ResourceState | undefined;
   /** Provisioning state of resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetTargetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetTargetResponseTagsMap;
+  tags?: GetTargetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: TargetProperties;
+  properties?: TargetProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
 }
 export interface GetWorkflowRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3071,25 +3075,25 @@ export interface GetWorkflowRequest {
 /** Workflow Properties */
 export interface WorkflowProperties {
   /** Workflow template Id */
-  workflowTemplateId?: string;
+  workflowTemplateId?: string | undefined;
   /** Provisioning state of resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetWorkflowResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: WorkflowProperties;
+  properties?: WorkflowProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetWorkflowVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3112,7 +3116,7 @@ export interface TaskSpec {
   /** Name of Task */
   name: string;
   /** Target ARM id */
-  targetId?: string;
+  targetId?: string | undefined;
   /** Task specification */
   specification: TaskSpecSpecificationMap;
 }
@@ -3123,27 +3127,27 @@ export type ErrorActionMode = "stopOnAnyFailure" | "stopOnNFailures" | "silently
 /** Error Action Properties */
 export interface ErrorAction {
   /** Error action mode */
-  mode?: ErrorActionMode | (string & {});
+  mode?: ErrorActionMode | (string & {}) | undefined;
   /** Max tolerated failures */
-  maxToleratedFailures?: number;
+  maxToleratedFailures?: number | undefined;
 }
 /** Task Option Properties */
 export interface TaskOption {
   /** Parallel worker numbers of the tasks */
-  concurrency?: number;
+  concurrency?: number | undefined;
   /** Error action for the tasks */
-  errorAction?: ErrorAction;
+  errorAction?: ErrorAction | undefined;
 }
 /** Stage Properties */
 export interface StageSpec {
   /** Name of Stage */
   name: string;
   /** Stage specification */
-  specification?: StageSpecSpecificationMap;
+  specification?: StageSpecSpecificationMap | undefined;
   /** List of tasks in the stage */
-  tasks?: StageSpecTasksList;
+  tasks?: StageSpecTasksList | undefined;
   /** Task option for the stage */
-  taskOption?: TaskOption;
+  taskOption?: TaskOption | undefined;
 }
 /** A list of stage specs */
 export type WorkflowVersionPropertiesStageSpecList = Array<StageSpec>;
@@ -3152,35 +3156,35 @@ export type WorkflowVersionPropertiesSpecificationMap = { [key: string]: unknown
 /** Workflow Version Properties */
 export interface WorkflowVersionProperties {
   /** Revision number of resolved config for this workflow version */
-  revision?: number;
+  revision?: number | undefined;
   /** Resolved configuration values */
-  configuration?: string;
+  configuration?: string | undefined;
   /** A list of stage specs */
   stageSpec: WorkflowVersionPropertiesStageSpecList;
   /** Review id of resolved config for this workflow version */
-  reviewId?: string;
+  reviewId?: string | undefined;
   /** State of workflow version */
-  state?: State;
+  state?: State | undefined;
   /** Execution specification */
-  specification?: WorkflowVersionPropertiesSpecificationMap;
+  specification?: WorkflowVersionPropertiesSpecificationMap | undefined;
   /** Provisioning state of resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetWorkflowVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: WorkflowVersionProperties;
+  properties?: WorkflowVersionProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The hardware setting properties */
 export interface HardwareSettingPropertiesInput {
@@ -3213,23 +3217,23 @@ export interface HardwareSettingsCreateOrUpdateRequest {
   /** The name of the HardwareSetting */
   hardwareSettingName: string;
   /** The resource-specific properties for this resource. */
-  properties?: HardwareSettingPropertiesInput;
+  properties?: HardwareSettingPropertiesInput | undefined;
 }
 export interface HardwareSettingsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: HardwareSettingProperties;
+  properties?: HardwareSettingProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ImagesListDownloadUriRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3246,7 +3250,7 @@ export type ImageDownloadResultCompatibleVersionsList = Array<string>;
 /** The image download properties */
 export interface ImageDownloadResult {
   /** The resource provisioning state */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
   /** The version of the package in the format 1.1.1 */
   releaseVersion: string;
   /** The release name */
@@ -3258,9 +3262,9 @@ export interface ImageDownloadResult {
   /** The release type */
   releaseType: ReleaseType;
   /** The versions that are compatible for this update package. */
-  compatibleVersions?: ImageDownloadResultCompatibleVersionsList;
+  compatibleVersions?: ImageDownloadResultCompatibleVersionsList | undefined;
   /** Image update properties for update release type image. */
-  updateProperties?: ImageUpdateProperties;
+  updateProperties?: ImageUpdateProperties | undefined;
   /** The unique identifier of the download */
   transactionId: string;
   /** The download URI */
@@ -3280,9 +3284,9 @@ export interface InstallTargetSolutionRequest {
 }
 export interface InstallTargetSolutionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Instance Properties */
 export interface InstancePropertiesInput {
@@ -3291,11 +3295,11 @@ export interface InstancePropertiesInput {
   /** Target of instance */
   targetId: string;
   /** State of instance */
-  activeState?: ActiveState | (string & {});
+  activeState?: ActiveState | (string & {}) | undefined;
   /** Reconciliation policy of instance */
-  reconciliationPolicy?: ReconciliationPolicyProperties;
+  reconciliationPolicy?: ReconciliationPolicyProperties | undefined;
   /** Scope of instance */
-  solutionScope?: string;
+  solutionScope?: string | undefined;
 }
 export interface InstancesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3309,29 +3313,29 @@ export interface InstancesCreateOrUpdateRequest {
   /** Name of the instance */
   instanceName: string;
   /** The resource-specific properties for this resource. */
-  properties?: InstancePropertiesInput;
+  properties?: InstancePropertiesInput | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
 }
 export interface InstancesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: InstanceProperties;
+  properties?: InstanceProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ListArtifactByParentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3346,15 +3350,15 @@ export interface ListArtifactByParentRequest {
 /** Disconnected operations artifact resource. */
 export interface Artifact {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ArtifactProperties;
+  properties?: ArtifactProperties | undefined;
 }
 /** The Artifact items on this page */
 export type ArtifactListResultValueList = Array<Artifact>;
@@ -3363,7 +3367,7 @@ export interface ArtifactListResult {
   /** The Artifact items on this page */
   value: ArtifactListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConfigTemplateByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3376,21 +3380,21 @@ export type ConfigTemplateTagsMap = { [key: string]: string | undefined };
 /** Config Template Resource. Contains configuration expressions using the predefined expression language. */
 export interface ConfigTemplate {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ConfigTemplateTagsMap;
+  tags?: ConfigTemplateTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigTemplateProperties;
+  properties?: ConfigTemplateProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The ConfigTemplate items on this page */
 export type ConfigTemplateListResultValueList = Array<ConfigTemplate>;
@@ -3399,7 +3403,7 @@ export interface ConfigTemplateListResult {
   /** The ConfigTemplate items on this page */
   value: ConfigTemplateListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConfigTemplateBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3416,17 +3420,17 @@ export interface ListConfigTemplateMetadatasByConfigTemplateRequest {
 /** ConfigTemplateMetadata Resource */
 export interface ConfigTemplateMetadata {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigTemplateMetadataProperties;
+  properties?: ConfigTemplateMetadataProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The ConfigTemplateMetadata items on this page */
 export type ConfigTemplateMetadataListResultValueList = Array<ConfigTemplateMetadata>;
@@ -3435,7 +3439,7 @@ export interface ConfigTemplateMetadataListResult {
   /** The ConfigTemplateMetadata items on this page */
   value: ConfigTemplateMetadataListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConfigTemplateSchemaByConfigTemplateVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3450,17 +3454,17 @@ export interface ListConfigTemplateSchemaByConfigTemplateVersionRequest {
 /** SolutionSchema Resource */
 export interface ConfigTemplateSchema {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigTemplateSchemaProperties;
+  properties?: ConfigTemplateSchemaProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The ConfigTemplateSchema items on this page */
 export type ConfigTemplateSchemaListResultValueList = Array<ConfigTemplateSchema>;
@@ -3469,7 +3473,7 @@ export interface ConfigTemplateSchemaListResult {
   /** The ConfigTemplateSchema items on this page */
   value: ConfigTemplateSchemaListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConfigTemplateVersionByConfigTemplateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3482,17 +3486,17 @@ export interface ListConfigTemplateVersionByConfigTemplateRequest {
 /** Config Template Version Resource */
 export interface ConfigTemplateVersion {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigTemplateVersionProperties;
+  properties?: ConfigTemplateVersionProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The ConfigTemplateVersion items on this page */
 export type ConfigTemplateVersionListResultValueList = Array<ConfigTemplateVersion>;
@@ -3501,7 +3505,7 @@ export interface ConfigTemplateVersionListResult {
   /** The ConfigTemplateVersion items on this page */
   value: ConfigTemplateVersionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConfigurationByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3514,19 +3518,19 @@ export type ConfigurationTagsMap = { [key: string]: string | undefined };
 /** Configuration Resource */
 export interface Configuration {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ConfigurationTagsMap;
+  tags?: ConfigurationTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationProperties;
+  properties?: ConfigurationProperties | undefined;
 }
 /** The Configuration items on this page */
 export type ConfigurationListResultValueList = Array<Configuration>;
@@ -3535,7 +3539,7 @@ export interface ConfigurationListResult {
   /** The Configuration items on this page */
   value: ConfigurationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConfigurationBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3548,15 +3552,15 @@ export interface ListConfigurationReferencesRequest {
 /** ConfigurationReference Resource */
 export interface ConfigurationReference {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationReferenceProperties;
+  properties?: ConfigurationReferenceProperties | undefined;
 }
 /** The ConfigurationReference items on this page */
 export type ConfigurationReferenceListResultValueList = Array<ConfigurationReference>;
@@ -3565,7 +3569,7 @@ export interface ConfigurationReferenceListResult {
   /** The ConfigurationReference items on this page */
   value: ConfigurationReferenceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContextByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3578,19 +3582,19 @@ export type ContextTagsMap = { [key: string]: string | undefined };
 /** Context Resource */
 export interface Context {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ContextTagsMap;
+  tags?: ContextTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ContextProperties;
+  properties?: ContextProperties | undefined;
 }
 /** The Context items on this page */
 export type ContextListResultValueList = Array<Context>;
@@ -3599,7 +3603,7 @@ export interface ContextListResult {
   /** The Context items on this page */
   value: ContextListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContextBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3616,23 +3620,23 @@ export type DiagnosticTagsMap = { [key: string]: string | undefined };
 /** A Diagnostic resource. */
 export interface Diagnostic {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DiagnosticTagsMap;
+  tags?: DiagnosticTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: DiagnosticProperties;
+  properties?: DiagnosticProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The Diagnostic items on this page */
 export type DiagnosticListResultValueList = Array<Diagnostic>;
@@ -3641,7 +3645,7 @@ export interface DiagnosticListResult {
   /** The Diagnostic items on this page */
   value: DiagnosticListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDiagnosticBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3658,19 +3662,19 @@ export type DisconnectedOperationTagsMap = { [key: string]: string | undefined }
 /** Disconnected operation resource. */
 export interface DisconnectedOperation {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DisconnectedOperationTagsMap;
+  tags?: DisconnectedOperationTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: DisconnectedOperationProperties;
+  properties?: DisconnectedOperationProperties | undefined;
 }
 /** The DisconnectedOperation items on this page */
 export type DisconnectedOperationListResultValueList = Array<DisconnectedOperation>;
@@ -3679,7 +3683,7 @@ export interface DisconnectedOperationListResult {
   /** The DisconnectedOperation items on this page */
   value: DisconnectedOperationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDisconnectedOperationBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3708,11 +3712,11 @@ export interface DisconnectedOperationDeploymentManifest {
   /** The connection intent */
   connectionIntent: ConnectionIntent;
   /** The cloud in which the resource is registered */
-  cloud?: string;
+  cloud?: string | undefined;
   /** The billing configuration */
-  billingConfiguration?: BillingConfiguration;
+  billingConfiguration?: BillingConfiguration | undefined;
   /** The benefit plans */
-  benefitPlans?: BenefitPlans;
+  benefitPlans?: BenefitPlans | undefined;
 }
 export interface ListDynamicConfigurationByConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3725,15 +3729,15 @@ export interface ListDynamicConfigurationByConfigurationRequest {
 /** Dynamic Configuration Resource */
 export interface DynamicConfiguration {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DynamicConfigurationProperties;
+  properties?: DynamicConfigurationProperties | undefined;
 }
 /** The DynamicConfiguration items on this page */
 export type DynamicConfigurationListResultValueList = Array<DynamicConfiguration>;
@@ -3742,7 +3746,7 @@ export interface DynamicConfigurationListResult {
   /** The DynamicConfiguration items on this page */
   value: DynamicConfigurationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDynamicConfigurationVersionByDynamicConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3757,15 +3761,15 @@ export interface ListDynamicConfigurationVersionByDynamicConfigurationRequest {
 /** Dynamic Configuration Resource */
 export interface DynamicConfigurationVersion {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DynamicConfigurationVersionProperties;
+  properties?: DynamicConfigurationVersionProperties | undefined;
 }
 /** The DynamicConfigurationVersion items on this page */
 export type DynamicConfigurationVersionListResultValueList = Array<DynamicConfigurationVersion>;
@@ -3774,7 +3778,7 @@ export interface DynamicConfigurationVersionListResult {
   /** The DynamicConfigurationVersion items on this page */
   value: DynamicConfigurationVersionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDynamicSchemaBySchemaRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3787,17 +3791,17 @@ export interface ListDynamicSchemaBySchemaRequest {
 /** DynamicSchema Resource */
 export interface DynamicSchema {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DynamicSchemaProperties;
+  properties?: DynamicSchemaProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The DynamicSchema items on this page */
 export type DynamicSchemaListResultValueList = Array<DynamicSchema>;
@@ -3806,7 +3810,7 @@ export interface DynamicSchemaListResult {
   /** The DynamicSchema items on this page */
   value: DynamicSchemaListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDynamicSchemaVersionByDynamicSchemaRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3821,17 +3825,17 @@ export interface ListDynamicSchemaVersionByDynamicSchemaRequest {
 /** Dynamic Schema Version Resource */
 export interface DynamicSchemaVersion {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaVersionProperties;
+  properties?: SchemaVersionProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The DynamicSchemaVersion items on this page */
 export type DynamicSchemaVersionListResultValueList = Array<DynamicSchemaVersion>;
@@ -3840,7 +3844,7 @@ export interface DynamicSchemaVersionListResult {
   /** The DynamicSchemaVersion items on this page */
   value: DynamicSchemaVersionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListExecutionByWorkflowVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3857,19 +3861,19 @@ export interface ListExecutionByWorkflowVersionRequest {
 /** Execution Resource */
 export interface Execution {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ExecutionProperties;
+  properties?: ExecutionProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The Execution items on this page */
 export type ExecutionListResultValueList = Array<Execution>;
@@ -3878,7 +3882,7 @@ export interface ExecutionListResult {
   /** The Execution items on this page */
   value: ExecutionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListHardwareSettingsByParentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3891,15 +3895,15 @@ export interface ListHardwareSettingsByParentRequest {
 /** Hardware settings resource. */
 export interface HardwareSetting {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: HardwareSettingProperties;
+  properties?: HardwareSettingProperties | undefined;
 }
 /** The HardwareSetting items on this page */
 export type HardwareSettingListResultValueList = Array<HardwareSetting>;
@@ -3908,7 +3912,7 @@ export interface HardwareSettingListResult {
   /** The HardwareSetting items on this page */
   value: HardwareSettingListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListHierarchyConfigurationMetadatasByParentRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -3917,15 +3921,15 @@ export interface ListHierarchyConfigurationMetadatasByParentRequest {
 /** Hierarchy Configuration Metadata Resource attached to a Target or Site */
 export interface HierarchyConfigurationMetadata {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: HierarchyConfigurationMetadataProperties;
+  properties?: HierarchyConfigurationMetadataProperties | undefined;
 }
 /** The HierarchyConfigurationMetadata items on this page */
 export type HierarchyConfigurationMetadataListResultValueList =
@@ -3935,7 +3939,7 @@ export interface HierarchyConfigurationMetadataListResult {
   /** The HierarchyConfigurationMetadata items on this page */
   value: HierarchyConfigurationMetadataListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListHierarchyConfigurationMetadataVersionByParentRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -3946,15 +3950,15 @@ export interface ListHierarchyConfigurationMetadataVersionByParentRequest {
 /** Configuration Metadata Version Resource */
 export interface HierarchyConfigurationMetadataVersion {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: HierarchyConfigurationMetadataVersionProperties;
+  properties?: HierarchyConfigurationMetadataVersionProperties | undefined;
 }
 /** The HierarchyConfigurationMetadataVersion items on this page */
 export type HierarchyConfigurationMetadataVersionListResultValueList =
@@ -3964,7 +3968,7 @@ export interface HierarchyConfigurationMetadataVersionListResult {
   /** The HierarchyConfigurationMetadataVersion items on this page */
   value: HierarchyConfigurationMetadataVersionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListImageByDisconnectedOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3974,24 +3978,24 @@ export interface ListImageByDisconnectedOperationRequest {
   /** Name of the resource */
   name: string;
   /** Filter the result list using the given expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of result items to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** The number of result items to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Holds the release information of a disconnected operations image. */
 export interface Image {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ImageProperties;
+  properties?: ImageProperties | undefined;
 }
 /** The Image items on this page */
 export type ImageListResultValueList = Array<Image>;
@@ -4000,7 +4004,7 @@ export interface ImageListResult {
   /** The Image items on this page */
   value: ImageListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListInstanceBySolutionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4015,19 +4019,19 @@ export interface ListInstanceBySolutionRequest {
 /** Instance Resource. Represents a deployment object. */
 export interface Instance {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: InstanceProperties;
+  properties?: InstanceProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The Instance items on this page */
 export type InstanceListResultValueList = Array<Instance>;
@@ -4036,7 +4040,7 @@ export interface InstanceListResult {
   /** The Instance items on this page */
   value: InstanceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListInstanceHistoryByInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4053,19 +4057,19 @@ export interface ListInstanceHistoryByInstanceRequest {
 /** InstanceHistory Resource */
 export interface InstanceHistory {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: InstanceHistoryProperties;
+  properties?: InstanceHistoryProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The InstanceHistory items on this page */
 export type InstanceHistoryListResultValueList = Array<InstanceHistory>;
@@ -4074,7 +4078,7 @@ export interface InstanceHistoryListResult {
   /** The InstanceHistory items on this page */
   value: InstanceHistoryListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListJobByTargetRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -4083,17 +4087,17 @@ export interface ListJobByTargetRequest {
 /** Job extension resource for tracking job execution and substatuses. */
 export interface Job {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: JobProperties;
+  properties?: JobProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The Job items on this page */
 export type JobListResultValueList = Array<Job>;
@@ -4102,19 +4106,19 @@ export interface JobListResult {
   /** The Job items on this page */
   value: JobListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -4123,23 +4127,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSchemaByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4152,21 +4156,21 @@ export type SchemaTagsMap = { [key: string]: string | undefined };
 /** Schema Resource */
 export interface Schema {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SchemaTagsMap;
+  tags?: SchemaTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaProperties;
+  properties?: SchemaProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The Schema items on this page */
 export type SchemaListResultValueList = Array<Schema>;
@@ -4175,7 +4179,7 @@ export interface SchemaListResult {
   /** The Schema items on this page */
   value: SchemaListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSchemaBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4188,17 +4192,17 @@ export interface ListSchemaReferenceByResourceGroupRequest {
 /** Schema Reference Resource */
 export interface SchemaReference {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaReferenceProperties;
+  properties?: SchemaReferenceProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The SchemaReference items on this page */
 export type SchemaReferenceListResultValueList = Array<SchemaReference>;
@@ -4207,7 +4211,7 @@ export interface SchemaReferenceListResult {
   /** The SchemaReference items on this page */
   value: SchemaReferenceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSchemaVersionBySchemaRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4226,7 +4230,7 @@ export interface SchemaVersionListResult {
   /** The SchemaVersion items on this page */
   value: SchemaVersionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSiteByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4237,15 +4241,15 @@ export interface ListSiteByResourceGroupRequest {
 /** Site as Extension Resource */
 export interface Site {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SiteProperties;
+  properties?: SiteProperties | undefined;
 }
 /** The Site items on this page */
 export type SiteListResultValueList = Array<Site>;
@@ -4254,7 +4258,7 @@ export interface SiteListResult {
   /** The Site items on this page */
   value: SiteListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSiteReferenceByContextRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4267,15 +4271,15 @@ export interface ListSiteReferenceByContextRequest {
 /** Site Reference Resource */
 export interface SiteReference {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SiteReferenceProperties;
+  properties?: SiteReferenceProperties | undefined;
 }
 /** The SiteReference items on this page */
 export type SiteReferenceListResultValueList = Array<SiteReference>;
@@ -4284,7 +4288,7 @@ export interface SiteReferenceListResult {
   /** The SiteReference items on this page */
   value: SiteReferenceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSitesByServiceGroupByServiceGroupRequest {
   /** The name of the service group */
@@ -4305,19 +4309,19 @@ export interface ListSolutionByTargetRequest {
 /** Solution Resource attached to a Target */
 export interface Solution {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionProperties;
+  properties?: SolutionProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The Solution items on this page */
 export type SolutionListResultValueList = Array<Solution>;
@@ -4326,7 +4330,7 @@ export interface SolutionListResult {
   /** The Solution items on this page */
   value: SolutionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSolutionMetadatasByParentRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -4335,15 +4339,15 @@ export interface ListSolutionMetadatasByParentRequest {
 /** Solution Metadata Resource attached to a Target or Site */
 export interface SolutionMetadata {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionMetadataProperties;
+  properties?: SolutionMetadataProperties | undefined;
 }
 /** The SolutionMetadata items on this page */
 export type SolutionMetadataListResultValueList = Array<SolutionMetadata>;
@@ -4352,7 +4356,7 @@ export interface SolutionMetadataListResult {
   /** The SolutionMetadata items on this page */
   value: SolutionMetadataListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSolutionMetadataVersionByParentRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -4363,15 +4367,15 @@ export interface ListSolutionMetadataVersionByParentRequest {
 /** Solution Metadata Version Resource */
 export interface SolutionMetadataVersion {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionMetadataVersionProperties;
+  properties?: SolutionMetadataVersionProperties | undefined;
 }
 /** The SolutionMetadataVersion items on this page */
 export type SolutionMetadataVersionListResultValueList = Array<SolutionMetadataVersion>;
@@ -4380,7 +4384,7 @@ export interface SolutionMetadataVersionListResult {
   /** The SolutionMetadataVersion items on this page */
   value: SolutionMetadataVersionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSolutionSchemaBySolutionTemplateVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4395,17 +4399,17 @@ export interface ListSolutionSchemaBySolutionTemplateVersionRequest {
 /** SolutionSchema Resource */
 export interface SolutionSchema {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionSchemaProperties;
+  properties?: SolutionSchemaProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The SolutionSchema items on this page */
 export type SolutionSchemaListResultValueList = Array<SolutionSchema>;
@@ -4414,7 +4418,7 @@ export interface SolutionSchemaListResult {
   /** The SolutionSchema items on this page */
   value: SolutionSchemaListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSolutionTemplateByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4427,21 +4431,21 @@ export type SolutionTemplateTagsMap = { [key: string]: string | undefined };
 /** Solution Template Resource. Contains capabilities and operations for creating versions. */
 export interface SolutionTemplate {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SolutionTemplateTagsMap;
+  tags?: SolutionTemplateTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionTemplateProperties;
+  properties?: SolutionTemplateProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The SolutionTemplate items on this page */
 export type SolutionTemplateListResultValueList = Array<SolutionTemplate>;
@@ -4450,7 +4454,7 @@ export interface SolutionTemplateListResult {
   /** The SolutionTemplate items on this page */
   value: SolutionTemplateListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSolutionTemplateBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4467,17 +4471,17 @@ export interface ListSolutionTemplateVersionBySolutionTemplateRequest {
 /** Solution Template Version Resource. Contains configurations that use expressions which can be resolved hierarchically along with edge specifications. */
 export interface SolutionTemplateVersion {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionTemplateVersionProperties;
+  properties?: SolutionTemplateVersionProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The SolutionTemplateVersion items on this page */
 export type SolutionTemplateVersionListResultValueList = Array<SolutionTemplateVersion>;
@@ -4486,7 +4490,7 @@ export interface SolutionTemplateVersionListResult {
   /** The SolutionTemplateVersion items on this page */
   value: SolutionTemplateVersionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSolutionVersionBySolutionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4501,19 +4505,19 @@ export interface ListSolutionVersionBySolutionRequest {
 /** Solution Version Resource. It has the resolved configuration along with edge specification. */
 export interface SolutionVersion {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionVersionProperties;
+  properties?: SolutionVersionProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The SolutionVersion items on this page */
 export type SolutionVersionListResultValueList = Array<SolutionVersion>;
@@ -4522,7 +4526,7 @@ export interface SolutionVersionListResult {
   /** The SolutionVersion items on this page */
   value: SolutionVersionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTargetByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4535,23 +4539,23 @@ export type TargetTagsMap = { [key: string]: string | undefined };
 /** Target Resource. Represents a resource to be deployed on the edge. */
 export interface Target {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: TargetTagsMap;
+  tags?: TargetTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: TargetProperties;
+  properties?: TargetProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
 }
 /** The Target items on this page */
 export type TargetListResultValueList = Array<Target>;
@@ -4560,7 +4564,7 @@ export interface TargetListResult {
   /** The Target items on this page */
   value: TargetListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTargetBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4577,19 +4581,19 @@ export interface ListWorkflowByContextRequest {
 /** Workflow Resource */
 export interface Workflow {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: WorkflowProperties;
+  properties?: WorkflowProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The Workflow items on this page */
 export type WorkflowListResultValueList = Array<Workflow>;
@@ -4598,7 +4602,7 @@ export interface WorkflowListResult {
   /** The Workflow items on this page */
   value: WorkflowListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkflowVersionByWorkflowRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4613,19 +4617,19 @@ export interface ListWorkflowVersionByWorkflowRequest {
 /** Workflow Version Resource */
 export interface WorkflowVersion {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: WorkflowVersionProperties;
+  properties?: WorkflowVersionProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The WorkflowVersion items on this page */
 export type WorkflowVersionListResultValueList = Array<WorkflowVersion>;
@@ -4634,7 +4638,7 @@ export interface WorkflowVersionListResult {
   /** The WorkflowVersion items on this page */
   value: WorkflowVersionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface PublishTargetSolutionVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4648,23 +4652,23 @@ export interface PublishTargetSolutionVersionRequest {
 }
 export interface PublishTargetSolutionVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionVersionProperties;
+  properties?: SolutionVersionProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RemoveConfigTemplateVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4703,9 +4707,9 @@ export interface RemoveSolutionTemplateVersionRequest {
 }
 export interface RemoveSolutionTemplateVersionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RemoveTargetRevisionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4721,9 +4725,9 @@ export interface RemoveTargetRevisionRequest {
 }
 export interface RemoveTargetRevisionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Solution Dependencies */
 export type ReviewTargetSolutionVersionRequestSolutionDependenciesList =
@@ -4738,29 +4742,29 @@ export interface ReviewTargetSolutionVersionRequest {
   /** Solution Template Version ARM Id */
   solutionTemplateVersionId: string;
   /** Solution Instance Name */
-  solutionInstanceName?: string;
+  solutionInstanceName?: string | undefined;
   /** Solution Dependencies */
-  solutionDependencies?: ReviewTargetSolutionVersionRequestSolutionDependenciesList;
+  solutionDependencies?: ReviewTargetSolutionVersionRequestSolutionDependenciesList | undefined;
 }
 export interface ReviewTargetSolutionVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionVersionProperties;
+  properties?: SolutionVersionProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Schema Reference Properties */
 export interface SchemaReferencePropertiesInput {
@@ -4773,25 +4777,25 @@ export interface SchemaReferencesCreateOrUpdateRequest {
   /** The name of the SchemaReference */
   schemaReferenceName: string;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaReferencePropertiesInput;
+  properties?: SchemaReferencePropertiesInput | undefined;
 }
 export interface SchemaReferencesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaReferenceProperties;
+  properties?: SchemaReferenceProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type SchemasCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -4805,35 +4809,35 @@ export interface SchemasCreateOrUpdateRequest {
   /** The name of the Schema */
   schemaName: string;
   /** Resource tags. */
-  tags?: SchemasCreateOrUpdateRequestTagsMap;
+  tags?: SchemasCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationPropertiesInput;
+  properties?: ConfigurationPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type SchemasCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface SchemasCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SchemasCreateOrUpdateResponseTagsMap;
+  tags?: SchemasCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaProperties;
+  properties?: SchemaProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface SchemaVersionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4845,25 +4849,25 @@ export interface SchemaVersionsCreateOrUpdateRequest {
   /** The name of the SchemaVersion */
   schemaVersionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaVersionPropertiesInput;
+  properties?: SchemaVersionPropertiesInput | undefined;
 }
 export interface SchemaVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaVersionProperties;
+  properties?: SchemaVersionProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Site Reference Properties */
 export interface SiteReferencePropertiesInput {
@@ -4880,36 +4884,36 @@ export interface SiteReferencesCreateOrUpdateRequest {
   /** The name of the SiteReference */
   siteReferenceName: string;
   /** The resource-specific properties for this resource. */
-  properties?: SiteReferencePropertiesInput;
+  properties?: SiteReferencePropertiesInput | undefined;
 }
 export interface SiteReferencesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SiteReferenceProperties;
+  properties?: SiteReferenceProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Key-value pairs for labeling the site resource. */
 export type SitePropertiesInputLabelsMap = { [key: string]: string | undefined };
 /** Site properties */
 export interface SitePropertiesInput {
   /** displayName of Site resource */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Description of Site resource */
-  description?: string;
+  description?: string | undefined;
   /** Physical address of the site */
-  siteAddress?: SiteAddressProperties;
+  siteAddress?: SiteAddressProperties | undefined;
   /** Key-value pairs for labeling the site resource. */
-  labels?: SitePropertiesInputLabelsMap;
+  labels?: SitePropertiesInputLabelsMap | undefined;
 }
 export interface SitesByServiceGroupCreateOrUpdateRequest {
   /** The name of the service group */
@@ -4917,23 +4921,23 @@ export interface SitesByServiceGroupCreateOrUpdateRequest {
   /** The name of the Site */
   siteName: string;
   /** The resource-specific properties for this resource. */
-  properties?: SitePropertiesInput;
+  properties?: SitePropertiesInput | undefined;
 }
 export interface SitesByServiceGroupCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SiteProperties;
+  properties?: SiteProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface SitesBySubscriptionCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4941,23 +4945,23 @@ export interface SitesBySubscriptionCreateOrUpdateRequest {
   /** The name of the Site */
   siteName: string;
   /** The resource-specific properties for this resource. */
-  properties?: SitePropertiesInput;
+  properties?: SitePropertiesInput | undefined;
 }
 export interface SitesBySubscriptionCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SiteProperties;
+  properties?: SiteProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface SitesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4967,23 +4971,23 @@ export interface SitesCreateOrUpdateRequest {
   /** The name of the Site */
   siteName: string;
   /** The resource-specific properties for this resource. */
-  properties?: SitePropertiesInput;
+  properties?: SitePropertiesInput | undefined;
 }
 export interface SitesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SiteProperties;
+  properties?: SiteProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Solution Properties */
 export type SolutionPropertiesInput = ConfigurationPropertiesInput;
@@ -4997,29 +5001,29 @@ export interface SolutionsCreateOrUpdateRequest {
   /** Name of the solution */
   solutionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationPropertiesInput;
+  properties?: ConfigurationPropertiesInput | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
 }
 export interface SolutionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionProperties;
+  properties?: SolutionProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type SolutionTemplatesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -5032,9 +5036,9 @@ export interface SolutionTemplatePropertiesInput {
   /** List of capabilities */
   capabilities: SolutionTemplatePropertiesInputCapabilitiesList;
   /** State of resource */
-  state?: ResourceState | (string & {});
+  state?: ResourceState | (string & {}) | undefined;
   /** Flag to enable external validation */
-  enableExternalValidation?: boolean;
+  enableExternalValidation?: boolean | undefined;
 }
 export interface SolutionTemplatesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5044,35 +5048,35 @@ export interface SolutionTemplatesCreateOrUpdateRequest {
   /** The name of the SolutionTemplate */
   solutionTemplateName: string;
   /** Resource tags. */
-  tags?: SolutionTemplatesCreateOrUpdateRequestTagsMap;
+  tags?: SolutionTemplatesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionTemplatePropertiesInput;
+  properties?: SolutionTemplatePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type SolutionTemplatesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface SolutionTemplatesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SolutionTemplatesCreateOrUpdateResponseTagsMap;
+  tags?: SolutionTemplatesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionTemplateProperties;
+  properties?: SolutionTemplateProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Bulk deploy target details */
 export interface BulkDeployTargetDetails {
@@ -5096,9 +5100,9 @@ export interface SolutionTemplateVersionsBulkDeploySolutionRequest {
 }
 export interface SolutionTemplateVersionsBulkDeploySolutionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Solution dependencies */
 export type BulkPublishTargetDetailsSolutionDependenciesList = Array<SolutionDependencyParameter>;
@@ -5107,13 +5111,13 @@ export interface BulkPublishTargetDetails {
   /** ArmId of Target */
   targetId: string;
   /** Solution dependencies */
-  solutionDependencies?: BulkPublishTargetDetailsSolutionDependenciesList;
+  solutionDependencies?: BulkPublishTargetDetailsSolutionDependenciesList | undefined;
   /** Name of the solution instance */
-  solutionInstanceName?: string;
+  solutionInstanceName?: string | undefined;
   /** ArmId of Target Solution Version */
-  solutionVersionId?: string;
+  solutionVersionId?: string | undefined;
   /** Configuration of solution */
-  solutionConfiguration?: string;
+  solutionConfiguration?: string | undefined;
 }
 /** Targets to which solution needs to be published */
 export type SolutionTemplateVersionsBulkPublishSolutionRequestTargetsList =
@@ -5133,17 +5137,19 @@ export interface SolutionTemplateVersionsBulkPublishSolutionRequest {
   /** Targets to which solution needs to be published */
   targets: SolutionTemplateVersionsBulkPublishSolutionRequestTargetsList;
   /** Name of the solution instance */
-  solutionInstanceName?: string;
+  solutionInstanceName?: string | undefined;
   /** Solution dependencies */
-  solutionDependencies?: SolutionTemplateVersionsBulkPublishSolutionRequestSolutionDependenciesList;
+  solutionDependencies?:
+    | SolutionTemplateVersionsBulkPublishSolutionRequestSolutionDependenciesList
+    | undefined;
   /** Configuration of solution */
-  solutionConfiguration?: string;
+  solutionConfiguration?: string | undefined;
 }
 export interface SolutionTemplateVersionsBulkPublishSolutionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface SolutionTemplateVersionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5155,25 +5161,25 @@ export interface SolutionTemplateVersionsCreateOrUpdateRequest {
   /** The name of the SolutionTemplateVersion */
   solutionTemplateVersionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionTemplateVersionPropertiesInput;
+  properties?: SolutionTemplateVersionPropertiesInput | undefined;
 }
 export interface SolutionTemplateVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionTemplateVersionProperties;
+  properties?: SolutionTemplateVersionProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** App components spec */
 export type SolutionVersionPropertiesInputSpecificationMap = { [key: string]: unknown | undefined };
@@ -5184,7 +5190,7 @@ export interface SolutionVersionPropertiesInput {
   /** App components spec */
   specification: SolutionVersionPropertiesInputSpecificationMap;
   /** The error detail. */
-  errorDetails?: ConfigurationPropertiesInput;
+  errorDetails?: ConfigurationPropertiesInput | undefined;
 }
 export interface SolutionVersionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5198,29 +5204,29 @@ export interface SolutionVersionsCreateOrUpdateRequest {
   /** Name of the solution version */
   solutionVersionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionVersionPropertiesInput;
+  properties?: SolutionVersionPropertiesInput | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
 }
 export interface SolutionVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionVersionProperties;
+  properties?: SolutionVersionProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type TargetsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -5237,15 +5243,15 @@ export interface TargetPropertiesInput {
   /** ArmId of Context */
   contextId: string;
   /** target spec */
-  targetSpecification?: TargetPropertiesInputTargetSpecificationMap;
+  targetSpecification?: TargetPropertiesInputTargetSpecificationMap | undefined;
   /** List of capabilities */
   capabilities: TargetPropertiesInputCapabilitiesList;
   /** Hierarchy Level */
   hierarchyLevel: string;
   /** Scope of the target resource */
-  solutionScope?: string;
+  solutionScope?: string | undefined;
   /** State of resource */
-  state?: ResourceState | (string & {});
+  state?: ResourceState | (string & {}) | undefined;
 }
 export interface TargetsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5255,39 +5261,39 @@ export interface TargetsCreateOrUpdateRequest {
   /** Name of the target */
   targetName: string;
   /** Resource tags. */
-  tags?: TargetsCreateOrUpdateRequestTagsMap;
+  tags?: TargetsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: TargetPropertiesInput;
+  properties?: TargetPropertiesInput | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
 }
 /** Resource tags. */
 export type TargetsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface TargetsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: TargetsCreateOrUpdateResponseTagsMap;
+  tags?: TargetsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: TargetProperties;
+  properties?: TargetProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Solution Dependencies */
 export type TargetsResolveConfigurationRequestSolutionDependenciesList =
@@ -5302,18 +5308,18 @@ export interface TargetsResolveConfigurationRequest {
   /** Solution Template Version ARM Id */
   solutionTemplateVersionId: string;
   /** Solution Instance Name */
-  solutionInstanceName?: string;
+  solutionInstanceName?: string | undefined;
   /** Solution Dependencies */
-  solutionDependencies?: TargetsResolveConfigurationRequestSolutionDependenciesList;
+  solutionDependencies?: TargetsResolveConfigurationRequestSolutionDependenciesList | undefined;
 }
 /** Resolved Configuration */
 export interface ResolvedConfiguration {
   /** Resolved Configuration as string */
   configuration: string;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface TargetsUnstageSolutionVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5327,23 +5333,23 @@ export interface TargetsUnstageSolutionVersionRequest {
 }
 export interface TargetsUnstageSolutionVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionVersionProperties;
+  properties?: SolutionVersionProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UninstallTargetSolutionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5355,20 +5361,20 @@ export interface UninstallTargetSolutionRequest {
   /** Solution Template ARM Id */
   solutionTemplateId: string;
   /** Solution Instance Name */
-  solutionInstanceName?: string;
+  solutionInstanceName?: string | undefined;
 }
 export interface UninstallTargetSolutionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateConfigTemplateRequestTagsMap = { [key: string]: string | undefined };
 /** The updatable properties of the ConfigTemplate. */
 export interface ConfigTemplateUpdateProperties {
   /** Description of config template */
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateConfigTemplateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5378,29 +5384,29 @@ export interface UpdateConfigTemplateRequest {
   /** The name of the ConfigTemplate */
   configTemplateName: string;
   /** Resource tags. */
-  tags?: UpdateConfigTemplateRequestTagsMap;
+  tags?: UpdateConfigTemplateRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigTemplateUpdateProperties;
+  properties?: ConfigTemplateUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateConfigTemplateResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateConfigTemplateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateConfigTemplateResponseTagsMap;
+  tags?: UpdateConfigTemplateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigTemplateProperties;
+  properties?: ConfigTemplateProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Hierarchy ARM Ids */
 export type ConfigTemplateMetadataUpdatePropertiesLinkedHierarchiesList = Array<HierarchyMetadata>;
@@ -5410,11 +5416,11 @@ export type ConfigTemplateMetadataUpdatePropertiesUnLinkedHierarchiesList =
 /** The updatable properties of the ConfigTemplateMetadata. */
 export interface ConfigTemplateMetadataUpdateProperties {
   /** ArmId of Context */
-  contextId?: string;
+  contextId?: string | undefined;
   /** Hierarchy ARM Ids */
-  linkedHierarchies?: ConfigTemplateMetadataUpdatePropertiesLinkedHierarchiesList;
+  linkedHierarchies?: ConfigTemplateMetadataUpdatePropertiesLinkedHierarchiesList | undefined;
   /** Hierarchy ARM Ids */
-  unLinkedHierarchies?: ConfigTemplateMetadataUpdatePropertiesUnLinkedHierarchiesList;
+  unLinkedHierarchies?: ConfigTemplateMetadataUpdatePropertiesUnLinkedHierarchiesList | undefined;
 }
 export interface UpdateConfigTemplateMetadatasRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5426,30 +5432,30 @@ export interface UpdateConfigTemplateMetadatasRequest {
   /** The name of the ConfigTemplateMetadataProperties */
   configTemplateMetadataName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigTemplateMetadataUpdateProperties;
+  properties?: ConfigTemplateMetadataUpdateProperties | undefined;
 }
 export interface UpdateConfigTemplateMetadatasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigTemplateMetadataProperties;
+  properties?: ConfigTemplateMetadataProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Config Template Version Properties */
 export interface ConfigTemplateVersionPropertiesUpdate {
   /** Configuration values */
-  configurations?: unknown;
+  configurations?: unknown | undefined;
 }
 export interface UpdateConfigTemplateVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5461,21 +5467,21 @@ export interface UpdateConfigTemplateVersionRequest {
   /** The name of the ConfigTemplateVersion */
   configTemplateVersionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigTemplateVersionPropertiesUpdate;
+  properties?: ConfigTemplateVersionPropertiesUpdate | undefined;
 }
 export interface UpdateConfigTemplateVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigTemplateVersionProperties;
+  properties?: ConfigTemplateVersionProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateConfigurationRequestTagsMap = { [key: string]: string | undefined };
@@ -5487,27 +5493,27 @@ export interface UpdateConfigurationRequest {
   /** Name of the Configuration */
   configurationName: string;
   /** Resource tags. */
-  tags?: UpdateConfigurationRequestTagsMap;
+  tags?: UpdateConfigurationRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationPropertiesInput;
+  properties?: ConfigurationPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateConfigurationResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateConfigurationResponseTagsMap;
+  tags?: UpdateConfigurationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationProperties;
+  properties?: ConfigurationProperties | undefined;
 }
 export interface UpdateConfigurationReferenceRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -5515,19 +5521,19 @@ export interface UpdateConfigurationReferenceRequest {
   /** The name of the ConfigurationReference */
   configurationReferenceName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationReferencePropertiesInput;
+  properties?: ConfigurationReferencePropertiesInput | undefined;
 }
 export interface UpdateConfigurationReferenceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationReferenceProperties;
+  properties?: ConfigurationReferenceProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateContextRequestTagsMap = { [key: string]: string | undefined };
@@ -5538,9 +5544,9 @@ export type ContextUpdatePropertiesHierarchiesList = Array<Hierarchy>;
 /** The updatable properties of the Context. */
 export interface ContextUpdateProperties {
   /** List of Capabilities */
-  capabilities?: ContextUpdatePropertiesCapabilitiesList;
+  capabilities?: ContextUpdatePropertiesCapabilitiesList | undefined;
   /** List of Hierarchies */
-  hierarchies?: ContextUpdatePropertiesHierarchiesList;
+  hierarchies?: ContextUpdatePropertiesHierarchiesList | undefined;
 }
 export interface UpdateContextRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5550,31 +5556,31 @@ export interface UpdateContextRequest {
   /** The name of the Context. */
   contextName: string;
   /** Resource tags. */
-  tags?: UpdateContextRequestTagsMap;
+  tags?: UpdateContextRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ContextUpdateProperties;
+  properties?: ContextUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateContextResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateContextResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateContextResponseTagsMap;
+  tags?: UpdateContextResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ContextProperties;
+  properties?: ContextProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The updatable properties of the Diagnostic. */
 export type DiagnosticUpdatePropertiesInput = ConfigurationPropertiesInput;
@@ -5588,66 +5594,66 @@ export interface UpdateDiagnosticRequest {
   /** Name of Diagnostic. */
   diagnosticName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationPropertiesInput;
+  properties?: ConfigurationPropertiesInput | undefined;
   /** Resource tags. */
-  tags?: UpdateDiagnosticRequestTagsMap;
+  tags?: UpdateDiagnosticRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateDiagnosticResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateDiagnosticResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateDiagnosticResponseTagsMap;
+  tags?: UpdateDiagnosticResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: DiagnosticProperties;
+  properties?: DiagnosticProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateDisconnectedOperationRequestTagsMap = { [key: string]: string | undefined };
 /** The billing period */
 export interface BillingPeriodUpdate {
   /** The number of cores */
-  cores?: number;
+  cores?: number | undefined;
   /** The pricing model */
-  pricingModel?: PricingModel | (string & {});
+  pricingModel?: PricingModel | (string & {}) | undefined;
 }
 /** The billing configuration */
 export interface BillingConfigurationUpdate {
   /** The auto renew setting */
-  autoRenew?: AutoRenew | (string & {});
+  autoRenew?: AutoRenew | (string & {}) | undefined;
   /** The current billing configuration */
-  current?: BillingPeriodUpdate;
+  current?: BillingPeriodUpdate | undefined;
   /** The upcoming billing configuration */
-  upcoming?: BillingPeriodUpdate;
+  upcoming?: BillingPeriodUpdate | undefined;
 }
 /** The updatable properties of the DisconnectedOperation. */
 export interface DisconnectedOperationUpdateProperties {
   /** The connection intent */
-  connectionIntent?: ConnectionIntent | (string & {});
+  connectionIntent?: ConnectionIntent | (string & {}) | undefined;
   /** The registration intent */
-  registrationStatus?: RegistrationStatus | (string & {});
+  registrationStatus?: RegistrationStatus | (string & {}) | undefined;
   /** The device version */
-  deviceVersion?: string;
+  deviceVersion?: string | undefined;
   /** The billing configuration */
-  billingConfiguration?: BillingConfigurationUpdate;
+  billingConfiguration?: BillingConfigurationUpdate | undefined;
   /** The benefit plans */
-  benefitPlans?: BenefitPlans;
+  benefitPlans?: BenefitPlans | undefined;
 }
 export interface UpdateDisconnectedOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5657,32 +5663,32 @@ export interface UpdateDisconnectedOperationRequest {
   /** Name of the resource */
   name: string;
   /** Resource tags. */
-  tags?: UpdateDisconnectedOperationRequestTagsMap;
+  tags?: UpdateDisconnectedOperationRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DisconnectedOperationUpdateProperties;
+  properties?: DisconnectedOperationUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateDisconnectedOperationResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateDisconnectedOperationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateDisconnectedOperationResponseTagsMap;
+  tags?: UpdateDisconnectedOperationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: DisconnectedOperationProperties;
+  properties?: DisconnectedOperationProperties | undefined;
 }
 /** Dynamic Configuration Properties */
 export interface DynamicConfigurationPropertiesUpdate {
   /** Current Version of dynamic configuration */
-  currentVersion?: string;
+  currentVersion?: string | undefined;
 }
 export interface UpdateDynamicConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5694,24 +5700,24 @@ export interface UpdateDynamicConfigurationRequest {
   /** Name of the dynamic configuration */
   dynamicConfigurationName: string;
   /** The resource-specific properties for this resource. */
-  properties?: DynamicConfigurationPropertiesUpdate;
+  properties?: DynamicConfigurationPropertiesUpdate | undefined;
 }
 export interface UpdateDynamicConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DynamicConfigurationProperties;
+  properties?: DynamicConfigurationProperties | undefined;
 }
 /** Dynamic Configuration Properties */
 export interface DynamicConfigurationVersionPropertiesUpdate {
   /** Values of configuration version */
-  values?: unknown;
+  values?: unknown | undefined;
 }
 export interface UpdateDynamicConfigurationVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5725,19 +5731,19 @@ export interface UpdateDynamicConfigurationVersionRequest {
   /** The name of the DynamicConfigurationVersion */
   dynamicConfigurationVersionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: DynamicConfigurationVersionPropertiesUpdate;
+  properties?: DynamicConfigurationVersionPropertiesUpdate | undefined;
 }
 export interface UpdateDynamicConfigurationVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DynamicConfigurationVersionProperties;
+  properties?: DynamicConfigurationVersionProperties | undefined;
 }
 export interface UpdateDynamicSchemaRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5749,26 +5755,26 @@ export interface UpdateDynamicSchemaRequest {
   /** The name of the DynamicSchema */
   dynamicSchemaName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationPropertiesInput;
+  properties?: ConfigurationPropertiesInput | undefined;
 }
 export interface UpdateDynamicSchemaResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DynamicSchemaProperties;
+  properties?: DynamicSchemaProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Schema Version Properties */
 export interface SchemaVersionPropertiesUpdate {
   /** Value of schema version */
-  value?: unknown;
+  value?: unknown | undefined;
 }
 export interface UpdateDynamicSchemaVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5782,30 +5788,30 @@ export interface UpdateDynamicSchemaVersionRequest {
   /** The name of the DynamicSchemaVersion */
   dynamicSchemaVersionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaVersionPropertiesUpdate;
+  properties?: SchemaVersionPropertiesUpdate | undefined;
 }
 export interface UpdateDynamicSchemaVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaVersionProperties;
+  properties?: SchemaVersionProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Execution specification */
 export type ExecutionPropertiesUpdateSpecificationMap = { [key: string]: unknown | undefined };
 /** Execution Properties */
 export interface ExecutionPropertiesUpdate {
   /** Workflow version of execution */
-  workflowVersionId?: string;
+  workflowVersionId?: string | undefined;
   /** Execution specification */
-  specification?: ExecutionPropertiesUpdateSpecificationMap;
+  specification?: ExecutionPropertiesUpdateSpecificationMap | undefined;
 }
 export interface UpdateExecutionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5821,47 +5827,47 @@ export interface UpdateExecutionRequest {
   /** The name of the Execution. */
   executionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ExecutionPropertiesUpdate;
+  properties?: ExecutionPropertiesUpdate | undefined;
 }
 export interface UpdateExecutionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ExecutionProperties;
+  properties?: ExecutionProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Defines a ReconciliationPolicy */
 export interface ReconciliationPolicyPropertiesUpdate {
   /** The state of the ReconciliationPolicy */
-  state?: ReconciliationState | (string & {});
+  state?: ReconciliationState | (string & {}) | undefined;
   /** Policy interval */
-  interval?: string;
+  interval?: string | undefined;
 }
 /** Instance Properties */
 export interface InstancePropertiesUpdate {
   /** Solution version of instance */
-  solutionVersionId?: string;
+  solutionVersionId?: string | undefined;
   /** Target of instance */
-  targetId?: string;
+  targetId?: string | undefined;
   /** State of instance */
-  activeState?: ActiveState | (string & {});
+  activeState?: ActiveState | (string & {}) | undefined;
   /** Reconciliation policy of instance */
-  reconciliationPolicy?: ReconciliationPolicyPropertiesUpdate;
+  reconciliationPolicy?: ReconciliationPolicyPropertiesUpdate | undefined;
   /** Scope of instance */
-  solutionScope?: string;
+  solutionScope?: string | undefined;
 }
 export interface UpdateInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5875,27 +5881,27 @@ export interface UpdateInstanceRequest {
   /** Name of the instance */
   instanceName: string;
   /** The resource-specific properties for this resource. */
-  properties?: InstancePropertiesUpdate;
+  properties?: InstancePropertiesUpdate | undefined;
 }
 export interface UpdateInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: InstanceProperties;
+  properties?: InstanceProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The updatable properties of the Schema. */
 export type SchemaUpdatePropertiesInput = ConfigurationPropertiesInput;
@@ -5909,34 +5915,34 @@ export interface UpdateSchemaRequest {
   /** The name of the Schema */
   schemaName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationPropertiesInput;
+  properties?: ConfigurationPropertiesInput | undefined;
   /** Resource tags. */
-  tags?: UpdateSchemaRequestTagsMap;
+  tags?: UpdateSchemaRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateSchemaResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSchemaResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSchemaResponseTagsMap;
+  tags?: UpdateSchemaResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaProperties;
+  properties?: SchemaProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Schema Reference Properties */
 export interface SchemaReferencePropertiesUpdate {
   /** Schema Id of schema reference */
-  schemaId?: string;
+  schemaId?: string | undefined;
 }
 export interface UpdateSchemaReferenceRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -5944,21 +5950,21 @@ export interface UpdateSchemaReferenceRequest {
   /** The name of the SchemaReference */
   schemaReferenceName: string;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaReferencePropertiesUpdate;
+  properties?: SchemaReferencePropertiesUpdate | undefined;
 }
 export interface UpdateSchemaReferenceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaReferenceProperties;
+  properties?: SchemaReferenceProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface UpdateSchemaVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5970,34 +5976,34 @@ export interface UpdateSchemaVersionRequest {
   /** The name of the SchemaVersion */
   schemaVersionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaVersionPropertiesUpdate;
+  properties?: SchemaVersionPropertiesUpdate | undefined;
 }
 export interface UpdateSchemaVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaVersionProperties;
+  properties?: SchemaVersionProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Key-value pairs for labeling the site resource. */
 export type SiteUpdatePropertiesLabelsMap = { [key: string]: string | undefined };
 /** The updatable properties of the Site. */
 export interface SiteUpdateProperties {
   /** displayName of Site resource */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Description of Site resource */
-  description?: string;
+  description?: string | undefined;
   /** Physical address of the site */
-  siteAddress?: SiteAddressProperties;
+  siteAddress?: SiteAddressProperties | undefined;
   /** Key-value pairs for labeling the site resource. */
-  labels?: SiteUpdatePropertiesLabelsMap;
+  labels?: SiteUpdatePropertiesLabelsMap | undefined;
 }
 export interface UpdateSiteRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6007,24 +6013,24 @@ export interface UpdateSiteRequest {
   /** The name of the Site */
   siteName: string;
   /** The updatable properties of the Site. */
-  properties?: SiteUpdateProperties;
+  properties?: SiteUpdateProperties | undefined;
 }
 export interface UpdateSiteResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SiteProperties;
+  properties?: SiteProperties | undefined;
 }
 /** Site Reference Properties */
 export interface SiteReferencePropertiesUpdate {
   /** Azure Resource ID for Site */
-  siteId?: string;
+  siteId?: string | undefined;
 }
 export interface UpdateSiteReferenceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6036,23 +6042,23 @@ export interface UpdateSiteReferenceRequest {
   /** The name of the SiteReference */
   siteReferenceName: string;
   /** The resource-specific properties for this resource. */
-  properties?: SiteReferencePropertiesUpdate;
+  properties?: SiteReferencePropertiesUpdate | undefined;
 }
 export interface UpdateSiteReferenceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SiteReferenceProperties;
+  properties?: SiteReferenceProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateSitesByServiceGroupRequest {
   /** The name of the service group */
@@ -6060,19 +6066,19 @@ export interface UpdateSitesByServiceGroupRequest {
   /** The name of the Site */
   siteName: string;
   /** The updatable properties of the Site. */
-  properties?: SiteUpdateProperties;
+  properties?: SiteUpdateProperties | undefined;
 }
 export interface UpdateSitesByServiceGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SiteProperties;
+  properties?: SiteProperties | undefined;
 }
 export interface UpdateSitesBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6080,19 +6086,19 @@ export interface UpdateSitesBySubscriptionRequest {
   /** The name of the Site */
   siteName: string;
   /** The updatable properties of the Site. */
-  properties?: SiteUpdateProperties;
+  properties?: SiteUpdateProperties | undefined;
 }
 export interface UpdateSitesBySubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SiteProperties;
+  properties?: SiteProperties | undefined;
 }
 /** The updatable properties of the Solution. */
 export type SolutionUpdatePropertiesInput = ConfigurationPropertiesInput;
@@ -6106,27 +6112,27 @@ export interface UpdateSolutionRequest {
   /** Name of the solution */
   solutionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationPropertiesInput;
+  properties?: ConfigurationPropertiesInput | undefined;
 }
 export interface UpdateSolutionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionProperties;
+  properties?: SolutionProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateSolutionTemplateRequestTagsMap = { [key: string]: string | undefined };
@@ -6135,13 +6141,13 @@ export type SolutionTemplateUpdatePropertiesCapabilitiesList = Array<string>;
 /** The updatable properties of the SolutionTemplate. */
 export interface SolutionTemplateUpdateProperties {
   /** Description of Solution template */
-  description?: string;
+  description?: string | undefined;
   /** List of capabilities */
-  capabilities?: SolutionTemplateUpdatePropertiesCapabilitiesList;
+  capabilities?: SolutionTemplateUpdatePropertiesCapabilitiesList | undefined;
   /** State of resource */
-  state?: ResourceState | (string & {});
+  state?: ResourceState | (string & {}) | undefined;
   /** Flag to enable external validation */
-  enableExternalValidation?: boolean;
+  enableExternalValidation?: boolean | undefined;
 }
 export interface UpdateSolutionTemplateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6151,29 +6157,29 @@ export interface UpdateSolutionTemplateRequest {
   /** The name of the SolutionTemplate */
   solutionTemplateName: string;
   /** Resource tags. */
-  tags?: UpdateSolutionTemplateRequestTagsMap;
+  tags?: UpdateSolutionTemplateRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionTemplateUpdateProperties;
+  properties?: SolutionTemplateUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateSolutionTemplateResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSolutionTemplateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSolutionTemplateResponseTagsMap;
+  tags?: UpdateSolutionTemplateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionTemplateProperties;
+  properties?: SolutionTemplateProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** App components spec */
 export type SolutionTemplateVersionPropertiesUpdateSpecificationMap = {
@@ -6182,11 +6188,11 @@ export type SolutionTemplateVersionPropertiesUpdateSpecificationMap = {
 /** Solution Template Version Properties */
 export interface SolutionTemplateVersionPropertiesUpdate {
   /** Config expressions for this solution version */
-  configurations?: unknown;
+  configurations?: unknown | undefined;
   /** App components spec */
-  specification?: SolutionTemplateVersionPropertiesUpdateSpecificationMap;
+  specification?: SolutionTemplateVersionPropertiesUpdateSpecificationMap | undefined;
   /** Orchestrator type */
-  orchestratorType?: OrchestratorType | (string & {});
+  orchestratorType?: OrchestratorType | (string & {}) | undefined;
 }
 export interface UpdateSolutionTemplateVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6198,21 +6204,21 @@ export interface UpdateSolutionTemplateVersionRequest {
   /** The name of the SolutionTemplateVersion */
   solutionTemplateVersionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionTemplateVersionPropertiesUpdate;
+  properties?: SolutionTemplateVersionPropertiesUpdate | undefined;
 }
 export interface UpdateSolutionTemplateVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionTemplateVersionProperties;
+  properties?: SolutionTemplateVersionProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** App components spec */
 export type SolutionVersionPropertiesUpdateSpecificationMap = {
@@ -6221,7 +6227,7 @@ export type SolutionVersionPropertiesUpdateSpecificationMap = {
 /** Solution Version Properties */
 export interface SolutionVersionPropertiesUpdate {
   /** App components spec */
-  specification?: SolutionVersionPropertiesUpdateSpecificationMap;
+  specification?: SolutionVersionPropertiesUpdateSpecificationMap | undefined;
 }
 export interface UpdateSolutionVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6235,27 +6241,27 @@ export interface UpdateSolutionVersionRequest {
   /** Name of the solution version */
   solutionVersionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionVersionPropertiesUpdate;
+  properties?: SolutionVersionPropertiesUpdate | undefined;
 }
 export interface UpdateSolutionVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionVersionProperties;
+  properties?: SolutionVersionProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateTargetRequestTagsMap = { [key: string]: string | undefined };
@@ -6266,21 +6272,21 @@ export type TargetUpdatePropertiesCapabilitiesList = Array<string>;
 /** The updatable properties of the Target. */
 export interface TargetUpdateProperties {
   /** Description of target */
-  description?: string;
+  description?: string | undefined;
   /** Display name of target */
-  displayName?: string;
+  displayName?: string | undefined;
   /** ArmId of Context */
-  contextId?: string;
+  contextId?: string | undefined;
   /** target spec */
-  targetSpecification?: TargetUpdatePropertiesTargetSpecificationMap;
+  targetSpecification?: TargetUpdatePropertiesTargetSpecificationMap | undefined;
   /** List of capabilities */
-  capabilities?: TargetUpdatePropertiesCapabilitiesList;
+  capabilities?: TargetUpdatePropertiesCapabilitiesList | undefined;
   /** Hierarchy Level */
-  hierarchyLevel?: string;
+  hierarchyLevel?: string | undefined;
   /** Scope of the target resource */
-  solutionScope?: string;
+  solutionScope?: string | undefined;
   /** State of resource */
-  state?: ResourceState | (string & {});
+  state?: ResourceState | (string & {}) | undefined;
 }
 export interface UpdateTargetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6290,35 +6296,35 @@ export interface UpdateTargetRequest {
   /** Name of the target */
   targetName: string;
   /** Resource tags. */
-  tags?: UpdateTargetRequestTagsMap;
+  tags?: UpdateTargetRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: TargetUpdateProperties;
+  properties?: TargetUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateTargetResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateTargetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateTargetResponseTagsMap;
+  tags?: UpdateTargetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: TargetProperties;
+  properties?: TargetProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The error detail. */
 export type UpdateTargetExternalValidationStatusRequestErrorDetails = ConfigurationPropertiesInput;
@@ -6334,7 +6340,7 @@ export interface UpdateTargetExternalValidationStatusRequest {
   /** Solution Version Id */
   solutionVersionId: string;
   /** The error detail. */
-  errorDetails?: ConfigurationPropertiesInput;
+  errorDetails?: ConfigurationPropertiesInput | undefined;
   /** External validation id */
   externalValidationId: string;
   /** Validation Status of external validation */
@@ -6342,23 +6348,23 @@ export interface UpdateTargetExternalValidationStatusRequest {
 }
 export interface UpdateTargetExternalValidationStatusResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SolutionVersionProperties;
+  properties?: SolutionVersionProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Workflow Properties */
 export type WorkflowPropertiesInput = ConfigurationPropertiesInput;
@@ -6372,27 +6378,27 @@ export interface UpdateWorkflowRequest {
   /** Name of the workflow */
   workflowName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationPropertiesInput;
+  properties?: ConfigurationPropertiesInput | undefined;
 }
 export interface UpdateWorkflowResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: WorkflowProperties;
+  properties?: WorkflowProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** A list of stage specs */
 export type WorkflowVersionPropertiesUpdateStageSpecList = Array<StageSpec>;
@@ -6403,9 +6409,9 @@ export type WorkflowVersionPropertiesUpdateSpecificationMap = {
 /** Workflow Version Properties */
 export interface WorkflowVersionPropertiesUpdate {
   /** A list of stage specs */
-  stageSpec?: WorkflowVersionPropertiesUpdateStageSpecList;
+  stageSpec?: WorkflowVersionPropertiesUpdateStageSpecList | undefined;
   /** Execution specification */
-  specification?: WorkflowVersionPropertiesUpdateSpecificationMap;
+  specification?: WorkflowVersionPropertiesUpdateSpecificationMap | undefined;
 }
 export interface UpdateWorkflowVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6419,27 +6425,27 @@ export interface UpdateWorkflowVersionRequest {
   /** The name of the workflowVersion. */
   versionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: WorkflowVersionPropertiesUpdate;
+  properties?: WorkflowVersionPropertiesUpdate | undefined;
 }
 export interface UpdateWorkflowVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: WorkflowVersionProperties;
+  properties?: WorkflowVersionProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface WorkflowsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6451,29 +6457,29 @@ export interface WorkflowsCreateOrUpdateRequest {
   /** Name of the workflow */
   workflowName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationPropertiesInput;
+  properties?: ConfigurationPropertiesInput | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
 }
 export interface WorkflowsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: WorkflowProperties;
+  properties?: WorkflowProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** A list of stage specs */
 export type WorkflowVersionPropertiesInputStageSpecList = Array<StageSpec>;
@@ -6484,7 +6490,7 @@ export interface WorkflowVersionPropertiesInput {
   /** A list of stage specs */
   stageSpec: WorkflowVersionPropertiesInputStageSpecList;
   /** Execution specification */
-  specification?: WorkflowVersionPropertiesInputSpecificationMap;
+  specification?: WorkflowVersionPropertiesInputSpecificationMap | undefined;
 }
 export interface WorkflowVersionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6498,29 +6504,29 @@ export interface WorkflowVersionsCreateOrUpdateRequest {
   /** The name of the workflowVersion. */
   versionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: WorkflowVersionPropertiesInput;
+  properties?: WorkflowVersionPropertiesInput | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
 }
 export interface WorkflowVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: WorkflowVersionProperties;
+  properties?: WorkflowVersionProperties | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type ArtifactsListDownloadUriError = AzureOpError;
 /** Get artifact download link. */

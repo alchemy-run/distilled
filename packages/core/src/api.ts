@@ -26,6 +26,7 @@ import {
   resolveServerRetryHintCapMs,
   serverHintMillis,
 } from "./retry.ts";
+import { SdkError } from "./sdk-error.ts";
 import * as Telemetry from "./telemetry.ts";
 
 //#region Protocol
@@ -439,6 +440,22 @@ const prepare = (state: OperationState): Prepared => {
   });
 };
 
+/**
+ * {@link prepare} for the call paths: a config that can't be built (a
+ * generated config that throws, a lazy service whose module doesn't match
+ * its stub) fails the call with {@link SdkError} instead of crashing it.
+ */
+const prepareOr = (state: OperationState): Prepared | SdkError => {
+  if (state.prepared) return state.prepared;
+  try {
+    return prepare(state);
+  } catch (cause) {
+    return new SdkError({
+      message: `the operation could not be loaded: ${cause instanceof Error ? cause.message : String(cause)}`,
+    });
+  }
+};
+
 const stateOf = (op: unknown): OperationState => (op as Record<symbol, OperationState>)[stateKey]!;
 
 /**
@@ -482,7 +499,8 @@ const callUntraced = (
   const p = state.prepared;
   if (p?.service !== undefined) return applyRetry(runWith(p, p.service, input), p.cfg.retry, debug);
   return Effect.suspend(() => {
-    const prepared = prepare(state);
+    const prepared = prepareOr(state);
+    if (prepared instanceof SdkError) return Effect.fail(prepared);
     const call = Effect.flatMap(
       debug === undefined
         ? protocolContext(prepared.cfg.protocol)
@@ -511,7 +529,8 @@ const callOperation = (
   const callSite = Telemetry.captureCallSite(entry);
   return Effect.withFiber((fiber) => {
     const debug = fiber.getRef(Telemetry.Debug);
-    const prepared = prepare(state);
+    const prepared = prepareOr(state);
+    if (prepared instanceof SdkError) return Effect.fail(prepared);
     return Telemetry.operationSpan(
       fiber,
       debug,
@@ -673,21 +692,28 @@ export interface PaginatedOperationConfig<
 
 /** `.pages` / `.items` over any call function (the operation itself or a context-bound one). */
 const streamsOf = (state: OperationState, call: (input: any) => Effect.Effect<any, any, any>) => {
-  const pag = () => (prepare(state).cfg as PaginatedOperationConfig<any, any, any, any>).pagination;
-  // Data operations carry their strategy in the config.
-  const paginate =
-    state.strategy ??
-    (prepare(state).cfg as { strategy?: Pagination.PaginationStrategy }).strategy ??
-    Pagination.paginateWithDefaults;
-  const pages = (input: Record<string, unknown>) => paginate(call, input, pag());
-  const items = (input: Record<string, unknown>) => {
-    const p = pag();
-    if (!p.items) return pages(input);
+  const pagesOf = (prepared: Prepared, input: Record<string, unknown>) => {
+    const cfg = prepared.cfg as PaginatedOperationConfig<any, any, any, any> & {
+      strategy?: Pagination.PaginationStrategy;
+    };
+    // Data operations carry their strategy in the config.
+    const paginate = state.strategy ?? cfg.strategy ?? Pagination.paginateWithDefaults;
+    return paginate(call, input, cfg.pagination);
+  };
+  const pages = (input: Record<string, unknown>): Stream.Stream<any, any, any> => {
+    const prepared = prepareOr(state);
+    return prepared instanceof SdkError ? Stream.fail(prepared) : pagesOf(prepared, input);
+  };
+  const items = (input: Record<string, unknown>): Stream.Stream<any, any, any> => {
+    const prepared = prepareOr(state);
+    if (prepared instanceof SdkError) return Stream.fail(prepared);
+    const p = (prepared.cfg as PaginatedOperationConfig<any, any, any, any>).pagination;
+    if (!p.items) return pagesOf(prepared, input);
     // A bare-array response's schema is its sole member's value
     // (`RawResponseRoot`), so the member `items` names is the page itself.
-    return getAnn(prepare(state).outputAst, rawResponseRootSymbol) !== undefined
-      ? Pagination.extractArrayItems(pages(input))
-      : Pagination.extractItems(pages(input), p.items);
+    return getAnn(prepared.outputAst, rawResponseRootSymbol) !== undefined
+      ? Pagination.extractArrayItems(pagesOf(prepared, input))
+      : Pagination.extractItems(pagesOf(prepared, input), p.items);
   };
   return { pages, items };
 };
@@ -788,13 +814,14 @@ const streamCall =
   (input: unknown): Stream.Stream<any, any, any> =>
     Stream.unwrap(
       Effect.suspend(() => {
-        const prepared = prepare(state);
+        const prepared = prepareOr(state);
+        if (prepared instanceof SdkError) return Effect.succeed(Stream.fail(prepared));
         const run = (service: ProtocolShape) =>
           service.stream === undefined
-            ? Stream.die(
-                new Error(
-                  `${prepared.cfg.operationName ?? "this operation"}: its protocol can't stream`,
-                ),
+            ? Stream.fail(
+                new SdkError({
+                  message: `${prepared.cfg.operationName ?? "this operation"}: its protocol can't stream`,
+                }),
               )
             : service.stream(prepared, input);
         return prepared.service !== undefined
@@ -1290,12 +1317,17 @@ const sliced = (svc: LazyService): SliceIndex | false => {
   svc.ix = false;
   if (svc.at === undefined || svc.od) return false;
   try {
+    // oxlint-disable-next-line distilled/no-function-constructor -- probes whether the host allows it (a CSP may not)
     Function("");
     const file = fileOf(svc);
     svc.ix = indexOf(file, read({ file }, svc.at, svc.len!));
     svc.od = [];
     svc.ed = [];
-  } catch {}
+  } catch {
+    // Code from strings is blocked, or the slice can't be read: load the
+    // whole module instead (`svc.ix` stays `false`).
+    svc.ix = false;
+  }
   return svc.ix;
 };
 
@@ -1399,6 +1431,7 @@ const evaluate = (svc: LazyService, ix: SliceIndex, k: number): any => {
     });
     text += read(ix, at, end! - at);
   } else text = read(ix, start!, end! - start!);
+  // oxlint-disable-next-line distilled/no-function-constructor -- the distilled-lazy loader compiles one declaration of a bundled service
   return Function(...names, `"use strict";return(${text}\n)${url}`)(...values);
 };
 
@@ -1418,6 +1451,7 @@ const compileBody = (
 ): Function => {
   const text = read(ix, start, end - start);
   const keep = names.map((n) => !own.includes(n));
+  // oxlint-disable-next-line distilled/no-function-constructor -- the distilled-lazy loader compiles one declaration of a bundled service
   return Function(
     ...names.filter((_, i) => keep[i]),
     ...own,

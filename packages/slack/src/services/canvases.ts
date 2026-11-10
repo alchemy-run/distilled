@@ -26,11 +26,11 @@ const TELEMETRY = {
 
 export interface CreateCanvaseRequest {
   /** Title of the newly created canvas */
-  title?: string;
+  title?: string | undefined;
   /** Structure describing the type and value of the content to create. The markdown content is limited to 1 MiB (1,048,576 characters). */
-  document_content?: unknown;
+  document_content?: unknown | undefined;
   /** Channel ID of the channel the canvas will be tabbed in. This is a required field for free teams. */
-  channel_id?: string;
+  channel_id?: string | undefined;
 }
 export interface CreateCanvaseResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -46,9 +46,9 @@ export interface DeleteAccessRequest {
   /** Encoded ID of the canvas */
   canvas_id: string;
   /** List of channels you wish to update access for */
-  channel_ids?: DeleteAccessRequestChannelIdsList;
+  channel_ids?: DeleteAccessRequestChannelIdsList | undefined;
   /** List of users you wish to update access for */
-  user_ids?: DeleteAccessRequestUserIdsList;
+  user_ids?: DeleteAccessRequestUserIdsList | undefined;
 }
 /** The channel IDs that could not be updated */
 export type DeleteAccessResponseFailedToUpdateChannelIdsList = Array<string>;
@@ -58,9 +58,9 @@ export interface DeleteAccessResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** The channel IDs that could not be updated */
-  failed_to_update_channel_ids?: DeleteAccessResponseFailedToUpdateChannelIdsList;
+  failed_to_update_channel_ids?: DeleteAccessResponseFailedToUpdateChannelIdsList | undefined;
   /** The user IDs that could not be updated */
-  failed_to_update_user_ids?: DeleteAccessResponseFailedToUpdateUserIdsList;
+  failed_to_update_user_ids?: DeleteAccessResponseFailedToUpdateUserIdsList | undefined;
 }
 export interface DeleteCanvaseRequest {
   /** Encoded ID of the canvas */
@@ -88,7 +88,7 @@ export interface GetContentRequest {
   /** Encoded ID of the canvas */
   canvas_id: string;
   /** Format in which to return the canvas content. Defaults to markdown. */
-  content_type?: GetContentRequestContentType | (string & {});
+  content_type?: GetContentRequestContentType | (string & {}) | undefined;
 }
 export interface GetContentResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -107,7 +107,7 @@ export type LookupSectionResponseSectionsItemChildSectionIdsList = Array<string>
 export interface LookupSectionResponseSectionsItem {
   id: string;
   /** IDs of child sections within a layout container (blockquote, callout, flexbox, or table). */
-  child_section_ids?: LookupSectionResponseSectionsItemChildSectionIdsList;
+  child_section_ids?: LookupSectionResponseSectionsItemChildSectionIdsList | undefined;
 }
 /** Sections in the canvas that match the provided criteria */
 export type LookupSectionResponseSectionsList = Array<LookupSectionResponseSectionsItem>;
@@ -127,9 +127,9 @@ export interface SetAccessRequest {
   /** Desired level of access */
   access_level: string;
   /** List of channels you wish to update access for. Can only be used if user_ids is not provided. */
-  channel_ids?: SetAccessRequestChannelIdsList;
+  channel_ids?: SetAccessRequestChannelIdsList | undefined;
   /** List of users you wish to update access for. Can only be used if channel_ids is not provided. */
-  user_ids?: SetAccessRequestUserIdsList;
+  user_ids?: SetAccessRequestUserIdsList | undefined;
 }
 /** The channel IDs that could not be updated */
 export type SetAccessResponseFailedToUpdateChannelIdsList = Array<string>;
@@ -139,9 +139,9 @@ export interface SetAccessResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** The channel IDs that could not be updated */
-  failed_to_update_channel_ids?: SetAccessResponseFailedToUpdateChannelIdsList;
+  failed_to_update_channel_ids?: SetAccessResponseFailedToUpdateChannelIdsList | undefined;
   /** The user IDs that could not be updated */
-  failed_to_update_user_ids?: SetAccessResponseFailedToUpdateUserIdsList;
+  failed_to_update_user_ids?: SetAccessResponseFailedToUpdateUserIdsList | undefined;
 }
 export type CreateCanvaseError = SlackOpError;
 /** Create canvas for a user Required scopes -- bot: `canvases:write`; user: `canvases:write`; seamless_user: `seamless.user` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `canvas_disabled_user_team` -- Canvas is disabled on user's team - `restricted_action` -- User does not have permission to perform this action. - `canvas_creation_failed` -- Canvas was unable to be created. - `free_team_canvas_tab_already_exists` -- Free teams are limited to one canvas tab per channel - `free_teams_cannot_create_standalone_canvases` -- Free teams cannot create standalone canvases See https://docs.slack.dev/reference/methods/canvases.create */

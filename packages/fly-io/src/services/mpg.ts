@@ -31,17 +31,17 @@ export interface CreateAttachmentRequest {
   app_name: string;
 }
 export interface CreateAttachmentResponseData {
-  id?: number;
-  app_id?: number;
-  managed_service_id?: number;
-  attached_at?: string;
+  id?: number | undefined;
+  app_id?: number | undefined;
+  managed_service_id?: number | undefined;
+  attached_at?: string | undefined;
 }
 export interface CreateAttachmentResponse {
-  data?: CreateAttachmentResponseData;
+  data?: CreateAttachmentResponseData | undefined;
 }
 export interface CreateBackupRequest {
   id: string;
-  type?: string;
+  type?: string | undefined;
 }
 export interface CreateBackupResponse {}
 export interface CreateClusterRequest {
@@ -49,43 +49,43 @@ export interface CreateClusterRequest {
   name: string;
   region: string;
   plan: string;
-  pg_major_version?: string;
-  storage_in_gb?: number;
-  postgis_enabled?: boolean;
+  pg_major_version?: string | undefined;
+  storage_in_gb?: number | undefined;
+  postgis_enabled?: boolean | undefined;
 }
 export interface Organization {
-  id?: string;
-  name?: string;
-  slug?: string;
-  raw_slug?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  slug?: string | undefined;
+  raw_slug?: string | undefined;
 }
 export type IpAssignments = { [key: string]: string | undefined };
 export interface AttachedApp {
-  name?: string;
-  id?: string;
+  name?: string | undefined;
+  id?: string | undefined;
 }
 export type ManagedClusterAttachedAppsList = Array<AttachedApp>;
 export interface ManagedCluster {
-  id?: string;
-  name?: string;
-  status?: string;
-  engine?: string;
-  plan?: string;
-  region?: string;
-  organization?: Organization;
-  mpgd_cluster_id?: string;
-  disk?: number;
-  replicas?: number;
-  ip_assignments?: IpAssignments;
-  attached_apps?: ManagedClusterAttachedAppsList;
-  postgis_enabled?: boolean;
-  environment?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  engine?: string | undefined;
+  plan?: string | undefined;
+  region?: string | undefined;
+  organization?: Organization | undefined;
+  mpgd_cluster_id?: string | undefined;
+  disk?: number | undefined;
+  replicas?: number | undefined;
+  ip_assignments?: IpAssignments | undefined;
+  attached_apps?: ManagedClusterAttachedAppsList | undefined;
+  postgis_enabled?: boolean | undefined;
+  environment?: string | undefined;
 }
 export type CreateClusterResponseErrorsMap = { [key: string]: unknown | undefined };
 export interface CreateClusterResponse {
-  ok?: boolean;
-  data?: ManagedCluster;
-  errors?: CreateClusterResponseErrorsMap;
+  ok?: boolean | undefined;
+  data?: ManagedCluster | undefined;
+  errors?: CreateClusterResponseErrorsMap | undefined;
 }
 export interface CreateDatabaseRequest {
   id: string;
@@ -99,22 +99,22 @@ export interface CreateUserRequest {
   role: CreateUserRequestRole | (string & {});
 }
 export interface User {
-  name?: string;
-  username?: string;
-  role?: string;
+  name?: string | undefined;
+  username?: string | undefined;
+  role?: string | undefined;
 }
 export interface CreateUserResponse {
-  data?: User;
+  data?: User | undefined;
 }
 export interface DeleteAttachmentRequest {
   id: string;
   app_name: string;
 }
 export interface DeleteAttachmentResponseData {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteAttachmentResponse {
-  data?: DeleteAttachmentResponseData;
+  data?: DeleteAttachmentResponseData | undefined;
 }
 export interface DeleteUserRequest {
   id: string;
@@ -130,15 +130,15 @@ export interface DisableExtensionRequest {
   id: string;
   database: string;
   name: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DisableExtensionResponse {}
 export interface EnableExtensionRequest {
   id: string;
   database: string;
   name: string;
-  schema?: string;
-  create_schema_if_needed?: boolean;
+  schema?: string | undefined;
+  create_schema_if_needed?: boolean | undefined;
 }
 export interface EnableExtensionResponse {}
 export interface GetClusterRequest {
@@ -146,15 +146,15 @@ export interface GetClusterRequest {
   id: string;
 }
 export interface ClusterCredentials {
-  status?: string;
-  user?: string;
-  password?: string | Redacted.Redacted<string>;
-  dbname?: string;
-  pgbouncer_uri?: string | Redacted.Redacted<string>;
+  status?: string | undefined;
+  user?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  dbname?: string | undefined;
+  pgbouncer_uri?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetClusterResponse {
-  data?: ManagedCluster;
-  credentials?: ClusterCredentials;
+  data?: ManagedCluster | undefined;
+  credentials?: ClusterCredentials | undefined;
 }
 export interface GetClusterByIdRequest {
   id: string;
@@ -164,90 +164,90 @@ export interface GetUserCredentialsRequest {
   username: string;
 }
 export interface GetUserCredentialsResponseData {
-  username?: string;
-  user?: string;
-  password?: string | Redacted.Redacted<string>;
+  username?: string | undefined;
+  user?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetUserCredentialsResponse {
-  data?: GetUserCredentialsResponseData;
+  data?: GetUserCredentialsResponseData | undefined;
 }
 export interface ListBackupsRequest {
   id: string;
 }
 export interface ClusterBackup {
-  id?: string;
-  status?: string;
-  type?: string;
-  start?: string;
-  stop?: string;
+  id?: string | undefined;
+  status?: string | undefined;
+  type?: string | undefined;
+  start?: string | undefined;
+  stop?: string | undefined;
 }
 export type ListBackupsResponseDataList = Array<ClusterBackup>;
 export interface ListBackupsResponse {
-  data?: ListBackupsResponseDataList;
+  data?: ListBackupsResponseDataList | undefined;
 }
 export interface ListClustersRequest {
   org_slug: string;
 }
 export type ListClustersResponseDataList = Array<ManagedCluster>;
 export interface ListClustersResponse {
-  data?: ListClustersResponseDataList;
+  data?: ListClustersResponseDataList | undefined;
 }
 export interface ListDatabasesRequest {
   id: string;
 }
 export interface Database {
-  name?: string;
+  name?: string | undefined;
 }
 export type ListDatabasesResponseDataList = Array<Database>;
 export interface ListDatabasesResponse {
-  data?: ListDatabasesResponseDataList;
+  data?: ListDatabasesResponseDataList | undefined;
 }
 export interface ListExtensionsRequest {
   id: string;
   database: string;
 }
 export interface InstalledExtension {
-  version?: string;
-  schema?: string;
+  version?: string | undefined;
+  schema?: string | undefined;
 }
 export interface Extension {
-  name?: string;
-  description?: string;
-  docs_url?: string;
-  default_version?: string;
-  is_system?: boolean;
-  installed?: InstalledExtension;
+  name?: string | undefined;
+  description?: string | undefined;
+  docs_url?: string | undefined;
+  default_version?: string | undefined;
+  is_system?: boolean | undefined;
+  installed?: InstalledExtension | undefined;
 }
 export type ListExtensionsResponseDataList = Array<Extension>;
 export interface ListExtensionsResponse {
-  data?: ListExtensionsResponseDataList;
+  data?: ListExtensionsResponseDataList | undefined;
 }
 export interface ListRegionsRequest {
   org_slug: string;
 }
 export interface Region {
-  code?: string;
-  available?: boolean;
+  code?: string | undefined;
+  available?: boolean | undefined;
 }
 export type ListRegionsResponseDataList = Array<Region>;
 export interface ListRegionsResponse {
-  data?: ListRegionsResponseDataList;
+  data?: ListRegionsResponseDataList | undefined;
 }
 export interface ListUsersRequest {
   id: string;
 }
 export type ListUsersResponseDataList = Array<User>;
 export interface ListUsersResponse {
-  data?: ListUsersResponseDataList;
+  data?: ListUsersResponseDataList | undefined;
 }
 export interface RestoreBackupRequest {
   id: string;
-  backup_id?: string;
-  name?: string;
-  pitr_time?: string;
+  backup_id?: string | undefined;
+  name?: string | undefined;
+  pitr_time?: string | undefined;
 }
 export interface RestoreBackupResponse {
-  data?: ManagedCluster;
+  data?: ManagedCluster | undefined;
 }
 export type UpdateUserRoleRequestRole = "schema_admin" | "writer" | "reader";
 export interface UpdateUserRoleRequest {

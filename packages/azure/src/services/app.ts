@@ -51,15 +51,15 @@ export type AgentConnectorPropertiesInputExtendedPropertiesMap = {
 /** Agent Connector Properties */
 export interface AgentConnectorPropertiesInput {
   /** Endpoint of the connector */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Data source connection string or endpoint */
-  dataSource?: string;
+  dataSource?: string | undefined;
   /** Identity used to access the data source */
-  identity?: string;
+  identity?: string | undefined;
   /** Additional properties for the data connector which can be used to store custom key-value pairs */
-  extendedProperties?: AgentConnectorPropertiesInputExtendedPropertiesMap;
+  extendedProperties?: AgentConnectorPropertiesInputExtendedPropertiesMap | undefined;
   /** The type of the data connector */
-  dataConnectorType?: string;
+  dataConnectorType?: string | undefined;
 }
 export interface AgentsConnectorsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -71,7 +71,7 @@ export interface AgentsConnectorsCreateOrUpdateRequest {
   /** The name of the AgentConnector */
   connectorName: string;
   /** The resource-specific properties for this resource. */
-  properties?: AgentConnectorPropertiesInput;
+  properties?: AgentConnectorPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -80,17 +80,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Provisioning state of a connector */
 export type ConnectorProvisioningState =
@@ -104,35 +104,35 @@ export type AgentConnectorPropertiesExtendedPropertiesMap = { [key: string]: unk
 /** Agent Connector Properties */
 export interface AgentConnectorProperties {
   /** Endpoint of the connector */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Data source connection string or endpoint */
-  dataSource?: string;
+  dataSource?: string | undefined;
   /** Identity used to access the data source */
-  identity?: string;
+  identity?: string | undefined;
   /** Provisioning state of the connector */
-  provisioningState?: ConnectorProvisioningState;
+  provisioningState?: ConnectorProvisioningState | undefined;
   /** Deployment error message if provisioning failed */
-  deploymentError?: string;
+  deploymentError?: string | undefined;
   /** Additional properties for the data connector which can be used to store custom key-value pairs */
-  extendedProperties?: AgentConnectorPropertiesExtendedPropertiesMap;
+  extendedProperties?: AgentConnectorPropertiesExtendedPropertiesMap | undefined;
   /** The type of the data connector */
-  dataConnectorType?: string;
+  dataConnectorType?: string | undefined;
 }
 export interface AgentsConnectorsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AgentConnectorProperties;
+  properties?: AgentConnectorProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type AgentsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -141,9 +141,9 @@ export type KnowledgeGraphConfigurationManagedResourcesList = Array<string>;
 /** Knowledge graph configuration for agent */
 export interface KnowledgeGraphConfiguration {
   /** The identity used to access the knowledge graph */
-  identity?: string;
+  identity?: string | undefined;
   /** The list of resources managed by agent */
-  managedResources?: KnowledgeGraphConfigurationManagedResourcesList;
+  managedResources?: KnowledgeGraphConfigurationManagedResourcesList | undefined;
 }
 /** Agent mode */
 export type AgentMode = "Autonomous" | "Review" | "ReadOnly";
@@ -152,36 +152,36 @@ export type AgentAccessLevel = "Low" | "High";
 /** Configuration for action */
 export interface ActionConfiguration {
   /** The identity used by the action */
-  identity?: string;
+  identity?: string | undefined;
   /** The mode of the action */
-  mode?: AgentMode | (string & {});
+  mode?: AgentMode | (string & {}) | undefined;
   /** The access level of the action */
-  accessLevel?: AgentAccessLevel | (string & {});
+  accessLevel?: AgentAccessLevel | (string & {}) | undefined;
 }
 /** Application Insights Configuration */
 export interface ApplicationInsightsConfiguration {
   /** The Application ID for the Application Insights resource */
-  appId?: string;
+  appId?: string | undefined;
   /** The connection string for the Application Insights resource */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
 }
 /** Log Configurations */
 export interface LogConfiguration {
   /** Application Insights Configuration */
-  applicationInsightsConfiguration?: ApplicationInsightsConfiguration;
+  applicationInsightsConfiguration?: ApplicationInsightsConfiguration | undefined;
 }
 /** Incident Management Configurations */
 export interface IncidentManagementConfiguration {
   /** The type of incident management system */
-  type?: string;
+  type?: string | undefined;
   /** The name of the connection */
-  connectionName?: string;
+  connectionName?: string | undefined;
   /** The URL of the connection */
-  connectionUrl?: string;
+  connectionUrl?: string | undefined;
   /** The key for the connection */
-  connectionKey?: string;
+  connectionKey?: string | undefined;
   /** The user for the connection */
-  oboUser?: string;
+  oboUser?: string | undefined;
 }
 /** Upgrade channel for Agent */
 export type UpgradeChannel = "Preview" | "Stable";
@@ -193,26 +193,26 @@ export interface AgentIdentityInput {
 /** Default AI model configuration */
 export interface DefaultModel {
   /** AI provider name (e.g., MicrosoftFoundry, Anthropic) */
-  provider?: string;
+  provider?: string | undefined;
   /** Model name (e.g., gpt-5, claude-opus-4-5, claude-sonnet-4-5) */
-  name?: string;
+  name?: string | undefined;
 }
 /** Properties of the Agent */
 export interface AgentPropertiesInput {
   /** Knowledge graph configuration for agent */
-  knowledgeGraphConfiguration?: KnowledgeGraphConfiguration;
+  knowledgeGraphConfiguration?: KnowledgeGraphConfiguration | undefined;
   /** Configuration for action */
-  actionConfiguration?: ActionConfiguration;
+  actionConfiguration?: ActionConfiguration | undefined;
   /** Log configurations */
-  logConfiguration?: LogConfiguration;
+  logConfiguration?: LogConfiguration | undefined;
   /** Incident management configurations */
-  incidentManagementConfiguration?: IncidentManagementConfiguration;
+  incidentManagementConfiguration?: IncidentManagementConfiguration | undefined;
   /** The upgrade channel of the agent */
-  upgradeChannel?: UpgradeChannel | (string & {});
+  upgradeChannel?: UpgradeChannel | (string & {}) | undefined;
   /** Agent identity configuration for accessing resources */
-  agentIdentity?: AgentIdentityInput;
+  agentIdentity?: AgentIdentityInput | undefined;
   /** Default AI model configuration for the agent */
-  defaultModel?: DefaultModel;
+  defaultModel?: DefaultModel | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -230,7 +230,7 @@ export type AgentsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap = {
 export interface AgentsCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: AgentsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: AgentsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface AgentsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -240,13 +240,13 @@ export interface AgentsCreateOrUpdateRequest {
   /** The name of the Agent */
   agentName: string;
   /** Resource tags. */
-  tags?: AgentsCreateOrUpdateRequestTagsMap;
+  tags?: AgentsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AgentPropertiesInput;
+  properties?: AgentPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AgentsCreateOrUpdateRequestIdentity;
+  identity?: AgentsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type AgentsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -262,43 +262,43 @@ export type AgentPowerState = "Running" | "Stopped";
 /** Agent identity configuration */
 export interface AgentIdentity {
   /** Indicates whether the agent identity is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Client ID (GUID) for the agent identity */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Initial sponsor group ID (required for agent identity) */
   initialSponsorGroupId: string;
 }
 /** Properties of the Agent */
 export interface AgentProperties {
   /** Provisioning state of the Agent */
-  provisioningState?: AgentProvisioningState;
+  provisioningState?: AgentProvisioningState | undefined;
   /** The endpoint of the Agent */
-  agentEndpoint?: string;
+  agentEndpoint?: string | undefined;
   /** The running state of the Agent */
-  runningState?: string;
+  runningState?: string | undefined;
   /** The power state of the Agent */
-  powerState?: AgentPowerState;
+  powerState?: AgentPowerState | undefined;
   /** Knowledge graph configuration for agent */
-  knowledgeGraphConfiguration?: KnowledgeGraphConfiguration;
+  knowledgeGraphConfiguration?: KnowledgeGraphConfiguration | undefined;
   /** Configuration for action */
-  actionConfiguration?: ActionConfiguration;
+  actionConfiguration?: ActionConfiguration | undefined;
   /** Log configurations */
-  logConfiguration?: LogConfiguration;
+  logConfiguration?: LogConfiguration | undefined;
   /** Incident management configurations */
-  incidentManagementConfiguration?: IncidentManagementConfiguration;
+  incidentManagementConfiguration?: IncidentManagementConfiguration | undefined;
   /** The upgrade channel of the agent */
-  upgradeChannel?: UpgradeChannel;
+  upgradeChannel?: UpgradeChannel | undefined;
   /** Agent identity configuration for accessing resources */
-  agentIdentity?: AgentIdentity;
+  agentIdentity?: AgentIdentity | undefined;
   /** Default AI model configuration for the agent */
-  defaultModel?: DefaultModel;
+  defaultModel?: DefaultModel | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type AgentsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
@@ -307,52 +307,54 @@ export type AgentsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface AgentsCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: AgentsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | AgentsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface AgentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AgentsCreateOrUpdateResponseTagsMap;
+  tags?: AgentsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AgentProperties;
+  properties?: AgentProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AgentsCreateOrUpdateResponseIdentity;
+  identity?: AgentsCreateOrUpdateResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CertificatesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Properties for a certificate stored in a Key Vault. */
 export interface CertificateKeyVaultProperties {
   /** Resource ID of a managed identity to authenticate with Azure Key Vault, or System to use a system-assigned identity. */
-  identity?: string;
+  identity?: string | undefined;
   /** URL pointing to the Azure Key Vault secret that holds the certificate. */
-  keyVaultUrl?: string;
+  keyVaultUrl?: string | undefined;
 }
 /** Certificate resource specific properties */
 export interface CertificatePropertiesInput {
   /** Properties for a certificate stored in a Key Vault. */
-  certificateKeyVaultProperties?: CertificateKeyVaultProperties;
+  certificateKeyVaultProperties?: CertificateKeyVaultProperties | undefined;
   /** Certificate password. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** PFX or PEM blob */
-  value?: string;
+  value?: string | undefined;
 }
 export interface CertificatesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -364,11 +366,11 @@ export interface CertificatesCreateOrUpdateRequest {
   /** Name of the Certificate. */
   certificateName: string;
   /** Resource tags. */
-  tags?: CertificatesCreateOrUpdateRequestTagsMap;
+  tags?: CertificatesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Certificate resource specific properties */
-  properties?: CertificatePropertiesInput;
+  properties?: CertificatePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type CertificatesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -385,47 +387,47 @@ export type CertificatePropertiesSubjectAlternativeNamesList = Array<string>;
 /** Certificate resource specific properties */
 export interface CertificateProperties {
   /** Provisioning state of the certificate. */
-  provisioningState?: CertificateProvisioningState;
+  provisioningState?: CertificateProvisioningState | undefined;
   /** Any errors that occurred during deployment or deployment validation */
-  deploymentErrors?: string;
+  deploymentErrors?: string | undefined;
   /** Properties for a certificate stored in a Key Vault. */
-  certificateKeyVaultProperties?: CertificateKeyVaultProperties;
+  certificateKeyVaultProperties?: CertificateKeyVaultProperties | undefined;
   /** Certificate password. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Subject name of the certificate. */
-  subjectName?: string;
+  subjectName?: string | undefined;
   /** Subject alternative names the certificate applies to. */
-  subjectAlternativeNames?: CertificatePropertiesSubjectAlternativeNamesList;
+  subjectAlternativeNames?: CertificatePropertiesSubjectAlternativeNamesList | undefined;
   /** PFX or PEM blob */
-  value?: string;
+  value?: string | undefined;
   /** Certificate issuer. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** Certificate issue Date. */
-  issueDate?: string;
+  issueDate?: string | undefined;
   /** Certificate expiration date. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Certificate thumbprint. */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
   /** Is the certificate valid?. */
-  valid?: boolean;
+  valid?: boolean | undefined;
   /** Public key hash. */
-  publicKeyHash?: string;
+  publicKeyHash?: string | undefined;
 }
 export interface CertificatesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CertificatesCreateOrUpdateResponseTagsMap;
+  tags?: CertificatesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Certificate resource specific properties */
-  properties?: CertificateProperties;
+  properties?: CertificateProperties | undefined;
 }
 export interface CheckConnectedEnvironmentNameAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -435,19 +437,19 @@ export interface CheckConnectedEnvironmentNameAvailabilityRequest {
   /** Name of the connectedEnvironment. */
   connectedEnvironmentName: string;
   /** The name of the resource for which availability needs to be checked. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The reason why the given name is not available. */
 export type CheckConnectedEnvironmentNameAvailabilityResponseReason = "Invalid" | "AlreadyExists";
 export interface CheckConnectedEnvironmentNameAvailabilityResponse {
   /** Indicates if the resource name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the given name is not available. */
-  reason?: CheckConnectedEnvironmentNameAvailabilityResponseReason;
+  reason?: CheckConnectedEnvironmentNameAvailabilityResponseReason | undefined;
   /** Detailed reason why the given name is available. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface CheckManagedEnvironmentMigrationEligibilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -490,19 +492,19 @@ export interface CheckNamespaceNameAvailabilityRequest {
   /** Name of the Environment. */
   environmentName: string;
   /** The name of the resource for which availability needs to be checked. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The reason why the given name is not available. */
 export type CheckNamespaceNameAvailabilityResponseReason = "Invalid" | "AlreadyExists";
 export interface CheckNamespaceNameAvailabilityResponse {
   /** Indicates if the resource name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the given name is not available. */
-  reason?: CheckNamespaceNameAvailabilityResponseReason;
+  reason?: CheckNamespaceNameAvailabilityResponseReason | undefined;
   /** Detailed reason why the given name is available. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Resource tags. */
 export type ConnectedEnvironmentsCertificatesCreateOrUpdateRequestTagsMap = {
@@ -518,11 +520,11 @@ export interface ConnectedEnvironmentsCertificatesCreateOrUpdateRequest {
   /** Name of the Certificate. */
   certificateName: string;
   /** Resource tags. */
-  tags?: ConnectedEnvironmentsCertificatesCreateOrUpdateRequestTagsMap;
+  tags?: ConnectedEnvironmentsCertificatesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Certificate resource specific properties */
-  properties?: CertificatePropertiesInput;
+  properties?: CertificatePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type ConnectedEnvironmentsCertificatesCreateOrUpdateResponseTagsMap = {
@@ -530,23 +532,23 @@ export type ConnectedEnvironmentsCertificatesCreateOrUpdateResponseTagsMap = {
 };
 export interface ConnectedEnvironmentsCertificatesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ConnectedEnvironmentsCertificatesCreateOrUpdateResponseTagsMap;
+  tags?: ConnectedEnvironmentsCertificatesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Certificate resource specific properties */
-  properties?: CertificateProperties;
+  properties?: CertificateProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type ConnectedEnvironmentsCreateOrUpdateRequestTagsMap = {
@@ -555,31 +557,31 @@ export type ConnectedEnvironmentsCreateOrUpdateRequestTagsMap = {
 /** Configuration properties for apps environment custom domain */
 export interface CustomDomainConfigurationInput {
   /** Dns suffix for the environment domain */
-  dnsSuffix?: string;
+  dnsSuffix?: string | undefined;
   /** Certificate stored in Azure Key Vault. */
-  certificateKeyVaultProperties?: CertificateKeyVaultProperties;
+  certificateKeyVaultProperties?: CertificateKeyVaultProperties | undefined;
   /** PFX or PEM blob */
-  certificateValue?: string;
+  certificateValue?: string | undefined;
   /** Certificate password */
-  certificatePassword?: string | Redacted.Redacted<string>;
+  certificatePassword?: string | Redacted.Redacted<string> | undefined;
 }
 /** ConnectedEnvironment resource specific properties */
 export interface ConnectedEnvironmentPropertiesInput {
   /** Static IP of the connectedEnvironment */
-  staticIp?: string;
+  staticIp?: string | undefined;
   /** Application Insights connection string used by Dapr to export Service to Service communication telemetry */
-  daprAIConnectionString?: string;
+  daprAIConnectionString?: string | undefined;
   /** Custom domain configuration for the environment */
-  customDomainConfiguration?: CustomDomainConfigurationInput;
+  customDomainConfiguration?: CustomDomainConfigurationInput | undefined;
 }
 /** The type of extendedLocation. */
 export type ExtendedLocationTypes = "CustomLocation";
 /** The complex type of the extended location. */
 export interface ExtendedLocation {
   /** The name of the extended location. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the extended location. */
-  type?: ExtendedLocationTypes | (string & {});
+  type?: ExtendedLocationTypes | (string & {}) | undefined;
 }
 export interface ConnectedEnvironmentsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -589,13 +591,13 @@ export interface ConnectedEnvironmentsCreateOrUpdateRequest {
   /** Name of the connectedEnvironment. */
   connectedEnvironmentName: string;
   /** Resource tags. */
-  tags?: ConnectedEnvironmentsCreateOrUpdateRequestTagsMap;
+  tags?: ConnectedEnvironmentsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ConnectedEnvironment resource specific properties */
-  properties?: ConnectedEnvironmentPropertiesInput;
+  properties?: ConnectedEnvironmentPropertiesInput | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** Resource tags. */
 export type ConnectedEnvironmentsCreateOrUpdateResponseTagsMap = {
@@ -614,80 +616,80 @@ export type ConnectedEnvironmentProvisioningState =
 /** Configuration properties for apps environment custom domain */
 export interface CustomDomainConfiguration {
   /** Id used to verify domain name ownership */
-  customDomainVerificationId?: string;
+  customDomainVerificationId?: string | undefined;
   /** Dns suffix for the environment domain */
-  dnsSuffix?: string;
+  dnsSuffix?: string | undefined;
   /** Certificate stored in Azure Key Vault. */
-  certificateKeyVaultProperties?: CertificateKeyVaultProperties;
+  certificateKeyVaultProperties?: CertificateKeyVaultProperties | undefined;
   /** PFX or PEM blob */
-  certificateValue?: string;
+  certificateValue?: string | undefined;
   /** Certificate password */
-  certificatePassword?: string | Redacted.Redacted<string>;
+  certificatePassword?: string | Redacted.Redacted<string> | undefined;
   /** Certificate expiration date. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Certificate thumbprint. */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
   /** Subject name of the certificate. */
-  subjectName?: string;
+  subjectName?: string | undefined;
 }
 /** ConnectedEnvironment resource specific properties */
 export interface ConnectedEnvironmentProperties {
   /** Provisioning state of the Kubernetes Environment. */
-  provisioningState?: ConnectedEnvironmentProvisioningState;
+  provisioningState?: ConnectedEnvironmentProvisioningState | undefined;
   /** Any errors that occurred during deployment or deployment validation */
-  deploymentErrors?: string;
+  deploymentErrors?: string | undefined;
   /** Default Domain Name for the cluster */
-  defaultDomain?: string;
+  defaultDomain?: string | undefined;
   /** Static IP of the connectedEnvironment */
-  staticIp?: string;
+  staticIp?: string | undefined;
   /** Application Insights connection string used by Dapr to export Service to Service communication telemetry */
-  daprAIConnectionString?: string;
+  daprAIConnectionString?: string | undefined;
   /** Custom domain configuration for the environment */
-  customDomainConfiguration?: CustomDomainConfiguration;
+  customDomainConfiguration?: CustomDomainConfiguration | undefined;
 }
 export interface ConnectedEnvironmentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ConnectedEnvironmentsCreateOrUpdateResponseTagsMap;
+  tags?: ConnectedEnvironmentsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ConnectedEnvironment resource specific properties */
-  properties?: ConnectedEnvironmentProperties;
+  properties?: ConnectedEnvironmentProperties | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Secret definition. */
 export interface Secret {
   /** Secret Name. */
-  name?: string;
+  name?: string | undefined;
   /** Secret Value. */
-  value?: string;
+  value?: string | undefined;
   /** Resource ID of a managed identity to authenticate with Azure Key Vault, or System to use a system-assigned identity. */
-  identity?: string;
+  identity?: string | undefined;
   /** Azure Key Vault URL pointing to the secret referenced by the container app. */
-  keyVaultUrl?: string;
+  keyVaultUrl?: string | undefined;
 }
 /** Collection of secrets used by a Dapr component */
 export type DaprComponentPropertiesInputSecretsList = Array<Secret>;
 /** Dapr component metadata. */
 export interface DaprMetadata {
   /** Metadata property name. */
-  name?: string;
+  name?: string | undefined;
   /** Metadata property value. */
-  value?: string;
+  value?: string | undefined;
   /** Name of the Dapr Component secret from which to pull the metadata property value. */
-  secretRef?: string;
+  secretRef?: string | undefined;
 }
 /** Component metadata */
 export type DaprComponentPropertiesInputMetadataList = Array<DaprMetadata>;
@@ -696,21 +698,21 @@ export type DaprComponentPropertiesInputScopesList = Array<string>;
 /** Dapr Component resource specific properties */
 export interface DaprComponentPropertiesInput {
   /** Component type */
-  componentType?: string;
+  componentType?: string | undefined;
   /** Component version */
-  version?: string;
+  version?: string | undefined;
   /** Boolean describing if the component errors are ignores */
-  ignoreErrors?: boolean;
+  ignoreErrors?: boolean | undefined;
   /** Initialization timeout */
-  initTimeout?: string;
+  initTimeout?: string | undefined;
   /** Collection of secrets used by a Dapr component */
-  secrets?: DaprComponentPropertiesInputSecretsList;
+  secrets?: DaprComponentPropertiesInputSecretsList | undefined;
   /** Name of a Dapr component to retrieve component secrets from */
-  secretStoreComponent?: string;
+  secretStoreComponent?: string | undefined;
   /** Component metadata */
-  metadata?: DaprComponentPropertiesInputMetadataList;
+  metadata?: DaprComponentPropertiesInputMetadataList | undefined;
   /** Names of container apps that can use this Dapr component */
-  scopes?: DaprComponentPropertiesInputScopesList;
+  scopes?: DaprComponentPropertiesInputScopesList | undefined;
 }
 export interface ConnectedEnvironmentsDaprComponentsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -722,7 +724,7 @@ export interface ConnectedEnvironmentsDaprComponentsCreateOrUpdateRequest {
   /** Name of the Dapr Component. */
   componentName: string;
   /** Dapr Component resource specific properties */
-  properties?: DaprComponentPropertiesInput;
+  properties?: DaprComponentPropertiesInput | undefined;
 }
 /** Collection of secrets used by a Dapr component */
 export type DaprComponentPropertiesSecretsList = Array<Secret>;
@@ -740,68 +742,68 @@ export type DaprComponentProvisioningState =
 /** Dapr Component resource specific properties */
 export interface DaprComponentProperties {
   /** Component type */
-  componentType?: string;
+  componentType?: string | undefined;
   /** Component version */
-  version?: string;
+  version?: string | undefined;
   /** Boolean describing if the component errors are ignores */
-  ignoreErrors?: boolean;
+  ignoreErrors?: boolean | undefined;
   /** Initialization timeout */
-  initTimeout?: string;
+  initTimeout?: string | undefined;
   /** Collection of secrets used by a Dapr component */
-  secrets?: DaprComponentPropertiesSecretsList;
+  secrets?: DaprComponentPropertiesSecretsList | undefined;
   /** Name of a Dapr component to retrieve component secrets from */
-  secretStoreComponent?: string;
+  secretStoreComponent?: string | undefined;
   /** Component metadata */
-  metadata?: DaprComponentPropertiesMetadataList;
+  metadata?: DaprComponentPropertiesMetadataList | undefined;
   /** Names of container apps that can use this Dapr component */
-  scopes?: DaprComponentPropertiesScopesList;
+  scopes?: DaprComponentPropertiesScopesList | undefined;
   /** Provisioning state of the Connected Environment Dapr Component. */
-  provisioningState?: DaprComponentProvisioningState;
+  provisioningState?: DaprComponentProvisioningState | undefined;
   /** Any errors that occurred during deployment or deployment validation */
-  deploymentErrors?: string;
+  deploymentErrors?: string | undefined;
 }
 export interface ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Dapr Component resource specific properties */
-  properties?: DaprComponentProperties;
+  properties?: DaprComponentProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Properties for a secret stored in a Key Vault. */
 export interface SecretKeyVaultProperties {
   /** Resource ID of a managed identity to authenticate with Azure Key Vault, or System to use a system-assigned identity. */
-  identity?: string;
+  identity?: string | undefined;
   /** URL pointing to the Azure Key Vault secret. */
-  keyVaultUrl?: string;
+  keyVaultUrl?: string | undefined;
 }
 /** Access mode for storage */
 export type AccessMode = "ReadOnly" | "ReadWrite";
 /** Azure File Properties. */
 export interface AzureFileProperties {
   /** Storage account name for azure file. */
-  accountName?: string;
+  accountName?: string | undefined;
   /** Storage account key for azure file. */
-  accountKey?: string;
+  accountKey?: string | undefined;
   /** Storage account key stored as an Azure Key Vault secret. */
-  accountKeyVaultProperties?: SecretKeyVaultProperties;
+  accountKeyVaultProperties?: SecretKeyVaultProperties | undefined;
   /** Access mode for storage */
-  accessMode?: AccessMode | (string & {});
+  accessMode?: AccessMode | (string & {}) | undefined;
   /** Azure file share name. */
-  shareName?: string;
+  shareName?: string | undefined;
 }
 /** Storage properties */
 export interface ConnectedEnvironmentStoragePropertiesInput {
   /** Azure file properties */
-  azureFile?: AzureFileProperties;
+  azureFile?: AzureFileProperties | undefined;
 }
 export interface ConnectedEnvironmentsStoragesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -813,7 +815,7 @@ export interface ConnectedEnvironmentsStoragesCreateOrUpdateRequest {
   /** Name of the storage. */
   storageName: string;
   /** Storage properties */
-  properties?: ConnectedEnvironmentStoragePropertiesInput;
+  properties?: ConnectedEnvironmentStoragePropertiesInput | undefined;
 }
 /** Provisioning state of the storage. */
 export type ConnectedEnvironmentStorageProvisioningState =
@@ -825,27 +827,27 @@ export type ConnectedEnvironmentStorageProvisioningState =
 /** Storage properties */
 export interface ConnectedEnvironmentStorageProperties {
   /** Provisioning state of the storage. */
-  provisioningState?: ConnectedEnvironmentStorageProvisioningState;
+  provisioningState?: ConnectedEnvironmentStorageProvisioningState | undefined;
   /** Any errors that occurred during deployment or deployment validation */
-  deploymentErrors?: string;
+  deploymentErrors?: string | undefined;
   /** Azure file properties */
-  azureFile?: AzureFileProperties;
+  azureFile?: AzureFileProperties | undefined;
 }
 export interface ConnectedEnvironmentsStoragesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Storage properties */
-  properties?: ConnectedEnvironmentStorageProperties;
+  properties?: ConnectedEnvironmentStorageProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The Private Endpoint resource. */
 export type PrivateEndpointInput = UserAssignedIdentityInput;
@@ -858,16 +860,16 @@ export type PrivateEndpointServiceConnectionStatus =
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus | (string & {});
+  status?: PrivateEndpointServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** The resource of private end point. */
-  privateEndpoint?: UserAssignedIdentityInput;
+  privateEndpoint?: UserAssignedIdentityInput | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
@@ -881,14 +883,14 @@ export interface ContainerAppPrivateEndpointConnectionsCreateOrUpdateRequest {
   /** Name of the Private Endpoint Connection. */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 /** The group ids for the private endpoint resource. */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
 /** The Private Endpoint resource. */
 export interface PrivateEndpoint {
   /** The ARM identifier for Private Endpoint */
-  id?: string;
+  id?: string | undefined;
 }
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProvisioningState =
@@ -902,36 +904,36 @@ export type PrivateEndpointConnectionProvisioningState =
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
   /** The resource of private end point. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 export interface ContainerAppPrivateEndpointConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The configuration settings of the platform of ContainerApp Service Authentication/Authorization. */
 export interface AuthPlatform {
   /** <code>true</code> if the Authentication / Authorization feature is enabled for the current app; otherwise, <code>false</code>. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The RuntimeVersion of the Authentication / Authorization feature in use for the current app. The setting in this value can control the behavior of certain features in the Authentication / Authorization module. */
-  runtimeVersion?: string;
+  runtimeVersion?: string | undefined;
 }
 /** The action to take when an unauthenticated client attempts to access the app. */
 export type UnauthenticatedClientActionV2 =
@@ -944,35 +946,35 @@ export type GlobalValidationExcludedPathsList = Array<string>;
 /** The configuration settings that determines the validation flow of users using ContainerApp Service Authentication/Authorization. */
 export interface GlobalValidation {
   /** The action to take when an unauthenticated client attempts to access the app. */
-  unauthenticatedClientAction?: UnauthenticatedClientActionV2 | (string & {});
+  unauthenticatedClientAction?: UnauthenticatedClientActionV2 | (string & {}) | undefined;
   /** The default authentication provider to use when multiple providers are configured. This setting is only needed if multiple providers are configured and the unauthenticated client action is set to "RedirectToLoginPage". */
-  redirectToProvider?: string;
+  redirectToProvider?: string | undefined;
   /** The paths for which unauthenticated flow would not be redirected to the login page. */
-  excludedPaths?: GlobalValidationExcludedPathsList;
+  excludedPaths?: GlobalValidationExcludedPathsList | undefined;
 }
 /** The configuration settings of the Azure Active Directory app registration. */
 export interface AzureActiveDirectoryRegistration {
   /** The OpenID Connect Issuer URI that represents the entity which issues access tokens for this application. When using Azure Active Directory, this value is the URI of the directory tenant, e.g. https://login.microsoftonline.com/v2.0/{tenant-guid}/. This URI is a case-sensitive identifier for the token issuer. More information on OpenID Connect Discovery: http://openid.net/specs/openid-connect-discovery-1_0.html */
-  openIdIssuer?: string;
+  openIdIssuer?: string | undefined;
   /** The Client ID of this relying party application, known as the client_id. This setting is required for enabling OpenID Connection authentication with Azure Active Directory or other 3rd party OpenID Connect providers. More information on OpenID Connect: http://openid.net/specs/openid-connect-core-1_0.html */
-  clientId?: string;
+  clientId?: string | undefined;
   /** The app setting name that contains the client secret of the relying party application. */
-  clientSecretSettingName?: string;
+  clientSecretSettingName?: string | undefined;
   /** An alternative to the client secret, that is the thumbprint of a certificate used for signing purposes. This property acts as a replacement for the Client Secret. It is also optional. */
-  clientSecretCertificateThumbprint?: string;
+  clientSecretCertificateThumbprint?: string | undefined;
   /** An alternative to the client secret thumbprint, that is the subject alternative name of a certificate used for signing purposes. This property acts as a replacement for the Client Secret Certificate Thumbprint. It is also optional. */
-  clientSecretCertificateSubjectAlternativeName?: string;
+  clientSecretCertificateSubjectAlternativeName?: string | undefined;
   /** An alternative to the client secret thumbprint, that is the issuer of a certificate used for signing purposes. This property acts as a replacement for the Client Secret Certificate Thumbprint. It is also optional. */
-  clientSecretCertificateIssuer?: string;
+  clientSecretCertificateIssuer?: string | undefined;
 }
 /** Login parameters to send to the OpenID Connect authorization endpoint when a user logs in. Each parameter must be in the form "key=value". */
 export type AzureActiveDirectoryLoginLoginParametersList = Array<string>;
 /** The configuration settings of the Azure Active Directory login flow. */
 export interface AzureActiveDirectoryLogin {
   /** Login parameters to send to the OpenID Connect authorization endpoint when a user logs in. Each parameter must be in the form "key=value". */
-  loginParameters?: AzureActiveDirectoryLoginLoginParametersList;
+  loginParameters?: AzureActiveDirectoryLoginLoginParametersList | undefined;
   /** <code>true</code> if the www-authenticate provider should be omitted from the request; otherwise, <code>false</code>. */
-  disableWWWAuthenticate?: boolean;
+  disableWWWAuthenticate?: boolean | undefined;
 }
 /** The list of the allowed groups. */
 export type JwtClaimChecksAllowedGroupsList = Array<string>;
@@ -981,9 +983,9 @@ export type JwtClaimChecksAllowedClientApplicationsList = Array<string>;
 /** The configuration settings of the checks that should be made while validating the JWT Claims. */
 export interface JwtClaimChecks {
   /** The list of the allowed groups. */
-  allowedGroups?: JwtClaimChecksAllowedGroupsList;
+  allowedGroups?: JwtClaimChecksAllowedGroupsList | undefined;
   /** The list of the allowed client applications. */
-  allowedClientApplications?: JwtClaimChecksAllowedClientApplicationsList;
+  allowedClientApplications?: JwtClaimChecksAllowedClientApplicationsList | undefined;
 }
 /** The list of audiences that can make successful authentication/authorization requests. */
 export type AzureActiveDirectoryValidationAllowedAudiencesList = Array<string>;
@@ -994,185 +996,185 @@ export type AllowedPrincipalsIdentitiesList = Array<string>;
 /** The configuration settings of the Azure Active Directory allowed principals. */
 export interface AllowedPrincipals {
   /** The list of the allowed groups. */
-  groups?: AllowedPrincipalsGroupsList;
+  groups?: AllowedPrincipalsGroupsList | undefined;
   /** The list of the allowed identities. */
-  identities?: AllowedPrincipalsIdentitiesList;
+  identities?: AllowedPrincipalsIdentitiesList | undefined;
 }
 /** The configuration settings of the Azure Active Directory allowed applications. */
 export type DefaultAuthorizationPolicyAllowedApplicationsList = Array<string>;
 /** The configuration settings of the Azure Active Directory default authorization policy. */
 export interface DefaultAuthorizationPolicy {
   /** The configuration settings of the Azure Active Directory allowed principals. */
-  allowedPrincipals?: AllowedPrincipals;
+  allowedPrincipals?: AllowedPrincipals | undefined;
   /** The configuration settings of the Azure Active Directory allowed applications. */
-  allowedApplications?: DefaultAuthorizationPolicyAllowedApplicationsList;
+  allowedApplications?: DefaultAuthorizationPolicyAllowedApplicationsList | undefined;
 }
 /** The configuration settings of the Azure Active Directory token validation flow. */
 export interface AzureActiveDirectoryValidation {
   /** The configuration settings of the checks that should be made while validating the JWT Claims. */
-  jwtClaimChecks?: JwtClaimChecks;
+  jwtClaimChecks?: JwtClaimChecks | undefined;
   /** The list of audiences that can make successful authentication/authorization requests. */
-  allowedAudiences?: AzureActiveDirectoryValidationAllowedAudiencesList;
+  allowedAudiences?: AzureActiveDirectoryValidationAllowedAudiencesList | undefined;
   /** The configuration settings of the default authorization policy. */
-  defaultAuthorizationPolicy?: DefaultAuthorizationPolicy;
+  defaultAuthorizationPolicy?: DefaultAuthorizationPolicy | undefined;
 }
 /** The configuration settings of the Azure Active directory provider. */
 export interface AzureActiveDirectory {
   /** <code>false</code> if the Azure Active Directory provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The configuration settings of the Azure Active Directory app registration. */
-  registration?: AzureActiveDirectoryRegistration;
+  registration?: AzureActiveDirectoryRegistration | undefined;
   /** The configuration settings of the Azure Active Directory login flow. */
-  login?: AzureActiveDirectoryLogin;
+  login?: AzureActiveDirectoryLogin | undefined;
   /** The configuration settings of the Azure Active Directory token validation flow. */
-  validation?: AzureActiveDirectoryValidation;
+  validation?: AzureActiveDirectoryValidation | undefined;
   /** Gets a value indicating whether the Azure AD configuration was auto-provisioned using 1st party tooling. This is an internal flag primarily intended to support the Azure Management Portal. Users should not read or write to this property. */
-  isAutoProvisioned?: boolean;
+  isAutoProvisioned?: boolean | undefined;
 }
 /** The configuration settings of the app registration for providers that have app ids and app secrets */
 export interface AppRegistration {
   /** The App ID of the app used for login. */
-  appId?: string;
+  appId?: string | undefined;
   /** The app setting name that contains the app secret. */
-  appSecretSettingName?: string;
+  appSecretSettingName?: string | undefined;
 }
 /** A list of the scopes that should be requested while authenticating. */
 export type LoginScopesScopesList = Array<string>;
 /** The configuration settings of the login flow, including the scopes that should be requested. */
 export interface LoginScopes {
   /** A list of the scopes that should be requested while authenticating. */
-  scopes?: LoginScopesScopesList;
+  scopes?: LoginScopesScopesList | undefined;
 }
 /** The configuration settings of the Facebook provider. */
 export interface Facebook {
   /** <code>false</code> if the Facebook provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The configuration settings of the app registration for the Facebook provider. */
-  registration?: AppRegistration;
+  registration?: AppRegistration | undefined;
   /** The version of the Facebook api to be used while logging in. */
-  graphApiVersion?: string;
+  graphApiVersion?: string | undefined;
   /** The configuration settings of the login flow. */
-  login?: LoginScopes;
+  login?: LoginScopes | undefined;
 }
 /** The configuration settings of the app registration for providers that have client ids and client secrets */
 export interface ClientRegistration {
   /** The Client ID of the app used for login. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** The app setting name that contains the client secret. */
-  clientSecretSettingName?: string;
+  clientSecretSettingName?: string | undefined;
 }
 /** The configuration settings of the GitHub provider. */
 export interface GitHub {
   /** <code>false</code> if the GitHub provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The configuration settings of the app registration for the GitHub provider. */
-  registration?: ClientRegistration;
+  registration?: ClientRegistration | undefined;
   /** The configuration settings of the login flow. */
-  login?: LoginScopes;
+  login?: LoginScopes | undefined;
 }
 /** The configuration settings of the allowed list of audiences from which to validate the JWT token. */
 export type AllowedAudiencesValidationAllowedAudiencesList = Array<string>;
 /** The configuration settings of the Allowed Audiences validation flow. */
 export interface AllowedAudiencesValidation {
   /** The configuration settings of the allowed list of audiences from which to validate the JWT token. */
-  allowedAudiences?: AllowedAudiencesValidationAllowedAudiencesList;
+  allowedAudiences?: AllowedAudiencesValidationAllowedAudiencesList | undefined;
 }
 /** The configuration settings of the Google provider. */
 export interface Google {
   /** <code>false</code> if the Google provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The configuration settings of the app registration for the Google provider. */
-  registration?: ClientRegistration;
+  registration?: ClientRegistration | undefined;
   /** The configuration settings of the login flow. */
-  login?: LoginScopes;
+  login?: LoginScopes | undefined;
   /** The configuration settings of the Azure Active Directory token validation flow. */
-  validation?: AllowedAudiencesValidation;
+  validation?: AllowedAudiencesValidation | undefined;
 }
 /** The configuration settings of the app registration for the Twitter provider. */
 export interface TwitterRegistration {
   /** The OAuth 1.0a consumer key of the Twitter application used for sign-in. This setting is required for enabling Twitter Sign-In. Twitter Sign-In documentation: https://dev.twitter.com/web/sign-in */
-  consumerKey?: string;
+  consumerKey?: string | undefined;
   /** The app setting name that contains the OAuth 1.0a consumer secret of the Twitter application used for sign-in. */
-  consumerSecretSettingName?: string;
+  consumerSecretSettingName?: string | undefined;
 }
 /** The configuration settings of the Twitter provider. */
 export interface Twitter {
   /** <code>false</code> if the Twitter provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The configuration settings of the app registration for the Twitter provider. */
-  registration?: TwitterRegistration;
+  registration?: TwitterRegistration | undefined;
 }
 /** The configuration settings of the registration for the Apple provider */
 export type AppleRegistration = ClientRegistration;
 /** The configuration settings of the Apple provider. */
 export interface Apple {
   /** <code>false</code> if the Apple provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The configuration settings of the Apple registration. */
-  registration?: ClientRegistration;
+  registration?: ClientRegistration | undefined;
   /** The configuration settings of the login flow. */
-  login?: LoginScopes;
+  login?: LoginScopes | undefined;
 }
 /** The configuration settings of the registration for the Azure Static Web Apps provider */
 export interface AzureStaticWebAppsRegistration {
   /** The Client ID of the app used for login. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The configuration settings of the Azure Static Web Apps provider. */
 export interface AzureStaticWebApps {
   /** <code>false</code> if the Azure Static Web Apps provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The configuration settings of the Azure Static Web Apps registration. */
-  registration?: AzureStaticWebAppsRegistration;
+  registration?: AzureStaticWebAppsRegistration | undefined;
 }
 /** The method that should be used to authenticate the user. */
 export type OpenIdConnectClientCredentialMethod = "ClientSecretPost";
 /** The authentication client credentials of the custom Open ID Connect provider. */
 export interface OpenIdConnectClientCredential {
   /** The method that should be used to authenticate the user. */
-  method?: OpenIdConnectClientCredentialMethod | (string & {});
+  method?: OpenIdConnectClientCredentialMethod | (string & {}) | undefined;
   /** The app setting that contains the client secret for the custom Open ID Connect provider. */
-  clientSecretSettingName?: string;
+  clientSecretSettingName?: string | undefined;
 }
 /** The configuration settings of the endpoints used for the custom Open ID Connect provider. */
 export interface OpenIdConnectConfig {
   /** The endpoint to be used to make an authorization request. */
-  authorizationEndpoint?: string;
+  authorizationEndpoint?: string | undefined;
   /** The endpoint to be used to request a token. */
-  tokenEndpoint?: string;
+  tokenEndpoint?: string | undefined;
   /** The endpoint that issues the token. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** The endpoint that provides the keys necessary to validate the token. */
-  certificationUri?: string;
+  certificationUri?: string | undefined;
   /** The endpoint that contains all the configuration endpoints for the provider. */
-  wellKnownOpenIdConfiguration?: string;
+  wellKnownOpenIdConfiguration?: string | undefined;
 }
 /** The configuration settings of the app registration for the custom Open ID Connect provider. */
 export interface OpenIdConnectRegistration {
   /** The client id of the custom Open ID Connect provider. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** The authentication credentials of the custom Open ID Connect provider. */
-  clientCredential?: OpenIdConnectClientCredential;
+  clientCredential?: OpenIdConnectClientCredential | undefined;
   /** The configuration settings of the endpoints used for the custom Open ID Connect provider. */
-  openIdConnectConfiguration?: OpenIdConnectConfig;
+  openIdConnectConfiguration?: OpenIdConnectConfig | undefined;
 }
 /** A list of the scopes that should be requested while authenticating. */
 export type OpenIdConnectLoginScopesList = Array<string>;
 /** The configuration settings of the login flow of the custom Open ID Connect provider. */
 export interface OpenIdConnectLogin {
   /** The name of the claim that contains the users name. */
-  nameClaimType?: string;
+  nameClaimType?: string | undefined;
   /** A list of the scopes that should be requested while authenticating. */
-  scopes?: OpenIdConnectLoginScopesList;
+  scopes?: OpenIdConnectLoginScopesList | undefined;
 }
 /** The configuration settings of the custom Open ID Connect provider. */
 export interface CustomOpenIdConnectProvider {
   /** <code>false</code> if the custom Open ID provider provider should not be enabled; otherwise, <code>true</code>. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The configuration settings of the app registration for the custom Open ID Connect provider. */
-  registration?: OpenIdConnectRegistration;
+  registration?: OpenIdConnectRegistration | undefined;
   /** The configuration settings of the login flow of the custom Open ID Connect provider. */
-  login?: OpenIdConnectLogin;
+  login?: OpenIdConnectLogin | undefined;
 }
 /** The map of the name of the alias of each custom Open ID Connect provider to the configuration settings of the custom Open ID Connect provider. */
 export type IdentityProvidersCustomOpenIdConnectProvidersMap = {
@@ -1181,46 +1183,46 @@ export type IdentityProvidersCustomOpenIdConnectProvidersMap = {
 /** The configuration settings of each of the identity providers used to configure ContainerApp Service Authentication/Authorization. */
 export interface IdentityProviders {
   /** The configuration settings of the Azure Active directory provider. */
-  azureActiveDirectory?: AzureActiveDirectory;
+  azureActiveDirectory?: AzureActiveDirectory | undefined;
   /** The configuration settings of the Facebook provider. */
-  facebook?: Facebook;
+  facebook?: Facebook | undefined;
   /** The configuration settings of the GitHub provider. */
-  gitHub?: GitHub;
+  gitHub?: GitHub | undefined;
   /** The configuration settings of the Google provider. */
-  google?: Google;
+  google?: Google | undefined;
   /** The configuration settings of the Twitter provider. */
-  twitter?: Twitter;
+  twitter?: Twitter | undefined;
   /** The configuration settings of the Apple provider. */
-  apple?: Apple;
+  apple?: Apple | undefined;
   /** The configuration settings of the Azure Static Web Apps provider. */
-  azureStaticWebApps?: AzureStaticWebApps;
+  azureStaticWebApps?: AzureStaticWebApps | undefined;
   /** The map of the name of the alias of each custom Open ID Connect provider to the configuration settings of the custom Open ID Connect provider. */
-  customOpenIdConnectProviders?: IdentityProvidersCustomOpenIdConnectProvidersMap;
+  customOpenIdConnectProviders?: IdentityProvidersCustomOpenIdConnectProvidersMap | undefined;
 }
 /** The routes that specify the endpoints used for login and logout requests. */
 export interface LoginRoutes {
   /** The endpoint at which a logout request should be made. */
-  logoutEndpoint?: string;
+  logoutEndpoint?: string | undefined;
 }
 /** The configuration settings of the storage of the tokens if blob storage is used. */
 export interface BlobStorageTokenStore {
   /** The name of the app secrets containing the SAS URL of the blob storage containing the tokens. */
-  sasUrlSettingName?: string;
+  sasUrlSettingName?: string | undefined;
   /** The URI of the blob storage containing the tokens. Should not be used along with sasUrlSettingName. */
-  blobContainerUri?: string;
+  blobContainerUri?: string | undefined;
   /** The Client ID of a User-Assigned Managed Identity. Should not be used along with managedIdentityResourceId. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** The Resource ID of a User-Assigned Managed Identity. Should not be used along with clientId. */
-  managedIdentityResourceId?: string;
+  managedIdentityResourceId?: string | undefined;
 }
 /** The configuration settings of the token store. */
 export interface TokenStore {
   /** <code>true</code> to durably store platform-specific security tokens that are obtained during login flows; otherwise, <code>false</code>. The default is <code>false</code>. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The number of hours after session token expiration that a session token can be used to call the token refresh API. The default is 72 hours. */
-  tokenRefreshExtensionHours?: number;
+  tokenRefreshExtensionHours?: number | undefined;
   /** The configuration settings of the storage of the tokens if blob storage is used. */
-  azureBlobStorage?: BlobStorageTokenStore;
+  azureBlobStorage?: BlobStorageTokenStore | undefined;
 }
 /** External URLs that can be redirected to as part of logging in or logging out of the app. Note that the query string part of the URL is ignored. This is an advanced setting typically only needed by Windows Store application backends. Note that URLs within the current domain are always implicitly allowed. */
 export type LoginAllowedExternalRedirectUrlsList = Array<string>;
@@ -1229,78 +1231,78 @@ export type CookieExpirationConvention = "FixedTime" | "IdentityProviderDerived"
 /** The configuration settings of the session cookie's expiration. */
 export interface CookieExpiration {
   /** The convention used when determining the session cookie's expiration. */
-  convention?: CookieExpirationConvention | (string & {});
+  convention?: CookieExpirationConvention | (string & {}) | undefined;
   /** The time after the request is made when the session cookie should expire. */
-  timeToExpiration?: string;
+  timeToExpiration?: string | undefined;
 }
 /** The configuration settings of the nonce used in the login flow. */
 export interface Nonce {
   /** <code>false</code> if the nonce should not be validated while completing the login flow; otherwise, <code>true</code>. */
-  validateNonce?: boolean;
+  validateNonce?: boolean | undefined;
   /** The time after the request is made when the nonce should expire. */
-  nonceExpirationInterval?: string;
+  nonceExpirationInterval?: string | undefined;
 }
 /** The configuration settings of the login flow of users using ContainerApp Service Authentication/Authorization. */
 export interface Login {
   /** The routes that specify the endpoints used for login and logout requests. */
-  routes?: LoginRoutes;
+  routes?: LoginRoutes | undefined;
   /** The configuration settings of the token store. */
-  tokenStore?: TokenStore;
+  tokenStore?: TokenStore | undefined;
   /** <code>true</code> if the fragments from the request are preserved after the login request is made; otherwise, <code>false</code>. */
-  preserveUrlFragmentsForLogins?: boolean;
+  preserveUrlFragmentsForLogins?: boolean | undefined;
   /** External URLs that can be redirected to as part of logging in or logging out of the app. Note that the query string part of the URL is ignored. This is an advanced setting typically only needed by Windows Store application backends. Note that URLs within the current domain are always implicitly allowed. */
-  allowedExternalRedirectUrls?: LoginAllowedExternalRedirectUrlsList;
+  allowedExternalRedirectUrls?: LoginAllowedExternalRedirectUrlsList | undefined;
   /** The configuration settings of the session cookie's expiration. */
-  cookieExpiration?: CookieExpiration;
+  cookieExpiration?: CookieExpiration | undefined;
   /** The configuration settings of the nonce used in the login flow. */
-  nonce?: Nonce;
+  nonce?: Nonce | undefined;
 }
 /** The configuration settings of the paths HTTP requests. */
 export interface HttpSettingsRoutes {
   /** The prefix that should precede all the authentication/authorization paths. */
-  apiPrefix?: string;
+  apiPrefix?: string | undefined;
 }
 /** The convention used to determine the url of the request made. */
 export type ForwardProxyConvention = "NoProxy" | "Standard" | "Custom";
 /** The configuration settings of a forward proxy used to make the requests. */
 export interface ForwardProxy {
   /** The convention used to determine the url of the request made. */
-  convention?: ForwardProxyConvention | (string & {});
+  convention?: ForwardProxyConvention | (string & {}) | undefined;
   /** The name of the header containing the host of the request. */
-  customHostHeaderName?: string;
+  customHostHeaderName?: string | undefined;
   /** The name of the header containing the scheme of the request. */
-  customProtoHeaderName?: string;
+  customProtoHeaderName?: string | undefined;
 }
 /** The configuration settings of the HTTP requests for authentication and authorization requests made against ContainerApp Service Authentication/Authorization. */
 export interface HttpSettings {
   /** <code>false</code> if the authentication/authorization responses not having the HTTPS scheme are permissible; otherwise, <code>true</code>. */
-  requireHttps?: boolean;
+  requireHttps?: boolean | undefined;
   /** The configuration settings of the paths HTTP requests. */
-  routes?: HttpSettingsRoutes;
+  routes?: HttpSettingsRoutes | undefined;
   /** The configuration settings of a forward proxy used to make the requests. */
-  forwardProxy?: ForwardProxy;
+  forwardProxy?: ForwardProxy | undefined;
 }
 /** The configuration settings of the secrets references of encryption key and signing key for ContainerApp Service Authentication/Authorization. */
 export interface EncryptionSettings {
   /** The secret name which is referenced for EncryptionKey. */
-  containerAppAuthEncryptionSecretName?: string;
+  containerAppAuthEncryptionSecretName?: string | undefined;
   /** The secret name which is referenced for SigningKey. */
-  containerAppAuthSigningSecretName?: string;
+  containerAppAuthSigningSecretName?: string | undefined;
 }
 /** AuthConfig resource specific properties */
 export interface AuthConfigProperties {
   /** The configuration settings of the platform of ContainerApp Service Authentication/Authorization. */
-  platform?: AuthPlatform;
+  platform?: AuthPlatform | undefined;
   /** The configuration settings that determines the validation flow of users using Service Authentication/Authorization. */
-  globalValidation?: GlobalValidation;
+  globalValidation?: GlobalValidation | undefined;
   /** The configuration settings of each of the identity providers used to configure ContainerApp Service Authentication/Authorization. */
-  identityProviders?: IdentityProviders;
+  identityProviders?: IdentityProviders | undefined;
   /** The configuration settings of the login flow of users using ContainerApp Service Authentication/Authorization. */
-  login?: Login;
+  login?: Login | undefined;
   /** The configuration settings of the HTTP requests for authentication and authorization requests made against ContainerApp Service Authentication/Authorization. */
-  httpSettings?: HttpSettings;
+  httpSettings?: HttpSettings | undefined;
   /** The configuration settings of the secrets references of encryption key and signing key for ContainerApp Service Authentication/Authorization. */
-  encryptionSettings?: EncryptionSettings;
+  encryptionSettings?: EncryptionSettings | undefined;
 }
 export interface ContainerAppsAuthConfigsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1312,26 +1314,26 @@ export interface ContainerAppsAuthConfigsCreateOrUpdateRequest {
   /** Name of the Container App AuthConfig. */
   authConfigName: string;
   /** AuthConfig resource specific properties */
-  properties?: AuthConfigProperties;
+  properties?: AuthConfigProperties | undefined;
 }
 export interface ContainerAppsAuthConfigsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** AuthConfig resource specific properties */
-  properties?: AuthConfigProperties;
+  properties?: AuthConfigProperties | undefined;
 }
 /** Resource tags. */
 export type ContainerAppsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Networking configuration for a Container App. Only supported for Container Apps deployed into an Express managed environment. */
 export interface ContainerAppNetworkingConfiguration {
   /** Resource ID of a subnet used for outbound (egress) traffic from this Container App. Only supported for Container Apps in an Express managed environment. Mutually exclusive with the environment-level VNet configuration and immutable after the Container App is created. */
-  outboundVnetSubnetId?: string;
+  outboundVnetSubnetId?: string | undefined;
 }
 /** Collection of secrets used by a Container app */
 export type ConfigurationInputSecretsList = Array<Secret>;
@@ -1342,13 +1344,13 @@ export type IngressInputTransport = "auto" | "http" | "http2" | "tcp";
 /** Traffic weight assigned to a revision */
 export interface TrafficWeight {
   /** Name of a revision */
-  revisionName?: string;
+  revisionName?: string | undefined;
   /** Traffic weight assigned to a revision */
-  weight?: number;
+  weight?: number | undefined;
   /** Indicates that the traffic weight belongs to a latest stable revision */
-  latestRevision?: boolean;
+  latestRevision?: boolean | undefined;
   /** Associates a traffic label with a revision */
-  label?: string;
+  label?: string | undefined;
 }
 /** Traffic weights for app's revisions */
 export type IngressInputTrafficList = Array<TrafficWeight>;
@@ -1359,9 +1361,9 @@ export interface CustomDomain {
   /** Hostname. */
   name: string;
   /** Custom Domain binding type. */
-  bindingType?: BindingType | (string & {});
+  bindingType?: BindingType | (string & {}) | undefined;
   /** Resource Id of the Certificate to be bound to this hostname. Must exist in the Managed Environment. */
-  certificateId?: string;
+  certificateId?: string | undefined;
 }
 /** custom domain bindings for Container Apps' hostnames. */
 export type IngressInputCustomDomainsList = Array<CustomDomain>;
@@ -1372,7 +1374,7 @@ export interface IpSecurityRestrictionRule {
   /** Name for the IP restriction rule. */
   name: string;
   /** Describe the IP restriction rule that is being sent to the container-app. This is an optional field. */
-  description?: string;
+  description?: string | undefined;
   /** CIDR notation to match incoming IP address */
   ipAddressRange: string;
   /** Allow or Deny rules to determine for incoming IP. Note: Rules can only consist of ALL Allow or ALL Deny */
@@ -1385,7 +1387,7 @@ export type Affinity = "sticky" | "none";
 /** Sticky Sessions for Single Revision Mode */
 export interface IngressStickySessions {
   /** Sticky Session Affinity */
-  affinity?: Affinity | (string & {});
+  affinity?: Affinity | (string & {}) | undefined;
 }
 /** Client certificate mode for mTLS authentication. Ignore indicates server drops client certificate on forwarding. Accept indicates server forwards client certificate but does not require a client certificate. Require indicates server requires a client certificate. */
 export type IngressClientCertificateMode = "ignore" | "accept" | "require";
@@ -1402,15 +1404,15 @@ export interface CorsPolicy {
   /** Specifies the content for the access-control-allow-origins header */
   allowedOrigins: CorsPolicyAllowedOriginsList;
   /** Specifies the content for the access-control-allow-methods header */
-  allowedMethods?: CorsPolicyAllowedMethodsList;
+  allowedMethods?: CorsPolicyAllowedMethodsList | undefined;
   /** Specifies the content for the access-control-allow-headers header */
-  allowedHeaders?: CorsPolicyAllowedHeadersList;
+  allowedHeaders?: CorsPolicyAllowedHeadersList | undefined;
   /** Specifies the content for the access-control-expose-headers header */
-  exposeHeaders?: CorsPolicyExposeHeadersList;
+  exposeHeaders?: CorsPolicyExposeHeadersList | undefined;
   /** Specifies the content for the access-control-max-age header */
-  maxAge?: number;
+  maxAge?: number | undefined;
   /** Specifies whether the resource allows credentials */
-  allowCredentials?: boolean;
+  allowCredentials?: boolean | undefined;
 }
 /** Port mappings of container app ingress */
 export interface IngressPortMapping {
@@ -1419,47 +1421,47 @@ export interface IngressPortMapping {
   /** Specifies the port user's container listens on */
   targetPort: number;
   /** Specifies the exposed port for the target port. If not specified, it defaults to target port */
-  exposedPort?: number;
+  exposedPort?: number | undefined;
 }
 /** Settings to expose additional ports on container app */
 export type IngressInputAdditionalPortMappingsList = Array<IngressPortMapping>;
 /** Container App Ingress configuration. */
 export interface IngressInput {
   /** Bool indicating if app exposes an external http endpoint */
-  external?: boolean;
+  external?: boolean | undefined;
   /** Target Port in containers for traffic from ingress */
-  targetPort?: number;
+  targetPort?: number | undefined;
   /** Exposed Port in containers for TCP traffic from ingress */
-  exposedPort?: number;
+  exposedPort?: number | undefined;
   /** Ingress transport protocol */
-  transport?: IngressInputTransport | (string & {});
+  transport?: IngressInputTransport | (string & {}) | undefined;
   /** Traffic weights for app's revisions */
-  traffic?: IngressInputTrafficList;
+  traffic?: IngressInputTrafficList | undefined;
   /** custom domain bindings for Container Apps' hostnames. */
-  customDomains?: IngressInputCustomDomainsList;
+  customDomains?: IngressInputCustomDomainsList | undefined;
   /** Bool indicating if HTTP connections to is allowed. If set to false HTTP connections are automatically redirected to HTTPS connections */
-  allowInsecure?: boolean;
+  allowInsecure?: boolean | undefined;
   /** Rules to restrict incoming IP address. */
-  ipSecurityRestrictions?: IngressInputIpSecurityRestrictionsList;
+  ipSecurityRestrictions?: IngressInputIpSecurityRestrictionsList | undefined;
   /** Sticky Sessions for Single Revision Mode */
-  stickySessions?: IngressStickySessions;
+  stickySessions?: IngressStickySessions | undefined;
   /** Client certificate mode for mTLS authentication. Ignore indicates server drops client certificate on forwarding. Accept indicates server forwards client certificate but does not require a client certificate. Require indicates server requires a client certificate. */
-  clientCertificateMode?: IngressClientCertificateMode | (string & {});
+  clientCertificateMode?: IngressClientCertificateMode | (string & {}) | undefined;
   /** CORS policy for container app */
-  corsPolicy?: CorsPolicy;
+  corsPolicy?: CorsPolicy | undefined;
   /** Settings to expose additional ports on container app */
-  additionalPortMappings?: IngressInputAdditionalPortMappingsList;
+  additionalPortMappings?: IngressInputAdditionalPortMappingsList | undefined;
 }
 /** Container App Private Registry */
 export interface RegistryCredentials {
   /** Container Registry Server */
-  server?: string;
+  server?: string | undefined;
   /** Container Registry Username */
-  username?: string;
+  username?: string | undefined;
   /** The name of the Secret that contains the registry login password */
-  passwordSecretRef?: string | Redacted.Redacted<string>;
+  passwordSecretRef?: string | Redacted.Redacted<string> | undefined;
   /** A Managed Identity to use to authenticate with Azure Container Registry. For user-assigned identities, use the full user-assigned identity Resource ID. For system-assigned identities, use 'system' */
-  identity?: string;
+  identity?: string | undefined;
 }
 /** Collection of private container registry credentials for containers used by the Container app */
 export type ConfigurationInputRegistriesList = Array<RegistryCredentials>;
@@ -1470,48 +1472,48 @@ export type LogLevel = "info" | "debug" | "warn" | "error";
 /** Dapr application health check configuration */
 export interface DaprAppHealth {
   /** Boolean indicating if the health probe is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Path for the health probe */
-  path?: string;
+  path?: string | undefined;
   /** Interval for the health probe in seconds */
-  probeIntervalSeconds?: number;
+  probeIntervalSeconds?: number | undefined;
   /** Timeout for the health probe in milliseconds */
-  probeTimeoutMilliseconds?: number;
+  probeTimeoutMilliseconds?: number | undefined;
   /** Threshold for the health probe */
-  threshold?: number;
+  threshold?: number | undefined;
 }
 /** Container App Dapr configuration. */
 export interface Dapr {
   /** Boolean indicating if the Dapr side car is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Dapr application identifier */
-  appId?: string;
+  appId?: string | undefined;
   /** Tells Dapr which protocol your application is using. Valid options are http and grpc. Default is http */
-  appProtocol?: DaprAppProtocol | (string & {});
+  appProtocol?: DaprAppProtocol | (string & {}) | undefined;
   /** Tells Dapr which port your application is listening on */
-  appPort?: number;
+  appPort?: number | undefined;
   /** Dapr max size of http header read buffer in KB to handle when sending multi-KB headers. Default is 65KB. */
-  httpReadBufferSize?: number;
+  httpReadBufferSize?: number | undefined;
   /** Increasing max size of request body http and grpc servers parameter in MB to handle uploading of big files. Default is 4 MB. */
-  httpMaxRequestSize?: number;
+  httpMaxRequestSize?: number | undefined;
   /** Sets the log level for the Dapr sidecar. Allowed values are debug, info, warn, error. Default is info. */
-  logLevel?: LogLevel | (string & {});
+  logLevel?: LogLevel | (string & {}) | undefined;
   /** Enables API logging for the Dapr sidecar */
-  enableApiLogging?: boolean;
+  enableApiLogging?: boolean | undefined;
   /** Dapr application health check configuration */
-  appHealth?: DaprAppHealth;
+  appHealth?: DaprAppHealth | undefined;
   /** Maximum number of concurrent requests, events handled by the Dapr sidecar */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
 }
 /** Java app configuration */
 export interface RuntimeJava {
   /** Enable jmx core metrics for the java app */
-  enableMetrics?: boolean;
+  enableMetrics?: boolean | undefined;
 }
 /** Container App Runtime configuration. */
 export interface Runtime {
   /** Java app configuration */
-  java?: RuntimeJava;
+  java?: RuntimeJava | undefined;
 }
 /** Container App to be a dev service */
 export interface Service {
@@ -1525,30 +1527,30 @@ export interface IdentitySettings {
   /** The resource ID of a user-assigned managed identity that is assigned to the Container App, or 'system' for system-assigned identity. */
   identity: string;
   /** Use to select the lifecycle stages of a Container App during which the Managed Identity should be available. */
-  lifecycle?: IdentitySettingsLifecycle | (string & {});
+  lifecycle?: IdentitySettingsLifecycle | (string & {}) | undefined;
 }
 /** Optional settings for Managed Identities that are assigned to the Container App. If a Managed Identity is not specified here, default settings will be used. */
 export type ConfigurationInputIdentitySettingsList = Array<IdentitySettings>;
 /** Non versioned Container App configuration properties that define the mutable settings of a Container app */
 export interface ConfigurationInput {
   /** Collection of secrets used by a Container app */
-  secrets?: ConfigurationInputSecretsList;
+  secrets?: ConfigurationInputSecretsList | undefined;
   /** ActiveRevisionsMode controls how active revisions are handled for the Container app: <list><item>Multiple: multiple revisions can be active.</item><item>Single: Only one revision can be active at a time. Revision weights can not be used in this mode. If no value if provided, this is the default.</item></list> */
-  activeRevisionsMode?: ConfigurationInputActiveRevisionsMode | (string & {});
+  activeRevisionsMode?: ConfigurationInputActiveRevisionsMode | (string & {}) | undefined;
   /** Ingress configurations. */
-  ingress?: IngressInput;
+  ingress?: IngressInput | undefined;
   /** Collection of private container registry credentials for containers used by the Container app */
-  registries?: ConfigurationInputRegistriesList;
+  registries?: ConfigurationInputRegistriesList | undefined;
   /** Dapr configuration for the Container App. */
-  dapr?: Dapr;
+  dapr?: Dapr | undefined;
   /** App runtime configuration for the Container App. */
-  runtime?: Runtime;
+  runtime?: Runtime | undefined;
   /** Optional. Max inactive revisions a Container App can have. */
-  maxInactiveRevisions?: number;
+  maxInactiveRevisions?: number | undefined;
   /** Container App to be a dev Container App Service */
-  service?: Service;
+  service?: Service | undefined;
   /** Optional settings for Managed Identities that are assigned to the Container App. If a Managed Identity is not specified here, default settings will be used. */
-  identitySettings?: ConfigurationInputIdentitySettingsList;
+  identitySettings?: ConfigurationInputIdentitySettingsList | undefined;
 }
 /** Container start command. */
 export type BaseContainerInputCommandList = Array<string>;
@@ -1557,48 +1559,48 @@ export type BaseContainerInputArgsList = Array<string>;
 /** Container App container environment variable. */
 export interface EnvironmentVar {
   /** Environment variable name. */
-  name?: string;
+  name?: string | undefined;
   /** Non-secret environment variable value. */
-  value?: string;
+  value?: string | undefined;
   /** Name of the Container App secret from which to pull the environment variable value. */
-  secretRef?: string;
+  secretRef?: string | undefined;
 }
 /** Container environment variables. */
 export type BaseContainerInputEnvList = Array<EnvironmentVar>;
 /** Container App container resource requirements. */
 export interface ContainerResourcesInput {
   /** Required CPU in cores, e.g. 0.5 */
-  cpu?: number;
+  cpu?: number | undefined;
   /** Required memory, e.g. "250Mb" */
-  memory?: string;
+  memory?: string | undefined;
 }
 /** Volume mount for the Container App. */
 export interface VolumeMount {
   /** This must match the Name of a Volume. */
-  volumeName?: string;
+  volumeName?: string | undefined;
   /** Path within the container at which the volume should be mounted.Must not contain ':'. */
-  mountPath?: string;
+  mountPath?: string | undefined;
   /** Path within the volume from which the container's volume should be mounted. Defaults to "" (volume's root). */
-  subPath?: string;
+  subPath?: string | undefined;
 }
 /** Container volume mounts. */
 export type BaseContainerInputVolumeMountsList = Array<VolumeMount>;
 /** Container App base container definition. */
 export interface BaseContainerInput {
   /** Container image tag. */
-  image?: string;
+  image?: string | undefined;
   /** Custom container name. */
-  name?: string;
+  name?: string | undefined;
   /** Container start command. */
-  command?: BaseContainerInputCommandList;
+  command?: BaseContainerInputCommandList | undefined;
   /** Container start command arguments. */
-  args?: BaseContainerInputArgsList;
+  args?: BaseContainerInputArgsList | undefined;
   /** Container environment variables. */
-  env?: BaseContainerInputEnvList;
+  env?: BaseContainerInputEnvList | undefined;
   /** Container resource requirements. */
-  resources?: ContainerResourcesInput;
+  resources?: ContainerResourcesInput | undefined;
   /** Container volume mounts. */
-  volumeMounts?: BaseContainerInputVolumeMountsList;
+  volumeMounts?: BaseContainerInputVolumeMountsList | undefined;
 }
 /** List of specialized containers that run before app containers. */
 export type TemplateInputInitContainersList = Array<BaseContainerInput>;
@@ -1625,20 +1627,20 @@ export type Scheme = "HTTP" | "HTTPS";
 /** HTTPGet specifies the http request to perform. */
 export interface ContainerAppProbeHttpGet {
   /** Host name to connect to, defaults to the pod IP. You probably want to set "Host" in httpHeaders instead. */
-  host?: string;
+  host?: string | undefined;
   /** Custom headers to set in the request. HTTP allows repeated headers. */
-  httpHeaders?: ContainerAppProbeHttpGetHttpHeadersList;
+  httpHeaders?: ContainerAppProbeHttpGetHttpHeadersList | undefined;
   /** Path to access on the HTTP server. */
-  path?: string;
+  path?: string | undefined;
   /** Name or number of the port to access on the container. Number must be in the range 1 to 65535. Name must be an IANA_SVC_NAME. */
   port: number;
   /** Scheme to use for connecting to the host. Defaults to HTTP. */
-  scheme?: Scheme | (string & {});
+  scheme?: Scheme | (string & {}) | undefined;
 }
 /** TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported. */
 export interface ContainerAppProbeTcpSocket {
   /** Optional: Host name to connect to, defaults to the pod IP. */
-  host?: string;
+  host?: string | undefined;
   /** Number or name of the port to access on the container. Number must be in the range 1 to 65535. Name must be an IANA_SVC_NAME. */
   port: number;
 }
@@ -1647,68 +1649,68 @@ export type Type = "Liveness" | "Readiness" | "Startup";
 /** Probe describes a health check to be performed against a container to determine whether it is alive or ready to receive traffic. */
 export interface ContainerAppProbe {
   /** Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1. Maximum value is 10. */
-  failureThreshold?: number;
+  failureThreshold?: number | undefined;
   /** HTTPGet specifies the http request to perform. */
-  httpGet?: ContainerAppProbeHttpGet;
+  httpGet?: ContainerAppProbeHttpGet | undefined;
   /** Number of seconds after the container has started before liveness probes are initiated. Minimum value is 1. Maximum value is 60. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value is 240. */
-  periodSeconds?: number;
+  periodSeconds?: number | undefined;
   /** Minimum consecutive successes for the probe to be considered successful after having failed. Defaults to 1. Must be 1 for liveness and startup. Minimum value is 1. Maximum value is 10. */
-  successThreshold?: number;
+  successThreshold?: number | undefined;
   /** TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported. */
-  tcpSocket?: ContainerAppProbeTcpSocket;
+  tcpSocket?: ContainerAppProbeTcpSocket | undefined;
   /** Optional duration in seconds the pod needs to terminate gracefully upon probe failure. The grace period is the duration in seconds after the processes running in the pod are sent a termination signal and the time when the processes are forcibly halted with a kill signal. Set this value longer than the expected cleanup time for your process. If this value is nil, the pod's terminationGracePeriodSeconds will be used. Otherwise, this value overrides the value provided by the pod spec. Value must be non-negative integer. The value zero indicates stop immediately via the kill signal (no opportunity to shut down). This is an alpha field and requires enabling ProbeTerminationGracePeriod feature gate. Maximum value is 3600 seconds (1 hour) */
-  terminationGracePeriodSeconds?: number;
+  terminationGracePeriodSeconds?: number | undefined;
   /** Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 240. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** The type of probe. */
-  type?: Type | (string & {});
+  type?: Type | (string & {}) | undefined;
 }
 /** List of probes for the container. */
 export type ContainerInputProbesList = Array<ContainerAppProbe>;
 /** Container App container definition */
 export interface ContainerInput {
   /** Container image tag. */
-  image?: string;
+  image?: string | undefined;
   /** Custom container name. */
-  name?: string;
+  name?: string | undefined;
   /** Container start command. */
-  command?: ContainerInputCommandList;
+  command?: ContainerInputCommandList | undefined;
   /** Container start command arguments. */
-  args?: ContainerInputArgsList;
+  args?: ContainerInputArgsList | undefined;
   /** Container environment variables. */
-  env?: ContainerInputEnvList;
+  env?: ContainerInputEnvList | undefined;
   /** Container resource requirements. */
-  resources?: ContainerResourcesInput;
+  resources?: ContainerResourcesInput | undefined;
   /** Container volume mounts. */
-  volumeMounts?: ContainerInputVolumeMountsList;
+  volumeMounts?: ContainerInputVolumeMountsList | undefined;
   /** List of probes for the container. */
-  probes?: ContainerInputProbesList;
+  probes?: ContainerInputProbesList | undefined;
 }
 /** List of container definitions for the Container App. */
 export type TemplateInputContainersList = Array<ContainerInput>;
 /** Auth Secrets for Scale Rule */
 export interface ScaleRuleAuth {
   /** Name of the secret from which to pull the auth params. */
-  secretRef?: string;
+  secretRef?: string | undefined;
   /** Trigger Parameter that uses the secret */
-  triggerParameter?: string;
+  triggerParameter?: string | undefined;
 }
 /** Authentication secrets for the queue scale rule. */
 export type QueueScaleRuleAuthList = Array<ScaleRuleAuth>;
 /** Container App container Azure Queue based scaling rule. */
 export interface QueueScaleRule {
   /** Storage account name. required if using managed identity to authenticate */
-  accountName?: string;
+  accountName?: string | undefined;
   /** Queue name. */
-  queueName?: string;
+  queueName?: string | undefined;
   /** Queue length. */
-  queueLength?: number;
+  queueLength?: number | undefined;
   /** Authentication secrets for the queue scale rule. */
-  auth?: QueueScaleRuleAuthList;
+  auth?: QueueScaleRuleAuthList | undefined;
   /** The resource ID of a user-assigned managed identity that is assigned to the Container App, or 'system' for system-assigned identity. */
-  identity?: string;
+  identity?: string | undefined;
 }
 /** Metadata properties to describe custom scale rule. */
 export type CustomScaleRuleMetadataMap = { [key: string]: string | undefined };
@@ -1717,13 +1719,13 @@ export type CustomScaleRuleAuthList = Array<ScaleRuleAuth>;
 /** Container App container Custom scaling rule. */
 export interface CustomScaleRule {
   /** Type of the custom scale rule eg: azure-servicebus, redis etc. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata properties to describe custom scale rule. */
-  metadata?: CustomScaleRuleMetadataMap;
+  metadata?: CustomScaleRuleMetadataMap | undefined;
   /** Authentication secrets for the custom scale rule. */
-  auth?: CustomScaleRuleAuthList;
+  auth?: CustomScaleRuleAuthList | undefined;
   /** The resource ID of a user-assigned managed identity that is assigned to the Container App, or 'system' for system-assigned identity. */
-  identity?: string;
+  identity?: string | undefined;
 }
 /** Metadata properties to describe http scale rule. */
 export type HttpScaleRuleMetadataMap = { [key: string]: string | undefined };
@@ -1732,11 +1734,11 @@ export type HttpScaleRuleAuthList = Array<ScaleRuleAuth>;
 /** Container App container Http scaling rule. */
 export interface HttpScaleRule {
   /** Metadata properties to describe http scale rule. */
-  metadata?: HttpScaleRuleMetadataMap;
+  metadata?: HttpScaleRuleMetadataMap | undefined;
   /** Authentication secrets for the custom scale rule. */
-  auth?: HttpScaleRuleAuthList;
+  auth?: HttpScaleRuleAuthList | undefined;
   /** The resource ID of a user-assigned managed identity that is assigned to the Container App, or 'system' for system-assigned identity. */
-  identity?: string;
+  identity?: string | undefined;
 }
 /** Metadata properties to describe tcp scale rule. */
 export type TcpScaleRuleMetadataMap = { [key: string]: string | undefined };
@@ -1745,108 +1747,108 @@ export type TcpScaleRuleAuthList = Array<ScaleRuleAuth>;
 /** Container App container Tcp scaling rule. */
 export interface TcpScaleRule {
   /** Metadata properties to describe tcp scale rule. */
-  metadata?: TcpScaleRuleMetadataMap;
+  metadata?: TcpScaleRuleMetadataMap | undefined;
   /** Authentication secrets for the tcp scale rule. */
-  auth?: TcpScaleRuleAuthList;
+  auth?: TcpScaleRuleAuthList | undefined;
   /** The resource ID of a user-assigned managed identity that is assigned to the Container App, or 'system' for system-assigned identity. */
-  identity?: string;
+  identity?: string | undefined;
 }
 /** Container App container scaling rule. */
 export interface ScaleRule {
   /** Scale Rule Name */
-  name?: string;
+  name?: string | undefined;
   /** Azure Queue based scaling. */
-  azureQueue?: QueueScaleRule;
+  azureQueue?: QueueScaleRule | undefined;
   /** Custom scale rule. */
-  custom?: CustomScaleRule;
+  custom?: CustomScaleRule | undefined;
   /** HTTP requests based scaling. */
-  http?: HttpScaleRule;
+  http?: HttpScaleRule | undefined;
   /** Tcp requests based scaling. */
-  tcp?: TcpScaleRule;
+  tcp?: TcpScaleRule | undefined;
 }
 /** Scaling rules. */
 export type ScaleRulesList = Array<ScaleRule>;
 /** Container App scaling configurations. */
 export interface Scale {
   /** Optional. Minimum number of container replicas. */
-  minReplicas?: number;
+  minReplicas?: number | undefined;
   /** Optional. Maximum number of container replicas. Defaults to 10 if not set. */
-  maxReplicas?: number;
+  maxReplicas?: number | undefined;
   /** Optional. KEDA Cooldown Period in seconds. Defaults to 300 seconds if not set. */
-  cooldownPeriod?: number;
+  cooldownPeriod?: number | undefined;
   /** Optional. KEDA Polling Interval in seconds. Defaults to 30 seconds if not set. */
-  pollingInterval?: number;
+  pollingInterval?: number | undefined;
   /** Optional. Whether custom scale rules can override the automatic scale rules. This property is only applicable to Function Apps. */
-  allowScalingRuleOverride?: boolean;
+  allowScalingRuleOverride?: boolean | undefined;
   /** Scaling rules. */
-  rules?: ScaleRulesList;
+  rules?: ScaleRulesList | undefined;
 }
 /** Storage type for the volume. If not provided, use EmptyDir. */
 export type StorageType = "AzureFile" | "EmptyDir" | "Secret" | "NfsAzureFile";
 /** Secret to be added to volume. */
 export interface SecretVolumeItem {
   /** Name of the Container App secret from which to pull the secret value. */
-  secretRef?: string;
+  secretRef?: string | undefined;
   /** Path to project secret to. If no path is provided, path defaults to name of secret listed in secretRef. */
-  path?: string;
+  path?: string | undefined;
 }
 /** List of secrets to be added in volume. If no secrets are provided, all secrets in collection will be added to volume. */
 export type VolumeSecretsList = Array<SecretVolumeItem>;
 /** Volume definitions for the Container App. */
 export interface Volume {
   /** Volume name. */
-  name?: string;
+  name?: string | undefined;
   /** Storage type for the volume. If not provided, use EmptyDir. */
-  storageType?: StorageType | (string & {});
+  storageType?: StorageType | (string & {}) | undefined;
   /** Name of storage resource. No need to provide for EmptyDir and Secret. */
-  storageName?: string;
+  storageName?: string | undefined;
   /** List of secrets to be added in volume. If no secrets are provided, all secrets in collection will be added to volume. */
-  secrets?: VolumeSecretsList;
+  secrets?: VolumeSecretsList | undefined;
   /** Mount options used while mounting the Azure file share or NFS Azure file share. Must be a comma-separated string. */
-  mountOptions?: string;
+  mountOptions?: string | undefined;
 }
 /** List of volume definitions for the Container App. */
 export type TemplateInputVolumesList = Array<Volume>;
 /** Configuration to bind a ContainerApp to a dev ContainerApp Service */
 export interface ServiceBind {
   /** Resource id of the target service */
-  serviceId?: string;
+  serviceId?: string | undefined;
   /** Name of the service bind */
-  name?: string;
+  name?: string | undefined;
 }
 /** List of container app services bound to the app */
 export type TemplateInputServiceBindsList = Array<ServiceBind>;
 /** Container App versioned application definition. Defines the desired state of an immutable revision. Any changes to this section Will result in a new revision being created */
 export interface TemplateInput {
   /** User friendly suffix that is appended to the revision name */
-  revisionSuffix?: string;
+  revisionSuffix?: string | undefined;
   /** Optional duration in seconds the Container App Instance needs to terminate gracefully. Value must be non-negative integer. The value zero indicates stop immediately via the kill signal (no opportunity to shut down). If this value is nil, the default grace period will be used instead. Set this value longer than the expected cleanup time for your process. Defaults to 30 seconds. */
-  terminationGracePeriodSeconds?: number;
+  terminationGracePeriodSeconds?: number | undefined;
   /** List of specialized containers that run before app containers. */
-  initContainers?: TemplateInputInitContainersList;
+  initContainers?: TemplateInputInitContainersList | undefined;
   /** List of container definitions for the Container App. */
-  containers?: TemplateInputContainersList;
+  containers?: TemplateInputContainersList | undefined;
   /** Scaling properties for the Container App. */
-  scale?: Scale;
+  scale?: Scale | undefined;
   /** List of volume definitions for the Container App. */
-  volumes?: TemplateInputVolumesList;
+  volumes?: TemplateInputVolumesList | undefined;
   /** List of container app services bound to the app */
-  serviceBinds?: TemplateInputServiceBindsList;
+  serviceBinds?: TemplateInputServiceBindsList | undefined;
 }
 /** ContainerApp resource specific properties */
 export interface ContainerAppPropertiesInput {
   /** Deprecated. Resource ID of the Container App's environment. */
-  managedEnvironmentId?: string;
+  managedEnvironmentId?: string | undefined;
   /** Resource ID of environment. */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** Networking configuration for the Container App. */
-  networking?: ContainerAppNetworkingConfiguration;
+  networking?: ContainerAppNetworkingConfiguration | undefined;
   /** Workload profile name to pin for container app execution. */
-  workloadProfileName?: string;
+  workloadProfileName?: string | undefined;
   /** Non versioned Container App configuration properties. */
-  configuration?: ConfigurationInput;
+  configuration?: ConfigurationInput | undefined;
   /** Container App versioned application definition. */
-  template?: TemplateInput;
+  template?: TemplateInput | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentitiesInput = {
@@ -1855,7 +1857,7 @@ export type UserAssignedIdentitiesInput = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ContainerAppsCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 /** Metadata to represent the container app kind, representing if a container app is workflowapp or functionapp. */
 export type Kind = "workflowapp" | "functionapp";
@@ -1867,19 +1869,19 @@ export interface ContainerAppsCreateOrUpdateRequest {
   /** Name of the Container App. */
   containerAppName: string;
   /** Resource tags. */
-  tags?: ContainerAppsCreateOrUpdateRequestTagsMap;
+  tags?: ContainerAppsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ContainerApp resource specific properties */
-  properties?: ContainerAppPropertiesInput;
+  properties?: ContainerAppPropertiesInput | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateRequestIdentity;
+  identity?: ContainerAppsCreateOrUpdateRequestIdentity | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata to represent the container app kind, representing if a container app is workflowapp or functionapp. */
-  kind?: Kind | (string & {});
+  kind?: Kind | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type ContainerAppsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -1914,31 +1916,31 @@ export type IngressAdditionalPortMappingsList = Array<IngressPortMapping>;
 /** Container App Ingress configuration. */
 export interface Ingress {
   /** Hostname. */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** Bool indicating if app exposes an external http endpoint */
-  external?: boolean;
+  external?: boolean | undefined;
   /** Target Port in containers for traffic from ingress */
-  targetPort?: number;
+  targetPort?: number | undefined;
   /** Exposed Port in containers for TCP traffic from ingress */
-  exposedPort?: number;
+  exposedPort?: number | undefined;
   /** Ingress transport protocol */
-  transport?: IngressTransport;
+  transport?: IngressTransport | undefined;
   /** Traffic weights for app's revisions */
-  traffic?: IngressTrafficList;
+  traffic?: IngressTrafficList | undefined;
   /** custom domain bindings for Container Apps' hostnames. */
-  customDomains?: IngressCustomDomainsList;
+  customDomains?: IngressCustomDomainsList | undefined;
   /** Bool indicating if HTTP connections to is allowed. If set to false HTTP connections are automatically redirected to HTTPS connections */
-  allowInsecure?: boolean;
+  allowInsecure?: boolean | undefined;
   /** Rules to restrict incoming IP address. */
-  ipSecurityRestrictions?: IngressIpSecurityRestrictionsList;
+  ipSecurityRestrictions?: IngressIpSecurityRestrictionsList | undefined;
   /** Sticky Sessions for Single Revision Mode */
-  stickySessions?: IngressStickySessions;
+  stickySessions?: IngressStickySessions | undefined;
   /** Client certificate mode for mTLS authentication. Ignore indicates server drops client certificate on forwarding. Accept indicates server forwards client certificate but does not require a client certificate. Require indicates server requires a client certificate. */
-  clientCertificateMode?: IngressClientCertificateMode;
+  clientCertificateMode?: IngressClientCertificateMode | undefined;
   /** CORS policy for container app */
-  corsPolicy?: CorsPolicy;
+  corsPolicy?: CorsPolicy | undefined;
   /** Settings to expose additional ports on container app */
-  additionalPortMappings?: IngressAdditionalPortMappingsList;
+  additionalPortMappings?: IngressAdditionalPortMappingsList | undefined;
 }
 /** Collection of private container registry credentials for containers used by the Container app */
 export type ConfigurationRegistriesList = Array<RegistryCredentials>;
@@ -1947,23 +1949,23 @@ export type ConfigurationIdentitySettingsList = Array<IdentitySettings>;
 /** Non versioned Container App configuration properties that define the mutable settings of a Container app */
 export interface Configuration {
   /** Collection of secrets used by a Container app */
-  secrets?: ConfigurationSecretsList;
+  secrets?: ConfigurationSecretsList | undefined;
   /** ActiveRevisionsMode controls how active revisions are handled for the Container app: <list><item>Multiple: multiple revisions can be active.</item><item>Single: Only one revision can be active at a time. Revision weights can not be used in this mode. If no value if provided, this is the default.</item></list> */
-  activeRevisionsMode?: ConfigurationActiveRevisionsMode;
+  activeRevisionsMode?: ConfigurationActiveRevisionsMode | undefined;
   /** Ingress configurations. */
-  ingress?: Ingress;
+  ingress?: Ingress | undefined;
   /** Collection of private container registry credentials for containers used by the Container app */
-  registries?: ConfigurationRegistriesList;
+  registries?: ConfigurationRegistriesList | undefined;
   /** Dapr configuration for the Container App. */
-  dapr?: Dapr;
+  dapr?: Dapr | undefined;
   /** App runtime configuration for the Container App. */
-  runtime?: Runtime;
+  runtime?: Runtime | undefined;
   /** Optional. Max inactive revisions a Container App can have. */
-  maxInactiveRevisions?: number;
+  maxInactiveRevisions?: number | undefined;
   /** Container App to be a dev Container App Service */
-  service?: Service;
+  service?: Service | undefined;
   /** Optional settings for Managed Identities that are assigned to the Container App. If a Managed Identity is not specified here, default settings will be used. */
-  identitySettings?: ConfigurationIdentitySettingsList;
+  identitySettings?: ConfigurationIdentitySettingsList | undefined;
 }
 /** Container start command. */
 export type BaseContainerCommandList = Array<string>;
@@ -1974,30 +1976,30 @@ export type BaseContainerEnvList = Array<EnvironmentVar>;
 /** Container App container resource requirements. */
 export interface ContainerResources {
   /** Required CPU in cores, e.g. 0.5 */
-  cpu?: number;
+  cpu?: number | undefined;
   /** Required memory, e.g. "250Mb" */
-  memory?: string;
+  memory?: string | undefined;
   /** Ephemeral Storage, e.g. "1Gi" */
-  ephemeralStorage?: string;
+  ephemeralStorage?: string | undefined;
 }
 /** Container volume mounts. */
 export type BaseContainerVolumeMountsList = Array<VolumeMount>;
 /** Container App base container definition. */
 export interface BaseContainer {
   /** Container image tag. */
-  image?: string;
+  image?: string | undefined;
   /** Custom container name. */
-  name?: string;
+  name?: string | undefined;
   /** Container start command. */
-  command?: BaseContainerCommandList;
+  command?: BaseContainerCommandList | undefined;
   /** Container start command arguments. */
-  args?: BaseContainerArgsList;
+  args?: BaseContainerArgsList | undefined;
   /** Container environment variables. */
-  env?: BaseContainerEnvList;
+  env?: BaseContainerEnvList | undefined;
   /** Container resource requirements. */
-  resources?: ContainerResources;
+  resources?: ContainerResources | undefined;
   /** Container volume mounts. */
-  volumeMounts?: BaseContainerVolumeMountsList;
+  volumeMounts?: BaseContainerVolumeMountsList | undefined;
 }
 /** List of specialized containers that run before app containers. */
 export type TemplateInitContainersList = Array<BaseContainer>;
@@ -2014,21 +2016,21 @@ export type ContainerProbesList = Array<ContainerAppProbe>;
 /** Container App container definition */
 export interface Container {
   /** Container image tag. */
-  image?: string;
+  image?: string | undefined;
   /** Custom container name. */
-  name?: string;
+  name?: string | undefined;
   /** Container start command. */
-  command?: ContainerCommandList;
+  command?: ContainerCommandList | undefined;
   /** Container start command arguments. */
-  args?: ContainerArgsList;
+  args?: ContainerArgsList | undefined;
   /** Container environment variables. */
-  env?: ContainerEnvList;
+  env?: ContainerEnvList | undefined;
   /** Container resource requirements. */
-  resources?: ContainerResources;
+  resources?: ContainerResources | undefined;
   /** Container volume mounts. */
-  volumeMounts?: ContainerVolumeMountsList;
+  volumeMounts?: ContainerVolumeMountsList | undefined;
   /** List of probes for the container. */
-  probes?: ContainerProbesList;
+  probes?: ContainerProbesList | undefined;
 }
 /** List of container definitions for the Container App. */
 export type TemplateContainersList = Array<Container>;
@@ -2039,91 +2041,91 @@ export type TemplateServiceBindsList = Array<ServiceBind>;
 /** Container App versioned application definition. Defines the desired state of an immutable revision. Any changes to this section Will result in a new revision being created */
 export interface Template {
   /** User friendly suffix that is appended to the revision name */
-  revisionSuffix?: string;
+  revisionSuffix?: string | undefined;
   /** Optional duration in seconds the Container App Instance needs to terminate gracefully. Value must be non-negative integer. The value zero indicates stop immediately via the kill signal (no opportunity to shut down). If this value is nil, the default grace period will be used instead. Set this value longer than the expected cleanup time for your process. Defaults to 30 seconds. */
-  terminationGracePeriodSeconds?: number;
+  terminationGracePeriodSeconds?: number | undefined;
   /** List of specialized containers that run before app containers. */
-  initContainers?: TemplateInitContainersList;
+  initContainers?: TemplateInitContainersList | undefined;
   /** List of container definitions for the Container App. */
-  containers?: TemplateContainersList;
+  containers?: TemplateContainersList | undefined;
   /** Scaling properties for the Container App. */
-  scale?: Scale;
+  scale?: Scale | undefined;
   /** List of volume definitions for the Container App. */
-  volumes?: TemplateVolumesList;
+  volumes?: TemplateVolumesList | undefined;
   /** List of container app services bound to the app */
-  serviceBinds?: TemplateServiceBindsList;
+  serviceBinds?: TemplateServiceBindsList | undefined;
 }
 /** Outbound IP Addresses for container app. */
 export type ContainerAppPropertiesOutboundIpAddressesList = Array<string>;
 /** ContainerApp resource specific properties */
 export interface ContainerAppProperties {
   /** Provisioning state of the Container App. */
-  provisioningState?: ContainerAppProvisioningState;
+  provisioningState?: ContainerAppProvisioningState | undefined;
   /** Running status of the Container App. */
-  runningStatus?: ContainerAppRunningStatus;
+  runningStatus?: ContainerAppRunningStatus | undefined;
   /** Deprecated. Resource ID of the Container App's environment. */
-  managedEnvironmentId?: string;
+  managedEnvironmentId?: string | undefined;
   /** Resource ID of environment. */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** Networking configuration for the Container App. */
-  networking?: ContainerAppNetworkingConfiguration;
+  networking?: ContainerAppNetworkingConfiguration | undefined;
   /** Workload profile name to pin for container app execution. */
-  workloadProfileName?: string;
+  workloadProfileName?: string | undefined;
   /** Name of the latest revision of the Container App. */
-  latestRevisionName?: string;
+  latestRevisionName?: string | undefined;
   /** Name of the latest ready revision of the Container App. */
-  latestReadyRevisionName?: string;
+  latestReadyRevisionName?: string | undefined;
   /** Fully Qualified Domain Name of the latest revision of the Container App. */
-  latestRevisionFqdn?: string;
+  latestRevisionFqdn?: string | undefined;
   /** Id used to verify domain name ownership */
-  customDomainVerificationId?: string;
+  customDomainVerificationId?: string | undefined;
   /** Non versioned Container App configuration properties. */
-  configuration?: Configuration;
+  configuration?: Configuration | undefined;
   /** Container App versioned application definition. */
-  template?: Template;
+  template?: Template | undefined;
   /** Outbound IP Addresses for container app. */
-  outboundIpAddresses?: ContainerAppPropertiesOutboundIpAddressesList;
+  outboundIpAddresses?: ContainerAppPropertiesOutboundIpAddressesList | undefined;
   /** The endpoint of the eventstream of the container app. */
-  eventStreamEndpoint?: string;
+  eventStreamEndpoint?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ContainerAppsCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 export interface ContainerAppsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ContainerAppsCreateOrUpdateResponseTagsMap;
+  tags?: ContainerAppsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ContainerApp resource specific properties */
-  properties?: ContainerAppProperties;
+  properties?: ContainerAppProperties | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateResponseIdentity;
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata to represent the container app kind, representing if a container app is workflowapp or functionapp. */
-  kind?: Kind;
+  kind?: Kind | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type ContainerAppsSessionPoolsCreateOrUpdateRequestTagsMap = {
@@ -2136,16 +2138,16 @@ export type PoolManagementType = "Manual" | "Dynamic";
 /** Scale configuration. */
 export interface ScaleConfiguration {
   /** The maximum count of sessions at the same time. */
-  maxConcurrentSessions?: number;
+  maxConcurrentSessions?: number | undefined;
   /** The minimum count of ready session instances. */
-  readySessionInstances?: number;
+  readySessionInstances?: number | undefined;
 }
 /** Secret definition. */
 export interface SessionPoolSecret {
   /** Secret Name. */
-  name?: string;
+  name?: string | undefined;
   /** Secret Value. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The secrets of the session pool. */
 export type SessionPoolPropertiesInputSecretsList = Array<SessionPoolSecret>;
@@ -2154,27 +2156,27 @@ export type LifecycleType = "Timed" | "OnContainerExit";
 /** The lifecycle configuration properties of a session in the dynamic session pool */
 export interface LifecycleConfiguration {
   /** The lifecycle type of the session pool. */
-  lifecycleType?: LifecycleType | (string & {});
+  lifecycleType?: LifecycleType | (string & {}) | undefined;
   /** The cooldown period of a session in seconds when the lifecycle type is 'Timed'. */
-  cooldownPeriodInSeconds?: number;
+  cooldownPeriodInSeconds?: number | undefined;
   /** The maximum alive period of a session in seconds when the lifecycle type is 'OnContainerExit'. */
-  maxAlivePeriodInSeconds?: number;
+  maxAlivePeriodInSeconds?: number | undefined;
 }
 /** Dynamic pool configuration. */
 export interface DynamicPoolConfiguration {
   /** The lifecycle configuration of a session in the dynamic session pool */
-  lifecycleConfiguration?: LifecycleConfiguration;
+  lifecycleConfiguration?: LifecycleConfiguration | undefined;
 }
 /** Session pool private registry credentials. */
 export interface SessionRegistryCredentials {
   /** Container registry server. */
-  server?: string;
+  server?: string | undefined;
   /** Container registry username. */
-  username?: string;
+  username?: string | undefined;
   /** The name of the secret that contains the registry login password */
-  passwordSecretRef?: string | Redacted.Redacted<string>;
+  passwordSecretRef?: string | Redacted.Redacted<string> | undefined;
   /** A Managed Identity to use to authenticate with Azure Container Registry. For user-assigned identities, use the full user-assigned identity Resource ID. For system-assigned identities, use 'system' */
-  identity?: string;
+  identity?: string | undefined;
 }
 /** Container start command. */
 export type SessionContainerCommandList = Array<string>;
@@ -2193,80 +2195,80 @@ export type SessionProbeHttpGetHttpHeadersList = Array<ContainerAppProbeHttpGetH
 /** HTTPGet specifies the http request to perform. */
 export interface SessionProbeHttpGet {
   /** Host name to connect to, defaults to the pod IP. You probably want to set "Host" in httpHeaders instead. */
-  host?: string;
+  host?: string | undefined;
   /** Custom headers to set in the request. HTTP allows repeated headers. */
-  httpHeaders?: SessionProbeHttpGetHttpHeadersList;
+  httpHeaders?: SessionProbeHttpGetHttpHeadersList | undefined;
   /** Path to access on the HTTP server. */
-  path?: string;
+  path?: string | undefined;
   /** Name or number of the port to access on the container. Number must be in the range 1 to 65535. Name must be an IANA_SVC_NAME. */
   port: number;
   /** Scheme to use for connecting to the host. Defaults to HTTP. */
-  scheme?: Scheme | (string & {});
+  scheme?: Scheme | (string & {}) | undefined;
 }
 /** TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported. */
 export type SessionProbeTcpSocket = ContainerAppProbeTcpSocket;
 /** Session probe configuration. */
 export interface SessionProbe {
   /** Denotes the type of probe. Can be Liveness or Startup, Readiness probe is not supported in sessions. Type must be unique for each probe within the context of a list of probes (SessionProbes). */
-  type?: SessionProbeType | (string & {});
+  type?: SessionProbeType | (string & {}) | undefined;
   /** HTTPGet specifies the http request to perform. */
-  httpGet?: SessionProbeHttpGet;
+  httpGet?: SessionProbeHttpGet | undefined;
   /** TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported. */
-  tcpSocket?: ContainerAppProbeTcpSocket;
+  tcpSocket?: ContainerAppProbeTcpSocket | undefined;
   /** Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1. Maximum value is 10. */
-  failureThreshold?: number;
+  failureThreshold?: number | undefined;
   /** Number of seconds after the container has started before liveness probes are initiated. Minimum value is 1. Maximum value is 60. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value is 240. */
-  periodSeconds?: number;
+  periodSeconds?: number | undefined;
   /** Minimum consecutive successes for the probe to be considered successful after having failed. Defaults to 1. Must be 1 for liveness and startup. Minimum value is 1. Maximum value is 10. */
-  successThreshold?: number;
+  successThreshold?: number | undefined;
   /** Optional duration in seconds the pod needs to terminate gracefully upon probe failure. The grace period is the duration in seconds after the processes running in the pod are sent a termination signal and the time when the processes are forcibly halted with a kill signal. Set this value longer than the expected cleanup time for your process. If this value is nil, the pod's terminationGracePeriodSeconds will be used. Otherwise, this value overrides the value provided by the pod spec. Value must be non-negative integer. The value zero indicates stop immediately via the kill signal (no opportunity to shut down). This is an alpha field and requires enabling ProbeTerminationGracePeriod feature gate. Maximum value is 3600 seconds (1 hour) */
-  terminationGracePeriodSeconds?: number;
+  terminationGracePeriodSeconds?: number | undefined;
   /** Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 240. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
 }
 /** List of probes for the container. */
 export type SessionContainerProbesList = Array<SessionProbe>;
 /** Container definitions for the sessions of the session pool. */
 export interface SessionContainer {
   /** Container image tag. */
-  image?: string;
+  image?: string | undefined;
   /** Custom container name. */
-  name?: string;
+  name?: string | undefined;
   /** Container start command. */
-  command?: SessionContainerCommandList;
+  command?: SessionContainerCommandList | undefined;
   /** Container start command arguments. */
-  args?: SessionContainerArgsList;
+  args?: SessionContainerArgsList | undefined;
   /** Container environment variables. */
-  env?: SessionContainerEnvList;
+  env?: SessionContainerEnvList | undefined;
   /** Container resource requirements. */
-  resources?: ContainerResourcesInput;
+  resources?: ContainerResourcesInput | undefined;
   /** List of probes for the container. */
-  probes?: SessionContainerProbesList;
+  probes?: SessionContainerProbesList | undefined;
 }
 /** List of container definitions for the sessions of the session pool. */
 export type CustomContainerTemplateContainersList = Array<SessionContainer>;
 /** Session pool ingress configuration. */
 export interface SessionIngress {
   /** Target port in containers for traffic from ingress */
-  targetPort?: number;
+  targetPort?: number | undefined;
 }
 /** Custom container configuration. */
 export interface CustomContainerTemplate {
   /** Private container registry credentials for containers used by the sessions of the session pool. */
-  registryCredentials?: SessionRegistryCredentials;
+  registryCredentials?: SessionRegistryCredentials | undefined;
   /** List of container definitions for the sessions of the session pool. */
-  containers?: CustomContainerTemplateContainersList;
+  containers?: CustomContainerTemplateContainersList | undefined;
   /** Session pool ingress configuration. */
-  ingress?: SessionIngress;
+  ingress?: SessionIngress | undefined;
 }
 /** Network status for the sessions. */
 export type SessionNetworkStatus = "EgressEnabled" | "EgressDisabled";
 /** Session network configuration. */
 export interface SessionNetworkConfiguration {
   /** Network status for the sessions. */
-  status?: SessionNetworkStatus | (string & {});
+  status?: SessionNetworkStatus | (string & {}) | undefined;
 }
 /** Use to select the lifecycle stages of a Session Pool during which the Managed Identity should be available. */
 export type ManagedIdentitySettingLifecycle = "None" | "Main";
@@ -2275,30 +2277,30 @@ export interface ManagedIdentitySetting {
   /** The resource ID of a user-assigned managed identity that is assigned to the Session Pool, or 'system' for system-assigned identity. */
   identity: string;
   /** Use to select the lifecycle stages of a Session Pool during which the Managed Identity should be available. */
-  lifecycle?: ManagedIdentitySettingLifecycle | (string & {});
+  lifecycle?: ManagedIdentitySettingLifecycle | (string & {}) | undefined;
 }
 /** Optional settings for a Managed Identity that is assigned to the Session pool. */
 export type SessionPoolPropertiesInputManagedIdentitySettingsList = Array<ManagedIdentitySetting>;
 /** Container App session pool resource specific properties */
 export interface SessionPoolPropertiesInput {
   /** Resource ID of the session pool's environment. */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** The container type of the sessions. You can use your own container to build the session pool, or you can use a predefined container to run workload with specific language. */
-  containerType?: ContainerType | (string & {});
+  containerType?: ContainerType | (string & {}) | undefined;
   /** The pool management type of the session pool. */
-  poolManagementType?: PoolManagementType | (string & {});
+  poolManagementType?: PoolManagementType | (string & {}) | undefined;
   /** The scale configuration of the session pool. */
-  scaleConfiguration?: ScaleConfiguration;
+  scaleConfiguration?: ScaleConfiguration | undefined;
   /** The secrets of the session pool. */
-  secrets?: SessionPoolPropertiesInputSecretsList;
+  secrets?: SessionPoolPropertiesInputSecretsList | undefined;
   /** The pool configuration if the poolManagementType is dynamic. */
-  dynamicPoolConfiguration?: DynamicPoolConfiguration;
+  dynamicPoolConfiguration?: DynamicPoolConfiguration | undefined;
   /** The custom container configuration if the containerType is CustomContainer. */
-  customContainerTemplate?: CustomContainerTemplate;
+  customContainerTemplate?: CustomContainerTemplate | undefined;
   /** The network configuration of the sessions in the session pool. */
-  sessionNetworkConfiguration?: SessionNetworkConfiguration;
+  sessionNetworkConfiguration?: SessionNetworkConfiguration | undefined;
   /** Optional settings for a Managed Identity that is assigned to the Session pool. */
-  managedIdentitySettings?: SessionPoolPropertiesInputManagedIdentitySettingsList;
+  managedIdentitySettings?: SessionPoolPropertiesInputManagedIdentitySettingsList | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type ContainerAppsSessionPoolsCreateOrUpdateRequestIdentity =
@@ -2311,13 +2313,13 @@ export interface ContainerAppsSessionPoolsCreateOrUpdateRequest {
   /** Name of the session pool. */
   sessionPoolName: string;
   /** Resource tags. */
-  tags?: ContainerAppsSessionPoolsCreateOrUpdateRequestTagsMap;
+  tags?: ContainerAppsSessionPoolsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Container App session pool resource specific properties */
-  properties?: SessionPoolPropertiesInput;
+  properties?: SessionPoolPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateRequestIdentity;
+  identity?: ContainerAppsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type ContainerAppsSessionPoolsCreateOrUpdateResponseTagsMap = {
@@ -2337,110 +2339,110 @@ export type SessionPoolPropertiesManagedIdentitySettingsList = Array<ManagedIden
 /** Container App session pool resource specific properties */
 export interface SessionPoolProperties {
   /** Resource ID of the session pool's environment. */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** The container type of the sessions. You can use your own container to build the session pool, or you can use a predefined container to run workload with specific language. */
-  containerType?: ContainerType;
+  containerType?: ContainerType | undefined;
   /** The pool management type of the session pool. */
-  poolManagementType?: PoolManagementType;
+  poolManagementType?: PoolManagementType | undefined;
   /** The number of nodes the session pool is using. */
-  nodeCount?: number;
+  nodeCount?: number | undefined;
   /** The scale configuration of the session pool. */
-  scaleConfiguration?: ScaleConfiguration;
+  scaleConfiguration?: ScaleConfiguration | undefined;
   /** The secrets of the session pool. */
-  secrets?: SessionPoolPropertiesSecretsList;
+  secrets?: SessionPoolPropertiesSecretsList | undefined;
   /** The pool configuration if the poolManagementType is dynamic. */
-  dynamicPoolConfiguration?: DynamicPoolConfiguration;
+  dynamicPoolConfiguration?: DynamicPoolConfiguration | undefined;
   /** The custom container configuration if the containerType is CustomContainer. */
-  customContainerTemplate?: CustomContainerTemplate;
+  customContainerTemplate?: CustomContainerTemplate | undefined;
   /** The network configuration of the sessions in the session pool. */
-  sessionNetworkConfiguration?: SessionNetworkConfiguration;
+  sessionNetworkConfiguration?: SessionNetworkConfiguration | undefined;
   /** The endpoint to manage the pool. */
-  poolManagementEndpoint?: string;
+  poolManagementEndpoint?: string | undefined;
   /** Provisioning state of the session pool. */
-  provisioningState?: SessionPoolProvisioningState;
+  provisioningState?: SessionPoolProvisioningState | undefined;
   /** Optional settings for a Managed Identity that is assigned to the Session pool. */
-  managedIdentitySettings?: SessionPoolPropertiesManagedIdentitySettingsList;
+  managedIdentitySettings?: SessionPoolPropertiesManagedIdentitySettingsList | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type ContainerAppsSessionPoolsCreateOrUpdateResponseIdentity =
   ContainerAppsCreateOrUpdateResponseIdentity;
 export interface ContainerAppsSessionPoolsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ContainerAppsSessionPoolsCreateOrUpdateResponseTagsMap;
+  tags?: ContainerAppsSessionPoolsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Container App session pool resource specific properties */
-  properties?: SessionPoolProperties;
+  properties?: SessionPoolProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateResponseIdentity;
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Current provisioning State of the operation */
 export type SourceControlOperationState = "InProgress" | "Succeeded" | "Failed" | "Canceled";
 /** Container App registry information. */
 export interface RegistryInfo {
   /** registry server Url. */
-  registryUrl?: string;
+  registryUrl?: string | undefined;
   /** registry username. */
-  registryUserName?: string;
+  registryUserName?: string | undefined;
   /** registry secret. */
-  registryPassword?: string | Redacted.Redacted<string>;
+  registryPassword?: string | Redacted.Redacted<string> | undefined;
 }
 /** Container App credentials. */
 export interface AzureCredentials {
   /** Client Id. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Client Secret. */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** Tenant Id. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Kind of auth github does for deploying the template */
-  kind?: string;
+  kind?: string | undefined;
   /** Subscription Id. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
 }
 /** Configuration properties that define the mutable settings of a Container App SourceControl */
 export interface GithubActionConfiguration {
   /** Registry configurations. */
-  registryInfo?: RegistryInfo;
+  registryInfo?: RegistryInfo | undefined;
   /** AzureCredentials configurations. */
-  azureCredentials?: AzureCredentials;
+  azureCredentials?: AzureCredentials | undefined;
   /** Context path */
-  contextPath?: string;
+  contextPath?: string | undefined;
   /** One time Github PAT to configure github environment */
-  githubPersonalAccessToken?: string;
+  githubPersonalAccessToken?: string | undefined;
   /** Image name */
-  image?: string;
+  image?: string | undefined;
   /** Code or Image */
-  publishType?: string;
+  publishType?: string | undefined;
   /** Operation system */
-  os?: string;
+  os?: string | undefined;
   /** Runtime stack */
-  runtimeStack?: string;
+  runtimeStack?: string | undefined;
   /** Runtime version */
-  runtimeVersion?: string;
+  runtimeVersion?: string | undefined;
 }
 /** SourceControl resource specific properties */
 export interface SourceControlProperties {
   /** Current provisioning State of the operation */
-  operationState?: SourceControlOperationState | (string & {});
+  operationState?: SourceControlOperationState | (string & {}) | undefined;
   /** The repo url which will be integrated to ContainerApp. */
-  repoUrl?: string;
+  repoUrl?: string | undefined;
   /** The branch which will trigger the auto deployment */
-  branch?: string;
+  branch?: string | undefined;
   /** Container App Revision Template with all possible settings and the defaults if user did not provide them. The defaults are populated as they were at the creation time */
-  githubActionConfiguration?: GithubActionConfiguration;
+  githubActionConfiguration?: GithubActionConfiguration | undefined;
 }
 export interface ContainerAppsSourceControlsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2452,67 +2454,67 @@ export interface ContainerAppsSourceControlsCreateOrUpdateRequest {
   /** Name of the Container App SourceControl. */
   sourceControlName: string;
   /** SourceControl resource specific properties */
-  properties?: SourceControlProperties;
+  properties?: SourceControlProperties | undefined;
 }
 export interface ContainerAppsSourceControlsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** SourceControl resource specific properties */
-  properties?: SourceControlProperties;
+  properties?: SourceControlProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Dapr Component Resiliency Policy HTTP Retry Backoff Configuration. */
 export interface DaprComponentResiliencyPolicyHttpRetryBackOffConfiguration {
   /** The optional initial delay in milliseconds before an operation is retried */
-  initialDelayInMilliseconds?: number;
+  initialDelayInMilliseconds?: number | undefined;
   /** The optional maximum time interval in milliseconds between retry attempts */
-  maxIntervalInMilliseconds?: number;
+  maxIntervalInMilliseconds?: number | undefined;
 }
 /** Dapr Component Resiliency Policy HTTP Retry Policy Configuration. */
 export interface DaprComponentResiliencyPolicyHttpRetryPolicyConfiguration {
   /** The optional maximum number of retries */
-  maxRetries?: number;
+  maxRetries?: number | undefined;
   /** The optional retry backoff configuration */
-  retryBackOff?: DaprComponentResiliencyPolicyHttpRetryBackOffConfiguration;
+  retryBackOff?: DaprComponentResiliencyPolicyHttpRetryBackOffConfiguration | undefined;
 }
 /** Dapr Component Resiliency Policy Timeout Policy Configuration. */
 export interface DaprComponentResiliencyPolicyTimeoutPolicyConfiguration {
   /** The optional response timeout in seconds */
-  responseTimeoutInSeconds?: number;
+  responseTimeoutInSeconds?: number | undefined;
 }
 /** Dapr Component Resiliency Policy Circuit Breaker Policy Configuration. */
 export interface DaprComponentResiliencyPolicyCircuitBreakerPolicyConfiguration {
   /** The number of consecutive errors before the circuit is opened. */
-  consecutiveErrors?: number;
+  consecutiveErrors?: number | undefined;
   /** The interval in seconds until a retry attempt is made after the circuit is opened. */
-  timeoutInSeconds?: number;
+  timeoutInSeconds?: number | undefined;
   /** The optional interval in seconds after which the error count resets to 0. An interval of 0 will never reset. If not specified, the timeoutInSeconds value will be used. */
-  intervalInSeconds?: number;
+  intervalInSeconds?: number | undefined;
 }
 /** Dapr Component Resiliency Policy Configuration. */
 export interface DaprComponentResiliencyPolicyConfiguration {
   /** The optional HTTP retry policy configuration */
-  httpRetryPolicy?: DaprComponentResiliencyPolicyHttpRetryPolicyConfiguration;
+  httpRetryPolicy?: DaprComponentResiliencyPolicyHttpRetryPolicyConfiguration | undefined;
   /** The optional timeout policy configuration */
-  timeoutPolicy?: DaprComponentResiliencyPolicyTimeoutPolicyConfiguration;
+  timeoutPolicy?: DaprComponentResiliencyPolicyTimeoutPolicyConfiguration | undefined;
   /** The optional circuit breaker policy configuration */
-  circuitBreakerPolicy?: DaprComponentResiliencyPolicyCircuitBreakerPolicyConfiguration;
+  circuitBreakerPolicy?: DaprComponentResiliencyPolicyCircuitBreakerPolicyConfiguration | undefined;
 }
 /** Dapr Component Resiliency Policy resource specific properties */
 export interface DaprComponentResiliencyPolicyProperties {
   /** The optional inbound component resiliency policy configuration */
-  inboundPolicy?: DaprComponentResiliencyPolicyConfiguration;
+  inboundPolicy?: DaprComponentResiliencyPolicyConfiguration | undefined;
   /** The optional outbound component resiliency policy configuration */
-  outboundPolicy?: DaprComponentResiliencyPolicyConfiguration;
+  outboundPolicy?: DaprComponentResiliencyPolicyConfiguration | undefined;
 }
 export interface DaprComponentResiliencyPoliciesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2526,19 +2528,19 @@ export interface DaprComponentResiliencyPoliciesCreateOrUpdateRequest {
   /** Name of the Dapr Component Resiliency Policy. */
   name: string;
   /** Dapr Component Resiliency Policy resource specific properties */
-  properties?: DaprComponentResiliencyPolicyProperties;
+  properties?: DaprComponentResiliencyPolicyProperties | undefined;
 }
 export interface DaprComponentResiliencyPoliciesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Dapr Component Resiliency Policy resource specific properties */
-  properties?: DaprComponentResiliencyPolicyProperties;
+  properties?: DaprComponentResiliencyPolicyProperties | undefined;
 }
 export interface DaprComponentsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2550,19 +2552,19 @@ export interface DaprComponentsCreateOrUpdateRequest {
   /** Name of the Dapr Component. */
   componentName: string;
   /** Dapr Component resource specific properties */
-  properties?: DaprComponentPropertiesInput;
+  properties?: DaprComponentPropertiesInput | undefined;
 }
 export interface DaprComponentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Dapr Component resource specific properties */
-  properties?: DaprComponentProperties;
+  properties?: DaprComponentProperties | undefined;
 }
 export interface DeactivateContainerAppsRevisionRevisionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2585,9 +2587,9 @@ export interface DeleteAgentRequest {
 }
 export interface DeleteAgentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAgentsConnectorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2601,9 +2603,9 @@ export interface DeleteAgentsConnectorRequest {
 }
 export interface DeleteAgentsConnectorResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteCertificateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2626,9 +2628,9 @@ export interface DeleteConnectedEnvironmentRequest {
 }
 export interface DeleteConnectedEnvironmentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteConnectedEnvironmentsCertificateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2642,9 +2644,9 @@ export interface DeleteConnectedEnvironmentsCertificateRequest {
 }
 export interface DeleteConnectedEnvironmentsCertificateResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteConnectedEnvironmentsDaprComponentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2658,9 +2660,9 @@ export interface DeleteConnectedEnvironmentsDaprComponentRequest {
 }
 export interface DeleteConnectedEnvironmentsDaprComponentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteConnectedEnvironmentsStorageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2674,9 +2676,9 @@ export interface DeleteConnectedEnvironmentsStorageRequest {
 }
 export interface DeleteConnectedEnvironmentsStorageResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteContainerAppRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2688,9 +2690,9 @@ export interface DeleteContainerAppRequest {
 }
 export interface DeleteContainerAppResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteContainerAppPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2704,9 +2706,9 @@ export interface DeleteContainerAppPrivateEndpointConnectionRequest {
 }
 export interface DeleteContainerAppPrivateEndpointConnectionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteContainerAppsAuthConfigRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2740,9 +2742,9 @@ export interface DeleteContainerAppsSessionPoolRequest {
 }
 export interface DeleteContainerAppsSessionPoolResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteContainerAppsSourceControlRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2756,9 +2758,9 @@ export interface DeleteContainerAppsSourceControlRequest {
 }
 export interface DeleteContainerAppsSourceControlResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDaprComponentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2796,11 +2798,11 @@ export interface DeleteDotNetComponentRequest {
 }
 export interface DeleteDotNetComponentResponse {
   /** A link to the status monitor. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteHttpRouteConfigRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2814,9 +2816,9 @@ export interface DeleteHttpRouteConfigRequest {
 }
 export interface DeleteHttpRouteConfigResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteJavaComponentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2830,9 +2832,9 @@ export interface DeleteJavaComponentRequest {
 }
 export interface DeleteJavaComponentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteJobRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2844,9 +2846,9 @@ export interface DeleteJobRequest {
 }
 export interface DeleteJobResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteLogicAppRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2891,9 +2893,9 @@ export interface DeleteManagedEnvironmentRequest {
 }
 export interface DeleteManagedEnvironmentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteManagedEnvironmentPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2907,9 +2909,9 @@ export interface DeleteManagedEnvironmentPrivateEndpointConnectionRequest {
 }
 export interface DeleteManagedEnvironmentPrivateEndpointConnectionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteManagedEnvironmentsStorageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2932,9 +2934,9 @@ export interface DeleteSandboxGroupRequest {
 }
 export interface DeleteSandboxGroupResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteVnetConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2948,9 +2950,9 @@ export interface DeleteVnetConnectionRequest {
 }
 export interface DeleteVnetConnectionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Type of the .NET Component. */
 export type DotNetComponentType = "AspireDashboard";
@@ -2964,9 +2966,9 @@ export type DotNetComponentProvisioningState =
 /** Configuration properties for a .NET Component */
 export interface DotNetComponentConfigurationProperty {
   /** The name of the property */
-  propertyName?: string;
+  propertyName?: string | undefined;
   /** The value of the property */
-  value?: string;
+  value?: string | undefined;
 }
 /** List of .NET Components configuration properties */
 export type DotNetComponentPropertiesConfigurationsList =
@@ -2974,22 +2976,22 @@ export type DotNetComponentPropertiesConfigurationsList =
 /** Configuration to bind a .NET Component to another .NET Component */
 export interface DotNetComponentServiceBind {
   /** Name of the service bind */
-  name?: string;
+  name?: string | undefined;
   /** Resource id of the target service */
-  serviceId?: string;
+  serviceId?: string | undefined;
 }
 /** List of .NET Components that are bound to the .NET component */
 export type DotNetComponentPropertiesServiceBindsList = Array<DotNetComponentServiceBind>;
 /** .NET Component resource specific properties */
 export interface DotNetComponentProperties {
   /** Type of the .NET Component. */
-  componentType?: DotNetComponentType | (string & {});
+  componentType?: DotNetComponentType | (string & {}) | undefined;
   /** Provisioning state of the .NET Component. */
-  provisioningState?: DotNetComponentProvisioningState | (string & {});
+  provisioningState?: DotNetComponentProvisioningState | (string & {}) | undefined;
   /** List of .NET Components configuration properties */
-  configurations?: DotNetComponentPropertiesConfigurationsList;
+  configurations?: DotNetComponentPropertiesConfigurationsList | undefined;
   /** List of .NET Components that are bound to the .NET component */
-  serviceBinds?: DotNetComponentPropertiesServiceBindsList;
+  serviceBinds?: DotNetComponentPropertiesServiceBindsList | undefined;
 }
 export interface DotNetComponentsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3001,23 +3003,23 @@ export interface DotNetComponentsCreateOrUpdateRequest {
   /** Name of the .NET Component. */
   name: string;
   /** .NET Component resource specific properties */
-  properties?: DotNetComponentProperties;
+  properties?: DotNetComponentProperties | undefined;
 }
 export interface DotNetComponentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** .NET Component resource specific properties */
-  properties?: DotNetComponentProperties;
+  properties?: DotNetComponentProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetAgentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3036,30 +3038,30 @@ export type GetAgentResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetAgentResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetAgentResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: GetAgentResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface GetAgentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAgentResponseTagsMap;
+  tags?: GetAgentResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AgentProperties;
+  properties?: AgentProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetAgentResponseIdentity;
+  identity?: GetAgentResponseIdentity | undefined;
 }
 export interface GetAgentsConnectorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3073,15 +3075,15 @@ export interface GetAgentsConnectorRequest {
 }
 export interface GetAgentsConnectorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AgentConnectorProperties;
+  properties?: AgentConnectorProperties | undefined;
 }
 export interface GetAvailableWorkloadProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3094,32 +3096,32 @@ export type Applicability = "LocationDefault" | "Custom";
 /** Revision resource specific properties */
 export interface AvailableWorkloadProfileProperties {
   /** Used to categorize workload profiles. */
-  category?: string;
+  category?: string | undefined;
   /** indicates whether the profile is default for the location. */
-  applicability?: Applicability;
+  applicability?: Applicability | undefined;
   /** Number of cores in CPU. */
-  cores?: number;
+  cores?: number | undefined;
   /** Memory in GiB. */
-  memoryGiB?: number;
+  memoryGiB?: number | undefined;
   /** Number of GPUs. */
-  gpus?: number;
+  gpus?: number | undefined;
   /** The everyday name of the workload profile. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** A workload profile with specific hardware configure to run container apps. */
 export interface AvailableWorkloadProfile {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Region of the workload profile. */
-  location?: string;
+  location?: string | undefined;
   /** Revision resource specific properties */
-  properties?: AvailableWorkloadProfileProperties;
+  properties?: AvailableWorkloadProfileProperties | undefined;
 }
 /** The AvailableWorkloadProfile items on this page */
 export type AvailableWorkloadProfilesCollectionValueList = Array<AvailableWorkloadProfile>;
@@ -3128,7 +3130,7 @@ export interface AvailableWorkloadProfilesCollection {
   /** The AvailableWorkloadProfile items on this page */
   value: AvailableWorkloadProfilesCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface GetBillingMeterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3139,26 +3141,26 @@ export interface GetBillingMeterRequest {
 /** Revision resource specific properties */
 export interface BillingMeterProperties {
   /** Used to categorize billing meters. */
-  category?: string;
+  category?: string | undefined;
   /** Billing meter type. */
-  meterType?: string;
+  meterType?: string | undefined;
   /** The everyday name of the billing meter. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** Billing meter. */
 export interface BillingMeter {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Region for the billing meter. */
-  location?: string;
+  location?: string | undefined;
   /** Revision resource specific properties */
-  properties?: BillingMeterProperties;
+  properties?: BillingMeterProperties | undefined;
 }
 /** Collection of billing meters. */
 export type BillingMeterCollectionValueList = Array<BillingMeter>;
@@ -3181,19 +3183,19 @@ export interface GetCertificateRequest {
 export type GetCertificateResponseTagsMap = { [key: string]: string | undefined };
 export interface GetCertificateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetCertificateResponseTagsMap;
+  tags?: GetCertificateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Certificate resource specific properties */
-  properties?: CertificateProperties;
+  properties?: CertificateProperties | undefined;
 }
 export interface GetConnectedEnvironmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3207,21 +3209,21 @@ export interface GetConnectedEnvironmentRequest {
 export type GetConnectedEnvironmentResponseTagsMap = { [key: string]: string | undefined };
 export interface GetConnectedEnvironmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetConnectedEnvironmentResponseTagsMap;
+  tags?: GetConnectedEnvironmentResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ConnectedEnvironment resource specific properties */
-  properties?: ConnectedEnvironmentProperties;
+  properties?: ConnectedEnvironmentProperties | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 export interface GetConnectedEnvironmentsCertificateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3239,19 +3241,19 @@ export type GetConnectedEnvironmentsCertificateResponseTagsMap = {
 };
 export interface GetConnectedEnvironmentsCertificateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetConnectedEnvironmentsCertificateResponseTagsMap;
+  tags?: GetConnectedEnvironmentsCertificateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Certificate resource specific properties */
-  properties?: CertificateProperties;
+  properties?: CertificateProperties | undefined;
 }
 export interface GetConnectedEnvironmentsDaprComponentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3265,15 +3267,15 @@ export interface GetConnectedEnvironmentsDaprComponentRequest {
 }
 export interface GetConnectedEnvironmentsDaprComponentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Dapr Component resource specific properties */
-  properties?: DaprComponentProperties;
+  properties?: DaprComponentProperties | undefined;
 }
 export interface GetConnectedEnvironmentsStorageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3287,15 +3289,15 @@ export interface GetConnectedEnvironmentsStorageRequest {
 }
 export interface GetConnectedEnvironmentsStorageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Storage properties */
-  properties?: ConnectedEnvironmentStorageProperties;
+  properties?: ConnectedEnvironmentStorageProperties | undefined;
 }
 export interface GetContainerAppRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3311,27 +3313,27 @@ export type GetContainerAppResponseTagsMap = { [key: string]: string | undefined
 export type GetContainerAppResponseIdentity = ContainerAppsCreateOrUpdateResponseIdentity;
 export interface GetContainerAppResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetContainerAppResponseTagsMap;
+  tags?: GetContainerAppResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ContainerApp resource specific properties */
-  properties?: ContainerAppProperties;
+  properties?: ContainerAppProperties | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateResponseIdentity;
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata to represent the container app kind, representing if a container app is workflowapp or functionapp. */
-  kind?: Kind;
+  kind?: Kind | undefined;
 }
 export interface GetContainerAppAuthTokenRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3346,25 +3348,25 @@ export type GetContainerAppAuthTokenResponseTagsMap = { [key: string]: string | 
 /** Container App auth token resource specific properties */
 export interface ContainerAppAuthTokenProperties {
   /** Auth token value. */
-  token?: string;
+  token?: string | undefined;
   /** Token expiration date. */
-  expires?: string;
+  expires?: string | undefined;
 }
 export interface GetContainerAppAuthTokenResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetContainerAppAuthTokenResponseTagsMap;
+  tags?: GetContainerAppAuthTokenResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Container App auth token resource specific properties */
-  properties?: ContainerAppAuthTokenProperties;
+  properties?: ContainerAppAuthTokenProperties | undefined;
 }
 export interface GetContainerAppPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3378,15 +3380,15 @@ export interface GetContainerAppPrivateEndpointConnectionRequest {
 }
 export interface GetContainerAppPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetContainerAppPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3405,23 +3407,23 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 export interface GetContainerAppPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface GetContainerAppsAuthConfigRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3435,15 +3437,15 @@ export interface GetContainerAppsAuthConfigRequest {
 }
 export interface GetContainerAppsAuthConfigResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** AuthConfig resource specific properties */
-  properties?: AuthConfigProperties;
+  properties?: AuthConfigProperties | undefined;
 }
 export interface GetContainerAppsDiagnosticDetectorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3458,9 +3460,9 @@ export interface GetContainerAppsDiagnosticDetectorRequest {
 /** Support topic information */
 export interface DiagnosticSupportTopic {
   /** Unique topic identifier */
-  id?: string;
+  id?: string | undefined;
   /** PES identifier */
-  pesId?: string;
+  pesId?: string | undefined;
 }
 /** List of support topics */
 export type DiagnosticsDefinitionSupportTopicListList = Array<DiagnosticSupportTopic>;
@@ -3469,32 +3471,32 @@ export type DiagnosticsDefinitionAnalysisTypesList = Array<string>;
 /** Metadata of the diagnostics response */
 export interface DiagnosticsDefinition {
   /** Unique detector name */
-  id?: string;
+  id?: string | undefined;
   /** Display Name of the detector */
-  name?: string;
+  name?: string | undefined;
   /** Details of the diagnostics info */
-  description?: string;
+  description?: string | undefined;
   /** Authors' names of the detector */
-  author?: string;
+  author?: string | undefined;
   /** Category of the detector */
-  category?: string;
+  category?: string | undefined;
   /** List of support topics */
-  supportTopicList?: DiagnosticsDefinitionSupportTopicListList;
+  supportTopicList?: DiagnosticsDefinitionSupportTopicListList | undefined;
   /** List of analysis types */
-  analysisTypes?: DiagnosticsDefinitionAnalysisTypesList;
+  analysisTypes?: DiagnosticsDefinitionAnalysisTypesList | undefined;
   /** Authors' names of the detector */
-  type?: string;
+  type?: string | undefined;
   /** Authors' names of the detector */
-  score?: number;
+  score?: number | undefined;
 }
 /** Diagnostics data column */
 export interface DiagnosticDataTableResponseColumn {
   /** Column name */
-  columnName?: string;
+  columnName?: string | undefined;
   /** Data type of the column */
-  dataType?: string;
+  dataType?: string | undefined;
   /** Column type */
-  columnType?: string;
+  columnType?: string | undefined;
 }
 /** Columns in the table */
 export type DiagnosticDataTableResponseObjectColumnsList = Array<DiagnosticDataTableResponseColumn>;
@@ -3503,45 +3505,45 @@ export type DiagnosticDataTableResponseObjectRowsList = Array<unknown>;
 /** Diagnostics data table */
 export interface DiagnosticDataTableResponseObject {
   /** Table name */
-  tableName?: string;
+  tableName?: string | undefined;
   /** Columns in the table */
-  columns?: DiagnosticDataTableResponseObjectColumnsList;
+  columns?: DiagnosticDataTableResponseObjectColumnsList | undefined;
   /** Rows in the table */
-  rows?: DiagnosticDataTableResponseObjectRowsList;
+  rows?: DiagnosticDataTableResponseObjectRowsList | undefined;
 }
 /** Rendering details of a diagnostics table */
 export interface DiagnosticRendering {
   /** Rendering type */
-  type?: number;
+  type?: number | undefined;
   /** Title of the table */
-  title?: string;
+  title?: string | undefined;
   /** Description of the table */
-  description?: string;
+  description?: string | undefined;
   /** Flag if the table should be rendered */
-  isVisible?: boolean;
+  isVisible?: boolean | undefined;
 }
 /** Diagnostics data returned from a detector */
 export interface DiagnosticsDataApiResponse {
   /** Table response */
-  table?: DiagnosticDataTableResponseObject;
+  table?: DiagnosticDataTableResponseObject | undefined;
   /** Details of the table response */
-  renderingProperties?: DiagnosticRendering;
+  renderingProperties?: DiagnosticRendering | undefined;
 }
 /** Set of data collections associated with the response. */
 export type DiagnosticsPropertiesDatasetList = Array<DiagnosticsDataApiResponse>;
 /** Rendering details of a diagnostics table */
 export interface DiagnosticsStatus {
   /** Diagnostic message */
-  message?: string;
+  message?: string | undefined;
   /** Status */
-  statusId?: number;
+  statusId?: number | undefined;
 }
 /** Property details */
 export interface DiagnosticDataProviderMetadataPropertyBagItem {
   /** Property name */
-  name?: string;
+  name?: string | undefined;
   /** Property value */
-  value?: string;
+  value?: string | undefined;
 }
 /** Collection of properties */
 export type DiagnosticDataProviderMetadataPropertyBagList =
@@ -3549,32 +3551,32 @@ export type DiagnosticDataProviderMetadataPropertyBagList =
 /** Details of a diagnostics data provider */
 export interface DiagnosticDataProviderMetadata {
   /** Name of data provider */
-  providerName?: string;
+  providerName?: string | undefined;
   /** Collection of properties */
-  propertyBag?: DiagnosticDataProviderMetadataPropertyBagList;
+  propertyBag?: DiagnosticDataProviderMetadataPropertyBagList | undefined;
 }
 /** Diagnostics resource specific properties */
 export interface DiagnosticsProperties {
   /** Metadata of the diagnostics response. */
-  metadata?: DiagnosticsDefinition;
+  metadata?: DiagnosticsDefinition | undefined;
   /** Set of data collections associated with the response. */
-  dataset?: DiagnosticsPropertiesDatasetList;
+  dataset?: DiagnosticsPropertiesDatasetList | undefined;
   /** Status of the diagnostics response. */
-  status?: DiagnosticsStatus;
+  status?: DiagnosticsStatus | undefined;
   /** List of data providers' metadata. */
-  dataProviderMetadata?: DiagnosticDataProviderMetadata;
+  dataProviderMetadata?: DiagnosticDataProviderMetadata | undefined;
 }
 export interface GetContainerAppsDiagnosticDetectorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DiagnosticsProperties;
+  properties?: DiagnosticsProperties | undefined;
 }
 export interface GetContainerAppsDiagnosticRevisionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3606,39 +3608,39 @@ export type RevisionRunningState =
 /** Revision resource specific properties */
 export interface RevisionProperties {
   /** Timestamp describing when the revision was created by controller */
-  createdTime?: string;
+  createdTime?: string | undefined;
   /** Timestamp describing when the revision was last active. Only meaningful when revision is inactive */
-  lastActiveTime?: string;
+  lastActiveTime?: string | undefined;
   /** Fully qualified domain name of the revision */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** Container App Revision Template with all possible settings and the defaults if user did not provide them. The defaults are populated as they were at the creation time */
-  template?: Template;
+  template?: Template | undefined;
   /** Boolean describing if the Revision is Active */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Number of pods currently running for this revision */
-  replicas?: number;
+  replicas?: number | undefined;
   /** Traffic weight assigned to this revision */
-  trafficWeight?: number;
+  trafficWeight?: number | undefined;
   /** Optional Field - Platform Error Message */
-  provisioningError?: string;
+  provisioningError?: string | undefined;
   /** Current health State of the revision */
-  healthState?: RevisionHealthState;
+  healthState?: RevisionHealthState | undefined;
   /** Current provisioning State of the revision */
-  provisioningState?: RevisionProvisioningState;
+  provisioningState?: RevisionProvisioningState | undefined;
   /** Current running state of the revision */
-  runningState?: RevisionRunningState;
+  runningState?: RevisionRunningState | undefined;
 }
 export interface GetContainerAppsDiagnosticRevisionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Revision resource specific properties */
-  properties?: RevisionProperties;
+  properties?: RevisionProperties | undefined;
 }
 export interface GetContainerAppsDiagnosticRootRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3655,27 +3657,27 @@ export type GetContainerAppsDiagnosticRootResponseIdentity =
   ContainerAppsCreateOrUpdateResponseIdentity;
 export interface GetContainerAppsDiagnosticRootResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetContainerAppsDiagnosticRootResponseTagsMap;
+  tags?: GetContainerAppsDiagnosticRootResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ContainerApp resource specific properties */
-  properties?: ContainerAppProperties;
+  properties?: ContainerAppProperties | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateResponseIdentity;
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata to represent the container app kind, representing if a container app is workflowapp or functionapp. */
-  kind?: Kind;
+  kind?: Kind | undefined;
 }
 export interface GetContainerAppsFunctionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3692,27 +3694,27 @@ export type ContainerAppsFunctionState = "Enabled" | "Disabled";
 /** Function resource specific properties */
 export interface ContainerAppsFunctionProperties {
   /** Invoke URL for the function. */
-  invokeUrlTemplate?: string;
+  invokeUrlTemplate?: string | undefined;
   /** Trigger type of the function. */
-  triggerType?: string;
+  triggerType?: string | undefined;
   /** Programming language of the function. */
-  language?: string;
+  language?: string | undefined;
   /** Indicates whether the function is disabled. This property is deprecated; use `state` instead. */
-  isDisabled?: boolean;
+  isDisabled?: boolean | undefined;
   /** The state of the function. */
-  state?: ContainerAppsFunctionState;
+  state?: ContainerAppsFunctionState | undefined;
 }
 export interface GetContainerAppsFunctionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Function resource specific properties */
-  properties?: ContainerAppsFunctionProperties;
+  properties?: ContainerAppsFunctionProperties | undefined;
 }
 export interface GetContainerAppsLabelHistoryLabelHistoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3729,32 +3731,32 @@ export type Status = "Succeeded" | "Failed" | "Starting";
 /** Container App Label History Item resource specific properties */
 export interface LabelHistoryRecordItem {
   /** Container App revision name that label was applied to. */
-  revision?: string;
+  revision?: string | undefined;
   /** Timestamp describing when the label was applied to the revision. */
-  start?: string;
+  start?: string | undefined;
   /** Timestamp describing when the label was removed from the revision. Only meaningful when the label is currently applied to the revision. */
-  stop?: string;
+  stop?: string | undefined;
   /** Status of the label history record. */
-  status?: Status;
+  status?: Status | undefined;
 }
 /** List of label history records. */
 export type LabelHistoryPropertiesRecordsList = Array<LabelHistoryRecordItem>;
 /** Container App Label History resource specific properties */
 export interface LabelHistoryProperties {
   /** List of label history records. */
-  records?: LabelHistoryPropertiesRecordsList;
+  records?: LabelHistoryPropertiesRecordsList | undefined;
 }
 export interface GetContainerAppsLabelHistoryLabelHistoryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Container App Label History resource specific properties */
-  properties?: LabelHistoryProperties;
+  properties?: LabelHistoryProperties | undefined;
 }
 export interface GetContainerAppsRevisionFunctionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3770,15 +3772,15 @@ export interface GetContainerAppsRevisionFunctionRequest {
 }
 export interface GetContainerAppsRevisionFunctionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Function resource specific properties */
-  properties?: ContainerAppsFunctionProperties;
+  properties?: ContainerAppsFunctionProperties | undefined;
 }
 export interface GetContainerAppsRevisionReplicasReplicaRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3799,25 +3801,25 @@ export type ContainerAppContainerRunningState = "Running" | "Terminated" | "Wait
 /** Container object under Container App Revision Replica. */
 export interface ReplicaContainer {
   /** The Name of the Container */
-  name?: string;
+  name?: string | undefined;
   /** The Id of the Container */
-  containerId?: string;
+  containerId?: string | undefined;
   /** The container ready status */
-  ready?: boolean;
+  ready?: boolean | undefined;
   /** The container start status */
-  started?: boolean;
+  started?: boolean | undefined;
   /** The container restart count */
-  restartCount?: number;
+  restartCount?: number | undefined;
   /** Current running state of the container */
-  runningState?: ContainerAppContainerRunningState;
+  runningState?: ContainerAppContainerRunningState | undefined;
   /** The details of container current running state */
-  runningStateDetails?: string;
+  runningStateDetails?: string | undefined;
   /** Log Stream endpoint */
-  logStreamEndpoint?: string;
+  logStreamEndpoint?: string | undefined;
   /** Container exec endpoint */
-  execEndpoint?: string;
+  execEndpoint?: string | undefined;
   /** Container debug endpoint */
-  debugEndpoint?: string;
+  debugEndpoint?: string | undefined;
 }
 /** The containers collection under a replica. */
 export type ReplicaPropertiesContainersList = Array<ReplicaContainer>;
@@ -3826,27 +3828,27 @@ export type ReplicaPropertiesInitContainersList = Array<ReplicaContainer>;
 /** Replica resource specific properties */
 export interface ReplicaProperties {
   /** Timestamp describing when the pod was created by controller */
-  createdTime?: string;
+  createdTime?: string | undefined;
   /** Current running state of the replica */
-  runningState?: ContainerAppReplicaRunningState;
+  runningState?: ContainerAppReplicaRunningState | undefined;
   /** The details of replica current running state */
-  runningStateDetails?: string;
+  runningStateDetails?: string | undefined;
   /** The containers collection under a replica. */
-  containers?: ReplicaPropertiesContainersList;
+  containers?: ReplicaPropertiesContainersList | undefined;
   /** The init containers collection under a replica. */
-  initContainers?: ReplicaPropertiesInitContainersList;
+  initContainers?: ReplicaPropertiesInitContainersList | undefined;
 }
 export interface GetContainerAppsRevisionReplicasReplicaResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Replica resource specific properties */
-  properties?: ReplicaProperties;
+  properties?: ReplicaProperties | undefined;
 }
 export interface GetContainerAppsRevisionRevisionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3860,15 +3862,15 @@ export interface GetContainerAppsRevisionRevisionRequest {
 }
 export interface GetContainerAppsRevisionRevisionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Revision resource specific properties */
-  properties?: RevisionProperties;
+  properties?: RevisionProperties | undefined;
 }
 export interface GetContainerAppsSessionPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3885,21 +3887,21 @@ export type GetContainerAppsSessionPoolResponseIdentity =
   ContainerAppsCreateOrUpdateResponseIdentity;
 export interface GetContainerAppsSessionPoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetContainerAppsSessionPoolResponseTagsMap;
+  tags?: GetContainerAppsSessionPoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Container App session pool resource specific properties */
-  properties?: SessionPoolProperties;
+  properties?: SessionPoolProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateResponseIdentity;
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
 }
 export interface GetContainerAppsSourceControlRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3913,15 +3915,15 @@ export interface GetContainerAppsSourceControlRequest {
 }
 export interface GetContainerAppsSourceControlResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** SourceControl resource specific properties */
-  properties?: SourceControlProperties;
+  properties?: SourceControlProperties | undefined;
 }
 export interface GetCustomDomainVerificationIdRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3940,15 +3942,15 @@ export interface GetDaprComponentRequest {
 }
 export interface GetDaprComponentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Dapr Component resource specific properties */
-  properties?: DaprComponentProperties;
+  properties?: DaprComponentProperties | undefined;
 }
 export interface GetDaprComponentResiliencyPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3964,15 +3966,15 @@ export interface GetDaprComponentResiliencyPolicyRequest {
 }
 export interface GetDaprComponentResiliencyPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Dapr Component Resiliency Policy resource specific properties */
-  properties?: DaprComponentResiliencyPolicyProperties;
+  properties?: DaprComponentResiliencyPolicyProperties | undefined;
 }
 export interface GetDotNetComponentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3986,15 +3988,15 @@ export interface GetDotNetComponentRequest {
 }
 export interface GetDotNetComponentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** .NET Component resource specific properties */
-  properties?: DotNetComponentProperties;
+  properties?: DotNetComponentProperties | undefined;
 }
 export interface GetHttpRouteConfigRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4018,9 +4020,9 @@ export type HttpRouteProvisioningState =
 /** List of provisioning errors for a Http Route Config object */
 export interface HttpRouteProvisioningErrors {
   /** Timestamp error occured at */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** Description or error message */
-  message?: string;
+  message?: string | undefined;
 }
 /** List of errors when trying to reconcile http routes */
 export type HttpRouteConfigPropertiesProvisioningErrorsList = Array<HttpRouteProvisioningErrors>;
@@ -4031,72 +4033,72 @@ export interface HttpRouteTarget {
   /** Container App Name to route requests to */
   containerApp: string;
   /** Revision to route requests to */
-  revision?: string;
+  revision?: string | undefined;
   /** Label to route requests to */
-  label?: string;
+  label?: string | undefined;
 }
 /** Targets- container apps, revisions, labels */
 export type HttpRouteRuleTargetsList = Array<HttpRouteTarget>;
 /** Criteria to match on */
 export interface HttpRouteMatch {
   /** match on all prefix's. Not exact */
-  prefix?: string;
+  prefix?: string | undefined;
   /** match on exact path */
-  path?: string;
+  path?: string | undefined;
   /** match on all prefix's. Not exact */
-  pathSeparatedPrefix?: string;
+  pathSeparatedPrefix?: string | undefined;
   /** path case sensitive, default is true */
-  caseSensitive?: boolean;
+  caseSensitive?: boolean | undefined;
 }
 /** Action to perform once matching of routes is done */
 export interface HttpRouteAction {
   /** Rewrite prefix, default is no rewrites */
-  prefixRewrite?: string;
+  prefixRewrite?: string | undefined;
 }
 /** Http Routes, including paths to match on and whether or not rewrites are to be done. */
 export interface HttpRoute {
   /** Conditions route will match on */
-  match?: HttpRouteMatch;
+  match?: HttpRouteMatch | undefined;
   /** Once route is matched, what is the desired action */
-  action?: HttpRouteAction;
+  action?: HttpRouteAction | undefined;
 }
 /** Routing configuration that will allow matches on specific paths/headers. */
 export type HttpRouteRuleRoutesList = Array<HttpRoute>;
 /** A set of routing conditions and targets. */
 export interface HttpRouteRule {
   /** Targets- container apps, revisions, labels */
-  targets?: HttpRouteRuleTargetsList;
+  targets?: HttpRouteRuleTargetsList | undefined;
   /** Routing configuration that will allow matches on specific paths/headers. */
-  routes?: HttpRouteRuleRoutesList;
+  routes?: HttpRouteRuleRoutesList | undefined;
   /** Description of rule. Optional. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Routing Rules for http route resource. */
 export type HttpRouteConfigPropertiesRulesList = Array<HttpRouteRule>;
 /** Http Route Config properties */
 export interface HttpRouteConfigProperties {
   /** The provisioning state of the Http Route Config in cluster */
-  provisioningState?: HttpRouteProvisioningState;
+  provisioningState?: HttpRouteProvisioningState | undefined;
   /** List of errors when trying to reconcile http routes */
-  provisioningErrors?: HttpRouteConfigPropertiesProvisioningErrorsList;
+  provisioningErrors?: HttpRouteConfigPropertiesProvisioningErrorsList | undefined;
   /** FQDN of the route resource. */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** Custom domain bindings for http Routes' hostnames. */
-  customDomains?: HttpRouteConfigPropertiesCustomDomainsList;
+  customDomains?: HttpRouteConfigPropertiesCustomDomainsList | undefined;
   /** Routing Rules for http route resource. */
-  rules?: HttpRouteConfigPropertiesRulesList;
+  rules?: HttpRouteConfigPropertiesRulesList | undefined;
 }
 export interface GetHttpRouteConfigResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Http Route Config properties */
-  properties?: HttpRouteConfigProperties;
+  properties?: HttpRouteConfigProperties | undefined;
 }
 export interface GetJavaComponentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4124,9 +4126,9 @@ export type JavaComponentPropertiesConfigurationsList = Array<DotNetComponentCon
 /** Java component scaling configurations */
 export interface JavaComponentPropertiesScale {
   /** Optional. Minimum number of Java component replicas. Defaults to 1 if not set */
-  minReplicas?: number;
+  minReplicas?: number | undefined;
   /** Optional. Maximum number of Java component replicas */
-  maxReplicas?: number;
+  maxReplicas?: number | undefined;
 }
 /** Configuration to bind a Java Component to another Java Component */
 export type JavaComponentServiceBind = DotNetComponentServiceBind;
@@ -4137,25 +4139,25 @@ export interface JavaComponentProperties {
   /** Type of the Java Component. */
   componentType: JavaComponentType | (string & {});
   /** Provisioning state of the Java Component. */
-  provisioningState?: JavaComponentProvisioningState | (string & {});
+  provisioningState?: JavaComponentProvisioningState | (string & {}) | undefined;
   /** List of Java Components configuration properties */
-  configurations?: JavaComponentPropertiesConfigurationsList;
+  configurations?: JavaComponentPropertiesConfigurationsList | undefined;
   /** Java component scaling configurations */
-  scale?: JavaComponentPropertiesScale;
+  scale?: JavaComponentPropertiesScale | undefined;
   /** List of Java Components that are bound to the Java component */
-  serviceBinds?: JavaComponentPropertiesServiceBindsList;
+  serviceBinds?: JavaComponentPropertiesServiceBindsList | undefined;
 }
 export interface GetJavaComponentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Java Component resource specific properties */
-  properties?: JavaComponentProperties;
+  properties?: JavaComponentProperties | undefined;
 }
 export interface GetJobRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4178,55 +4180,55 @@ export type JobConfigurationTriggerType = "Schedule" | "Event" | "Manual";
 /** Manual trigger configuration for a single execution job. Properties replicaCompletionCount and parallelism would be set to 1 by default */
 export interface JobConfigurationManualTriggerConfig {
   /** Minimum number of successful replica completions before overall job completion. */
-  replicaCompletionCount?: number;
+  replicaCompletionCount?: number | undefined;
   /** Number of parallel replicas of a job that can run at a given time. */
-  parallelism?: number;
+  parallelism?: number | undefined;
 }
 /** Cron formatted repeating trigger schedule ("* * * * *") for cronjobs. Properties completions and parallelism would be set to 1 by default */
 export interface JobConfigurationScheduleTriggerConfig {
   /** Minimum number of successful replica completions before overall job completion. */
-  replicaCompletionCount?: number;
+  replicaCompletionCount?: number | undefined;
   /** Cron formatted repeating schedule ("* * * * *") of a Cron Job. */
   cronExpression: string;
   /** Number of parallel replicas of a job that can run at a given time. */
-  parallelism?: number;
+  parallelism?: number | undefined;
 }
 /** Authentication secrets for the scale rule. */
 export type JobScaleRuleAuthList = Array<ScaleRuleAuth>;
 /** Scaling rule. */
 export interface JobScaleRule {
   /** Scale Rule Name */
-  name?: string;
+  name?: string | undefined;
   /** Type of the scale rule eg: azure-servicebus, redis etc. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata properties to describe the scale rule. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** Authentication secrets for the scale rule. */
-  auth?: JobScaleRuleAuthList;
+  auth?: JobScaleRuleAuthList | undefined;
   /** The resource ID of a user-assigned managed identity that is assigned to the job, or 'system' for system-assigned identity. */
-  identity?: string;
+  identity?: string | undefined;
 }
 /** Scaling rules. */
 export type JobScaleRulesList = Array<JobScaleRule>;
 /** Scaling configurations for event driven jobs. */
 export interface JobScale {
   /** Interval to check each event source in seconds. Defaults to 30s */
-  pollingInterval?: number;
+  pollingInterval?: number | undefined;
   /** Minimum number of job executions that are created for a trigger, default 0 */
-  minExecutions?: number;
+  minExecutions?: number | undefined;
   /** Maximum number of job executions that are created for a trigger, default 100. */
-  maxExecutions?: number;
+  maxExecutions?: number | undefined;
   /** Scaling rules. */
-  rules?: JobScaleRulesList;
+  rules?: JobScaleRulesList | undefined;
 }
 /** Trigger configuration of an event driven job. */
 export interface JobConfigurationEventTriggerConfig {
   /** Minimum number of successful replica completions before overall job completion. */
-  replicaCompletionCount?: number;
+  replicaCompletionCount?: number | undefined;
   /** Number of parallel replicas of a job that can run at a given time. */
-  parallelism?: number;
+  parallelism?: number | undefined;
   /** Scaling configurations for event driven jobs. */
-  scale?: JobScale;
+  scale?: JobScale | undefined;
 }
 /** Collection of private container registry credentials used by a Container apps job */
 export type JobConfigurationRegistriesList = Array<RegistryCredentials>;
@@ -4235,23 +4237,23 @@ export type JobConfigurationIdentitySettingsList = Array<IdentitySettings>;
 /** Non versioned Container Apps Job configuration properties */
 export interface JobConfiguration {
   /** Collection of secrets used by a Container Apps Job */
-  secrets?: JobConfigurationSecretsList;
+  secrets?: JobConfigurationSecretsList | undefined;
   /** Trigger type of the job */
   triggerType: JobConfigurationTriggerType | (string & {});
   /** Maximum number of seconds a replica is allowed to run. */
   replicaTimeout: number;
   /** Maximum number of retries before failing the job. */
-  replicaRetryLimit?: number;
+  replicaRetryLimit?: number | undefined;
   /** Manual trigger configuration for a single execution job. Properties replicaCompletionCount and parallelism would be set to 1 by default */
-  manualTriggerConfig?: JobConfigurationManualTriggerConfig;
+  manualTriggerConfig?: JobConfigurationManualTriggerConfig | undefined;
   /** Cron formatted repeating trigger schedule ("* * * * *") for cronjobs. Properties completions and parallelism would be set to 1 by default */
-  scheduleTriggerConfig?: JobConfigurationScheduleTriggerConfig;
+  scheduleTriggerConfig?: JobConfigurationScheduleTriggerConfig | undefined;
   /** Trigger configuration of an event driven job. */
-  eventTriggerConfig?: JobConfigurationEventTriggerConfig;
+  eventTriggerConfig?: JobConfigurationEventTriggerConfig | undefined;
   /** Collection of private container registry credentials used by a Container apps job */
-  registries?: JobConfigurationRegistriesList;
+  registries?: JobConfigurationRegistriesList | undefined;
   /** Optional settings for Managed Identities that are assigned to the Container App Job. If a Managed Identity is not specified here, default settings will be used. */
-  identitySettings?: JobConfigurationIdentitySettingsList;
+  identitySettings?: JobConfigurationIdentitySettingsList | undefined;
 }
 /** List of specialized containers that run before app containers. */
 export type JobTemplateInitContainersList = Array<BaseContainer>;
@@ -4262,52 +4264,52 @@ export type JobTemplateVolumesList = Array<Volume>;
 /** Container Apps Job versioned application definition. Defines the desired state of an immutable revision. Any changes to this section Will result in a new revision being created */
 export interface JobTemplate {
   /** List of specialized containers that run before app containers. */
-  initContainers?: JobTemplateInitContainersList;
+  initContainers?: JobTemplateInitContainersList | undefined;
   /** List of container definitions for the Container App. */
-  containers?: JobTemplateContainersList;
+  containers?: JobTemplateContainersList | undefined;
   /** List of volume definitions for the Container App. */
-  volumes?: JobTemplateVolumesList;
+  volumes?: JobTemplateVolumesList | undefined;
 }
 /** Outbound IP Addresses of a container apps job. */
 export type JobPropertiesOutboundIpAddressesList = Array<string>;
 /** Container Apps Job resource specific properties. */
 export interface JobProperties {
   /** Provisioning state of the Container Apps Job. */
-  provisioningState?: JobProvisioningState;
+  provisioningState?: JobProvisioningState | undefined;
   /** Current running state of the job */
-  runningState?: JobRunningState;
+  runningState?: JobRunningState | undefined;
   /** Resource ID of environment. */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** Workload profile name to pin for container apps job execution. */
-  workloadProfileName?: string;
+  workloadProfileName?: string | undefined;
   /** Container Apps Job configuration properties. */
-  configuration?: JobConfiguration;
+  configuration?: JobConfiguration | undefined;
   /** Container Apps job definition. */
-  template?: JobTemplate;
+  template?: JobTemplate | undefined;
   /** Outbound IP Addresses of a container apps job. */
-  outboundIpAddresses?: JobPropertiesOutboundIpAddressesList;
+  outboundIpAddresses?: JobPropertiesOutboundIpAddressesList | undefined;
   /** The endpoint of the eventstream of the container apps job. */
-  eventStreamEndpoint?: string;
+  eventStreamEndpoint?: string | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type GetJobResponseIdentity = ContainerAppsCreateOrUpdateResponseIdentity;
 export interface GetJobResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetJobResponseTagsMap;
+  tags?: GetJobResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Container Apps Job resource specific properties. */
-  properties?: JobProperties;
+  properties?: JobProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateResponseIdentity;
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
 }
 export interface GetJobDetectorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4321,15 +4323,15 @@ export interface GetJobDetectorRequest {
 }
 export interface GetJobDetectorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DiagnosticsProperties;
+  properties?: DiagnosticsProperties | undefined;
 }
 export interface GetJobsProxyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4347,21 +4349,21 @@ export type GetJobsProxyResponseTagsMap = { [key: string]: string | undefined };
 export type GetJobsProxyResponseIdentity = ContainerAppsCreateOrUpdateResponseIdentity;
 export interface GetJobsProxyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetJobsProxyResponseTagsMap;
+  tags?: GetJobsProxyResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Container Apps Job resource specific properties. */
-  properties?: JobProperties;
+  properties?: JobProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateResponseIdentity;
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
 }
 export interface GetLogicAppRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4375,15 +4377,15 @@ export interface GetLogicAppRequest {
 }
 export interface GetLogicAppResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Logic App extension properties (opaque). */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface GetLogicAppWorkflowRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4416,53 +4418,53 @@ export type ErrorEntityDetailsList = Array<ErrorEntity>;
 /** Body of the error response returned from the API. */
 export interface ErrorEntity {
   /** Type of error. */
-  extendedCode?: string;
+  extendedCode?: string | undefined;
   /** Message template. */
-  messageTemplate?: string;
+  messageTemplate?: string | undefined;
   /** Parameters for the template. */
-  parameters?: ErrorEntityParametersList;
+  parameters?: ErrorEntityParametersList | undefined;
   /** Inner errors. */
-  innerErrors?: ErrorEntityInnerErrorsList;
+  innerErrors?: ErrorEntityInnerErrorsList | undefined;
   /** Error Details. */
-  details?: ErrorEntityDetailsList;
+  details?: ErrorEntityDetailsList | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** Basic error code. */
-  code?: string;
+  code?: string | undefined;
   /** Any details of the error. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Represents the workflow health. */
 export interface WorkflowHealth {
   /** Gets or sets the workflow health state. */
   state: WorkflowHealthState;
   /** Gets or sets the workflow error. */
-  error?: ErrorEntity;
+  error?: ErrorEntity | undefined;
 }
 /** Additional workflow properties. */
 export interface WorkflowEnvelopeProperties {
   /** Gets or sets the files. */
-  files?: unknown;
+  files?: unknown | undefined;
   /** Gets or sets the state of the workflow. */
-  flowState?: WorkflowState;
+  flowState?: WorkflowState | undefined;
   /** Gets or sets workflow health. */
-  health?: WorkflowHealth;
+  health?: WorkflowHealth | undefined;
 }
 /** Gets the logic app hybrid workflow kind. */
 export type WorkflowKind = "Stateful" | "Stateless" | "Agentic";
 export interface GetLogicAppWorkflowResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Additional workflow properties. */
-  properties?: WorkflowEnvelopeProperties;
+  properties?: WorkflowEnvelopeProperties | undefined;
   /** Gets the logic app hybrid workflow kind. */
-  kind?: WorkflowKind;
+  kind?: WorkflowKind | undefined;
 }
 export interface GetMaintenanceConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4501,15 +4503,15 @@ export interface ScheduledEntries {
 }
 export interface GetMaintenanceConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ScheduledEntries;
+  properties?: ScheduledEntries | undefined;
 }
 export interface GetManagedCertificateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4528,31 +4530,31 @@ export type ManagedCertificateDomainControlValidation = "CNAME" | "HTTP" | "TXT"
 /** Certificate resource specific properties */
 export interface ManagedCertificateProperties {
   /** Provisioning state of the certificate. */
-  provisioningState?: CertificateProvisioningState;
+  provisioningState?: CertificateProvisioningState | undefined;
   /** Subject name of the certificate. */
-  subjectName?: string;
+  subjectName?: string | undefined;
   /** Any error occurred during the certificate provision. */
-  error?: string;
+  error?: string | undefined;
   /** Selected type of domain control validation for managed certificates. */
-  domainControlValidation?: ManagedCertificateDomainControlValidation;
+  domainControlValidation?: ManagedCertificateDomainControlValidation | undefined;
   /** A TXT token used for DNS TXT domain control validation when issuing this type of managed certificates. */
-  validationToken?: string;
+  validationToken?: string | undefined;
 }
 export interface GetManagedCertificateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetManagedCertificateResponseTagsMap;
+  tags?: GetManagedCertificateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Certificate resource specific properties */
-  properties?: ManagedCertificateProperties;
+  properties?: ManagedCertificateProperties | undefined;
 }
 export interface GetManagedEnvironmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4579,106 +4581,106 @@ export type EnvironmentProvisioningState =
 /** Configuration properties for apps environment to join a Virtual Network */
 export interface VnetConfiguration {
   /** Boolean indicating the environment only has an internal load balancer. These environments do not have a public static IP resource. They must provide infrastructureSubnetId if enabling this property */
-  internal?: boolean;
+  internal?: boolean | undefined;
   /** Resource ID of a subnet for infrastructure components. Must not overlap with any other provided IP ranges. */
-  infrastructureSubnetId?: string;
+  infrastructureSubnetId?: string | undefined;
   /** CIDR notation IP range assigned to the Docker bridge, network. Must not overlap with any other provided IP ranges. */
-  dockerBridgeCidr?: string;
+  dockerBridgeCidr?: string | undefined;
   /** IP range in CIDR notation that can be reserved for environment infrastructure IP addresses. Must not overlap with any other provided IP ranges. */
-  platformReservedCidr?: string;
+  platformReservedCidr?: string | undefined;
   /** An IP address from the IP range defined by platformReservedCidr that will be reserved for the internal DNS server. */
-  platformReservedDnsIP?: string;
+  platformReservedDnsIP?: string | undefined;
 }
 /** Log Analytics configuration, must only be provided when destination is configured as 'log-analytics' */
 export interface LogAnalyticsConfiguration {
   /** Log analytics customer id */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Log analytics customer key */
-  sharedKey?: string;
+  sharedKey?: string | undefined;
 }
 /** Configuration of application logs */
 export interface AppLogsConfiguration {
   /** Logs destination, can be 'log-analytics', 'azure-monitor' or 'none' */
-  destination?: string;
+  destination?: string | undefined;
   /** Log Analytics configuration, must only be provided when destination is configured as 'log-analytics' */
-  logAnalyticsConfiguration?: LogAnalyticsConfiguration;
+  logAnalyticsConfiguration?: LogAnalyticsConfiguration | undefined;
 }
 /** Configuration of Application Insights */
 export interface AppInsightsConfiguration {
   /** Application Insights connection string */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
 }
 /** Configuration of datadog */
 export interface DataDogConfiguration {
   /** The data dog site */
-  site?: string;
+  site?: string | undefined;
   /** The data dog api key */
-  key?: string;
+  key?: string | undefined;
 }
 /** Header of otlp configuration */
 export interface Header {
   /** The key of otlp configuration header */
-  key?: string;
+  key?: string | undefined;
   /** The value of otlp configuration header */
-  value?: string;
+  value?: string | undefined;
 }
 /** Headers of otlp configurations */
 export type OtlpConfigurationHeadersList = Array<Header>;
 /** Configuration of otlp */
 export interface OtlpConfiguration {
   /** The name of otlp configuration */
-  name?: string;
+  name?: string | undefined;
   /** The endpoint of otlp configuration */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Boolean indicating if otlp configuration is insecure */
-  insecure?: boolean;
+  insecure?: boolean | undefined;
   /** Headers of otlp configurations */
-  headers?: OtlpConfigurationHeadersList;
+  headers?: OtlpConfigurationHeadersList | undefined;
 }
 /** Open telemetry otlp configurations */
 export type DestinationsConfigurationOtlpConfigurationsList = Array<OtlpConfiguration>;
 /** Configuration of Open Telemetry destinations */
 export interface DestinationsConfiguration {
   /** Open telemetry datadog destination configuration */
-  dataDogConfiguration?: DataDogConfiguration;
+  dataDogConfiguration?: DataDogConfiguration | undefined;
   /** Open telemetry otlp configurations */
-  otlpConfigurations?: DestinationsConfigurationOtlpConfigurationsList;
+  otlpConfigurations?: DestinationsConfigurationOtlpConfigurationsList | undefined;
 }
 /** Open telemetry traces destinations */
 export type TracesConfigurationDestinationsList = Array<string>;
 /** Configuration of Open Telemetry traces */
 export interface TracesConfiguration {
   /** Boolean indicating if including dapr traces */
-  includeDapr?: boolean;
+  includeDapr?: boolean | undefined;
   /** Open telemetry traces destinations */
-  destinations?: TracesConfigurationDestinationsList;
+  destinations?: TracesConfigurationDestinationsList | undefined;
 }
 /** Open telemetry logs destinations */
 export type LogsConfigurationDestinationsList = Array<string>;
 /** Configuration of Open Telemetry logs */
 export interface LogsConfiguration {
   /** Open telemetry logs destinations */
-  destinations?: LogsConfigurationDestinationsList;
+  destinations?: LogsConfigurationDestinationsList | undefined;
 }
 /** Open telemetry metrics destinations */
 export type MetricsConfigurationDestinationsList = Array<string>;
 /** Configuration of Open Telemetry metrics */
 export interface MetricsConfiguration {
   /** Boolean indicating if including keda metrics */
-  includeKeda?: boolean;
+  includeKeda?: boolean | undefined;
   /** Open telemetry metrics destinations */
-  destinations?: MetricsConfigurationDestinationsList;
+  destinations?: MetricsConfigurationDestinationsList | undefined;
 }
 /** Configuration of Open Telemetry */
 export interface OpenTelemetryConfiguration {
   /** Open telemetry destinations configuration */
-  destinationsConfiguration?: DestinationsConfiguration;
+  destinationsConfiguration?: DestinationsConfiguration | undefined;
   /** Open telemetry trace configuration */
-  tracesConfiguration?: TracesConfiguration;
+  tracesConfiguration?: TracesConfiguration | undefined;
   /** Open telemetry logs configuration */
-  logsConfiguration?: LogsConfiguration;
+  logsConfiguration?: LogsConfiguration | undefined;
   /** Open telemetry metrics configuration */
-  metricsConfiguration?: MetricsConfiguration;
+  metricsConfiguration?: MetricsConfiguration | undefined;
 }
 /** Workload profile to scope container app execution. */
 export interface WorkloadProfile {
@@ -4687,52 +4689,52 @@ export interface WorkloadProfile {
   /** Workload profile type for the workloads to run on. */
   workloadProfileType: string;
   /** The minimum capacity. */
-  minimumCount?: number;
+  minimumCount?: number | undefined;
   /** The maximum capacity. */
-  maximumCount?: number;
+  maximumCount?: number | undefined;
 }
 /** Workload profiles configured for the Managed Environment. */
 export type ManagedEnvironmentPropertiesWorkloadProfilesList = Array<WorkloadProfile>;
 /** Configuration properties Keda component */
 export interface KedaConfiguration {
   /** The version of Keda */
-  version?: string;
+  version?: string | undefined;
 }
 /** Configuration properties Dapr component */
 export interface DaprConfiguration {
   /** The version of Dapr */
-  version?: string;
+  version?: string | undefined;
 }
 /** Configuration properties for mutual TLS authentication */
 export interface Mtls {
   /** Boolean indicating whether the mutual TLS authentication is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Peer authentication settings for the Managed Environment */
 export interface ManagedEnvironmentPropertiesPeerAuthentication {
   /** Mutual TLS authentication settings for the Managed Environment */
-  mtls?: Mtls;
+  mtls?: Mtls | undefined;
 }
 /** Peer traffic encryption settings for the Managed Environment */
 export interface ManagedEnvironmentPropertiesPeerTrafficConfigurationEncryption {
   /** Boolean indicating whether the peer traffic encryption is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Peer traffic settings for the Managed Environment */
 export interface ManagedEnvironmentPropertiesPeerTrafficConfiguration {
   /** Peer traffic encryption settings for the Managed Environment */
-  encryption?: ManagedEnvironmentPropertiesPeerTrafficConfigurationEncryption;
+  encryption?: ManagedEnvironmentPropertiesPeerTrafficConfigurationEncryption | undefined;
 }
 /** Settings for the ingress component, including workload profile, scaling, and connection handling. */
 export interface IngressConfiguration {
   /** Name of the workload profile used by the ingress component. Required. */
-  workloadProfileName?: string;
+  workloadProfileName?: string | undefined;
   /** Time (in seconds) to allow active connections to complete on termination. Must be between 0 and 3600. Defaults to 480 seconds. */
-  terminationGracePeriodSeconds?: number;
+  terminationGracePeriodSeconds?: number | undefined;
   /** Maximum number of headers per request allowed by the ingress. Must be at least 1. Defaults to 100. */
-  headerCountLimit?: number;
+  headerCountLimit?: number | undefined;
   /** Duration (in minutes) before idle requests are timed out. Must be between 4 and 30 inclusive. Defaults to 4 minutes. */
-  requestIdleTimeout?: number;
+  requestIdleTimeout?: number | undefined;
 }
 /** Mode of the managed environment. */
 export type ManagedEnvironmentMode =
@@ -4743,15 +4745,15 @@ export type ManagedEnvironmentMode =
 /** The Private Endpoint Connection resource. */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** Private endpoint connections to the resource. */
 export type ManagedEnvironmentPropertiesPrivateEndpointConnectionsList =
@@ -4761,73 +4763,75 @@ export type PublicNetworkAccess = "Enabled" | "Disabled";
 /** Managed environment resource specific properties */
 export interface ManagedEnvironmentProperties {
   /** Provisioning state of the Environment. */
-  provisioningState?: EnvironmentProvisioningState;
+  provisioningState?: EnvironmentProvisioningState | undefined;
   /** Azure Monitor instrumentation key used by Dapr to export Service to Service communication telemetry */
-  daprAIInstrumentationKey?: string;
+  daprAIInstrumentationKey?: string | undefined;
   /** Application Insights connection string used by Dapr to export Service to Service communication telemetry */
-  daprAIConnectionString?: string;
+  daprAIConnectionString?: string | undefined;
   /** Vnet configuration for the environment */
-  vnetConfiguration?: VnetConfiguration;
+  vnetConfiguration?: VnetConfiguration | undefined;
   /** Any errors that occurred during deployment or deployment validation */
-  deploymentErrors?: string;
+  deploymentErrors?: string | undefined;
   /** Default Domain Name for the cluster */
-  defaultDomain?: string;
+  defaultDomain?: string | undefined;
   /** Static IP of the Environment */
-  staticIp?: string;
+  staticIp?: string | undefined;
   /** Cluster configuration which enables the log daemon to export app logs to configured destination */
-  appLogsConfiguration?: AppLogsConfiguration;
+  appLogsConfiguration?: AppLogsConfiguration | undefined;
   /** Environment level Application Insights configuration */
-  appInsightsConfiguration?: AppInsightsConfiguration;
+  appInsightsConfiguration?: AppInsightsConfiguration | undefined;
   /** Environment Open Telemetry configuration */
-  openTelemetryConfiguration?: OpenTelemetryConfiguration;
+  openTelemetryConfiguration?: OpenTelemetryConfiguration | undefined;
   /** Whether or not this Managed Environment is zone-redundant. */
-  zoneRedundant?: boolean;
+  zoneRedundant?: boolean | undefined;
   /** Custom domain configuration for the environment */
-  customDomainConfiguration?: CustomDomainConfiguration;
+  customDomainConfiguration?: CustomDomainConfiguration | undefined;
   /** The endpoint of the eventstream of the Environment. */
-  eventStreamEndpoint?: string;
+  eventStreamEndpoint?: string | undefined;
   /** Workload profiles configured for the Managed Environment. */
-  workloadProfiles?: ManagedEnvironmentPropertiesWorkloadProfilesList;
+  workloadProfiles?: ManagedEnvironmentPropertiesWorkloadProfilesList | undefined;
   /** The configuration of Keda component. */
-  kedaConfiguration?: KedaConfiguration;
+  kedaConfiguration?: KedaConfiguration | undefined;
   /** The configuration of Dapr component. */
-  daprConfiguration?: DaprConfiguration;
+  daprConfiguration?: DaprConfiguration | undefined;
   /** Name of the platform-managed resource group created for the Managed Environment to host infrastructure resources. If a subnet ID is provided, this resource group will be created in the same subscription as the subnet. */
-  infrastructureResourceGroup?: string;
+  infrastructureResourceGroup?: string | undefined;
   /** Peer authentication settings for the Managed Environment */
-  peerAuthentication?: ManagedEnvironmentPropertiesPeerAuthentication;
+  peerAuthentication?: ManagedEnvironmentPropertiesPeerAuthentication | undefined;
   /** Peer traffic settings for the Managed Environment */
-  peerTrafficConfiguration?: ManagedEnvironmentPropertiesPeerTrafficConfiguration;
+  peerTrafficConfiguration?: ManagedEnvironmentPropertiesPeerTrafficConfiguration | undefined;
   /** Ingress configuration for the Managed Environment. */
-  ingressConfiguration?: IngressConfiguration;
+  ingressConfiguration?: IngressConfiguration | undefined;
   /** Mode of the environment. Allowed Values: 'ConsumptionOnly', 'WorkloadProfiles', 'Express', 'Archived'. */
-  environmentMode?: ManagedEnvironmentMode;
+  environmentMode?: ManagedEnvironmentMode | undefined;
   /** Private endpoint connections to the resource. */
-  privateEndpointConnections?: ManagedEnvironmentPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | ManagedEnvironmentPropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Property to allow or block all public traffic. Allowed Values: 'Enabled', 'Disabled'. */
-  publicNetworkAccess?: PublicNetworkAccess;
+  publicNetworkAccess?: PublicNetworkAccess | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type GetManagedEnvironmentResponseIdentity = ContainerAppsCreateOrUpdateResponseIdentity;
 export interface GetManagedEnvironmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetManagedEnvironmentResponseTagsMap;
+  tags?: GetManagedEnvironmentResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Managed environment resource specific properties */
-  properties?: ManagedEnvironmentProperties;
+  properties?: ManagedEnvironmentProperties | undefined;
   /** Kind of the Environment. */
-  kind?: string;
+  kind?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateResponseIdentity;
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
 }
 export interface GetManagedEnvironmentAuthTokenRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4843,19 +4847,19 @@ export type GetManagedEnvironmentAuthTokenResponseTagsMap = { [key: string]: str
 export type EnvironmentAuthTokenProperties = ContainerAppAuthTokenProperties;
 export interface GetManagedEnvironmentAuthTokenResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetManagedEnvironmentAuthTokenResponseTagsMap;
+  tags?: GetManagedEnvironmentAuthTokenResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Environment auth token resource specific properties */
-  properties?: ContainerAppAuthTokenProperties;
+  properties?: ContainerAppAuthTokenProperties | undefined;
 }
 export interface GetManagedEnvironmentDiagnosticDetectorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4869,15 +4873,15 @@ export interface GetManagedEnvironmentDiagnosticDetectorRequest {
 }
 export interface GetManagedEnvironmentDiagnosticDetectorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DiagnosticsProperties;
+  properties?: DiagnosticsProperties | undefined;
 }
 export interface GetManagedEnvironmentPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4891,15 +4895,15 @@ export interface GetManagedEnvironmentPrivateEndpointConnectionRequest {
 }
 export interface GetManagedEnvironmentPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetManagedEnvironmentPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4913,15 +4917,15 @@ export interface GetManagedEnvironmentPrivateLinkResourceRequest {
 }
 export interface GetManagedEnvironmentPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface GetManagedEnvironmentsDiagnosticRootRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4940,23 +4944,23 @@ export type GetManagedEnvironmentsDiagnosticRootResponseIdentity =
   ContainerAppsCreateOrUpdateResponseIdentity;
 export interface GetManagedEnvironmentsDiagnosticRootResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetManagedEnvironmentsDiagnosticRootResponseTagsMap;
+  tags?: GetManagedEnvironmentsDiagnosticRootResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Managed environment resource specific properties */
-  properties?: ManagedEnvironmentProperties;
+  properties?: ManagedEnvironmentProperties | undefined;
   /** Kind of the Environment. */
-  kind?: string;
+  kind?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateResponseIdentity;
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
 }
 export interface GetManagedEnvironmentsStorageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4971,30 +4975,30 @@ export interface GetManagedEnvironmentsStorageRequest {
 /** NFS Azure File Properties. */
 export interface NfsAzureFileProperties {
   /** Server for NFS azure file. Specify the Azure storage account server address. */
-  server?: string;
+  server?: string | undefined;
   /** Access mode for storage */
-  accessMode?: AccessMode | (string & {});
+  accessMode?: AccessMode | (string & {}) | undefined;
   /** NFS Azure file share name. */
-  shareName?: string;
+  shareName?: string | undefined;
 }
 /** Storage properties */
 export interface ManagedEnvironmentStorageProperties {
   /** Azure file properties */
-  azureFile?: AzureFileProperties;
+  azureFile?: AzureFileProperties | undefined;
   /** NFS Azure file properties */
-  nfsAzureFile?: NfsAzureFileProperties;
+  nfsAzureFile?: NfsAzureFileProperties | undefined;
 }
 export interface GetManagedEnvironmentsStorageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Storage properties */
-  properties?: ManagedEnvironmentStorageProperties;
+  properties?: ManagedEnvironmentStorageProperties | undefined;
 }
 export interface GetSandboxGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5017,30 +5021,30 @@ export type SandboxGroupProvisioningState =
 /** SandboxGroup resource specific properties. */
 export interface SandboxGroupProperties {
   /** The resource ID of the Azure Container Apps environment to link to the sandbox group. A sandbox group can be linked after creation, but the link cannot then be changed or removed. For subsequent create-or-update (PUT) requests, specify the same environment ID; omitting or changing it returns 409 Conflict. Omitting it from an update (PATCH) request leaves the existing link unchanged. */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** The default domain of the linked Azure Container Apps environment. Sandbox endpoints use subdomains of this domain. This read-only property is populated by the service and is omitted when no environment is linked. */
-  defaultDomain?: string;
-  provisioningState?: SandboxGroupProvisioningState;
+  defaultDomain?: string | undefined;
+  provisioningState?: SandboxGroupProvisioningState | undefined;
   /** Regional data-plane endpoint for managing sandboxes in the group. */
-  managementEndpoint?: string;
+  managementEndpoint?: string | undefined;
   /** Whether detailed sandbox metrics are emitted. */
-  enableDetailedMetrics?: boolean;
+  enableDetailedMetrics?: boolean | undefined;
 }
 export interface GetSandboxGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSandboxGroupResponseTagsMap;
+  tags?: GetSandboxGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SandboxGroupProperties;
+  properties?: SandboxGroupProperties | undefined;
 }
 export interface GetVnetConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5062,23 +5066,23 @@ export type VnetConnectionProvisioningState =
   | "Deleting";
 /** VnetConnection resource specific properties. */
 export interface VnetConnectionProperties {
-  provisioningState?: VnetConnectionProvisioningState | (string & {});
+  provisioningState?: VnetConnectionProvisioningState | (string & {}) | undefined;
   /** Resource ID of the subnet that sandboxes in the parent SandboxGroup will be connected to. */
-  subnetId?: string;
+  subnetId?: string | undefined;
 }
 export interface GetVnetConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: VnetConnectionProperties;
+  properties?: VnetConnectionProperties | undefined;
   /** The geo-location where the resource lives. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Custom domain bindings for http Routes' hostnames. */
 export type HttpRouteConfigPropertiesInputCustomDomainsList = Array<CustomDomain>;
@@ -5087,9 +5091,9 @@ export type HttpRouteConfigPropertiesInputRulesList = Array<HttpRouteRule>;
 /** Http Route Config properties */
 export interface HttpRouteConfigPropertiesInput {
   /** Custom domain bindings for http Routes' hostnames. */
-  customDomains?: HttpRouteConfigPropertiesInputCustomDomainsList;
+  customDomains?: HttpRouteConfigPropertiesInputCustomDomainsList | undefined;
   /** Routing Rules for http route resource. */
-  rules?: HttpRouteConfigPropertiesInputRulesList;
+  rules?: HttpRouteConfigPropertiesInputRulesList | undefined;
 }
 export interface HttpRouteConfigCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5101,19 +5105,19 @@ export interface HttpRouteConfigCreateOrUpdateRequest {
   /** Name of the Http Route Config. */
   httpRouteName: string;
   /** Http Route Config properties */
-  properties?: HttpRouteConfigPropertiesInput;
+  properties?: HttpRouteConfigPropertiesInput | undefined;
 }
 export interface HttpRouteConfigCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Http Route Config properties */
-  properties?: HttpRouteConfigProperties;
+  properties?: HttpRouteConfigProperties | undefined;
 }
 export interface InvokeFunctionsExtensionFunctionsHostRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5138,23 +5142,23 @@ export interface JavaComponentsCreateOrUpdateRequest {
   /** Name of the Java Component. */
   name: string;
   /** Java Component resource specific properties */
-  properties?: JavaComponentProperties;
+  properties?: JavaComponentProperties | undefined;
 }
 export interface JavaComponentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Java Component resource specific properties */
-  properties?: JavaComponentProperties;
+  properties?: JavaComponentProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface JobExecutionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5184,17 +5188,17 @@ export type JobExecutionContainerEnvList = Array<EnvironmentVar>;
 /** Container Apps Jobs execution container definition. */
 export interface JobExecutionContainer {
   /** Container image tag. */
-  image?: string;
+  image?: string | undefined;
   /** Custom container name. */
-  name?: string;
+  name?: string | undefined;
   /** Container start command. */
-  command?: JobExecutionContainerCommandList;
+  command?: JobExecutionContainerCommandList | undefined;
   /** Container start command arguments. */
-  args?: JobExecutionContainerArgsList;
+  args?: JobExecutionContainerArgsList | undefined;
   /** Container environment variables. */
-  env?: JobExecutionContainerEnvList;
+  env?: JobExecutionContainerEnvList | undefined;
   /** Container resource requirements. */
-  resources?: ContainerResources;
+  resources?: ContainerResources | undefined;
 }
 /** List of container definitions for the Container Apps Job. */
 export type JobExecutionTemplateContainersList = Array<JobExecutionContainer>;
@@ -5203,65 +5207,65 @@ export type JobExecutionTemplateInitContainersList = Array<JobExecutionContainer
 /** Job's execution template, containing container configuration for a job's execution */
 export interface JobExecutionTemplate {
   /** List of container definitions for the Container Apps Job. */
-  containers?: JobExecutionTemplateContainersList;
+  containers?: JobExecutionTemplateContainersList | undefined;
   /** List of specialized containers that run before job containers. */
-  initContainers?: JobExecutionTemplateInitContainersList;
+  initContainers?: JobExecutionTemplateInitContainersList | undefined;
 }
 /** Container Apps Job execution container status. Contains status code and reason */
 export interface ContainerExecutionStatus {
   /** Container Name. */
-  name?: string;
+  name?: string | undefined;
   /** Exit code */
-  code?: number;
+  code?: number | undefined;
   /** Additional information for the container status */
-  additionalInformation?: string;
+  additionalInformation?: string | undefined;
   /** Status of the container */
-  status?: string;
+  status?: string | undefined;
 }
 /** Containers in the execution replica */
 export type ReplicaExecutionStatusContainersList = Array<ContainerExecutionStatus>;
 /** Container Apps Job execution replica status. */
 export interface ReplicaExecutionStatus {
   /** Replica Name. */
-  name?: string;
+  name?: string | undefined;
   /** Containers in the execution replica */
-  containers?: ReplicaExecutionStatusContainersList;
+  containers?: ReplicaExecutionStatusContainersList | undefined;
 }
 /** Replicas in the execution. */
 export type ExecutionStatusReplicasList = Array<ReplicaExecutionStatus>;
 /** Container Apps Job execution status. */
 export interface ExecutionStatus {
   /** Replicas in the execution. */
-  replicas?: ExecutionStatusReplicasList;
+  replicas?: ExecutionStatusReplicasList | undefined;
 }
 /** Container Apps Job execution specific properties. */
 export interface JobExecutionProperties {
   /** Current running State of the job */
-  status?: JobExecutionRunningState;
+  status?: JobExecutionRunningState | undefined;
   /** Job execution start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Job execution end time. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Job's execution container. */
-  template?: JobExecutionTemplate;
+  template?: JobExecutionTemplate | undefined;
   /** Detailed status of the job execution. */
-  detailedStatus?: ExecutionStatus;
+  detailedStatus?: ExecutionStatus | undefined;
   /** Reason for the current condition of job execution. */
-  reason?: string;
+  reason?: string | undefined;
   /** Human readable message indicating details about the current condition of the job execution. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface JobExecutionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Container Apps Job execution specific properties. */
-  properties?: JobExecutionProperties;
+  properties?: JobExecutionProperties | undefined;
 }
 /** Resource tags. */
 export type JobsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -5274,22 +5278,22 @@ export type JobTemplateInputVolumesList = Array<Volume>;
 /** Container Apps Job versioned application definition. Defines the desired state of an immutable revision. Any changes to this section Will result in a new revision being created */
 export interface JobTemplateInput {
   /** List of specialized containers that run before app containers. */
-  initContainers?: JobTemplateInputInitContainersList;
+  initContainers?: JobTemplateInputInitContainersList | undefined;
   /** List of container definitions for the Container App. */
-  containers?: JobTemplateInputContainersList;
+  containers?: JobTemplateInputContainersList | undefined;
   /** List of volume definitions for the Container App. */
-  volumes?: JobTemplateInputVolumesList;
+  volumes?: JobTemplateInputVolumesList | undefined;
 }
 /** Container Apps Job resource specific properties. */
 export interface JobPropertiesInput {
   /** Resource ID of environment. */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** Workload profile name to pin for container apps job execution. */
-  workloadProfileName?: string;
+  workloadProfileName?: string | undefined;
   /** Container Apps Job configuration properties. */
-  configuration?: JobConfiguration;
+  configuration?: JobConfiguration | undefined;
   /** Container Apps job definition. */
-  template?: JobTemplateInput;
+  template?: JobTemplateInput | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type JobsCreateOrUpdateRequestIdentity = ContainerAppsCreateOrUpdateRequestIdentity;
@@ -5301,13 +5305,13 @@ export interface JobsCreateOrUpdateRequest {
   /** Job Name */
   jobName: string;
   /** Resource tags. */
-  tags?: JobsCreateOrUpdateRequestTagsMap;
+  tags?: JobsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Container Apps Job resource specific properties. */
-  properties?: JobPropertiesInput;
+  properties?: JobPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateRequestIdentity;
+  identity?: ContainerAppsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type JobsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -5315,25 +5319,25 @@ export type JobsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefi
 export type JobsCreateOrUpdateResponseIdentity = ContainerAppsCreateOrUpdateResponseIdentity;
 export interface JobsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: JobsCreateOrUpdateResponseTagsMap;
+  tags?: JobsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Container Apps Job resource specific properties. */
-  properties?: JobProperties;
+  properties?: JobProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateResponseIdentity;
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ListAgentByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5350,31 +5354,31 @@ export type AgentIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface AgentIdentity2 {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: AgentIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: AgentIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Site Reliability Engineer (SRE) Agent resource */
 export interface Agent {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AgentTagsMap;
+  tags?: AgentTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AgentProperties;
+  properties?: AgentProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AgentIdentity2;
+  identity?: AgentIdentity2 | undefined;
 }
 /** The Agent items on this page */
 export type AgentListResultValueList = Array<Agent>;
@@ -5383,7 +5387,7 @@ export interface AgentListResult {
   /** The Agent items on this page */
   value: AgentListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAgentBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5400,15 +5404,15 @@ export interface ListAgentsConnectorByAgentRequest {
 /** Agent Connector used to connect to data sources */
 export interface AgentConnector {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AgentConnectorProperties;
+  properties?: AgentConnectorProperties | undefined;
 }
 /** The AgentConnector items on this page */
 export type AgentConnectorListResultValueList = Array<AgentConnector>;
@@ -5417,7 +5421,7 @@ export interface AgentConnectorListResult {
   /** The AgentConnector items on this page */
   value: AgentConnectorListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAgentsConnectorSecretsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5431,15 +5435,15 @@ export interface ListAgentsConnectorSecretsRequest {
 }
 export interface ListAgentsConnectorSecretsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AgentConnectorProperties;
+  properties?: AgentConnectorProperties | undefined;
 }
 export interface ListAgentsConnectorWithSecretsByAgentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5456,7 +5460,7 @@ export interface AgentConnectorCollection {
   /** The AgentConnector items on this page */
   value: AgentConnectorCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAvailableEnvironmentModesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5467,24 +5471,24 @@ export interface ListAvailableEnvironmentModesRequest {
 /** Details that describe an available environment mode. */
 export interface AvailableEnvironmentModeProperties {
   /** The display name of the environment mode. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The description of the environment mode. */
-  description?: string;
+  description?: string | undefined;
 }
 /** An environment mode available to the subscription. */
 export interface AvailableEnvironmentMode {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Azure region in which the environment mode is available. */
-  location?: string;
+  location?: string | undefined;
   /** The environment mode details. */
-  properties?: AvailableEnvironmentModeProperties;
+  properties?: AvailableEnvironmentModeProperties | undefined;
 }
 /** The AvailableEnvironmentMode items on this page */
 export type AvailableEnvironmentModesCollectionValueList = Array<AvailableEnvironmentMode>;
@@ -5493,7 +5497,7 @@ export interface AvailableEnvironmentModesCollection {
   /** The AvailableEnvironmentMode items on this page */
   value: AvailableEnvironmentModesCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCertificatesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5508,19 +5512,19 @@ export type CertificateTagsMap = { [key: string]: string | undefined };
 /** Certificate used for Custom Domain bindings of Container Apps in a Managed Environment */
 export interface Certificate {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CertificateTagsMap;
+  tags?: CertificateTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Certificate resource specific properties */
-  properties?: CertificateProperties;
+  properties?: CertificateProperties | undefined;
 }
 /** The Certificate items on this page */
 export type CertificateCollectionValueList = Array<Certificate>;
@@ -5529,7 +5533,7 @@ export interface CertificateCollection {
   /** The Certificate items on this page */
   value: CertificateCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConnectedEnvironmentByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5542,21 +5546,21 @@ export type ConnectedEnvironmentTagsMap = { [key: string]: string | undefined };
 /** An environment for Kubernetes cluster specialized for web workloads by Azure App Service */
 export interface ConnectedEnvironment {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ConnectedEnvironmentTagsMap;
+  tags?: ConnectedEnvironmentTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ConnectedEnvironment resource specific properties */
-  properties?: ConnectedEnvironmentProperties;
+  properties?: ConnectedEnvironmentProperties | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** The ConnectedEnvironment items on this page */
 export type ConnectedEnvironmentCollectionValueList = Array<ConnectedEnvironment>;
@@ -5565,7 +5569,7 @@ export interface ConnectedEnvironmentCollection {
   /** The ConnectedEnvironment items on this page */
   value: ConnectedEnvironmentCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConnectedEnvironmentBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5590,15 +5594,15 @@ export interface ListConnectedEnvironmentsDaprComponentsRequest {
 /** Dapr Component. */
 export interface DaprComponent {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Dapr Component resource specific properties */
-  properties?: DaprComponentProperties;
+  properties?: DaprComponentProperties | undefined;
 }
 /** The DaprComponent items on this page */
 export type DaprComponentsCollectionValueList = Array<DaprComponent>;
@@ -5607,7 +5611,7 @@ export interface DaprComponentsCollection {
   /** The DaprComponent items on this page */
   value: DaprComponentsCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConnectedEnvironmentsDaprComponentSecretsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5639,15 +5643,15 @@ export interface ListConnectedEnvironmentsStoragesRequest {
 /** Storage resource for connectedEnvironment. */
 export interface ConnectedEnvironmentStorage {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Storage properties */
-  properties?: ConnectedEnvironmentStorageProperties;
+  properties?: ConnectedEnvironmentStorageProperties | undefined;
 }
 /** Collection of storage resources. */
 export type ConnectedEnvironmentStoragesCollectionValueList = Array<ConnectedEnvironmentStorage>;
@@ -5669,27 +5673,27 @@ export type ContainerAppIdentity = ContainerAppsCreateOrUpdateResponseIdentity;
 /** Container App. */
 export interface ContainerApp {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ContainerAppTagsMap;
+  tags?: ContainerAppTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ContainerApp resource specific properties */
-  properties?: ContainerAppProperties;
+  properties?: ContainerAppProperties | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateResponseIdentity;
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata to represent the container app kind, representing if a container app is workflowapp or functionapp. */
-  kind?: Kind;
+  kind?: Kind | undefined;
 }
 /** The ContainerApp items on this page */
 export type ContainerAppCollectionValueList = Array<ContainerApp>;
@@ -5698,7 +5702,7 @@ export interface ContainerAppCollection {
   /** The ContainerApp items on this page */
   value: ContainerAppCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContainerAppBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5712,18 +5716,18 @@ export interface ListContainerAppCustomHostNameAnalysisRequest {
   /** Name of the Container App. */
   containerAppName: string;
   /** Custom hostname. */
-  customHostname?: string;
+  customHostname?: string | undefined;
 }
 /** DNS verification test result. */
 export type DnsVerificationTestResult = "Passed" | "Failed" | "Skipped";
 /** Detailed errors. */
 export interface CustomHostnameAnalysisResultCustomDomainVerificationFailureInfoDetailsItem {
   /** Standardized string to programmatically identify the error. */
-  code?: string;
+  code?: string | undefined;
   /** Detailed error description and debugging information. */
-  message?: string;
+  message?: string | undefined;
   /** Detailed error description and debugging information. */
-  target?: string;
+  target?: string | undefined;
 }
 /** Details or the error */
 export type CustomHostnameAnalysisResultCustomDomainVerificationFailureInfoDetailsList =
@@ -5731,13 +5735,13 @@ export type CustomHostnameAnalysisResultCustomDomainVerificationFailureInfoDetai
 /** Raw failure information if DNS verification fails. */
 export interface CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo {
   /** Standardized string to programmatically identify the error. */
-  code?: string;
+  code?: string | undefined;
   /** Detailed error description and debugging information. */
-  message?: string;
+  message?: string | undefined;
   /** Detailed error description and debugging information. */
-  target?: string;
+  target?: string | undefined;
   /** Details or the error */
-  details?: CustomHostnameAnalysisResultCustomDomainVerificationFailureInfoDetailsList;
+  details?: CustomHostnameAnalysisResultCustomDomainVerificationFailureInfoDetailsList | undefined;
 }
 /** CName records visible for this hostname. */
 export type CustomHostnameAnalysisResultCNameRecordsList = Array<string>;
@@ -5752,29 +5756,31 @@ export type CustomHostnameAnalysisResultAlternateTxtRecordsList = Array<string>;
 /** Custom domain analysis. */
 export interface CustomHostnameAnalysisResult {
   /** Host name that was analyzed */
-  hostName?: string;
+  hostName?: string | undefined;
   /** <code>true</code> if hostname is already verified; otherwise, <code>false</code>. */
-  isHostnameAlreadyVerified?: boolean;
+  isHostnameAlreadyVerified?: boolean | undefined;
   /** DNS verification test result. */
-  customDomainVerificationTest?: DnsVerificationTestResult;
+  customDomainVerificationTest?: DnsVerificationTestResult | undefined;
   /** Raw failure information if DNS verification fails. */
-  customDomainVerificationFailureInfo?: CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo;
+  customDomainVerificationFailureInfo?:
+    | CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo
+    | undefined;
   /** <code>true</code> if there is a conflict on the Container App's managed environment; otherwise, <code>false</code>. */
-  hasConflictOnManagedEnvironment?: boolean;
+  hasConflictOnManagedEnvironment?: boolean | undefined;
   /** <code>true</code> if there is a conflict on the Container App's managed environment level custom domain; otherwise, <code>false</code>. */
-  conflictWithEnvironmentCustomDomain?: boolean;
+  conflictWithEnvironmentCustomDomain?: boolean | undefined;
   /** Name of the conflicting Container App on the Managed Environment if it's within the same subscription. */
-  conflictingContainerAppResourceId?: string;
+  conflictingContainerAppResourceId?: string | undefined;
   /** CName records visible for this hostname. */
-  cNameRecords?: CustomHostnameAnalysisResultCNameRecordsList;
+  cNameRecords?: CustomHostnameAnalysisResultCNameRecordsList | undefined;
   /** TXT records visible for this hostname. */
-  txtRecords?: CustomHostnameAnalysisResultTxtRecordsList;
+  txtRecords?: CustomHostnameAnalysisResultTxtRecordsList | undefined;
   /** A records visible for this hostname. */
-  aRecords?: CustomHostnameAnalysisResultARecordsList;
+  aRecords?: CustomHostnameAnalysisResultARecordsList | undefined;
   /** Alternate CName records visible for this hostname. */
-  alternateCNameRecords?: CustomHostnameAnalysisResultAlternateCNameRecordsList;
+  alternateCNameRecords?: CustomHostnameAnalysisResultAlternateCNameRecordsList | undefined;
   /** Alternate TXT records visible for this hostname. */
-  alternateTxtRecords?: CustomHostnameAnalysisResultAlternateTxtRecordsList;
+  alternateTxtRecords?: CustomHostnameAnalysisResultAlternateTxtRecordsList | undefined;
 }
 export interface ListContainerAppPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5791,7 +5797,7 @@ export interface PrivateEndpointConnectionListResult {
   /** The PrivateEndpointConnection items on this page */
   value: PrivateEndpointConnectionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContainerAppPrivateLinkResourcesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5804,15 +5810,15 @@ export interface ListContainerAppPrivateLinkResourcesRequest {
 /** A private link resource */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** The PrivateLinkResource items on this page */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
@@ -5821,7 +5827,7 @@ export interface PrivateLinkResourceListResult {
   /** The PrivateLinkResource items on this page */
   value: PrivateLinkResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContainerAppsAuthConfigByContainerAppRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5834,15 +5840,15 @@ export interface ListContainerAppsAuthConfigByContainerAppRequest {
 /** Configuration settings for the Azure ContainerApp Service Authentication / Authorization feature. */
 export interface AuthConfig {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** AuthConfig resource specific properties */
-  properties?: AuthConfigProperties;
+  properties?: AuthConfigProperties | undefined;
 }
 /** The AuthConfig items on this page */
 export type AuthConfigCollectionValueList = Array<AuthConfig>;
@@ -5851,7 +5857,7 @@ export interface AuthConfigCollection {
   /** The AuthConfig items on this page */
   value: AuthConfigCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContainerAppsDiagnosticDetectorsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5864,15 +5870,15 @@ export interface ListContainerAppsDiagnosticDetectorsRequest {
 /** Diagnostics data for a resource. */
 export interface Diagnostics {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DiagnosticsProperties;
+  properties?: DiagnosticsProperties | undefined;
 }
 /** The Diagnostics items on this page */
 export type DiagnosticsCollectionValueList = Array<Diagnostics>;
@@ -5881,7 +5887,7 @@ export interface DiagnosticsCollection {
   /** The Diagnostics items on this page */
   value: DiagnosticsCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContainerAppsDiagnosticRevisionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5891,20 +5897,20 @@ export interface ListContainerAppsDiagnosticRevisionsRequest {
   /** Name of the Container App. */
   containerAppName: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Container App Revision. */
 export interface Revision {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Revision resource specific properties */
-  properties?: RevisionProperties;
+  properties?: RevisionProperties | undefined;
 }
 /** The Revision items on this page */
 export type RevisionCollectionValueList = Array<Revision>;
@@ -5913,7 +5919,7 @@ export interface RevisionCollection {
   /** The Revision items on this page */
   value: RevisionCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContainerAppSecretsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5943,15 +5949,15 @@ export interface ListContainerAppsFunctionsRequest {
 /** Container App Function. */
 export interface ContainerAppsFunction {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Function resource specific properties */
-  properties?: ContainerAppsFunctionProperties;
+  properties?: ContainerAppsFunctionProperties | undefined;
 }
 /** The ContainerAppsFunction items on this page */
 export type ContainerAppsFunctionCollectionValueList = Array<ContainerAppsFunction>;
@@ -5960,7 +5966,7 @@ export interface ContainerAppsFunctionCollection {
   /** The ContainerAppsFunction items on this page */
   value: ContainerAppsFunctionCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContainerAppsLabelHistoryLabelHistoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5970,20 +5976,20 @@ export interface ListContainerAppsLabelHistoryLabelHistoryRequest {
   /** Name of the Container App. */
   containerAppName: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Container App Label History. */
 export interface LabelHistory {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Container App Label History resource specific properties */
-  properties?: LabelHistoryProperties;
+  properties?: LabelHistoryProperties | undefined;
 }
 /** The LabelHistory items on this page */
 export type LabelHistoryCollectionValueList = Array<LabelHistory>;
@@ -5992,7 +5998,7 @@ export interface LabelHistoryCollection {
   /** The LabelHistory items on this page */
   value: LabelHistoryCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContainerAppsRevisionFunctionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6017,15 +6023,15 @@ export interface ListContainerAppsRevisionReplicasReplicasRequest {
 /** Container App Revision Replica. */
 export interface Replica {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Replica resource specific properties */
-  properties?: ReplicaProperties;
+  properties?: ReplicaProperties | undefined;
 }
 /** Collection of resources. */
 export type ReplicaCollectionValueList = Array<Replica>;
@@ -6042,7 +6048,7 @@ export interface ListContainerAppsRevisionRevisionsRequest {
   /** Name of the Container App. */
   containerAppName: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListContainerAppsSessionPoolByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6057,21 +6063,21 @@ export type SessionPoolIdentity = ContainerAppsCreateOrUpdateResponseIdentity;
 /** Container App session pool. */
 export interface SessionPool {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SessionPoolTagsMap;
+  tags?: SessionPoolTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Container App session pool resource specific properties */
-  properties?: SessionPoolProperties;
+  properties?: SessionPoolProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateResponseIdentity;
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
 }
 /** The SessionPool items on this page */
 export type SessionPoolCollectionValueList = Array<SessionPool>;
@@ -6080,7 +6086,7 @@ export interface SessionPoolCollection {
   /** The SessionPool items on this page */
   value: SessionPoolCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContainerAppsSessionPoolBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6097,15 +6103,15 @@ export interface ListContainerAppsSourceControlByContainerAppRequest {
 /** Container App SourceControl. */
 export interface SourceControl {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** SourceControl resource specific properties */
-  properties?: SourceControlProperties;
+  properties?: SourceControlProperties | undefined;
 }
 /** The SourceControl items on this page */
 export type SourceControlCollectionValueList = Array<SourceControl>;
@@ -6114,7 +6120,7 @@ export interface SourceControlCollection {
   /** The SourceControl items on this page */
   value: SourceControlCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDaprComponentResiliencyPoliciesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6129,15 +6135,15 @@ export interface ListDaprComponentResiliencyPoliciesRequest {
 /** Dapr Component Resiliency Policy. */
 export interface DaprComponentResiliencyPolicy {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Dapr Component Resiliency Policy resource specific properties */
-  properties?: DaprComponentResiliencyPolicyProperties;
+  properties?: DaprComponentResiliencyPolicyProperties | undefined;
 }
 /** The DaprComponentResiliencyPolicy items on this page */
 export type DaprComponentResiliencyPoliciesCollectionValueList =
@@ -6147,7 +6153,7 @@ export interface DaprComponentResiliencyPoliciesCollection {
   /** The DaprComponentResiliencyPolicy items on this page */
   value: DaprComponentResiliencyPoliciesCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDaprComponentsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6178,15 +6184,15 @@ export interface ListDotNetComponentsRequest {
 /** .NET Component. */
 export interface DotNetComponent {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** .NET Component resource specific properties */
-  properties?: DotNetComponentProperties;
+  properties?: DotNetComponentProperties | undefined;
 }
 /** The DotNetComponent items on this page */
 export type DotNetComponentsCollectionValueList = Array<DotNetComponent>;
@@ -6195,7 +6201,7 @@ export interface DotNetComponentsCollection {
   /** The DotNetComponent items on this page */
   value: DotNetComponentsCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListHttpRouteConfigRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6208,15 +6214,15 @@ export interface ListHttpRouteConfigRequest {
 /** A set of host names and http request routing rules for a Container App Environment */
 export interface HttpRouteConfig {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Http Route Config properties */
-  properties?: HttpRouteConfigProperties;
+  properties?: HttpRouteConfigProperties | undefined;
 }
 /** The HttpRouteConfig items on this page */
 export type HttpRouteConfigCollectionValueList = Array<HttpRouteConfig>;
@@ -6225,7 +6231,7 @@ export interface HttpRouteConfigCollection {
   /** The HttpRouteConfig items on this page */
   value: HttpRouteConfigCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListJavaComponentsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6238,15 +6244,15 @@ export interface ListJavaComponentsRequest {
 /** Java Component. */
 export interface JavaComponent {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Java Component resource specific properties */
-  properties?: JavaComponentProperties;
+  properties?: JavaComponentProperties | undefined;
 }
 /** The JavaComponent items on this page */
 export type JavaComponentsCollectionValueList = Array<JavaComponent>;
@@ -6255,7 +6261,7 @@ export interface JavaComponentsCollection {
   /** The JavaComponent items on this page */
   value: JavaComponentsCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListJobByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6270,21 +6276,21 @@ export type JobIdentity = ContainerAppsCreateOrUpdateResponseIdentity;
 /** Container App Job */
 export interface Job {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: JobTagsMap;
+  tags?: JobTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Container Apps Job resource specific properties. */
-  properties?: JobProperties;
+  properties?: JobProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateResponseIdentity;
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
 }
 /** The Job items on this page */
 export type JobsCollectionValueList = Array<Job>;
@@ -6293,7 +6299,7 @@ export interface JobsCollection {
   /** The Job items on this page */
   value: JobsCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListJobBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6330,20 +6336,20 @@ export interface ListJobsExecutionsRequest {
   /** Job Name */
   jobName: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Container Apps Job execution. */
 export interface JobExecution {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Container Apps Job execution specific properties. */
-  properties?: JobExecutionProperties;
+  properties?: JobExecutionProperties | undefined;
 }
 /** The JobExecution items on this page */
 export type ContainerAppJobExecutionsValueList = Array<JobExecution>;
@@ -6352,7 +6358,7 @@ export interface ContainerAppJobExecutions {
   /** The JobExecution items on this page */
   value: ContainerAppJobExecutionsValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListLogicAppWorkflowsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6367,17 +6373,17 @@ export interface ListLogicAppWorkflowsRequest {
 /** Schema for the workflow object. */
 export interface WorkflowEnvelope {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Additional workflow properties. */
-  properties?: WorkflowEnvelopeProperties;
+  properties?: WorkflowEnvelopeProperties | undefined;
   /** Gets the logic app hybrid workflow kind. */
-  kind?: WorkflowKind;
+  kind?: WorkflowKind | undefined;
 }
 /** The WorkflowEnvelope items on this page */
 export type WorkflowEnvelopeCollectionValueList = Array<WorkflowEnvelope>;
@@ -6386,7 +6392,7 @@ export interface WorkflowEnvelopeCollection {
   /** The WorkflowEnvelope items on this page */
   value: WorkflowEnvelopeCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListLogicAppWorkflowsConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6400,17 +6406,17 @@ export interface ListLogicAppWorkflowsConnectionsRequest {
 }
 export interface ListLogicAppWorkflowsConnectionsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Additional workflow properties. */
-  properties?: WorkflowEnvelopeProperties;
+  properties?: WorkflowEnvelopeProperties | undefined;
   /** Gets the logic app hybrid workflow kind. */
-  kind?: WorkflowKind;
+  kind?: WorkflowKind | undefined;
 }
 export interface ListMaintenanceConfigurationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6423,15 +6429,15 @@ export interface ListMaintenanceConfigurationsRequest {
 /** Information about the Maintenance Configuration resource. */
 export interface MaintenanceConfigurationResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ScheduledEntries;
+  properties?: ScheduledEntries | undefined;
 }
 /** The MaintenanceConfigurationResource items on this page */
 export type MaintenanceConfigurationCollectionValueList = Array<MaintenanceConfigurationResource>;
@@ -6440,7 +6446,7 @@ export interface MaintenanceConfigurationCollection {
   /** The MaintenanceConfigurationResource items on this page */
   value: MaintenanceConfigurationCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListManagedCertificatesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6455,19 +6461,19 @@ export type ManagedCertificateTagsMap = { [key: string]: string | undefined };
 /** Managed certificates used for Custom Domain bindings of Container Apps in a Managed Environment */
 export interface ManagedCertificate {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ManagedCertificateTagsMap;
+  tags?: ManagedCertificateTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Certificate resource specific properties */
-  properties?: ManagedCertificateProperties;
+  properties?: ManagedCertificateProperties | undefined;
 }
 /** The ManagedCertificate items on this page */
 export type ManagedCertificateCollectionValueList = Array<ManagedCertificate>;
@@ -6476,7 +6482,7 @@ export interface ManagedCertificateCollection {
   /** The ManagedCertificate items on this page */
   value: ManagedCertificateCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListManagedEnvironmentByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6491,23 +6497,23 @@ export type ManagedEnvironmentIdentity = ContainerAppsCreateOrUpdateResponseIden
 /** An environment for hosting container apps */
 export interface ManagedEnvironment {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ManagedEnvironmentTagsMap;
+  tags?: ManagedEnvironmentTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Managed environment resource specific properties */
-  properties?: ManagedEnvironmentProperties;
+  properties?: ManagedEnvironmentProperties | undefined;
   /** Kind of the Environment. */
-  kind?: string;
+  kind?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateResponseIdentity;
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
 }
 /** The ManagedEnvironment items on this page */
 export type ManagedEnvironmentsCollectionValueList = Array<ManagedEnvironment>;
@@ -6516,7 +6522,7 @@ export interface ManagedEnvironmentsCollection {
   /** The ManagedEnvironment items on this page */
   value: ManagedEnvironmentsCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListManagedEnvironmentBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6557,15 +6563,15 @@ export interface ListManagedEnvironmentsStoragesRequest {
 /** Storage resource for managedEnvironment. */
 export interface ManagedEnvironmentStorage {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Storage properties */
-  properties?: ManagedEnvironmentStorageProperties;
+  properties?: ManagedEnvironmentStorageProperties | undefined;
 }
 /** Collection of storage resources. */
 export type ManagedEnvironmentStoragesCollectionValueList = Array<ManagedEnvironmentStorage>;
@@ -6587,9 +6593,9 @@ export type UsageUnit = "Count";
 /** The Usage Names. */
 export interface UsageName {
   /** The name of the resource. */
-  value?: string;
+  value?: string | undefined;
   /** The localized name of the resource. */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 /** Describes Compute Resource Usage. */
 export interface Usage {
@@ -6609,7 +6615,7 @@ export interface ListUsagesResult {
   /** The Usage items on this page */
   value: ListUsagesResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListManagedEnvironmentWorkloadProfileStatesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6622,24 +6628,24 @@ export interface ListManagedEnvironmentWorkloadProfileStatesRequest {
 /** Workload Profile resource specific properties. */
 export interface WorkloadProfileStatesProperties {
   /** Minimum count of instances. */
-  minimumCount?: number;
+  minimumCount?: number | undefined;
   /** Maximum count of nodes. */
-  maximumCount?: number;
+  maximumCount?: number | undefined;
   /** Current count of nodes. */
-  currentCount?: number;
+  currentCount?: number | undefined;
 }
 /** Collection of all the workload Profile States for a Managed Environment.. */
 export interface WorkloadProfileStates {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Workload Profile resource specific properties. */
-  properties?: WorkloadProfileStatesProperties;
+  properties?: WorkloadProfileStatesProperties | undefined;
 }
 /** The workloadProfileStates items on this page */
 export type WorkloadProfileStatesCollectionValueList = Array<WorkloadProfileStates>;
@@ -6648,30 +6654,30 @@ export interface WorkloadProfileStatesCollection {
   /** The workloadProfileStates items on this page */
   value: WorkloadProfileStatesCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Operation display payload */
 export interface OperationDisplay {
   /** Resource provider of the operation */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource of the operation */
-  resource?: string;
+  resource?: string | undefined;
   /** Localized friendly name for the operation */
-  operation?: string;
+  operation?: string | undefined;
   /** Localized friendly description for the operation */
-  description?: string;
+  description?: string | undefined;
 }
 /** Operation detail payload */
 export interface OperationDetail {
   /** Name of the operation */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Display of the operation */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Origin of the operation */
-  origin?: string;
+  origin?: string | undefined;
 }
 /** The OperationDetail items on this page */
 export type AvailableOperationsValueList = Array<OperationDetail>;
@@ -6680,7 +6686,7 @@ export interface AvailableOperations {
   /** The OperationDetail items on this page */
   value: AvailableOperationsValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSandboxGroupByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6693,19 +6699,19 @@ export type SandboxGroupTagsMap = { [key: string]: string | undefined };
 /** A SandboxGroup resource, representing a group of sandboxes that share configuration defaults and quotas. */
 export interface SandboxGroup {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SandboxGroupTagsMap;
+  tags?: SandboxGroupTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SandboxGroupProperties;
+  properties?: SandboxGroupProperties | undefined;
 }
 /** The SandboxGroup items on this page */
 export type SandboxGroupListResultValueList = Array<SandboxGroup>;
@@ -6714,7 +6720,7 @@ export interface SandboxGroupListResult {
   /** The SandboxGroup items on this page */
   value: SandboxGroupListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSandboxGroupBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6731,28 +6737,28 @@ export interface SupportedAgentModelProperties {
   /** The provider name (e.g., MicrosoftFoundry, Anthropic) */
   provider: string;
   /** The display name of the provider (e.g., Microsoft Foundry, Anthropic) */
-  providerDisplayName?: string;
+  providerDisplayName?: string | undefined;
   /** The model name (e.g., gpt-5.2, claude-sonnet-4-5) */
   model: string;
   /** The display name of the model (e.g., GPT-5.2, Claude Sonnet 4.5) */
-  modelDisplayName?: string;
+  modelDisplayName?: string | undefined;
   /** Billing multiplier for the model (e.g., 1x, 2x) */
-  multiplier?: string;
+  multiplier?: string | undefined;
   /** Indicates whether this is the default model */
   default: boolean;
 }
 /** Collection of supported AI models */
 export interface SupportedAgentModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SupportedAgentModelProperties;
+  properties?: SupportedAgentModelProperties | undefined;
 }
 /** The SupportedAgentModel items on this page */
 export type SupportedAgentModelListResultValueList = Array<SupportedAgentModel>;
@@ -6761,7 +6767,7 @@ export interface SupportedAgentModelListResult {
   /** The SupportedAgentModel items on this page */
   value: SupportedAgentModelListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUsagesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6780,17 +6786,17 @@ export interface ListVnetConnectionBySandboxGroupRequest {
 /** A virtual network connection associated with a SandboxGroup. */
 export interface VnetConnection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: VnetConnectionProperties;
+  properties?: VnetConnectionProperties | undefined;
   /** The geo-location where the resource lives. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The VnetConnection items on this page */
 export type VnetConnectionListResultValueList = Array<VnetConnection>;
@@ -6799,7 +6805,7 @@ export interface VnetConnectionListResult {
   /** The VnetConnection items on this page */
   value: VnetConnectionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface LogicAppsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6811,19 +6817,19 @@ export interface LogicAppsCreateOrUpdateRequest {
   /** Name of the Logic App, the extension resource. */
   logicAppName: string;
   /** Logic App extension properties (opaque). */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface LogicAppsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Logic App extension properties (opaque). */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface MaintenanceConfigurationsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6835,28 +6841,28 @@ export interface MaintenanceConfigurationsCreateOrUpdateRequest {
   /** Name of the Maintenance Configuration. */
   configName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ScheduledEntries;
+  properties?: ScheduledEntries | undefined;
 }
 export interface MaintenanceConfigurationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ScheduledEntries;
+  properties?: ScheduledEntries | undefined;
 }
 /** Resource tags. */
 export type ManagedCertificatesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Certificate resource specific properties */
 export interface ManagedCertificatePropertiesInput {
   /** Subject name of the certificate. */
-  subjectName?: string;
+  subjectName?: string | undefined;
   /** Selected type of domain control validation for managed certificates. */
-  domainControlValidation?: ManagedCertificateDomainControlValidation | (string & {});
+  domainControlValidation?: ManagedCertificateDomainControlValidation | (string & {}) | undefined;
 }
 export interface ManagedCertificatesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6868,11 +6874,11 @@ export interface ManagedCertificatesCreateOrUpdateRequest {
   /** Name of the Managed Certificate. */
   managedCertificateName: string;
   /** Resource tags. */
-  tags?: ManagedCertificatesCreateOrUpdateRequestTagsMap;
+  tags?: ManagedCertificatesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Certificate resource specific properties */
-  properties?: ManagedCertificatePropertiesInput;
+  properties?: ManagedCertificatePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type ManagedCertificatesCreateOrUpdateResponseTagsMap = {
@@ -6880,23 +6886,23 @@ export type ManagedCertificatesCreateOrUpdateResponseTagsMap = {
 };
 export interface ManagedCertificatesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ManagedCertificatesCreateOrUpdateResponseTagsMap;
+  tags?: ManagedCertificatesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Certificate resource specific properties */
-  properties?: ManagedCertificateProperties;
+  properties?: ManagedCertificateProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6908,23 +6914,23 @@ export interface ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateReque
   /** Name of the Private Endpoint Connection. */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 export interface ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type ManagedEnvironmentsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -6937,39 +6943,39 @@ export type DaprConfigurationInput = UserAssignedIdentityInput;
 /** Managed environment resource specific properties */
 export interface ManagedEnvironmentPropertiesInput {
   /** Azure Monitor instrumentation key used by Dapr to export Service to Service communication telemetry */
-  daprAIInstrumentationKey?: string;
+  daprAIInstrumentationKey?: string | undefined;
   /** Application Insights connection string used by Dapr to export Service to Service communication telemetry */
-  daprAIConnectionString?: string;
+  daprAIConnectionString?: string | undefined;
   /** Vnet configuration for the environment */
-  vnetConfiguration?: VnetConfiguration;
+  vnetConfiguration?: VnetConfiguration | undefined;
   /** Cluster configuration which enables the log daemon to export app logs to configured destination */
-  appLogsConfiguration?: AppLogsConfiguration;
+  appLogsConfiguration?: AppLogsConfiguration | undefined;
   /** Environment level Application Insights configuration */
-  appInsightsConfiguration?: AppInsightsConfiguration;
+  appInsightsConfiguration?: AppInsightsConfiguration | undefined;
   /** Environment Open Telemetry configuration */
-  openTelemetryConfiguration?: OpenTelemetryConfiguration;
+  openTelemetryConfiguration?: OpenTelemetryConfiguration | undefined;
   /** Whether or not this Managed Environment is zone-redundant. */
-  zoneRedundant?: boolean;
+  zoneRedundant?: boolean | undefined;
   /** Custom domain configuration for the environment */
-  customDomainConfiguration?: CustomDomainConfigurationInput;
+  customDomainConfiguration?: CustomDomainConfigurationInput | undefined;
   /** Workload profiles configured for the Managed Environment. */
-  workloadProfiles?: ManagedEnvironmentPropertiesInputWorkloadProfilesList;
+  workloadProfiles?: ManagedEnvironmentPropertiesInputWorkloadProfilesList | undefined;
   /** The configuration of Keda component. */
-  kedaConfiguration?: UserAssignedIdentityInput;
+  kedaConfiguration?: UserAssignedIdentityInput | undefined;
   /** The configuration of Dapr component. */
-  daprConfiguration?: UserAssignedIdentityInput;
+  daprConfiguration?: UserAssignedIdentityInput | undefined;
   /** Name of the platform-managed resource group created for the Managed Environment to host infrastructure resources. If a subnet ID is provided, this resource group will be created in the same subscription as the subnet. */
-  infrastructureResourceGroup?: string;
+  infrastructureResourceGroup?: string | undefined;
   /** Peer authentication settings for the Managed Environment */
-  peerAuthentication?: ManagedEnvironmentPropertiesPeerAuthentication;
+  peerAuthentication?: ManagedEnvironmentPropertiesPeerAuthentication | undefined;
   /** Peer traffic settings for the Managed Environment */
-  peerTrafficConfiguration?: ManagedEnvironmentPropertiesPeerTrafficConfiguration;
+  peerTrafficConfiguration?: ManagedEnvironmentPropertiesPeerTrafficConfiguration | undefined;
   /** Ingress configuration for the Managed Environment. */
-  ingressConfiguration?: IngressConfiguration;
+  ingressConfiguration?: IngressConfiguration | undefined;
   /** Mode of the environment. Allowed Values: 'ConsumptionOnly', 'WorkloadProfiles', 'Express', 'Archived'. */
-  environmentMode?: ManagedEnvironmentMode | (string & {});
+  environmentMode?: ManagedEnvironmentMode | (string & {}) | undefined;
   /** Property to allow or block all public traffic. Allowed Values: 'Enabled', 'Disabled'. */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type ManagedEnvironmentsCreateOrUpdateRequestIdentity =
@@ -6982,15 +6988,15 @@ export interface ManagedEnvironmentsCreateOrUpdateRequest {
   /** Name of the Environment. */
   environmentName: string;
   /** Resource tags. */
-  tags?: ManagedEnvironmentsCreateOrUpdateRequestTagsMap;
+  tags?: ManagedEnvironmentsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Managed environment resource specific properties */
-  properties?: ManagedEnvironmentPropertiesInput;
+  properties?: ManagedEnvironmentPropertiesInput | undefined;
   /** Kind of the Environment. */
-  kind?: string;
+  kind?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateRequestIdentity;
+  identity?: ContainerAppsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type ManagedEnvironmentsCreateOrUpdateResponseTagsMap = {
@@ -7001,27 +7007,27 @@ export type ManagedEnvironmentsCreateOrUpdateResponseIdentity =
   ContainerAppsCreateOrUpdateResponseIdentity;
 export interface ManagedEnvironmentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ManagedEnvironmentsCreateOrUpdateResponseTagsMap;
+  tags?: ManagedEnvironmentsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Managed environment resource specific properties */
-  properties?: ManagedEnvironmentProperties;
+  properties?: ManagedEnvironmentProperties | undefined;
   /** Kind of the Environment. */
-  kind?: string;
+  kind?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateResponseIdentity;
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ManagedEnvironmentsStoragesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7033,19 +7039,19 @@ export interface ManagedEnvironmentsStoragesCreateOrUpdateRequest {
   /** Name of the storage. */
   storageName: string;
   /** Storage properties */
-  properties?: ManagedEnvironmentStorageProperties;
+  properties?: ManagedEnvironmentStorageProperties | undefined;
 }
 export interface ManagedEnvironmentsStoragesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Storage properties */
-  properties?: ManagedEnvironmentStorageProperties;
+  properties?: ManagedEnvironmentStorageProperties | undefined;
 }
 export interface RestartContainerAppsRevisionRevisionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7072,34 +7078,34 @@ export type ResumeJobResponseTagsMap = { [key: string]: string | undefined };
 export type ResumeJobResponseIdentity = ContainerAppsCreateOrUpdateResponseIdentity;
 export interface ResumeJobResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ResumeJobResponseTagsMap;
+  tags?: ResumeJobResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Container Apps Job resource specific properties. */
-  properties?: JobProperties;
+  properties?: JobProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateResponseIdentity;
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type SandboxGroupsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** SandboxGroup resource specific properties. */
 export interface SandboxGroupPropertiesInput {
   /** The resource ID of the Azure Container Apps environment to link to the sandbox group. A sandbox group can be linked after creation, but the link cannot then be changed or removed. For subsequent create-or-update (PUT) requests, specify the same environment ID; omitting or changing it returns 409 Conflict. Omitting it from an update (PATCH) request leaves the existing link unchanged. */
-  environmentId?: string;
+  environmentId?: string | undefined;
 }
 export interface SandboxGroupsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7109,33 +7115,33 @@ export interface SandboxGroupsCreateOrUpdateRequest {
   /** The name of the SandboxGroup */
   sandboxGroupName: string;
   /** Resource tags. */
-  tags?: SandboxGroupsCreateOrUpdateRequestTagsMap;
+  tags?: SandboxGroupsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SandboxGroupPropertiesInput;
+  properties?: SandboxGroupPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type SandboxGroupsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface SandboxGroupsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SandboxGroupsCreateOrUpdateResponseTagsMap;
+  tags?: SandboxGroupsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SandboxGroupProperties;
+  properties?: SandboxGroupProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StartAgentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7154,34 +7160,34 @@ export type StartAgentResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface StartAgentResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: StartAgentResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: StartAgentResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface StartAgentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StartAgentResponseTagsMap;
+  tags?: StartAgentResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AgentProperties;
+  properties?: AgentProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: StartAgentResponseIdentity;
+  identity?: StartAgentResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StartContainerAppRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7197,31 +7203,31 @@ export type StartContainerAppResponseTagsMap = { [key: string]: string | undefin
 export type StartContainerAppResponseIdentity = ContainerAppsCreateOrUpdateResponseIdentity;
 export interface StartContainerAppResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StartContainerAppResponseTagsMap;
+  tags?: StartContainerAppResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ContainerApp resource specific properties */
-  properties?: ContainerAppProperties;
+  properties?: ContainerAppProperties | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateResponseIdentity;
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata to represent the container app kind, representing if a container app is workflowapp or functionapp. */
-  kind?: Kind;
+  kind?: Kind | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Container start command. */
 export type JobExecutionContainerInputCommandList = Array<string>;
@@ -7232,17 +7238,17 @@ export type JobExecutionContainerInputEnvList = Array<EnvironmentVar>;
 /** Container Apps Jobs execution container definition. */
 export interface JobExecutionContainerInput {
   /** Container image tag. */
-  image?: string;
+  image?: string | undefined;
   /** Custom container name. */
-  name?: string;
+  name?: string | undefined;
   /** Container start command. */
-  command?: JobExecutionContainerInputCommandList;
+  command?: JobExecutionContainerInputCommandList | undefined;
   /** Container start command arguments. */
-  args?: JobExecutionContainerInputArgsList;
+  args?: JobExecutionContainerInputArgsList | undefined;
   /** Container environment variables. */
-  env?: JobExecutionContainerInputEnvList;
+  env?: JobExecutionContainerInputEnvList | undefined;
   /** Container resource requirements. */
-  resources?: ContainerResourcesInput;
+  resources?: ContainerResourcesInput | undefined;
 }
 /** List of container definitions for the Container Apps Job. */
 export type StartJobRequestContainersList = Array<JobExecutionContainerInput>;
@@ -7256,20 +7262,20 @@ export interface StartJobRequest {
   /** Job Name */
   jobName: string;
   /** List of container definitions for the Container Apps Job. */
-  containers?: StartJobRequestContainersList;
+  containers?: StartJobRequestContainersList | undefined;
   /** List of specialized containers that run before job containers. */
-  initContainers?: StartJobRequestInitContainersList;
+  initContainers?: StartJobRequestInitContainersList | undefined;
 }
 /** Container App's Job execution name. */
 export interface JobExecutionBase {
   /** Job execution name. */
-  name?: string;
+  name?: string | undefined;
   /** Job execution Id. */
-  id?: string;
+  id?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StopAgentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7288,34 +7294,34 @@ export type StopAgentResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface StopAgentResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: StopAgentResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: StopAgentResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface StopAgentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StopAgentResponseTagsMap;
+  tags?: StopAgentResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AgentProperties;
+  properties?: AgentProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: StopAgentResponseIdentity;
+  identity?: StopAgentResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StopContainerAppRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7331,31 +7337,31 @@ export type StopContainerAppResponseTagsMap = { [key: string]: string | undefine
 export type StopContainerAppResponseIdentity = ContainerAppsCreateOrUpdateResponseIdentity;
 export interface StopContainerAppResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StopContainerAppResponseTagsMap;
+  tags?: StopContainerAppResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ContainerApp resource specific properties */
-  properties?: ContainerAppProperties;
+  properties?: ContainerAppProperties | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateResponseIdentity;
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata to represent the container app kind, representing if a container app is workflowapp or functionapp. */
-  kind?: Kind;
+  kind?: Kind | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StopJobExecutionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7369,9 +7375,9 @@ export interface StopJobExecutionRequest {
 }
 export interface StopJobExecutionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StopJobMultipleExecutionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7386,11 +7392,11 @@ export interface StopJobMultipleExecutionsResponse {
   /** The JobExecution items on this page */
   value: ContainerAppJobExecutionsValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface SuspendJobRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7406,27 +7412,27 @@ export type SuspendJobResponseTagsMap = { [key: string]: string | undefined };
 export type SuspendJobResponseIdentity = ContainerAppsCreateOrUpdateResponseIdentity;
 export interface SuspendJobResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SuspendJobResponseTagsMap;
+  tags?: SuspendJobResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Container Apps Job resource specific properties. */
-  properties?: JobProperties;
+  properties?: JobProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateResponseIdentity;
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type UpdateAgentRequestTagsMap = { [key: string]: string | undefined };
@@ -7438,29 +7444,29 @@ export type UpdateAgentRequestIdentityUserAssignedIdentitiesMap = {
 export interface UpdateAgentRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateAgentRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdateAgentRequestIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Agent identity configuration for PATCH requests */
 export interface AgentIdentityPatch {
   /** Initial sponsor group ID (required for PUT but optional for PATCH) */
-  initialSponsorGroupId?: string;
+  initialSponsorGroupId?: string | undefined;
 }
 /** Agent specific properties for PATCH requests. PATCH request bodies must not include required properties and should not include read-only properties. */
 export interface AgentPatchProperties {
   /** Knowledge graph configuration for agent */
-  knowledgeGraphConfiguration?: KnowledgeGraphConfiguration;
+  knowledgeGraphConfiguration?: KnowledgeGraphConfiguration | undefined;
   /** Configuration for action */
-  actionConfiguration?: ActionConfiguration;
+  actionConfiguration?: ActionConfiguration | undefined;
   /** Log configurations */
-  logConfiguration?: LogConfiguration;
+  logConfiguration?: LogConfiguration | undefined;
   /** Incident management configurations */
-  incidentManagementConfiguration?: IncidentManagementConfiguration;
+  incidentManagementConfiguration?: IncidentManagementConfiguration | undefined;
   /** The upgrade channel of the agent */
-  upgradeChannel?: UpgradeChannel | (string & {});
+  upgradeChannel?: UpgradeChannel | (string & {}) | undefined;
   /** Agent identity configuration for accessing resources */
-  agentIdentity?: AgentIdentityPatch;
+  agentIdentity?: AgentIdentityPatch | undefined;
   /** Default AI model configuration for the agent */
-  defaultModel?: DefaultModel;
+  defaultModel?: DefaultModel | undefined;
 }
 export interface UpdateAgentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7470,11 +7476,11 @@ export interface UpdateAgentRequest {
   /** The name of the Agent */
   agentName: string;
   /** Resource tags */
-  tags?: UpdateAgentRequestTagsMap;
+  tags?: UpdateAgentRequestTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateAgentRequestIdentity;
+  identity?: UpdateAgentRequestIdentity | undefined;
   /** Agent specific properties */
-  properties?: AgentPatchProperties;
+  properties?: AgentPatchProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateAgentResponseTagsMap = { [key: string]: string | undefined };
@@ -7485,34 +7491,34 @@ export type UpdateAgentResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdateAgentResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateAgentResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdateAgentResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface UpdateAgentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAgentResponseTagsMap;
+  tags?: UpdateAgentResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AgentProperties;
+  properties?: AgentProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateAgentResponseIdentity;
+  identity?: UpdateAgentResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Application-specific metadata in the form of key-value pairs. */
 export type UpdateCertificateRequestTagsMap = { [key: string]: string | undefined };
@@ -7526,25 +7532,25 @@ export interface UpdateCertificateRequest {
   /** Name of the Certificate. */
   certificateName: string;
   /** Application-specific metadata in the form of key-value pairs. */
-  tags?: UpdateCertificateRequestTagsMap;
+  tags?: UpdateCertificateRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateCertificateResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateCertificateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateCertificateResponseTagsMap;
+  tags?: UpdateCertificateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Certificate resource specific properties */
-  properties?: CertificateProperties;
+  properties?: CertificateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateConnectedEnvironmentRequestTagsMap = { [key: string]: string | undefined };
@@ -7556,27 +7562,27 @@ export interface UpdateConnectedEnvironmentRequest {
   /** Name of the connectedEnvironment. */
   connectedEnvironmentName: string;
   /** Resource tags. */
-  tags?: UpdateConnectedEnvironmentRequestTagsMap;
+  tags?: UpdateConnectedEnvironmentRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateConnectedEnvironmentResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateConnectedEnvironmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateConnectedEnvironmentResponseTagsMap;
+  tags?: UpdateConnectedEnvironmentResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ConnectedEnvironment resource specific properties */
-  properties?: ConnectedEnvironmentProperties;
+  properties?: ConnectedEnvironmentProperties | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** Application-specific metadata in the form of key-value pairs. */
 export type UpdateConnectedEnvironmentsCertificateRequestTagsMap = {
@@ -7592,7 +7598,7 @@ export interface UpdateConnectedEnvironmentsCertificateRequest {
   /** Name of the Certificate. */
   certificateName: string;
   /** Application-specific metadata in the form of key-value pairs. */
-  tags?: UpdateConnectedEnvironmentsCertificateRequestTagsMap;
+  tags?: UpdateConnectedEnvironmentsCertificateRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateConnectedEnvironmentsCertificateResponseTagsMap = {
@@ -7600,23 +7606,23 @@ export type UpdateConnectedEnvironmentsCertificateResponseTagsMap = {
 };
 export interface UpdateConnectedEnvironmentsCertificateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateConnectedEnvironmentsCertificateResponseTagsMap;
+  tags?: UpdateConnectedEnvironmentsCertificateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Certificate resource specific properties */
-  properties?: CertificateProperties;
+  properties?: CertificateProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateContainerAppRequestTagsMap = { [key: string]: string | undefined };
@@ -7630,19 +7636,19 @@ export interface UpdateContainerAppRequest {
   /** Name of the Container App. */
   containerAppName: string;
   /** Resource tags. */
-  tags?: UpdateContainerAppRequestTagsMap;
+  tags?: UpdateContainerAppRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ContainerApp resource specific properties */
-  properties?: ContainerAppPropertiesInput;
+  properties?: ContainerAppPropertiesInput | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateRequestIdentity;
+  identity?: ContainerAppsCreateOrUpdateRequestIdentity | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata to represent the container app kind, representing if a container app is workflowapp or functionapp. */
-  kind?: Kind | (string & {});
+  kind?: Kind | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type UpdateContainerAppResponseTagsMap = { [key: string]: string | undefined };
@@ -7650,31 +7656,31 @@ export type UpdateContainerAppResponseTagsMap = { [key: string]: string | undefi
 export type UpdateContainerAppResponseIdentity = ContainerAppsCreateOrUpdateResponseIdentity;
 export interface UpdateContainerAppResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateContainerAppResponseTagsMap;
+  tags?: UpdateContainerAppResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ContainerApp resource specific properties */
-  properties?: ContainerAppProperties;
+  properties?: ContainerAppProperties | undefined;
   /** The complex type of the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateResponseIdentity;
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Metadata to represent the container app kind, representing if a container app is workflowapp or functionapp. */
-  kind?: Kind;
+  kind?: Kind | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateContainerAppsSessionPoolRequestTagsMap = { [key: string]: string | undefined };
@@ -7686,15 +7692,15 @@ export type SessionPoolUpdatablePropertiesPropertiesSecretsList = Array<SessionP
 /** Session pool resource specific updatable properties. */
 export interface SessionPoolUpdatablePropertiesProperties {
   /** The scale configuration of the session pool. */
-  scaleConfiguration?: ScaleConfiguration;
+  scaleConfiguration?: ScaleConfiguration | undefined;
   /** The secrets of the session pool. */
-  secrets?: SessionPoolUpdatablePropertiesPropertiesSecretsList;
+  secrets?: SessionPoolUpdatablePropertiesPropertiesSecretsList | undefined;
   /** The pool configuration if the poolManagementType is dynamic. */
-  dynamicPoolConfiguration?: DynamicPoolConfiguration;
+  dynamicPoolConfiguration?: DynamicPoolConfiguration | undefined;
   /** The custom container configuration if the containerType is CustomContainer. */
-  customContainerTemplate?: CustomContainerTemplate;
+  customContainerTemplate?: CustomContainerTemplate | undefined;
   /** The network configuration of the sessions in the session pool. */
-  sessionNetworkConfiguration?: SessionNetworkConfiguration;
+  sessionNetworkConfiguration?: SessionNetworkConfiguration | undefined;
 }
 export interface UpdateContainerAppsSessionPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7704,11 +7710,11 @@ export interface UpdateContainerAppsSessionPoolRequest {
   /** Name of the session pool. */
   sessionPoolName: string;
   /** Resource tags. */
-  tags?: UpdateContainerAppsSessionPoolRequestTagsMap;
+  tags?: UpdateContainerAppsSessionPoolRequestTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateRequestIdentity;
+  identity?: ContainerAppsCreateOrUpdateRequestIdentity | undefined;
   /** Session pool resource specific updatable properties. */
-  properties?: SessionPoolUpdatablePropertiesProperties;
+  properties?: SessionPoolUpdatablePropertiesProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateContainerAppsSessionPoolResponseTagsMap = { [key: string]: string | undefined };
@@ -7717,26 +7723,26 @@ export type UpdateContainerAppsSessionPoolResponseIdentity =
   ContainerAppsCreateOrUpdateResponseIdentity;
 export interface UpdateContainerAppsSessionPoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateContainerAppsSessionPoolResponseTagsMap;
+  tags?: UpdateContainerAppsSessionPoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Container App session pool resource specific properties */
-  properties?: SessionPoolProperties;
+  properties?: SessionPoolProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateResponseIdentity;
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
-  locationHeader?: string;
+  azureAsyncOperation?: string | undefined;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateDotNetComponentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7748,25 +7754,25 @@ export interface UpdateDotNetComponentRequest {
   /** Name of the .NET Component. */
   name: string;
   /** .NET Component resource specific properties */
-  properties?: DotNetComponentProperties;
+  properties?: DotNetComponentProperties | undefined;
 }
 export interface UpdateDotNetComponentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** .NET Component resource specific properties */
-  properties?: DotNetComponentProperties;
+  properties?: DotNetComponentProperties | undefined;
   /** A link to the status monitor. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateHttpRouteConfigRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7778,19 +7784,19 @@ export interface UpdateHttpRouteConfigRequest {
   /** Name of the Http Route Config Resource. */
   httpRouteName: string;
   /** Http Route Config properties */
-  properties?: HttpRouteConfigPropertiesInput;
+  properties?: HttpRouteConfigPropertiesInput | undefined;
 }
 export interface UpdateHttpRouteConfigResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Http Route Config properties */
-  properties?: HttpRouteConfigProperties;
+  properties?: HttpRouteConfigProperties | undefined;
 }
 export interface UpdateJavaComponentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7802,23 +7808,23 @@ export interface UpdateJavaComponentRequest {
   /** Name of the Java Component. */
   name: string;
   /** Java Component resource specific properties */
-  properties?: JavaComponentProperties;
+  properties?: JavaComponentProperties | undefined;
 }
 export interface UpdateJavaComponentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Java Component resource specific properties */
-  properties?: JavaComponentProperties;
+  properties?: JavaComponentProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateJobRequestIdentity = ContainerAppsCreateOrUpdateRequestIdentity;
@@ -7828,15 +7834,15 @@ export type UpdateJobRequestTagsMap = { [key: string]: string | undefined };
 export type JobPatchPropertiesPropertiesInputOutboundIpAddressesList = Array<string>;
 export interface JobPatchPropertiesPropertiesInput {
   /** Resource ID of environment. */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** Container Apps Job configuration properties. */
-  configuration?: JobConfiguration;
+  configuration?: JobConfiguration | undefined;
   /** Container Apps job definition. */
-  template?: JobTemplateInput;
+  template?: JobTemplateInput | undefined;
   /** Outbound IP Addresses of a container apps job. */
-  outboundIpAddresses?: JobPatchPropertiesPropertiesInputOutboundIpAddressesList;
+  outboundIpAddresses?: JobPatchPropertiesPropertiesInputOutboundIpAddressesList | undefined;
   /** The endpoint of the eventstream of the container apps job. */
-  eventStreamEndpoint?: string;
+  eventStreamEndpoint?: string | undefined;
 }
 export interface UpdateJobRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7846,10 +7852,10 @@ export interface UpdateJobRequest {
   /** Job Name */
   jobName: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateRequestIdentity;
+  identity?: ContainerAppsCreateOrUpdateRequestIdentity | undefined;
   /** Resource tags. */
-  tags?: UpdateJobRequestTagsMap;
-  properties?: JobPatchPropertiesPropertiesInput;
+  tags?: UpdateJobRequestTagsMap | undefined;
+  properties?: JobPatchPropertiesPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateJobResponseTagsMap = { [key: string]: string | undefined };
@@ -7857,25 +7863,25 @@ export type UpdateJobResponseTagsMap = { [key: string]: string | undefined };
 export type UpdateJobResponseIdentity = ContainerAppsCreateOrUpdateResponseIdentity;
 export interface UpdateJobResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateJobResponseTagsMap;
+  tags?: UpdateJobResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Container Apps Job resource specific properties. */
-  properties?: JobProperties;
+  properties?: JobProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateResponseIdentity;
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Application-specific metadata in the form of key-value pairs. */
 export type UpdateManagedCertificateRequestTagsMap = { [key: string]: string | undefined };
@@ -7889,25 +7895,25 @@ export interface UpdateManagedCertificateRequest {
   /** Name of the Managed Certificate. */
   managedCertificateName: string;
   /** Application-specific metadata in the form of key-value pairs. */
-  tags?: UpdateManagedCertificateRequestTagsMap;
+  tags?: UpdateManagedCertificateRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateManagedCertificateResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateManagedCertificateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateManagedCertificateResponseTagsMap;
+  tags?: UpdateManagedCertificateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Certificate resource specific properties */
-  properties?: ManagedCertificateProperties;
+  properties?: ManagedCertificateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateManagedEnvironmentRequestTagsMap = { [key: string]: string | undefined };
@@ -7921,15 +7927,15 @@ export interface UpdateManagedEnvironmentRequest {
   /** Name of the Environment. */
   environmentName: string;
   /** Resource tags. */
-  tags?: UpdateManagedEnvironmentRequestTagsMap;
+  tags?: UpdateManagedEnvironmentRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Managed environment resource specific properties */
-  properties?: ManagedEnvironmentPropertiesInput;
+  properties?: ManagedEnvironmentPropertiesInput | undefined;
   /** Kind of the Environment. */
-  kind?: string;
+  kind?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateRequestIdentity;
+  identity?: ContainerAppsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdateManagedEnvironmentResponseTagsMap = { [key: string]: string | undefined };
@@ -7937,27 +7943,27 @@ export type UpdateManagedEnvironmentResponseTagsMap = { [key: string]: string | 
 export type UpdateManagedEnvironmentResponseIdentity = ContainerAppsCreateOrUpdateResponseIdentity;
 export interface UpdateManagedEnvironmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateManagedEnvironmentResponseTagsMap;
+  tags?: UpdateManagedEnvironmentResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Managed environment resource specific properties */
-  properties?: ManagedEnvironmentProperties;
+  properties?: ManagedEnvironmentProperties | undefined;
   /** Kind of the Environment. */
-  kind?: string;
+  kind?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ContainerAppsCreateOrUpdateResponseIdentity;
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateSandboxGroupRequestTagsMap = { [key: string]: string | undefined };
@@ -7971,31 +7977,31 @@ export interface UpdateSandboxGroupRequest {
   /** The name of the SandboxGroup */
   sandboxGroupName: string;
   /** Resource tags. */
-  tags?: UpdateSandboxGroupRequestTagsMap;
+  tags?: UpdateSandboxGroupRequestTagsMap | undefined;
   /** SandboxGroup properties that can be updated. */
-  properties?: SandboxGroupPropertiesInput;
+  properties?: SandboxGroupPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateSandboxGroupResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSandboxGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSandboxGroupResponseTagsMap;
+  tags?: UpdateSandboxGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SandboxGroupProperties;
+  properties?: SandboxGroupProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 export interface VnetConnectionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8007,23 +8013,23 @@ export interface VnetConnectionsCreateOrUpdateRequest {
   /** The name of the VnetConnection */
   vnetConnectionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: VnetConnectionProperties;
+  properties?: VnetConnectionProperties | undefined;
   /** The geo-location where the resource lives; must match the sandbox group's location. */
   location: string;
 }
 export interface VnetConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: VnetConnectionProperties;
+  properties?: VnetConnectionProperties | undefined;
   /** The geo-location where the resource lives. */
-  location?: string;
+  location?: string | undefined;
 }
 export type ActivateContainerAppsRevisionRevisionError = AzureOpError;
 /** Activates a revision for a Container App Activates a revision for a Container App */

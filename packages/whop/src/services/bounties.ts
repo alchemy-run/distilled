@@ -65,7 +65,7 @@ export interface CancelBountyRequest {
   /** Bounty ID (`bnty_` tag). */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** The deliverable shapes this bounty accepts. Every bounty accepts any combination of `content_url` (posted links) and `media` (uploaded files), except `data_capture` bounties, whose proof is clips recorded in the Whop app that accumulate on the attempt. */
 export type BountyAcceptedDeliverableTypesItem = "content_url" | "media" | "data_capture";
@@ -364,49 +364,49 @@ export type CreateBountyRequestCaptureSpecStabilizationMode = "off" | "on" | "an
 /** Per-bounty overrides of the served capture contract. Only accepted when `business_goal_type` is `data_capture`; omitted fields keep the platform defaults, and the resulting contract is echoed back as `capture_spec` on the bounty. */
 export interface CreateBountyRequestCaptureSpec {
   /** Average bitrate the recorder encodes at, in megabits per second. Must sit within the served floor and ceiling. */
-  bitrate_target_mbps?: number;
+  bitrate_target_mbps?: number | undefined;
   /** Whether the recorder also writes camera make and model into the video container's metadata. */
-  embed_camera_metadata?: boolean;
+  embed_camera_metadata?: boolean | undefined;
   /** Longest stall between consecutive frames a clip may contain before the client rejects it, in milliseconds. Unlike the recording fields this one can also be tuned after the bounty is created, since it bounds what is accepted rather than how footage is captured. */
-  frame_gap_tolerance_ms?: number;
+  frame_gap_tolerance_ms?: number | undefined;
   /** Minimum length of a single clip, in seconds. */
-  min_clip_duration_seconds?: number;
+  min_clip_duration_seconds?: number | undefined;
   /** Total verified footage a submission must accumulate across all its clips before it can be submitted, in seconds. Must be a whole number of hours between 1 and 12. Editable after create, until someone starts an attempt. */
-  min_total_verified_duration_seconds?: number;
+  min_total_verified_duration_seconds?: number | undefined;
   /** How the recorder configures video stabilization. `off` preserves raw motion for pose extraction. */
-  stabilization_mode?: CreateBountyRequestCaptureSpecStabilizationMode | (string & {});
+  stabilization_mode?: CreateBountyRequestCaptureSpecStabilizationMode | (string & {}) | undefined;
 }
 /** How often the schedule creates a new bounty. Each occurrence is a separate bounty. Defaults to `once`; only applies with `publish_at`. */
 export type CreateBountyRequestFrequency = "once" | "hourly" | "daily" | "weekly" | "monthly";
 export interface CreateBountyRequest {
   /** Number of submissions that can be accepted (winner slots). Defaults to 1. The escrowed total is `gross_reward_amount` times this limit and must be at least $5. */
-  accepted_submissions_limit?: number | null;
+  accepted_submissions_limit?: number | null | undefined;
   /** How many winner slots one worker can win. Defaults to `1`. Wins plus proofs awaiting review never exceed this number, and a worker runs one attempt at a time. Cannot exceed `accepted_submissions_limit`. */
-  accepted_submissions_per_user_limit?: number | null;
+  accepted_submissions_per_user_limit?: number | null | undefined;
   /** Account whose balance funds the bounty pool (`biz_` tag). Defaults to the caller's personal balance. Requires permission to move the account's funds. */
-  account_id?: string | null;
+  account_id?: string | null | undefined;
   /** Countries whose residents can work the bounty, as ISO 3166 alpha-2 codes. Empty means worldwide. */
-  allowed_country_codes?: CreateBountyRequestAllowedCountryCodesList | null;
+  allowed_country_codes?: CreateBountyRequestAllowedCountryCodesList | null | undefined;
   /** What the poster wants the work to achieve, declared once here. */
-  business_goal_type?: CreateBountyRequestBusinessGoalType | (string & {});
+  business_goal_type?: CreateBountyRequestBusinessGoalType | (string & {}) | undefined;
   /** Per-bounty overrides of the served capture contract. Only accepted when `business_goal_type` is `data_capture`; omitted fields keep the platform defaults, and the resulting contract is echoed back as `capture_spec` on the bounty. */
-  capture_spec?: CreateBountyRequestCaptureSpec;
+  capture_spec?: CreateBountyRequestCaptureSpec | undefined;
   /** Full task instructions shown to workers. */
   description: string;
   /** Experience to host the bounty in (`exp_` tag). Any visibility -- public for an open bounty, private for an invited one. Required unless account_id is set, in which case the bounty anchors in that account's public forum. */
-  experience_id?: string | null;
+  experience_id?: string | null | undefined;
   /** How often the schedule creates a new bounty. Each occurrence is a separate bounty. Defaults to `once`; only applies with `publish_at`. */
-  frequency?: CreateBountyRequestFrequency | (string & {});
+  frequency?: CreateBountyRequestFrequency | (string & {}) | undefined;
   /** Gross bounty-pool amount (USD) escrowed per accepted submission, in whole dollars. Platform fees and affiliate shares are paid from this amount. */
   gross_reward_amount: number;
   /** ISO 8601 time to publish the bounty. When set, the bounty is created as a hidden draft and funded + published at this time instead of immediately. */
-  publish_at?: string | null;
+  publish_at?: string | null | undefined;
   /** IANA timezone for recurring occurrences. Required when publish_at is set. */
-  publish_at_timezone?: string | null;
+  publish_at_timezone?: string | null | undefined;
   /** Short name of the task shown to workers. */
   title: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface GetBountyRequest {
   /** Bounty ID (`bnty_` tag). */
@@ -482,35 +482,35 @@ export type ListBountiesRequestOrder =
 export type ListBountiesRequestDirection = "asc" | "desc";
 export interface ListBountiesRequest {
   /** Scope the list to this account (`biz_` tag). Requires read access to the account; account API keys may pass their own account or a connected account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** List the bounties this user participated in (`user_` tag). Must be the authenticated user. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Filter by lifecycle state. */
-  status?: ListBountiesRequestStatus | (string & {});
+  status?: ListBountiesRequestStatus | (string & {}) | undefined;
   /** Filter by the poster's declared goal. Bounties created before the goal taxonomy carry no goal and never match this filter. */
-  business_goal_type?: ListBountiesRequestBusinessGoalType | (string & {});
+  business_goal_type?: ListBountiesRequestBusinessGoalType | (string & {}) | undefined;
   /** Only bounties workable from this country, as an ISO 3166-1 alpha-2 code. Bounties with no country targeting are workable worldwide and always match. */
-  country?: string;
+  country?: string | undefined;
   /** Only bounties posted to this forum experience, prefixed `exp_`. An unknown experience, or one outside the caller's scope, matches nothing. */
-  experience_id?: string;
+  experience_id?: string | undefined;
   /** Substring match on the bounty title or ID. */
-  query?: string;
+  query?: string | undefined;
   /** Only bounties created after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Only bounties created before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Sort field. */
-  order?: ListBountiesRequestOrder | (string & {});
+  order?: ListBountiesRequestOrder | (string & {}) | undefined;
   /** Sort direction. */
-  direction?: ListBountiesRequestDirection | (string & {});
+  direction?: ListBountiesRequestDirection | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The deliverable shapes this bounty accepts. Every bounty accepts any combination of `content_url` (posted links) and `media` (uploaded files), except `data_capture` bounties, whose proof is clips recorded in the Whop app that accumulate on the attempt. */
 export type BountyListItemAcceptedDeliverableTypesItem = "content_url" | "media" | "data_capture";
@@ -614,23 +614,23 @@ export interface ListPublicBountySubmissionsRequest {
   /** The bounty whose public submissions to list (`bnty_` tag). */
   bounty_id: string;
   /** Filter by lifecycle state. */
-  status?: ListPublicBountySubmissionsRequestStatus | (string & {});
+  status?: ListPublicBountySubmissionsRequestStatus | (string & {}) | undefined;
   /** Only submissions created after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Only submissions created before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Sort field. */
-  order?: ListPublicBountySubmissionsRequestOrder | (string & {});
+  order?: ListPublicBountySubmissionsRequestOrder | (string & {}) | undefined;
   /** Sort direction. */
-  direction?: ListPublicBountySubmissionsRequestDirection | (string & {});
+  direction?: ListPublicBountySubmissionsRequestDirection | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListPublicBountySubmissionsResponseDataList = Array<PublicBountySubmission>;
 export type ListPublicBountySubmissionsResponsePageInfo = ListBountiesResponsePageInfo;
@@ -655,25 +655,25 @@ export interface UpdateBountyRequest {
   /** Bounty ID (`bnty_` tag). */
   id: string;
   /** Scheduled drafts only. Number of submissions that can be accepted (winner slots). */
-  accepted_submissions_limit?: number | null;
+  accepted_submissions_limit?: number | null | undefined;
   /** How many winner slots one worker can win. Defaults to `1`. Wins plus proofs awaiting review never exceed this number, and a worker runs one attempt at a time. Cannot exceed `accepted_submissions_limit`. Editable while the bounty is still open with nothing under review. */
-  accepted_submissions_per_user_limit?: number | null;
+  accepted_submissions_per_user_limit?: number | null | undefined;
   /** Replace the countries whose residents can work the bounty, as ISO 3166 alpha-2 codes. Empty means worldwide. */
-  allowed_country_codes?: UpdateBountyRequestAllowedCountryCodesList | null;
+  allowed_country_codes?: UpdateBountyRequestAllowedCountryCodesList | null | undefined;
   /** What the poster wants the work to achieve, declared once here. */
-  business_goal_type?: UpdateBountyRequestBusinessGoalType | (string & {});
+  business_goal_type?: UpdateBountyRequestBusinessGoalType | (string & {}) | undefined;
   /** New full task instructions. */
-  description?: string;
+  description?: string | undefined;
   /** Scheduled drafts only. How often the schedule creates a new bounty. */
-  frequency?: UpdateBountyRequestFrequency | (string & {});
+  frequency?: UpdateBountyRequestFrequency | (string & {}) | undefined;
   /** Scheduled drafts only. Gross bounty-pool amount (USD) escrowed per accepted submission. The escrowed total (this times accepted_submissions_limit) must stay at least $5. */
-  gross_reward_amount?: number | null;
+  gross_reward_amount?: number | null | undefined;
   /** Scheduled drafts only. New ISO 8601 time to publish the draft. Must be in the future. */
-  publish_at?: string | null;
+  publish_at?: string | null | undefined;
   /** Scheduled drafts only. IANA timezone for recurring occurrences. */
-  publish_at_timezone?: string | null;
+  publish_at_timezone?: string | null | undefined;
   /** New short name of the task. */
-  title?: string;
+  title?: string | undefined;
 }
 export type CancelBountyError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
 /** Cancel Cancels a bounty. With no in-flight work, it cancels immediately and refunds the funder. Otherwise it stops new submissions and cancels once the in-flight work resolves and pays out. Repeating the request is a no-op. A bounty that already paid out every slot returns `400`. */

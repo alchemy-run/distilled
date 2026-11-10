@@ -138,75 +138,75 @@ export class NotFoundException
 export type CategoryName = string;
 export type TimestampMilliseconds = number;
 export interface AbsoluteTimeRange {
-  StartTime?: number;
-  EndTime?: number;
-  First?: number;
-  Last?: number;
+  StartTime?: number | undefined;
+  EndTime?: number | undefined;
+  First?: number | undefined;
+  Last?: number | undefined;
 }
 export type Percentage = number;
 export interface RelativeTimeRange {
-  StartPercentage?: number;
-  EndPercentage?: number;
-  First?: number;
-  Last?: number;
+  StartPercentage?: number | undefined;
+  EndPercentage?: number | undefined;
+  First?: number | undefined;
+  Last?: number | undefined;
 }
 export interface NonTalkTimeFilter {
-  Threshold?: number;
-  AbsoluteTimeRange?: AbsoluteTimeRange;
-  RelativeTimeRange?: RelativeTimeRange;
-  Negate?: boolean;
+  Threshold?: number | undefined;
+  AbsoluteTimeRange?: AbsoluteTimeRange | undefined;
+  RelativeTimeRange?: RelativeTimeRange | undefined;
+  Negate?: boolean | undefined;
 }
 export type ParticipantRole = "AGENT" | "CUSTOMER" | (string & {});
 export interface InterruptionFilter {
-  Threshold?: number;
-  ParticipantRole?: ParticipantRole;
-  AbsoluteTimeRange?: AbsoluteTimeRange;
-  RelativeTimeRange?: RelativeTimeRange;
-  Negate?: boolean;
+  Threshold?: number | undefined;
+  ParticipantRole?: ParticipantRole | undefined;
+  AbsoluteTimeRange?: AbsoluteTimeRange | undefined;
+  RelativeTimeRange?: RelativeTimeRange | undefined;
+  Negate?: boolean | undefined;
 }
 export type TranscriptFilterType = "EXACT" | (string & {});
 export type NonEmptyString = string;
 export type StringTargetList = string[];
 export interface TranscriptFilter {
   TranscriptFilterType: TranscriptFilterType;
-  AbsoluteTimeRange?: AbsoluteTimeRange;
-  RelativeTimeRange?: RelativeTimeRange;
-  ParticipantRole?: ParticipantRole;
-  Negate?: boolean;
+  AbsoluteTimeRange?: AbsoluteTimeRange | undefined;
+  RelativeTimeRange?: RelativeTimeRange | undefined;
+  ParticipantRole?: ParticipantRole | undefined;
+  Negate?: boolean | undefined;
   Targets: string[];
 }
 export type SentimentValue = "POSITIVE" | "NEGATIVE" | "NEUTRAL" | "MIXED" | (string & {});
 export type SentimentValueList = SentimentValue[];
 export interface SentimentFilter {
   Sentiments: SentimentValue[];
-  AbsoluteTimeRange?: AbsoluteTimeRange;
-  RelativeTimeRange?: RelativeTimeRange;
-  ParticipantRole?: ParticipantRole;
-  Negate?: boolean;
+  AbsoluteTimeRange?: AbsoluteTimeRange | undefined;
+  RelativeTimeRange?: RelativeTimeRange | undefined;
+  ParticipantRole?: ParticipantRole | undefined;
+  Negate?: boolean | undefined;
 }
 export type Rule =
   | {
       NonTalkTimeFilter: NonTalkTimeFilter;
-      InterruptionFilter?: never;
-      TranscriptFilter?: never;
-      SentimentFilter?: never;
+      InterruptionFilter?: undefined;
+      TranscriptFilter?: undefined;
+      SentimentFilter?: undefined;
     }
   | {
-      NonTalkTimeFilter?: never;
+      NonTalkTimeFilter?: undefined;
       InterruptionFilter: InterruptionFilter;
-      TranscriptFilter?: never;
-      SentimentFilter?: never;
+      TranscriptFilter?: undefined;
+      SentimentFilter?: undefined;
     }
   | {
-      NonTalkTimeFilter?: never;
-      InterruptionFilter?: never;
+      NonTalkTimeFilter?: undefined;
+      InterruptionFilter?: undefined;
       TranscriptFilter: TranscriptFilter;
-      SentimentFilter?: never;
+      SentimentFilter?: undefined;
     }
   | {
-      NonTalkTimeFilter?: never;
-      InterruptionFilter?: never;
-      TranscriptFilter?: never;
+      NonTalkTimeFilter?: undefined;
+      InterruptionFilter?: undefined;
+      TranscriptFilter?: undefined;
       SentimentFilter: SentimentFilter;
     };
 export type RuleList = Rule[];
@@ -221,19 +221,19 @@ export type InputType = "REAL_TIME" | "POST_CALL" | (string & {});
 export interface CreateCallAnalyticsCategoryRequest {
   CategoryName: string;
   Rules: Rule[];
-  Tags?: Tag[];
-  InputType?: InputType;
+  Tags?: Tag[] | undefined;
+  InputType?: InputType | undefined;
 }
 export interface CategoryProperties {
-  CategoryName?: string;
-  Rules?: Rule[];
-  CreateTime?: Date;
-  LastUpdateTime?: Date;
-  Tags?: Tag[];
-  InputType?: InputType;
+  CategoryName?: string | undefined;
+  Rules?: Rule[] | undefined;
+  CreateTime?: Date | undefined;
+  LastUpdateTime?: Date | undefined;
+  Tags?: Tag[] | undefined;
+  InputType?: InputType | undefined;
 }
 export interface CreateCallAnalyticsCategoryResponse {
-  CategoryProperties?: CategoryProperties;
+  CategoryProperties?: CategoryProperties | undefined;
 }
 export type CLMLanguageCode =
   | "en-US"
@@ -250,14 +250,14 @@ export type Uri = string;
 export type DataAccessRoleArn = string;
 export interface InputDataConfig {
   S3Uri: string;
-  TuningDataS3Uri?: string;
+  TuningDataS3Uri?: string | undefined;
   DataAccessRoleArn: string;
 }
 export type PrintableNonEmptyString = string;
 export type KMSEncryptionContextMap = { [key: string]: string | undefined };
 export type KMSKeyId = string;
 export interface EncryptionConfiguration {
-  KMSEncryptionContext?: { [key: string]: string | undefined };
+  KMSEncryptionContext?: { [key: string]: string | undefined } | undefined;
   KMSKey: string;
 }
 export interface CreateLanguageModelRequest {
@@ -265,16 +265,16 @@ export interface CreateLanguageModelRequest {
   BaseModelName: BaseModelName;
   ModelName: string;
   InputDataConfig: InputDataConfig;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  Tags?: Tag[];
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type ModelStatus = "IN_PROGRESS" | "FAILED" | "COMPLETED" | (string & {});
 export interface CreateLanguageModelResponse {
-  LanguageCode?: CLMLanguageCode;
-  BaseModelName?: BaseModelName;
-  ModelName?: string;
-  InputDataConfig?: InputDataConfig;
-  ModelStatus?: ModelStatus;
+  LanguageCode?: CLMLanguageCode | undefined;
+  BaseModelName?: BaseModelName | undefined;
+  ModelName?: string | undefined;
+  InputDataConfig?: InputDataConfig | undefined;
+  ModelStatus?: ModelStatus | undefined;
 }
 export type VocabularyName = string;
 export type LanguageCode =
@@ -400,34 +400,34 @@ export interface CreateMedicalVocabularyRequest {
   VocabularyName: string;
   LanguageCode: LanguageCode;
   VocabularyFileUri: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type VocabularyState = "PENDING" | "READY" | "FAILED" | (string & {});
 export type FailureReason = string;
 export interface CreateMedicalVocabularyResponse {
-  VocabularyName?: string;
-  LanguageCode?: LanguageCode;
-  VocabularyState?: VocabularyState;
-  LastModifiedTime?: Date;
-  FailureReason?: string;
+  VocabularyName?: string | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  VocabularyState?: VocabularyState | undefined;
+  LastModifiedTime?: Date | undefined;
+  FailureReason?: string | undefined;
 }
 export type Phrase = string;
 export type Phrases = string[];
 export interface CreateVocabularyRequest {
   VocabularyName: string;
   LanguageCode: LanguageCode;
-  Phrases?: string[];
-  VocabularyFileUri?: string;
-  Tags?: Tag[];
-  DataAccessRoleArn?: string;
-  EncryptionConfiguration?: EncryptionConfiguration;
+  Phrases?: string[] | undefined;
+  VocabularyFileUri?: string | undefined;
+  Tags?: Tag[] | undefined;
+  DataAccessRoleArn?: string | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export interface CreateVocabularyResponse {
-  VocabularyName?: string;
-  LanguageCode?: LanguageCode;
-  VocabularyState?: VocabularyState;
-  LastModifiedTime?: Date;
-  FailureReason?: string;
+  VocabularyName?: string | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  VocabularyState?: VocabularyState | undefined;
+  LastModifiedTime?: Date | undefined;
+  FailureReason?: string | undefined;
 }
 export type VocabularyFilterName = string;
 export type Word = string;
@@ -435,16 +435,16 @@ export type Words = string[];
 export interface CreateVocabularyFilterRequest {
   VocabularyFilterName: string;
   LanguageCode: LanguageCode;
-  Words?: string[];
-  VocabularyFilterFileUri?: string;
-  Tags?: Tag[];
-  DataAccessRoleArn?: string;
-  EncryptionConfiguration?: EncryptionConfiguration;
+  Words?: string[] | undefined;
+  VocabularyFilterFileUri?: string | undefined;
+  Tags?: Tag[] | undefined;
+  DataAccessRoleArn?: string | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export interface CreateVocabularyFilterResponse {
-  VocabularyFilterName?: string;
-  LanguageCode?: LanguageCode;
-  LastModifiedTime?: Date;
+  VocabularyFilterName?: string | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export interface DeleteCallAnalyticsCategoryRequest {
   CategoryName: string;
@@ -488,25 +488,25 @@ export interface DescribeLanguageModelRequest {
   ModelName: string;
 }
 export interface LanguageModel {
-  ModelName?: string;
-  CreateTime?: Date;
-  LastModifiedTime?: Date;
-  LanguageCode?: CLMLanguageCode;
-  BaseModelName?: BaseModelName;
-  ModelStatus?: ModelStatus;
-  UpgradeAvailability?: boolean;
-  FailureReason?: string;
-  InputDataConfig?: InputDataConfig;
-  EncryptionConfiguration?: EncryptionConfiguration;
+  ModelName?: string | undefined;
+  CreateTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
+  LanguageCode?: CLMLanguageCode | undefined;
+  BaseModelName?: BaseModelName | undefined;
+  ModelStatus?: ModelStatus | undefined;
+  UpgradeAvailability?: boolean | undefined;
+  FailureReason?: string | undefined;
+  InputDataConfig?: InputDataConfig | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export interface DescribeLanguageModelResponse {
-  LanguageModel?: LanguageModel;
+  LanguageModel?: LanguageModel | undefined;
 }
 export interface GetCallAnalyticsCategoryRequest {
   CategoryName: string;
 }
 export interface GetCallAnalyticsCategoryResponse {
-  CategoryProperties?: CategoryProperties;
+  CategoryProperties?: CategoryProperties | undefined;
 }
 export interface GetCallAnalyticsJobRequest {
   CallAnalyticsJobName: string;
@@ -523,13 +523,13 @@ export type CallAnalyticsSkippedReasonCode =
   | "FAILED_SAFETY_GUIDELINES"
   | (string & {});
 export interface CallAnalyticsSkippedFeature {
-  Feature?: CallAnalyticsFeature;
-  ReasonCode?: CallAnalyticsSkippedReasonCode;
-  Message?: string;
+  Feature?: CallAnalyticsFeature | undefined;
+  ReasonCode?: CallAnalyticsSkippedReasonCode | undefined;
+  Message?: string | undefined;
 }
 export type CallAnalyticsSkippedFeatureList = CallAnalyticsSkippedFeature[];
 export interface CallAnalyticsJobDetails {
-  Skipped?: CallAnalyticsSkippedFeature[];
+  Skipped?: CallAnalyticsSkippedFeature[] | undefined;
 }
 export type MediaSampleRateHertz = number;
 export type MediaFormat =
@@ -543,12 +543,12 @@ export type MediaFormat =
   | "m4a"
   | (string & {});
 export interface Media {
-  MediaFileUri?: string;
-  RedactedMediaFileUri?: string;
+  MediaFileUri?: string | undefined;
+  RedactedMediaFileUri?: string | undefined;
 }
 export interface Transcript {
-  TranscriptFileUri?: string;
-  RedactedTranscriptFileUri?: string;
+  TranscriptFileUri?: string | undefined;
+  RedactedTranscriptFileUri?: string | undefined;
 }
 export type IdentifiedLanguageScore = number;
 export type VocabularyFilterMethod = "remove" | "mask" | "tag" | (string & {});
@@ -590,55 +590,55 @@ export type PiiEntityTypes = PiiEntityType[];
 export interface ContentRedaction {
   RedactionType: RedactionType;
   RedactionOutput: RedactionOutput;
-  PiiEntityTypes?: PiiEntityType[];
+  PiiEntityTypes?: PiiEntityType[] | undefined;
 }
 export type LanguageOptions = LanguageCode[];
 export interface LanguageIdSettings {
-  VocabularyName?: string;
-  VocabularyFilterName?: string;
-  LanguageModelName?: string;
+  VocabularyName?: string | undefined;
+  VocabularyFilterName?: string | undefined;
+  LanguageModelName?: string | undefined;
 }
-export type LanguageIdSettingsMap = { [key in LanguageCode]?: LanguageIdSettings };
+export type LanguageIdSettingsMap = { [key in LanguageCode]?: LanguageIdSettings | undefined };
 export interface Summarization {
   GenerateAbstractiveSummary: boolean;
 }
 export interface CallAnalyticsJobSettings {
-  VocabularyName?: string;
-  VocabularyFilterName?: string;
-  VocabularyFilterMethod?: VocabularyFilterMethod;
-  LanguageModelName?: string;
-  ContentRedaction?: ContentRedaction;
-  LanguageOptions?: LanguageCode[];
-  LanguageIdSettings?: { [key: string]: LanguageIdSettings | undefined };
-  Summarization?: Summarization;
+  VocabularyName?: string | undefined;
+  VocabularyFilterName?: string | undefined;
+  VocabularyFilterMethod?: VocabularyFilterMethod | undefined;
+  LanguageModelName?: string | undefined;
+  ContentRedaction?: ContentRedaction | undefined;
+  LanguageOptions?: LanguageCode[] | undefined;
+  LanguageIdSettings?: { [key: string]: LanguageIdSettings | undefined } | undefined;
+  Summarization?: Summarization | undefined;
 }
 export type ChannelId = number;
 export interface ChannelDefinition {
-  ChannelId?: number;
-  ParticipantRole?: ParticipantRole;
+  ChannelId?: number | undefined;
+  ParticipantRole?: ParticipantRole | undefined;
 }
 export type ChannelDefinitions = ChannelDefinition[];
 export interface CallAnalyticsJob {
-  CallAnalyticsJobName?: string;
-  CallAnalyticsJobStatus?: CallAnalyticsJobStatus;
-  CallAnalyticsJobDetails?: CallAnalyticsJobDetails;
-  LanguageCode?: LanguageCode;
-  MediaSampleRateHertz?: number;
-  MediaFormat?: MediaFormat;
-  Media?: Media;
-  Transcript?: Transcript;
-  StartTime?: Date;
-  CreationTime?: Date;
-  CompletionTime?: Date;
-  FailureReason?: string;
-  DataAccessRoleArn?: string;
-  IdentifiedLanguageScore?: number;
-  Settings?: CallAnalyticsJobSettings;
-  ChannelDefinitions?: ChannelDefinition[];
-  Tags?: Tag[];
+  CallAnalyticsJobName?: string | undefined;
+  CallAnalyticsJobStatus?: CallAnalyticsJobStatus | undefined;
+  CallAnalyticsJobDetails?: CallAnalyticsJobDetails | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  MediaSampleRateHertz?: number | undefined;
+  MediaFormat?: MediaFormat | undefined;
+  Media?: Media | undefined;
+  Transcript?: Transcript | undefined;
+  StartTime?: Date | undefined;
+  CreationTime?: Date | undefined;
+  CompletionTime?: Date | undefined;
+  FailureReason?: string | undefined;
+  DataAccessRoleArn?: string | undefined;
+  IdentifiedLanguageScore?: number | undefined;
+  Settings?: CallAnalyticsJobSettings | undefined;
+  ChannelDefinitions?: ChannelDefinition[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface GetCallAnalyticsJobResponse {
-  CallAnalyticsJob?: CallAnalyticsJob;
+  CallAnalyticsJob?: CallAnalyticsJob | undefined;
 }
 export interface GetMedicalScribeJobRequest {
   MedicalScribeJobName: string;
@@ -665,16 +665,16 @@ export type MedicalScribeNoteTemplate =
   | "PHYSICAL_SOAP"
   | (string & {});
 export interface ClinicalNoteGenerationSettings {
-  NoteTemplate?: MedicalScribeNoteTemplate;
+  NoteTemplate?: MedicalScribeNoteTemplate | undefined;
 }
 export interface MedicalScribeSettings {
-  ShowSpeakerLabels?: boolean;
-  MaxSpeakerLabels?: number;
-  ChannelIdentification?: boolean;
-  VocabularyName?: string;
-  VocabularyFilterName?: string;
-  VocabularyFilterMethod?: VocabularyFilterMethod;
-  ClinicalNoteGenerationSettings?: ClinicalNoteGenerationSettings;
+  ShowSpeakerLabels?: boolean | undefined;
+  MaxSpeakerLabels?: number | undefined;
+  ChannelIdentification?: boolean | undefined;
+  VocabularyName?: string | undefined;
+  VocabularyFilterName?: string | undefined;
+  VocabularyFilterMethod?: VocabularyFilterMethod | undefined;
+  ClinicalNoteGenerationSettings?: ClinicalNoteGenerationSettings | undefined;
 }
 export type MedicalScribeChannelId = number;
 export type MedicalScribeParticipantRole = "PATIENT" | "CLINICIAN" | (string & {});
@@ -684,23 +684,23 @@ export interface MedicalScribeChannelDefinition {
 }
 export type MedicalScribeChannelDefinitions = MedicalScribeChannelDefinition[];
 export interface MedicalScribeJob {
-  MedicalScribeJobName?: string;
-  MedicalScribeJobStatus?: MedicalScribeJobStatus;
-  LanguageCode?: MedicalScribeLanguageCode;
-  Media?: Media;
-  MedicalScribeOutput?: MedicalScribeOutput;
-  StartTime?: Date;
-  CreationTime?: Date;
-  CompletionTime?: Date;
-  FailureReason?: string;
-  Settings?: MedicalScribeSettings;
-  DataAccessRoleArn?: string;
-  ChannelDefinitions?: MedicalScribeChannelDefinition[];
-  MedicalScribeContextProvided?: boolean;
-  Tags?: Tag[];
+  MedicalScribeJobName?: string | undefined;
+  MedicalScribeJobStatus?: MedicalScribeJobStatus | undefined;
+  LanguageCode?: MedicalScribeLanguageCode | undefined;
+  Media?: Media | undefined;
+  MedicalScribeOutput?: MedicalScribeOutput | undefined;
+  StartTime?: Date | undefined;
+  CreationTime?: Date | undefined;
+  CompletionTime?: Date | undefined;
+  FailureReason?: string | undefined;
+  Settings?: MedicalScribeSettings | undefined;
+  DataAccessRoleArn?: string | undefined;
+  ChannelDefinitions?: MedicalScribeChannelDefinition[] | undefined;
+  MedicalScribeContextProvided?: boolean | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface GetMedicalScribeJobResponse {
-  MedicalScribeJob?: MedicalScribeJob;
+  MedicalScribeJob?: MedicalScribeJob | undefined;
 }
 export interface GetMedicalTranscriptionJobRequest {
   MedicalTranscriptionJobName: string;
@@ -713,76 +713,76 @@ export type TranscriptionJobStatus =
   | (string & {});
 export type MedicalMediaSampleRateHertz = number;
 export interface MedicalTranscript {
-  TranscriptFileUri?: string;
+  TranscriptFileUri?: string | undefined;
 }
 export type MaxAlternatives = number;
 export interface MedicalTranscriptionSetting {
-  ShowSpeakerLabels?: boolean;
-  MaxSpeakerLabels?: number;
-  ChannelIdentification?: boolean;
-  ShowAlternatives?: boolean;
-  MaxAlternatives?: number;
-  VocabularyName?: string;
+  ShowSpeakerLabels?: boolean | undefined;
+  MaxSpeakerLabels?: number | undefined;
+  ChannelIdentification?: boolean | undefined;
+  ShowAlternatives?: boolean | undefined;
+  MaxAlternatives?: number | undefined;
+  VocabularyName?: string | undefined;
 }
 export type MedicalContentIdentificationType = "PHI" | (string & {});
 export type Specialty = "PRIMARYCARE" | (string & {});
 export type Type = "CONVERSATION" | "DICTATION" | (string & {});
 export interface MedicalTranscriptionJob {
-  MedicalTranscriptionJobName?: string;
-  TranscriptionJobStatus?: TranscriptionJobStatus;
-  LanguageCode?: LanguageCode;
-  MediaSampleRateHertz?: number;
-  MediaFormat?: MediaFormat;
-  Media?: Media;
-  Transcript?: MedicalTranscript;
-  StartTime?: Date;
-  CreationTime?: Date;
-  CompletionTime?: Date;
-  FailureReason?: string;
-  Settings?: MedicalTranscriptionSetting;
-  ContentIdentificationType?: MedicalContentIdentificationType;
-  Specialty?: Specialty;
-  Type?: Type;
-  Tags?: Tag[];
+  MedicalTranscriptionJobName?: string | undefined;
+  TranscriptionJobStatus?: TranscriptionJobStatus | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  MediaSampleRateHertz?: number | undefined;
+  MediaFormat?: MediaFormat | undefined;
+  Media?: Media | undefined;
+  Transcript?: MedicalTranscript | undefined;
+  StartTime?: Date | undefined;
+  CreationTime?: Date | undefined;
+  CompletionTime?: Date | undefined;
+  FailureReason?: string | undefined;
+  Settings?: MedicalTranscriptionSetting | undefined;
+  ContentIdentificationType?: MedicalContentIdentificationType | undefined;
+  Specialty?: Specialty | undefined;
+  Type?: Type | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface GetMedicalTranscriptionJobResponse {
-  MedicalTranscriptionJob?: MedicalTranscriptionJob;
+  MedicalTranscriptionJob?: MedicalTranscriptionJob | undefined;
 }
 export interface GetMedicalVocabularyRequest {
   VocabularyName: string;
 }
 export interface GetMedicalVocabularyResponse {
-  VocabularyName?: string;
-  LanguageCode?: LanguageCode;
-  VocabularyState?: VocabularyState;
-  LastModifiedTime?: Date;
-  FailureReason?: string;
-  DownloadUri?: string;
+  VocabularyName?: string | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  VocabularyState?: VocabularyState | undefined;
+  LastModifiedTime?: Date | undefined;
+  FailureReason?: string | undefined;
+  DownloadUri?: string | undefined;
 }
 export interface GetTranscriptionJobRequest {
   TranscriptionJobName: string;
 }
 export interface Settings {
-  VocabularyName?: string;
-  ShowSpeakerLabels?: boolean;
-  MaxSpeakerLabels?: number;
-  ChannelIdentification?: boolean;
-  ShowAlternatives?: boolean;
-  MaxAlternatives?: number;
-  VocabularyFilterName?: string;
-  VocabularyFilterMethod?: VocabularyFilterMethod;
+  VocabularyName?: string | undefined;
+  ShowSpeakerLabels?: boolean | undefined;
+  MaxSpeakerLabels?: number | undefined;
+  ChannelIdentification?: boolean | undefined;
+  ShowAlternatives?: boolean | undefined;
+  MaxAlternatives?: number | undefined;
+  VocabularyFilterName?: string | undefined;
+  VocabularyFilterMethod?: VocabularyFilterMethod | undefined;
 }
 export interface ModelSettings {
-  LanguageModelName?: string;
+  LanguageModelName?: string | undefined;
 }
 export interface JobExecutionSettings {
-  AllowDeferredExecution?: boolean;
-  DataAccessRoleArn?: string;
+  AllowDeferredExecution?: boolean | undefined;
+  DataAccessRoleArn?: string | undefined;
 }
 export type DurationInSeconds = number;
 export interface LanguageCodeItem {
-  LanguageCode?: LanguageCode;
-  DurationInSeconds?: number;
+  LanguageCode?: LanguageCode | undefined;
+  DurationInSeconds?: number | undefined;
 }
 export type LanguageCodeList = LanguageCodeItem[];
 export type SubtitleFormat = "vtt" | "srt" | (string & {});
@@ -790,9 +790,9 @@ export type SubtitleFormats = SubtitleFormat[];
 export type SubtitleFileUris = string[];
 export type SubtitleOutputStartIndex = number;
 export interface SubtitlesOutput {
-  Formats?: SubtitleFormat[];
-  SubtitleFileUris?: string[];
-  OutputStartIndex?: number;
+  Formats?: SubtitleFormat[] | undefined;
+  SubtitleFileUris?: string[] | undefined;
+  OutputStartIndex?: number | undefined;
 }
 export type ToxicityCategory = "ALL" | (string & {});
 export type ToxicityCategories = ToxicityCategory[];
@@ -801,314 +801,314 @@ export interface ToxicityDetectionSettings {
 }
 export type ToxicityDetection = ToxicityDetectionSettings[];
 export interface TranscriptionJob {
-  TranscriptionJobName?: string;
-  TranscriptionJobStatus?: TranscriptionJobStatus;
-  LanguageCode?: LanguageCode;
-  MediaSampleRateHertz?: number;
-  MediaFormat?: MediaFormat;
-  Media?: Media;
-  Transcript?: Transcript;
-  StartTime?: Date;
-  CreationTime?: Date;
-  CompletionTime?: Date;
-  FailureReason?: string;
-  Settings?: Settings;
-  ModelSettings?: ModelSettings;
-  JobExecutionSettings?: JobExecutionSettings;
-  ContentRedaction?: ContentRedaction;
-  IdentifyLanguage?: boolean;
-  IdentifyMultipleLanguages?: boolean;
-  LanguageOptions?: LanguageCode[];
-  IdentifiedLanguageScore?: number;
-  LanguageCodes?: LanguageCodeItem[];
-  Tags?: Tag[];
-  Subtitles?: SubtitlesOutput;
-  LanguageIdSettings?: { [key: string]: LanguageIdSettings | undefined };
-  ToxicityDetection?: ToxicityDetectionSettings[];
+  TranscriptionJobName?: string | undefined;
+  TranscriptionJobStatus?: TranscriptionJobStatus | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  MediaSampleRateHertz?: number | undefined;
+  MediaFormat?: MediaFormat | undefined;
+  Media?: Media | undefined;
+  Transcript?: Transcript | undefined;
+  StartTime?: Date | undefined;
+  CreationTime?: Date | undefined;
+  CompletionTime?: Date | undefined;
+  FailureReason?: string | undefined;
+  Settings?: Settings | undefined;
+  ModelSettings?: ModelSettings | undefined;
+  JobExecutionSettings?: JobExecutionSettings | undefined;
+  ContentRedaction?: ContentRedaction | undefined;
+  IdentifyLanguage?: boolean | undefined;
+  IdentifyMultipleLanguages?: boolean | undefined;
+  LanguageOptions?: LanguageCode[] | undefined;
+  IdentifiedLanguageScore?: number | undefined;
+  LanguageCodes?: LanguageCodeItem[] | undefined;
+  Tags?: Tag[] | undefined;
+  Subtitles?: SubtitlesOutput | undefined;
+  LanguageIdSettings?: { [key: string]: LanguageIdSettings | undefined } | undefined;
+  ToxicityDetection?: ToxicityDetectionSettings[] | undefined;
 }
 export interface GetTranscriptionJobResponse {
-  TranscriptionJob?: TranscriptionJob;
+  TranscriptionJob?: TranscriptionJob | undefined;
 }
 export interface GetVocabularyRequest {
   VocabularyName: string;
 }
 export interface GetVocabularyResponse {
-  VocabularyName?: string;
-  LanguageCode?: LanguageCode;
-  VocabularyState?: VocabularyState;
-  LastModifiedTime?: Date;
-  FailureReason?: string;
-  DownloadUri?: string;
-  DataAccessRoleArn?: string;
-  EncryptionConfiguration?: EncryptionConfiguration;
+  VocabularyName?: string | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  VocabularyState?: VocabularyState | undefined;
+  LastModifiedTime?: Date | undefined;
+  FailureReason?: string | undefined;
+  DownloadUri?: string | undefined;
+  DataAccessRoleArn?: string | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export interface GetVocabularyFilterRequest {
   VocabularyFilterName: string;
 }
 export interface GetVocabularyFilterResponse {
-  VocabularyFilterName?: string;
-  LanguageCode?: LanguageCode;
-  LastModifiedTime?: Date;
-  DownloadUri?: string;
-  DataAccessRoleArn?: string;
-  EncryptionConfiguration?: EncryptionConfiguration;
+  VocabularyFilterName?: string | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  LastModifiedTime?: Date | undefined;
+  DownloadUri?: string | undefined;
+  DataAccessRoleArn?: string | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListCallAnalyticsCategoriesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type CategoryPropertiesList = CategoryProperties[];
 export interface ListCallAnalyticsCategoriesResponse {
-  NextToken?: string;
-  Categories?: CategoryProperties[];
+  NextToken?: string | undefined;
+  Categories?: CategoryProperties[] | undefined;
 }
 export interface ListCallAnalyticsJobsRequest {
-  Status?: CallAnalyticsJobStatus;
-  JobNameContains?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  Status?: CallAnalyticsJobStatus | undefined;
+  JobNameContains?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface CallAnalyticsJobSummary {
-  CallAnalyticsJobName?: string;
-  CreationTime?: Date;
-  StartTime?: Date;
-  CompletionTime?: Date;
-  LanguageCode?: LanguageCode;
-  CallAnalyticsJobStatus?: CallAnalyticsJobStatus;
-  CallAnalyticsJobDetails?: CallAnalyticsJobDetails;
-  FailureReason?: string;
+  CallAnalyticsJobName?: string | undefined;
+  CreationTime?: Date | undefined;
+  StartTime?: Date | undefined;
+  CompletionTime?: Date | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  CallAnalyticsJobStatus?: CallAnalyticsJobStatus | undefined;
+  CallAnalyticsJobDetails?: CallAnalyticsJobDetails | undefined;
+  FailureReason?: string | undefined;
 }
 export type CallAnalyticsJobSummaries = CallAnalyticsJobSummary[];
 export interface ListCallAnalyticsJobsResponse {
-  Status?: CallAnalyticsJobStatus;
-  NextToken?: string;
-  CallAnalyticsJobSummaries?: CallAnalyticsJobSummary[];
+  Status?: CallAnalyticsJobStatus | undefined;
+  NextToken?: string | undefined;
+  CallAnalyticsJobSummaries?: CallAnalyticsJobSummary[] | undefined;
 }
 export interface ListLanguageModelsRequest {
-  StatusEquals?: ModelStatus;
-  NameContains?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  StatusEquals?: ModelStatus | undefined;
+  NameContains?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type Models = LanguageModel[];
 export interface ListLanguageModelsResponse {
-  NextToken?: string;
-  Models?: LanguageModel[];
+  NextToken?: string | undefined;
+  Models?: LanguageModel[] | undefined;
 }
 export interface ListMedicalScribeJobsRequest {
-  Status?: MedicalScribeJobStatus;
-  JobNameContains?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  Status?: MedicalScribeJobStatus | undefined;
+  JobNameContains?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface MedicalScribeJobSummary {
-  MedicalScribeJobName?: string;
-  CreationTime?: Date;
-  StartTime?: Date;
-  CompletionTime?: Date;
-  LanguageCode?: MedicalScribeLanguageCode;
-  MedicalScribeJobStatus?: MedicalScribeJobStatus;
-  FailureReason?: string;
+  MedicalScribeJobName?: string | undefined;
+  CreationTime?: Date | undefined;
+  StartTime?: Date | undefined;
+  CompletionTime?: Date | undefined;
+  LanguageCode?: MedicalScribeLanguageCode | undefined;
+  MedicalScribeJobStatus?: MedicalScribeJobStatus | undefined;
+  FailureReason?: string | undefined;
 }
 export type MedicalScribeJobSummaries = MedicalScribeJobSummary[];
 export interface ListMedicalScribeJobsResponse {
-  Status?: MedicalScribeJobStatus;
-  NextToken?: string;
-  MedicalScribeJobSummaries?: MedicalScribeJobSummary[];
+  Status?: MedicalScribeJobStatus | undefined;
+  NextToken?: string | undefined;
+  MedicalScribeJobSummaries?: MedicalScribeJobSummary[] | undefined;
 }
 export interface ListMedicalTranscriptionJobsRequest {
-  Status?: TranscriptionJobStatus;
-  JobNameContains?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  Status?: TranscriptionJobStatus | undefined;
+  JobNameContains?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type OutputLocationType = "CUSTOMER_BUCKET" | "SERVICE_BUCKET" | (string & {});
 export interface MedicalTranscriptionJobSummary {
-  MedicalTranscriptionJobName?: string;
-  CreationTime?: Date;
-  StartTime?: Date;
-  CompletionTime?: Date;
-  LanguageCode?: LanguageCode;
-  TranscriptionJobStatus?: TranscriptionJobStatus;
-  FailureReason?: string;
-  OutputLocationType?: OutputLocationType;
-  Specialty?: Specialty;
-  ContentIdentificationType?: MedicalContentIdentificationType;
-  Type?: Type;
+  MedicalTranscriptionJobName?: string | undefined;
+  CreationTime?: Date | undefined;
+  StartTime?: Date | undefined;
+  CompletionTime?: Date | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  TranscriptionJobStatus?: TranscriptionJobStatus | undefined;
+  FailureReason?: string | undefined;
+  OutputLocationType?: OutputLocationType | undefined;
+  Specialty?: Specialty | undefined;
+  ContentIdentificationType?: MedicalContentIdentificationType | undefined;
+  Type?: Type | undefined;
 }
 export type MedicalTranscriptionJobSummaries = MedicalTranscriptionJobSummary[];
 export interface ListMedicalTranscriptionJobsResponse {
-  Status?: TranscriptionJobStatus;
-  NextToken?: string;
-  MedicalTranscriptionJobSummaries?: MedicalTranscriptionJobSummary[];
+  Status?: TranscriptionJobStatus | undefined;
+  NextToken?: string | undefined;
+  MedicalTranscriptionJobSummaries?: MedicalTranscriptionJobSummary[] | undefined;
 }
 export interface ListMedicalVocabulariesRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  StateEquals?: VocabularyState;
-  NameContains?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  StateEquals?: VocabularyState | undefined;
+  NameContains?: string | undefined;
 }
 export interface VocabularyInfo {
-  VocabularyName?: string;
-  LanguageCode?: LanguageCode;
-  LastModifiedTime?: Date;
-  VocabularyState?: VocabularyState;
+  VocabularyName?: string | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  LastModifiedTime?: Date | undefined;
+  VocabularyState?: VocabularyState | undefined;
 }
 export type Vocabularies = VocabularyInfo[];
 export interface ListMedicalVocabulariesResponse {
-  Status?: VocabularyState;
-  NextToken?: string;
-  Vocabularies?: VocabularyInfo[];
+  Status?: VocabularyState | undefined;
+  NextToken?: string | undefined;
+  Vocabularies?: VocabularyInfo[] | undefined;
 }
 export type TranscribeArn = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  ResourceArn?: string;
-  Tags?: Tag[];
+  ResourceArn?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface ListTranscriptionJobsRequest {
-  Status?: TranscriptionJobStatus;
-  JobNameContains?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  Status?: TranscriptionJobStatus | undefined;
+  JobNameContains?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface TranscriptionJobSummary {
-  TranscriptionJobName?: string;
-  CreationTime?: Date;
-  StartTime?: Date;
-  CompletionTime?: Date;
-  LanguageCode?: LanguageCode;
-  TranscriptionJobStatus?: TranscriptionJobStatus;
-  FailureReason?: string;
-  OutputLocationType?: OutputLocationType;
-  ContentRedaction?: ContentRedaction;
-  ModelSettings?: ModelSettings;
-  IdentifyLanguage?: boolean;
-  IdentifyMultipleLanguages?: boolean;
-  IdentifiedLanguageScore?: number;
-  LanguageCodes?: LanguageCodeItem[];
-  ToxicityDetection?: ToxicityDetectionSettings[];
+  TranscriptionJobName?: string | undefined;
+  CreationTime?: Date | undefined;
+  StartTime?: Date | undefined;
+  CompletionTime?: Date | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  TranscriptionJobStatus?: TranscriptionJobStatus | undefined;
+  FailureReason?: string | undefined;
+  OutputLocationType?: OutputLocationType | undefined;
+  ContentRedaction?: ContentRedaction | undefined;
+  ModelSettings?: ModelSettings | undefined;
+  IdentifyLanguage?: boolean | undefined;
+  IdentifyMultipleLanguages?: boolean | undefined;
+  IdentifiedLanguageScore?: number | undefined;
+  LanguageCodes?: LanguageCodeItem[] | undefined;
+  ToxicityDetection?: ToxicityDetectionSettings[] | undefined;
 }
 export type TranscriptionJobSummaries = TranscriptionJobSummary[];
 export interface ListTranscriptionJobsResponse {
-  Status?: TranscriptionJobStatus;
-  NextToken?: string;
-  TranscriptionJobSummaries?: TranscriptionJobSummary[];
+  Status?: TranscriptionJobStatus | undefined;
+  NextToken?: string | undefined;
+  TranscriptionJobSummaries?: TranscriptionJobSummary[] | undefined;
 }
 export interface ListVocabulariesRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  StateEquals?: VocabularyState;
-  NameContains?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  StateEquals?: VocabularyState | undefined;
+  NameContains?: string | undefined;
 }
 export interface ListVocabulariesResponse {
-  Status?: VocabularyState;
-  NextToken?: string;
-  Vocabularies?: VocabularyInfo[];
+  Status?: VocabularyState | undefined;
+  NextToken?: string | undefined;
+  Vocabularies?: VocabularyInfo[] | undefined;
 }
 export interface ListVocabularyFiltersRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  NameContains?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  NameContains?: string | undefined;
 }
 export interface VocabularyFilterInfo {
-  VocabularyFilterName?: string;
-  LanguageCode?: LanguageCode;
-  LastModifiedTime?: Date;
+  VocabularyFilterName?: string | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export type VocabularyFilters = VocabularyFilterInfo[];
 export interface ListVocabularyFiltersResponse {
-  NextToken?: string;
-  VocabularyFilters?: VocabularyFilterInfo[];
+  NextToken?: string | undefined;
+  VocabularyFilters?: VocabularyFilterInfo[] | undefined;
 }
 export interface StartCallAnalyticsJobRequest {
   CallAnalyticsJobName: string;
   Media: Media;
-  OutputLocation?: string;
-  OutputEncryptionKMSKeyId?: string;
-  DataAccessRoleArn?: string;
-  Settings?: CallAnalyticsJobSettings;
-  Tags?: Tag[];
-  ChannelDefinitions?: ChannelDefinition[];
+  OutputLocation?: string | undefined;
+  OutputEncryptionKMSKeyId?: string | undefined;
+  DataAccessRoleArn?: string | undefined;
+  Settings?: CallAnalyticsJobSettings | undefined;
+  Tags?: Tag[] | undefined;
+  ChannelDefinitions?: ChannelDefinition[] | undefined;
 }
 export interface StartCallAnalyticsJobResponse {
-  CallAnalyticsJob?: CallAnalyticsJob;
+  CallAnalyticsJob?: CallAnalyticsJob | undefined;
 }
 export type OutputBucketName = string;
 export type Pronouns = "HE_HIM" | "SHE_HER" | "THEY_THEM" | (string & {});
 export interface MedicalScribePatientContext {
-  Pronouns?: Pronouns;
+  Pronouns?: Pronouns | undefined;
 }
 export interface MedicalScribeContext {
-  PatientContext?: MedicalScribePatientContext;
+  PatientContext?: MedicalScribePatientContext | undefined;
 }
 export interface StartMedicalScribeJobRequest {
   MedicalScribeJobName: string;
   Media: Media;
   OutputBucketName: string;
-  OutputEncryptionKMSKeyId?: string;
-  KMSEncryptionContext?: { [key: string]: string | undefined };
+  OutputEncryptionKMSKeyId?: string | undefined;
+  KMSEncryptionContext?: { [key: string]: string | undefined } | undefined;
   DataAccessRoleArn: string;
   Settings: MedicalScribeSettings;
-  ChannelDefinitions?: MedicalScribeChannelDefinition[];
-  Tags?: Tag[];
-  MedicalScribeContext?: MedicalScribeContext;
+  ChannelDefinitions?: MedicalScribeChannelDefinition[] | undefined;
+  Tags?: Tag[] | undefined;
+  MedicalScribeContext?: MedicalScribeContext | undefined;
 }
 export interface StartMedicalScribeJobResponse {
-  MedicalScribeJob?: MedicalScribeJob;
+  MedicalScribeJob?: MedicalScribeJob | undefined;
 }
 export type OutputKey = string;
 export interface StartMedicalTranscriptionJobRequest {
   MedicalTranscriptionJobName: string;
   LanguageCode: LanguageCode;
-  MediaSampleRateHertz?: number;
-  MediaFormat?: MediaFormat;
+  MediaSampleRateHertz?: number | undefined;
+  MediaFormat?: MediaFormat | undefined;
   Media: Media;
   OutputBucketName: string;
-  OutputKey?: string;
-  OutputEncryptionKMSKeyId?: string;
-  KMSEncryptionContext?: { [key: string]: string | undefined };
-  Settings?: MedicalTranscriptionSetting;
-  ContentIdentificationType?: MedicalContentIdentificationType;
+  OutputKey?: string | undefined;
+  OutputEncryptionKMSKeyId?: string | undefined;
+  KMSEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  Settings?: MedicalTranscriptionSetting | undefined;
+  ContentIdentificationType?: MedicalContentIdentificationType | undefined;
   Specialty: Specialty;
   Type: Type;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface StartMedicalTranscriptionJobResponse {
-  MedicalTranscriptionJob?: MedicalTranscriptionJob;
+  MedicalTranscriptionJob?: MedicalTranscriptionJob | undefined;
 }
 export interface Subtitles {
-  Formats?: SubtitleFormat[];
-  OutputStartIndex?: number;
+  Formats?: SubtitleFormat[] | undefined;
+  OutputStartIndex?: number | undefined;
 }
 export interface StartTranscriptionJobRequest {
   TranscriptionJobName: string;
-  LanguageCode?: LanguageCode;
-  MediaSampleRateHertz?: number;
-  MediaFormat?: MediaFormat;
+  LanguageCode?: LanguageCode | undefined;
+  MediaSampleRateHertz?: number | undefined;
+  MediaFormat?: MediaFormat | undefined;
   Media: Media;
-  OutputBucketName?: string;
-  OutputKey?: string;
-  OutputEncryptionKMSKeyId?: string;
-  KMSEncryptionContext?: { [key: string]: string | undefined };
-  Settings?: Settings;
-  ModelSettings?: ModelSettings;
-  JobExecutionSettings?: JobExecutionSettings;
-  ContentRedaction?: ContentRedaction;
-  IdentifyLanguage?: boolean;
-  IdentifyMultipleLanguages?: boolean;
-  LanguageOptions?: LanguageCode[];
-  Subtitles?: Subtitles;
-  Tags?: Tag[];
-  LanguageIdSettings?: { [key: string]: LanguageIdSettings | undefined };
-  ToxicityDetection?: ToxicityDetectionSettings[];
+  OutputBucketName?: string | undefined;
+  OutputKey?: string | undefined;
+  OutputEncryptionKMSKeyId?: string | undefined;
+  KMSEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  Settings?: Settings | undefined;
+  ModelSettings?: ModelSettings | undefined;
+  JobExecutionSettings?: JobExecutionSettings | undefined;
+  ContentRedaction?: ContentRedaction | undefined;
+  IdentifyLanguage?: boolean | undefined;
+  IdentifyMultipleLanguages?: boolean | undefined;
+  LanguageOptions?: LanguageCode[] | undefined;
+  Subtitles?: Subtitles | undefined;
+  Tags?: Tag[] | undefined;
+  LanguageIdSettings?: { [key: string]: LanguageIdSettings | undefined } | undefined;
+  ToxicityDetection?: ToxicityDetectionSettings[] | undefined;
 }
 export interface StartTranscriptionJobResponse {
-  TranscriptionJob?: TranscriptionJob;
+  TranscriptionJob?: TranscriptionJob | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -1124,20 +1124,20 @@ export interface UntagResourceResponse {}
 export interface UpdateCallAnalyticsCategoryRequest {
   CategoryName: string;
   Rules: Rule[];
-  InputType?: InputType;
+  InputType?: InputType | undefined;
 }
 export interface UpdateCallAnalyticsCategoryResponse {
-  CategoryProperties?: CategoryProperties;
+  CategoryProperties?: CategoryProperties | undefined;
 }
 export interface UpdateLanguageModelRequest {
   ModelName: string;
-  DataAccessRoleArn?: string;
-  EncryptionConfiguration?: EncryptionConfiguration;
+  DataAccessRoleArn?: string | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export interface UpdateLanguageModelResponse {
-  ModelName?: string;
-  ModelStatus?: ModelStatus;
-  LastModifiedTime?: Date;
+  ModelName?: string | undefined;
+  ModelStatus?: ModelStatus | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export interface UpdateMedicalVocabularyRequest {
   VocabularyName: string;
@@ -1145,36 +1145,36 @@ export interface UpdateMedicalVocabularyRequest {
   VocabularyFileUri: string;
 }
 export interface UpdateMedicalVocabularyResponse {
-  VocabularyName?: string;
-  LanguageCode?: LanguageCode;
-  LastModifiedTime?: Date;
-  VocabularyState?: VocabularyState;
+  VocabularyName?: string | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  LastModifiedTime?: Date | undefined;
+  VocabularyState?: VocabularyState | undefined;
 }
 export interface UpdateVocabularyRequest {
   VocabularyName: string;
   LanguageCode: LanguageCode;
-  Phrases?: string[];
-  VocabularyFileUri?: string;
-  DataAccessRoleArn?: string;
-  EncryptionConfiguration?: EncryptionConfiguration;
+  Phrases?: string[] | undefined;
+  VocabularyFileUri?: string | undefined;
+  DataAccessRoleArn?: string | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export interface UpdateVocabularyResponse {
-  VocabularyName?: string;
-  LanguageCode?: LanguageCode;
-  LastModifiedTime?: Date;
-  VocabularyState?: VocabularyState;
+  VocabularyName?: string | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  LastModifiedTime?: Date | undefined;
+  VocabularyState?: VocabularyState | undefined;
 }
 export interface UpdateVocabularyFilterRequest {
   VocabularyFilterName: string;
-  Words?: string[];
-  VocabularyFilterFileUri?: string;
-  DataAccessRoleArn?: string;
-  EncryptionConfiguration?: EncryptionConfiguration;
+  Words?: string[] | undefined;
+  VocabularyFilterFileUri?: string | undefined;
+  DataAccessRoleArn?: string | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export interface UpdateVocabularyFilterResponse {
-  VocabularyFilterName?: string;
-  LanguageCode?: LanguageCode;
-  LastModifiedTime?: Date;
+  VocabularyFilterName?: string | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export type CreateCallAnalyticsCategoryError =
   | BadRequestException

@@ -64,11 +64,11 @@ export interface BusinessKnowledgeDocumentsSearchListRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Maximum number of ranked chunks to return. Defaults to 10, capped at 20. */
-  limit?: number;
+  limit?: number | undefined;
   /** Natural-language search query. Runs hybrid (semantic + full-text) retrieval over all SAFE, READY knowledge chunks in this project. */
   query: string;
   /** When true, rerank search results with a listwise LLM pass for better relevance. Defaults to false (RRF order only). Falls back to RRF order on rerank failure. */
-  rerank?: boolean;
+  rerank?: boolean | undefined;
 }
 /** One ranked chunk from a business knowledge search. Output-only -- the rows come from the ``search_knowledge_for_team`` logic helper (a ``KnowledgeSearchResult`` dataclass), not the ORM. */
 export interface KnowledgeSearchResult {
@@ -104,7 +104,7 @@ export interface BusinessKnowledgeGapSuggestionsAcceptCreateRequest {
   /** A UUID string identifying this knowledge gap suggestion. */
   id: string;
   /** Optional knowledge source to link when accepting. */
-  resolved_source_id?: string | null;
+  resolved_source_id?: string | null | undefined;
 }
 export interface KnowledgeGapSuggestion {
   /** Unique identifier for this gap suggestion. */
@@ -132,7 +132,7 @@ export interface BusinessKnowledgeGapSuggestionsAcceptTopicCreateRequest {
   /** The normalized topic key identifying the gap cluster to act on. */
   normalized_topic: string;
   /** Optional knowledge source to link when accepting. */
-  resolved_source_id?: string | null;
+  resolved_source_id?: string | null | undefined;
 }
 export interface GapTopicActionResult {
   /** The normalized topic cluster that was acted on. */
@@ -242,7 +242,7 @@ export interface CreateBusinessKnowledgeGapSuggestionsDismissTopicRequest {
   /** The normalized topic key identifying the gap cluster to act on. */
   normalized_topic: string;
   /** Optional knowledge source to link when accepting. */
-  resolved_source_id?: string | null;
+  resolved_source_id?: string | null | undefined;
 }
 export interface CreateBusinessKnowledgePlaygroundChatRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -356,7 +356,7 @@ export interface CreateBusinessKnowledgeSourceRequest {
   /** Raw text to index. Capped at 1 MB; larger payloads should be split into multiple sources or wait for URL/file support in Stage 2/3. */
   text: string;
   /** When true, this source's content is injected into every support reply prompt as general context (tone, policies, direction). */
-  always_include?: boolean;
+  always_include?: boolean | undefined;
 }
 export interface GetBusinessKnowledgePlaygroundChatRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -416,7 +416,7 @@ export interface GetBusinessKnowledgeSourcesTextRequest {
   id: string;
 }
 export interface GetBusinessKnowledgeSourcesTextResponse {
-  text?: string;
+  text?: string | undefined;
 }
 export interface ListBusinessKnowledgeDocumentsWindowRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -426,7 +426,7 @@ export interface ListBusinessKnowledgeDocumentsWindowRequest {
   /** Zero-based chunk ordinal to center the window on (from a search result). */
   around_ordinal: number;
   /** Number of chunks before and after the center to include. Defaults to 5, clamped to [0, 15]. */
-  radius?: number;
+  radius?: number | undefined;
 }
 /** One chunk in a drill-down window over a single knowledge document. Output-only -- the rows come from the `get_document_window` logic helper (a `KnowledgeSearchResult` dataclass), not the ORM, so this is a plain read serializer rather than a `ModelSerializer`. */
 export interface KnowledgeDocumentWindow {
@@ -452,17 +452,17 @@ export interface ListBusinessKnowledgeGapSuggestionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** When provided, returns per-ticket gap rows instead of aggregated view. Requires `ticket:read` scope in addition to `business_knowledge:read`. */
-  ticket_id?: string;
+  ticket_id?: string | undefined;
 }
 export type PaginatedKnowledgeGapSuggestionListResultsList = Array<KnowledgeGapSuggestion>;
 export interface PaginatedKnowledgeGapSuggestionList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedKnowledgeGapSuggestionListResultsList;
 }
 export interface ListBusinessKnowledgePlaygroundChatsRequest {
@@ -490,21 +490,21 @@ export interface ListBusinessKnowledgeSourcesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Filter by who added the source: human (you added it) or learned (from a resolved support ticket). */
-  added_by?: ListBusinessKnowledgeSourcesRequestAddedBy | (string & {});
+  added_by?: ListBusinessKnowledgeSourcesRequestAddedBy | (string & {}) | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Case-insensitive substring match against the source name and URL. */
-  search?: string;
+  search?: string | undefined;
   /** Filter to a single source type (text, url, or file). */
-  source_type?: ListBusinessKnowledgeSourcesRequestSourceType | (string & {});
+  source_type?: ListBusinessKnowledgeSourcesRequestSourceType | (string & {}) | undefined;
 }
 export type PaginatedKnowledgeSourceListResultsList = Array<KnowledgeSource>;
 export interface PaginatedKnowledgeSourceList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedKnowledgeSourceListResultsList;
 }
 export interface ListBusinessKnowledgeSourcesDocumentsRequest {
@@ -513,9 +513,9 @@ export interface ListBusinessKnowledgeSourcesDocumentsRequest {
   /** A UUID string identifying this knowledge source. */
   id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** * `unknown` - Unknown * `safe` - Safe * `unsafe` - Unsafe */
 export type SafetyVerdictEnum = "unknown" | "safe" | "unsafe";
@@ -532,8 +532,8 @@ export interface KnowledgeSourceDocument {
 export type PaginatedKnowledgeSourceDocumentListResultsList = Array<KnowledgeSourceDocument>;
 export interface PaginatedKnowledgeSourceDocumentList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedKnowledgeSourceDocumentListResultsList;
 }
 export interface SearchBusinessKnowledgeRepositoryRequest {
@@ -542,7 +542,7 @@ export interface SearchBusinessKnowledgeRepositoryRequest {
   /** File names, path fragments, or identifiers to match. Not a full sentence. */
   query: string;
   /** Limit the search to this owner/repo. It must already be selected. Omit to search every selected repository. */
-  repo?: string;
+  repo?: string | undefined;
 }
 /** * `path` - Path * `readme` - Readme */
 export type RepositoryHitKindEnum = "path" | "readme";
@@ -582,7 +582,7 @@ export interface UpdateBusinessKnowledgeSettingsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** When true, PostHog learns reusable knowledge from public human replies on resolved support tickets. Rejected when Support is off for this environment. */
-  learn_from_support_enabled?: boolean;
+  learn_from_support_enabled?: boolean | undefined;
 }
 export interface UpdateBusinessKnowledgeSourcesPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -590,11 +590,11 @@ export interface UpdateBusinessKnowledgeSourcesPartialRequest {
   /** A UUID string identifying this knowledge source. */
   id: string;
   /** New human label for the source. */
-  name?: string;
+  name?: string | undefined;
   /** Replacement text. Omit to keep the existing content. */
-  text?: string;
+  text?: string | undefined;
   /** When true, this source's content is injected into every support reply prompt as general context. */
-  always_include?: boolean;
+  always_include?: boolean | undefined;
 }
 export type BusinessKnowledgeDocumentsSearchListError = PosthogOpError;
 /** Read-only access to parsed knowledge documents. Exposes hybrid search (``search``) and a drill-down window (``window``) so an agent (PHAI or MCP) can find and explore business knowledge chunks. */

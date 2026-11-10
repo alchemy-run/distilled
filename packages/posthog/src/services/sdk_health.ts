@@ -27,7 +27,7 @@ export interface GetSdkHealthReportRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** When true, bypasses the Redis cache and re-queries ClickHouse for SDK usage. A background job refreshes this data once a day, so the cached answer is usually current. Use sparingly. */
-  force_refresh?: boolean;
+  force_refresh?: boolean | undefined;
 }
 /** * `healthy` - healthy * `needs_attention` - needs_attention */
 export type OverallHealthEnum = "healthy" | "needs_attention";
@@ -63,81 +63,81 @@ export type SdkAssessmentSeverityEnum = "none" | "warning" | "danger";
 export type SdkAssessmentBannersList = Array<string>;
 export interface SdkReleaseAssessment {
   /** In-use SDK version string, e.g. '1.298.0'. */
-  version?: string;
+  version?: string | undefined;
   /** Number of events captured with this version in the last 7 days. */
-  count?: number;
+  count?: number | undefined;
   /** Timestamp of the most recent event seen for this version (ISO 8601). */
-  max_timestamp?: string;
+  max_timestamp?: string | undefined;
   /** When this version was published on GitHub (ISO 8601), or null if unknown. */
-  release_date?: string | null;
+  release_date?: string | null | undefined;
   /** Days since this version was released, or null if unknown. */
-  days_since_release?: number | null;
+  days_since_release?: number | null | undefined;
   /** Human-readable relative release age matching the UI (e.g. '5 months ago'). Null when release_date is unknown. */
-  released_ago?: string | null;
+  released_ago?: string | null | undefined;
   /** True when this version is flagged as outdated by smart-semver rules. */
-  is_outdated?: boolean;
+  is_outdated?: boolean | undefined;
   /** True when this version is flagged as old by age alone (separate from semver rules). */
-  is_old?: boolean;
+  is_old?: boolean | undefined;
   /** True if is_outdated OR is_old. */
-  needs_updating?: boolean;
+  needs_updating?: boolean | undefined;
   /** True when this version equals or exceeds the latest known published version. */
-  is_current_or_newer?: boolean;
+  is_current_or_newer?: boolean | undefined;
   /** Per-version badge tooltip text matching the SDK Health UI exactly. Quote verbatim when reporting to users. Varies by state: 'Released X ago. Upgrade recommended.' for outdated versions, 'You have the latest available.' for current versions, or 'Released X ago. Upgrading is a good idea, but it's not urgent yet.' for recent-but-behind versions. */
-  status_reason?: string;
+  status_reason?: string | undefined;
   /** SQL SELECT statement for drilling into events for this SDK version over the last 7 days. Suitable to pass to the execute-sql tool or to display as a copy-paste snippet. */
-  sql_query?: string;
+  sql_query?: string | undefined;
   /** Relative URL path (starting with /project/{id}/) for the Activity > Explore page pre-filtered to events captured with this lib and lib_version over the last 7 days. Combine with the user's PostHog host (e.g. us.posthog.com) for a clickable link. */
-  activity_page_url?: string;
+  activity_page_url?: string | undefined;
 }
 /** Per-version assessment for all versions seen in the last 7 days. */
 export type SdkAssessmentReleasesList = Array<SdkReleaseAssessment>;
 export interface OutdatedTrafficAlert {
   /** Outdated version handling significant traffic. */
-  version?: string;
+  version?: string | undefined;
   /** Traffic-percentage threshold that triggered the alert (10% for most SDKs, 20% for web). */
-  threshold_percent?: number;
+  threshold_percent?: number | undefined;
 }
 /** Outdated versions that handle a significant share of traffic (above the threshold). Not populated for mobile SDKs. */
 export type SdkAssessmentOutdatedTrafficAlertsList = Array<OutdatedTrafficAlert>;
 export interface SdkAssessment {
   /** SDK identifier, e.g. 'web', 'posthog-python', 'posthog-node', 'posthog-ios'. * `web` - web * `posthog-ios` - posthog-ios * `posthog-android` - posthog-android * `posthog-java` - posthog-java * `posthog-server` - posthog-server * `posthog-node` - posthog-node * `posthog-python` - posthog-python * `posthog-php` - posthog-php * `posthog-ruby` - posthog-ruby * `posthog-go` - posthog-go * `posthog-flutter` - posthog-flutter * `posthog-react-native` - posthog-react-native * `posthog-kmp` - posthog-kmp * `posthog-dotnet` - posthog-dotnet * `posthog-elixir` - posthog-elixir * `posthog-unity` - posthog-unity * `posthog-node-mcp` - posthog-node-mcp * `posthog-python-mcp` - posthog-python-mcp * `posthog-edge` - posthog-edge * `posthog-convex` - posthog-convex * `posthog-rails` - posthog-rails * `posthog-aspnetcore` - posthog-aspnetcore */
-  lib?: LibEnum;
+  lib?: LibEnum | undefined;
   /** Human-readable SDK name matching the SDK Health UI (e.g. 'Python', 'Node.js', 'Web', 'iOS'). */
-  readable_name?: string;
+  readable_name?: string | undefined;
   /** Most recent published version of this SDK. */
-  latest_version?: string;
+  latest_version?: string | undefined;
   /** True if this SDK needs attention (is_outdated OR is_old). */
-  needs_updating?: boolean;
+  needs_updating?: boolean | undefined;
   /** True if the primary in-use version is flagged as outdated. */
-  is_outdated?: boolean;
+  is_outdated?: boolean | undefined;
   /** True if the primary in-use version is flagged as old by age alone. */
-  is_old?: boolean;
+  is_old?: boolean | undefined;
   /** True when this SDK must be replaced by a supported successor rather than upgraded in place. */
-  migration_required?: boolean;
+  migration_required?: boolean | undefined;
   /** UI severity badge -- 'none' when healthy, 'warning' when outdated, 'danger' when the majority of team SDKs are outdated. * `none` - none * `warning` - warning * `danger` - danger */
-  severity?: SdkAssessmentSeverityEnum;
+  severity?: SdkAssessmentSeverityEnum | undefined;
   /** Per-SDK programmatic summary (used for ranking/filtering). For user-facing copy, prefer releases[].status_reason (badge tooltip) and banners (top-level alert text) -- those match the UI exactly. */
-  reason?: string;
+  reason?: string | undefined;
   /** Top-level alert sentences matching the SDK Health UI's 'Time for an update!' banner -- one per outdated version with significant traffic. Quote verbatim when surfacing the headline to users. */
-  banners?: SdkAssessmentBannersList;
+  banners?: SdkAssessmentBannersList | undefined;
   /** Per-version assessment for all versions seen in the last 7 days. */
-  releases?: SdkAssessmentReleasesList;
+  releases?: SdkAssessmentReleasesList | undefined;
   /** Outdated versions that handle a significant share of traffic (above the threshold). Not populated for mobile SDKs. */
-  outdated_traffic_alerts?: SdkAssessmentOutdatedTrafficAlertsList;
+  outdated_traffic_alerts?: SdkAssessmentOutdatedTrafficAlertsList | undefined;
 }
 /** Per-SDK health assessments. */
 export type SdkHealthReportSdksList = Array<SdkAssessment>;
 export interface SdkHealthReport {
   /** 'healthy' when no SDKs need updating, 'needs_attention' otherwise. * `healthy` - healthy * `needs_attention` - needs_attention */
-  overall_health?: OverallHealthEnum;
+  overall_health?: OverallHealthEnum | undefined;
   /** UI-level status -- 'success' when healthy, 'warning' when some SDKs are outdated, 'danger' when the majority are outdated. * `success` - success * `warning` - warning * `danger` - danger */
-  health?: SdkHealthReportHealthEnum;
+  health?: SdkHealthReportHealthEnum | undefined;
   /** Number of SDKs that need updating. */
-  needs_updating_count?: number;
+  needs_updating_count?: number | undefined;
   /** Number of distinct PostHog SDKs the project is actively using. */
-  team_sdk_count?: number;
+  team_sdk_count?: number | undefined;
   /** Per-SDK health assessments. */
-  sdks?: SdkHealthReportSdksList;
+  sdks?: SdkHealthReportSdksList | undefined;
 }
 export type GetSdkHealthReportError = PosthogOpError;
 /** Get SDK health report for a project Returns a pre-digested health assessment of the PostHog SDKs the project is using. Covers which SDKs are current vs outdated (smart-semver rules with grace periods and traffic-percentage thresholds), per-version breakdown, and a human-readable reason for each assessment. Use this to diagnose SDK version issues, surface upgrade recommendations, or check overall SDK health. */

@@ -188,9 +188,9 @@ export type CognitoIdentityProviderName = string;
 export type CognitoIdentityProviderClientId = string;
 export type CognitoIdentityProviderTokenCheck = boolean;
 export interface CognitoIdentityProvider {
-  ProviderName?: string;
-  ClientId?: string;
-  ServerSideTokenCheck?: boolean;
+  ProviderName?: string | undefined;
+  ClientId?: string | undefined;
+  ServerSideTokenCheck?: boolean | undefined;
 }
 export type CognitoIdentityProviderList = CognitoIdentityProvider[];
 export type SAMLProviderList = string[];
@@ -200,26 +200,26 @@ export type IdentityPoolTagsType = { [key: string]: string | undefined };
 export interface CreateIdentityPoolInput {
   IdentityPoolName: string;
   AllowUnauthenticatedIdentities: boolean;
-  AllowClassicFlow?: boolean;
-  SupportedLoginProviders?: { [key: string]: string | undefined };
-  DeveloperProviderName?: string;
-  OpenIdConnectProviderARNs?: string[];
-  CognitoIdentityProviders?: CognitoIdentityProvider[];
-  SamlProviderARNs?: string[];
-  IdentityPoolTags?: { [key: string]: string | undefined };
+  AllowClassicFlow?: boolean | undefined;
+  SupportedLoginProviders?: { [key: string]: string | undefined } | undefined;
+  DeveloperProviderName?: string | undefined;
+  OpenIdConnectProviderARNs?: string[] | undefined;
+  CognitoIdentityProviders?: CognitoIdentityProvider[] | undefined;
+  SamlProviderARNs?: string[] | undefined;
+  IdentityPoolTags?: { [key: string]: string | undefined } | undefined;
 }
 export type IdentityPoolId = string;
 export interface IdentityPool {
   IdentityPoolId: string;
   IdentityPoolName: string;
   AllowUnauthenticatedIdentities: boolean;
-  AllowClassicFlow?: boolean;
-  SupportedLoginProviders?: { [key: string]: string | undefined };
-  DeveloperProviderName?: string;
-  OpenIdConnectProviderARNs?: string[];
-  CognitoIdentityProviders?: CognitoIdentityProvider[];
-  SamlProviderARNs?: string[];
-  IdentityPoolTags?: { [key: string]: string | undefined };
+  AllowClassicFlow?: boolean | undefined;
+  SupportedLoginProviders?: { [key: string]: string | undefined } | undefined;
+  DeveloperProviderName?: string | undefined;
+  OpenIdConnectProviderARNs?: string[] | undefined;
+  CognitoIdentityProviders?: CognitoIdentityProvider[] | undefined;
+  SamlProviderARNs?: string[] | undefined;
+  IdentityPoolTags?: { [key: string]: string | undefined } | undefined;
 }
 export type IdentityId = string;
 export type IdentityIdList = string[];
@@ -228,12 +228,12 @@ export interface DeleteIdentitiesInput {
 }
 export type ErrorCode = "AccessDenied" | "InternalServerError" | (string & {});
 export interface UnprocessedIdentityId {
-  IdentityId?: string;
-  ErrorCode?: ErrorCode;
+  IdentityId?: string | undefined;
+  ErrorCode?: ErrorCode | undefined;
 }
 export type UnprocessedIdentityIdList = UnprocessedIdentityId[];
 export interface DeleteIdentitiesResponse {
-  UnprocessedIdentityIds?: UnprocessedIdentityId[];
+  UnprocessedIdentityIds?: UnprocessedIdentityId[] | undefined;
 }
 export interface DeleteIdentityPoolInput {
   IdentityPoolId: string;
@@ -244,10 +244,10 @@ export interface DescribeIdentityInput {
 }
 export type LoginsList = string[];
 export interface IdentityDescription {
-  IdentityId?: string;
-  Logins?: string[];
-  CreationDate?: Date;
-  LastModifiedDate?: Date;
+  IdentityId?: string | undefined;
+  Logins?: string[] | undefined;
+  CreationDate?: Date | undefined;
+  LastModifiedDate?: Date | undefined;
 }
 export interface DescribeIdentityPoolInput {
   IdentityPoolId: string;
@@ -256,30 +256,30 @@ export type IdentityProviderToken = string | redacted.Redacted<string>;
 export type LoginsMap = { [key: string]: string | redacted.Redacted<string> | undefined };
 export interface GetCredentialsForIdentityInput {
   IdentityId: string;
-  Logins?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  CustomRoleArn?: string;
+  Logins?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  CustomRoleArn?: string | undefined;
 }
 export type AccessKeyString = string;
 export type SecretKeyString = string | redacted.Redacted<string>;
 export type SessionTokenString = string;
 export interface Credentials {
-  AccessKeyId?: string;
-  SecretKey?: string | redacted.Redacted<string>;
-  SessionToken?: string | redacted.Redacted<string>;
-  Expiration?: Date;
+  AccessKeyId?: string | undefined;
+  SecretKey?: string | redacted.Redacted<string> | undefined;
+  SessionToken?: string | redacted.Redacted<string> | undefined;
+  Expiration?: Date | undefined;
 }
 export interface GetCredentialsForIdentityResponse {
-  IdentityId?: string;
-  Credentials?: Credentials;
+  IdentityId?: string | undefined;
+  Credentials?: Credentials | undefined;
 }
 export type AccountId = string;
 export interface GetIdInput {
-  AccountId?: string;
+  AccountId?: string | undefined;
   IdentityPoolId: string;
-  Logins?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  Logins?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
 }
 export interface GetIdResponse {
-  IdentityId?: string;
+  IdentityId?: string | undefined;
 }
 export interface GetIdentityPoolRolesInput {
   IdentityPoolId: string;
@@ -308,23 +308,23 @@ export interface RulesConfigurationType {
 }
 export interface RoleMapping {
   Type: RoleMappingType;
-  AmbiguousRoleResolution?: AmbiguousRoleResolutionType;
-  RulesConfiguration?: RulesConfigurationType;
+  AmbiguousRoleResolution?: AmbiguousRoleResolutionType | undefined;
+  RulesConfiguration?: RulesConfigurationType | undefined;
 }
 export type RoleMappingMap = { [key: string]: RoleMapping | undefined };
 export interface GetIdentityPoolRolesResponse {
-  IdentityPoolId?: string;
-  Roles?: { [key: string]: string | undefined };
-  RoleMappings?: { [key: string]: RoleMapping | undefined };
+  IdentityPoolId?: string | undefined;
+  Roles?: { [key: string]: string | undefined } | undefined;
+  RoleMappings?: { [key: string]: RoleMapping | undefined } | undefined;
 }
 export interface GetOpenIdTokenInput {
   IdentityId: string;
-  Logins?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  Logins?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
 }
 export type OIDCToken = string | redacted.Redacted<string>;
 export interface GetOpenIdTokenResponse {
-  IdentityId?: string;
-  Token?: string | redacted.Redacted<string>;
+  IdentityId?: string | undefined;
+  Token?: string | redacted.Redacted<string> | undefined;
 }
 export type PrincipalTagID = string;
 export type PrincipalTagValue = string;
@@ -332,14 +332,14 @@ export type PrincipalTags = { [key: string]: string | undefined };
 export type TokenDuration = number;
 export interface GetOpenIdTokenForDeveloperIdentityInput {
   IdentityPoolId: string;
-  IdentityId?: string;
+  IdentityId?: string | undefined;
   Logins: { [key: string]: string | redacted.Redacted<string> | undefined };
-  PrincipalTags?: { [key: string]: string | undefined };
-  TokenDuration?: number;
+  PrincipalTags?: { [key: string]: string | undefined } | undefined;
+  TokenDuration?: number | undefined;
 }
 export interface GetOpenIdTokenForDeveloperIdentityResponse {
-  IdentityId?: string;
-  Token?: string | redacted.Redacted<string>;
+  IdentityId?: string | undefined;
+  Token?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetPrincipalTagAttributeMapInput {
   IdentityPoolId: string;
@@ -347,10 +347,10 @@ export interface GetPrincipalTagAttributeMapInput {
 }
 export type UseDefaults = boolean;
 export interface GetPrincipalTagAttributeMapResponse {
-  IdentityPoolId?: string;
-  IdentityProviderName?: string;
-  UseDefaults?: boolean;
-  PrincipalTags?: { [key: string]: string | undefined };
+  IdentityPoolId?: string | undefined;
+  IdentityProviderName?: string | undefined;
+  UseDefaults?: boolean | undefined;
+  PrincipalTags?: { [key: string]: string | undefined } | undefined;
 }
 export type QueryLimit = number;
 export type PaginationKey = string;
@@ -358,47 +358,47 @@ export type HideDisabled = boolean;
 export interface ListIdentitiesInput {
   IdentityPoolId: string;
   MaxResults: number;
-  NextToken?: string;
-  HideDisabled?: boolean;
+  NextToken?: string | undefined;
+  HideDisabled?: boolean | undefined;
 }
 export type IdentitiesList = IdentityDescription[];
 export interface ListIdentitiesResponse {
-  IdentityPoolId?: string;
-  Identities?: IdentityDescription[];
-  NextToken?: string;
+  IdentityPoolId?: string | undefined;
+  Identities?: IdentityDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListIdentityPoolsInput {
   MaxResults: number;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface IdentityPoolShortDescription {
-  IdentityPoolId?: string;
-  IdentityPoolName?: string;
+  IdentityPoolId?: string | undefined;
+  IdentityPoolName?: string | undefined;
 }
 export type IdentityPoolsList = IdentityPoolShortDescription[];
 export interface ListIdentityPoolsResponse {
-  IdentityPools?: IdentityPoolShortDescription[];
-  NextToken?: string;
+  IdentityPools?: IdentityPoolShortDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DeveloperUserIdentifier = string;
 export interface LookupDeveloperIdentityInput {
   IdentityPoolId: string;
-  IdentityId?: string;
-  DeveloperUserIdentifier?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  IdentityId?: string | undefined;
+  DeveloperUserIdentifier?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type DeveloperUserIdentifierList = string[];
 export interface LookupDeveloperIdentityResponse {
-  IdentityId?: string;
-  DeveloperUserIdentifierList?: string[];
-  NextToken?: string;
+  IdentityId?: string | undefined;
+  DeveloperUserIdentifierList?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface MergeDeveloperIdentitiesInput {
   SourceUserIdentifier: string;
@@ -407,25 +407,25 @@ export interface MergeDeveloperIdentitiesInput {
   IdentityPoolId: string;
 }
 export interface MergeDeveloperIdentitiesResponse {
-  IdentityId?: string;
+  IdentityId?: string | undefined;
 }
 export interface SetIdentityPoolRolesInput {
   IdentityPoolId: string;
   Roles: { [key: string]: string | undefined };
-  RoleMappings?: { [key: string]: RoleMapping | undefined };
+  RoleMappings?: { [key: string]: RoleMapping | undefined } | undefined;
 }
 export interface SetIdentityPoolRolesResponse {}
 export interface SetPrincipalTagAttributeMapInput {
   IdentityPoolId: string;
   IdentityProviderName: string;
-  UseDefaults?: boolean;
-  PrincipalTags?: { [key: string]: string | undefined };
+  UseDefaults?: boolean | undefined;
+  PrincipalTags?: { [key: string]: string | undefined } | undefined;
 }
 export interface SetPrincipalTagAttributeMapResponse {
-  IdentityPoolId?: string;
-  IdentityProviderName?: string;
-  UseDefaults?: boolean;
-  PrincipalTags?: { [key: string]: string | undefined };
+  IdentityPoolId?: string | undefined;
+  IdentityProviderName?: string | undefined;
+  UseDefaults?: boolean | undefined;
+  PrincipalTags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceInput {
   ResourceArn: string;

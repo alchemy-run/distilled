@@ -29,22 +29,22 @@ export interface CreateStamphogRepoConfigRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** SCM provider this config talks to. Defaults to 'github'. */
-  provider?: string;
+  provider?: string | undefined;
   /** Repository full name, e.g. 'PostHog/posthog'. */
   repository: string;
   /** Whether stamphog actively reviews pull requests for this repo. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Whether merged PRs on this repo are captured for the daily Slack digest. */
-  digest_enabled?: boolean;
+  digest_enabled?: boolean | undefined;
   /** When reviews run: 'all' reviews every pull request (the default); 'label' reviews only pull requests carrying the trigger label, mirroring the Action's opt-in flow. * `all` - all * `label` - label */
-  review_mode?: ReviewModeEnum | (string & {});
+  review_mode?: ReviewModeEnum | (string & {}) | undefined;
   /** Pull request label that triggers a review when review_mode is 'label'. Defaults to 'stamphog'. */
-  trigger_label?: string;
+  trigger_label?: string | undefined;
 }
 export interface StamphogRepoConfig {
   id: string;
   /** SCM provider this config talks to. Defaults to 'github'. */
-  provider?: string;
+  provider?: string | undefined;
   /** Repository full name, e.g. 'PostHog/posthog'. */
   repository: string;
   /** Whether stamphog actively reviews pull requests for this repo. */
@@ -52,11 +52,11 @@ export interface StamphogRepoConfig {
   /** Provider app installation ID that authorizes API calls for this repo. Set only by the verified sync_installation flow; ignored on direct writes. */
   installation_id: string;
   /** Whether merged PRs on this repo are captured for the daily Slack digest. Requires 'enabled', since the digest reports what stamphog approved. */
-  digest_enabled?: boolean;
+  digest_enabled?: boolean | undefined;
   /** When reviews run: 'all' reviews every pull request (the default); 'label' reviews only pull requests carrying the trigger label, mirroring the Action's opt-in flow. * `all` - all * `label` - label */
   review_mode: ReviewModeEnum;
   /** Pull request label that triggers a review when review_mode is 'label'. Defaults to 'stamphog'. */
-  trigger_label?: string;
+  trigger_label?: string | undefined;
   /** The caller's access level on the stamphog resource, resolved for the team that owns this row. 'editor' can turn reviews on. 'manager' is required to turn them off or to change review_mode or trigger_label. */
   user_access_level: string | null;
   created_at: string;
@@ -66,7 +66,7 @@ export interface CreateStamphogRepoConfigsSyncInstallationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** GitHub App installation ID from the fresh-install Setup URL redirect. Optional: absent or blank means discover the caller's installations from the OAuth code instead (authorize-first flow). The id is not trusted on its own -- ownership is always proven via the code. */
-  installation_id?: string;
+  installation_id?: string | undefined;
   /** GitHub user-to-server OAuth code from the post-install redirect (present when the App has 'Request user authorization during installation' enabled). Exchanged server-side to prove the caller owns the installation before its repos are bound. */
   code: string;
   /** Signed state token minted by install_info and round-tripped through GitHub's install redirect. Binds the callback to the team and user that started the flow, so a stolen installation_id + code can't be replayed against another team's session. */
@@ -307,9 +307,9 @@ export interface GetStamphogRepoConfigsAvailableRepositoryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Maximum number of repositories to return. Defaults to 50, at most 200. */
-  limit?: number;
+  limit?: number | undefined;
   /** Case-insensitive substring to match against the repository full name, e.g. 'posthog'. */
-  search?: string;
+  search?: string | undefined;
 }
 /** Repository full names the team can add, sorted by name and capped by limit. Only repositories a project member proved access to on GitHub are listed, and never one another project already holds under the same installation. */
 export type StamphogAvailableRepositoriesRepositoriesList = Array<string>;
@@ -331,51 +331,51 @@ export interface ListStamphogDigestRunsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter by the Slack channel the digest was posted to, e.g. 'C012AB3CD'. */
-  slack_channel_id?: string;
+  slack_channel_id?: string | undefined;
 }
 export type PaginatedDigestRunListResultsList = Array<DigestRun>;
 export interface PaginatedDigestRunList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedDigestRunListResultsList;
 }
 export interface ListStamphogPullRequestsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter by merge state: true for merged pull requests, false for unmerged. */
-  merged?: boolean;
+  merged?: boolean | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter by pull request number. */
-  pr_number?: number;
+  pr_number?: number | undefined;
 }
 export type PaginatedStamphogPullRequestListResultsList = Array<StamphogPullRequest>;
 export interface PaginatedStamphogPullRequestList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedStamphogPullRequestListResultsList;
 }
 export interface ListStamphogRepoConfigsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedStamphogRepoConfigListResultsList = Array<StamphogRepoConfig>;
 export interface PaginatedStamphogRepoConfigList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedStamphogRepoConfigListResultsList;
 }
 export type ListStamphogReviewRunsRequestTrigger = "all" | "label" | "manual" | "self_driving";
@@ -383,23 +383,23 @@ export interface ListStamphogReviewRunsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter by pull request number. */
-  pr_number?: number;
+  pr_number?: number | undefined;
   /** Filter by repository full name, e.g. 'PostHog/posthog'. */
-  repository?: string;
+  repository?: string | undefined;
   /** Filter by review run status. */
-  status?: string;
+  status?: string | undefined;
   /** Filter by what caused the run. Leave it unset to include runs from every trigger. 'all' is not a wildcard: it matches only runs in repos that review every pull request event. The other values: 'label' (the repo's trigger label opted the PR in), 'manual' (someone requested the review through the API or MCP), and 'self_driving' (stamphog reviewed a bot-authored PR from the inbox). */
-  trigger?: ListStamphogReviewRunsRequestTrigger | (string & {});
+  trigger?: ListStamphogReviewRunsRequestTrigger | (string & {}) | undefined;
 }
 export type PaginatedReviewRunListResultsList = Array<ReviewRun>;
 export interface PaginatedReviewRunList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedReviewRunListResultsList;
 }
 export interface StamphogRepoConfigsAddRepositoryCreateRequest {
@@ -432,34 +432,34 @@ export interface UpdateStamphogRepoConfigRequest {
   project_id: string;
   id: string;
   /** SCM provider this config talks to. Defaults to 'github'. */
-  provider?: string;
+  provider?: string | undefined;
   /** Repository full name, e.g. 'PostHog/posthog'. */
   repository: string;
   /** Whether stamphog actively reviews pull requests for this repo. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Whether merged PRs on this repo are captured for the daily Slack digest. */
-  digest_enabled?: boolean;
+  digest_enabled?: boolean | undefined;
   /** When reviews run: 'all' reviews every pull request (the default); 'label' reviews only pull requests carrying the trigger label, mirroring the Action's opt-in flow. * `all` - all * `label` - label */
-  review_mode?: ReviewModeEnum | (string & {});
+  review_mode?: ReviewModeEnum | (string & {}) | undefined;
   /** Pull request label that triggers a review when review_mode is 'label'. Defaults to 'stamphog'. */
-  trigger_label?: string;
+  trigger_label?: string | undefined;
 }
 export interface UpdateStamphogRepoConfigsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
   /** SCM provider this config talks to. Defaults to 'github'. */
-  provider?: string;
+  provider?: string | undefined;
   /** Repository full name, e.g. 'PostHog/posthog'. */
-  repository?: string;
+  repository?: string | undefined;
   /** Whether stamphog actively reviews pull requests for this repo. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Whether merged PRs on this repo are captured for the daily Slack digest. */
-  digest_enabled?: boolean;
+  digest_enabled?: boolean | undefined;
   /** When reviews run: 'all' reviews every pull request (the default); 'label' reviews only pull requests carrying the trigger label, mirroring the Action's opt-in flow. * `all` - all * `label` - label */
-  review_mode?: ReviewModeEnum | (string & {});
+  review_mode?: ReviewModeEnum | (string & {}) | undefined;
   /** Pull request label that triggers a review when review_mode is 'label'. Defaults to 'stamphog'. */
-  trigger_label?: string;
+  trigger_label?: string | undefined;
 }
 export type CreateStamphogRepoConfigError = PosthogOpError;
 /** Per-repo stamphog settings -- enable/disable review, GitHub App installation, policy overrides. */

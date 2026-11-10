@@ -54,25 +54,25 @@ export class NotFound
 export interface CreateEventSchemaRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  event_definition?: string;
-  property_group_id?: string;
+  event_definition?: string | undefined;
+  property_group_id?: string | undefined;
 }
 /** * `DateTime` - DateTime * `String` - String * `Numeric` - Numeric * `Boolean` - Boolean * `Object` - Object */
 export type SchemaPropertyTypeEnum = "DateTime" | "String" | "Numeric" | "Boolean" | "Object";
 export interface SchemaPropertyGroupProperty {
-  id?: string;
-  name?: string;
-  property_type?: SchemaPropertyTypeEnum;
-  is_required?: boolean;
-  is_optional_in_types?: boolean;
-  description?: string;
-  created_at?: string;
-  updated_at?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  property_type?: SchemaPropertyTypeEnum | undefined;
+  is_required?: boolean | undefined;
+  is_optional_in_types?: boolean | undefined;
+  description?: string | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export type SchemaPropertyGroupPropertiesList = Array<SchemaPropertyGroupProperty>;
 export interface EventDefinitionBasic {
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
 }
 export type SchemaPropertyGroupEventsList = Array<EventDefinitionBasic>;
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
@@ -90,32 +90,32 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export interface SchemaPropertyGroup {
-  id?: string;
-  name?: string;
-  description?: string;
-  properties?: SchemaPropertyGroupPropertiesList;
-  events?: SchemaPropertyGroupEventsList;
-  created_at?: string;
-  updated_at?: string;
-  created_by?: UserBasic | null;
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  properties?: SchemaPropertyGroupPropertiesList | undefined;
+  events?: SchemaPropertyGroupEventsList | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
 }
 export interface EventSchemaOutput {
-  id?: string;
-  event_definition?: string;
-  property_group?: SchemaPropertyGroup;
-  created_at?: string;
-  updated_at?: string;
+  id?: string | undefined;
+  event_definition?: string | undefined;
+  property_group?: SchemaPropertyGroup | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export interface EventSchemasDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -128,32 +128,32 @@ export interface ListEventSchemasRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedEventSchemaListOutputResultsList = Array<EventSchemaOutput>;
 export interface PaginatedEventSchemaListOutput {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedEventSchemaListOutputResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedEventSchemaListOutputResultsList | undefined;
 }
 export interface UpdateEventSchemaRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this event schema. */
   id: string;
-  event_definition?: string;
-  property_group_id?: string;
+  event_definition?: string | undefined;
+  property_group_id?: string | undefined;
 }
 export interface UpdateEventSchemasPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this event schema. */
   id: string;
-  event_definition?: string;
-  property_group_id?: string;
+  event_definition?: string | undefined;
+  property_group_id?: string | undefined;
 }
 export type CreateEventSchemaError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const createEventSchema: API.OperationMethod<

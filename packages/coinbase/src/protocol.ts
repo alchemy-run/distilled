@@ -8,6 +8,7 @@ import {
   wrapSensitive,
 } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * CoinbaseProtocol -- hand-written.
  *
@@ -77,7 +78,8 @@ export type CoinbaseOpError =
   | DefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Coinbase operation. */
 export type CoinbaseOpContext = Credentials | HttpClient.HttpClient;

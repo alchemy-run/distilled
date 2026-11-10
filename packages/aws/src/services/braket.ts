@@ -173,15 +173,15 @@ export type CompressionType = string;
 export interface ScriptModeConfig {
   entryPoint: string;
   s3Uri: string;
-  compressionType?: string;
+  compressionType?: string | undefined;
 }
 export type Uri = string;
 export interface ContainerImage {
   uri: string;
 }
 export interface AlgorithmSpecification {
-  scriptModeConfig?: ScriptModeConfig;
-  containerImage?: ContainerImage;
+  scriptModeConfig?: ScriptModeConfig | undefined;
+  containerImage?: ContainerImage | undefined;
 }
 export type String256 = string;
 export interface S3DataSource {
@@ -192,29 +192,29 @@ export interface DataSource {
 }
 export interface InputFileConfig {
   channelName: string;
-  contentType?: string;
+  contentType?: string | undefined;
   dataSource: DataSource;
 }
 export type InputConfigList = InputFileConfig[];
 export type String2048 = string;
 export interface JobOutputDataConfig {
-  kmsKeyId?: string;
+  kmsKeyId?: string | undefined;
   s3Path: string;
 }
 export type String4096 = string;
 export interface JobCheckpointConfig {
-  localPath?: string;
+  localPath?: string | undefined;
   s3Uri: string;
 }
 export type RoleArn = string;
 export interface JobStoppingCondition {
-  maxRuntimeInSeconds?: number;
+  maxRuntimeInSeconds?: number | undefined;
 }
 export type InstanceType = string;
 export interface InstanceConfig {
   instanceType: string;
   volumeSizeInGb: number;
-  instanceCount?: number;
+  instanceCount?: number | undefined;
 }
 export type HyperParameters = { [key: string]: string | undefined };
 export interface DeviceConfig {
@@ -231,17 +231,17 @@ export type Associations = Association[];
 export interface CreateJobRequest {
   clientToken: string;
   algorithmSpecification: AlgorithmSpecification;
-  inputDataConfig?: InputFileConfig[];
+  inputDataConfig?: InputFileConfig[] | undefined;
   outputDataConfig: JobOutputDataConfig;
-  checkpointConfig?: JobCheckpointConfig;
+  checkpointConfig?: JobCheckpointConfig | undefined;
   jobName: string;
   roleArn: string;
-  stoppingCondition?: JobStoppingCondition;
+  stoppingCondition?: JobStoppingCondition | undefined;
   instanceConfig: InstanceConfig;
-  hyperParameters?: { [key: string]: string | undefined };
+  hyperParameters?: { [key: string]: string | undefined } | undefined;
   deviceConfig: DeviceConfig;
-  tags?: { [key: string]: string | undefined };
-  associations?: Association[];
+  tags?: { [key: string]: string | undefined } | undefined;
+  associations?: Association[] | undefined;
 }
 export interface CreateJobResponse {
   jobArn: string;
@@ -254,15 +254,15 @@ export type ExperimentalCapabilities = { enabled: string };
 export interface CreateQuantumTaskRequest {
   clientToken: string;
   deviceArn: string;
-  deviceParameters?: string;
+  deviceParameters?: string | undefined;
   shots: number;
   outputS3Bucket: string;
   outputS3KeyPrefix: string;
   action: string;
-  tags?: { [key: string]: string | undefined };
-  jobToken?: string;
-  associations?: Association[];
-  experimentalCapabilities?: ExperimentalCapabilities;
+  tags?: { [key: string]: string | undefined } | undefined;
+  jobToken?: string | undefined;
+  associations?: Association[] | undefined;
+  experimentalCapabilities?: ExperimentalCapabilities | undefined;
 }
 export interface CreateQuantumTaskResponse {
   quantumTaskArn: string;
@@ -275,8 +275,8 @@ export interface CreateSpendingLimitRequest {
   clientToken: string;
   deviceArn: string;
   spendingLimit: string;
-  timePeriod?: TimePeriod;
-  tags?: { [key: string]: string | undefined };
+  timePeriod?: TimePeriod | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type SpendingLimitArn = string;
 export interface CreateSpendingLimitResponse {
@@ -296,7 +296,7 @@ export type QueuePriority = string;
 export interface DeviceQueueInfo {
   queue: string;
   queueSize: string;
-  queuePriority?: string;
+  queuePriority?: string | undefined;
 }
 export type DeviceQueueInfoList = DeviceQueueInfo[];
 export interface GetDeviceResponse {
@@ -306,93 +306,93 @@ export interface GetDeviceResponse {
   deviceType: string;
   deviceStatus: string;
   deviceCapabilities: string;
-  deviceQueueInfo?: DeviceQueueInfo[];
+  deviceQueueInfo?: DeviceQueueInfo[] | undefined;
 }
 export type HybridJobAdditionalAttributeName = string;
 export type HybridJobAdditionalAttributeNamesList = string[];
 export interface GetJobRequest {
   jobArn: string;
-  additionalAttributeNames?: string[];
+  additionalAttributeNames?: string[] | undefined;
 }
 export type JobPrimaryStatus = string;
 export type String1024 = string;
 export type JobEventType = string;
 export interface JobEventDetails {
-  eventType?: string;
-  timeOfEvent?: Date;
-  message?: string;
+  eventType?: string | undefined;
+  timeOfEvent?: Date | undefined;
+  message?: string | undefined;
 }
 export type JobEvents = JobEventDetails[];
 export interface HybridJobQueueInfo {
   queue: string;
   position: string;
-  message?: string;
+  message?: string | undefined;
 }
 export interface GetJobResponse {
   status: string;
   jobArn: string;
   roleArn: string;
-  failureReason?: string;
+  failureReason?: string | undefined;
   jobName: string;
-  hyperParameters?: { [key: string]: string | undefined };
-  inputDataConfig?: InputFileConfig[];
+  hyperParameters?: { [key: string]: string | undefined } | undefined;
+  inputDataConfig?: InputFileConfig[] | undefined;
   outputDataConfig: JobOutputDataConfig;
-  stoppingCondition?: JobStoppingCondition;
-  checkpointConfig?: JobCheckpointConfig;
+  stoppingCondition?: JobStoppingCondition | undefined;
+  checkpointConfig?: JobCheckpointConfig | undefined;
   algorithmSpecification: AlgorithmSpecification;
   instanceConfig: InstanceConfig;
   createdAt: Date;
-  startedAt?: Date;
-  endedAt?: Date;
-  billableDuration?: number;
-  deviceConfig?: DeviceConfig;
-  events?: JobEventDetails[];
-  tags?: { [key: string]: string | undefined };
-  queueInfo?: HybridJobQueueInfo;
-  associations?: Association[];
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  billableDuration?: number | undefined;
+  deviceConfig?: DeviceConfig | undefined;
+  events?: JobEventDetails[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  queueInfo?: HybridJobQueueInfo | undefined;
+  associations?: Association[] | undefined;
 }
 export type QuantumTaskAdditionalAttributeName = string;
 export type QuantumTaskAdditionalAttributeNamesList = string[];
 export interface GetQuantumTaskRequest {
   quantumTaskArn: string;
-  additionalAttributeNames?: string[];
+  additionalAttributeNames?: string[] | undefined;
 }
 export type QuantumTaskStatus = string;
 export interface QuantumTaskQueueInfo {
   queue: string;
   position: string;
-  queuePriority?: string;
-  message?: string;
+  queuePriority?: string | undefined;
+  message?: string | undefined;
 }
 export interface ActionMetadata {
   actionType: string;
-  programCount?: number;
-  executableCount?: number;
+  programCount?: number | undefined;
+  executableCount?: number | undefined;
 }
 export interface GetQuantumTaskResponse {
   quantumTaskArn: string;
   status: string;
-  failureReason?: string;
+  failureReason?: string | undefined;
   deviceArn: string;
   deviceParameters: string;
   shots: number;
   outputS3Bucket: string;
   outputS3Directory: string;
   createdAt: Date;
-  endedAt?: Date;
-  tags?: { [key: string]: string | undefined };
-  jobArn?: string;
-  queueInfo?: QuantumTaskQueueInfo;
-  associations?: Association[];
-  numSuccessfulShots?: number;
-  actionMetadata?: ActionMetadata;
-  experimentalCapabilities?: ExperimentalCapabilities;
+  endedAt?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  jobArn?: string | undefined;
+  queueInfo?: QuantumTaskQueueInfo | undefined;
+  associations?: Association[] | undefined;
+  numSuccessfulShots?: number | undefined;
+  actionMetadata?: ActionMetadata | undefined;
+  experimentalCapabilities?: ExperimentalCapabilities | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type String256List = string[];
 export interface SearchDevicesFilter {
@@ -401,8 +401,8 @@ export interface SearchDevicesFilter {
 }
 export type SearchDevicesFilterList = SearchDevicesFilter[];
 export interface SearchDevicesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   filters: SearchDevicesFilter[];
 }
 export interface DeviceSummary {
@@ -415,7 +415,7 @@ export interface DeviceSummary {
 export type DeviceSummaryList = DeviceSummary[];
 export interface SearchDevicesResponse {
   devices: DeviceSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type SearchJobsFilterOperator = string;
 export interface SearchJobsFilter {
@@ -425,8 +425,8 @@ export interface SearchJobsFilter {
 }
 export type SearchJobsFilterList = SearchJobsFilter[];
 export interface SearchJobsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   filters: SearchJobsFilter[];
 }
 export interface JobSummary {
@@ -435,14 +435,14 @@ export interface JobSummary {
   jobName: string;
   device: string;
   createdAt: Date;
-  startedAt?: Date;
-  endedAt?: Date;
-  tags?: { [key: string]: string | undefined };
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type JobSummaryList = JobSummary[];
 export interface SearchJobsResponse {
   jobs: JobSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type SearchQuantumTasksFilterOperator = string;
 export interface SearchQuantumTasksFilter {
@@ -452,8 +452,8 @@ export interface SearchQuantumTasksFilter {
 }
 export type SearchQuantumTasksFilterList = SearchQuantumTasksFilter[];
 export interface SearchQuantumTasksRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   filters: SearchQuantumTasksFilter[];
 }
 export interface QuantumTaskSummary {
@@ -464,13 +464,13 @@ export interface QuantumTaskSummary {
   outputS3Bucket: string;
   outputS3Directory: string;
   createdAt: Date;
-  endedAt?: Date;
-  tags?: { [key: string]: string | undefined };
+  endedAt?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type QuantumTaskSummaryList = QuantumTaskSummary[];
 export interface SearchQuantumTasksResponse {
   quantumTasks: QuantumTaskSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type SearchSpendingLimitsFilterOperator = string;
 export interface SearchSpendingLimitsFilter {
@@ -480,9 +480,9 @@ export interface SearchSpendingLimitsFilter {
 }
 export type SearchSpendingLimitsFilterList = SearchSpendingLimitsFilter[];
 export interface SearchSpendingLimitsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  filters?: SearchSpendingLimitsFilter[];
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filters?: SearchSpendingLimitsFilter[] | undefined;
 }
 export interface SpendingLimitSummary {
   spendingLimitArn: string;
@@ -493,12 +493,12 @@ export interface SpendingLimitSummary {
   totalSpend: string;
   createdAt: Date;
   updatedAt: Date;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type SpendingLimitSummaryList = SpendingLimitSummary[];
 export interface SearchSpendingLimitsResponse {
   spendingLimits: SpendingLimitSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -514,16 +514,16 @@ export interface UntagResourceResponse {}
 export interface UpdateSpendingLimitRequest {
   spendingLimitArn: string;
   clientToken: string;
-  spendingLimit?: string;
-  timePeriod?: TimePeriod;
+  spendingLimit?: string | undefined;
+  timePeriod?: TimePeriod | undefined;
 }
 export interface UpdateSpendingLimitResponse {}
 export type ValidationExceptionReason = string;
 export type ProgramValidationFailuresList = string[];
 export interface ProgramSetValidationFailure {
   programIndex: number;
-  inputsIndex?: number;
-  errors?: string[];
+  inputsIndex?: number | undefined;
+  errors?: string[] | undefined;
 }
 export type ProgramSetValidationFailuresList = ProgramSetValidationFailure[];
 export type CancelJobError =

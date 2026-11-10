@@ -68,13 +68,13 @@ export type VisionAlertSelectionVerdictList = Array<string>;
 export type VisionAlertSelectionTagsList = Array<string>;
 export interface VisionAlertSelection {
   /** Monitor verdicts to match, e.g. ['yes']. */
-  verdict?: VisionAlertSelectionVerdictList;
+  verdict?: VisionAlertSelectionVerdictList | undefined;
   /** Classifier tags to match; an observation matches when it carries any of them. */
-  tags?: VisionAlertSelectionTagsList;
+  tags?: VisionAlertSelectionTagsList | undefined;
   /** Minimum scorer score (inclusive). */
-  min_score?: number;
+  min_score?: number | undefined;
   /** Maximum scorer score (inclusive). */
-  max_score?: number;
+  max_score?: number | undefined;
 }
 /** * `count` - Count matching observations * `avg_score` - Average score */
 export type VisionAlertMetricEnum = "count" | "avg_score";
@@ -82,15 +82,15 @@ export type VisionAlertMetricEnum = "count" | "avg_score";
 export type VisionAlertDirectionEnum = "above" | "below";
 export interface AlertScheduleRestrictionWindow {
   /** Start time HH:MM (24-hour, project timezone). Inclusive. Each window must span >= 30 minutes on the local daily timeline (half-open [start, end)). */
-  start?: string;
+  start?: string | undefined;
   /** End time HH:MM (24-hour). Exclusive (half-open interval). Each window must span >= 30 minutes locally. */
-  end?: string;
+  end?: string | undefined;
 }
 /** Blocked local time windows when the alert must not run. Overlapping or identical windows are merged when saved. At most five windows before normalization; empty array clears quiet hours. */
 export type AlertScheduleRestrictionBlockedWindowsList = Array<AlertScheduleRestrictionWindow>;
 export interface AlertScheduleRestriction {
   /** Blocked local time windows when the alert must not run. Overlapping or identical windows are merged when saved. At most five windows before normalization; empty array clears quiet hours. */
-  blocked_windows?: AlertScheduleRestrictionBlockedWindowsList;
+  blocked_windows?: AlertScheduleRestrictionBlockedWindowsList | undefined;
 }
 export interface CreateVisionAlertRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -98,33 +98,33 @@ export interface CreateVisionAlertRequest {
   /** Scanner whose observations this alert watches. Immutable after creation. */
   scanner_id: string;
   /** Human-readable name for this alert. Defaults to 'Untitled alert' on create when omitted. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the alert is active. Disabling a metric alert resets its state to not_firing. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** 'metric' fires when a metric crosses a threshold over a rolling window; 'match' fires on every observation that matches the selection. Immutable after creation. * `metric` - Metric * `match` - Match */
   kind: VisionAlertKindEnum | (string & {});
   /** Which observations count. Empty matches every observation of the scanner. */
-  selection?: VisionAlertSelection;
+  selection?: VisionAlertSelection | undefined;
   /** Metric alerts only: what to measure over the window. 'avg_score' requires a scorer scanner. * `count` - Count matching observations * `avg_score` - Average score */
-  metric?: VisionAlertMetricEnum | (string & {});
+  metric?: VisionAlertMetricEnum | (string & {}) | undefined;
   /** Metric alerts only: whether the alert fires at or above, or at or below, the threshold. * `above` - At or above * `below` - At or below */
-  direction?: VisionAlertDirectionEnum | (string & {});
+  direction?: VisionAlertDirectionEnum | (string & {}) | undefined;
   /** Metric alerts only: the threshold value. Required for metric alerts, must be omitted for match alerts. */
-  threshold?: number | null;
+  threshold?: number | null | undefined;
   /** Metric alerts only: rolling window in days. Allowed values: [1, 3, 7, 14, 30]. */
-  window_days?: number;
+  window_days?: number | undefined;
   /** Metric alerts only: evaluation cadence in minutes, at least 15. */
-  check_interval_minutes?: number;
+  check_interval_minutes?: number | undefined;
   /** Metric alerts only: total check periods in the sliding evaluation window (M in N-of-M). */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** Metric alerts only: how many periods must breach to fire (N in N-of-M). */
-  datapoints_to_alarm?: number;
+  datapoints_to_alarm?: number | undefined;
   /** Metric alerts only: minimum minutes between repeated notifications. 0 means no cooldown. */
-  cooldown_minutes?: number;
+  cooldown_minutes?: number | undefined;
   /** Blocked local time windows when the alert must not notify. Times use the project timezone. Null disables quiet hours. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** ISO 8601 timestamp until which the alert is snoozed. Set to null to unsnooze. */
-  snooze_until?: string | null;
+  snooze_until?: string | null | undefined;
 }
 /** * `not_firing` - Not firing * `firing` - Firing * `pending_resolve` - Pending resolve * `errored` - Errored * `snoozed` - Snoozed * `broken` - Broken */
 export type LogsAlertConfigurationStateEnum =
@@ -149,15 +149,15 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export interface VisionAlertConfiguration {
   /** Unique identifier for this alert. */
@@ -165,35 +165,35 @@ export interface VisionAlertConfiguration {
   /** Scanner whose observations this alert watches. Immutable after creation. */
   scanner_id: string;
   /** Human-readable name for this alert. Defaults to 'Untitled alert' on create when omitted. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the alert is active. Disabling a metric alert resets its state to not_firing. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** 'metric' fires when a metric crosses a threshold over a rolling window; 'match' fires on every observation that matches the selection. Immutable after creation. * `metric` - Metric * `match` - Match */
   kind: VisionAlertKindEnum;
   /** Which observations count. Empty matches every observation of the scanner. */
-  selection?: VisionAlertSelection;
+  selection?: VisionAlertSelection | undefined;
   /** Metric alerts only: what to measure over the window. 'avg_score' requires a scorer scanner. * `count` - Count matching observations * `avg_score` - Average score */
-  metric?: VisionAlertMetricEnum;
+  metric?: VisionAlertMetricEnum | undefined;
   /** Metric alerts only: whether the alert fires at or above, or at or below, the threshold. * `above` - At or above * `below` - At or below */
-  direction?: VisionAlertDirectionEnum;
+  direction?: VisionAlertDirectionEnum | undefined;
   /** Metric alerts only: the threshold value. Required for metric alerts, must be omitted for match alerts. */
-  threshold?: number | null;
+  threshold?: number | null | undefined;
   /** Metric alerts only: rolling window in days. Allowed values: [1, 3, 7, 14, 30]. */
-  window_days?: number;
+  window_days?: number | undefined;
   /** Metric alerts only: evaluation cadence in minutes, at least 15. */
-  check_interval_minutes?: number;
+  check_interval_minutes?: number | undefined;
   /** Current lifecycle state. Always not_firing for match alerts. Server-managed. * `not_firing` - Not firing * `firing` - Firing * `pending_resolve` - Pending resolve * `errored` - Errored * `snoozed` - Snoozed * `broken` - Broken */
   state: LogsAlertConfigurationStateEnum;
   /** Metric alerts only: total check periods in the sliding evaluation window (M in N-of-M). */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** Metric alerts only: how many periods must breach to fire (N in N-of-M). */
-  datapoints_to_alarm?: number;
+  datapoints_to_alarm?: number | undefined;
   /** Metric alerts only: minimum minutes between repeated notifications. 0 means no cooldown. */
-  cooldown_minutes?: number;
+  cooldown_minutes?: number | undefined;
   /** Blocked local time windows when the alert must not notify. Times use the project timezone. Null disables quiet hours. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** ISO 8601 timestamp until which the alert is snoozed. Set to null to unsnooze. */
-  snooze_until?: string | null;
+  snooze_until?: string | null | undefined;
   /** When the next evaluation is scheduled. Server-managed. */
   next_check_at: string | null;
   /** When the last notification was sent. Server-managed. */
@@ -221,13 +221,13 @@ export interface CreateVisionAlertsDestinationRequest {
   /** Notification destination type. * `slack` - slack * `webhook` - webhook */
   type: VisionAlertDestinationTypeEnum | (string & {});
   /** Integration ID for the Slack workspace. Required when type=slack. */
-  slack_workspace_id?: number;
+  slack_workspace_id?: number | undefined;
   /** Slack channel ID. Required when type=slack. */
-  slack_channel_id?: string;
+  slack_channel_id?: string | undefined;
   /** Human-readable channel name for display. */
-  slack_channel_name?: string;
+  slack_channel_name?: string | undefined;
   /** HTTPS endpoint to post to. Required when type=webhook. */
-  webhook_url?: string;
+  webhook_url?: string | undefined;
 }
 /** HogFunctions backing the created destination, one per event kind. */
 export type VisionAlertDestinationResponseHogFunctionIdsList = Array<string>;
@@ -243,14 +243,14 @@ export interface CreateVisionObservationsLabelRequest {
   /** True if the scanner scored this session correctly, false if not. */
   is_correct: boolean;
   /** Optional written context on the rating, for thumbs-up and thumbs-down alike: what the scanner got right or wrong, or what it should have concluded. */
-  feedback?: string;
+  feedback?: string | undefined;
 }
 /** The team's shared judgement on whether the scanner scored this session correctly. */
 export interface ReplayObservationLabel {
   /** True if the scanner scored this session correctly, false if not. */
   is_correct: boolean;
   /** Optional written context on the rating, for thumbs-up and thumbs-down alike: what the scanner got right or wrong, or what it should have concluded. */
-  feedback?: string;
+  feedback?: string | undefined;
 }
 export interface CreateVisionObservationsViewedRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -279,7 +279,7 @@ export interface ScannerExperimentTargeting {
   /** The experiment the scanner watches. */
   experiment_id: number;
   /** Narrow to sessions of people exposed to this variant. Null means every variant. */
-  variant?: string | null;
+  variant?: string | null | undefined;
 }
 export interface CreateVisionScannerRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -287,35 +287,35 @@ export interface CreateVisionScannerRequest {
   /** Human-readable scanner name. Unique within the team. */
   name: string;
   /** Free-form description shown in the scanner management UI. */
-  description?: string;
+  description?: string | undefined;
   /** Organizational tags for this scanner. Distinct from a classifier's categories in scanner_config. Tags cannot contain commas. */
-  tags?: CreateVisionScannerRequestTagsList;
+  tags?: CreateVisionScannerRequestTagsList | undefined;
   /** What the scanner does: monitor, classifier, scorer, or summarizer. * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer * `experiment` - Experiment */
   scanner_type: ScannerTypeEnum | (string & {});
   /** The goal an AI draft was built from, in the creator's own words, so the scanner keeps what it was meant to find. Set on create only and ignored on update. */
-  goal?: string | null;
+  goal?: string | null | undefined;
   /** How the creator built this scanner: from an AI draft, from a template, or from scratch. Reported to product analytics at creation and not stored on the scanner. Independent of any experiment the creator is in, since a person offered the AI flow can still fill the form by hand. Only the app can answer this, so a request from anywhere else reports the calling surface instead of whatever it sends here. Ignored on update. * `ai` - AI draft * `template` - Template * `scratch` - From scratch */
-  creation_method?: ScannerCreationMethodEnum | (string & {}) | null;
+  creation_method?: ScannerCreationMethodEnum | (string & {}) | null | undefined;
   /** Type-specific configuration. All scanner types require `prompt`; monitors add optional `allow_inconclusive`, classifiers add `tags`, scorers add `scale`, summarizers add optional `length`. */
   scanner_config: unknown;
   /** Persisted `RecordingsQuery` shape used to pick candidate sessions. `date_from`/`date_to` are stripped on save -- the schedule controls time, not the user. */
-  query?: unknown;
+  query?: unknown | undefined;
   /** 0..1 random downsample applied after the query matches. Defaults to 1.0 (no downsampling). Use exactly 0 to pause scanning; non-zero rates below 0.0001 (0.01%) are rejected as below the sampling precision. */
-  sampling_rate?: number;
+  sampling_rate?: number | undefined;
   /** Quality pre-filter applied before random sampling. focused = top sessions only, balanced = drops the lowest-quality, comprehensive = no filter (default). * `focused` - Focused * `balanced` - Balanced * `comprehensive` - Comprehensive */
-  sampling_mode?: SamplingModeEnum | (string & {});
+  sampling_mode?: SamplingModeEnum | (string & {}) | undefined;
   /** Optional cap on this scanner's own credit spend per billing period. Null means no scanner-level cap. When reached, this scanner stops scanning until the period resets. It stays enabled and does not scan the sessions it skipped. */
-  credit_limit?: number | null;
+  credit_limit?: number | null | undefined;
   /** LLM provider. v1 is Google-only. * `google` - Google */
-  provider?: ScannerProviderEnum | (string & {});
+  provider?: ScannerProviderEnum | (string & {}) | undefined;
   /** Concrete model to use for this scanner. * `gemini-3.5-flash-lite` - Gemini 3.5 Flash Lite * `gemini-3-flash-preview` - Gemini 3 Flash * `gemini-3.8-flash` - Gemini 3.8 Flash */
   model: ScannerModelEnum | (string & {});
   /** When false, the reconciler removes the scanner's Temporal schedule. On-demand triggers still work. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** When true, the prompt is augmented with the Signal side mission and the scanner emits PostHog Signals. */
-  emits_signals?: boolean;
+  emits_signals?: boolean | undefined;
   /** The experiment this scanner's targeting watches, if any. Set null when the experiment targeting is removed. */
-  experiment_targeting?: ScannerExperimentTargeting | null;
+  experiment_targeting?: ScannerExperimentTargeting | null | undefined;
 }
 /** Organizational tags for this scanner. Distinct from a classifier's categories in scanner_config. Tags cannot contain commas. */
 export type ReplayScannerOutputTagsList = Array<string>;
@@ -325,35 +325,35 @@ export interface ReplayScannerOutput {
   /** Human-readable scanner name. Unique within the team. */
   name: string;
   /** Free-form description shown in the scanner management UI. */
-  description?: string;
+  description?: string | undefined;
   /** Organizational tags for this scanner. Distinct from a classifier's categories in scanner_config. Tags cannot contain commas. */
-  tags?: ReplayScannerOutputTagsList;
+  tags?: ReplayScannerOutputTagsList | undefined;
   /** What the scanner does: monitor, classifier, scorer, or summarizer. * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer * `experiment` - Experiment */
   scanner_type: ScannerTypeEnum;
   /** The goal an AI draft was built from, in the creator's own words, so the scanner keeps what it was meant to find. Set on create only and ignored on update. */
-  goal?: string | null;
+  goal?: string | null | undefined;
   /** Type-specific configuration. All scanner types require `prompt`; monitors add optional `allow_inconclusive`, classifiers add `tags`, scorers add `scale`, summarizers add optional `length`. */
   scanner_config: unknown;
   /** The current prompt condensed by AI into the one question the scanner answers about a session. Falls back to the prompt's first line when no question matches the current prompt. */
   prompt_question: string;
   /** Persisted `RecordingsQuery` shape used to pick candidate sessions. `date_from`/`date_to` are stripped on save -- the schedule controls time, not the user. */
-  query?: unknown;
+  query?: unknown | undefined;
   /** 0..1 random downsample applied after the query matches. Defaults to 1.0 (no downsampling). Use exactly 0 to pause scanning; non-zero rates below 0.0001 (0.01%) are rejected as below the sampling precision. */
-  sampling_rate?: number;
+  sampling_rate?: number | undefined;
   /** Quality pre-filter applied before random sampling. focused = top sessions only, balanced = drops the lowest-quality, comprehensive = no filter (default). * `focused` - Focused * `balanced` - Balanced * `comprehensive` - Comprehensive */
-  sampling_mode?: SamplingModeEnum;
+  sampling_mode?: SamplingModeEnum | undefined;
   /** Optional cap on this scanner's own credit spend per billing period. Null means no scanner-level cap. When reached, this scanner stops scanning until the period resets. It stays enabled and does not scan the sessions it skipped. */
-  credit_limit?: number | null;
+  credit_limit?: number | null | undefined;
   /** LLM provider. v1 is Google-only. * `google` - Google */
-  provider?: ScannerProviderEnum;
+  provider?: ScannerProviderEnum | undefined;
   /** Concrete model to use for this scanner. * `gemini-3.5-flash-lite` - Gemini 3.5 Flash Lite * `gemini-3-flash-preview` - Gemini 3 Flash * `gemini-3.8-flash` - Gemini 3.8 Flash */
   model: ScannerModelEnum;
   /** When false, the reconciler removes the scanner's Temporal schedule. On-demand triggers still work. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** When true, the prompt is augmented with the Signal side mission and the scanner emits PostHog Signals. */
-  emits_signals?: boolean;
+  emits_signals?: boolean | undefined;
   /** The experiment this scanner's targeting watches, if any. Set null when the experiment targeting is removed. */
-  experiment_targeting?: ScannerExperimentTargeting | null;
+  experiment_targeting?: ScannerExperimentTargeting | null | undefined;
   /** Increments on every config-changing save. Observations snapshot this value. */
   scanner_version: number;
   /** Latest projected observations/month for this scanner. Null until first computed. */
@@ -391,15 +391,15 @@ export interface CreateVisionScannersAffectedCohortRequest {
   /** A UUID string identifying this replay scanner. */
   id: string;
   /** Trailing window of observations to count. Defaults to 30 days. */
-  window_days?: number;
+  window_days?: number | undefined;
   /** Monitor scanners only: count sessions with this verdict. Defaults to `yes`. Not applicable to other scanner types. * `yes` - Yes * `no` - No * `inconclusive` - Inconclusive */
-  verdict?: ObservationVerdictEnum | (string & {}) | null;
+  verdict?: ObservationVerdictEnum | (string & {}) | null | undefined;
   /** Classifier scanners only, required for them: count sessions carrying this tag (fixed or freeform). Not applicable to other scanner types. */
-  tag?: string | null;
+  tag?: string | null | undefined;
   /** Scorer scanners only: count sessions scoring at or above this value. Scorers require `min_score` and/or `max_score`. Not applicable to other scanner types. */
-  min_score?: number | null;
+  min_score?: number | null | undefined;
   /** Scorer scanners only: count sessions scoring at or below this value. */
-  max_score?: number | null;
+  max_score?: number | null | undefined;
 }
 /** The static cohort created from the scanner's affected users. */
 export interface AffectedCohortResponse {
@@ -481,7 +481,7 @@ export interface CreateVisionScannersDraftRequest {
   /** What the user wants to accomplish, e.g. 'find out where users get stuck during onboarding'. */
   goal: string;
   /** Goal-based flow only: credits a month to spend (1 credit = $0.01). The draft picks the `model`, then solves `sampling_mode` and `sampling_rate` so the projected spend lands on this number, and sets `credit_limit` to it as a hard cap. Omitted on the legacy flow, and ignored while the goal-based flow's flag is off for the caller. */
-  monthly_credit_budget?: number;
+  monthly_credit_budget?: number | undefined;
 }
 /** An AI-drafted scanner configuration, ready to seed the creation wizard. Nothing is persisted. */
 export interface DraftScannerResponse {
@@ -516,25 +516,25 @@ export interface EstimateExperimentScope {
   /** The experiment an experiment scanner watches. */
   experiment_id: number;
   /** The variant keys it watches. Null or omitted means every variant. */
-  variants?: EstimateExperimentScopeVariantsList | null;
+  variants?: EstimateExperimentScopeVariantsList | null | undefined;
 }
 export interface CreateVisionScannersEstimateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Proposed `RecordingsQuery` for the candidate filter. `date_from`/`date_to` are ignored -- the estimate scans a recent window (`window_days` in the response) and scales it to 30 days. Omit to estimate against all recordings. */
-  query?: unknown;
+  query?: unknown | undefined;
   /** 0..1 downsample applied to matched sessions. Defaults to 1.0 (no downsampling). */
-  sampling_rate?: number;
+  sampling_rate?: number | undefined;
   /** Quality pre-filter applied to the matched-session count, mirroring the sweep's candidate query. Defaults to comprehensive (no filter). * `focused` - Focused * `balanced` - Balanced * `comprehensive` - Comprehensive */
-  sampling_mode?: SamplingModeEnum | (string & {});
+  sampling_mode?: SamplingModeEnum | (string & {}) | undefined;
   /** The scanner being edited, excluded from `other_enabled_scanners_monthly_credits` so its stored estimate isn't double-counted in the forecast. Omit (or null) when estimating a brand-new scanner. */
-  scanner_id?: string | null;
+  scanner_id?: string | null | undefined;
   /** Proposed model; determines `credits_per_observation` in the response. * `gemini-3.5-flash-lite` - Gemini 3.5 Flash Lite * `gemini-3-flash-preview` - Gemini 3 Flash * `gemini-3.8-flash` - Gemini 3.8 Flash */
-  model?: ScannerModelEnum | (string & {});
+  model?: ScannerModelEnum | (string & {}) | undefined;
   /** Proposed experiment targeting, merged into the query as its exposure filter the same way a saved scanner derives it. The estimate then runs as the requesting user. */
-  experiment_targeting?: ScannerExperimentTargeting | null;
+  experiment_targeting?: ScannerExperimentTargeting | null | undefined;
   /** For an experiment scanner: the `experiment_id` and `variants` it will keep in its config, merged into the query as its exposure filter so the estimate counts only exposed sessions. Not combined with `experiment_targeting`. */
-  experiment?: EstimateExperimentScope | null;
+  experiment?: EstimateExperimentScope | null | undefined;
 }
 /** Forward-looking volume and credit-cost estimate for a proposed scanner. */
 export interface EstimateResponse {
@@ -565,11 +565,11 @@ export interface CreateVisionScannersInlineScanRequest {
   /** What to look for in these sessions, in plain language. The same instruction a saved scanner carries. */
   prompt: string;
   /** What the scan produces. Defaults to monitor, an open-ended observation against the prompt. Use `summarizer` to get PostHog's own AI summary of a recording. An inline scan is keyed by its whole config, so the Summarize button in the replay player shares this scan only when the prompt and `scanner_config` match the ones it sends. * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer * `experiment` - Experiment */
-  scanner_type?: ScannerTypeEnum | (string & {});
+  scanner_type?: ScannerTypeEnum | (string & {}) | undefined;
   /** Type-specific configuration beyond the prompt: `tags` for a classifier, `scale` for a scorer, optional `length` for a summarizer. Omit it for a monitor. `prompt` belongs in the `prompt` field and is rejected here. */
-  scanner_config?: unknown;
+  scanner_config?: unknown | undefined;
   /** Model to scan with. Determines what each observation costs in credits. * `gemini-3.5-flash-lite` - Gemini 3.5 Flash Lite * `gemini-3-flash-preview` - Gemini 3 Flash * `gemini-3.8-flash` - Gemini 3.8 Flash */
-  model?: ScannerModelEnum | (string & {});
+  model?: ScannerModelEnum | (string & {}) | undefined;
 }
 export interface CreateVisionScannersInlineScanResponse {}
 export interface CreateVisionScannersObservationsLabelRequest {
@@ -581,7 +581,7 @@ export interface CreateVisionScannersObservationsLabelRequest {
   /** True if the scanner scored this session correctly, false if not. */
   is_correct: boolean;
   /** Optional written context on the rating, for thumbs-up and thumbs-down alike: what the scanner got right or wrong, or what it should have concluded. */
-  feedback?: string;
+  feedback?: string | undefined;
 }
 export interface CreateVisionScannersObservationsViewedRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -622,11 +622,11 @@ export interface SignalScoutSlackDestination {
   /** ID of the Slack integration whose bot posts this scout's findings and reports. */
   integration_id: number;
   /** Slack channel target in the channel picker's `channel_id|#channel-name` format. Null while choosing a channel; no messages are sent until a channel or user is set. */
-  channel?: string | null;
+  channel?: string | null | undefined;
   /** Slack members to send output to as direct messages, each in `member_id|@display-name` format (a bare member ID like `U0123ABC456` also works). Each member gets their own DM from the PostHog app; at most 5. Set either this or `channel`, not both. Useful for personal scouts where a DM beats a channel. */
-  users?: SignalScoutSlackDestinationUsersList | null;
+  users?: SignalScoutSlackDestinationUsersList | null | undefined;
   /** When true, post a report as a thread: a short lead in the channel and the rest split into replies at the summary's section labels, which can be Markdown headings or bold labels. Keeps a long summary from being clipped at Slack's section limit. On by default; set it false to post a single message, which can truncate a long summary. It does not change how findings post. */
-  thread_reports?: boolean;
+  thread_reports?: boolean | undefined;
 }
 export interface SignalScoutWebhookDestination {
   /** Id of the CDP destination delivering this scout's reports. Set by the product that provisioned it, so it can find that destination again to update or remove it. */
@@ -634,57 +634,57 @@ export interface SignalScoutWebhookDestination {
 }
 export interface SignalScoutOutputDestinations {
   /** Slack destination for each emitted scout finding or report. Null or omitted disables Slack delivery. */
-  slack?: SignalScoutSlackDestination | null;
+  slack?: SignalScoutSlackDestination | null | undefined;
   /** The CDP destination another product provisioned for this scout's reports. Null or omitted means no webhook. Unlike Slack, Signals does not deliver this itself: the reference lives here so the owning product can manage the destination's lifecycle. */
-  webhook?: SignalScoutWebhookDestination | null;
+  webhook?: SignalScoutWebhookDestination | null | undefined;
 }
 /** * `trusted` - Trusted domains only * `full` - Full */
 export type SignalScoutConfigNetworkAccessEnum = "trusted" | "full";
 /** Schedule, enablement, and delivery options accepted while creating a scout. */
 export interface SignalScoutConfigOptions {
   /** Optional model id this scout's runs are pinned to, e.g. `claude-opus-4-5`. Must be one of the platform's agent models; an invalid id is rejected with the available ones listed. Null keeps the default model, chosen by the platform. Early access: the pin can only be set on projects enrolled in the scout model preview, and only takes effect there. Set null to clear it. */
-  model?: string | null;
+  model?: string | null | undefined;
   /** Free-form labels for grouping the fleet, e.g. `["revenue", "on-call"]`. Normalized to lowercase kebab-case (`On Call` and `on_call` both become `on-call`), deduped, and stored sorted; at most 10 tags, each at most 50 characters once normalized. Pass the full desired set -- a write replaces the existing tags rather than merging into them. Filter the config list with the `tags` query parameter. */
-  tags?: SignalScoutConfigOptionsTagsList;
+  tags?: SignalScoutConfigOptionsTagsList | undefined;
   /** Optional JSON Schema (draft 2020-12) describing ONE structured record this scout produces via `scout-record-output` -- e.g. a per-report quality judgment (`{"type": "object", "properties": {"verdict": {"enum": ["good", "bad", "unsure"]}, "reason": {"type": "string"}}, "required": ["verdict", "reason"]}`). The root must be `"type": "object"`. Setting a schema turns the structured-output channel on: the run prompt renders the schema and every submitted record is validated against it and recorded in the project as a `$scout_structured_output` event, queryable like any event. The channel also requires emit -- a dry-run scout has nowhere to record to. Cardinality is the scout's call (one record per run, one per judged entity, ...). Null = channel off. Setting a schema requires skill-authoring authorization (the `llm_skill:write` scope and skill editor access) since the scout reads it verbatim in its prompt; clearing it needs only the config write. Records validate against the schema in force when the run was dispatched. */
-  structured_output_schema?: SignalScoutConfigOptionsStructuredOutputSchemaMap | null;
+  structured_output_schema?: SignalScoutConfigOptionsStructuredOutputSchemaMap | null | undefined;
   /** MCP gateway servers (by id) this scout's runs may use, chosen from the connections members shared to the whole team. Selection is per scout: an empty list gives the scout no MCP servers. Applies from the scout's next run. */
-  mcp_gateway_server_ids?: SignalScoutConfigOptionsMcpGatewayServerIdsList;
+  mcp_gateway_server_ids?: SignalScoutConfigOptionsMcpGatewayServerIdsList | undefined;
   /** GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run. */
-  repositories?: SignalScoutConfigOptionsRepositoriesList;
+  repositories?: SignalScoutConfigOptionsRepositoriesList | undefined;
   /** Extra write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `customer_task:write`, `dashboard:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `replay_scanner:write`, `warehouse_table:write`, `warehouse_view:write`. Empty (the default) means the scout reads the project and writes only what every scout may write: notebooks, its findings, and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant. Applies from the scout's next run. */
-  write_scopes?: SignalScoutConfigOptionsWriteScopesList;
+  write_scopes?: SignalScoutConfigOptionsWriteScopesList | undefined;
   /** Whether this scout runs on its schedule. Defaults to true. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Whether the scout writes findings to the inbox. False = dry-run: it runs and logs but emits nothing. Defaults to true. */
-  emit?: boolean;
+  emit?: boolean | undefined;
   /** Minutes between runs (30-43200). Defaults to 1440 (every 24 hours). */
-  run_interval_minutes?: number;
+  run_interval_minutes?: number | undefined;
   /** Destinations that receive each finding or report this scout emits. Empty by default. */
-  output_destinations?: SignalScoutOutputDestinations;
+  output_destinations?: SignalScoutOutputDestinations | undefined;
   /** What the scout's sandbox can reach over the network while it runs. Defaults to `trusted`, the platform's trusted-domain allowlist (PostHog, GitHub, common package registries). Set `full` to let this scout reach any site, for skills that read external sources such as documentation or papers. * `trusted` - Trusted domains only * `full` - Full */
-  network_access?: SignalScoutConfigNetworkAccessEnum | (string & {});
+  network_access?: SignalScoutConfigNetworkAccessEnum | (string & {}) | undefined;
   /** Exempt this scout from the inactivity pause, which otherwise switches off a scout that goes a fortnight without surfacing anything anyone engages with. Set it on watchdog scouts whose value is staying quiet. Defaults to false. */
-  auto_pause_exempt?: boolean;
+  auto_pause_exempt?: boolean | undefined;
   /** Optional five-field cron expression, e.g. '30 9 * * *' (daily at 09:30), '0 9,17 * * *' (twice daily), or '0 9 * * 1-5' (weekday mornings). Evaluated in the project timezone. Takes precedence over `run_interval_minutes`; occurrences must be at least 30 minutes apart. */
-  run_cron_schedule?: string | null;
+  run_cron_schedule?: string | null | undefined;
 }
 export interface CreateVisionScannersScoutRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   scanner_id: string;
   /** Name shown wherever people identify this scout, written however you want it -- spaces, capitalization, and acronyms are kept as typed, and two scouts may share one. It does not change the scout's skill name, which stays its identity, so renaming a scout keeps its schedule, run history, notes, memory, and links. At most 200 characters; blank means the scout has no name of its own and is labelled from its skill name instead. */
-  display_name?: string;
+  display_name?: string | undefined;
   /** Optional skill name for the scout -- its permanent identifier, containing only lowercase letters, numbers, and hyphens. Omit it and one is generated from `display_name` (`My APM scout` becomes `my-apm-scout`), with a numeric suffix when that name is taken. Pass it to pick the identifier yourself, or to keep a client written before display names working unchanged. The `signals-scout-` prefix is optional. */
-  name?: string;
+  name?: string | undefined;
   /** Short description of the signal or behavior this scout investigates. */
   description: string;
   /** Complete markdown prompt executed on every scout run. Include any project-specific signal names, thresholds, investigation steps, and report criteria here. */
   body: string;
   /** Optional schedule, enablement, dry-run posture, and delivery settings. Defaults to an enabled, emitting scout on the daily interval with no external destination. */
-  config?: SignalScoutConfigOptions;
+  config?: SignalScoutConfigOptions | undefined;
   /** Make this the experiment scanner's variant analysis scout: its runs record a structured comparison of the variants, which the scanner's variants readout shows. Experiment scanners only. */
-  variant_analysis?: boolean;
+  variant_analysis?: boolean | undefined;
 }
 /** * `canonical` - canonical * `custom` - custom */
 export type ScoutOriginEnum = "canonical" | "custom";
@@ -737,7 +737,7 @@ export interface SignalScoutConfig {
   /** Human-readable summary of what this scout investigates, sourced from the scout skill's `description` metadata. Use it for a quick steer on the scout's focus without loading the full skill body. Empty if the skill is not currently present on the team or carries no description. */
   description: string;
   /** Name shown in the UI. Does not change the skill name. Leave blank to use the default name. */
-  display_name?: string;
+  display_name?: string | undefined;
   /** Where this scout came from: `canonical` for a scout PostHog ships and maintains (seeded from `products/signals/skills/`), or `custom` for one a team hand-authored on this project. Use it to badge built-in vs custom scouts instead of a hardcoded name list. Defaults to `custom` if the skill is not currently present on the team. */
   scout_origin: ScoutOriginEnum;
   /** What this scout is to the harness: `specialist` for one that watches a product surface, or `operational` for one PostHog ships to watch the self-driving system itself. An operational scout is exempt from the inactivity sweep and from the enabled-scout cap, and is not a scout a project should delete. Always `specialist` for a custom scout. */
@@ -771,7 +771,7 @@ export interface SignalScoutConfig {
   /** MCP gateway servers (by id) this scout's runs may use, chosen from the connections members shared to the whole team. Selection is per scout: an empty list gives the scout no MCP servers. Applies from the scout's next run. */
   mcp_gateway_server_ids: SignalScoutConfigMcpGatewayServerIdsList;
   /** GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run. */
-  repositories?: SignalScoutConfigRepositoriesList;
+  repositories?: SignalScoutConfigRepositoriesList | undefined;
   /** Extra write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `customer_task:write`, `dashboard:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `replay_scanner:write`, `warehouse_table:write`, `warehouse_view:write`. Empty (the default) means the scout reads the project and writes only what every scout may write: notebooks, its findings, and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant. Applies from the scout's next run. */
   write_scopes: SignalScoutConfigWriteScopesList;
   /** When the coordinator last dispatched this scout. Null if it has never run. */
@@ -785,7 +785,7 @@ export interface SignalScoutConfig {
   /** Whether this scout is exempt from the inactivity sweep, meaning both the `ignored` pause and the `no_output` quiet warning. Set it on watchdog scouts whose value is staying quiet. Only ever set explicitly: re-enabling a swept scout instead grants a fresh grace window before the sweep may judge it again. */
   auto_pause_exempt: boolean;
   /** Free-form labels for grouping the fleet, e.g. `["revenue", "on-call"]`. Normalized to lowercase kebab-case (`On Call` and `on_call` both become `on-call`), deduped, and stored sorted; at most 10 tags, each at most 50 characters once normalized. Pass the full desired set -- a write replaces the existing tags rather than merging into them. Filter the config list with the `tags` query parameter. */
-  tags?: SignalScoutConfigTagsList;
+  tags?: SignalScoutConfigTagsList | undefined;
   /** The product that stood this scout up for one of its own objects. Null when a person created it. */
   source_product: string | null;
   /** Id of the owning object in `source_product`, e.g. a Replay Vision scanner id. */
@@ -809,13 +809,13 @@ export interface CreateVisionScannersSuggestTagRequest {
   /** The classifier's instruction prompt -- the single dimension to categorize sessions by. */
   prompt: string;
   /** The categories already configured, so suggestions never duplicate one the user has. */
-  tags?: CreateVisionScannersSuggestTagRequestTagsList;
+  tags?: CreateVisionScannersSuggestTagRequestTagsList | undefined;
   /** Whether the classifier assigns multiple tags per session. */
-  multi_label?: boolean;
+  multi_label?: boolean | undefined;
   /** Whether the classifier may emit tags outside the fixed vocabulary. */
-  allow_freeform_tags?: boolean;
+  allow_freeform_tags?: boolean | undefined;
   /** Existing scanner to ground suggestions in its own observations (the tags and reasoning it has already produced on real recordings). Omit for an unsaved scanner. */
-  scanner_id?: string | null;
+  scanner_id?: string | null | undefined;
 }
 /** * `observed` - observed * `product` - product * `prompt` - prompt */
 export type TagSuggestionSourceEnum = "observed" | "product" | "prompt";
@@ -901,11 +901,11 @@ export interface VisionAlertDestinationConfig {
   /** Whether every HogFunction in the group is enabled, so the destination notifies on every event kind. */
   enabled: boolean;
   /** Integration ID of the Slack workspace, for Slack destinations. */
-  slack_workspace_id?: number;
+  slack_workspace_id?: number | undefined;
   /** Slack channel ID, for Slack destinations. */
-  slack_channel_id?: string;
+  slack_channel_id?: string | undefined;
   /** Webhook endpoint reduced to scheme and host, because the path, query and userinfo can carry a secret. */
-  webhook_url?: string;
+  webhook_url?: string | undefined;
 }
 /** This alert's notification destinations, one entry per destination, with credential-bearing URL parts removed. */
 export type VisionAlertConfigurationDetailDestinationsList = Array<VisionAlertDestinationConfig>;
@@ -915,35 +915,35 @@ export interface VisionAlertConfigurationDetail {
   /** Scanner whose observations this alert watches. Immutable after creation. */
   scanner_id: string;
   /** Human-readable name for this alert. Defaults to 'Untitled alert' on create when omitted. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the alert is active. Disabling a metric alert resets its state to not_firing. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** 'metric' fires when a metric crosses a threshold over a rolling window; 'match' fires on every observation that matches the selection. Immutable after creation. * `metric` - Metric * `match` - Match */
   kind: VisionAlertKindEnum;
   /** Which observations count. Empty matches every observation of the scanner. */
-  selection?: VisionAlertSelection;
+  selection?: VisionAlertSelection | undefined;
   /** Metric alerts only: what to measure over the window. 'avg_score' requires a scorer scanner. * `count` - Count matching observations * `avg_score` - Average score */
-  metric?: VisionAlertMetricEnum;
+  metric?: VisionAlertMetricEnum | undefined;
   /** Metric alerts only: whether the alert fires at or above, or at or below, the threshold. * `above` - At or above * `below` - At or below */
-  direction?: VisionAlertDirectionEnum;
+  direction?: VisionAlertDirectionEnum | undefined;
   /** Metric alerts only: the threshold value. Required for metric alerts, must be omitted for match alerts. */
-  threshold?: number | null;
+  threshold?: number | null | undefined;
   /** Metric alerts only: rolling window in days. Allowed values: [1, 3, 7, 14, 30]. */
-  window_days?: number;
+  window_days?: number | undefined;
   /** Metric alerts only: evaluation cadence in minutes, at least 15. */
-  check_interval_minutes?: number;
+  check_interval_minutes?: number | undefined;
   /** Current lifecycle state. Always not_firing for match alerts. Server-managed. * `not_firing` - Not firing * `firing` - Firing * `pending_resolve` - Pending resolve * `errored` - Errored * `snoozed` - Snoozed * `broken` - Broken */
   state: LogsAlertConfigurationStateEnum;
   /** Metric alerts only: total check periods in the sliding evaluation window (M in N-of-M). */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** Metric alerts only: how many periods must breach to fire (N in N-of-M). */
-  datapoints_to_alarm?: number;
+  datapoints_to_alarm?: number | undefined;
   /** Metric alerts only: minimum minutes between repeated notifications. 0 means no cooldown. */
-  cooldown_minutes?: number;
+  cooldown_minutes?: number | undefined;
   /** Blocked local time windows when the alert must not notify. Times use the project timezone. Null disables quiet hours. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** ISO 8601 timestamp until which the alert is snoozed. Set to null to unsnooze. */
-  snooze_until?: string | null;
+  snooze_until?: string | null | undefined;
   /** When the next evaluation is scheduled. Server-managed. */
   next_check_at: string | null;
   /** When the last notification was sent. Server-managed. */
@@ -990,33 +990,33 @@ export interface GetVisionObservationRequest {
   /** A UUID string identifying this replay observation. */
   id: string;
   /** Only observations dispatched by this backfill. */
-  backfill_id?: string;
+  backfill_id?: string | undefined;
   /** Only observations created at or after this time. Accepts ISO 8601, a relative date like `-7d`, or `now`; values without an explicit offset are interpreted in the project's timezone. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Only observations created at or before this time. Accepts ISO 8601, a relative date like `-1d`, or `now` for the current time; omit it to query through the current time. Date-only values include the whole day, interpreted in the project's timezone. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** When true, return only observations that have a shared label (thumbs up or down); when false, only unlabeled observations. */
-  labeled?: string;
+  labeled?: string | undefined;
   /** Filter scorer observations to those scoring at or below this value. Rows with no numeric score (other scanner types, failed or in-flight runs) are excluded. */
-  max_score?: number;
+  max_score?: number | undefined;
   /** Filter scorer observations to those scoring at or above this value. Rows with no numeric score (other scanner types, failed or in-flight runs) are excluded. */
-  min_score?: number;
+  min_score?: number | undefined;
   /** Sort observations. Plain keys: created_at, started_at, completed_at, status, recording_subject_email. JSONB keys: result_score (scorer), result_verdict (monitor), result_confidence, scanner_version. Prefix with `-` for descending; nullable keys sort nulls last either way. */
-  order_by?: GetVisionObservationRequestOrderBy | (string & {});
+  order_by?: GetVisionObservationRequestOrderBy | (string & {}) | undefined;
   /** Filter to observations whose person email contains this value (case-insensitive). */
-  recording_subject?: string;
+  recording_subject?: string | undefined;
   /** Filter to observations of one or more session recordings. Accepts a comma-separated list. */
-  session_id?: string;
+  session_id?: string | undefined;
   /** Filter by observation status. Accepts a comma-separated list. */
-  status?: string;
+  status?: string | undefined;
   /** Filter classifier observations whose fixed or freeform tags include any of the given values (comma-separated). Matches if the tag appears in either `tags` or `tags_freeform`. */
-  tags?: string;
+  tags?: string | undefined;
   /** Filter by trigger source (schedule, on_demand, retry, or backfill). Accepts a comma-separated list. */
-  triggered_by?: string;
+  triggered_by?: string | undefined;
   /** Experiment scanners only: filter to observations attributed to any of the given variant keys (comma-separated). `__unattributed__` matches observations with no attributed variant. */
-  variant?: string;
+  variant?: string | undefined;
   /** Filter monitor observations by verdict. Accepts a comma-separated list (e.g. `yes,inconclusive`). */
-  verdict?: string;
+  verdict?: string | undefined;
 }
 /** * `configured` - Configured * `inline` - Inline */
 export type ScannerOriginEnum = "configured" | "inline";
@@ -1041,7 +1041,7 @@ export interface ScannerSnapshot {
   /** Scanner-type-specific configuration at run time (prompt, tags, scale, etc.). */
   scanner_config: unknown;
   /** Experiment scanners with balanced sampling: the 0..1 rate each watched variant was sampled at by the tick that dispatched this scan. Null otherwise, so even per-variant counts can be read against the rates that produced them. */
-  variant_sampling_rates?: ScannerSnapshotVariantSamplingRatesMap | null;
+  variant_sampling_rates?: ScannerSnapshotVariantSamplingRatesMap | null | undefined;
 }
 /** Mirrors `temporal.types.ScannerResult` for OpenAPI generation. */
 export interface ScannerResult {
@@ -1050,9 +1050,9 @@ export interface ScannerResult {
   /** Number of PostHog Signals emitted from this observation. */
   signals_count: number;
   /** Experiment scanners only: the variant the exposure data attributes this session's person to. Null on the other types and on rows scanned before variant attribution shipped. */
-  experiment_variant?: string | null;
+  experiment_variant?: string | null | undefined;
   /** Experiment scanners only: the scanned session's duration in seconds. */
-  session_duration_s?: number | null;
+  session_duration_s?: number | null | undefined;
 }
 /** * `schedule` - Schedule * `on_demand` - On demand * `retry` - Retry * `backfill` - Backfill */
 export type ObservationTriggerEnum = "schedule" | "on_demand" | "retry" | "backfill";
@@ -1119,8 +1119,8 @@ export interface ReplayObservation {
   media: ReplayObservationMediaList;
   /** One line of plain text saying what the scanner found: its verdict, score, tags or title, then its own words, with markdown flattened and the text truncated. An observation that produced no result carries the reason instead, and one still in flight carries an empty string. Read this in place of `scanner_result` when you scan a list of observations. */
   summary_line: string;
-  started_at?: string | null;
-  completed_at?: string | null;
+  started_at?: string | null | undefined;
+  completed_at?: string | null | undefined;
   created_at: string;
 }
 export interface GetVisionObservationsThumbnailRequest {
@@ -1129,7 +1129,7 @@ export interface GetVisionObservationsThumbnailRequest {
   /** A UUID string identifying this replay observation. */
   id: string;
   /** Index into the summary's `model_output.chapters`. Serves that chapter's frame instead of the observation's thumbnail. */
-  chapter?: number;
+  chapter?: number | undefined;
 }
 export interface GetVisionObservationsThumbnailResponse {}
 export interface GetVisionScannerRequest {
@@ -1163,15 +1163,15 @@ export interface GetVisionScannersImpactRequest {
   /** A UUID string identifying this replay scanner. */
   id: string;
   /** Scorer scanners only: count sessions scoring at or below this value. */
-  max_score?: number;
+  max_score?: number | undefined;
   /** Scorer scanners only: count sessions scoring at or above this value. Scorers require `min_score` and/or `max_score`. Not applicable to other scanner types. */
-  min_score?: number;
+  min_score?: number | undefined;
   /** Classifier scanners only, required for them: count sessions carrying this tag (fixed or freeform). Not applicable to other scanner types. */
-  tag?: string;
+  tag?: string | undefined;
   /** Monitor scanners only: count sessions with this verdict. Defaults to `yes`. Not applicable to other scanner types. * `yes` - Yes * `no` - No * `inconclusive` - Inconclusive */
-  verdict?: GetVisionScannersImpactRequestVerdict | (string & {});
+  verdict?: GetVisionScannersImpactRequestVerdict | (string & {}) | undefined;
   /** Trailing window of observations to count. Defaults to 30 days. */
-  window_days?: number;
+  window_days?: number | undefined;
 }
 /** Who this scanner's findings affected in the window; counted from observations, not estimated. */
 export interface ScannerImpact {
@@ -1212,66 +1212,66 @@ export interface GetVisionScannersObservationRequest {
   /** A UUID string identifying this replay observation. */
   id: string;
   /** Only observations dispatched by this backfill. */
-  backfill_id?: string;
+  backfill_id?: string | undefined;
   /** Only observations created at or after this time. Accepts ISO 8601, a relative date like `-7d`, or `now`; values without an explicit offset are interpreted in the project's timezone. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Only observations created at or before this time. Accepts ISO 8601, a relative date like `-1d`, or `now` for the current time; omit it to query through the current time. Date-only values include the whole day, interpreted in the project's timezone. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** When true, return only observations that have a shared label (thumbs up or down); when false, only unlabeled observations. */
-  labeled?: string;
+  labeled?: string | undefined;
   /** Filter scorer observations to those scoring at or below this value. Rows with no numeric score (other scanner types, failed or in-flight runs) are excluded. */
-  max_score?: number;
+  max_score?: number | undefined;
   /** Filter scorer observations to those scoring at or above this value. Rows with no numeric score (other scanner types, failed or in-flight runs) are excluded. */
-  min_score?: number;
+  min_score?: number | undefined;
   /** Sort observations. Plain keys: created_at, started_at, completed_at, status, recording_subject_email. JSONB keys: result_score (scorer), result_verdict (monitor), result_confidence, scanner_version. Prefix with `-` for descending; nullable keys sort nulls last either way. */
-  order_by?: GetVisionScannersObservationRequestOrderBy | (string & {});
+  order_by?: GetVisionScannersObservationRequestOrderBy | (string & {}) | undefined;
   /** Filter to observations whose person email contains this value (case-insensitive). */
-  recording_subject?: string;
+  recording_subject?: string | undefined;
   /** Filter to observations of one or more session recordings. Accepts a comma-separated list. */
-  session_id?: string;
+  session_id?: string | undefined;
   /** Filter by observation status. Accepts a comma-separated list. */
-  status?: string;
+  status?: string | undefined;
   /** Filter classifier observations whose fixed or freeform tags include any of the given values (comma-separated). Matches if the tag appears in either `tags` or `tags_freeform`. */
-  tags?: string;
+  tags?: string | undefined;
   /** Filter by trigger source (schedule, on_demand, retry, or backfill). Accepts a comma-separated list. */
-  triggered_by?: string;
+  triggered_by?: string | undefined;
   /** Experiment scanners only: filter to observations attributed to any of the given variant keys (comma-separated). `__unattributed__` matches observations with no attributed variant. */
-  variant?: string;
+  variant?: string | undefined;
   /** Filter monitor observations by verdict. Accepts a comma-separated list (e.g. `yes,inconclusive`). */
-  verdict?: string;
+  verdict?: string | undefined;
 }
 export interface GetVisionScannersObservationsStatRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   scanner_id: string;
   /** Only observations dispatched by this backfill. */
-  backfill_id?: string;
+  backfill_id?: string | undefined;
   /** Only observations created at or after this time. Accepts ISO 8601, a relative date like `-7d`, or `now`; values without an explicit offset are interpreted in the project's timezone. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Only observations created at or before this time. Accepts ISO 8601, a relative date like `-1d`, or `now` for the current time; omit it to query through the current time. Date-only values include the whole day, interpreted in the project's timezone. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** When true, return only observations that have a shared label (thumbs up or down); when false, only unlabeled observations. */
-  labeled?: string;
+  labeled?: string | undefined;
   /** Filter scorer observations to those scoring at or below this value. Rows with no numeric score (other scanner types, failed or in-flight runs) are excluded. */
-  max_score?: number;
+  max_score?: number | undefined;
   /** Filter scorer observations to those scoring at or above this value. Rows with no numeric score (other scanner types, failed or in-flight runs) are excluded. */
-  min_score?: number;
+  min_score?: number | undefined;
   /** Window size in days for the coverage `recent_sessions` count. Clamped to [1, 365]. Defaults to 14 when omitted. */
-  recent_days?: number;
+  recent_days?: number | undefined;
   /** Filter to observations whose person email contains this value (case-insensitive). */
-  recording_subject?: string;
+  recording_subject?: string | undefined;
   /** Filter to observations of one or more session recordings. Accepts a comma-separated list. */
-  session_id?: string;
+  session_id?: string | undefined;
   /** Filter by observation status. Accepts a comma-separated list. */
-  status?: string;
+  status?: string | undefined;
   /** Filter classifier observations whose fixed or freeform tags include any of the given values (comma-separated). Matches if the tag appears in either `tags` or `tags_freeform`. */
-  tags?: string;
+  tags?: string | undefined;
   /** Filter by trigger source (schedule, on_demand, retry, or backfill). Accepts a comma-separated list. */
-  triggered_by?: string;
+  triggered_by?: string | undefined;
   /** Experiment scanners only: filter to observations attributed to any of the given variant keys (comma-separated). `__unattributed__` matches observations with no attributed variant. */
-  variant?: string;
+  variant?: string | undefined;
   /** Filter monitor observations by verdict. Accepts a comma-separated list (e.g. `yes,inconclusive`). */
-  verdict?: string;
+  verdict?: string | undefined;
 }
 export interface ObservationStatusCounts {
   /** Total observations in the filtered set. */
@@ -1434,7 +1434,7 @@ export interface GetVisionScannersObservationsThumbnailRequest {
   /** A UUID string identifying this replay observation. */
   id: string;
   /** Index into the summary's `model_output.chapters`. Serves that chapter's frame instead of the observation's thumbnail. */
-  chapter?: number;
+  chapter?: number | undefined;
 }
 export interface GetVisionScannersObservationsThumbnailResponse {}
 export interface GetVisionScannersScoutReportRequest {
@@ -1454,9 +1454,9 @@ export interface ReportChart {
   /** The query node to render. `kind` must be `InsightVizNode` (an ad-hoc product analytics chart), `DataVisualizationNode` (a SQL series -- a `HogQLQuery` source plus a `display`), or `SavedInsightNode` (an existing insight by `shortId`). Pin the window to absolute dates where the node supports it, so the reader sees the data you wrote about rather than whatever a relative range resolves to when they open the report. */
   query: unknown;
   /** Optional one-line note on what to look at in the chart. */
-  caption?: string | null;
+  caption?: string | null | undefined;
   /** How much height the chart gets: `small` for a single number or a short series, `medium` for an ordinary graph, `large` when there are rows or a grid to read (retention, paths, a wide breakdown). Leave it out unless the default looks wrong -- the inbox sizes a chart from its query, and two charts referenced from the same paragraph sit side by side. * `small` - small * `medium` - medium * `large` - large */
-  size?: SizeEnum | null;
+  size?: SizeEnum | null | undefined;
 }
 /** Charts the scout attached. The summary places one inline with a `[label](chart:<chart_id>)` link; any it does not place render after the body. */
 export type ScoutReportChartsList = Array<ReportChart>;
@@ -1546,17 +1546,17 @@ export interface ListVisionAlertsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Only return alerts on this scanner. */
-  scanner_id?: string;
+  scanner_id?: string | undefined;
 }
 export type PaginatedVisionAlertConfigurationListResultsList = Array<VisionAlertConfiguration>;
 export interface PaginatedVisionAlertConfigurationList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedVisionAlertConfigurationListResultsList;
 }
 export type ListVisionAlertsEventsRequestKind =
@@ -1573,11 +1573,11 @@ export interface ListVisionAlertsEventsRequest {
   /** A UUID string identifying this vision alert configuration. */
   id: string;
   /** Narrow the history to one event kind. */
-  kind?: ListVisionAlertsEventsRequestKind | (string & {});
+  kind?: ListVisionAlertsEventsRequestKind | (string & {}) | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** * `check` - Check * `reset` - Reset * `enable` - Enable * `disable` - Disable * `snooze` - Snooze * `unsnooze` - Unsnooze * `threshold_change` - Threshold change */
 export type VisionAlertEventKindEnum =
@@ -1601,8 +1601,8 @@ export interface VisionAlertEvent {
 export type PaginatedVisionAlertEventListResultsList = Array<VisionAlertEvent>;
 export interface PaginatedVisionAlertEventList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedVisionAlertEventListResultsList;
 }
 export type ListVisionObservationsRequestOrderBy =
@@ -1630,19 +1630,19 @@ export interface ListVisionObservationsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Sort observations. Plain keys: created_at, started_at, completed_at, status, recording_subject_email. JSONB keys: result_score (scorer), result_verdict (monitor), result_confidence, scanner_version. Prefix with `-` for descending; nullable keys sort nulls last either way. */
-  order_by?: ListVisionObservationsRequestOrderBy | (string & {});
+  order_by?: ListVisionObservationsRequestOrderBy | (string & {}) | undefined;
   /** Session recording id to return observations for. */
   session_id: string;
 }
 export type PaginatedReplayObservationListResultsList = Array<ReplayObservation>;
 export interface PaginatedReplayObservationList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedReplayObservationListResultsList;
 }
 export interface ListVisionObservationsSignalReportsRequest {
@@ -1686,31 +1686,31 @@ export interface ListVisionScannersRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Filter to scanners created by the given user IDs (comma-separated). */
-  created_by?: string;
+  created_by?: string | undefined;
   /** Filter to scanners that emit Signals. */
-  emits_signals?: boolean;
+  emits_signals?: boolean | undefined;
   /** Filter by enabled state. Accepts `enabled`, `disabled`, a comma-separated list of both, or the boolean form `true`/`false`. Omit to list every scanner. */
-  enabled?: string;
+  enabled?: string | undefined;
   /** Filter to scanners whose targeting watches the given experiment. */
-  experiment_id?: string;
+  experiment_id?: string | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Sort scanners by name, created_at, updated_at, scanner_type, enabled, sampling_rate, created_by, credits_this_month. Prefix with `-` for descending. */
-  order_by?: ListVisionScannersRequestOrderBy | (string & {});
+  order_by?: ListVisionScannersRequestOrderBy | (string & {}) | undefined;
   /** Filter by scanner type (monitor, classifier, scorer, summarizer). Accepts a comma-separated list. */
-  scanner_type?: string;
+  scanner_type?: string | undefined;
   /** Case-insensitive substring match across name, description, and the prompt in scanner_config. */
-  search?: string;
+  search?: string | undefined;
   /** Filter to scanners carrying at least one of the given tags (comma-separated). */
-  tags?: string;
+  tags?: string | undefined;
 }
 export type PaginatedReplayScannerListOutputResultsList = Array<ReplayScannerOutput>;
 export interface PaginatedReplayScannerListOutput {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedReplayScannerListOutputResultsList;
 }
 export interface ListVisionScannersBackfillsRequest {
@@ -1718,15 +1718,15 @@ export interface ListVisionScannersBackfillsRequest {
   project_id: string;
   scanner_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedReplayScannerBackfillListResultsList = Array<ReplayScannerBackfill>;
 export interface PaginatedReplayScannerBackfillList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedReplayScannerBackfillListResultsList;
 }
 export type ListVisionScannersObservationsRequestOrderBy =
@@ -1755,37 +1755,37 @@ export interface ListVisionScannersObservationsRequest {
   project_id: string;
   scanner_id: string;
   /** Only observations dispatched by this backfill. */
-  backfill_id?: string;
+  backfill_id?: string | undefined;
   /** Only observations created at or after this time. Accepts ISO 8601, a relative date like `-7d`, or `now`; values without an explicit offset are interpreted in the project's timezone. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Only observations created at or before this time. Accepts ISO 8601, a relative date like `-1d`, or `now` for the current time; omit it to query through the current time. Date-only values include the whole day, interpreted in the project's timezone. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** When true, return only observations that have a shared label (thumbs up or down); when false, only unlabeled observations. */
-  labeled?: boolean;
+  labeled?: boolean | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter scorer observations to those scoring at or below this value. Rows with no numeric score (other scanner types, failed or in-flight runs) are excluded. */
-  max_score?: number;
+  max_score?: number | undefined;
   /** Filter scorer observations to those scoring at or above this value. Rows with no numeric score (other scanner types, failed or in-flight runs) are excluded. */
-  min_score?: number;
+  min_score?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Sort observations. Plain keys: created_at, started_at, completed_at, status, recording_subject_email. JSONB keys: result_score (scorer), result_verdict (monitor), result_confidence, scanner_version. Prefix with `-` for descending; nullable keys sort nulls last either way. */
-  order_by?: ListVisionScannersObservationsRequestOrderBy | (string & {});
+  order_by?: ListVisionScannersObservationsRequestOrderBy | (string & {}) | undefined;
   /** Filter to observations whose person email contains this value (case-insensitive). */
-  recording_subject?: string;
+  recording_subject?: string | undefined;
   /** Filter to observations of one or more session recordings. Accepts a comma-separated list. */
-  session_id?: string;
+  session_id?: string | undefined;
   /** Filter by observation status. Accepts a comma-separated list. */
-  status?: string;
+  status?: string | undefined;
   /** Filter classifier observations whose fixed or freeform tags include any of the given values (comma-separated). Matches if the tag appears in either `tags` or `tags_freeform`. */
-  tags?: string;
+  tags?: string | undefined;
   /** Filter by trigger source (schedule, on_demand, retry, or backfill). Accepts a comma-separated list. */
-  triggered_by?: string;
+  triggered_by?: string | undefined;
   /** Experiment scanners only: filter to observations attributed to any of the given variant keys (comma-separated). `__unattributed__` matches observations with no attributed variant. */
-  variant?: string;
+  variant?: string | undefined;
   /** Filter monitor observations by verdict. Accepts a comma-separated list (e.g. `yes,inconclusive`). */
-  verdict?: string;
+  verdict?: string | undefined;
 }
 export interface ListVisionScannersObservationsSignalReportsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1794,33 +1794,33 @@ export interface ListVisionScannersObservationsSignalReportsRequest {
   /** A UUID string identifying this replay observation. */
   id: string;
   /** Only observations dispatched by this backfill. */
-  backfill_id?: string;
+  backfill_id?: string | undefined;
   /** Only observations created at or after this time. Accepts ISO 8601, a relative date like `-7d`, or `now`; values without an explicit offset are interpreted in the project's timezone. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Only observations created at or before this time. Accepts ISO 8601, a relative date like `-1d`, or `now` for the current time; omit it to query through the current time. Date-only values include the whole day, interpreted in the project's timezone. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** When true, return only observations that have a shared label (thumbs up or down); when false, only unlabeled observations. */
-  labeled?: boolean;
+  labeled?: boolean | undefined;
   /** Filter scorer observations to those scoring at or below this value. Rows with no numeric score (other scanner types, failed or in-flight runs) are excluded. */
-  max_score?: number;
+  max_score?: number | undefined;
   /** Filter scorer observations to those scoring at or above this value. Rows with no numeric score (other scanner types, failed or in-flight runs) are excluded. */
-  min_score?: number;
+  min_score?: number | undefined;
   /** Sort observations by created_at, started_at, completed_at, status, recording_subject_email, result_score, result_verdict, result_confidence, or scanner_version. Prefix with `-` for descending. Keys that can be null (started_at, completed_at, recording_subject_email, result_*, scanner_version) sort nulls last regardless of direction. */
-  order_by?: string;
+  order_by?: string | undefined;
   /** Filter to observations whose person email contains this value (case-insensitive). */
-  recording_subject?: string;
+  recording_subject?: string | undefined;
   /** Filter to observations of one or more session recordings. Accepts a comma-separated list. */
-  session_id?: string;
+  session_id?: string | undefined;
   /** Filter by observation status. Accepts a comma-separated list. */
-  status?: string;
+  status?: string | undefined;
   /** Filter classifier observations whose fixed or freeform tags include any of the given values (comma-separated). Matches if the tag appears in either `tags` or `tags_freeform`. */
-  tags?: string;
+  tags?: string | undefined;
   /** Filter by trigger source (schedule, on_demand, retry, or backfill). Accepts a comma-separated list. */
-  triggered_by?: string;
+  triggered_by?: string | undefined;
   /** Experiment scanners only: filter to observations attributed to any of the given variant keys (comma-separated). `__unattributed__` matches observations with no attributed variant. */
-  variant?: string;
+  variant?: string | undefined;
   /** Filter monitor observations by verdict. Accepts a comma-separated list (e.g. `yes,inconclusive`). */
-  verdict?: string;
+  verdict?: string | undefined;
 }
 export type ListVisionScannersObservationsSignalReportsResponseBodyList =
   Array<ObservationSignalReport>;
@@ -1946,33 +1946,33 @@ export interface UpdateVisionAlertRequest {
   /** Scanner whose observations this alert watches. Immutable after creation. */
   scanner_id: string;
   /** Human-readable name for this alert. Defaults to 'Untitled alert' on create when omitted. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the alert is active. Disabling a metric alert resets its state to not_firing. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** 'metric' fires when a metric crosses a threshold over a rolling window; 'match' fires on every observation that matches the selection. Immutable after creation. * `metric` - Metric * `match` - Match */
   kind: VisionAlertKindEnum | (string & {});
   /** Which observations count. Empty matches every observation of the scanner. */
-  selection?: VisionAlertSelection;
+  selection?: VisionAlertSelection | undefined;
   /** Metric alerts only: what to measure over the window. 'avg_score' requires a scorer scanner. * `count` - Count matching observations * `avg_score` - Average score */
-  metric?: VisionAlertMetricEnum | (string & {});
+  metric?: VisionAlertMetricEnum | (string & {}) | undefined;
   /** Metric alerts only: whether the alert fires at or above, or at or below, the threshold. * `above` - At or above * `below` - At or below */
-  direction?: VisionAlertDirectionEnum | (string & {});
+  direction?: VisionAlertDirectionEnum | (string & {}) | undefined;
   /** Metric alerts only: the threshold value. Required for metric alerts, must be omitted for match alerts. */
-  threshold?: number | null;
+  threshold?: number | null | undefined;
   /** Metric alerts only: rolling window in days. Allowed values: [1, 3, 7, 14, 30]. */
-  window_days?: number;
+  window_days?: number | undefined;
   /** Metric alerts only: evaluation cadence in minutes, at least 15. */
-  check_interval_minutes?: number;
+  check_interval_minutes?: number | undefined;
   /** Metric alerts only: total check periods in the sliding evaluation window (M in N-of-M). */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** Metric alerts only: how many periods must breach to fire (N in N-of-M). */
-  datapoints_to_alarm?: number;
+  datapoints_to_alarm?: number | undefined;
   /** Metric alerts only: minimum minutes between repeated notifications. 0 means no cooldown. */
-  cooldown_minutes?: number;
+  cooldown_minutes?: number | undefined;
   /** Blocked local time windows when the alert must not notify. Times use the project timezone. Null disables quiet hours. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** ISO 8601 timestamp until which the alert is snoozed. Set to null to unsnooze. */
-  snooze_until?: string | null;
+  snooze_until?: string | null | undefined;
 }
 export interface UpdateVisionAlertsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1980,35 +1980,35 @@ export interface UpdateVisionAlertsPartialRequest {
   /** A UUID string identifying this vision alert configuration. */
   id: string;
   /** Scanner whose observations this alert watches. Immutable after creation. */
-  scanner_id?: string;
+  scanner_id?: string | undefined;
   /** Human-readable name for this alert. Defaults to 'Untitled alert' on create when omitted. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the alert is active. Disabling a metric alert resets its state to not_firing. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** 'metric' fires when a metric crosses a threshold over a rolling window; 'match' fires on every observation that matches the selection. Immutable after creation. * `metric` - Metric * `match` - Match */
-  kind?: VisionAlertKindEnum | (string & {});
+  kind?: VisionAlertKindEnum | (string & {}) | undefined;
   /** Which observations count. Empty matches every observation of the scanner. */
-  selection?: VisionAlertSelection;
+  selection?: VisionAlertSelection | undefined;
   /** Metric alerts only: what to measure over the window. 'avg_score' requires a scorer scanner. * `count` - Count matching observations * `avg_score` - Average score */
-  metric?: VisionAlertMetricEnum | (string & {});
+  metric?: VisionAlertMetricEnum | (string & {}) | undefined;
   /** Metric alerts only: whether the alert fires at or above, or at or below, the threshold. * `above` - At or above * `below` - At or below */
-  direction?: VisionAlertDirectionEnum | (string & {});
+  direction?: VisionAlertDirectionEnum | (string & {}) | undefined;
   /** Metric alerts only: the threshold value. Required for metric alerts, must be omitted for match alerts. */
-  threshold?: number | null;
+  threshold?: number | null | undefined;
   /** Metric alerts only: rolling window in days. Allowed values: [1, 3, 7, 14, 30]. */
-  window_days?: number;
+  window_days?: number | undefined;
   /** Metric alerts only: evaluation cadence in minutes, at least 15. */
-  check_interval_minutes?: number;
+  check_interval_minutes?: number | undefined;
   /** Metric alerts only: total check periods in the sliding evaluation window (M in N-of-M). */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** Metric alerts only: how many periods must breach to fire (N in N-of-M). */
-  datapoints_to_alarm?: number;
+  datapoints_to_alarm?: number | undefined;
   /** Metric alerts only: minimum minutes between repeated notifications. 0 means no cooldown. */
-  cooldown_minutes?: number;
+  cooldown_minutes?: number | undefined;
   /** Blocked local time windows when the alert must not notify. Times use the project timezone. Null disables quiet hours. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** ISO 8601 timestamp until which the alert is snoozed. Set to null to unsnooze. */
-  snooze_until?: string | null;
+  snooze_until?: string | null | undefined;
 }
 /** Organizational tags for this scanner. Distinct from a classifier's categories in scanner_config. Tags cannot contain commas. */
 export type UpdateVisionScannersPartialRequestTagsList = Array<string>;
@@ -2018,37 +2018,37 @@ export interface UpdateVisionScannersPartialRequest {
   /** A UUID string identifying this replay scanner. */
   id: string;
   /** Human-readable scanner name. Unique within the team. */
-  name?: string;
+  name?: string | undefined;
   /** Free-form description shown in the scanner management UI. */
-  description?: string;
+  description?: string | undefined;
   /** Organizational tags for this scanner. Distinct from a classifier's categories in scanner_config. Tags cannot contain commas. */
-  tags?: UpdateVisionScannersPartialRequestTagsList;
+  tags?: UpdateVisionScannersPartialRequestTagsList | undefined;
   /** What the scanner does: monitor, classifier, scorer, or summarizer. * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer * `experiment` - Experiment */
-  scanner_type?: ScannerTypeEnum | (string & {});
+  scanner_type?: ScannerTypeEnum | (string & {}) | undefined;
   /** The goal an AI draft was built from, in the creator's own words, so the scanner keeps what it was meant to find. Set on create only and ignored on update. */
-  goal?: string | null;
+  goal?: string | null | undefined;
   /** How the creator built this scanner: from an AI draft, from a template, or from scratch. Reported to product analytics at creation and not stored on the scanner. Independent of any experiment the creator is in, since a person offered the AI flow can still fill the form by hand. Only the app can answer this, so a request from anywhere else reports the calling surface instead of whatever it sends here. Ignored on update. * `ai` - AI draft * `template` - Template * `scratch` - From scratch */
-  creation_method?: ScannerCreationMethodEnum | (string & {}) | null;
+  creation_method?: ScannerCreationMethodEnum | (string & {}) | null | undefined;
   /** Type-specific configuration. All scanner types require `prompt`; monitors add optional `allow_inconclusive`, classifiers add `tags`, scorers add `scale`, summarizers add optional `length`. */
-  scanner_config?: unknown;
+  scanner_config?: unknown | undefined;
   /** Persisted `RecordingsQuery` shape used to pick candidate sessions. `date_from`/`date_to` are stripped on save -- the schedule controls time, not the user. */
-  query?: unknown;
+  query?: unknown | undefined;
   /** 0..1 random downsample applied after the query matches. Defaults to 1.0 (no downsampling). Use exactly 0 to pause scanning; non-zero rates below 0.0001 (0.01%) are rejected as below the sampling precision. */
-  sampling_rate?: number;
+  sampling_rate?: number | undefined;
   /** Quality pre-filter applied before random sampling. focused = top sessions only, balanced = drops the lowest-quality, comprehensive = no filter (default). * `focused` - Focused * `balanced` - Balanced * `comprehensive` - Comprehensive */
-  sampling_mode?: SamplingModeEnum | (string & {});
+  sampling_mode?: SamplingModeEnum | (string & {}) | undefined;
   /** Optional cap on this scanner's own credit spend per billing period. Null means no scanner-level cap. When reached, this scanner stops scanning until the period resets. It stays enabled and does not scan the sessions it skipped. */
-  credit_limit?: number | null;
+  credit_limit?: number | null | undefined;
   /** LLM provider. v1 is Google-only. * `google` - Google */
-  provider?: ScannerProviderEnum | (string & {});
+  provider?: ScannerProviderEnum | (string & {}) | undefined;
   /** Concrete model to use for this scanner. * `gemini-3.5-flash-lite` - Gemini 3.5 Flash Lite * `gemini-3-flash-preview` - Gemini 3 Flash * `gemini-3.8-flash` - Gemini 3.8 Flash */
-  model?: ScannerModelEnum | (string & {});
+  model?: ScannerModelEnum | (string & {}) | undefined;
   /** When false, the reconciler removes the scanner's Temporal schedule. On-demand triggers still work. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** When true, the prompt is augmented with the Signal side mission and the scanner emits PostHog Signals. */
-  emits_signals?: boolean;
+  emits_signals?: boolean | undefined;
   /** The experiment this scanner's targeting watches, if any. Set null when the experiment targeting is removed. */
-  experiment_targeting?: ScannerExperimentTargeting | null;
+  experiment_targeting?: ScannerExperimentTargeting | null | undefined;
 }
 /** HogFunction IDs to delete as one atomic destination group. */
 export type VisionAlertsDestinationsDeleteCreateRequestHogFunctionIdsList = Array<string>;
@@ -2103,23 +2103,23 @@ export interface VisionObservationsSearchRetrieveRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Only observations analyzed at or after this time. Accepts ISO 8601, a relative date like `-7d`, or `now`; values without an explicit offset are interpreted in the project's timezone. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Only observations analyzed at or before this time. Accepts ISO 8601, a relative date like `-1d`, or `now` for the current time; omit it to query through the current time. Date-only values include the whole day, interpreted in the project's timezone. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Maximum number of results (default 20, at most 50). */
-  limit?: number;
+  limit?: number | undefined;
   /** Keep only scorer observations with a score at or below this value. */
-  max_score?: number;
+  max_score?: number | undefined;
   /** Keep only scorer observations with a score at or above this value. */
-  min_score?: number;
+  min_score?: number | undefined;
   /** Natural-language description of what to find, e.g. 'users confused by the pricing page'. */
   q: string;
   /** Search a single scanner's observations. Defaults to every scanner you can read. */
-  scanner_id?: string;
+  scanner_id?: string | undefined;
   /** Comma-separated classifier tags to keep. Matching is case- and format-insensitive. Unlike `verdict`, tags are not validated against a fixed list, so an unknown tag matches nothing. */
-  tags?: string;
+  tags?: string | undefined;
   /** Comma-separated monitor verdicts to keep, e.g. `yes,inconclusive`. */
-  verdict?: string;
+  verdict?: string | undefined;
 }
 export interface ObservationSearchResult {
   /** The matching observation. */
@@ -2143,7 +2143,7 @@ export interface VisionObservationsSearchSuggestionsRetrieveRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Scope to a single scanner's observations. Defaults to every scanner you can read. */
-  scanner_id?: string;
+  scanner_id?: string | undefined;
 }
 /** Up to 4 example searches naming themes in recent observations. Empty until a scheduled refresh has run for a scanner someone viewed. */
 export type SearchSuggestionsResponseQueriesList = Array<string>;
@@ -2155,7 +2155,7 @@ export interface VisionObservationsSearchViewedCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Scope to a single scanner's observations. Defaults to every scanner you can read. */
-  scanner_id?: string;
+  scanner_id?: string | undefined;
 }
 export interface VisionObservationsSearchViewedCreateResponse {}
 export interface VisionScannersBackfillsCancelCreateRequest {
@@ -2229,19 +2229,19 @@ export interface VisionScannersWatchFeedRetrieveRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Only observations created at or after this time. Accepts ISO 8601, a relative date like `-7d`, or `now`; values without an explicit offset are interpreted in the project's timezone. The window between `date_from` and `date_to` may span at most 90 days. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Only observations created at or before this time. Same formats as `date_from`; omit it to query through the current time. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Ceiling on feed items to return, at most 50. The feed is bounded, not paginated, and routinely returns far fewer: a window is not padded to this number with clips that carry no finding. */
-  limit?: number;
+  limit?: number | undefined;
   /** Comma-separated scanner UUIDs to restrict the feed to. Defaults to every scanner you can read. */
-  scanner_ids?: string;
+  scanner_ids?: string | undefined;
   /** Restrict the feed to observations from scanners of this type. * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer * `experiment` - Experiment */
-  scanner_type?: VisionScannersWatchFeedRetrieveRequestScannerType | (string & {});
+  scanner_type?: VisionScannersWatchFeedRetrieveRequestScannerType | (string & {}) | undefined;
   /** Case-insensitive text to match against the scan's own words (title, summary, reasoning, and the notability sentence) and the scanner's name. Applied before ranking, so it searches the whole window rather than the items that would have surfaced without it. */
-  search?: string;
+  search?: string | undefined;
   /** Comma-separated scanner tags to restrict the feed to. A team with many scanners uses these to follow one area without naming every scanner in it. */
-  tags?: string;
+  tags?: string | undefined;
 }
 /** * `signal_emitted` - Signal Emitted * `unusual_verdict` - Unusual Verdict * `notable` - Notable * `verdict_yes` - Verdict Yes * `outlier_score` - Outlier Score * `rare_tag` - Rare Tag * `novel_summary` - Novel Summary * `friction` - Friction * `jev_watchable` - Jev Watchable * `unviewed_recent` - Unviewed Recent * `recent` - Recent */
 export type WatchFeedReasonEnum =
@@ -2272,29 +2272,29 @@ export interface WatchFeedReason {
   /** Highest-priority rule the observation satisfied: `signal_emitted` (it pushed a signal), `unusual_verdict` (a monitor answer that is the minority for that scanner this window), `verdict_yes` (a monitor hit, when the window is too thin to know which answer is unusual), `outlier_score` (far from the scanner's window average), `rare_tag` (a tag uncommon for the scanner this window), `novel_summary` (a summary that reads unlike the scanner's other sessions this window), `notable` (the scan itself judged the session worth watching), `friction` (the scan describes errors, retries, or dead ends), `jev_watchable` (the decision model judged the session worth watching; teams on the Jev ranker experiment only), `unviewed_recent` (new to you), `recent` (nothing special, newest available). * `signal_emitted` - Signal Emitted * `unusual_verdict` - Unusual Verdict * `notable` - Notable * `verdict_yes` - Verdict Yes * `outlier_score` - Outlier Score * `rare_tag` - Rare Tag * `novel_summary` - Novel Summary * `friction` - Friction * `jev_watchable` - Jev Watchable * `unviewed_recent` - Unviewed Recent * `recent` - Recent */
   kind: WatchFeedReasonEnum;
   /** Signals this observation emitted, for `signal_emitted`. */
-  signals_count?: number | null;
+  signals_count?: number | null | undefined;
   /** Issue type of each emitted signal (`bug`, `crash`, `design_flaw`, `ux_friction`), one entry per signal in the order raised, for `signal_emitted`. Absent on signals scanned before this shipped. */
-  problem_types?: WatchFeedReasonProblemTypesList;
+  problem_types?: WatchFeedReasonProblemTypesList | undefined;
   /** Each emitted signal in the order raised, for `signal_emitted`. Carries what the card needs to name the findings instead of counting them. Absent on sessions scanned before this shipped, which carry `problem_types` alone. */
-  signals?: WatchFeedReasonSignalsList;
+  signals?: WatchFeedReasonSignalsList | undefined;
   /** The monitor's answer, for `unusual_verdict`. */
-  verdict?: string | null;
+  verdict?: string | null | undefined;
   /** Share (0-1) of the scanner's window observations with this answer, for `unusual_verdict`. */
-  verdict_share?: number | null;
+  verdict_share?: number | null | undefined;
   /** The scan's own 0-1 judgment of how much a team would benefit from watching, for `notable`. */
-  notability?: number | null;
+  notability?: number | null | undefined;
   /** The decision model's 0-1 judgment that the session is worth watching, for `jev_watchable`. */
-  jev_probability?: number | null;
+  jev_probability?: number | null | undefined;
   /** The scan's own sentence naming why the session is worth watching. Present on the `notable` and `jev_watchable` reason kinds when the scan itself found the session notable, and preferred over copy derived from the reason kind. Absent on observations scanned before notability shipped. */
-  notability_reason?: string | null;
+  notability_reason?: string | null | undefined;
   /** The observation's score, for `outlier_score`. */
-  score?: number | null;
+  score?: number | null | undefined;
   /** The scanner's mean score in the window, for `outlier_score`. */
-  window_mean?: number | null;
+  window_mean?: number | null | undefined;
   /** The rare tag that ranked the observation, for `rare_tag`. */
-  tag?: string | null;
+  tag?: string | null | undefined;
   /** Share (0-1) of the scanner's window observations carrying `tag`, for `rare_tag`. */
-  tag_share?: number | null;
+  tag_share?: number | null | undefined;
 }
 /** One feed entry: the observation plus why it ranked. */
 export interface WatchFeedItem {

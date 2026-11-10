@@ -32,7 +32,7 @@ export interface Region {
   /** Region name */
   name: string;
   /** Organization ID */
-  organizationId?: string | null;
+  organizationId?: string | null | undefined;
   /** The type of the region */
   regionType: RegionType;
   /** Creation timestamp */
@@ -40,19 +40,19 @@ export interface Region {
   /** Last update timestamp */
   updatedAt: string;
   /** Proxy URL for the region */
-  proxyUrl?: string | null;
+  proxyUrl?: string | null | undefined;
   /** SSH Gateway URL for the region */
-  sshGatewayUrl?: string | null;
+  sshGatewayUrl?: string | null | undefined;
   /** Snapshot Manager URL for the region */
-  snapshotManagerUrl?: string | null;
+  snapshotManagerUrl?: string | null | undefined;
   /** OTel collector endpoint for sandboxes created in this region. When set, sandbox OTel data is sent to this endpoint instead of the Daytona-hosted collector and will not be available in the Daytona analytics API or dashboard. */
-  otelEndpoint?: string | null;
+  otelEndpoint?: string | null | undefined;
   /** S3 bucket in your AWS account that declarative-build context is uploaded to for this region. Requires buildContextBucketRegion and buildContextRoleArn. */
-  buildContextBucket?: string | null;
+  buildContextBucket?: string | null | undefined;
   /** AWS region of buildContextBucket (standard aws partition only) */
-  buildContextBucketRegion?: string | null;
+  buildContextBucketRegion?: string | null | undefined;
   /** IAM role Daytona assumes (with your organization ID as ExternalId) to issue upload credentials for buildContextBucket */
-  buildContextRoleArn?: string | null;
+  buildContextRoleArn?: string | null | undefined;
 }
 export type ListSharedRegionsResponseBodyList = Array<Region>;
 export type ListSharedRegionsResponse = ListSharedRegionsResponseBodyList;

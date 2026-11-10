@@ -59,7 +59,7 @@ export interface CohortsAddPersonsToStaticCohortPartialUpdateRequest {
   /** A unique integer value identifying this cohort. */
   id: number;
   /** List of person UUIDs to add to the cohort */
-  person_ids?: CohortsAddPersonsToStaticCohortPartialUpdateRequestPersonIdsList;
+  person_ids?: CohortsAddPersonsToStaticCohortPartialUpdateRequestPersonIdsList | undefined;
 }
 export interface CohortsAddPersonsToStaticCohortPartialUpdateResponse {}
 export interface CohortsDestroyRequest {
@@ -75,7 +75,7 @@ export interface CohortsRemovePersonFromStaticCohortPartialUpdateRequest {
   /** A unique integer value identifying this cohort. */
   id: number;
   /** Person UUID to remove from the cohort */
-  person_id?: string;
+  person_id?: string | undefined;
 }
 export interface CohortsRemovePersonFromStaticCohortPartialUpdateResponse {}
 export type PropertyGroupOperatorEnum = "AND" | "OR";
@@ -84,73 +84,73 @@ export type BehavioralFilterKey = string | number;
 export type BehavioralFilterSeqEvent = string | number;
 export type EventPropFilterTypeEnum = "event" | "element";
 export interface EventPropFilter {
-  type?: EventPropFilterTypeEnum | (string & {});
-  key?: string;
-  value?: unknown;
-  operator?: string | null;
+  type?: EventPropFilterTypeEnum | (string & {}) | undefined;
+  key?: string | undefined;
+  value?: unknown | undefined;
+  operator?: string | null | undefined;
 }
 export interface HogQLFilter {
-  type?: string;
-  key?: string;
-  value?: unknown;
+  type?: string | undefined;
+  key?: string | undefined;
+  value?: unknown | undefined;
 }
 export type BehavioralFilterEventFiltersItem = EventPropFilter | HogQLFilter;
 export type BehavioralFilterEventFiltersList = Array<BehavioralFilterEventFiltersItem>;
 export interface BehavioralFilter {
-  bytecode?: BehavioralFilterBytecodeList | null;
-  bytecode_error?: string | null;
-  conditionHash?: string | null;
-  type?: string;
-  key?: BehavioralFilterKey;
-  value?: string;
-  event_type?: string;
-  time_value?: number | null;
-  time_interval?: string | null;
-  negation?: boolean;
-  operator?: string | null;
-  operator_value?: number | null;
-  seq_time_interval?: string | null;
-  seq_time_value?: number | null;
-  seq_event?: BehavioralFilterSeqEvent | null;
-  seq_event_type?: string | null;
-  total_periods?: number | null;
-  min_periods?: number | null;
-  event_filters?: BehavioralFilterEventFiltersList | null;
-  explicit_datetime?: string | null;
-  explicit_datetime_to?: string | null;
+  bytecode?: BehavioralFilterBytecodeList | null | undefined;
+  bytecode_error?: string | null | undefined;
+  conditionHash?: string | null | undefined;
+  type?: string | undefined;
+  key?: BehavioralFilterKey | undefined;
+  value?: string | undefined;
+  event_type?: string | undefined;
+  time_value?: number | null | undefined;
+  time_interval?: string | null | undefined;
+  negation?: boolean | undefined;
+  operator?: string | null | undefined;
+  operator_value?: number | null | undefined;
+  seq_time_interval?: string | null | undefined;
+  seq_time_value?: number | null | undefined;
+  seq_event?: BehavioralFilterSeqEvent | null | undefined;
+  seq_event_type?: string | null | undefined;
+  total_periods?: number | null | undefined;
+  min_periods?: number | null | undefined;
+  event_filters?: BehavioralFilterEventFiltersList | null | undefined;
+  explicit_datetime?: string | null | undefined;
+  explicit_datetime_to?: string | null | undefined;
 }
 export type CohortFilterBytecodeList = Array<unknown>;
 export interface CohortFilter {
-  bytecode?: CohortFilterBytecodeList | null;
-  bytecode_error?: string | null;
-  conditionHash?: string | null;
-  type?: string;
-  key?: string;
-  value?: number;
-  negation?: boolean;
+  bytecode?: CohortFilterBytecodeList | null | undefined;
+  bytecode_error?: string | null | undefined;
+  conditionHash?: string | null | undefined;
+  type?: string | undefined;
+  key?: string | undefined;
+  value?: number | undefined;
+  negation?: boolean | undefined;
 }
 export type PersonFilterBytecodeList = Array<unknown>;
 export interface PersonFilter {
-  operator?: string | null;
-  value?: unknown;
-  bytecode?: PersonFilterBytecodeList | null;
-  bytecode_error?: string | null;
-  conditionHash?: string | null;
-  type?: string;
-  key?: string;
-  negation?: boolean;
+  operator?: string | null | undefined;
+  value?: unknown | undefined;
+  bytecode?: PersonFilterBytecodeList | null | undefined;
+  bytecode_error?: string | null | undefined;
+  conditionHash?: string | null | undefined;
+  type?: string | undefined;
+  key?: string | undefined;
+  negation?: boolean | undefined;
 }
 export type PersonMetadataFilterBytecodeList = Array<unknown>;
 /** Filter on a top-level persons-table column (e.g. created_at) rather than the properties JSON. The matching key must be one of PERSON_METADATA_FIELDS. */
 export interface PersonMetadataFilter {
-  operator?: string | null;
-  value?: unknown;
-  bytecode?: PersonMetadataFilterBytecodeList | null;
-  bytecode_error?: string | null;
-  conditionHash?: string | null;
+  operator?: string | null | undefined;
+  value?: unknown | undefined;
+  bytecode?: PersonMetadataFilterBytecodeList | null | undefined;
+  bytecode_error?: string | null | undefined;
+  conditionHash?: string | null | undefined;
   type: string;
   key: string;
-  negation?: boolean;
+  negation?: boolean | undefined;
 }
 export type CohortFilterGroupValuesItem =
   | BehavioralFilter
@@ -161,12 +161,12 @@ export type CohortFilterGroupValuesItem =
 export type CohortFilterGroupValuesList = Array<CohortFilterGroupValuesItem>;
 /** AND/OR group containing cohort filters. Named to avoid collision with analytics Group model. */
 export interface CohortFilterGroup {
-  type?: PropertyGroupOperatorEnum | (string & {});
-  values?: CohortFilterGroupValuesList;
+  type?: PropertyGroupOperatorEnum | (string & {}) | undefined;
+  values?: CohortFilterGroupValuesList | undefined;
 }
 export interface CohortFilters {
-  properties?: CohortFilterGroup;
-  filterTestAccounts?: boolean | null;
+  properties?: CohortFilterGroup | undefined;
+  filterTestAccounts?: boolean | null | undefined;
 }
 /** * `static` - static * `person_property` - person_property * `behavioral` - behavioral * `realtime` - realtime * `analytical` - analytical */
 export type CohortTypeEnum =
@@ -182,17 +182,17 @@ export type CreateCohortRequestCreateStaticPersonIdsList = Array<string>;
 export interface CreateCohortRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  name?: string | null;
-  description?: string;
-  groups?: unknown;
-  deleted?: boolean;
-  filters?: CohortFilters | null;
-  query?: unknown;
-  is_static?: boolean;
+  name?: string | null | undefined;
+  description?: string | undefined;
+  groups?: unknown | undefined;
+  deleted?: boolean | undefined;
+  filters?: CohortFilters | null | undefined;
+  query?: unknown | undefined;
+  is_static?: boolean | undefined;
   /** Type of cohort based on filter complexity * `static` - static * `person_property` - person_property * `behavioral` - behavioral * `realtime` - realtime * `analytical` - analytical */
-  cohort_type?: CreateCohortRequestCohortType | null;
-  _create_in_folder?: string;
-  _create_static_person_ids?: CreateCohortRequestCreateStaticPersonIdsList;
+  cohort_type?: CreateCohortRequestCohortType | null | undefined;
+  _create_in_folder?: string | undefined;
+  _create_static_person_ids?: CreateCohortRequestCreateStaticPersonIdsList | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -208,15 +208,15 @@ export type RoleAtOrganizationEnum =
   | "other";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** Type of cohort based on filter complexity * `static` - static * `person_property` - person_property * `behavioral` - behavioral * `realtime` - realtime * `analytical` - analytical */
 export type CohortOutputCohortType = CohortTypeEnum | BlankEnum;
@@ -260,37 +260,37 @@ export interface CohortRealtimeReadiness {
 export type CohortOutputExperimentSetList = Array<number>;
 export type SearchMatchTypeEnum = "exact" | "similar";
 export interface CohortOutput {
-  id?: number;
-  name?: string | null;
-  description?: string;
-  groups?: unknown;
-  deleted?: boolean;
-  filters?: CohortFilters | null;
-  query?: unknown;
-  version?: number | null;
-  pending_version?: number | null;
-  is_calculating?: boolean;
-  created_by?: UserBasic | null;
-  created_at?: string | null;
-  last_calculation?: string | null;
-  last_backfill_person_properties_at?: string | null;
-  errors_calculating?: number;
-  last_error_message?: string | null;
-  count?: number | null;
+  id?: number | undefined;
+  name?: string | null | undefined;
+  description?: string | undefined;
+  groups?: unknown | undefined;
+  deleted?: boolean | undefined;
+  filters?: CohortFilters | null | undefined;
+  query?: unknown | undefined;
+  version?: number | null | undefined;
+  pending_version?: number | null | undefined;
+  is_calculating?: boolean | undefined;
+  created_by?: UserBasic | null | undefined;
+  created_at?: string | null | undefined;
+  last_calculation?: string | null | undefined;
+  last_backfill_person_properties_at?: string | null | undefined;
+  errors_calculating?: number | undefined;
+  last_error_message?: string | null | undefined;
+  count?: number | null | undefined;
   /** Number of IDs supplied by the most recent static cohort import. Null if the cohort was never populated from a list of IDs. */
-  last_import_total_count?: number | null;
+  last_import_total_count?: number | null | undefined;
   /** How many of the IDs in the most recent static cohort import matched no person, and so were not added to the cohort. */
-  last_import_unmatched_count?: number | null;
-  is_static?: boolean;
+  last_import_unmatched_count?: number | null | undefined;
+  is_static?: boolean | undefined;
   /** Type of cohort based on filter complexity * `static` - static * `person_property` - person_property * `behavioral` - behavioral * `realtime` - realtime * `analytical` - analytical */
-  cohort_type?: CohortOutputCohortType | null;
+  cohort_type?: CohortOutputCohortType | null | undefined;
   /** Flags describing which kinds of conditions the cohort's filters contain. Null when the cohort has no filters to classify. */
-  condition_type?: CohortConditionTypeFlags | null;
+  condition_type?: CohortConditionTypeFlags | null | undefined;
   /** Whether feature flags can target this cohort, and the progress of the build that gets it there. Null outside the realtime cohort flag targeting rollout, on projects the realtime pipeline does not cover, and for cohorts that match on neither events nor person properties, which nothing in the flag API decides on. */
-  realtime?: CohortRealtimeReadiness | null;
-  experiment_set?: CohortOutputExperimentSetList;
+  realtime?: CohortRealtimeReadiness | null | undefined;
+  experiment_set?: CohortOutputExperimentSetList | undefined;
   /** How this row matched the `search` query parameter: `exact` (the term is a case-insensitive substring of a searched field) or `similar` (a fuzzy trigram match, returned only when no exact match exists). Null when the list is not filtered by `search`. */
-  search_match_type?: SearchMatchTypeEnum | null;
+  search_match_type?: SearchMatchTypeEnum | null | undefined;
 }
 export interface GetCohortRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -323,11 +323,11 @@ export interface GetCohortsPersonRequest {
   project_id: string;
   /** A unique integer value identifying this cohort. */
   id: number;
-  format?: GetCohortsPersonRequestFormat | (string & {});
+  format?: GetCohortsPersonRequestFormat | (string & {}) | undefined;
   /** Maximum number of persons to return per page (defaults to 100). */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of persons to skip before starting to return results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** The actor's properties. */
 export type SerializedPersonActorPropertiesMap = { [key: string]: unknown | undefined };
@@ -437,22 +437,22 @@ export interface ListCohortsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Return a basic payload that omits the `query`, `groups`, `last_error_message`, and `experiment_set` fields (`filters` is kept). Useful for pickers that only need id/name/count. */
-  basic?: boolean;
+  basic?: boolean | undefined;
   /** Set true to exclude behavioral (event-based) cohorts, which can't be used in feature flags or batch workflow audiences. */
-  hide_behavioral_cohorts?: boolean;
+  hide_behavioral_cohorts?: boolean | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Optional. Match against cohort `name`. Returns exact (case-insensitive substring) matches only; if no exact match exists, returns similar (fuzzy trigram -- typos, transpositions, prefix-as-you-type) matches instead. Each result's `search_match_type` is `exact` or `similar`. Results are ordered by relevance. When omitted, cohorts are ordered newest-first. Capped at 200 characters; longer queries return a 400 error. */
-  search?: string;
+  search?: string | undefined;
 }
 export type PaginatedCohortListOutputResultsList = Array<CohortOutput>;
 export interface PaginatedCohortListOutput {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedCohortListOutputResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedCohortListOutputResultsList | undefined;
 }
 /** Type of cohort based on filter complexity * `static` - static * `person_property` - person_property * `behavioral` - behavioral * `realtime` - realtime * `analytical` - analytical */
 export type UpdateCohortRequestCohortType = CohortTypeEnum | BlankEnum;
@@ -462,17 +462,17 @@ export interface UpdateCohortRequest {
   project_id: string;
   /** A unique integer value identifying this cohort. */
   id: number;
-  name?: string | null;
-  description?: string;
-  groups?: unknown;
-  deleted?: boolean;
-  filters?: CohortFilters | null;
-  query?: unknown;
-  is_static?: boolean;
+  name?: string | null | undefined;
+  description?: string | undefined;
+  groups?: unknown | undefined;
+  deleted?: boolean | undefined;
+  filters?: CohortFilters | null | undefined;
+  query?: unknown | undefined;
+  is_static?: boolean | undefined;
   /** Type of cohort based on filter complexity * `static` - static * `person_property` - person_property * `behavioral` - behavioral * `realtime` - realtime * `analytical` - analytical */
-  cohort_type?: UpdateCohortRequestCohortType | null;
-  _create_in_folder?: string;
-  _create_static_person_ids?: UpdateCohortRequestCreateStaticPersonIdsList;
+  cohort_type?: UpdateCohortRequestCohortType | null | undefined;
+  _create_in_folder?: string | undefined;
+  _create_static_person_ids?: UpdateCohortRequestCreateStaticPersonIdsList | undefined;
 }
 /** Type of cohort based on filter complexity * `static` - static * `person_property` - person_property * `behavioral` - behavioral * `realtime` - realtime * `analytical` - analytical */
 export type UpdateCohortsPartialRequestCohortType = CohortTypeEnum | BlankEnum;
@@ -482,17 +482,17 @@ export interface UpdateCohortsPartialRequest {
   project_id: string;
   /** A unique integer value identifying this cohort. */
   id: number;
-  name?: string | null;
-  description?: string;
-  groups?: unknown;
-  deleted?: boolean;
-  filters?: CohortFilters | null;
-  query?: unknown;
-  is_static?: boolean;
+  name?: string | null | undefined;
+  description?: string | undefined;
+  groups?: unknown | undefined;
+  deleted?: boolean | undefined;
+  filters?: CohortFilters | null | undefined;
+  query?: unknown | undefined;
+  is_static?: boolean | undefined;
   /** Type of cohort based on filter complexity * `static` - static * `person_property` - person_property * `behavioral` - behavioral * `realtime` - realtime * `analytical` - analytical */
-  cohort_type?: UpdateCohortsPartialRequestCohortType | null;
-  _create_in_folder?: string;
-  _create_static_person_ids?: UpdateCohortsPartialRequestCreateStaticPersonIdsList;
+  cohort_type?: UpdateCohortsPartialRequestCohortType | null | undefined;
+  _create_in_folder?: string | undefined;
+  _create_static_person_ids?: UpdateCohortsPartialRequestCreateStaticPersonIdsList | undefined;
 }
 export type CohortsAddPersonsToStaticCohortPartialUpdateError =
   | BadRequest

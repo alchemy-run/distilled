@@ -13,6 +13,7 @@ import {
 } from "@distilled.cloud/core/protocol-http";
 import { unwrapRedactedDeep, validateSuccess } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
 /**
  * SupabaseProtocol -- hand-written.
@@ -67,7 +68,8 @@ export type SupabaseOpError =
   | DefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Supabase operation. */
 export type SupabaseOpContext = Credentials | HttpClient.HttpClient;

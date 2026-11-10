@@ -37,7 +37,7 @@ export interface PathsV2SegmentItem {
   /** Event of the step source this path item belongs to. */
   event: string;
   /** Label value from the source's naming property, after path cleaning. Null or omitted for sources without a naming property; an empty string means the property was missing on the event. */
-  label?: string | null;
+  label?: string | null | undefined;
 }
 /** The segment's path items in displayed order. In open mode exactly two items - a single edge, source then target. In anchored mode the concrete chain as shown, starting at the anchor. */
 export type CreatePathsV2SegmentToFunnelRequestItemsList = Array<PathsV2SegmentItem>;

@@ -66,7 +66,7 @@ export type AddUsersResponseAutoJoinCase0Scope = "all" | "read_plus";
 export interface AddUsersResponseAutoJoinCase0 {
   enabled: boolean;
   role: AddUsersResponseAutoJoinCase0Role;
-  scope?: AddUsersResponseAutoJoinCase0Scope;
+  scope?: AddUsersResponseAutoJoinCase0Scope | undefined;
 }
 export interface AddUsersResponseAutoJoinCase1 {
   enabled: boolean;
@@ -75,11 +75,11 @@ export type AddUsersResponseAutoJoin =
   | AddUsersResponseAutoJoinCase0
   | AddUsersResponseAutoJoinCase1;
 export interface AddUsersResponseSpendLimits {
-  total?: number;
-  inferenceProviders?: number;
-  spaces?: number;
-  jobs?: number;
-  endpoints?: number;
+  total?: number | undefined;
+  inferenceProviders?: number | undefined;
+  spaces?: number | undefined;
+  jobs?: number | undefined;
+  endpoints?: number | undefined;
 }
 export type AddUsersResponseUsersItemRole =
   | "admin"
@@ -102,7 +102,7 @@ export interface AddUsersResponseUsersItem {
   avatarUrl: string;
   role: AddUsersResponseUsersItemRole;
   orgRole: AddUsersResponseUsersItemOrgRole;
-  addedBy?: string;
+  addedBy?: string | undefined;
 }
 export type AddUsersResponseUsersList = Array<AddUsersResponseUsersItem>;
 export type AddUsersResponseResourcesItemCase0Type =
@@ -115,7 +115,7 @@ export type AddUsersResponseResourcesItemCase0Type =
 export interface AddUsersResponseResourcesItemCase0 {
   type: AddUsersResponseResourcesItemCase0Type;
   name: string;
-  addedBy?: string;
+  addedBy?: string | undefined;
   private: boolean;
 }
 export interface AddUsersResponseResourcesItemCase1 {
@@ -124,15 +124,15 @@ export interface AddUsersResponseResourcesItemCase1 {
   id: string;
   slug: string;
   title: string;
-  addedBy?: string;
+  addedBy?: string | undefined;
   private: boolean;
 }
 export type AddUsersResponseResourcesItemCase2 = AddUsersResponseResourcesItemCase1;
 export interface AddUsersResponseResourcesItemCase3 {
   type: string;
   id: string;
-  name?: string;
-  addedBy?: string;
+  name?: string | undefined;
+  addedBy?: string | undefined;
 }
 export type AddUsersResponseResourcesItemCase4 = AddUsersResponseResourcesItemCase3;
 export type AddUsersResponseResourcesItem =
@@ -146,9 +146,9 @@ export interface AddUsersResponse {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  description?: string | null;
-  autoJoin?: AddUsersResponseAutoJoin;
-  spendLimits?: AddUsersResponseSpendLimits;
+  description?: string | null | undefined;
+  autoJoin?: AddUsersResponseAutoJoin | undefined;
+  spendLimits?: AddUsersResponseSpendLimits | undefined;
   users: AddUsersResponseUsersList;
   resources: AddUsersResponseResourcesList;
 }
@@ -169,7 +169,7 @@ export type ChangeUserRoleResponseAutoJoinCase0Scope = "all" | "read_plus";
 export interface ChangeUserRoleResponseAutoJoinCase0 {
   enabled: boolean;
   role: ChangeUserRoleResponseAutoJoinCase0Role;
-  scope?: ChangeUserRoleResponseAutoJoinCase0Scope;
+  scope?: ChangeUserRoleResponseAutoJoinCase0Scope | undefined;
 }
 export type ChangeUserRoleResponseAutoJoinCase1 = AddUsersResponseAutoJoinCase1;
 export type ChangeUserRoleResponseAutoJoin =
@@ -197,7 +197,7 @@ export interface ChangeUserRoleResponseUsersItem {
   avatarUrl: string;
   role: ChangeUserRoleResponseUsersItemRole;
   orgRole: ChangeUserRoleResponseUsersItemOrgRole;
-  addedBy?: string;
+  addedBy?: string | undefined;
 }
 export type ChangeUserRoleResponseUsersList = Array<ChangeUserRoleResponseUsersItem>;
 export type ChangeUserRoleResponseResourcesItemCase0Type =
@@ -210,7 +210,7 @@ export type ChangeUserRoleResponseResourcesItemCase0Type =
 export interface ChangeUserRoleResponseResourcesItemCase0 {
   type: ChangeUserRoleResponseResourcesItemCase0Type;
   name: string;
-  addedBy?: string;
+  addedBy?: string | undefined;
   private: boolean;
 }
 export type ChangeUserRoleResponseResourcesItemCase1 = AddUsersResponseResourcesItemCase1;
@@ -228,9 +228,9 @@ export interface ChangeUserRoleResponse {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  description?: string | null;
-  autoJoin?: ChangeUserRoleResponseAutoJoin;
-  spendLimits?: AddUsersResponseSpendLimits;
+  description?: string | null | undefined;
+  autoJoin?: ChangeUserRoleResponseAutoJoin | undefined;
+  spendLimits?: AddUsersResponseSpendLimits | undefined;
   users: ChangeUserRoleResponseUsersList;
   resources: ChangeUserRoleResponseResourcesList;
 }
@@ -261,7 +261,7 @@ export type CreateResourceGroupRequestAutoJoinCase0Scope = "all" | "read_plus";
 export interface CreateResourceGroupRequestAutoJoinCase0 {
   enabled: boolean;
   role: CreateResourceGroupRequestAutoJoinCase0Role | (string & {});
-  scope?: CreateResourceGroupRequestAutoJoinCase0Scope | (string & {});
+  scope?: CreateResourceGroupRequestAutoJoinCase0Scope | (string & {}) | undefined;
 }
 export type CreateResourceGroupRequestAutoJoinCase1 = AddUsersResponseAutoJoinCase1;
 export type CreateResourceGroupRequestAutoJoin =
@@ -269,10 +269,10 @@ export type CreateResourceGroupRequestAutoJoin =
   | AddUsersResponseAutoJoinCase1;
 export interface CreateResourceGroupRequest {
   name: string;
-  description?: string;
-  users?: CreateResourceGroupRequestUsersList;
-  repos?: CreateResourceGroupRequestReposList;
-  autoJoin?: CreateResourceGroupRequestAutoJoin;
+  description?: string | undefined;
+  users?: CreateResourceGroupRequestUsersList | undefined;
+  repos?: CreateResourceGroupRequestReposList | undefined;
+  autoJoin?: CreateResourceGroupRequestAutoJoin | undefined;
 }
 export type CreateResourceGroupResponseAutoJoinCase0Role =
   | "admin"
@@ -284,7 +284,7 @@ export type CreateResourceGroupResponseAutoJoinCase0Scope = "all" | "read_plus";
 export interface CreateResourceGroupResponseAutoJoinCase0 {
   enabled: boolean;
   role: CreateResourceGroupResponseAutoJoinCase0Role;
-  scope?: CreateResourceGroupResponseAutoJoinCase0Scope;
+  scope?: CreateResourceGroupResponseAutoJoinCase0Scope | undefined;
 }
 export type CreateResourceGroupResponseAutoJoinCase1 = AddUsersResponseAutoJoinCase1;
 export type CreateResourceGroupResponseAutoJoin =
@@ -312,7 +312,7 @@ export interface CreateResourceGroupResponseUsersItem {
   avatarUrl: string;
   role: CreateResourceGroupResponseUsersItemRole;
   orgRole: CreateResourceGroupResponseUsersItemOrgRole;
-  addedBy?: string;
+  addedBy?: string | undefined;
 }
 export type CreateResourceGroupResponseUsersList = Array<CreateResourceGroupResponseUsersItem>;
 export type CreateResourceGroupResponseResourcesItemCase0Type =
@@ -325,7 +325,7 @@ export type CreateResourceGroupResponseResourcesItemCase0Type =
 export interface CreateResourceGroupResponseResourcesItemCase0 {
   type: CreateResourceGroupResponseResourcesItemCase0Type;
   name: string;
-  addedBy?: string;
+  addedBy?: string | undefined;
   private: boolean;
 }
 export type CreateResourceGroupResponseResourcesItemCase1 = AddUsersResponseResourcesItemCase1;
@@ -344,9 +344,9 @@ export interface CreateResourceGroupResponse {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  description?: string | null;
-  autoJoin?: CreateResourceGroupResponseAutoJoin;
-  spendLimits?: AddUsersResponseSpendLimits;
+  description?: string | null | undefined;
+  autoJoin?: CreateResourceGroupResponseAutoJoin | undefined;
+  spendLimits?: AddUsersResponseSpendLimits | undefined;
   users: CreateResourceGroupResponseUsersList;
   resources: CreateResourceGroupResponseResourcesList;
 }
@@ -371,7 +371,7 @@ export type GetResourceGroupResponseAutoJoinCase0Scope = "all" | "read_plus";
 export interface GetResourceGroupResponseAutoJoinCase0 {
   enabled: boolean;
   role: GetResourceGroupResponseAutoJoinCase0Role;
-  scope?: GetResourceGroupResponseAutoJoinCase0Scope;
+  scope?: GetResourceGroupResponseAutoJoinCase0Scope | undefined;
 }
 export type GetResourceGroupResponseAutoJoinCase1 = AddUsersResponseAutoJoinCase1;
 export type GetResourceGroupResponseAutoJoin =
@@ -399,7 +399,7 @@ export interface GetResourceGroupResponseUsersItem {
   avatarUrl: string;
   role: GetResourceGroupResponseUsersItemRole;
   orgRole: GetResourceGroupResponseUsersItemOrgRole;
-  addedBy?: string;
+  addedBy?: string | undefined;
 }
 export type GetResourceGroupResponseUsersList = Array<GetResourceGroupResponseUsersItem>;
 export type GetResourceGroupResponseResourcesItemCase0Type =
@@ -412,7 +412,7 @@ export type GetResourceGroupResponseResourcesItemCase0Type =
 export interface GetResourceGroupResponseResourcesItemCase0 {
   type: GetResourceGroupResponseResourcesItemCase0Type;
   name: string;
-  addedBy?: string;
+  addedBy?: string | undefined;
   private: boolean;
 }
 export type GetResourceGroupResponseResourcesItemCase1 = AddUsersResponseResourcesItemCase1;
@@ -430,9 +430,9 @@ export interface GetResourceGroupResponse {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  description?: string | null;
-  autoJoin?: GetResourceGroupResponseAutoJoin;
-  spendLimits?: AddUsersResponseSpendLimits;
+  description?: string | null | undefined;
+  autoJoin?: GetResourceGroupResponseAutoJoin | undefined;
+  spendLimits?: AddUsersResponseSpendLimits | undefined;
   users: GetResourceGroupResponseUsersList;
   resources: GetResourceGroupResponseResourcesList;
 }
@@ -449,7 +449,7 @@ export type GetResourceGroupsResponseBodyItemAutoJoinCase0Scope = "all" | "read_
 export interface GetResourceGroupsResponseBodyItemAutoJoinCase0 {
   enabled: boolean;
   role: GetResourceGroupsResponseBodyItemAutoJoinCase0Role;
-  scope?: GetResourceGroupsResponseBodyItemAutoJoinCase0Scope;
+  scope?: GetResourceGroupsResponseBodyItemAutoJoinCase0Scope | undefined;
 }
 export type GetResourceGroupsResponseBodyItemAutoJoinCase1 = AddUsersResponseAutoJoinCase1;
 export type GetResourceGroupsResponseBodyItemAutoJoin =
@@ -477,7 +477,7 @@ export interface GetResourceGroupsResponseBodyItemUsersItem {
   avatarUrl: string;
   role: GetResourceGroupsResponseBodyItemUsersItemRole;
   orgRole: GetResourceGroupsResponseBodyItemUsersItemOrgRole;
-  addedBy?: string;
+  addedBy?: string | undefined;
 }
 export type GetResourceGroupsResponseBodyItemUsersList =
   Array<GetResourceGroupsResponseBodyItemUsersItem>;
@@ -491,7 +491,7 @@ export type GetResourceGroupsResponseBodyItemResourcesItemCase0Type =
 export interface GetResourceGroupsResponseBodyItemResourcesItemCase0 {
   type: GetResourceGroupsResponseBodyItemResourcesItemCase0Type;
   name: string;
-  addedBy?: string;
+  addedBy?: string | undefined;
   private: boolean;
 }
 export type GetResourceGroupsResponseBodyItemResourcesItemCase1 =
@@ -514,9 +514,9 @@ export interface GetResourceGroupsResponseBodyItem {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  description?: string | null;
-  autoJoin?: GetResourceGroupsResponseBodyItemAutoJoin;
-  spendLimits?: AddUsersResponseSpendLimits;
+  description?: string | null | undefined;
+  autoJoin?: GetResourceGroupsResponseBodyItemAutoJoin | undefined;
+  spendLimits?: AddUsersResponseSpendLimits | undefined;
   users: GetResourceGroupsResponseBodyItemUsersList;
   resources: GetResourceGroupsResponseBodyItemResourcesList;
 }
@@ -533,7 +533,7 @@ export type JoinConfigureAutoRequestAutoJoinCase0Scope = "all" | "read_plus";
 export interface JoinConfigureAutoRequestAutoJoinCase0 {
   enabled: JoinConfigureAutoRequestAutoJoinCase0Enabled;
   role: JoinConfigureAutoRequestAutoJoinCase0Role | (string & {});
-  scope?: JoinConfigureAutoRequestAutoJoinCase0Scope | (string & {});
+  scope?: JoinConfigureAutoRequestAutoJoinCase0Scope | (string & {}) | undefined;
 }
 export type JoinConfigureAutoRequestAutoJoinCase1Enabled = boolean | string;
 export interface JoinConfigureAutoRequestAutoJoinCase1 {
@@ -545,7 +545,7 @@ export type JoinConfigureAutoRequestAutoJoin =
 export interface JoinConfigureAutoRequest {
   name: string;
   resourceGroupId: string;
-  autoJoin?: JoinConfigureAutoRequestAutoJoin;
+  autoJoin?: JoinConfigureAutoRequestAutoJoin | undefined;
 }
 export type JoinConfigureAutoResponseAutoJoinCase0Role =
   | "admin"
@@ -557,7 +557,7 @@ export type JoinConfigureAutoResponseAutoJoinCase0Scope = "all" | "read_plus";
 export interface JoinConfigureAutoResponseAutoJoinCase0 {
   enabled: boolean;
   role: JoinConfigureAutoResponseAutoJoinCase0Role;
-  scope?: JoinConfigureAutoResponseAutoJoinCase0Scope;
+  scope?: JoinConfigureAutoResponseAutoJoinCase0Scope | undefined;
 }
 export type JoinConfigureAutoResponseAutoJoinCase1 = AddUsersResponseAutoJoinCase1;
 export type JoinConfigureAutoResponseAutoJoin =
@@ -585,7 +585,7 @@ export interface JoinConfigureAutoResponseUsersItem {
   avatarUrl: string;
   role: JoinConfigureAutoResponseUsersItemRole;
   orgRole: JoinConfigureAutoResponseUsersItemOrgRole;
-  addedBy?: string;
+  addedBy?: string | undefined;
 }
 export type JoinConfigureAutoResponseUsersList = Array<JoinConfigureAutoResponseUsersItem>;
 export type JoinConfigureAutoResponseResourcesItemCase0Type =
@@ -598,7 +598,7 @@ export type JoinConfigureAutoResponseResourcesItemCase0Type =
 export interface JoinConfigureAutoResponseResourcesItemCase0 {
   type: JoinConfigureAutoResponseResourcesItemCase0Type;
   name: string;
-  addedBy?: string;
+  addedBy?: string | undefined;
   private: boolean;
 }
 export type JoinConfigureAutoResponseResourcesItemCase1 = AddUsersResponseResourcesItemCase1;
@@ -616,9 +616,9 @@ export interface JoinConfigureAutoResponse {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  description?: string | null;
-  autoJoin?: JoinConfigureAutoResponseAutoJoin;
-  spendLimits?: AddUsersResponseSpendLimits;
+  description?: string | null | undefined;
+  autoJoin?: JoinConfigureAutoResponseAutoJoin | undefined;
+  spendLimits?: AddUsersResponseSpendLimits | undefined;
   users: JoinConfigureAutoResponseUsersList;
   resources: JoinConfigureAutoResponseResourcesList;
 }
@@ -637,7 +637,7 @@ export type RemoveUserResponseAutoJoinCase0Scope = "all" | "read_plus";
 export interface RemoveUserResponseAutoJoinCase0 {
   enabled: boolean;
   role: RemoveUserResponseAutoJoinCase0Role;
-  scope?: RemoveUserResponseAutoJoinCase0Scope;
+  scope?: RemoveUserResponseAutoJoinCase0Scope | undefined;
 }
 export type RemoveUserResponseAutoJoinCase1 = AddUsersResponseAutoJoinCase1;
 export type RemoveUserResponseAutoJoin =
@@ -665,7 +665,7 @@ export interface RemoveUserResponseUsersItem {
   avatarUrl: string;
   role: RemoveUserResponseUsersItemRole;
   orgRole: RemoveUserResponseUsersItemOrgRole;
-  addedBy?: string;
+  addedBy?: string | undefined;
 }
 export type RemoveUserResponseUsersList = Array<RemoveUserResponseUsersItem>;
 export type RemoveUserResponseResourcesItemCase0Type =
@@ -678,7 +678,7 @@ export type RemoveUserResponseResourcesItemCase0Type =
 export interface RemoveUserResponseResourcesItemCase0 {
   type: RemoveUserResponseResourcesItemCase0Type;
   name: string;
-  addedBy?: string;
+  addedBy?: string | undefined;
   private: boolean;
 }
 export type RemoveUserResponseResourcesItemCase1 = AddUsersResponseResourcesItemCase1;
@@ -696,24 +696,24 @@ export interface RemoveUserResponse {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  description?: string | null;
-  autoJoin?: RemoveUserResponseAutoJoin;
-  spendLimits?: AddUsersResponseSpendLimits;
+  description?: string | null | undefined;
+  autoJoin?: RemoveUserResponseAutoJoin | undefined;
+  spendLimits?: AddUsersResponseSpendLimits | undefined;
   users: RemoveUserResponseUsersList;
   resources: RemoveUserResponseResourcesList;
 }
 export interface UpdateResourceGroupRequestSpendLimits {
-  total?: number | null;
-  inferenceProviders?: number | null;
-  spaces?: number | null;
-  jobs?: number | null;
-  endpoints?: number | null;
+  total?: number | null | undefined;
+  inferenceProviders?: number | null | undefined;
+  spaces?: number | null | undefined;
+  jobs?: number | null | undefined;
+  endpoints?: number | null | undefined;
 }
 export interface UpdateResourceGroupRequest {
   name: string;
   resourceGroupId: string;
-  description?: string;
-  spendLimits?: UpdateResourceGroupRequestSpendLimits;
+  description?: string | undefined;
+  spendLimits?: UpdateResourceGroupRequestSpendLimits | undefined;
 }
 export type UpdateResourceGroupResponseAutoJoinCase0Role =
   | "admin"
@@ -725,7 +725,7 @@ export type UpdateResourceGroupResponseAutoJoinCase0Scope = "all" | "read_plus";
 export interface UpdateResourceGroupResponseAutoJoinCase0 {
   enabled: boolean;
   role: UpdateResourceGroupResponseAutoJoinCase0Role;
-  scope?: UpdateResourceGroupResponseAutoJoinCase0Scope;
+  scope?: UpdateResourceGroupResponseAutoJoinCase0Scope | undefined;
 }
 export type UpdateResourceGroupResponseAutoJoinCase1 = AddUsersResponseAutoJoinCase1;
 export type UpdateResourceGroupResponseAutoJoin =
@@ -753,7 +753,7 @@ export interface UpdateResourceGroupResponseUsersItem {
   avatarUrl: string;
   role: UpdateResourceGroupResponseUsersItemRole;
   orgRole: UpdateResourceGroupResponseUsersItemOrgRole;
-  addedBy?: string;
+  addedBy?: string | undefined;
 }
 export type UpdateResourceGroupResponseUsersList = Array<UpdateResourceGroupResponseUsersItem>;
 export type UpdateResourceGroupResponseResourcesItemCase0Type =
@@ -766,7 +766,7 @@ export type UpdateResourceGroupResponseResourcesItemCase0Type =
 export interface UpdateResourceGroupResponseResourcesItemCase0 {
   type: UpdateResourceGroupResponseResourcesItemCase0Type;
   name: string;
-  addedBy?: string;
+  addedBy?: string | undefined;
   private: boolean;
 }
 export type UpdateResourceGroupResponseResourcesItemCase1 = AddUsersResponseResourcesItemCase1;
@@ -785,9 +785,9 @@ export interface UpdateResourceGroupResponse {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  description?: string | null;
-  autoJoin?: UpdateResourceGroupResponseAutoJoin;
-  spendLimits?: AddUsersResponseSpendLimits;
+  description?: string | null | undefined;
+  autoJoin?: UpdateResourceGroupResponseAutoJoin | undefined;
+  spendLimits?: AddUsersResponseSpendLimits | undefined;
   users: UpdateResourceGroupResponseUsersList;
   resources: UpdateResourceGroupResponseResourcesList;
 }

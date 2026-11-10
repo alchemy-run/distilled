@@ -37,7 +37,7 @@ export interface CreateEvaluationRequestEvaluationConfigCase1 {
 export type CreateEvaluationRequestEvaluationConfigCase2Source = "user_messages";
 export interface CreateEvaluationRequestEvaluationConfigCase2 {
   /** Classify sentiment from user messages in the generation input. The classifier is trained on English, so labels are unreliable for other languages; use an 'llm_judge' evaluation for multilingual agents. */
-  source?: CreateEvaluationRequestEvaluationConfigCase2Source | (string & {});
+  source?: CreateEvaluationRequestEvaluationConfigCase2Source | (string & {}) | undefined;
 }
 /** Configuration dict. For 'llm_judge': {prompt}; for 'hog': {source}; for 'sentiment': {source: 'user_messages'}. */
 export type CreateEvaluationRequestEvaluationConfig =
@@ -78,21 +78,21 @@ export type CreateEvaluationRequestOutputConfigPassingRule =
 /** Output config. For 'boolean' output_type: {allows_na} to permit N/A results, and {true_is_failure} to declare that a true result means the evaluation found a problem. For 'numeric': only min/max/step, allows_na, and passing_rule {operator: 'gte'|'lte', threshold}. For 'categorical': options [{key, label}], selection_mode (single or multiple), allows_na, and optional passing_rule {categories: [key]}. Do not send true_is_failure for numeric or categorical output. For 'sentiment': {}. */
 export interface CreateEvaluationRequestOutputConfig {
   /** Whether the evaluation can return N/A for non-applicable generations. */
-  allows_na?: boolean;
+  allows_na?: boolean | undefined;
   /** Boolean output only. Omit for numeric, categorical, and sentiment output. Whether a true result means the evaluation found a problem. False (the default) suits pass/fail evaluations, where a true result satisfied the criteria. Set it to true for detector-style evaluations, so a true result is counted and labeled as a fail. */
-  true_is_failure?: boolean;
+  true_is_failure?: boolean | undefined;
   /** Inclusive minimum numeric score. Omit for no lower bound. Required for System One numeric judges. */
-  min?: number | null;
+  min?: number | null | undefined;
   /** Inclusive maximum numeric score. Omit for no upper bound. Required for System One numeric judges and must exceed min. */
-  max?: number | null;
+  max?: number | null | undefined;
   /** Optional positive input increment. Does not round evaluation results. */
-  step?: number | null;
+  step?: number | null | undefined;
   /** Categorical output options. Keys identify stored results; labels are displayed to users. */
-  options?: CreateEvaluationRequestOutputConfigOptionsList;
+  options?: CreateEvaluationRequestOutputConfigOptionsList | undefined;
   /** Select one category or multiple categories. Multiple selection allows an empty result. Defaults to single. */
-  selection_mode?: CreateEvaluationRequestOutputConfigSelectionMode | (string & {});
+  selection_mode?: CreateEvaluationRequestOutputConfigSelectionMode | (string & {}) | undefined;
   /** Optional numeric or categorical passing rule. Null removes the rule; historical results use the current rule. */
-  passing_rule?: CreateEvaluationRequestOutputConfigPassingRule | null;
+  passing_rule?: CreateEvaluationRequestOutputConfigPassingRule | null | undefined;
 }
 export type EvaluationConditionPropertiesItemMap = { [key: string]: unknown | undefined };
 /** Property filters (event or person) that scope which generations match this condition set. */
@@ -102,9 +102,9 @@ export interface EvaluationCondition {
   /** Stable identifier for this condition set. */
   id: string;
   /** Percentage (0-100) of matching events to sample for this evaluation. Defaults to 100. */
-  rollout_percentage?: number;
+  rollout_percentage?: number | undefined;
   /** Property filters (event or person) that scope which generations match this condition set. */
-  properties?: EvaluationConditionPropertiesList;
+  properties?: EvaluationConditionPropertiesList | undefined;
 }
 /** Trigger conditions that filter which events are evaluated. OR between condition sets, AND within each. Each set is {id, rollout_percentage, properties[]} -- `rollout_percentage` (0-100, defaults to 100) is the sampling field the dispatcher reads. */
 export type CreateEvaluationRequestConditionsList = Array<EvaluationCondition>;
@@ -116,7 +116,7 @@ export interface CreateEvaluationRequestTargetConfigCase0 {
   /** Wait a fixed window after the first matching generation, then evaluate. */
   strategy: CreateEvaluationRequestTargetConfigCase0Strategy;
   /** Seconds to wait after the first matching generation before evaluating the whole unit. Captured when the run is scheduled -- editing it does not change runs already in flight. The accepted range depends on `target`: 10-7200 for 'trace', 10-604800 for 'session'. The default also depends on `target`; see the field-level help_text. */
-  window_seconds?: number;
+  window_seconds?: number | undefined;
 }
 /** Evaluate once the unit has had no new activity for the quiet period. */
 export type CreateEvaluationRequestTargetConfigCase1Strategy = "inactivity";
@@ -124,9 +124,9 @@ export interface CreateEvaluationRequestTargetConfigCase1 {
   /** Evaluate once the unit has had no new activity for the quiet period. */
   strategy: CreateEvaluationRequestTargetConfigCase1Strategy;
   /** Seconds without new activity before the unit counts as settled. The accepted range depends on `target`: 10-1800 for 'trace', 10-86400 for 'session'. The default also depends on `target`; see the field-level help_text. */
-  quiet_period_seconds?: number;
+  quiet_period_seconds?: number | undefined;
   /** Hard cap in seconds on the total wait from the first matching generation, even if the unit stays active. Must be at least quiet_period_seconds. The accepted range depends on `target`: 60-7200 for 'trace', 60-604800 for 'session'. The default also depends on `target`; see the field-level help_text. */
-  max_age_seconds?: number;
+  max_age_seconds?: number | undefined;
 }
 /** Target-specific config. For 'trace' and 'session' targets: a settle config discriminated on `strategy`, either 'fixed_window' {window_seconds} or 'inactivity' {quiet_period_seconds, max_age_seconds}. Send `strategy` explicitly. The server fills in any other field you omit, using per-target defaults, and the accepted bounds also depend on `target`. Empty for 'generation'. */
 export type CreateEvaluationRequestTargetConfig =
@@ -147,40 +147,40 @@ export type LLMProviderEnum =
   | "openai_compatible";
 /** Nested serializer for model configuration. */
 export interface ModelConfigurationInput {
-  provider?: LLMProviderEnum | (string & {});
-  model?: string;
+  provider?: LLMProviderEnum | (string & {}) | undefined;
+  model?: string | undefined;
   /** Optional team provider key to run this evaluation with; it must use the same provider. May be null when no key is pinned or after the selected key is removed. */
-  provider_key_id?: string | null;
+  provider_key_id?: string | null | undefined;
 }
 export interface CreateEvaluationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Name of the evaluation. */
-  name?: string;
+  name?: string | undefined;
   /** Optional description of what this evaluation checks. */
-  description?: string;
+  description?: string | undefined;
   /** Directory containing the evaluation. Pass null to move the evaluation to the top level. */
-  directory_id?: string | null;
+  directory_id?: string | null | undefined;
   /** Whether the evaluation runs automatically on new $ai_generation events. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** 'llm_judge' uses an LLM to score outputs against a prompt; 'hog' runs deterministic Hog code; 'sentiment' classifies user-message sentiment (trained on English, so use 'llm_judge' for multilingual agents). * `llm_judge` - LLM as a judge * `hog` - Hog * `sentiment` - Sentiment analysis */
-  evaluation_type?: EvaluationTypeEnum | (string & {});
+  evaluation_type?: EvaluationTypeEnum | (string & {}) | undefined;
   /** Configuration dict. For 'llm_judge': {prompt}; for 'hog': {source}; for 'sentiment': {source: 'user_messages'}. */
-  evaluation_config?: CreateEvaluationRequestEvaluationConfig;
+  evaluation_config?: CreateEvaluationRequestEvaluationConfig | undefined;
   /** Output format: 'boolean', 'numeric' for a finite score, 'categorical' for category keys, or 'sentiment' for sentiment analysis. * `boolean` - Boolean (Pass/Fail) * `numeric` - Numeric * `categorical` - Categorical * `sentiment` - Sentiment */
-  output_type?: OutputTypeEnum | (string & {});
+  output_type?: OutputTypeEnum | (string & {}) | undefined;
   /** Output config. For 'boolean' output_type: {allows_na} to permit N/A results, and {true_is_failure} to declare that a true result means the evaluation found a problem. For 'numeric': only min/max/step, allows_na, and passing_rule {operator: 'gte'|'lte', threshold}. For 'categorical': options [{key, label}], selection_mode (single or multiple), allows_na, and optional passing_rule {categories: [key]}. Do not send true_is_failure for numeric or categorical output. For 'sentiment': {}. */
-  output_config?: CreateEvaluationRequestOutputConfig;
+  output_config?: CreateEvaluationRequestOutputConfig | undefined;
   /** Trigger conditions that filter which events are evaluated. OR between condition sets, AND within each. Each set is {id, rollout_percentage, properties[]} -- `rollout_percentage` (0-100, defaults to 100) is the sampling field the dispatcher reads. */
-  conditions?: CreateEvaluationRequestConditionsList;
+  conditions?: CreateEvaluationRequestConditionsList | undefined;
   /** What the evaluation runs on. 'generation' evaluates each matching $ai_generation event individually. 'trace' evaluates the whole trace once and 'session' the whole $ai_session_id session once: the first matching generation schedules a run that waits for the unit to settle, then evaluates all of its events together. Condition filters still match individual generations -- a unit is evaluated when any of its generations matches, and sampling applies per unit. A 'session' evaluation only fires for generations that carry $ai_session_id. When and how the run fires is controlled by target_config's settle strategy. * `generation` - Generation * `trace` - Trace * `session` - Session */
-  target?: EvaluationTargetEnum | (string & {});
+  target?: EvaluationTargetEnum | (string & {}) | undefined;
   /** Target-specific config. For 'trace' and 'session' targets: a settle config discriminated on `strategy`, either 'fixed_window' {window_seconds} or 'inactivity' {quiet_period_seconds, max_age_seconds}. Send `strategy` explicitly. The server fills in any other field you omit, using per-target defaults, and the accepted bounds also depend on `target`. Empty for 'generation'. */
-  target_config?: CreateEvaluationRequestTargetConfig;
+  target_config?: CreateEvaluationRequestTargetConfig | undefined;
   /** Provider and model for an llm_judge evaluation. Required when creating or switching to llm_judge. To add or replace a model, provide both provider and model. On an existing configured llm_judge, omit this field to keep the current model; null is rejected. When switching an llm_judge to hog or sentiment, set this field to null. Legacy llm_judge evaluations without a model remain editable without adding one. The nested provider_key_id may be null. */
-  model_configuration?: ModelConfigurationInput | null;
+  model_configuration?: ModelConfigurationInput | null | undefined;
   /** Set to true to soft-delete the evaluation. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 /** * `active` - Active * `paused` - Paused * `error` - Error */
 export type EvaluationStatusEnum = "active" | "paused" | "error";
@@ -202,7 +202,7 @@ export type EvaluationEvaluationConfigCase1 = CreateEvaluationRequestEvaluationC
 export type EvaluationEvaluationConfigCase2Source = "user_messages";
 export interface EvaluationEvaluationConfigCase2 {
   /** Classify sentiment from user messages in the generation input. The classifier is trained on English, so labels are unreliable for other languages; use an 'llm_judge' evaluation for multilingual agents. */
-  source?: EvaluationEvaluationConfigCase2Source;
+  source?: EvaluationEvaluationConfigCase2Source | undefined;
 }
 /** Configuration dict. For 'llm_judge': {prompt}; for 'hog': {source}; for 'sentiment': {source: 'user_messages'}. */
 export type EvaluationEvaluationConfig =
@@ -236,21 +236,21 @@ export type EvaluationOutputConfigPassingRule =
 /** Output config. For 'boolean' output_type: {allows_na} to permit N/A results, and {true_is_failure} to declare that a true result means the evaluation found a problem. For 'numeric': only min/max/step, allows_na, and passing_rule {operator: 'gte'|'lte', threshold}. For 'categorical': options [{key, label}], selection_mode (single or multiple), allows_na, and optional passing_rule {categories: [key]}. Do not send true_is_failure for numeric or categorical output. For 'sentiment': {}. */
 export interface EvaluationOutputConfig {
   /** Whether the evaluation can return N/A for non-applicable generations. */
-  allows_na?: boolean;
+  allows_na?: boolean | undefined;
   /** Boolean output only. Omit for numeric, categorical, and sentiment output. Whether a true result means the evaluation found a problem. False (the default) suits pass/fail evaluations, where a true result satisfied the criteria. Set it to true for detector-style evaluations, so a true result is counted and labeled as a fail. */
-  true_is_failure?: boolean;
+  true_is_failure?: boolean | undefined;
   /** Inclusive minimum numeric score. Omit for no lower bound. Required for System One numeric judges. */
-  min?: number | null;
+  min?: number | null | undefined;
   /** Inclusive maximum numeric score. Omit for no upper bound. Required for System One numeric judges and must exceed min. */
-  max?: number | null;
+  max?: number | null | undefined;
   /** Optional positive input increment. Does not round evaluation results. */
-  step?: number | null;
+  step?: number | null | undefined;
   /** Categorical output options. Keys identify stored results; labels are displayed to users. */
-  options?: EvaluationOutputConfigOptionsList;
+  options?: EvaluationOutputConfigOptionsList | undefined;
   /** Select one category or multiple categories. Multiple selection allows an empty result. Defaults to single. */
-  selection_mode?: EvaluationOutputConfigSelectionMode;
+  selection_mode?: EvaluationOutputConfigSelectionMode | undefined;
   /** Optional numeric or categorical passing rule. Null removes the rule; historical results use the current rule. */
-  passing_rule?: EvaluationOutputConfigPassingRule | null;
+  passing_rule?: EvaluationOutputConfigPassingRule | null | undefined;
 }
 /** Trigger conditions that filter which events are evaluated. OR between condition sets, AND within each. Each set is {id, rollout_percentage, properties[]} -- `rollout_percentage` (0-100, defaults to 100) is the sampling field the dispatcher reads. */
 export type EvaluationConditionsList = Array<EvaluationCondition>;
@@ -260,7 +260,7 @@ export interface EvaluationTargetConfigCase0 {
   /** Wait a fixed window after the first matching generation, then evaluate. */
   strategy: EvaluationTargetConfigCase0Strategy;
   /** Seconds to wait after the first matching generation before evaluating the whole unit. Captured when the run is scheduled -- editing it does not change runs already in flight. The accepted range depends on `target`: 10-7200 for 'trace', 10-604800 for 'session'. The default also depends on `target`; see the field-level help_text. */
-  window_seconds?: number;
+  window_seconds?: number | undefined;
 }
 /** Evaluate once the unit has had no new activity for the quiet period. */
 export type EvaluationTargetConfigCase1Strategy = "inactivity";
@@ -268,19 +268,19 @@ export interface EvaluationTargetConfigCase1 {
   /** Evaluate once the unit has had no new activity for the quiet period. */
   strategy: EvaluationTargetConfigCase1Strategy;
   /** Seconds without new activity before the unit counts as settled. The accepted range depends on `target`: 10-1800 for 'trace', 10-86400 for 'session'. The default also depends on `target`; see the field-level help_text. */
-  quiet_period_seconds?: number;
+  quiet_period_seconds?: number | undefined;
   /** Hard cap in seconds on the total wait from the first matching generation, even if the unit stays active. Must be at least quiet_period_seconds. The accepted range depends on `target`: 60-7200 for 'trace', 60-604800 for 'session'. The default also depends on `target`; see the field-level help_text. */
-  max_age_seconds?: number;
+  max_age_seconds?: number | undefined;
 }
 /** Target-specific config. For 'trace' and 'session' targets: a settle config discriminated on `strategy`, either 'fixed_window' {window_seconds} or 'inactivity' {quiet_period_seconds, max_age_seconds}. Send `strategy` explicitly. The server fills in any other field you omit, using per-target defaults, and the accepted bounds also depend on `target`. Empty for 'generation'. */
 export type EvaluationTargetConfig = EvaluationTargetConfigCase0 | EvaluationTargetConfigCase1;
 /** Nested serializer for model configuration. */
 export interface ModelConfiguration {
-  provider?: LLMProviderEnum;
-  model?: string;
+  provider?: LLMProviderEnum | undefined;
+  model?: string | undefined;
   /** Optional team provider key to run this evaluation with; it must use the same provider. May be null when no key is pinned or after the selected key is removed. */
-  provider_key_id?: string | null;
-  provider_key_name?: string | null;
+  provider_key_id?: string | null | undefined;
+  provider_key_name?: string | null | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -297,55 +297,55 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** An evaluation that scores LLM generations, traces, or sessions. */
 export interface Evaluation {
-  id?: string;
+  id?: string | undefined;
   /** Name of the evaluation. */
-  name?: string;
+  name?: string | undefined;
   /** Optional description of what this evaluation checks. */
-  description?: string;
+  description?: string | undefined;
   /** Directory containing the evaluation. Pass null to move the evaluation to the top level. */
-  directory_id?: string | null;
+  directory_id?: string | null | undefined;
   /** Whether the evaluation runs automatically on new $ai_generation events. */
-  enabled?: boolean;
-  status?: EvaluationStatusEnum;
-  status_reason?: EvaluationStatusReasonEnum | null;
+  enabled?: boolean | undefined;
+  status?: EvaluationStatusEnum | undefined;
+  status_reason?: EvaluationStatusReasonEnum | null | undefined;
   /** Additional detail for the current system-disabled status. This is only populated when the detail is safe to show in the evaluation UI. */
-  status_reason_detail?: string | null;
+  status_reason_detail?: string | null | undefined;
   /** 'llm_judge' uses an LLM to score outputs against a prompt; 'hog' runs deterministic Hog code; 'sentiment' classifies user-message sentiment (trained on English, so use 'llm_judge' for multilingual agents). * `llm_judge` - LLM as a judge * `hog` - Hog * `sentiment` - Sentiment analysis */
-  evaluation_type?: EvaluationTypeEnum;
+  evaluation_type?: EvaluationTypeEnum | undefined;
   /** Configuration dict. For 'llm_judge': {prompt}; for 'hog': {source}; for 'sentiment': {source: 'user_messages'}. */
-  evaluation_config?: EvaluationEvaluationConfig;
+  evaluation_config?: EvaluationEvaluationConfig | undefined;
   /** Output format: 'boolean', 'numeric' for a finite score, 'categorical' for category keys, or 'sentiment' for sentiment analysis. * `boolean` - Boolean (Pass/Fail) * `numeric` - Numeric * `categorical` - Categorical * `sentiment` - Sentiment */
-  output_type?: OutputTypeEnum;
+  output_type?: OutputTypeEnum | undefined;
   /** Output config. For 'boolean' output_type: {allows_na} to permit N/A results, and {true_is_failure} to declare that a true result means the evaluation found a problem. For 'numeric': only min/max/step, allows_na, and passing_rule {operator: 'gte'|'lte', threshold}. For 'categorical': options [{key, label}], selection_mode (single or multiple), allows_na, and optional passing_rule {categories: [key]}. Do not send true_is_failure for numeric or categorical output. For 'sentiment': {}. */
-  output_config?: EvaluationOutputConfig;
+  output_config?: EvaluationOutputConfig | undefined;
   /** Trigger conditions that filter which events are evaluated. OR between condition sets, AND within each. Each set is {id, rollout_percentage, properties[]} -- `rollout_percentage` (0-100, defaults to 100) is the sampling field the dispatcher reads. */
-  conditions?: EvaluationConditionsList;
+  conditions?: EvaluationConditionsList | undefined;
   /** What the evaluation runs on. 'generation' evaluates each matching $ai_generation event individually. 'trace' evaluates the whole trace once and 'session' the whole $ai_session_id session once: the first matching generation schedules a run that waits for the unit to settle, then evaluates all of its events together. Condition filters still match individual generations -- a unit is evaluated when any of its generations matches, and sampling applies per unit. A 'session' evaluation only fires for generations that carry $ai_session_id. When and how the run fires is controlled by target_config's settle strategy. * `generation` - Generation * `trace` - Trace * `session` - Session */
-  target?: EvaluationTargetEnum;
+  target?: EvaluationTargetEnum | undefined;
   /** Target-specific config. For 'trace' and 'session' targets: a settle config discriminated on `strategy`, either 'fixed_window' {window_seconds} or 'inactivity' {quiet_period_seconds, max_age_seconds}. Send `strategy` explicitly. The server fills in any other field you omit, using per-target defaults, and the accepted bounds also depend on `target`. Empty for 'generation'. */
-  target_config?: EvaluationTargetConfig;
+  target_config?: EvaluationTargetConfig | undefined;
   /** Provider and model for an llm_judge evaluation. Required when creating or switching to llm_judge. To add or replace a model, provide both provider and model. On an existing configured llm_judge, omit this field to keep the current model; null is rejected. When switching an llm_judge to hog or sentiment, set this field to null. Legacy llm_judge evaluations without a model remain editable without adding one. The nested provider_key_id may be null. */
-  model_configuration?: ModelConfiguration | null;
-  created_at?: string;
-  updated_at?: string;
+  model_configuration?: ModelConfiguration | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
   /** User who created the evaluation. */
-  created_by?: UserBasic | null;
+  created_by?: UserBasic | null | undefined;
   /** Set to true to soft-delete the evaluation. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** The effective access level the user has for this object */
-  user_access_level?: string | null;
+  user_access_level?: string | null | undefined;
 }
 /** Condition sets to match. Defaults to the evaluation's own condition sets. */
 export type CreateEvaluationsBackfillRequestConditionsList = Array<EvaluationCondition>;
@@ -358,9 +358,9 @@ export interface CreateEvaluationsBackfillRequest {
   /** Exclusive end of the window. Values in the future are clamped to now. */
   window_end: string;
   /** Condition sets to match. Defaults to the evaluation's own condition sets. */
-  conditions?: CreateEvaluationsBackfillRequestConditionsList;
+  conditions?: CreateEvaluationsBackfillRequestConditionsList | undefined;
   /** Evaluate units again even when this evaluation already has a result for them. */
-  rerun_existing?: boolean;
+  rerun_existing?: boolean | undefined;
 }
 /** * `running` - Running * `completed` - Completed * `cancelled` - Cancelled */
 export type EvaluationBackfillStatusEnum = "running" | "completed" | "cancelled";
@@ -371,9 +371,9 @@ export type EvaluationBackfillConditionPropertiesList =
 /** One condition set as it was frozen onto the backfill: no id, no compiled bytecode. */
 export interface EvaluationBackfillCondition {
   /** Property filters (event or person) that scope which units match this condition set. */
-  properties?: EvaluationBackfillConditionPropertiesList;
+  properties?: EvaluationBackfillConditionPropertiesList | undefined;
   /** Percentage (0-100) of matching units sampled for this condition set. */
-  rollout_percentage?: number;
+  rollout_percentage?: number | undefined;
 }
 /** Condition sets frozen at creation, so an edit to the evaluation does not change this run. */
 export type EvaluationBackfillConditionsList = Array<EvaluationBackfillCondition>;
@@ -420,9 +420,9 @@ export interface CreateEvaluationsBackfillsEstimateRequest {
   /** Exclusive end of the window. Values in the future are clamped to now. */
   window_end: string;
   /** Condition sets to match. Defaults to the evaluation's own condition sets. */
-  conditions?: CreateEvaluationsBackfillsEstimateRequestConditionsList;
+  conditions?: CreateEvaluationsBackfillsEstimateRequestConditionsList | undefined;
   /** Evaluate units again even when this evaluation already has a result for them. */
-  rerun_existing?: boolean;
+  rerun_existing?: boolean | undefined;
 }
 export interface EvaluationBackfillEstimate {
   /** Units that would be evaluated. */
@@ -467,21 +467,24 @@ export type CreateEvaluationsTestHogRequestOutputConfigPassingRule =
 /** Output settings used to validate the preview, including bounds, categories, and allows_na. */
 export interface CreateEvaluationsTestHogRequestOutputConfig {
   /** Whether the evaluation can return N/A for non-applicable generations. */
-  allows_na?: boolean;
+  allows_na?: boolean | undefined;
   /** Boolean output only. Omit for numeric, categorical, and sentiment output. Whether a true result means the evaluation found a problem. False (the default) suits pass/fail evaluations, where a true result satisfied the criteria. Set it to true for detector-style evaluations, so a true result is counted and labeled as a fail. */
-  true_is_failure?: boolean;
+  true_is_failure?: boolean | undefined;
   /** Inclusive minimum numeric score. Omit for no lower bound. Required for System One numeric judges. */
-  min?: number | null;
+  min?: number | null | undefined;
   /** Inclusive maximum numeric score. Omit for no upper bound. Required for System One numeric judges and must exceed min. */
-  max?: number | null;
+  max?: number | null | undefined;
   /** Optional positive input increment. Does not round evaluation results. */
-  step?: number | null;
+  step?: number | null | undefined;
   /** Categorical output options. Keys identify stored results; labels are displayed to users. */
-  options?: CreateEvaluationsTestHogRequestOutputConfigOptionsList;
+  options?: CreateEvaluationsTestHogRequestOutputConfigOptionsList | undefined;
   /** Select one category or multiple categories. Multiple selection allows an empty result. Defaults to single. */
-  selection_mode?: CreateEvaluationsTestHogRequestOutputConfigSelectionMode | (string & {});
+  selection_mode?:
+    | CreateEvaluationsTestHogRequestOutputConfigSelectionMode
+    | (string & {})
+    | undefined;
   /** Optional numeric or categorical passing rule. Null removes the rule; historical results use the current rule. */
-  passing_rule?: CreateEvaluationsTestHogRequestOutputConfigPassingRule | null;
+  passing_rule?: CreateEvaluationsTestHogRequestOutputConfigPassingRule | null | undefined;
 }
 export type CreateEvaluationsTestHogRequestConditionsItemMap = {
   [key: string]: unknown | undefined;
@@ -491,61 +494,61 @@ export type CreateEvaluationsTestHogRequestConditionsList =
   Array<CreateEvaluationsTestHogRequestConditionsItemMap>;
 export interface TestHogTargetConfig {
   /** Aggregation window for trace samples, in seconds. */
-  window_seconds?: number;
+  window_seconds?: number | undefined;
   /** For session samples: only sessions with no activity for this long are previewed, matching when a session evaluation would actually run. */
-  quiet_period_seconds?: number;
+  quiet_period_seconds?: number | undefined;
 }
 export interface CreateEvaluationsTestHogRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Expected output: boolean, numeric, or categorical. Sentiment is not supported by Hog. * `boolean` - Boolean (Pass/Fail) * `numeric` - Numeric * `categorical` - Categorical */
-  output_type?: HogEvaluationOutputTypeEnum | (string & {});
+  output_type?: HogEvaluationOutputTypeEnum | (string & {}) | undefined;
   /** Output settings used to validate the preview, including bounds, categories, and allows_na. */
-  output_config?: CreateEvaluationsTestHogRequestOutputConfig;
+  output_config?: CreateEvaluationsTestHogRequestOutputConfig | undefined;
   /** Hog source code to test. Return a boolean, finite number, or category keys matching output_type. Categorical single selection accepts one key or a one-item list; multiple selection accepts a list, including []. Return null only for allowed N/A. Output settings determine which boolean counts as a failure. */
-  source?: string;
+  source?: string | undefined;
   /** Number of recent $ai_generation events to test against (1-10, default 5). */
-  sample_count?: number;
+  sample_count?: number | undefined;
   /** Whether the evaluation can return N/A for non-applicable generations. */
-  allows_na?: boolean;
+  allows_na?: boolean | undefined;
   /** Optional trigger conditions to filter which events are sampled. */
-  conditions?: CreateEvaluationsTestHogRequestConditionsList;
+  conditions?: CreateEvaluationsTestHogRequestConditionsList | undefined;
   /** What the evaluation runs against: 'generation' samples individual generations, 'trace' samples whole traces, and 'session' samples whole sessions that have gone quiet. Each target runs against the same globals it would run against online. * `generation` - Generation * `trace` - Trace * `session` - Session */
-  target?: EvaluationTargetEnum | (string & {});
+  target?: EvaluationTargetEnum | (string & {}) | undefined;
   /** Target-specific preview settings. For a trace target, set window_seconds between 10 and 7200. */
-  target_config?: TestHogTargetConfig;
+  target_config?: TestHogTargetConfig | undefined;
 }
 /** Selected category keys. An empty list is an applicable result; null means no categorical result was produced. */
 export type TestHogResultItemCategoriesList = Array<string>;
 export interface TestHogResultItem {
   /** Selected category keys. An empty list is an applicable result; null means no categorical result was produced. */
-  categories?: TestHogResultItemCategoriesList | null;
+  categories?: TestHogResultItemCategoriesList | null | undefined;
   /** Raw numeric score, or null when no numeric score was produced. */
-  score?: number | null;
+  score?: number | null | undefined;
   /** Stable identifier for the sampled generation, trace, or session. */
-  sample_id?: string;
+  sample_id?: string | undefined;
   /** Type of sampled unit: generation, trace, or session. * `generation` - Generation * `trace` - Trace * `session` - Session */
-  sample_type?: EvaluationTargetEnum;
+  sample_type?: EvaluationTargetEnum | undefined;
   /** UUID of the sampled $ai_generation event, or null for a trace or session sample. */
-  event_uuid?: string | null;
+  event_uuid?: string | null | undefined;
   /** Trace ID if available. */
-  trace_id?: string | null;
+  trace_id?: string | null | undefined;
   /** First 200 characters of input from the sampled unit. */
-  input_preview?: string;
+  input_preview?: string | undefined;
   /** First 200 characters of output from the sampled unit. */
-  output_preview?: string;
+  output_preview?: string | undefined;
   /** Raw boolean result, or null when the evaluation returns N/A or raises an error. */
-  result?: boolean | null;
+  result?: boolean | null | undefined;
   /** Hog evaluation reasoning string, if any. */
-  reasoning?: string | null;
+  reasoning?: string | null | undefined;
   /** Error message if the Hog code raised an exception. */
-  error?: string | null;
+  error?: string | null | undefined;
 }
 export type TestHogResponseResultsList = Array<TestHogResultItem>;
 export interface TestHogResponse {
-  results?: TestHogResponseResultsList;
+  results?: TestHogResponseResultsList | undefined;
   /** Optional message, e.g. when no recent events were found. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface EvaluationsBackfillsCancelCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -590,45 +593,45 @@ export interface ListEvaluationsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Filter evaluations by directory UUID. */
-  directory_id?: string;
+  directory_id?: string | undefined;
   /** Filter evaluations by whether they are at the top level. */
-  directory_id__isnull?: boolean;
+  directory_id__isnull?: boolean | undefined;
   /** Filter by enabled status */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Filter by evaluation type * `llm_judge` - LLM as a judge * `hog` - Hog * `sentiment` - Sentiment analysis */
-  evaluation_type?: ListEvaluationsRequestEvaluationType | (string & {});
+  evaluation_type?: ListEvaluationsRequestEvaluationType | (string & {}) | undefined;
   /** Multiple values may be separated by commas. */
-  id__in?: ListEvaluationsRequestIdInList;
+  id__in?: ListEvaluationsRequestIdInList | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Ordering * `created_at` - Created At * `-created_at` - Created At (descending) * `updated_at` - Updated At * `-updated_at` - Updated At (descending) * `name` - Name * `-name` - Name (descending) */
-  order_by?: ListEvaluationsRequestOrderByList;
+  order_by?: ListEvaluationsRequestOrderByList | undefined;
   /** Search in name or description */
-  search?: string;
+  search?: string | undefined;
 }
 export type PaginatedEvaluationListResultsList = Array<Evaluation>;
 export interface PaginatedEvaluationList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedEvaluationListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedEvaluationListResultsList | undefined;
 }
 export interface ListEvaluationsBackfillsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   evaluation_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedEvaluationBackfillListResultsList = Array<EvaluationBackfill>;
 export interface PaginatedEvaluationBackfillList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedEvaluationBackfillListResultsList;
 }
 export type UpdateEvaluationRequestEvaluationConfigCase0 =
@@ -639,7 +642,7 @@ export type UpdateEvaluationRequestEvaluationConfigCase1 =
 export type UpdateEvaluationRequestEvaluationConfigCase2Source = "user_messages";
 export interface UpdateEvaluationRequestEvaluationConfigCase2 {
   /** Classify sentiment from user messages in the generation input. The classifier is trained on English, so labels are unreliable for other languages; use an 'llm_judge' evaluation for multilingual agents. */
-  source?: UpdateEvaluationRequestEvaluationConfigCase2Source | (string & {});
+  source?: UpdateEvaluationRequestEvaluationConfigCase2Source | (string & {}) | undefined;
 }
 /** Configuration dict. For 'llm_judge': {prompt}; for 'hog': {source}; for 'sentiment': {source: 'user_messages'}. */
 export type UpdateEvaluationRequestEvaluationConfig =
@@ -674,21 +677,21 @@ export type UpdateEvaluationRequestOutputConfigPassingRule =
 /** Output config. For 'boolean' output_type: {allows_na} to permit N/A results, and {true_is_failure} to declare that a true result means the evaluation found a problem. For 'numeric': only min/max/step, allows_na, and passing_rule {operator: 'gte'|'lte', threshold}. For 'categorical': options [{key, label}], selection_mode (single or multiple), allows_na, and optional passing_rule {categories: [key]}. Do not send true_is_failure for numeric or categorical output. For 'sentiment': {}. */
 export interface UpdateEvaluationRequestOutputConfig {
   /** Whether the evaluation can return N/A for non-applicable generations. */
-  allows_na?: boolean;
+  allows_na?: boolean | undefined;
   /** Boolean output only. Omit for numeric, categorical, and sentiment output. Whether a true result means the evaluation found a problem. False (the default) suits pass/fail evaluations, where a true result satisfied the criteria. Set it to true for detector-style evaluations, so a true result is counted and labeled as a fail. */
-  true_is_failure?: boolean;
+  true_is_failure?: boolean | undefined;
   /** Inclusive minimum numeric score. Omit for no lower bound. Required for System One numeric judges. */
-  min?: number | null;
+  min?: number | null | undefined;
   /** Inclusive maximum numeric score. Omit for no upper bound. Required for System One numeric judges and must exceed min. */
-  max?: number | null;
+  max?: number | null | undefined;
   /** Optional positive input increment. Does not round evaluation results. */
-  step?: number | null;
+  step?: number | null | undefined;
   /** Categorical output options. Keys identify stored results; labels are displayed to users. */
-  options?: UpdateEvaluationRequestOutputConfigOptionsList;
+  options?: UpdateEvaluationRequestOutputConfigOptionsList | undefined;
   /** Select one category or multiple categories. Multiple selection allows an empty result. Defaults to single. */
-  selection_mode?: UpdateEvaluationRequestOutputConfigSelectionMode | (string & {});
+  selection_mode?: UpdateEvaluationRequestOutputConfigSelectionMode | (string & {}) | undefined;
   /** Optional numeric or categorical passing rule. Null removes the rule; historical results use the current rule. */
-  passing_rule?: UpdateEvaluationRequestOutputConfigPassingRule | null;
+  passing_rule?: UpdateEvaluationRequestOutputConfigPassingRule | null | undefined;
 }
 /** Trigger conditions that filter which events are evaluated. OR between condition sets, AND within each. Each set is {id, rollout_percentage, properties[]} -- `rollout_percentage` (0-100, defaults to 100) is the sampling field the dispatcher reads. */
 export type UpdateEvaluationRequestConditionsList = Array<EvaluationCondition>;
@@ -698,7 +701,7 @@ export interface UpdateEvaluationRequestTargetConfigCase0 {
   /** Wait a fixed window after the first matching generation, then evaluate. */
   strategy: UpdateEvaluationRequestTargetConfigCase0Strategy;
   /** Seconds to wait after the first matching generation before evaluating the whole unit. Captured when the run is scheduled -- editing it does not change runs already in flight. The accepted range depends on `target`: 10-7200 for 'trace', 10-604800 for 'session'. The default also depends on `target`; see the field-level help_text. */
-  window_seconds?: number;
+  window_seconds?: number | undefined;
 }
 /** Evaluate once the unit has had no new activity for the quiet period. */
 export type UpdateEvaluationRequestTargetConfigCase1Strategy = "inactivity";
@@ -706,9 +709,9 @@ export interface UpdateEvaluationRequestTargetConfigCase1 {
   /** Evaluate once the unit has had no new activity for the quiet period. */
   strategy: UpdateEvaluationRequestTargetConfigCase1Strategy;
   /** Seconds without new activity before the unit counts as settled. The accepted range depends on `target`: 10-1800 for 'trace', 10-86400 for 'session'. The default also depends on `target`; see the field-level help_text. */
-  quiet_period_seconds?: number;
+  quiet_period_seconds?: number | undefined;
   /** Hard cap in seconds on the total wait from the first matching generation, even if the unit stays active. Must be at least quiet_period_seconds. The accepted range depends on `target`: 60-7200 for 'trace', 60-604800 for 'session'. The default also depends on `target`; see the field-level help_text. */
-  max_age_seconds?: number;
+  max_age_seconds?: number | undefined;
 }
 /** Target-specific config. For 'trace' and 'session' targets: a settle config discriminated on `strategy`, either 'fixed_window' {window_seconds} or 'inactivity' {quiet_period_seconds, max_age_seconds}. Send `strategy` explicitly. The server fills in any other field you omit, using per-target defaults, and the accepted bounds also depend on `target`. Empty for 'generation'. */
 export type UpdateEvaluationRequestTargetConfig =
@@ -720,31 +723,31 @@ export interface UpdateEvaluationRequest {
   /** A UUID string identifying this evaluation. */
   id: string;
   /** Name of the evaluation. */
-  name?: string;
+  name?: string | undefined;
   /** Optional description of what this evaluation checks. */
-  description?: string;
+  description?: string | undefined;
   /** Directory containing the evaluation. Pass null to move the evaluation to the top level. */
-  directory_id?: string | null;
+  directory_id?: string | null | undefined;
   /** Whether the evaluation runs automatically on new $ai_generation events. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** 'llm_judge' uses an LLM to score outputs against a prompt; 'hog' runs deterministic Hog code; 'sentiment' classifies user-message sentiment (trained on English, so use 'llm_judge' for multilingual agents). * `llm_judge` - LLM as a judge * `hog` - Hog * `sentiment` - Sentiment analysis */
-  evaluation_type?: EvaluationTypeEnum | (string & {});
+  evaluation_type?: EvaluationTypeEnum | (string & {}) | undefined;
   /** Configuration dict. For 'llm_judge': {prompt}; for 'hog': {source}; for 'sentiment': {source: 'user_messages'}. */
-  evaluation_config?: UpdateEvaluationRequestEvaluationConfig;
+  evaluation_config?: UpdateEvaluationRequestEvaluationConfig | undefined;
   /** Output format: 'boolean', 'numeric' for a finite score, 'categorical' for category keys, or 'sentiment' for sentiment analysis. * `boolean` - Boolean (Pass/Fail) * `numeric` - Numeric * `categorical` - Categorical * `sentiment` - Sentiment */
-  output_type?: OutputTypeEnum | (string & {});
+  output_type?: OutputTypeEnum | (string & {}) | undefined;
   /** Output config. For 'boolean' output_type: {allows_na} to permit N/A results, and {true_is_failure} to declare that a true result means the evaluation found a problem. For 'numeric': only min/max/step, allows_na, and passing_rule {operator: 'gte'|'lte', threshold}. For 'categorical': options [{key, label}], selection_mode (single or multiple), allows_na, and optional passing_rule {categories: [key]}. Do not send true_is_failure for numeric or categorical output. For 'sentiment': {}. */
-  output_config?: UpdateEvaluationRequestOutputConfig;
+  output_config?: UpdateEvaluationRequestOutputConfig | undefined;
   /** Trigger conditions that filter which events are evaluated. OR between condition sets, AND within each. Each set is {id, rollout_percentage, properties[]} -- `rollout_percentage` (0-100, defaults to 100) is the sampling field the dispatcher reads. */
-  conditions?: UpdateEvaluationRequestConditionsList;
+  conditions?: UpdateEvaluationRequestConditionsList | undefined;
   /** What the evaluation runs on. 'generation' evaluates each matching $ai_generation event individually. 'trace' evaluates the whole trace once and 'session' the whole $ai_session_id session once: the first matching generation schedules a run that waits for the unit to settle, then evaluates all of its events together. Condition filters still match individual generations -- a unit is evaluated when any of its generations matches, and sampling applies per unit. A 'session' evaluation only fires for generations that carry $ai_session_id. When and how the run fires is controlled by target_config's settle strategy. * `generation` - Generation * `trace` - Trace * `session` - Session */
-  target?: EvaluationTargetEnum | (string & {});
+  target?: EvaluationTargetEnum | (string & {}) | undefined;
   /** Target-specific config. For 'trace' and 'session' targets: a settle config discriminated on `strategy`, either 'fixed_window' {window_seconds} or 'inactivity' {quiet_period_seconds, max_age_seconds}. Send `strategy` explicitly. The server fills in any other field you omit, using per-target defaults, and the accepted bounds also depend on `target`. Empty for 'generation'. */
-  target_config?: UpdateEvaluationRequestTargetConfig;
+  target_config?: UpdateEvaluationRequestTargetConfig | undefined;
   /** Provider and model for an llm_judge evaluation. Required when creating or switching to llm_judge. To add or replace a model, provide both provider and model. On an existing configured llm_judge, omit this field to keep the current model; null is rejected. When switching an llm_judge to hog or sentiment, set this field to null. Legacy llm_judge evaluations without a model remain editable without adding one. The nested provider_key_id may be null. */
-  model_configuration?: ModelConfigurationInput | null;
+  model_configuration?: ModelConfigurationInput | null | undefined;
   /** Set to true to soft-delete the evaluation. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export type UpdateEvaluationsPartialRequestEvaluationConfigCase0 =
   CreateEvaluationRequestEvaluationConfigCase0;
@@ -754,7 +757,7 @@ export type UpdateEvaluationsPartialRequestEvaluationConfigCase1 =
 export type UpdateEvaluationsPartialRequestEvaluationConfigCase2Source = "user_messages";
 export interface UpdateEvaluationsPartialRequestEvaluationConfigCase2 {
   /** Classify sentiment from user messages in the generation input. The classifier is trained on English, so labels are unreliable for other languages; use an 'llm_judge' evaluation for multilingual agents. */
-  source?: UpdateEvaluationsPartialRequestEvaluationConfigCase2Source | (string & {});
+  source?: UpdateEvaluationsPartialRequestEvaluationConfigCase2Source | (string & {}) | undefined;
 }
 /** Configuration dict. For 'llm_judge': {prompt}; for 'hog': {source}; for 'sentiment': {source: 'user_messages'}. */
 export type UpdateEvaluationsPartialRequestEvaluationConfig =
@@ -790,21 +793,24 @@ export type UpdateEvaluationsPartialRequestOutputConfigPassingRule =
 /** Output config. For 'boolean' output_type: {allows_na} to permit N/A results, and {true_is_failure} to declare that a true result means the evaluation found a problem. For 'numeric': only min/max/step, allows_na, and passing_rule {operator: 'gte'|'lte', threshold}. For 'categorical': options [{key, label}], selection_mode (single or multiple), allows_na, and optional passing_rule {categories: [key]}. Do not send true_is_failure for numeric or categorical output. For 'sentiment': {}. */
 export interface UpdateEvaluationsPartialRequestOutputConfig {
   /** Whether the evaluation can return N/A for non-applicable generations. */
-  allows_na?: boolean;
+  allows_na?: boolean | undefined;
   /** Boolean output only. Omit for numeric, categorical, and sentiment output. Whether a true result means the evaluation found a problem. False (the default) suits pass/fail evaluations, where a true result satisfied the criteria. Set it to true for detector-style evaluations, so a true result is counted and labeled as a fail. */
-  true_is_failure?: boolean;
+  true_is_failure?: boolean | undefined;
   /** Inclusive minimum numeric score. Omit for no lower bound. Required for System One numeric judges. */
-  min?: number | null;
+  min?: number | null | undefined;
   /** Inclusive maximum numeric score. Omit for no upper bound. Required for System One numeric judges and must exceed min. */
-  max?: number | null;
+  max?: number | null | undefined;
   /** Optional positive input increment. Does not round evaluation results. */
-  step?: number | null;
+  step?: number | null | undefined;
   /** Categorical output options. Keys identify stored results; labels are displayed to users. */
-  options?: UpdateEvaluationsPartialRequestOutputConfigOptionsList;
+  options?: UpdateEvaluationsPartialRequestOutputConfigOptionsList | undefined;
   /** Select one category or multiple categories. Multiple selection allows an empty result. Defaults to single. */
-  selection_mode?: UpdateEvaluationsPartialRequestOutputConfigSelectionMode | (string & {});
+  selection_mode?:
+    | UpdateEvaluationsPartialRequestOutputConfigSelectionMode
+    | (string & {})
+    | undefined;
   /** Optional numeric or categorical passing rule. Null removes the rule; historical results use the current rule. */
-  passing_rule?: UpdateEvaluationsPartialRequestOutputConfigPassingRule | null;
+  passing_rule?: UpdateEvaluationsPartialRequestOutputConfigPassingRule | null | undefined;
 }
 /** Trigger conditions that filter which events are evaluated. OR between condition sets, AND within each. Each set is {id, rollout_percentage, properties[]} -- `rollout_percentage` (0-100, defaults to 100) is the sampling field the dispatcher reads. */
 export type UpdateEvaluationsPartialRequestConditionsList = Array<EvaluationCondition>;
@@ -814,7 +820,7 @@ export interface UpdateEvaluationsPartialRequestTargetConfigCase0 {
   /** Wait a fixed window after the first matching generation, then evaluate. */
   strategy: UpdateEvaluationsPartialRequestTargetConfigCase0Strategy;
   /** Seconds to wait after the first matching generation before evaluating the whole unit. Captured when the run is scheduled -- editing it does not change runs already in flight. The accepted range depends on `target`: 10-7200 for 'trace', 10-604800 for 'session'. The default also depends on `target`; see the field-level help_text. */
-  window_seconds?: number;
+  window_seconds?: number | undefined;
 }
 /** Evaluate once the unit has had no new activity for the quiet period. */
 export type UpdateEvaluationsPartialRequestTargetConfigCase1Strategy = "inactivity";
@@ -822,9 +828,9 @@ export interface UpdateEvaluationsPartialRequestTargetConfigCase1 {
   /** Evaluate once the unit has had no new activity for the quiet period. */
   strategy: UpdateEvaluationsPartialRequestTargetConfigCase1Strategy;
   /** Seconds without new activity before the unit counts as settled. The accepted range depends on `target`: 10-1800 for 'trace', 10-86400 for 'session'. The default also depends on `target`; see the field-level help_text. */
-  quiet_period_seconds?: number;
+  quiet_period_seconds?: number | undefined;
   /** Hard cap in seconds on the total wait from the first matching generation, even if the unit stays active. Must be at least quiet_period_seconds. The accepted range depends on `target`: 60-7200 for 'trace', 60-604800 for 'session'. The default also depends on `target`; see the field-level help_text. */
-  max_age_seconds?: number;
+  max_age_seconds?: number | undefined;
 }
 /** Target-specific config. For 'trace' and 'session' targets: a settle config discriminated on `strategy`, either 'fixed_window' {window_seconds} or 'inactivity' {quiet_period_seconds, max_age_seconds}. Send `strategy` explicitly. The server fills in any other field you omit, using per-target defaults, and the accepted bounds also depend on `target`. Empty for 'generation'. */
 export type UpdateEvaluationsPartialRequestTargetConfig =
@@ -836,31 +842,31 @@ export interface UpdateEvaluationsPartialRequest {
   /** A UUID string identifying this evaluation. */
   id: string;
   /** Name of the evaluation. */
-  name?: string;
+  name?: string | undefined;
   /** Optional description of what this evaluation checks. */
-  description?: string;
+  description?: string | undefined;
   /** Directory containing the evaluation. Pass null to move the evaluation to the top level. */
-  directory_id?: string | null;
+  directory_id?: string | null | undefined;
   /** Whether the evaluation runs automatically on new $ai_generation events. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** 'llm_judge' uses an LLM to score outputs against a prompt; 'hog' runs deterministic Hog code; 'sentiment' classifies user-message sentiment (trained on English, so use 'llm_judge' for multilingual agents). * `llm_judge` - LLM as a judge * `hog` - Hog * `sentiment` - Sentiment analysis */
-  evaluation_type?: EvaluationTypeEnum | (string & {});
+  evaluation_type?: EvaluationTypeEnum | (string & {}) | undefined;
   /** Configuration dict. For 'llm_judge': {prompt}; for 'hog': {source}; for 'sentiment': {source: 'user_messages'}. */
-  evaluation_config?: UpdateEvaluationsPartialRequestEvaluationConfig;
+  evaluation_config?: UpdateEvaluationsPartialRequestEvaluationConfig | undefined;
   /** Output format: 'boolean', 'numeric' for a finite score, 'categorical' for category keys, or 'sentiment' for sentiment analysis. * `boolean` - Boolean (Pass/Fail) * `numeric` - Numeric * `categorical` - Categorical * `sentiment` - Sentiment */
-  output_type?: OutputTypeEnum | (string & {});
+  output_type?: OutputTypeEnum | (string & {}) | undefined;
   /** Output config. For 'boolean' output_type: {allows_na} to permit N/A results, and {true_is_failure} to declare that a true result means the evaluation found a problem. For 'numeric': only min/max/step, allows_na, and passing_rule {operator: 'gte'|'lte', threshold}. For 'categorical': options [{key, label}], selection_mode (single or multiple), allows_na, and optional passing_rule {categories: [key]}. Do not send true_is_failure for numeric or categorical output. For 'sentiment': {}. */
-  output_config?: UpdateEvaluationsPartialRequestOutputConfig;
+  output_config?: UpdateEvaluationsPartialRequestOutputConfig | undefined;
   /** Trigger conditions that filter which events are evaluated. OR between condition sets, AND within each. Each set is {id, rollout_percentage, properties[]} -- `rollout_percentage` (0-100, defaults to 100) is the sampling field the dispatcher reads. */
-  conditions?: UpdateEvaluationsPartialRequestConditionsList;
+  conditions?: UpdateEvaluationsPartialRequestConditionsList | undefined;
   /** What the evaluation runs on. 'generation' evaluates each matching $ai_generation event individually. 'trace' evaluates the whole trace once and 'session' the whole $ai_session_id session once: the first matching generation schedules a run that waits for the unit to settle, then evaluates all of its events together. Condition filters still match individual generations -- a unit is evaluated when any of its generations matches, and sampling applies per unit. A 'session' evaluation only fires for generations that carry $ai_session_id. When and how the run fires is controlled by target_config's settle strategy. * `generation` - Generation * `trace` - Trace * `session` - Session */
-  target?: EvaluationTargetEnum | (string & {});
+  target?: EvaluationTargetEnum | (string & {}) | undefined;
   /** Target-specific config. For 'trace' and 'session' targets: a settle config discriminated on `strategy`, either 'fixed_window' {window_seconds} or 'inactivity' {quiet_period_seconds, max_age_seconds}. Send `strategy` explicitly. The server fills in any other field you omit, using per-target defaults, and the accepted bounds also depend on `target`. Empty for 'generation'. */
-  target_config?: UpdateEvaluationsPartialRequestTargetConfig;
+  target_config?: UpdateEvaluationsPartialRequestTargetConfig | undefined;
   /** Provider and model for an llm_judge evaluation. Required when creating or switching to llm_judge. To add or replace a model, provide both provider and model. On an existing configured llm_judge, omit this field to keep the current model; null is rejected. When switching an llm_judge to hog or sentiment, set this field to null. Legacy llm_judge evaluations without a model remain editable without adding one. The nested provider_key_id may be null. */
-  model_configuration?: ModelConfigurationInput | null;
+  model_configuration?: ModelConfigurationInput | null | undefined;
   /** Set to true to soft-delete the evaluation. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export type CreateEvaluationError = PosthogOpError;
 export const createEvaluation: API.OperationMethod<

@@ -55,18 +55,18 @@ export type CreatePersonsBatchByDistinctIdsRequestFormat = "csv" | "json";
 export interface CreatePersonsBatchByDistinctIdsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  format?: CreatePersonsBatchByDistinctIdsRequestFormat | (string & {});
+  format?: CreatePersonsBatchByDistinctIdsRequestFormat | (string & {}) | undefined;
   /** Key-value map of person properties set via $set and $set_once operations. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface CreatePersonsBatchByDistinctIdsResponse {}
 export type CreatePersonsBatchByUuidRequestFormat = "csv" | "json";
 export interface CreatePersonsBatchByUuidRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  format?: CreatePersonsBatchByUuidRequestFormat | (string & {});
+  format?: CreatePersonsBatchByUuidRequestFormat | (string & {}) | undefined;
   /** Key-value map of person properties set via $set and $set_once operations. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface CreatePersonsBatchByUuidResponse {}
 export type CreatePersonsSplitRequestFormat = "csv" | "json";
@@ -77,11 +77,11 @@ export interface CreatePersonsSplitRequest {
   project_id: string;
   /** A unique value identifying this person. Accepts both numeric ID and UUID. */
   id: string;
-  format?: CreatePersonsSplitRequestFormat | (string & {});
+  format?: CreatePersonsSplitRequestFormat | (string & {}) | undefined;
   /** The distinct_id to **keep** on this person; every *other* distinct_id is moved to its own new single-id person. If omitted, the first distinct_id on the person is kept. The original person always retains its properties; to clear individual properties afterward, use the delete_property endpoint. To surgically *remove* one or more distinct_ids while leaving the merge intact, use `distinct_ids_to_split` instead -- these parameters are inverses of each other and cannot be combined. */
-  main_distinct_id?: string | null;
+  main_distinct_id?: string | null | undefined;
   /** List of distinct_ids to **move off** this person onto new single-id persons. The original person keeps every other distinct_id and its properties. New persons are created with deterministic UUIDs derived from `(team_id, distinct_id)`. Cannot be combined with `main_distinct_id`. */
-  distinct_ids_to_split?: CreatePersonsSplitRequestDistinctIdsToSplitList | null;
+  distinct_ids_to_split?: CreatePersonsSplitRequestDistinctIdsToSplitList | null | undefined;
 }
 export interface PersonSplitResponse {
   /** Always `true` when the split task was enqueued. The split itself runs asynchronously -- a 201 response means the task was accepted, not that the merge state has already been updated. */
@@ -93,23 +93,23 @@ export interface GetPersonRequest {
   project_id: string;
   /** A unique value identifying this person. Accepts both numeric ID and UUID. */
   id: string;
-  format?: GetPersonRequestFormat | (string & {});
+  format?: GetPersonRequestFormat | (string & {}) | undefined;
 }
 export type PersonRecordDistinctIdsList = Array<string>;
 export interface PersonRecord {
   /** Numeric person ID. */
-  id?: number;
+  id?: number | undefined;
   /** Display name derived from person properties (email, name, or username). */
-  name?: string;
-  distinct_ids?: PersonRecordDistinctIdsList;
+  name?: string | undefined;
+  distinct_ids?: PersonRecordDistinctIdsList | undefined;
   /** Key-value map of person properties set via $set and $set_once operations. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** When this person was first seen (ISO 8601). */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Unique identifier (UUID) for this person. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Timestamp of the last event from this person, or null. */
-  last_seen_at?: string | null;
+  last_seen_at?: string | null | undefined;
 }
 export type GetPersonsActivityRequestFormat = "csv" | "json";
 export interface GetPersonsActivityRequest {
@@ -117,29 +117,29 @@ export interface GetPersonsActivityRequest {
   project_id: string;
   /** A unique integer value identifying this person. */
   id: number;
-  format?: GetPersonsActivityRequestFormat | (string & {});
+  format?: GetPersonsActivityRequestFormat | (string & {}) | undefined;
 }
 export interface GetPersonsActivityResponse {}
 export type GetPersonsAllActivityRequestFormat = "csv" | "json";
 export interface GetPersonsAllActivityRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  format?: GetPersonsAllActivityRequestFormat | (string & {});
+  format?: GetPersonsAllActivityRequestFormat | (string & {}) | undefined;
 }
 export interface GetPersonsAllActivityResponse {}
 export type GetPersonsCohortRequestFormat = "csv" | "json";
 export interface GetPersonsCohortRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  format?: GetPersonsCohortRequestFormat | (string & {});
+  format?: GetPersonsCohortRequestFormat | (string & {}) | undefined;
   /** The person ID or UUID to get cohorts for. */
   person_id: string;
 }
 /** Minimal serializer for cohort references, read by the person cohorts endpoint. */
 export interface CohortMinimal {
   id: number;
-  name?: string | null;
-  count?: number | null;
+  name?: string | null | undefined;
+  count?: number | null | undefined;
 }
 /** Cohorts the person currently belongs to. */
 export type PersonCohortsResponseResultsList = Array<CohortMinimal>;
@@ -152,12 +152,12 @@ export interface GetPersonsPropertiesAtTimeRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** The distinct_id of the person (mutually exclusive with person_id) */
-  distinct_id?: string;
-  format?: GetPersonsPropertiesAtTimeRequestFormat | (string & {});
+  distinct_id?: string | undefined;
+  format?: GetPersonsPropertiesAtTimeRequestFormat | (string & {}) | undefined;
   /** Whether to handle $set_once operations (default: false) */
-  include_set_once?: boolean;
+  include_set_once?: boolean | undefined;
   /** The person_id (UUID) to build properties for (mutually exclusive with distinct_id) */
-  person_id?: string;
+  person_id?: string | undefined;
   /** ISO datetime string for the point in time (e.g., '2023-06-15T14:30:00Z') */
   timestamp: string;
 }
@@ -172,38 +172,38 @@ export type PersonPropertiesAtTimeMetadataDistinctIdsQueriedList = Array<string>
 /** Serializer for the point-in-time query metadata. */
 export interface PersonPropertiesAtTimeMetadata {
   /** The timestamp that was queried in ISO format */
-  queried_timestamp?: string;
+  queried_timestamp?: string | undefined;
   /** Whether $set_once operations were included */
-  include_set_once?: boolean;
+  include_set_once?: boolean | undefined;
   /** The distinct_id parameter used in the request */
-  distinct_id_used?: string | null;
+  distinct_id_used?: string | null | undefined;
   /** The person_id parameter used in the request */
-  person_id_used?: string | null;
+  person_id_used?: string | null | undefined;
   /** Whether the query used 'distinct_id' or 'person_id' mode */
-  query_mode?: string;
+  query_mode?: string | undefined;
   /** All distinct_ids that were queried for this person */
-  distinct_ids_queried?: PersonPropertiesAtTimeMetadataDistinctIdsQueriedList;
+  distinct_ids_queried?: PersonPropertiesAtTimeMetadataDistinctIdsQueriedList | undefined;
   /** Number of distinct_ids associated with this person */
-  distinct_ids_count?: number;
+  distinct_ids_count?: number | undefined;
 }
 /** Serializer for the point-in-time person properties response. */
 export interface PersonPropertiesAtTimeResponse {
   /** The person ID */
-  id?: number;
+  id?: number | undefined;
   /** The person's display name */
-  name?: string;
+  name?: string | undefined;
   /** All distinct IDs associated with this person */
-  distinct_ids?: PersonPropertiesAtTimeResponseDistinctIdsList;
+  distinct_ids?: PersonPropertiesAtTimeResponseDistinctIdsList | undefined;
   /** Person properties as they existed at the specified time */
-  properties?: PersonPropertiesAtTimeResponsePropertiesMap;
+  properties?: PersonPropertiesAtTimeResponsePropertiesMap | undefined;
   /** When the person was first created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The person's UUID */
-  uuid?: string;
+  uuid?: string | undefined;
   /** When the person was last seen */
-  last_seen_at?: string | null;
+  last_seen_at?: string | null | undefined;
   /** Metadata about the point-in-time query */
-  point_in_time_metadata?: PersonPropertiesAtTimeMetadata;
+  point_in_time_metadata?: PersonPropertiesAtTimeMetadata | undefined;
 }
 export type GetPersonsPropertiesTimelineRequestFormat = "csv" | "json";
 export interface GetPersonsPropertiesTimelineRequest {
@@ -211,18 +211,18 @@ export interface GetPersonsPropertiesTimelineRequest {
   project_id: string;
   /** A unique integer value identifying this person. */
   id: number;
-  format?: GetPersonsPropertiesTimelineRequestFormat | (string & {});
+  format?: GetPersonsPropertiesTimelineRequestFormat | (string & {}) | undefined;
 }
 export interface GetPersonsPropertiesTimelineResponse {}
 export type GetPersonsValueRequestFormat = "csv" | "json";
 export interface GetPersonsValueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  format?: GetPersonsValueRequestFormat | (string & {});
+  format?: GetPersonsValueRequestFormat | (string & {}) | undefined;
   /** The person property key to get values for (e.g., 'email', 'plan', 'role'). */
   key: string;
   /** Optional search string to filter values (case-insensitive substring match). */
-  value?: string;
+  value?: string | undefined;
 }
 export interface GetPersonsValueResponse {}
 export type ListPersonsRequestFormat = "csv" | "json";
@@ -291,39 +291,39 @@ export type PropertyFilterTypeEnum =
 export type PropertyItemType = PropertyFilterTypeEnum | BlankEnum;
 export interface PropertyItem {
   /** Key of the property you're filtering on. For example `email` or `$current_url` */
-  key?: string;
+  key?: string | undefined;
   /** Value of your filter. For example `test@example.com` or `https://example.com/test/`. Can be an array for an OR query, like `["test@example.com","ok@example.com"]` */
-  value?: PropertyItemValue;
-  operator?: PropertyItemOperator | null;
-  type?: PropertyItemType;
+  value?: PropertyItemValue | undefined;
+  operator?: PropertyItemOperator | null | undefined;
+  type?: PropertyItemType | undefined;
 }
 export type PropertyValuesList = Array<PropertyItem>;
 export interface Property {
   /** You can use a simplified version: ```json { "properties": [ { "key": "email", "value": "x@y.com", "operator": "exact", "type": "event" } ] } ``` Or you can create more complicated queries with AND and OR: ```json { "properties": { "type": "AND", "values": [ { "type": "OR", "values": [ {"key": "email", ...}, {"key": "email", ...} ] }, { "type": "AND", "values": [ {"key": "email", ...}, {"key": "email", ...} ] } ] ] } ``` * `AND` - AND * `OR` - OR */
-  type?: PropertyGroupOperatorEnum | (string & {});
-  values?: PropertyValuesList;
+  type?: PropertyGroupOperatorEnum | (string & {}) | undefined;
+  values?: PropertyValuesList | undefined;
 }
 export type ListPersonsRequestPropertiesList = Array<Property>;
 export interface ListPersonsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Names the ClickHouse query this request runs. Send the same id to `DELETE /api/projects/:project_id/query/:client_query_id/` to stop a search that is still running. Up to 128 characters. */
-  client_query_id?: string;
+  client_query_id?: string | undefined;
   /** Filter list by distinct id. */
-  distinct_id?: string;
+  distinct_id?: string | undefined;
   /** Filter persons by email (exact match) */
-  email?: string;
-  format?: ListPersonsRequestFormat | (string & {});
+  email?: string | undefined;
+  format?: ListPersonsRequestFormat | (string & {}) | undefined;
   /** Tag each search result with `matched_fields`, the searched fields the term was found in. A complete email address that exactly matches a distinct ID then returns that person first, followed by every person whose email or name property contains the address. */
-  include_matched_fields?: boolean;
+  include_matched_fields?: boolean | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter Persons by person properties. */
-  properties?: ListPersonsRequestPropertiesList;
+  properties?: ListPersonsRequestPropertiesList | undefined;
   /** Search persons by email, name, person ID, or distinct ID. Partial values match. When the term is a complete email address or UUID that exactly matches a distinct ID or person ID, only that person is returned. */
-  search?: string;
+  search?: string | undefined;
 }
 export type PersonListRecordDistinctIdsList = Array<string>;
 /** * `distinct_id` - Distinct ID * `email` - Email * `name` - Name * `id` - Person ID */
@@ -337,7 +337,7 @@ export interface PersonListRecord {
   name: string;
   distinct_ids: PersonListRecordDistinctIdsList;
   /** Key-value map of person properties set via $set and $set_once operations. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** When this person was first seen (ISO 8601). */
   created_at: string;
   /** Unique identifier (UUID) for this person. */
@@ -345,46 +345,46 @@ export interface PersonListRecord {
   /** Timestamp of the last event from this person, or null. */
   last_seen_at: string | null;
   /** Only on a search result with `include_matched_fields`: the searched fields the term was found in. */
-  matched_fields?: PersonListRecordMatchedFieldsList;
+  matched_fields?: PersonListRecordMatchedFieldsList | undefined;
 }
 export type PaginatedPersonListRecordListResultsList = Array<PersonListRecord>;
 export interface PaginatedPersonListRecordList {
-  next?: string | null;
-  previous?: string | null;
-  count?: number;
-  results?: PaginatedPersonListRecordListResultsList;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  count?: number | undefined;
+  results?: PaginatedPersonListRecordListResultsList | undefined;
 }
 export type ListPersonsDeletionStatusRequestFormat = "csv" | "json";
 export type ListPersonsDeletionStatusRequestStatus = "all" | "completed" | "pending";
 export interface ListPersonsDeletionStatusRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  format?: ListPersonsDeletionStatusRequestFormat | (string & {});
+  format?: ListPersonsDeletionStatusRequestFormat | (string & {}) | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter by a specific person UUID. */
-  person_uuid?: string;
+  person_uuid?: string | undefined;
   /** Filter by deletion status: 'pending', 'completed', or 'all'. */
-  status?: ListPersonsDeletionStatusRequestStatus | (string & {});
+  status?: ListPersonsDeletionStatusRequestStatus | (string & {}) | undefined;
 }
 export interface AsyncDeletionStatus {
   /** The UUID of the person whose events are queued for deletion. */
-  person_uuid?: string;
+  person_uuid?: string | undefined;
   /** When the deletion was requested. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Current status: 'pending' or 'completed'. */
-  status?: string;
+  status?: string | undefined;
   /** When the deletion was verified complete. Null if still pending. */
-  delete_verified_at?: string | null;
+  delete_verified_at?: string | null | undefined;
 }
 export type PaginatedAsyncDeletionStatusListResultsList = Array<AsyncDeletionStatus>;
 export interface PaginatedAsyncDeletionStatusList {
-  next?: string | null;
-  previous?: string | null;
-  count?: number;
-  results?: PaginatedAsyncDeletionStatusListResultsList;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  count?: number | undefined;
+  results?: PaginatedAsyncDeletionStatusListResultsList | undefined;
 }
 export type ListPersonsEmailsRequestFormat = "csv" | "json";
 export interface ListPersonsEmailsRequest {
@@ -393,14 +393,14 @@ export interface ListPersonsEmailsRequest {
   /** A unique integer value identifying this person. */
   id: number;
   /** Start of the time range, matched on sent time. Relative ('-30d', '-24h') or ISO 8601. Defaults to -30d (the retention window) -- bounds the ClickHouse partition scan. */
-  after?: string;
+  after?: string | undefined;
   /** End of the time range, matched on sent time. Same format as 'after'. Defaults to now. */
-  before?: string;
-  format?: ListPersonsEmailsRequestFormat | (string & {});
+  before?: string | undefined;
+  format?: ListPersonsEmailsRequestFormat | (string & {}) | undefined;
   /** Maximum number of assets to return (1-500, default 50). */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of assets to skip, for pagination. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface MessageAsset {
   /** The workflow run this email was sent in. */
@@ -437,14 +437,14 @@ export interface ListPersonsPushNotificationsRequest {
   /** A unique integer value identifying this person. */
   id: number;
   /** Start of the time range, matched on sent time. Relative ('-30d', '-24h') or ISO 8601. Defaults to -30d (the retention window) -- bounds the ClickHouse partition scan. */
-  after?: string;
+  after?: string | undefined;
   /** End of the time range, matched on sent time. Same format as 'after'. Defaults to now. */
-  before?: string;
-  format?: ListPersonsPushNotificationsRequestFormat | (string & {});
+  before?: string | undefined;
+  format?: ListPersonsPushNotificationsRequestFormat | (string & {}) | undefined;
   /** Maximum number of assets to return (1-500, default 50). */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of assets to skip, for pagination. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type ListPersonsPushNotificationsResponseBodyList = Array<MessageAsset>;
 export type ListPersonsPushNotificationsResponse = ListPersonsPushNotificationsResponseBodyList;
@@ -456,17 +456,17 @@ export type PersonsBulkDeleteCreateRequestDistinctIdsList = Array<string>;
 export interface PersonsBulkDeleteCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  format?: PersonsBulkDeleteCreateRequestFormat | (string & {});
+  format?: PersonsBulkDeleteCreateRequestFormat | (string & {}) | undefined;
   /** A list of PostHog person UUIDs to delete (max 1000). */
-  ids?: PersonsBulkDeleteCreateRequestIdsList;
+  ids?: PersonsBulkDeleteCreateRequestIdsList | undefined;
   /** A list of distinct IDs whose associated persons will be deleted (max 1000). */
-  distinct_ids?: PersonsBulkDeleteCreateRequestDistinctIdsList;
+  distinct_ids?: PersonsBulkDeleteCreateRequestDistinctIdsList | undefined;
   /** If true, queue deletion of all events associated with these persons. */
-  delete_events?: boolean;
+  delete_events?: boolean | undefined;
   /** If true, queue deletion of all recordings associated with these persons. */
-  delete_recordings?: boolean;
+  delete_recordings?: boolean | undefined;
   /** If true, keep the person records but delete their events and recordings. */
-  keep_person?: boolean;
+  keep_person?: boolean | undefined;
 }
 export interface PersonsBulkDeleteCreateResponse {}
 export type PersonsDeletePropertyCreateRequestFormat = "csv" | "json";
@@ -480,18 +480,18 @@ export interface PersonsDeletePropertyCreateRequest {
   project_id: string;
   /** A unique value identifying this person. Accepts both numeric ID and UUID. */
   id: string;
-  format?: PersonsDeletePropertyCreateRequestFormat | (string & {});
+  format?: PersonsDeletePropertyCreateRequestFormat | (string & {}) | undefined;
   /** A property key, or a list of property keys, to remove from this person. */
-  _unset?: PersonsDeletePropertyCreateRequestUnset;
+  _unset?: PersonsDeletePropertyCreateRequestUnset | undefined;
 }
 export interface PersonsDeletePropertyCreateResponse {}
 export type PersonsResetPersonDistinctIdCreateRequestFormat = "csv" | "json";
 export interface PersonsResetPersonDistinctIdCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  format?: PersonsResetPersonDistinctIdCreateRequestFormat | (string & {});
+  format?: PersonsResetPersonDistinctIdCreateRequestFormat | (string & {}) | undefined;
   /** Key-value map of person properties set via $set and $set_once operations. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface PersonsResetPersonDistinctIdCreateResponse {}
 export type PersonsUpdatePropertyCreateRequestFormat = "csv" | "json";
@@ -500,11 +500,11 @@ export interface PersonsUpdatePropertyCreateRequest {
   project_id: string;
   /** A unique value identifying this person. Accepts both numeric ID and UUID. */
   id: string;
-  format?: PersonsUpdatePropertyCreateRequestFormat | (string & {});
+  format?: PersonsUpdatePropertyCreateRequestFormat | (string & {}) | undefined;
   /** The property key to set. */
-  key?: string;
+  key?: string | undefined;
   /** The property value. Can be a string, number, boolean, or object. */
-  value?: unknown;
+  value?: unknown | undefined;
 }
 export interface PersonsUpdatePropertyCreateResponse {}
 export type UpdatePersonRequestFormat = "csv" | "json";
@@ -513,9 +513,9 @@ export interface UpdatePersonRequest {
   project_id: string;
   /** A unique value identifying this person. Accepts both numeric ID and UUID. */
   id: string;
-  format?: UpdatePersonRequestFormat | (string & {});
+  format?: UpdatePersonRequestFormat | (string & {}) | undefined;
   /** Key-value map of person properties set via $set and $set_once operations. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export type UpdatePersonsPartialRequestFormat = "csv" | "json";
 export interface UpdatePersonsPartialRequest {
@@ -523,9 +523,9 @@ export interface UpdatePersonsPartialRequest {
   project_id: string;
   /** A unique value identifying this person. Accepts both numeric ID and UUID. */
   id: string;
-  format?: UpdatePersonsPartialRequestFormat | (string & {});
+  format?: UpdatePersonsPartialRequestFormat | (string & {}) | undefined;
   /** Key-value map of person properties set via $set and $set_once operations. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export type CreatePersonsBatchByDistinctIdsError =
   | BadRequest

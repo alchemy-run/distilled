@@ -110,24 +110,24 @@ export type EnterpriseEnterpriseTypeEnum =
 /** Data hosted at an external location. The data is to be downloaded by Android Device Policy and verified against the hash. */
 export interface ExternalData {
   /** The base-64 encoded SHA-256 hash of the content hosted at url. If the content doesn't match this hash, Android Device Policy won't use the data. */
-  sha256Hash?: string;
+  sha256Hash?: string | undefined;
   /** The absolute URL to the data, which must use either the http or https scheme. Android Device Policy doesn't provide any credentials in the GET request, so the URL must be publicly accessible. Including a long, random component in the URL may be used to prevent attackers from discovering the URL. */
-  url?: string;
+  url?: string | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** Provides a user-facing message with locale info. The maximum message length is 4096 characters. */
 export interface UserFacingMessage {
   /** The default message displayed if no localized message is specified or the user's locale doesn't match with any of the localized messages. A default message must be provided if any localized messages are provided. */
-  defaultMessage?: string;
+  defaultMessage?: string | undefined;
   /** A map containing pairs, where locale is a well-formed BCP 47 language (https://www.w3.org/International/articles/language-tags/) code, such as en-US, es-ES, or fr. */
-  localizedMessages?: StringMap;
+  localizedMessages?: StringMap | undefined;
 }
 /** A terms and conditions page to be accepted during provisioning. */
 export interface TermsAndConditions {
   /** A short header which appears above the HTML content. */
-  header?: UserFacingMessage;
+  header?: UserFacingMessage | undefined;
   /** A well-formatted HTML string. It will be parsed on the client with android.text.Html#fromHtml. */
-  content?: UserFacingMessage;
+  content?: UserFacingMessage | undefined;
 }
 export type TermsAndConditionsList = Array<TermsAndConditions>;
 export type GoogleAuthenticationSettingsGoogleAuthenticationRequiredEnum =
@@ -139,24 +139,25 @@ export interface GoogleAuthenticationSettings {
   /** Output only. Whether users need to be authenticated by Google during the enrollment process. IT admin can specify if Google authentication is enabled for the enterprise for knowledge worker devices. This value can be set only via the Google Admin Console. Google authentication can be used with signin_url In the case where Google authentication is required and a signin_url is specified, Google authentication will be launched before signin_url. This value is overridden by EnrollmentToken.googleAuthenticationOptions and SigninDetail.googleAuthenticationOptions, if they are set. */
   googleAuthenticationRequired?:
     | GoogleAuthenticationSettingsGoogleAuthenticationRequiredEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Contact details for managed Google Play enterprises. */
 export interface ContactInfo {
   /** The email of the data protection officer. The email is validated but not verified. */
-  dataProtectionOfficerEmail?: string;
+  dataProtectionOfficerEmail?: string | undefined;
   /** The name of the data protection officer. */
-  dataProtectionOfficerName?: string;
+  dataProtectionOfficerName?: string | undefined;
   /** The phone number of the data protection officer The phone number is validated but not verified. */
-  dataProtectionOfficerPhone?: string;
+  dataProtectionOfficerPhone?: string | undefined;
   /** The name of the EU representative. */
-  euRepresentativeName?: string;
+  euRepresentativeName?: string | undefined;
   /** The email of the EU representative. The email is validated but not verified. */
-  euRepresentativeEmail?: string;
+  euRepresentativeEmail?: string | undefined;
   /** Email address for a point of contact, which will be used to send important announcements related to managed Google Play. */
-  contactEmail?: string;
+  contactEmail?: string | undefined;
   /** The phone number of the EU representative. The phone number is validated but not verified. */
-  euRepresentativePhone?: string;
+  euRepresentativePhone?: string | undefined;
 }
 export type EnterpriseManagedGooglePlayAccountsEnterpriseTypeEnum =
   | "MANAGED_GOOGLE_PLAY_ACCOUNTS_ENTERPRISE_TYPE_UNSPECIFIED"
@@ -190,7 +191,8 @@ export interface SigninDetailGoogleAuthenticationOptions {
   /** Optional. Specifies whether user should authenticate with Google during enrollment. If this is set to any value other than AUTHENTICATION_REQUIREMENT_UNSPECIFIED, the enterprise-level setting googleAuthenticationSettings is ignored for devices enrolled with this sign-in detail. */
   authenticationRequirement?:
     | SigninDetailGoogleAuthenticationOptionsAuthenticationRequirementEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type SigninDetailAllowPersonalUsageEnum =
   | "ALLOW_PERSONAL_USAGE_UNSPECIFIED"
@@ -200,70 +202,71 @@ export type SigninDetailAllowPersonalUsageEnum =
 /** A resource containing sign in details for an enterprise. Use enterprises to manage SigninDetails for a given enterprise.For an enterprise, we can have any number of SigninDetails that is uniquely identified by combination of the following three fields (signin_url, allow_personal_usage, token_tag). One cannot create two SigninDetails with the same (signin_url, allow_personal_usage, token_tag). (token_tag is an optional field).Patch: The operation updates the current list of SigninDetails with the new list of SigninDetails. If the stored SigninDetail configuration is passed, it returns the same signin_enrollment_token and qr_code. If we pass multiple identical SigninDetail configurations that are not stored, it will store the first one amongst those SigninDetail configurations. if the configuration already exists we cannot request it more than once in a particular patch API call, otherwise it will give a duplicate key error and the whole operation will fail. If we remove certain SigninDetail configuration from the request then it will get removed from the storage. We can then request another signin_enrollment_token and qr_code for the same SigninDetail configuration. */
 export interface SigninDetail {
   /** Optional. Whether the sign-in URL should be used by default for the enterprise. The SigninDetail with defaultStatus set to SIGNIN_DETAIL_IS_DEFAULT is used for Google account enrollment method. Only one of an enterprise's signinDetails can have defaultStatus set to SIGNIN_DETAIL_IS_DEFAULT. If an Enterprise has at least one signinDetails and none of them have defaultStatus set to SIGNIN_DETAIL_IS_DEFAULT then the first one from the list is selected and has set defaultStatus to SIGNIN_DETAIL_IS_DEFAULT. If no signinDetails specified for the Enterprise then the Google Account device enrollment will fail. */
-  defaultStatus?: SigninDetailDefaultStatusEnum | (string & {});
+  defaultStatus?: SigninDetailDefaultStatusEnum | (string & {}) | undefined;
   /** An EMM-specified metadata to distinguish between instances of SigninDetail. */
-  tokenTag?: string;
+  tokenTag?: string | undefined;
   /** Optional. Options related to Google authentication during the enrollment. */
-  googleAuthenticationOptions?: SigninDetailGoogleAuthenticationOptions;
+  googleAuthenticationOptions?: SigninDetailGoogleAuthenticationOptions | undefined;
   /** Controls whether personal usage is allowed on a device provisioned with this enrollment token.For company-owned devices: Enabling personal usage allows the user to set up a work profile on the device. Disabling personal usage requires the user provision the device as a fully managed device.For personally-owned devices: Enabling personal usage allows the user to set up a work profile on the device. Disabling personal usage will prevent the device from provisioning. Personal usage cannot be disabled on personally-owned device. */
-  allowPersonalUsage?: SigninDetailAllowPersonalUsageEnum | (string & {});
+  allowPersonalUsage?: SigninDetailAllowPersonalUsageEnum | (string & {}) | undefined;
   /** An enterprise wide enrollment token used to trigger custom sign-in flow. This is a read-only field generated by the server. */
-  signinEnrollmentToken?: string;
+  signinEnrollmentToken?: string | undefined;
   /** A JSON string whose UTF-8 representation can be used to generate a QR code to enroll a device with this enrollment token. To enroll a device using NFC, the NFC record must contain a serialized java.util.Properties representation of the properties in the JSON. This is a read-only field generated by the server. */
-  qrCode?: string;
+  qrCode?: string | undefined;
   /** Sign-in URL for authentication when device is provisioned with a sign-in enrollment token. The sign-in endpoint should finish authentication flow with a URL in the form of https://enterprise.google.com/android/enroll?et= for a successful login, or https://enterprise.google.com/android/enroll/invalid for a failed login. */
-  signinUrl?: string;
+  signinUrl?: string | undefined;
 }
 export type SigninDetailList = Array<SigninDetail>;
 /** The configuration applied to an enterprise. */
 export interface Enterprise {
   /** Deprecated and unused. */
-  appAutoApprovalEnabled?: boolean;
+  appAutoApprovalEnabled?: boolean | undefined;
   /** The name of the enterprise which is generated by the server during creation, in the form enterprises/{enterpriseId}. */
-  name?: string;
+  name?: string | undefined;
   /** The topic which Pub/Sub notifications are published to, in the form projects/{project}/topics/{topic}. This field is only required if Pub/Sub notifications are enabled. */
-  pubsubTopic?: string;
+  pubsubTopic?: string | undefined;
   /** Output only. The type of the enterprise. */
-  enterpriseType?: EnterpriseEnterpriseTypeEnum | (string & {});
+  enterpriseType?: EnterpriseEnterpriseTypeEnum | (string & {}) | undefined;
   /** An image displayed as a logo during device provisioning. Supported types are: image/bmp, image/gif, image/x-ico, image/jpeg, image/png, image/webp, image/vnd.wap.wbmp, image/x-adobe-dng. */
-  logo?: ExternalData;
+  logo?: ExternalData | undefined;
   /** A color in RGB format that indicates the predominant color to display in the device management app UI. The color components are stored as follows: (red << 16) | (green << 8) | blue, where the value of each component is between 0 and 255, inclusive. */
-  primaryColor?: number;
+  primaryColor?: number | undefined;
   /** Terms and conditions that must be accepted when provisioning a device for this enterprise. A page of terms is generated for each value in this list. */
-  termsAndConditions?: TermsAndConditionsList;
+  termsAndConditions?: TermsAndConditionsList | undefined;
   /** The name of the enterprise displayed to users. This field has a maximum length of 100 characters. */
-  enterpriseDisplayName?: string;
+  enterpriseDisplayName?: string | undefined;
   /** Settings for Google-provided user authentication. */
-  googleAuthenticationSettings?: GoogleAuthenticationSettings;
+  googleAuthenticationSettings?: GoogleAuthenticationSettings | undefined;
   /** The enterprise contact info of an EMM-managed enterprise. */
-  contactInfo?: ContactInfo;
+  contactInfo?: ContactInfo | undefined;
   /** Output only. The type of a managed Google Play Accounts enterprise. */
   managedGooglePlayAccountsEnterpriseType?:
     | EnterpriseManagedGooglePlayAccountsEnterpriseTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Output only. The type of managed Google domain. */
-  managedGoogleDomainType?: EnterpriseManagedGoogleDomainTypeEnum | (string & {});
+  managedGoogleDomainType?: EnterpriseManagedGoogleDomainTypeEnum | (string & {}) | undefined;
   /** The types of Google Pub/Sub notifications enabled for the enterprise. */
-  enabledNotificationTypes?: EnterpriseEnabledNotificationTypesItemEnumList;
+  enabledNotificationTypes?: EnterpriseEnabledNotificationTypesItemEnumList | undefined;
   /** Sign-in details of the enterprise. */
-  signinDetails?: SigninDetailList;
+  signinDetails?: SigninDetailList | undefined;
 }
 export interface CreateEnterprisesRequest {
   /** The name of the SignupUrl used to sign up for the enterprise. Set this when creating a customer-managed enterprise (https://developers.google.com/android/management/create-enterprise#customer-managed_enterprises) and not when creating a deprecated EMM-managed enterprise (https://developers.google.com/android/management/create-enterprise#emm-managed_enterprises). */
-  signupUrlName?: string;
+  signupUrlName?: string | undefined;
   /** The enterprise token appended to the callback URL. Set this when creating a customer-managed enterprise (https://developers.google.com/android/management/create-enterprise#customer-managed_enterprises) and not when creating a deprecated EMM-managed enterprise (https://developers.google.com/android/management/create-enterprise#emm-managed_enterprises). */
-  enterpriseToken?: string;
+  enterpriseToken?: string | undefined;
   /** The ID of the Google Cloud Platform project which will own the enterprise. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Whether the enterprise admin has seen and agreed to the managed Google Play Agreement (https://www.android.com/enterprise/terms/). Do not set this field for any customer-managed enterprise (https://developers.google.com/android/management/create-enterprise#customer-managed_enterprises). Set this to field to true for all EMM-managed enterprises (https://developers.google.com/android/management/create-enterprise#emm-managed_enterprises). */
-  agreementAccepted?: boolean;
+  agreementAccepted?: boolean | undefined;
   /** Request body */
-  body?: Enterprise;
+  body?: Enterprise | undefined;
 }
 /** A user belonging to an enterprise. */
 export interface User {
   /** A unique identifier you create for this user, such as user342 or asset#44418. This field must be set when the user is created and can't be updated. This field must not contain personally identifiable information (PII). This identifier must be 1024 characters or less; otherwise, the update policy request will fail. */
-  accountIdentifier?: string;
+  accountIdentifier?: string | undefined;
 }
 export type GoogleAuthenticationOptionsAuthenticationRequirementEnum =
   | "AUTHENTICATION_REQUIREMENT_UNSPECIFIED"
@@ -272,11 +275,12 @@ export type GoogleAuthenticationOptionsAuthenticationRequirementEnum =
 /** Options for Google authentication during the enrollment.When triggering the enrollment with a SigninDetail, these options are enforced after the user completes third-party sign-in and an EnrollmentToken is created. If this token's authentication_requirement is set to REQUIRED, these options interact with the SigninDetail.googleAuthenticationOptions that initiated the flow in the following ways: - If the user skipped Google sign-in earlier (permitted by SigninDetail.googleAuthenticationOptions), an error will occur and the user will be prompted to sign in again. - If required_account_email is set on this token and the user signed in with a different email earlier, an error will occur and the user will be asked to sign in again with the correct account. */
 export interface GoogleAuthenticationOptions {
   /** Optional. Specifies the managed Google account that the user must use during enrollment. This field can only be set if AuthenticationRequirement is set to REQUIRED. */
-  requiredAccountEmail?: string;
+  requiredAccountEmail?: string | undefined;
   /** Optional. Specifies whether user should authenticate with Google during enrollment. If this is set to any value other than AUTHENTICATION_REQUIREMENT_UNSPECIFIED, the enterprise-level setting googleAuthenticationSettings is ignored for devices enrolled with this token. */
   authenticationRequirement?:
     | GoogleAuthenticationOptionsAuthenticationRequirementEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type EnrollmentTokenAllowPersonalUsageEnum =
   | "ALLOW_PERSONAL_USAGE_UNSPECIFIED"
@@ -286,33 +290,33 @@ export type EnrollmentTokenAllowPersonalUsageEnum =
 /** An enrollment token. */
 export interface EnrollmentToken {
   /** This field is deprecated and the value is ignored. */
-  user?: User;
+  user?: User | undefined;
   /** A JSON string whose UTF-8 representation can be used to generate a QR code to enroll a device with this enrollment token. To enroll a device using NFC, the NFC record must contain a serialized java.util.Properties representation of the properties in the JSON. */
-  qrCode?: string;
+  qrCode?: string | undefined;
   /** Optional, arbitrary data associated with the enrollment token. This could contain, for example, the ID of an org unit the device is assigned to after enrollment. After a device enrolls with the token, this data will be exposed in the enrollment_token_data field of the Device resource. The data must be 1024 characters or less; otherwise, the creation request will fail. */
-  additionalData?: string;
+  additionalData?: string | undefined;
   /** The token value that's passed to the device and authorizes the device to enroll. This is a read-only field generated by the server. */
-  value?: string;
+  value?: string | undefined;
   /** Optional. Options related to Google authentication during the enrollment. */
-  googleAuthenticationOptions?: GoogleAuthenticationOptions;
+  googleAuthenticationOptions?: GoogleAuthenticationOptions | undefined;
   /** Controls whether personal usage is allowed on a device provisioned with this enrollment token.For company-owned devices: Enabling personal usage allows the user to set up a work profile on the device. Disabling personal usage requires the user provision the device as a fully managed device.For personally-owned devices: Enabling personal usage allows the user to set up a work profile on the device. Disabling personal usage will prevent the device from provisioning. Personal usage cannot be disabled on personally-owned device. */
-  allowPersonalUsage?: EnrollmentTokenAllowPersonalUsageEnum | (string & {});
+  allowPersonalUsage?: EnrollmentTokenAllowPersonalUsageEnum | (string & {}) | undefined;
   /** The length of time the enrollment token is valid, ranging from 1 minute to Durations.MAX_VALUE (https://developers.google.com/protocol-buffers/docs/reference/java/com/google/protobuf/util/Durations.html#MAX_VALUE), approximately 10,000 years. If not specified, the default duration is 1 hour. Please note that if requested duration causes the resulting expiration_timestamp to exceed Timestamps.MAX_VALUE (https://developers.google.com/protocol-buffers/docs/reference/java/com/google/protobuf/util/Timestamps.html#MAX_VALUE), then expiration_timestamp is coerced to Timestamps.MAX_VALUE. */
-  duration?: string;
+  duration?: string | undefined;
   /** Whether the enrollment token is for one time use only. If the flag is set to true, only one device can use it for registration. */
-  oneTimeOnly?: boolean;
+  oneTimeOnly?: boolean | undefined;
   /** The name of the enrollment token, which is generated by the server during creation, in the form enterprises/{enterpriseId}/enrollmentTokens/{enrollmentTokenId}. */
-  name?: string;
+  name?: string | undefined;
   /** The name of the policy initially applied to the enrolled device, in the form enterprises/{enterpriseId}/policies/{policyId}. If not specified, the policy_name for the device's user is applied. If user_name is also not specified, enterprises/{enterpriseId}/policies/default is applied by default. When updating this field, you can specify only the policyId as long as the policyId doesn't contain any slashes. The rest of the policy name will be inferred. */
-  policyName?: string;
+  policyName?: string | undefined;
   /** The expiration time of the token. This is a read-only field generated by the server. */
-  expirationTimestamp?: string;
+  expirationTimestamp?: string | undefined;
 }
 export interface CreateEnterprisesEnrollmentTokensRequest {
   /** The name of the enterprise in the form enterprises/{enterpriseId}. */
   parent: string;
   /** Request body */
-  body?: EnrollmentToken;
+  body?: EnrollmentToken | undefined;
 }
 export type MigrationTokenManagementModeEnum =
   | "MANAGEMENT_MODE_UNSPECIFIED"
@@ -322,38 +326,38 @@ export type MigrationTokenManagementModeEnum =
 /** A token to initiate the migration of a device from being managed by a third-party DPC to being managed by Android Management API. A migration token is valid only for a single device. See the guide (https://developers.google.com/android/management/dpc-migration) for more details. */
 export interface MigrationToken {
   /** Immutable. Optional EMM-specified additional data. Once the device is migrated this will be populated in the migrationAdditionalData field of the Device resource. This must be at most 1024 characters. */
-  additionalData?: string;
+  additionalData?: string | undefined;
   /** Output only. The value of the migration token. */
-  value?: string;
+  value?: string | undefined;
   /** Output only. The name of the migration token, which is generated by the server during creation, in the form enterprises/{enterprise}/migrationTokens/{migration_token}. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Once this migration token is used to migrate a device, the name of the resulting Device resource will be populated here, in the form enterprises/{enterprise}/devices/{device}. */
-  device?: string;
+  device?: string | undefined;
   /** Required. Immutable. The user id of the Managed Google Play account on the device, as in the Play EMM API. This corresponds to the userId parameter in Play EMM API's Devices.get (https://developers.google.com/android/work/play/emm-api/v1/devices/get#parameters) call. */
-  userId?: string;
+  userId?: string | undefined;
   /** Required. Immutable. The name of the policy initially applied to the enrolled device, in the form enterprises/{enterprise}/policies/{policy}. */
-  policy?: string;
+  policy?: string | undefined;
   /** Required. Immutable. The id of the device, as in the Play EMM API. This corresponds to the deviceId parameter in Play EMM API's Devices.get (https://developers.google.com/android/work/play/emm-api/v1/devices/get#parameters) call. */
-  deviceId?: string;
+  deviceId?: string | undefined;
   /** Immutable. The time when this migration token expires. This can be at most seven days from the time of creation. The migration token is deleted seven days after it expires. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** Input only. The time that this migration token is valid for. This is input-only, and for returning a migration token the server will populate the expireTime field. This can be at most seven days. The default is seven days. */
-  ttl?: string;
+  ttl?: string | undefined;
   /** Required. Immutable. The management mode of the device or profile being migrated. */
-  managementMode?: MigrationTokenManagementModeEnum | (string & {});
+  managementMode?: MigrationTokenManagementModeEnum | (string & {}) | undefined;
   /** Output only. Time when this migration token was created. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export interface CreateEnterprisesMigrationTokensRequest {
   /** Required. The enterprise in which this migration token is created. This must be the same enterprise which already manages the device in the Play EMM API. Format: enterprises/{enterprise} */
   parent: string;
   /** Request body */
-  body?: MigrationToken;
+  body?: MigrationToken | undefined;
 }
 /** An icon for a web app. Supported formats are: png, jpg and webp. */
 export interface WebAppIcon {
   /** The actual bytes of the image in a base64url encoded string (c.f. RFC4648, section 5 "Base 64 Encoding with URL and Filename Safe Alphabet"). - The image type can be png or jpg. - The image should ideally be square. - The image should ideally have a size of 512x512. */
-  imageData?: string;
+  imageData?: string | undefined;
 }
 export type WebAppIconList = Array<WebAppIcon>;
 export type WebAppDisplayModeEnum =
@@ -364,23 +368,23 @@ export type WebAppDisplayModeEnum =
 /** A web app. */
 export interface WebApp {
   /** A list of icons for the web app. Must have at least one element. */
-  icons?: WebAppIconList;
+  icons?: WebAppIconList | undefined;
   /** The current version of the app.Note that the version can automatically increase during the lifetime of the web app, while Google does internal housekeeping to keep the web app up-to-date. */
-  versionCode?: string;
+  versionCode?: string | undefined;
   /** The start URL, i.e. the URL that should load when the user opens the application. */
-  startUrl?: string;
+  startUrl?: string | undefined;
   /** The display mode of the web app. */
-  displayMode?: WebAppDisplayModeEnum | (string & {});
+  displayMode?: WebAppDisplayModeEnum | (string & {}) | undefined;
   /** The title of the web app as displayed to the user (e.g., amongst a list of other applications, or as a label for an icon). */
-  title?: string;
+  title?: string | undefined;
   /** The name of the web app, which is generated by the server during creation in the form enterprises/{enterpriseId}/webApps/{packageName}. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateEnterprisesWebAppsRequest {
   /** The name of the enterprise in the form enterprises/{enterpriseId}. */
   parent: string;
   /** Request body */
-  body?: WebApp;
+  body?: WebApp | undefined;
 }
 export type WebTokenPermissionsItemEnum = "WEB_TOKEN_PERMISSION_UNSPECIFIED" | "APPROVE_APPS";
 export type WebTokenPermissionsItemEnumList = Array<WebTokenPermissionsItemEnum | (string & {})>;
@@ -398,39 +402,39 @@ export type WebTokenEnabledFeaturesItemEnumList = Array<
 /** A web token used to access the managed Google Play iframe. */
 export interface WebToken {
   /** The token value which is used in the hosting page to generate the iframe with the embedded UI. This is a read-only field generated by the server. */
-  value?: string;
+  value?: string | undefined;
   /** Permissions available to an admin in the embedded UI. An admin must have all of these permissions in order to view the UI. This field is deprecated. */
-  permissions?: WebTokenPermissionsItemEnumList;
+  permissions?: WebTokenPermissionsItemEnumList | undefined;
   /** The name of the web token, which is generated by the server during creation in the form enterprises/{enterpriseId}/webTokens/{webTokenId}. */
-  name?: string;
+  name?: string | undefined;
   /** The features to enable. Use this if you want to control exactly which feature(s) will be activated; leave empty to allow all features.Restrictions / things to note: - If no features are listed here, all features are enabled -- this is the default behavior where you give access to all features to your admins. - This must not contain any FEATURE_UNSPECIFIED values. - Repeated values are ignored */
-  enabledFeatures?: WebTokenEnabledFeaturesItemEnumList;
+  enabledFeatures?: WebTokenEnabledFeaturesItemEnumList | undefined;
   /** The URL of the parent frame hosting the iframe with the embedded UI. To prevent XSS, the iframe may not be hosted at other URLs. The URL must use the https scheme. */
-  parentFrameUrl?: string;
+  parentFrameUrl?: string | undefined;
 }
 export interface CreateEnterprisesWebTokensRequest {
   /** The name of the enterprise in the form enterprises/{enterpriseId}. */
   parent: string;
   /** Request body */
-  body?: WebToken;
+  body?: WebToken | undefined;
 }
 export type StringList = Array<string>;
 export interface CreateSignupUrlsRequest {
   /** Optional. Email address used to prefill the admin field of the enterprise signup form. This value is a hint only and can be altered by the user. If allowedDomains is non-empty then this must belong to one of the allowedDomains. */
-  adminEmail?: string;
+  adminEmail?: string | undefined;
   /** The callback URL that the admin will be redirected to after successfully creating an enterprise. Before redirecting there the system will add a query parameter to this URL named enterpriseToken which will contain an opaque token to be used for the create enterprise request. The URL will be parsed then reformatted in order to add the enterpriseToken parameter, so there may be some minor formatting changes. */
-  callbackUrl?: string;
+  callbackUrl?: string | undefined;
   /** Optional. A list of domains that are permitted for the admin email. The IT admin cannot enter an email address with a domain name that is not in this list. Subdomains of domains in this list are not allowed but can be allowed by adding a second entry which has *. prefixed to the domain name (e.g. *.example.com). If the field is not present or is an empty list then the IT admin is free to use any valid domain name. Personal email domains are always allowed, but will result in the creation of a managed Google Play Accounts enterprise. */
-  allowedDomains?: StringList;
+  allowedDomains?: StringList | undefined;
   /** The ID of the Google Cloud Platform project which will own the enterprise. */
-  projectId?: string;
+  projectId?: string | undefined;
 }
 /** An enterprise signup URL. */
 export interface SignupUrl {
   /** A URL where an enterprise admin can register their enterprise. The page can't be rendered in an iframe. */
-  url?: string;
+  url?: string | undefined;
   /** The name of the resource. Use this value in the signupUrl field when calling enterprises.create to complete the enterprise signup flow. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface DeleteEnterprisesRequest {
   /** The name of the enterprise in the form enterprises/{enterpriseId}. */
@@ -446,9 +450,9 @@ export type DeleteEnterprisesDevicesWipeDataFlagsEnumList = Array<
 >;
 export interface DeleteEnterprisesDevicesRequest {
   /** Optional flags that control the device wiping behavior. */
-  wipeDataFlags?: DeleteEnterprisesDevicesWipeDataFlagsEnumList;
+  wipeDataFlags?: DeleteEnterprisesDevicesWipeDataFlagsEnumList | undefined;
   /** Optional. A short message displayed to the user before wiping the work profile on personal devices. This has no effect on company owned devices. The maximum message length is 200 characters. */
-  wipeReasonMessage?: string;
+  wipeReasonMessage?: string | undefined;
   /** The name of the device in the form enterprises/{enterpriseId}/devices/{deviceId}. */
   name: string;
 }
@@ -467,20 +471,20 @@ export interface DeleteEnterprisesWebAppsRequest {
 /** Request message for generating a URL to upgrade an existing managed Google Play Accounts enterprise to a managed Google domain.Note: This feature is not generally available. */
 export interface GenerateEnterpriseUpgradeUrlRequest {
   /** Optional. A list of domains that are permitted for the admin email. The IT admin cannot enter an email address with a domain name that is not in this list. Subdomains of domains in this list are not allowed but can be allowed by adding a second entry which has *. prefixed to the domain name (e.g. *.example.com). If the field is not present or is an empty list then the IT admin is free to use any valid domain name. Personal email domains are not allowed. */
-  allowedDomains?: StringList;
+  allowedDomains?: StringList | undefined;
   /** Optional. Email address used to prefill the admin field of the enterprise signup form as part of the upgrade process. This value is a hint only and can be altered by the user. Personal email addresses are not allowed. If allowedDomains is non-empty then this must belong to one of the allowedDomains. */
-  adminEmail?: string;
+  adminEmail?: string | undefined;
 }
 export interface GenerateEnterpriseUpgradeUrlEnterprisesRequest {
   /** Required. The name of the enterprise to be upgraded in the form enterprises/{enterpriseId}. */
   name: string;
   /** Request body */
-  body?: GenerateEnterpriseUpgradeUrlRequest;
+  body?: GenerateEnterpriseUpgradeUrlRequest | undefined;
 }
 /** Response message for generating a URL to upgrade an existing managed Google Play Accounts enterprise to a managed Google domain.Note: This feature is not generally available. */
 export interface GenerateEnterpriseUpgradeUrlResponse {
   /** A URL for an enterprise admin to upgrade their enterprise. The page can't be rendered in an iframe. */
-  url?: string;
+  url?: string | undefined;
 }
 export interface GetEnterprisesRequest {
   /** The name of the enterprise in the form enterprises/{enterpriseId}. */
@@ -488,30 +492,30 @@ export interface GetEnterprisesRequest {
 }
 export interface GetEnterprisesApplicationsRequest {
   /** The preferred language for localized application info, as a BCP47 tag (e.g. "en-US", "de"). If not specified the default language of the application will be used. */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** The name of the application in the form enterprises/{enterpriseId}/applications/{package_name}. */
   name: string;
 }
 /** A permission required by the app. */
 export interface ApplicationPermission {
   /** The name of the permission. Localized. */
-  name?: string;
+  name?: string | undefined;
   /** A longer description of the permission, providing more detail on what it affects. Localized. */
-  description?: string;
+  description?: string | undefined;
   /** An opaque string uniquely identifying the permission. Not localized. */
-  permissionId?: string;
+  permissionId?: string | undefined;
 }
 export type ApplicationPermissionList = Array<ApplicationPermission>;
 /** This represents a single version of the app. */
 export interface AppVersion {
   /** The string used in the Play store by the app developer to identify the version. The string is not necessarily unique or localized (for example, the string could be "1.4"). */
-  versionString?: string;
+  versionString?: string | undefined;
   /** If the value is True, it indicates that this version is a production track. */
-  production?: boolean;
+  production?: boolean | undefined;
   /** Unique increasing identifier for the app version. */
-  versionCode?: number;
+  versionCode?: number | undefined;
   /** Track identifiers that the app version is published in. This does not include the production track (see production instead). */
-  trackIds?: StringList;
+  trackIds?: StringList | undefined;
 }
 export type AppVersionList = Array<AppVersion>;
 export type ApplicationAppPricingEnum =
@@ -534,27 +538,27 @@ export type ManagedPropertyTypeEnum =
 /** An entry of a managed property. */
 export interface ManagedPropertyEntry {
   /** The machine-readable value of the entry, which should be used in the configuration. Not localized. */
-  value?: string;
+  value?: string | undefined;
   /** The human-readable name of the value. Localized. */
-  name?: string;
+  name?: string | undefined;
 }
 export type ManagedPropertyEntryList = Array<ManagedPropertyEntry>;
 /** Managed property. */
 export interface ManagedProperty {
   /** The name of the property. Localized. */
-  title?: string;
+  title?: string | undefined;
   /** The default value of the property. BUNDLE_ARRAY properties don't have a default value. */
-  defaultValue?: unknown;
+  defaultValue?: unknown | undefined;
   /** For BUNDLE_ARRAY properties, the list of nested properties. A BUNDLE_ARRAY property is at most two levels deep. */
-  nestedProperties?: ManagedPropertyList;
+  nestedProperties?: ManagedPropertyList | undefined;
   /** The type of the property. */
-  type?: ManagedPropertyTypeEnum;
+  type?: ManagedPropertyTypeEnum | undefined;
   /** A longer description of the property, providing more detail of what it affects. Localized. */
-  description?: string;
+  description?: string | undefined;
   /** For CHOICE or MULTISELECT properties, the list of possible entries. */
-  entries?: ManagedPropertyEntryList;
+  entries?: ManagedPropertyEntryList | undefined;
   /** The unique key that the app uses to identify the property, e.g. "com.google.android.gm.fieldname". */
-  key?: string;
+  key?: string | undefined;
 }
 export type ManagedPropertyList = Array<ManagedProperty>;
 export type ApplicationContentRatingEnum =
@@ -567,9 +571,9 @@ export type ApplicationContentRatingEnum =
 /** Id to name association of a app track. */
 export interface AppTrackInfo {
   /** The track name associated with the trackId, set in the Play Console. The name is modifiable from Play Console. */
-  trackAlias?: string;
+  trackAlias?: string | undefined;
   /** The unmodifiable unique track identifier, taken from the releaseTrackId in the URL of the Play Console page that displays the app's track information. */
-  trackId?: string;
+  trackId?: string | undefined;
 }
 export type AppTrackInfoList = Array<AppTrackInfo>;
 export type ApplicationDistributionChannelEnum =
@@ -580,49 +584,49 @@ export type ApplicationDistributionChannelEnum =
 /** Information about an app. */
 export interface Application {
   /** A link to an image that can be used as an icon for the app. This image is suitable for use up to a pixel size of 512 x 512. */
-  iconUrl?: string;
+  iconUrl?: string | undefined;
   /** The name of the author of the apps (for example, the app developer). */
-  author?: string;
+  author?: string | undefined;
   /** The minimum Android SDK necessary to run the app. */
-  minAndroidSdkVersion?: number;
+  minAndroidSdkVersion?: number | undefined;
   /** The permissions required by the app. */
-  permissions?: ApplicationPermissionList;
+  permissions?: ApplicationPermissionList | undefined;
   /** Versions currently available for this app. */
-  appVersions?: AppVersionList;
+  appVersions?: AppVersionList | undefined;
   /** The name of the app in the form enterprises/{enterprise}/applications/{package_name}. */
-  name?: string;
+  name?: string | undefined;
   /** Whether this app is free, free with in-app purchases, or paid. If the pricing is unspecified, this means the app is not generally available anymore (even though it might still be available to people who own it). */
-  appPricing?: ApplicationAppPricingEnum;
+  appPricing?: ApplicationAppPricingEnum | undefined;
   /** Noteworthy features (if any) of this app. */
-  features?: ApplicationFeaturesItemEnumList;
+  features?: ApplicationFeaturesItemEnumList | undefined;
   /** The countries which this app is available in as per ISO 3166-1 alpha-2. */
-  availableCountries?: StringList;
+  availableCountries?: StringList | undefined;
   /** Full app description, if available. */
-  fullDescription?: string;
+  fullDescription?: string | undefined;
   /** Output only. The approximate time (within 7 days) the app was last published. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** A list of screenshot links representing the app. */
-  screenshotUrls?: StringList;
+  screenshotUrls?: StringList | undefined;
   /** The set of managed properties available to be pre-configured for the app. */
-  managedProperties?: ManagedPropertyList;
+  managedProperties?: ManagedPropertyList | undefined;
   /** The content rating for this app. */
-  contentRating?: ApplicationContentRatingEnum;
+  contentRating?: ApplicationContentRatingEnum | undefined;
   /** Application tracks visible to the enterprise. */
-  appTracks?: AppTrackInfoList;
+  appTracks?: AppTrackInfoList | undefined;
   /** The localized promotional description, if available. */
-  description?: string;
+  description?: string | undefined;
   /** A link to the (consumer) Google Play details page for the app. */
-  playStoreUrl?: string;
+  playStoreUrl?: string | undefined;
   /** The title of the app. Localized. */
-  title?: string;
+  title?: string | undefined;
   /** How and to whom the package is made available. */
-  distributionChannel?: ApplicationDistributionChannelEnum;
+  distributionChannel?: ApplicationDistributionChannelEnum | undefined;
   /** The app category (e.g. RACING, SOCIAL, etc.) */
-  category?: string;
+  category?: string | undefined;
   /** A localised description of the recent changes made to the app. */
-  recentChanges?: string;
+  recentChanges?: string | undefined;
   /** A link to a smaller image that can be used as an icon for the app. This image is suitable for use up to a pixel size of 128 x 128. */
-  smallIconUrl?: string;
+  smallIconUrl?: string | undefined;
 }
 export interface GetEnterprisesDevicesRequest {
   /** The name of the device in the form enterprises/{enterpriseId}/devices/{deviceId}. */
@@ -631,27 +635,27 @@ export interface GetEnterprisesDevicesRequest {
 /** Information related to whether this device was migrated from being managed by another Device Policy Controller (DPC). */
 export interface DpcMigrationInfo {
   /** Output only. If this device was migrated from another DPC, this is its package name. Not populated otherwise. */
-  previousDpc?: string;
+  previousDpc?: string | undefined;
   /** Output only. If this device was migrated from another DPC, the additionalData field of the migration token is populated here. */
-  additionalData?: string;
+  additionalData?: string | undefined;
 }
 export type DisplayStateEnum = "DISPLAY_STATE_UNSPECIFIED" | "OFF" | "ON" | "DOZE" | "SUSPENDED";
 /** Device display information. */
 export interface Display {
   /** Name of the display. */
-  name?: string;
+  name?: string | undefined;
   /** State of the display. */
-  state?: DisplayStateEnum | (string & {});
+  state?: DisplayStateEnum | (string & {}) | undefined;
   /** Display width in pixels. */
-  width?: number;
+  width?: number | undefined;
   /** Display height in pixels. */
-  height?: number;
+  height?: number | undefined;
   /** Unique display id. */
-  displayId?: number;
+  displayId?: number | undefined;
   /** Refresh rate of the display in frames per second. */
-  refreshRate?: number;
+  refreshRate?: number | undefined;
   /** Display density expressed as dots-per-inch. */
-  density?: number;
+  density?: number | undefined;
 }
 export type DisplayList = Array<Display>;
 export type DeviceOwnershipEnum = "OWNERSHIP_UNSPECIFIED" | "COMPANY_OWNED" | "PERSONALLY_OWNED";
@@ -669,17 +673,17 @@ export type PostureDetailSecurityRiskEnum =
 /** Additional details regarding the security posture of the device. */
 export interface PostureDetail {
   /** Corresponding admin-facing advice to mitigate this security risk and improve the security posture of the device. */
-  advice?: UserFacingMessageList;
+  advice?: UserFacingMessageList | undefined;
   /** A specific security risk that negatively affects the security posture of the device. */
-  securityRisk?: PostureDetailSecurityRiskEnum | (string & {});
+  securityRisk?: PostureDetailSecurityRiskEnum | (string & {}) | undefined;
 }
 export type PostureDetailList = Array<PostureDetail>;
 /** The security posture of the device, as determined by the current device state and the policies applied. */
 export interface SecurityPosture {
   /** Device's security posture value. */
-  devicePosture?: SecurityPostureDevicePostureEnum | (string & {});
+  devicePosture?: SecurityPostureDevicePostureEnum | (string & {}) | undefined;
   /** Additional details regarding the security posture of the device. */
-  postureDetails?: PostureDetailList;
+  postureDetails?: PostureDetailList | undefined;
 }
 export type MemoryEventEventTypeEnum =
   | "MEMORY_EVENT_TYPE_UNSPECIFIED"
@@ -691,11 +695,11 @@ export type MemoryEventEventTypeEnum =
 /** An event related to memory and storage measurements.To distinguish between new and old events, we recommend using the createTime field. */
 export interface MemoryEvent {
   /** The creation time of the event. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The number of free bytes in the medium, or for EXTERNAL_STORAGE_DETECTED, the total capacity in bytes of the storage medium. */
-  byteCount?: string;
+  byteCount?: string | undefined;
   /** Event type. */
-  eventType?: MemoryEventEventTypeEnum | (string & {});
+  eventType?: MemoryEventEventTypeEnum | (string & {}) | undefined;
 }
 export type MemoryEventList = Array<MemoryEvent>;
 export type SystemUpdateInfoUpdateStatusEnum =
@@ -707,34 +711,34 @@ export type SystemUpdateInfoUpdateStatusEnum =
 /** Information about a potential pending system update. */
 export interface SystemUpdateInfo {
   /** The time when the update was first available. A zero value indicates that this field is not set. This field is set only if an update is available (that is, updateStatus is neither UPDATE_STATUS_UNKNOWN nor UP_TO_DATE). */
-  updateReceivedTime?: string;
+  updateReceivedTime?: string | undefined;
   /** The status of an update: whether an update exists and what type it is. */
-  updateStatus?: SystemUpdateInfoUpdateStatusEnum | (string & {});
+  updateStatus?: SystemUpdateInfoUpdateStatusEnum | (string & {}) | undefined;
 }
 /** Information about device software. */
 export interface SoftwareInfo {
   /** The Android Device Policy app version code. */
-  androidDevicePolicyVersionCode?: number;
+  androidDevicePolicyVersionCode?: number | undefined;
   /** An IETF BCP 47 language code for the primary locale on the device. */
-  primaryLanguageCode?: string;
+  primaryLanguageCode?: string | undefined;
   /** The user-visible Android version string. For example, 6.0.1. */
-  androidVersion?: string;
+  androidVersion?: string | undefined;
   /** The system bootloader version number, e.g. 0.6.7. */
-  bootloaderVersion?: string;
+  bootloaderVersion?: string | undefined;
   /** Build time. */
-  androidBuildTime?: string;
+  androidBuildTime?: string | undefined;
   /** Information about a potential pending system update. */
-  systemUpdateInfo?: SystemUpdateInfo;
+  systemUpdateInfo?: SystemUpdateInfo | undefined;
   /** SHA-256 hash of android.content.pm.Signature (https://developer.android.com/reference/android/content/pm/Signature.html) associated with the system package, which can be used to verify that the system build hasn't been modified. */
-  deviceBuildSignature?: string;
+  deviceBuildSignature?: string | undefined;
   /** The Android Device Policy app version as displayed to the user. */
-  androidDevicePolicyVersionName?: string;
+  androidDevicePolicyVersionName?: string | undefined;
   /** Android build ID string meant for displaying to the user. For example, shamu-userdebug 6.0.1 MOB30I 2756745 dev-keys. */
-  androidBuildNumber?: string;
+  androidBuildNumber?: string | undefined;
   /** Security patch level, e.g. 2016-05-01. */
-  securityPatchLevel?: string;
+  securityPatchLevel?: string | undefined;
   /** Kernel version, for example, 2.6.32.9-g103d848. */
-  deviceKernelVersion?: string;
+  deviceKernelVersion?: string | undefined;
 }
 export type TelephonyInfoConfigModeEnum =
   | "CONFIG_MODE_UNSPECIFIED"
@@ -747,29 +751,29 @@ export type TelephonyInfoActivationStateEnum =
 /** Telephony information associated with a given SIM card on the device. This is supported for all SIM cards on fully managed devices on Android 6 and above. In addition, this is supported for admin-added eSIMs on all devices for Android 15 and above. */
 export interface TelephonyInfo {
   /** The phone number associated with this SIM card. */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
   /** Output only. The ICCID associated with this SIM card. */
-  iccId?: string;
+  iccId?: string | undefined;
   /** Output only. The configuration mode of the SIM card on the device. This is applicable for eSIMs only. This is supported on all devices for Android 15 and above. This is always CONFIG_MODE_UNSPECIFIED for physical SIMs and for devices below Android 15. */
-  configMode?: TelephonyInfoConfigModeEnum | (string & {});
+  configMode?: TelephonyInfoConfigModeEnum | (string & {}) | undefined;
   /** Output only. Activation state of the SIM card on the device. This is applicable for eSIMs only. This is supported on all devices for Android 15 and above. This is always ACTIVATION_STATE_UNSPECIFIED for physical SIMs and for devices below Android 15. */
-  activationState?: TelephonyInfoActivationStateEnum | (string & {});
+  activationState?: TelephonyInfoActivationStateEnum | (string & {}) | undefined;
   /** The carrier name associated with this SIM card. */
-  carrierName?: string;
+  carrierName?: string | undefined;
 }
 export type TelephonyInfoList = Array<TelephonyInfo>;
 /** Device network info. */
 export interface NetworkInfo {
   /** IMEI number of the GSM device. For example, A1000031212. */
-  imei?: string;
+  imei?: string | undefined;
   /** MEID number of the CDMA device. For example, A00000292788E1. */
-  meid?: string;
+  meid?: string | undefined;
   /** Alphabetic name of current registered operator. For example, Vodafone. */
-  networkOperatorName?: string;
+  networkOperatorName?: string | undefined;
   /** Provides telephony information associated with each SIM card on the device. Only supported on fully managed devices starting from Android 6. */
-  telephonyInfos?: TelephonyInfoList;
+  telephonyInfos?: TelephonyInfoList | undefined;
   /** Wi-Fi MAC address of the device. For example, 7c:11:11:11:11:11. */
-  wifiMacAddress?: string;
+  wifiMacAddress?: string | undefined;
 }
 export type DefaultApplicationInfoDefaultApplicationTypeEnum =
   | "DEFAULT_APPLICATION_TYPE_UNSPECIFIED"
@@ -790,19 +794,22 @@ export type DefaultApplicationSettingAttemptAttemptOutcomeEnum =
 /** Details on a default application setting attempt. */
 export interface DefaultApplicationSettingAttempt {
   /** Output only. The package name of the attempted application. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Output only. The outcome of setting the app as the default. */
-  attemptOutcome?: DefaultApplicationSettingAttemptAttemptOutcomeEnum | (string & {});
+  attemptOutcome?: DefaultApplicationSettingAttemptAttemptOutcomeEnum | (string & {}) | undefined;
 }
 export type DefaultApplicationSettingAttemptList = Array<DefaultApplicationSettingAttempt>;
 /** The default application information for a specific DefaultApplicationType. */
 export interface DefaultApplicationInfo {
   /** Output only. The default application type. */
-  defaultApplicationType?: DefaultApplicationInfoDefaultApplicationTypeEnum | (string & {});
+  defaultApplicationType?:
+    | DefaultApplicationInfoDefaultApplicationTypeEnum
+    | (string & {})
+    | undefined;
   /** Output only. Details on the default application setting attempts, in the same order as listed in defaultApplications. */
-  defaultApplicationSettingAttempts?: DefaultApplicationSettingAttemptList;
+  defaultApplicationSettingAttempts?: DefaultApplicationSettingAttemptList | undefined;
   /** Output only. The package name of the current default application. */
-  packageName?: string;
+  packageName?: string | undefined;
 }
 export type DefaultApplicationInfoList = Array<DefaultApplicationInfo>;
 export type DeviceManagementModeEnum =
@@ -817,17 +824,17 @@ export type KeyedAppStateSeverityEnum = "SEVERITY_UNSPECIFIED" | "INFO" | "ERROR
 /** Keyed app state reported by the app. */
 export interface KeyedAppState {
   /** Optionally, a machine-readable value to be read by the EMM. For example, setting values that the admin can choose to query against in the EMM console (e.g. "notify me if the battery_warning data < 10"). */
-  data?: string;
+  data?: string | undefined;
   /** The time the app state was most recently updated. */
-  lastUpdateTime?: string;
+  lastUpdateTime?: string | undefined;
   /** Optionally, a free-form message string to explain the app state. If the state was triggered by a particular value (e.g. a managed configuration value), it should be included in the message. */
-  message?: string;
+  message?: string | undefined;
   /** The creation time of the app state on the device. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The severity of the app state. */
-  severity?: KeyedAppStateSeverityEnum | (string & {});
+  severity?: KeyedAppStateSeverityEnum | (string & {}) | undefined;
   /** The key for the app state. Acts as a point of reference for what the app is providing state for. For example, when providing managed configuration feedback, this key could be the managed configuration key. */
-  key?: string;
+  key?: string | undefined;
 }
 export type KeyedAppStateList = Array<KeyedAppState>;
 export type ApplicationReportStateEnum = "APPLICATION_STATE_UNSPECIFIED" | "REMOVED" | "INSTALLED";
@@ -844,9 +851,9 @@ export type ApplicationEventEventTypeEnum =
 /** An app-related event. */
 export interface ApplicationEvent {
   /** The creation time of the event. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** App event type. */
-  eventType?: ApplicationEventEventTypeEnum | (string & {});
+  eventType?: ApplicationEventEventTypeEnum | (string & {}) | undefined;
 }
 export type ApplicationEventList = Array<ApplicationEvent>;
 export type ApplicationReportApplicationSourceEnum =
@@ -858,37 +865,37 @@ export type ApplicationReportApplicationSourceEnum =
 /** The application signing key certificate. */
 export interface ApplicationSigningKeyCert {
   /** Required. The SHA-256 hash value of the signing key certificate of the app. This must be a valid SHA-256 hash value, i.e. 32 bytes. */
-  signingKeyCertFingerprintSha256?: string;
+  signingKeyCertFingerprintSha256?: string | undefined;
 }
 export type ApplicationSigningKeyCertList = Array<ApplicationSigningKeyCert>;
 /** Information reported about an installed app. */
 export interface ApplicationReport {
   /** Whether the app is user facing. */
-  userFacingType?: ApplicationReportUserFacingTypeEnum | (string & {});
+  userFacingType?: ApplicationReportUserFacingTypeEnum | (string & {}) | undefined;
   /** The display name of the app. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** List of keyed app states reported by the app. */
-  keyedAppStates?: KeyedAppStateList;
+  keyedAppStates?: KeyedAppStateList | undefined;
   /** The app version as displayed to the user. */
-  versionName?: string;
+  versionName?: string | undefined;
   /** Application state. */
-  state?: ApplicationReportStateEnum | (string & {});
+  state?: ApplicationReportStateEnum | (string & {}) | undefined;
   /** The app version code, which can be used to determine whether one version is more recent than another. */
-  versionCode?: number;
+  versionCode?: number | undefined;
   /** The list of app events which have occurred in the last 30 hours. */
-  events?: ApplicationEventList;
+  events?: ApplicationEventList | undefined;
   /** The source of the package. */
-  applicationSource?: ApplicationReportApplicationSourceEnum | (string & {});
+  applicationSource?: ApplicationReportApplicationSourceEnum | (string & {}) | undefined;
   /** Deprecated. Use signingKeyCerts instead. The SHA-1 hash of each android.content.pm.Signature (https://developer.android.com/reference/android/content/pm/Signature.html) associated with the app package. Each byte of each hash value is represented as a two-digit hexadecimal number. */
-  signingKeyCertFingerprints?: StringList;
+  signingKeyCertFingerprints?: StringList | undefined;
   /** Output only. Signing key certificates of the app. */
-  signingKeyCerts?: ApplicationSigningKeyCertList;
+  signingKeyCerts?: ApplicationSigningKeyCertList | undefined;
   /** The package name of the app that installed this app. */
-  installerPackageName?: string;
+  installerPackageName?: string | undefined;
   /** The SHA-256 hash of the app's APK file, which can be used to verify the app hasn't been modified. Each byte of the hash value is represented as a two-digit hexadecimal number. */
-  packageSha256Hash?: string;
+  packageSha256Hash?: string | undefined;
   /** Package name of the app. */
-  packageName?: string;
+  packageName?: string | undefined;
 }
 export type ApplicationReportList = Array<ApplicationReport>;
 export type DeviceAppliedStateEnum =
@@ -927,76 +934,76 @@ export type PasswordRequirementsPasswordScopeEnum =
 /** Requirements for the password used to unlock a device. */
 export interface PasswordRequirements {
   /** Optional. Minimum number of letters required in the password. Only enforced when password_quality is COMPLEX. */
-  passwordMinimumLetters?: number;
+  passwordMinimumLetters?: number | undefined;
   /** Optional. The length of time after a device or work profile is unlocked using a strong form of authentication (password, PIN, pattern) that it can be unlocked using any other authentication method (e.g. fingerprint, trust agents, face). After the specified time period elapses, only strong forms of authentication can be used to unlock the device or work profile. */
-  requirePasswordUnlock?: PasswordRequirementsRequirePasswordUnlockEnum | (string & {});
+  requirePasswordUnlock?: PasswordRequirementsRequirePasswordUnlockEnum | (string & {}) | undefined;
   /** Optional. Minimum number of numerical digits required in the password. Only enforced when password_quality is COMPLEX. */
-  passwordMinimumNumeric?: number;
+  passwordMinimumNumeric?: number | undefined;
   /** Optional. Number of incorrect device-unlock passwords that can be entered before a device is wiped. A value of 0 means there is no restriction. */
-  maximumFailedPasswordsForWipe?: number;
+  maximumFailedPasswordsForWipe?: number | undefined;
   /** Optional. Password expiration timeout. */
-  passwordExpirationTimeout?: string;
+  passwordExpirationTimeout?: string | undefined;
   /** Optional. Minimum number of upper case letters required in the password. Only enforced when password_quality is COMPLEX. */
-  passwordMinimumUpperCase?: number;
+  passwordMinimumUpperCase?: number | undefined;
   /** Optional. Minimum number of non-letter characters (numerical digits or symbols) required in the password. Only enforced when password_quality is COMPLEX. */
-  passwordMinimumNonLetter?: number;
+  passwordMinimumNonLetter?: number | undefined;
   /** Optional. Minimum number of lower case letters required in the password. Only enforced when password_quality is COMPLEX. */
-  passwordMinimumLowerCase?: number;
+  passwordMinimumLowerCase?: number | undefined;
   /** Optional. The minimum allowed password length. A value of 0 means there is no restriction. Only enforced when password_quality is NUMERIC, NUMERIC_COMPLEX, ALPHABETIC, ALPHANUMERIC, or COMPLEX. */
-  passwordMinimumLength?: number;
+  passwordMinimumLength?: number | undefined;
   /** Optional. The required password quality. */
-  passwordQuality?: PasswordRequirementsPasswordQualityEnum | (string & {});
+  passwordQuality?: PasswordRequirementsPasswordQualityEnum | (string & {}) | undefined;
   /** Optional. Controls whether a unified lock is allowed for the device and the work profile, on devices running Android 9 and above with a work profile. This can be set only if password_scope is set to SCOPE_PROFILE, the policy will be rejected otherwise. If user has not set a separate work lock and this field is set to REQUIRE_SEPARATE_WORK_LOCK, a NonComplianceDetail is reported with nonComplianceReason set to USER_ACTION. */
-  unifiedLockSettings?: PasswordRequirementsUnifiedLockSettingsEnum | (string & {});
+  unifiedLockSettings?: PasswordRequirementsUnifiedLockSettingsEnum | (string & {}) | undefined;
   /** Optional. The scope that the password requirement applies to. */
-  passwordScope?: PasswordRequirementsPasswordScopeEnum | (string & {});
+  passwordScope?: PasswordRequirementsPasswordScopeEnum | (string & {}) | undefined;
   /** Optional. The length of the password history. After setting this field, the user won't be able to enter a new password that is the same as any password in the history. A value of 0 means there is no restriction. */
-  passwordHistoryLength?: number;
+  passwordHistoryLength?: number | undefined;
   /** Optional. Minimum number of symbols required in the password. Only enforced when password_quality is COMPLEX. */
-  passwordMinimumSymbols?: number;
+  passwordMinimumSymbols?: number | undefined;
 }
 export type PasswordRequirementsList = Array<PasswordRequirements>;
 export type DoubleList = Array<number>;
 /** Information related to the eUICC chip. */
 export interface EuiccChipInfo {
   /** Output only. The Embedded Identity Document (EID) that identifies the eUICC chip for each eUICC chip on the device. This is available on company owned devices running Android 13 and above. */
-  eid?: string;
+  eid?: string | undefined;
 }
 export type EuiccChipInfoList = Array<EuiccChipInfo>;
 /** Information about device hardware. The fields related to temperature thresholds are only available if hardwareStatusEnabled is true in the device's policy. */
 export interface HardwareInfo {
   /** Manufacturer. For example, Motorola. */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** Device skin shutdown temperature thresholds in Celsius. */
-  skinShutdownTemperatures?: DoubleList;
+  skinShutdownTemperatures?: DoubleList | undefined;
   /** CPU shutdown temperature thresholds in Celsius for each CPU on the device. */
-  cpuShutdownTemperatures?: DoubleList;
+  cpuShutdownTemperatures?: DoubleList | undefined;
   /** Output only. ID that uniquely identifies a personally-owned device in a particular organization. On the same physical device when enrolled with the same organization, this ID persists across setups and even factory resets. This ID is available on personally-owned devices with a work profile on devices running Android 12 and above. */
-  enterpriseSpecificId?: string;
+  enterpriseSpecificId?: string | undefined;
   /** Name of the hardware. For example, Angler. */
-  hardware?: string;
+  hardware?: string | undefined;
   /** Brand of the device. For example, Google. */
-  brand?: string;
+  brand?: string | undefined;
   /** Device skin throttling temperature thresholds in Celsius. */
-  skinThrottlingTemperatures?: DoubleList;
+  skinThrottlingTemperatures?: DoubleList | undefined;
   /** The model of the device. For example, Asus Nexus 7. */
-  model?: string;
+  model?: string | undefined;
   /** Battery shutdown temperature thresholds in Celsius for each battery on the device. */
-  batteryShutdownTemperatures?: DoubleList;
+  batteryShutdownTemperatures?: DoubleList | undefined;
   /** CPU throttling temperature thresholds in Celsius for each CPU on the device. */
-  cpuThrottlingTemperatures?: DoubleList;
+  cpuThrottlingTemperatures?: DoubleList | undefined;
   /** GPU throttling temperature thresholds in Celsius for each GPU on the device. */
-  gpuThrottlingTemperatures?: DoubleList;
+  gpuThrottlingTemperatures?: DoubleList | undefined;
   /** GPU shutdown temperature thresholds in Celsius for each GPU on the device. */
-  gpuShutdownTemperatures?: DoubleList;
+  gpuShutdownTemperatures?: DoubleList | undefined;
   /** Battery throttling temperature thresholds in Celsius for each battery on the device. */
-  batteryThrottlingTemperatures?: DoubleList;
+  batteryThrottlingTemperatures?: DoubleList | undefined;
   /** The device serial number. However, for personally-owned devices running Android 12 and above, this is the same as the enterpriseSpecificId. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** Baseband version. For example, MDM9625_104662.22.05.34p. */
-  deviceBasebandVersion?: string;
+  deviceBasebandVersion?: string | undefined;
   /** Output only. Information related to the eUICC chip. */
-  euiccChipInfo?: EuiccChipInfoList;
+  euiccChipInfo?: EuiccChipInfoList | undefined;
 }
 export type CommonCriteriaModeInfoPolicySignatureVerificationStatusEnum =
   | "POLICY_SIGNATURE_VERIFICATION_STATUS_UNSPECIFIED"
@@ -1013,9 +1020,13 @@ export interface CommonCriteriaModeInfo {
   /** Output only. The status of policy signature verification. */
   policySignatureVerificationStatus?:
     | CommonCriteriaModeInfoPolicySignatureVerificationStatusEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Whether Common Criteria Mode is enabled. */
-  commonCriteriaModeStatus?: CommonCriteriaModeInfoCommonCriteriaModeStatusEnum | (string & {});
+  commonCriteriaModeStatus?:
+    | CommonCriteriaModeInfoCommonCriteriaModeStatusEnum
+    | (string & {})
+    | undefined;
 }
 export type DeviceStateEnum =
   | "DEVICE_STATE_UNSPECIFIED"
@@ -1029,9 +1040,9 @@ export type DeviceStateEnum =
 /** Information about device memory and storage. */
 export interface MemoryInfo {
   /** Total internal storage on device in bytes. */
-  totalInternalStorage?: string;
+  totalInternalStorage?: string | undefined;
   /** Total RAM on device in bytes. */
-  totalRam?: string;
+  totalRam?: string | undefined;
 }
 export type NonComplianceDetailInstallationFailureReasonEnum =
   | "INSTALLATION_FAILURE_REASON_UNSPECIFIED"
@@ -1070,12 +1081,12 @@ export type PasswordPoliciesContextPasswordPolicyScopeEnum =
 /** Additional context for non-compliance related to password policies. */
 export interface PasswordPoliciesContext {
   /** The scope of non-compliant password. */
-  passwordPolicyScope?: PasswordPoliciesContextPasswordPolicyScopeEnum | (string & {});
+  passwordPolicyScope?: PasswordPoliciesContextPasswordPolicyScopeEnum | (string & {}) | undefined;
 }
 /** Additional context for non-compliance related to Wi-Fi configuration. */
 export interface OncWifiContext {
   /** The GUID of non-compliant Wi-Fi configuration. */
-  wifiGuid?: string;
+  wifiGuid?: string | undefined;
 }
 export type DefaultApplicationContextDefaultApplicationScopeEnum =
   | "DEFAULT_APPLICATION_SCOPE_UNSPECIFIED"
@@ -1085,16 +1096,19 @@ export type DefaultApplicationContextDefaultApplicationScopeEnum =
 /** Additional context for non-compliance related to default application settings. */
 export interface DefaultApplicationContext {
   /** Output only. The scope of non-compliant default application setting. */
-  defaultApplicationScope?: DefaultApplicationContextDefaultApplicationScopeEnum | (string & {});
+  defaultApplicationScope?:
+    | DefaultApplicationContextDefaultApplicationScopeEnum
+    | (string & {})
+    | undefined;
 }
 /** Additional context for SpecificNonComplianceReason. */
 export interface SpecificNonComplianceContext {
   /** Additional context for non-compliance related to password policies. See PASSWORD_POLICIES_PASSWORD_EXPIRED and PASSWORD_POLICIES_PASSWORD_NOT_SUFFICIENT. */
-  passwordPoliciesContext?: PasswordPoliciesContext;
+  passwordPoliciesContext?: PasswordPoliciesContext | undefined;
   /** Additional context for non-compliance related to Wi-Fi configuration. See ONC_WIFI_INVALID_VALUE and ONC_WIFI_API_LEVEL */
-  oncWifiContext?: OncWifiContext;
+  oncWifiContext?: OncWifiContext | undefined;
   /** Output only. Additional context for non-compliance related to default application settings. See DEFAULT_APPLICATION_SETTING_FAILED_FOR_SCOPE. */
-  defaultApplicationContext?: DefaultApplicationContext;
+  defaultApplicationContext?: DefaultApplicationContext | undefined;
 }
 export type NonComplianceDetailNonComplianceReasonEnum =
   | "NON_COMPLIANCE_REASON_UNSPECIFIED"
@@ -1115,21 +1129,27 @@ export type NonComplianceDetailNonComplianceReasonEnum =
 /** Provides detail about non-compliance with a policy setting. */
 export interface NonComplianceDetail {
   /** For settings with nested fields, if a particular nested field is out of compliance, this specifies the full path to the offending field. The path is formatted in the same way the policy JSON field would be referenced in JavaScript, that is: 1) For object-typed fields, the field name is followed by a dot then by a subfield name. 2) For array-typed fields, the field name is followed by the array index enclosed in brackets. For example, to indicate a problem with the url field in the externalData field in the 3rd application, the path would be applications[2].externalData.url */
-  fieldPath?: string;
+  fieldPath?: string | undefined;
   /** If the policy setting could not be applied, the current value of the setting on the device. */
-  currentValue?: unknown;
+  currentValue?: unknown | undefined;
   /** If package_name is set and the non-compliance reason is APP_NOT_INSTALLED or APP_NOT_UPDATED, the detailed reason the app can't be installed or updated. */
-  installationFailureReason?: NonComplianceDetailInstallationFailureReasonEnum | (string & {});
+  installationFailureReason?:
+    | NonComplianceDetailInstallationFailureReasonEnum
+    | (string & {})
+    | undefined;
   /** The policy-specific reason the device is not in compliance with the setting. */
-  specificNonComplianceReason?: NonComplianceDetailSpecificNonComplianceReasonEnum | (string & {});
+  specificNonComplianceReason?:
+    | NonComplianceDetailSpecificNonComplianceReasonEnum
+    | (string & {})
+    | undefined;
   /** Additional context for specific_non_compliance_reason. */
-  specificNonComplianceContext?: SpecificNonComplianceContext;
+  specificNonComplianceContext?: SpecificNonComplianceContext | undefined;
   /** The name of the policy setting. This is the JSON field name of a top-level Policy field. */
-  settingName?: string;
+  settingName?: string | undefined;
   /** The package name indicating which app is out of compliance, if applicable. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** The reason the device is not in compliance with the setting. */
-  nonComplianceReason?: NonComplianceDetailNonComplianceReasonEnum | (string & {});
+  nonComplianceReason?: NonComplianceDetailNonComplianceReasonEnum | (string & {}) | undefined;
 }
 export type NonComplianceDetailList = Array<NonComplianceDetail>;
 export type DeviceSettingsEncryptionStatusEnum =
@@ -1143,36 +1163,36 @@ export type DeviceSettingsEncryptionStatusEnum =
 /** Information about security related device settings on device. */
 export interface DeviceSettings {
   /** Whether ADB (https://developer.android.com/studio/command-line/adb.html) is enabled on the device. */
-  adbEnabled?: boolean;
+  adbEnabled?: boolean | undefined;
   /** Whether installing apps from unknown sources is enabled. */
-  unknownSourcesEnabled?: boolean;
+  unknownSourcesEnabled?: boolean | undefined;
   /** Whether Google Play Protect verification (https://support.google.com/accounts/answer/2812853) is enforced on the device. */
-  verifyAppsEnabled?: boolean;
+  verifyAppsEnabled?: boolean | undefined;
   /** Encryption status from DevicePolicyManager. */
-  encryptionStatus?: DeviceSettingsEncryptionStatusEnum | (string & {});
+  encryptionStatus?: DeviceSettingsEncryptionStatusEnum | (string & {}) | undefined;
   /** Whether the device is secured with PIN/password. */
-  isDeviceSecure?: boolean;
+  isDeviceSecure?: boolean | undefined;
   /** Whether the storage encryption is enabled. */
-  isEncrypted?: boolean;
+  isEncrypted?: boolean | undefined;
   /** Whether developer mode is enabled on the device. */
-  developmentSettingsEnabled?: boolean;
+  developmentSettingsEnabled?: boolean | undefined;
 }
 /** Hardware status. Temperatures may be compared to the temperature thresholds available in hardwareInfo to determine hardware health. */
 export interface HardwareStatus {
   /** Current GPU temperatures in Celsius for each GPU on the device. */
-  gpuTemperatures?: DoubleList;
+  gpuTemperatures?: DoubleList | undefined;
   /** Fan speeds in RPM for each fan on the device. Empty array means that there are no fans or fan speed is not supported on the system. */
-  fanSpeeds?: DoubleList;
+  fanSpeeds?: DoubleList | undefined;
   /** CPU usages in percentage for each core available on the device. Usage is 0 for each unplugged core. Empty array implies that CPU usage is not supported in the system. */
-  cpuUsages?: DoubleList;
+  cpuUsages?: DoubleList | undefined;
   /** Current CPU temperatures in Celsius for each CPU on the device. */
-  cpuTemperatures?: DoubleList;
+  cpuTemperatures?: DoubleList | undefined;
   /** Current battery temperatures in Celsius for each battery on the device. */
-  batteryTemperatures?: DoubleList;
+  batteryTemperatures?: DoubleList | undefined;
   /** Current device skin temperatures in Celsius. */
-  skinTemperatures?: DoubleList;
+  skinTemperatures?: DoubleList | undefined;
   /** The time the measurements were taken. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export type HardwareStatusList = Array<HardwareStatus>;
 export type PowerManagementEventEventTypeEnum =
@@ -1187,89 +1207,89 @@ export type PowerManagementEventEventTypeEnum =
 /** A power management event. */
 export interface PowerManagementEvent {
   /** Event type. */
-  eventType?: PowerManagementEventEventTypeEnum | (string & {});
+  eventType?: PowerManagementEventEventTypeEnum | (string & {}) | undefined;
   /** The creation time of the event. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** For BATTERY_LEVEL_COLLECTED events, the battery level as a percentage. */
-  batteryLevel?: number;
+  batteryLevel?: number | undefined;
 }
 export type PowerManagementEventList = Array<PowerManagementEvent>;
 /** A device owned by an enterprise. Unless otherwise noted, all fields are read-only and can't be modified by enterprises.devices.patch. */
 export interface Device {
   /** The time of device enrollment. */
-  enrollmentTime?: string;
+  enrollmentTime?: string | undefined;
   /** The version of the policy currently applied to the device. */
-  appliedPolicyVersion?: string;
+  appliedPolicyVersion?: string | undefined;
   /** Output only. Information related to whether this device was migrated from being managed by another Device Policy Controller (DPC). */
-  dpcMigrationInfo?: DpcMigrationInfo;
+  dpcMigrationInfo?: DpcMigrationInfo | undefined;
   /** The name of the device in the form enterprises/{enterpriseId}/devices/{deviceId}. */
-  name?: string;
+  name?: string | undefined;
   /** Detailed information about displays on the device. This information is only available if displayInfoEnabled is true in the device's policy. */
-  displays?: DisplayList;
+  displays?: DisplayList | undefined;
   /** Ownership of the managed device. */
-  ownership?: DeviceOwnershipEnum | (string & {});
+  ownership?: DeviceOwnershipEnum | (string & {}) | undefined;
   /** Device's security posture value that reflects how secure the device is. */
-  securityPosture?: SecurityPosture;
+  securityPosture?: SecurityPosture | undefined;
   /** The name of the policy currently applied to the device. */
-  appliedPolicyName?: string;
+  appliedPolicyName?: string | undefined;
   /** Events related to memory and storage measurements in chronological order. This information is only available if memoryInfoEnabled is true in the device's policy.Events are retained for a certain period of time and old events are deleted. */
-  memoryEvents?: MemoryEventList;
+  memoryEvents?: MemoryEventList | undefined;
   /** Detailed information about the device software. This information is only available if softwareInfoEnabled is true in the device's policy. */
-  softwareInfo?: SoftwareInfo;
+  softwareInfo?: SoftwareInfo | undefined;
   /** Device network information. This information is only available if networkInfoEnabled is true in the device's policy. */
-  networkInfo?: NetworkInfo;
+  networkInfo?: NetworkInfo | undefined;
   /** Deprecated. */
-  lastPolicyComplianceReportTime?: string;
+  lastPolicyComplianceReportTime?: string | undefined;
   /** The last time the device fetched its policy. */
-  lastPolicySyncTime?: string;
+  lastPolicySyncTime?: string | undefined;
   /** Whether the device is compliant with its policy. */
-  policyCompliant?: boolean;
+  policyCompliant?: boolean | undefined;
   /** Output only. The default application information for the DefaultApplicationType. This information is only available if defaultApplicationInfoReportingEnabled is true in the device's policy. Available on Android 16 and above.All app types are reported on fully managed devices. DEFAULT_BROWSER, DEFAULT_CALL_REDIRECTION, DEFAULT_CALL_SCREENING and DEFAULT_DIALER types are reported for the work profiles on company-owned devices with a work profile and personally-owned devices. DEFAULT_WALLET is also reported for company-owned devices with a work profile, but will only include work profile information. */
-  defaultApplicationInfo?: DefaultApplicationInfoList;
+  defaultApplicationInfo?: DefaultApplicationInfoList | undefined;
   /** The type of management mode Android Device Policy takes on the device. This influences which policy settings are supported. */
-  managementMode?: DeviceManagementModeEnum | (string & {});
+  managementMode?: DeviceManagementModeEnum | (string & {}) | undefined;
   /** The API level of the Android platform version running on the device. */
-  apiLevel?: number;
+  apiLevel?: number | undefined;
   /** The resource name of the user that owns this device in the form enterprises/{enterpriseId}/users/{userId}. */
-  userName?: string;
+  userName?: string | undefined;
   /** The last time the device sent a status report. */
-  lastStatusReportTime?: string;
+  lastStatusReportTime?: string | undefined;
   /** If the device was enrolled with an enrollment token with additional data provided, this field contains that data. */
-  enrollmentTokenData?: string;
+  enrollmentTokenData?: string | undefined;
   /** Reports for apps installed on the device. This information is only available when application_reports_enabled is true in the device's policy. */
-  applicationReports?: ApplicationReportList;
+  applicationReports?: ApplicationReportList | undefined;
   /** If the device was enrolled with an enrollment token, this field contains the name of the token. */
-  enrollmentTokenName?: string;
+  enrollmentTokenName?: string | undefined;
   /** The state currently applied to the device. */
-  appliedState?: DeviceAppliedStateEnum | (string & {});
+  appliedState?: DeviceAppliedStateEnum | (string & {}) | undefined;
   /** The password requirements currently applied to the device. This field exists because the applied requirements may be slightly different from those specified in passwordPolicies in some cases. Note that this field does not provide information about password compliance. For non-compliance information, see nonComplianceDetails. NonComplianceDetail.fieldPath, is set based on passwordPolicies, not based on this field. */
-  appliedPasswordPolicies?: PasswordRequirementsList;
+  appliedPasswordPolicies?: PasswordRequirementsList | undefined;
   /** Detailed information about the device hardware. */
-  hardwareInfo?: HardwareInfo;
+  hardwareInfo?: HardwareInfo | undefined;
   /** Information about Common Criteria Mode--security standards defined in the Common Criteria for Information Technology Security Evaluation (https://www.commoncriteriaportal.org/) (CC).This information is only available if statusReportingSettings.commonCriteriaModeEnabled is true in the device's policy the device is company-owned. */
-  commonCriteriaModeInfo?: CommonCriteriaModeInfo;
+  commonCriteriaModeInfo?: CommonCriteriaModeInfo | undefined;
   /** The state to be applied to the device. This field can be modified by a patch request. Note that when calling enterprises.devices.patch, ACTIVE and DISABLED are the only allowable values. To enter the device into a DELETED state, call enterprises.devices.delete. */
-  state?: DeviceStateEnum | (string & {});
+  state?: DeviceStateEnum | (string & {}) | undefined;
   /** The name of the policy applied to the device, in the form enterprises/{enterpriseId}/policies/{policyId}. If not specified, the policy_name for the device's user is applied. This field can be modified by a patch request. You can specify only the policyId when calling enterprises.devices.patch, as long as the policyId doesn't contain any slashes. The rest of the policy name is inferred. */
-  policyName?: string;
+  policyName?: string | undefined;
   /** Memory information: contains information about device memory and storage. */
-  memoryInfo?: MemoryInfo;
+  memoryInfo?: MemoryInfo | undefined;
   /** Details about policy settings that the device is not compliant with. */
-  nonComplianceDetails?: NonComplianceDetailList;
+  nonComplianceDetails?: NonComplianceDetailList | undefined;
   /** Device settings information. This information is only available if deviceSettingsEnabled is true in the device's policy. */
-  deviceSettings?: DeviceSettings;
+  deviceSettings?: DeviceSettings | undefined;
   /** Hardware status samples in chronological order. This information is only available if hardwareStatusEnabled is true in the device's policy. */
-  hardwareStatusSamples?: HardwareStatusList;
+  hardwareStatusSamples?: HardwareStatusList | undefined;
   /** Map of selected system properties name and value related to the device. This information is only available if systemPropertiesEnabled is true in the device's policy. */
-  systemProperties?: StringMap;
+  systemProperties?: StringMap | undefined;
   /** If the device state is DISABLED, an optional message that is displayed on the device indicating the reason the device is disabled. This field can be modified by a patch request. */
-  disabledReason?: UserFacingMessage;
+  disabledReason?: UserFacingMessage | undefined;
   /** Power management events on the device in chronological order. This information is only available if powerManagementEventsEnabled is true in the device's policy. */
-  powerManagementEvents?: PowerManagementEventList;
+  powerManagementEvents?: PowerManagementEventList | undefined;
   /** The user who owns the device. */
-  user?: User;
+  user?: User | undefined;
   /** If the same physical device has been enrolled multiple times, this field contains its previous device names. The serial number is used as the unique identifier to determine if the same physical device has enrolled previously. The names are in chronological order. */
-  previousDeviceNames?: StringList;
+  previousDeviceNames?: StringList | undefined;
 }
 export interface GetEnterprisesDevicesOperationsRequest {
   /** The name of the operation resource. */
@@ -1280,24 +1300,24 @@ export type DocumentMapList = Array<DocumentMap>;
 /** The Status type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by gRPC (https://github.com/grpc). Each Status message contains three pieces of data: error code, error message, and error details.You can find out more about this error model and how to work with it in the API Design Guide (https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the name should be a resource name ending with operations/{unique_id}. */
-  name?: string;
+  name?: string | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as Delete, the response is google.protobuf.Empty. If the original method is standard Get/Create/Update, the response should be the resource. For other methods, the response should have the type XxxResponse, where Xxx is the original method name. For example, if the original method name is TakeSnapshot(), the inferred response type is TakeSnapshotResponse. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** If the value is false, it means the operation is still in progress. If true, the operation is completed, and either error or response is available. */
-  done?: boolean;
+  done?: boolean | undefined;
 }
 export interface GetEnterprisesEnrollmentTokensRequest {
   /** Required. The name of the enrollment token in the form enterprises/{enterpriseId}/enrollmentTokens/{enrollmentTokenId}. */
@@ -1336,15 +1356,15 @@ export type KioskCustomizationSystemErrorWarningsEnum =
 /** Settings controlling the behavior of a device in kiosk mode. To enable kiosk mode, set kioskCustomLauncherEnabled to true or specify an app in the policy with installType KIOSK. */
 export interface KioskCustomization {
   /** Optional. Specifies whether system info and notifications are disabled in kiosk mode. */
-  statusBar?: KioskCustomizationStatusBarEnum | (string & {});
+  statusBar?: KioskCustomizationStatusBarEnum | (string & {}) | undefined;
   /** Optional. Specifies which navigation features are enabled (e.g. Home, Overview buttons) in kiosk mode. */
-  systemNavigation?: KioskCustomizationSystemNavigationEnum | (string & {});
+  systemNavigation?: KioskCustomizationSystemNavigationEnum | (string & {}) | undefined;
   /** Optional. Specifies whether the Settings app is allowed in kiosk mode. */
-  deviceSettings?: KioskCustomizationDeviceSettingsEnum | (string & {});
+  deviceSettings?: KioskCustomizationDeviceSettingsEnum | (string & {}) | undefined;
   /** Optional. Sets the behavior of a device in kiosk mode when a user presses and holds (long-presses) the Power button. */
-  powerButtonActions?: KioskCustomizationPowerButtonActionsEnum | (string & {});
+  powerButtonActions?: KioskCustomizationPowerButtonActionsEnum | (string & {}) | undefined;
   /** Optional. Specifies whether system error dialogs for crashed or unresponsive apps are blocked in kiosk mode. When blocked, the system will force-stop the app as if the user chooses the "close app" option on the UI. */
-  systemErrorWarnings?: KioskCustomizationSystemErrorWarningsEnum | (string & {});
+  systemErrorWarnings?: KioskCustomizationSystemErrorWarningsEnum | (string & {}) | undefined;
 }
 export type PolicyLocationModeEnum =
   | "LOCATION_MODE_UNSPECIFIED"
@@ -1431,45 +1451,45 @@ export type ApnSettingProtocolEnum =
 /** An Access Point Name (APN) configuration for a carrier data connection. The APN provides configuration to connect a cellular network device to an IP data network. A carrier uses this setting to decide which IP address to assign, any security methods to apply, and how the device might be connected to private networks. */
 export interface ApnSetting {
   /** Optional. MMS (Multimedia Messaging Service) proxy port of the APN. A value of 0 (default) means not set and negative values are rejected. */
-  mmsProxyPort?: number;
+  mmsProxyPort?: number | undefined;
   /** Optional. The proxy address of the APN. */
-  proxyAddress?: string;
+  proxyAddress?: string | undefined;
   /** Required. Usage categories for the APN. Policy will be rejected if this field is empty or contains APN_TYPE_UNSPECIFIED or duplicates. Multiple APN types can be set on fully managed devices. ENTERPRISE is the only allowed APN type on work profiles. A NonComplianceDetail with MANAGEMENT_MODE is reported for any other value on work profiles. APN types that are not supported on the device or management mode will be ignored. If this results in the empty list, the APN setting will be ignored, because apnTypes is a required field. A NonComplianceDetail with INVALID_VALUE is reported if none of the APN types are supported on the device or management mode. */
-  apnTypes?: ApnSettingApnTypesItemEnumList;
+  apnTypes?: ApnSettingApnTypesItemEnumList | undefined;
   /** Optional. The proxy port of the APN. A value of 0 (default) means not set and negative values are rejected. */
-  proxyPort?: number;
+  proxyPort?: number | undefined;
   /** Optional. MVNO match type for the APN. */
-  mvnoType?: ApnSettingMvnoTypeEnum | (string & {});
+  mvnoType?: ApnSettingMvnoTypeEnum | (string & {}) | undefined;
   /** Required. Human-readable name that describes the APN. Policy will be rejected if this field is empty. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Optional. Whether User Plane resources have to be activated during every transition from CM-IDLE mode to CM-CONNECTED state for this APN. See 3GPP TS 23.501 section 5.6.13. */
-  alwaysOnSetting?: ApnSettingAlwaysOnSettingEnum | (string & {});
+  alwaysOnSetting?: ApnSettingAlwaysOnSettingEnum | (string & {}) | undefined;
   /** Optional. Radio technologies (network types) the APN may use. Policy will be rejected if this field contains NETWORK_TYPE_UNSPECIFIED or duplicates. */
-  networkTypes?: ApnSettingNetworkTypesItemEnumList;
+  networkTypes?: ApnSettingNetworkTypesItemEnumList | undefined;
   /** Optional. Authentication type of the APN. */
-  authType?: ApnSettingAuthTypeEnum | (string & {});
+  authType?: ApnSettingAuthTypeEnum | (string & {}) | undefined;
   /** Optional. The MTU (Maximum Transmission Unit) size of the IPv6 mobile interface to which the APN connected. A value of 0 (default) means not set and negative values are rejected. Supported on Android 13 and above. A NonComplianceDetail with API_LEVEL is reported if the Android version is less than 13. */
-  mtuV6?: number;
+  mtuV6?: number | undefined;
   /** Optional. MMSC (Multimedia Messaging Service Center) URI of the APN. */
-  mmsc?: string;
+  mmsc?: string | undefined;
   /** Optional. APN password of the APN. */
-  password?: string;
+  password?: string | undefined;
   /** Required. Name of the APN. Policy will be rejected if this field is empty. */
-  apn?: string;
+  apn?: string | undefined;
   /** Optional. The protocol to use to connect to this APN while the device is roaming. */
-  roamingProtocol?: ApnSettingRoamingProtocolEnum | (string & {});
+  roamingProtocol?: ApnSettingRoamingProtocolEnum | (string & {}) | undefined;
   /** Optional. APN username of the APN. */
-  username?: string;
+  username?: string | undefined;
   /** Optional. The protocol to use to connect to this APN. */
-  protocol?: ApnSettingProtocolEnum | (string & {});
+  protocol?: ApnSettingProtocolEnum | (string & {}) | undefined;
   /** Optional. MMS (Multimedia Messaging Service) proxy address of the APN which can be an IP address or hostname (not a URL). */
-  mmsProxyAddress?: string;
+  mmsProxyAddress?: string | undefined;
   /** Optional. The default MTU (Maximum Transmission Unit) size in bytes of the IPv4 routes brought up by this APN setting. A value of 0 (default) means not set and negative values are rejected. Supported on Android 13 and above. A NonComplianceDetail with API_LEVEL is reported if the Android version is less than 13. */
-  mtuV4?: number;
+  mtuV4?: number | undefined;
   /** Optional. The numeric operator ID of the APN. Numeric operator ID is defined as MCC (Mobile Country Code) + MNC (Mobile Network Code). */
-  numericOperatorId?: string;
+  numericOperatorId?: string | undefined;
   /** Optional. Carrier ID for the APN. A value of 0 (default) means not set and negative values are rejected. */
-  carrierId?: number;
+  carrierId?: number | undefined;
 }
 export type ApnSettingList = Array<ApnSetting>;
 export type ApnPolicyOverrideApnsEnum =
@@ -1479,9 +1499,9 @@ export type ApnPolicyOverrideApnsEnum =
 /** Access Point Name (APN) policy. Configuration for Access Point Names (APNs) which may override any other APNs on the device. See OVERRIDE_APNS_ENABLED and overrideApns for details. */
 export interface ApnPolicy {
   /** Optional. APN settings for override APNs. There must not be any conflict between any of APN settings provided, otherwise the policy will be rejected. Two ApnSettings are considered to conflict when all of the following fields match on both: numericOperatorId, apn, proxyAddress, proxyPort, mmsProxyAddress, mmsProxyPort, mmsc, mvnoType, protocol, roamingProtocol. If some of the APN settings result in non-compliance of INVALID_VALUE , they will be ignored. This can be set on fully managed devices on Android 10 and above. This can also be set on work profiles on Android 13 and above and only with ApnSetting's with ENTERPRISE APN type. A NonComplianceDetail with API_LEVEL is reported if the Android version is less than 10. A NonComplianceDetail with MANAGEMENT_MODE is reported for work profiles on Android versions less than 13. */
-  apnSettings?: ApnSettingList;
+  apnSettings?: ApnSettingList | undefined;
   /** Optional. Whether override APNs are disabled or enabled. See DevicePolicyManager.setOverrideApnsEnabled (https://developer.android.com/reference/android/app/admin/DevicePolicyManager#setOverrideApnsEnabled) for more details. */
-  overrideApns?: ApnPolicyOverrideApnsEnum | (string & {});
+  overrideApns?: ApnPolicyOverrideApnsEnum | (string & {}) | undefined;
 }
 export type WifiRoamingSettingWifiRoamingModeEnum =
   | "WIFI_ROAMING_MODE_UNSPECIFIED"
@@ -1491,15 +1511,15 @@ export type WifiRoamingSettingWifiRoamingModeEnum =
 /** Wi-Fi roaming setting. */
 export interface WifiRoamingSetting {
   /** Required. Wi-Fi roaming mode for the specified SSID. */
-  wifiRoamingMode?: WifiRoamingSettingWifiRoamingModeEnum | (string & {});
+  wifiRoamingMode?: WifiRoamingSettingWifiRoamingModeEnum | (string & {}) | undefined;
   /** Required. SSID of the Wi-Fi network. */
-  wifiSsid?: string;
+  wifiSsid?: string | undefined;
 }
 export type WifiRoamingSettingList = Array<WifiRoamingSetting>;
 /** Wi-Fi roaming policy. */
 export interface WifiRoamingPolicy {
   /** Optional. Wi-Fi roaming settings. SSIDs provided in this list must be unique, the policy will be rejected otherwise. */
-  wifiRoamingSettings?: WifiRoamingSettingList;
+  wifiRoamingSettings?: WifiRoamingSettingList | undefined;
 }
 export type DeviceConnectivityManagementBluetoothSharingEnum =
   | "BLUETOOTH_SHARING_UNSPECIFIED"
@@ -1517,15 +1537,15 @@ export type WifiSsidPolicyWifiSsidPolicyTypeEnum =
 /** Represents a Wi-Fi SSID. */
 export interface WifiSsid {
   /** Required. Wi-Fi SSID represented as a string. */
-  wifiSsid?: string;
+  wifiSsid?: string | undefined;
 }
 export type WifiSsidList = Array<WifiSsid>;
 /** Restrictions on which Wi-Fi SSIDs the device can connect to. Note that this does not affect which networks can be configured on the device. Supported on company-owned devices running Android 13 and above. */
 export interface WifiSsidPolicy {
   /** Type of the Wi-Fi SSID policy to be applied. */
-  wifiSsidPolicyType?: WifiSsidPolicyWifiSsidPolicyTypeEnum | (string & {});
+  wifiSsidPolicyType?: WifiSsidPolicyWifiSsidPolicyTypeEnum | (string & {}) | undefined;
   /** Optional. List of Wi-Fi SSIDs that should be applied in the policy. This field must be non-empty when WifiSsidPolicyType is set to WIFI_SSID_ALLOWLIST. If this is set to a non-empty list, then a NonComplianceDetail detail with API_LEVEL is reported if the Android version is less than 13 and a NonComplianceDetail with MANAGEMENT_MODE is reported for non-company-owned devices. */
-  wifiSsids?: WifiSsidList;
+  wifiSsids?: WifiSsidList | undefined;
 }
 export type PrivateDnsSettingsPrivateDnsModeEnum =
   | "PRIVATE_DNS_MODE_UNSPECIFIED"
@@ -1535,9 +1555,9 @@ export type PrivateDnsSettingsPrivateDnsModeEnum =
 /** Controls the device's private DNS settings. */
 export interface PrivateDnsSettings {
   /** Optional. The configuration mode for device's global private DNS settings. If this is set to PRIVATE_DNS_SPECIFIED_HOST, then private_dns_host must be set. */
-  privateDnsMode?: PrivateDnsSettingsPrivateDnsModeEnum | (string & {});
+  privateDnsMode?: PrivateDnsSettingsPrivateDnsModeEnum | (string & {}) | undefined;
   /** Optional. The hostname of the DNS server. This must be set if and only if private_dns_mode is set to PRIVATE_DNS_SPECIFIED_HOST. Supported on Android 10 and above on fully managed devices. A NonComplianceDetail with MANAGEMENT_MODE is reported on other management modes. A NonComplianceDetail with API_LEVEL is reported if the Android version is less than 10. A NonComplianceDetail with PENDING is reported if the device is not connected to a network. A NonComplianceDetail with nonComplianceReason INVALID_VALUE and specificNonComplianceReason PRIVATE_DNS_HOST_NOT_SERVING is reported if the specified host is not a DNS server or not supported on Android. A NonComplianceDetail with INVALID_VALUE is reported if applying this setting fails for any other reason. */
-  privateDnsHost?: string;
+  privateDnsHost?: string | undefined;
 }
 export type PreferentialNetworkServiceSettingsDefaultPreferentialNetworkIdEnum =
   | "PREFERENTIAL_NETWORK_ID_UNSPECIFIED"
@@ -1568,11 +1588,18 @@ export interface PreferentialNetworkServiceConfig {
   /** Optional. Whether fallback to the device-wide default network is allowed. If this is set to FALLBACK_TO_DEFAULT_CONNECTION_ALLOWED, then nonMatchingNetworks must not be set to NON_MATCHING_NETWORKS_DISALLOWED, the policy will be rejected otherwise. Note: If this is set to FALLBACK_TO_DEFAULT_CONNECTION_DISALLOWED, applications are not able to access the internet if the 5G slice is not available. */
   fallbackToDefaultConnection?:
     | PreferentialNetworkServiceConfigFallbackToDefaultConnectionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Required. Preferential network identifier. This must not be set to NO_PREFERENTIAL_NETWORK or PREFERENTIAL_NETWORK_ID_UNSPECIFIED, the policy will be rejected otherwise. */
-  preferentialNetworkId?: PreferentialNetworkServiceConfigPreferentialNetworkIdEnum | (string & {});
+  preferentialNetworkId?:
+    | PreferentialNetworkServiceConfigPreferentialNetworkIdEnum
+    | (string & {})
+    | undefined;
   /** Optional. Whether apps this configuration applies to are blocked from using networks other than the preferential service. If this is set to NON_MATCHING_NETWORKS_DISALLOWED, then fallbackToDefaultConnection must be set to FALLBACK_TO_DEFAULT_CONNECTION_DISALLOWED. */
-  nonMatchingNetworks?: PreferentialNetworkServiceConfigNonMatchingNetworksEnum | (string & {});
+  nonMatchingNetworks?:
+    | PreferentialNetworkServiceConfigNonMatchingNetworksEnum
+    | (string & {})
+    | undefined;
 }
 export type PreferentialNetworkServiceConfigList = Array<PreferentialNetworkServiceConfig>;
 /** Preferential network service settings. */
@@ -1580,9 +1607,10 @@ export interface PreferentialNetworkServiceSettings {
   /** Required. Default preferential network ID for the applications that are not in applications or if ApplicationPolicy.preferentialNetworkId is set to PREFERENTIAL_NETWORK_ID_UNSPECIFIED. There must be a configuration for the specified network ID in preferentialNetworkServiceConfigs, unless this is set to NO_PREFERENTIAL_NETWORK. If set to PREFERENTIAL_NETWORK_ID_UNSPECIFIED or unset, this defaults to NO_PREFERENTIAL_NETWORK. Note: If the default preferential network is misconfigured, applications with no ApplicationPolicy.preferentialNetworkId set are not able to access the internet. This setting does not apply to the following critical apps: com.google.android.apps.work.clouddpc com.google.android.gmsApplicationPolicy.preferentialNetworkId can still be used to configure the preferential network for them. */
   defaultPreferentialNetworkId?:
     | PreferentialNetworkServiceSettingsDefaultPreferentialNetworkIdEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Required. Preferential network service configurations which enables having multiple enterprise slices. There must not be multiple configurations with the same preferentialNetworkId. If a configuration is not referenced by any application by setting ApplicationPolicy.preferentialNetworkId or by setting defaultPreferentialNetworkId, it will be ignored. For devices on 4G networks, enterprise APN needs to be configured additionally to set up data call for preferential network service. These APNs can be added using apnPolicy. */
-  preferentialNetworkServiceConfigs?: PreferentialNetworkServiceConfigList;
+  preferentialNetworkServiceConfigs?: PreferentialNetworkServiceConfigList | undefined;
 }
 export type DeviceConnectivityManagementWifiDirectSettingsEnum =
   | "WIFI_DIRECT_SETTINGS_UNSPECIFIED"
@@ -1596,25 +1624,28 @@ export type DeviceConnectivityManagementTetheringSettingsEnum =
 /** Covers controls for device connectivity such as Wi-Fi, USB data access, keyboard/mouse connections, and more. */
 export interface DeviceConnectivityManagement {
   /** Controls what files and/or data can be transferred via USB. Supported only on company-owned devices. */
-  usbDataAccess?: DeviceConnectivityManagementUsbDataAccessEnum | (string & {});
+  usbDataAccess?: DeviceConnectivityManagementUsbDataAccessEnum | (string & {}) | undefined;
   /** Optional. Access Point Name (APN) policy. Configuration for Access Point Names (APNs) which may override any other APNs on the device. See OVERRIDE_APNS_ENABLED and overrideApns for details. */
-  apnPolicy?: ApnPolicy;
+  apnPolicy?: ApnPolicy | undefined;
   /** Optional. Wi-Fi roaming policy. */
-  wifiRoamingPolicy?: WifiRoamingPolicy;
+  wifiRoamingPolicy?: WifiRoamingPolicy | undefined;
   /** Optional. Controls whether Bluetooth sharing is allowed. */
-  bluetoothSharing?: DeviceConnectivityManagementBluetoothSharingEnum | (string & {});
+  bluetoothSharing?: DeviceConnectivityManagementBluetoothSharingEnum | (string & {}) | undefined;
   /** Controls Wi-Fi configuring privileges. Based on the option set, user will have either full or limited or no control in configuring Wi-Fi networks. */
-  configureWifi?: DeviceConnectivityManagementConfigureWifiEnum | (string & {});
+  configureWifi?: DeviceConnectivityManagementConfigureWifiEnum | (string & {}) | undefined;
   /** Restrictions on which Wi-Fi SSIDs the device can connect to. Note that this does not affect which networks can be configured on the device. Supported on company-owned devices running Android 13 and above. */
-  wifiSsidPolicy?: WifiSsidPolicy;
+  wifiSsidPolicy?: WifiSsidPolicy | undefined;
   /** Optional. The global private DNS settings. */
-  privateDnsSettings?: PrivateDnsSettings;
+  privateDnsSettings?: PrivateDnsSettings | undefined;
   /** Optional. Preferential network service configuration. Setting this field will override preferentialNetworkService. This can be set on both work profiles and fully managed devices on Android 13 and above. See 5G network slicing (https://developers.google.com/android/management/5g-network-slicing) guide for more details. */
-  preferentialNetworkServiceSettings?: PreferentialNetworkServiceSettings;
+  preferentialNetworkServiceSettings?: PreferentialNetworkServiceSettings | undefined;
   /** Controls configuring and using Wi-Fi direct settings. Supported on company-owned devices running Android 13 and above. */
-  wifiDirectSettings?: DeviceConnectivityManagementWifiDirectSettingsEnum | (string & {});
+  wifiDirectSettings?:
+    | DeviceConnectivityManagementWifiDirectSettingsEnum
+    | (string & {})
+    | undefined;
   /** Controls tethering settings. Based on the value set, the user is partially or fully disallowed from using different forms of tethering. */
-  tetheringSettings?: DeviceConnectivityManagementTetheringSettingsEnum | (string & {});
+  tetheringSettings?: DeviceConnectivityManagementTetheringSettingsEnum | (string & {}) | undefined;
 }
 export type WorkAccountSetupConfigAuthenticationTypeEnum =
   | "AUTHENTICATION_TYPE_UNSPECIFIED"
@@ -1623,9 +1654,9 @@ export type WorkAccountSetupConfigAuthenticationTypeEnum =
 /** Controls the work account setup configuration, such as details of whether a Google authenticated account is required. */
 export interface WorkAccountSetupConfig {
   /** Optional. The specific google work account email address to be added. This field is only relevant if authenticationType is GOOGLE_AUTHENTICATED. This must be an enterprise account and not a consumer account. Once set and a Google authenticated account is added to the device, changing this field will have no effect, and thus recommended to be set only once. The email address must be all lowercase. */
-  requiredAccountEmail?: string;
+  requiredAccountEmail?: string | undefined;
   /** Optional. The authentication type of the user on the device. */
-  authenticationType?: WorkAccountSetupConfigAuthenticationTypeEnum | (string & {});
+  authenticationType?: WorkAccountSetupConfigAuthenticationTypeEnum | (string & {}) | undefined;
 }
 export type NonComplianceDetailConditionNonComplianceReasonEnum =
   | "NON_COMPLIANCE_REASON_UNSPECIFIED"
@@ -1646,27 +1677,30 @@ export type NonComplianceDetailConditionNonComplianceReasonEnum =
 /** A compliance rule condition which is satisfied if there exists any matching NonComplianceDetail for the device. A NonComplianceDetail matches a NonComplianceDetailCondition if all the fields which are set within the NonComplianceDetailCondition match the corresponding NonComplianceDetail fields. */
 export interface NonComplianceDetailCondition {
   /** The reason the device is not in compliance with the setting. If not set, then this condition matches any reason. */
-  nonComplianceReason?: NonComplianceDetailConditionNonComplianceReasonEnum | (string & {});
+  nonComplianceReason?:
+    | NonComplianceDetailConditionNonComplianceReasonEnum
+    | (string & {})
+    | undefined;
   /** The name of the policy setting. This is the JSON field name of a top-level Policy field. If not set, then this condition matches any setting name. */
-  settingName?: string;
+  settingName?: string | undefined;
   /** The package name of the app that's out of compliance. If not set, then this condition matches any package name. */
-  packageName?: string;
+  packageName?: string | undefined;
 }
 /** A compliance rule condition which is satisfied if the Android Framework API level on the device doesn't meet a minimum requirement. There can only be one rule with this type of condition per policy. */
 export interface ApiLevelCondition {
   /** The minimum desired Android Framework API level. If the device doesn't meet the minimum requirement, this condition is satisfied. Must be greater than zero. */
-  minApiLevel?: number;
+  minApiLevel?: number | undefined;
 }
 /** A rule declaring which mitigating actions to take when a device is not compliant with its policy. For every rule, there is always an implicit mitigating action to set policy_compliant to false for the Device resource, and display a message on the device indicating that the device is not compliant with its policy. Other mitigating actions may optionally be taken as well, depending on the field values in the rule. */
 export interface ComplianceRule {
   /** A condition which is satisfied if there exists any matching NonComplianceDetail for the device. */
-  nonComplianceDetailCondition?: NonComplianceDetailCondition;
+  nonComplianceDetailCondition?: NonComplianceDetailCondition | undefined;
   /** A condition which is satisfied if the Android Framework API level on the device doesn't meet a minimum requirement. */
-  apiLevelCondition?: ApiLevelCondition;
+  apiLevelCondition?: ApiLevelCondition | undefined;
   /** If set to true, the rule includes a mitigating action to disable apps so that the device is effectively disabled, but app data is preserved. If the device is running an app in locked task mode, the app will be closed and a UI showing the reason for non-compliance will be displayed. */
-  disableApps?: boolean;
+  disableApps?: boolean | undefined;
   /** If set, the rule includes a mitigating action to disable apps specified in the list, but app data is preserved. */
-  packageNamesToDisable?: StringList;
+  packageNamesToDisable?: StringList | undefined;
 }
 export type ComplianceRuleList = Array<ComplianceRule>;
 export type PolicyAssistContentPolicyEnum =
@@ -1676,17 +1710,17 @@ export type PolicyAssistContentPolicyEnum =
 /** Controls apps' access to private keys. The rule determines which private key, if any, Android Device Policy grants to the specified app. Access is granted either when the app calls KeyChain.choosePrivateKeyAlias (https://developer.android.com/reference/android/security/KeyChain#choosePrivateKeyAlias%28android.app.Activity,%20android.security.KeyChainAliasCallback,%20java.lang.String[],%20java.security.Principal[],%20java.lang.String,%20int,%20java.lang.String%29) (or any overloads) to request a private key alias for a given URL, or for rules that are not URL-specific (that is, if urlPattern is not set, or set to the empty string or .*) on Android 11 and above, directly so that the app can call KeyChain.getPrivateKey (https://developer.android.com/reference/android/security/KeyChain#getPrivateKey%28android.content.Context,%20java.lang.String%29), without first having to call KeyChain.choosePrivateKeyAlias.When an app calls KeyChain.choosePrivateKeyAlias if more than one choosePrivateKeyRules matches, the last matching rule defines which key alias to return. */
 export interface ChoosePrivateKeyRule {
   /** The alias of the private key to be used. */
-  privateKeyAlias?: string;
+  privateKeyAlias?: string | undefined;
   /** The URL pattern to match against the URL of the request. If not set or empty, it matches all URLs. This uses the regular expression syntax of java.util.regex.Pattern. */
-  urlPattern?: string;
+  urlPattern?: string | undefined;
   /** The package names to which this rule applies. The signing key certificate fingerprint of the app is verified against the signing key certificate fingerprints provided by Play Store and ApplicationPolicy.signingKeyCerts . If no package names are specified, then the alias is provided to all apps that call KeyChain.choosePrivateKeyAlias (https://developer.android.com/reference/android/security/KeyChain#choosePrivateKeyAlias%28android.app.Activity,%20android.security.KeyChainAliasCallback,%20java.lang.String[],%20java.security.Principal[],%20java.lang.String,%20int,%20java.lang.String%29) or any overloads (but not without calling KeyChain.choosePrivateKeyAlias, even on Android 11 and above). Any app with the same Android UID as a package specified here will have access when they call KeyChain.choosePrivateKeyAlias. */
-  packageNames?: StringList;
+  packageNames?: StringList | undefined;
 }
 export type ChoosePrivateKeyRuleList = Array<ChoosePrivateKeyRule>;
 /** A list of package names. */
 export interface PackageNameList {
   /** A list of package names. */
-  packageNames?: StringList;
+  packageNames?: StringList | undefined;
 }
 export type PolicyMicrophoneAccessEnum =
   | "MICROPHONE_ACCESS_UNSPECIFIED"
@@ -1710,18 +1744,18 @@ export type UsageLogUploadOnCellularAllowedItemEnumList = Array<
 /** Controls types of device activity logs collected from the device and reported via Pub/Sub notification (https://developers.google.com/android/management/notifications). */
 export interface UsageLog {
   /** Optional. Specifies which log types are enabled. Note that users will receive on-device messaging when usage logging is enabled. */
-  enabledLogTypes?: UsageLogEnabledLogTypesItemEnumList;
+  enabledLogTypes?: UsageLogEnabledLogTypesItemEnumList | undefined;
   /** Optional. Specifies which of the enabled log types can be uploaded over mobile data. By default logs are queued for upload when the device connects to WiFi. */
-  uploadOnCellularAllowed?: UsageLogUploadOnCellularAllowedItemEnumList;
+  uploadOnCellularAllowed?: UsageLogUploadOnCellularAllowedItemEnumList | undefined;
 }
 /** A default activity for handling intents that match a particular intent filter. Note: To set up a kiosk, use InstallType to KIOSK rather than use persistent preferred activities. */
 export interface PersistentPreferredActivity {
   /** The intent actions to match in the filter. If any actions are included in the filter, then an intent's action must be one of those values for it to match. If no actions are included, the intent action is ignored. */
-  actions?: StringList;
+  actions?: StringList | undefined;
   /** The activity that should be the default intent handler. This should be an Android component name, e.g. com.android.enterprise.app/.MainActivity. Alternatively, the value may be the package name of an app, which causes Android Device Policy to choose an appropriate activity from the app to handle the intent. */
-  receiverActivity?: string;
+  receiverActivity?: string | undefined;
   /** The intent categories to match in the filter. An intent includes the categories that it requires, all of which must be included in the filter in order to match. In other words, adding a category to the filter has no impact on matching unless that category is specified in the intent. */
-  categories?: StringList;
+  categories?: StringList | undefined;
 }
 export type PersistentPreferredActivityList = Array<PersistentPreferredActivity>;
 export type PolicyWipeDataFlagsItemEnum = "WIPE_DATA_FLAG_UNSPECIFIED" | "WIPE_ESIMS";
@@ -1738,9 +1772,9 @@ export type PermissionGrantPolicyEnum =
 /** Configuration for an Android permission and its grant state. */
 export interface PermissionGrant {
   /** The policy for granting the permission. */
-  policy?: PermissionGrantPolicyEnum | (string & {});
+  policy?: PermissionGrantPolicyEnum | (string & {}) | undefined;
   /** The Android permission or group, e.g. android.permission.READ_CALENDAR or android.permission_group.CALENDAR. */
-  permission?: string;
+  permission?: string | undefined;
 }
 export type PermissionGrantList = Array<PermissionGrant>;
 export type PolicyAutofillPolicyEnum =
@@ -1750,20 +1784,20 @@ export type PolicyAutofillPolicyEnum =
 /** Configuration for an always-on VPN connection. */
 export interface AlwaysOnVpnPackage {
   /** Disallows networking when the VPN is not connected. */
-  lockdownEnabled?: boolean;
+  lockdownEnabled?: boolean | undefined;
   /** The package name of the VPN app. */
-  packageName?: string;
+  packageName?: string | undefined;
 }
 /** Configuration info for an HTTP proxy. For a direct proxy, set the host, port, and excluded_hosts fields. For a PAC script proxy, set the pac_uri field. */
 export interface ProxyInfo {
   /** For a direct proxy, the hosts for which the proxy is bypassed. The host names may contain wildcards such as *.example.com. */
-  excludedHosts?: StringList;
+  excludedHosts?: StringList | undefined;
   /** The port of the direct proxy. */
-  port?: number;
+  port?: number | undefined;
   /** The URI of the PAC script used to configure the proxy. */
-  pacUri?: string;
+  pacUri?: string | undefined;
   /** The host of the direct proxy. */
-  host?: string;
+  host?: string | undefined;
 }
 export type PolicyAppFunctionsEnum =
   | "APP_FUNCTIONS_UNSPECIFIED"
@@ -1785,30 +1819,30 @@ export type SystemUpdateTypeEnum =
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: A full date, with non-zero year, month, and day values. A month and day, with a zero year (for example, an anniversary). A year on its own, with a zero month and a zero day. A year and month, with a zero day (for example, a credit card expiration date).Related types: google.type.TimeOfDay google.type.DateTime google.protobuf.Timestamp */
 export interface Androidmanagement_Date {
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
+  month?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
+  day?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
+  year?: number | undefined;
 }
 /** A system freeze period. When a device's clock is within the freeze period, all incoming system updates (including security patches) are blocked and won't be installed.When the device is outside any set freeze periods, the normal policy behavior (automatic, windowed, or postponed) applies.Leap years are ignored in freeze period calculations, in particular: If Feb. 29th is set as the start or end date of a freeze period, the freeze period will start or end on Feb. 28th instead. When a device's system clock reads Feb. 29th, it's treated as Feb. 28th. When calculating the number of days in a freeze period or the time between two freeze periods, Feb. 29th is ignored and not counted as a day.Note: For Freeze Periods to take effect, SystemUpdateType cannot be specified as SYSTEM_UPDATE_TYPE_UNSPECIFIED, because freeze periods require a defined policy to be specified. */
 export interface FreezePeriod {
   /** The start date (inclusive) of the freeze period. Note: day and month must be set. year should not be set as it is not used. For example, {"month": 1,"date": 30}. */
-  startDate?: Androidmanagement_Date;
+  startDate?: Androidmanagement_Date | undefined;
   /** The end date (inclusive) of the freeze period. Must be no later than 90 days from the start date. If the end date is earlier than the start date, the freeze period is considered wrapping year-end. Note: day and month must be set. year should not be set as it is not used. For example, {"month": 1,"date": 30}. */
-  endDate?: Androidmanagement_Date;
+  endDate?: Androidmanagement_Date | undefined;
 }
 export type FreezePeriodList = Array<FreezePeriod>;
 /** Configuration for managing system updatesNote: Google Play system updates (https://source.android.com/docs/core/ota/modular-system) (also called Mainline updates) are automatically downloaded but require a device reboot to be installed. Refer to the mainline section in Manage system updates (https://developer.android.com/work/dpc/system-updates#mainline) for further details. */
 export interface SystemUpdate {
   /** If the type is WINDOWED, the end of the maintenance window, measured as the number of minutes after midnight in device's local time. This value must be between 0 and 1439, inclusive. If this value is less than start_minutes, then the maintenance window spans midnight. If the maintenance window specified is smaller than 30 minutes, the actual window is extended to 30 minutes beyond the start time. */
-  endMinutes?: number;
+  endMinutes?: number | undefined;
   /** The type of system update to configure. */
-  type?: SystemUpdateTypeEnum | (string & {});
+  type?: SystemUpdateTypeEnum | (string & {}) | undefined;
   /** If the type is WINDOWED, the start of the maintenance window, measured as the number of minutes after midnight in the device's local time. This value must be between 0 and 1439, inclusive. */
-  startMinutes?: number;
+  startMinutes?: number | undefined;
   /** An annually repeating time period in which over-the-air (OTA) system updates are postponed to freeze the OS version running on a device. To prevent freezing the device indefinitely, each freeze period must be separated by at least 60 days. */
-  freezePeriods?: FreezePeriodList;
+  freezePeriods?: FreezePeriodList | undefined;
 }
 export type ApplicationPolicyPreferentialNetworkIdEnum =
   | "PREFERENTIAL_NETWORK_ID_UNSPECIFIED"
@@ -1821,9 +1855,9 @@ export type ApplicationPolicyPreferentialNetworkIdEnum =
 /** The managed configurations template for the app, saved from the managed configurations iframe. */
 export interface ManagedConfigurationTemplate {
   /** The ID of the managed configurations template. This value must be a numeric string containing exactly one or more digits (for example, "123456"). */
-  templateId?: string;
+  templateId?: string | undefined;
   /** Optional, a map containing configuration variables defined for the configuration. */
-  configurationVariables?: StringMap;
+  configurationVariables?: StringMap | undefined;
 }
 export type CustomAppConfigUserUninstallSettingsEnum =
   | "USER_UNINSTALL_SETTINGS_UNSPECIFIED"
@@ -1832,7 +1866,7 @@ export type CustomAppConfigUserUninstallSettingsEnum =
 /** Configuration for a custom app. */
 export interface CustomAppConfig {
   /** Optional. User uninstall settings of the custom app. */
-  userUninstallSettings?: CustomAppConfigUserUninstallSettingsEnum | (string & {});
+  userUninstallSettings?: CustomAppConfigUserUninstallSettingsEnum | (string & {}) | undefined;
 }
 export type ApplicationPolicyAlwaysOnVpnLockdownExemptionEnum =
   | "ALWAYS_ON_VPN_LOCKDOWN_EXEMPTION_UNSPECIFIED"
@@ -1870,7 +1904,7 @@ export type RoleRoleTypeEnum =
 /** Role an app can have. */
 export interface Role {
   /** Required. The type of the role an app can have. */
-  roleType?: RoleRoleTypeEnum | (string & {});
+  roleType?: RoleRoleTypeEnum | (string & {}) | undefined;
 }
 export type RoleList = Array<Role>;
 export type ApplicationPolicyAutoUpdateModeEnum =
@@ -1890,9 +1924,9 @@ export type ApplicationPolicyInstallTypeEnum =
 /** Configuration to enable an app as an extension app, with the capability of interacting with Android Device Policy offline. For Android versions 11 and above, extension apps are exempt from battery restrictions so will not be placed into the restricted App Standby Bucket (https://developer.android.com/topic/performance/appstandby#restricted-bucket). Extensions apps are also protected against users clearing their data or force-closing the application, although admins can continue to use the clear app data command on extension apps if needed for Android 11 and above. */
 export interface ExtensionConfig {
   /** Fully qualified class name of the receiver service class for Android Device Policy to notify the extension app of any local command status updates. The service must be exported in the extension app's AndroidManifest.xml and extend NotificationReceiverService (https://developers.google.com/android/management/reference/amapi/com/google/android/managementapi/notification/NotificationReceiverService) (see Integrate with the AMAPI SDK (https://developers.google.com/android/management/sdk-integration) guide for more details). */
-  notificationReceiver?: string;
+  notificationReceiver?: string | undefined;
   /** Hex-encoded SHA-256 hashes of the signing key certificates of the extension app. Only hexadecimal string representations of 64 characters are valid.The signing key certificate fingerprints are always obtained from the Play Store and this field is used to provide additional signing key certificate fingerprints. However, if the application is not available on the Play Store, this field needs to be set. A NonComplianceDetail with INVALID_VALUE is reported if this field is not set when the application is not available on the Play Store.The signing key certificate fingerprint of the extension app on the device must match one of the signing key certificate fingerprints obtained from the Play Store or the ones provided in this field for the app to be able to communicate with Android Device Policy.In production use cases, it is recommended to leave this empty. */
-  signingKeyFingerprintsSha256?: StringList;
+  signingKeyFingerprintsSha256?: StringList | undefined;
 }
 export type InstallConstraintNetworkTypeConstraintEnum =
   | "NETWORK_TYPE_CONSTRAINT_UNSPECIFIED"
@@ -1909,11 +1943,11 @@ export type InstallConstraintDeviceIdleConstraintEnum =
 /** Amongst apps with InstallType set to: FORCE_INSTALLED PREINSTALLEDthis defines a set of restrictions for the app installation. At least one of the fields must be set. When multiple fields are set, then all the constraints need to be satisfied for the app to be installed. */
 export interface InstallConstraint {
   /** Optional. Network type constraint. */
-  networkTypeConstraint?: InstallConstraintNetworkTypeConstraintEnum | (string & {});
+  networkTypeConstraint?: InstallConstraintNetworkTypeConstraintEnum | (string & {}) | undefined;
   /** Optional. Charging constraint. */
-  chargingConstraint?: InstallConstraintChargingConstraintEnum | (string & {});
+  chargingConstraint?: InstallConstraintChargingConstraintEnum | (string & {}) | undefined;
   /** Optional. Device idle constraint. */
-  deviceIdleConstraint?: InstallConstraintDeviceIdleConstraintEnum | (string & {});
+  deviceIdleConstraint?: InstallConstraintDeviceIdleConstraintEnum | (string & {}) | undefined;
 }
 export type InstallConstraintList = Array<InstallConstraint>;
 export type ApplicationPolicyConnectedWorkAndPersonalAppEnum =
@@ -1931,86 +1965,98 @@ export type ApplicationPolicyCredentialProviderPolicyEnum =
 /** Policy for an individual app. Note: Application availability on a given device cannot be changed using this policy if installAppsDisabled is enabled. The maximum number of applications that you can specify per policy is 3,000. */
 export interface ApplicationPolicy {
   /** Optional. ID of the preferential network the application uses. There must be a configuration for the specified network ID in preferentialNetworkServiceConfigs. If set to PREFERENTIAL_NETWORK_ID_UNSPECIFIED, the application will use the default network ID specified in defaultPreferentialNetworkId. See the documentation of defaultPreferentialNetworkId for the list of apps excluded from this defaulting. This applies on both work profiles and fully managed devices on Android 13 and above. */
-  preferentialNetworkId?: ApplicationPolicyPreferentialNetworkIdEnum | (string & {});
+  preferentialNetworkId?: ApplicationPolicyPreferentialNetworkIdEnum | (string & {}) | undefined;
   /** The managed configurations template for the app, saved from the managed configurations iframe. This field is ignored if managed_configuration is set. */
-  managedConfigurationTemplate?: ManagedConfigurationTemplate;
+  managedConfigurationTemplate?: ManagedConfigurationTemplate | undefined;
   /** The minimum version of the app that runs on the device. If set, the device attempts to update the app to at least this version code. If the app is not up-to-date, the device will contain a NonComplianceDetail with non_compliance_reason set to APP_NOT_UPDATED. The app must already be published to Google Play with a version code greater than or equal to this value. At most 20 apps may specify a minimum version code per policy. */
-  minimumVersionCode?: number;
+  minimumVersionCode?: number | undefined;
   /** Optional. Signing key certificates of the app.This field is required in the following cases: The app has installType set to CUSTOM (i.e. a custom app). The app has roles set to a nonempty list and the app does not exist on the Play Store. The app has extensionConfig set (i.e. an extension app) but ExtensionConfig.signingKeyFingerprintsSha256 (deprecated) is not set and the app does not exist on the Play Store.If this field is not set for a custom app, the policy is rejected. If it is not set when required for a non-custom app, a NonComplianceDetail with INVALID_VALUE is reported.For other cases, this field is optional and the signing key certificates obtained from Play Store are used.See following policy settings to see how this field is used: choosePrivateKeyRules ApplicationPolicy.InstallType.CUSTOM ApplicationPolicy.extensionConfig ApplicationPolicy.roles */
-  signingKeyCerts?: ApplicationSigningKeyCertList;
+  signingKeyCerts?: ApplicationSigningKeyCertList | undefined;
   /** Explicit permission grants or denials for the app. These values override the default_permission_policy and permission_grants which apply to all apps. */
-  permissionGrants?: PermissionGrantList;
+  permissionGrants?: PermissionGrantList | undefined;
   /** Optional. Configuration for this custom app.install_type must be set to CUSTOM for this to be set. */
-  customAppConfig?: CustomAppConfig;
+  customAppConfig?: CustomAppConfig | undefined;
   /** Managed configuration applied to the app. The format for the configuration is dictated by the ManagedProperty values supported by the app. Each field name in the managed configuration must match the key field of the ManagedProperty. The field value must be compatible with the type of the ManagedProperty: *type* *JSON value* BOOL true or false STRING string INTEGER number CHOICE string MULTISELECT array of strings HIDDEN string BUNDLE_ARRAY array of objects Note: string values cannot be longer than 65535 characters. */
-  managedConfiguration?: DocumentMap;
+  managedConfiguration?: DocumentMap | undefined;
   /** The package name of the app. For example, com.google.android.youtube for the YouTube app. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Specifies whether the app is allowed networking when the VPN is not connected and alwaysOnVpnPackage.lockdownEnabled is enabled. If set to VPN_LOCKDOWN_ENFORCED, the app is not allowed networking, and if set to VPN_LOCKDOWN_EXEMPTION, the app is allowed networking. Only supported on devices running Android 10 and above. If this is not supported by the device, the device will contain a NonComplianceDetail with non_compliance_reason set to API_LEVEL and a fieldPath. If this is not applicable to the app, the device will contain a NonComplianceDetail with non_compliance_reason set to UNSUPPORTED and a fieldPath. The fieldPath is set to applications[i].alwaysOnVpnLockdownExemption, where i is the index of the package in the applications policy. */
-  alwaysOnVpnLockdownExemption?: ApplicationPolicyAlwaysOnVpnLockdownExemptionEnum | (string & {});
+  alwaysOnVpnLockdownExemption?:
+    | ApplicationPolicyAlwaysOnVpnLockdownExemptionEnum
+    | (string & {})
+    | undefined;
   /** The scopes delegated to the app from Android Device Policy. These provide additional privileges for the applications they are applied to. */
-  delegatedScopes?: ApplicationPolicyDelegatedScopesItemEnumList;
+  delegatedScopes?: ApplicationPolicyDelegatedScopesItemEnumList | undefined;
   /** Specifies whether the app installed in the work profile is allowed to add widgets to the home screen. */
-  workProfileWidgets?: ApplicationPolicyWorkProfileWidgetsEnum | (string & {});
+  workProfileWidgets?: ApplicationPolicyWorkProfileWidgetsEnum | (string & {}) | undefined;
   /** The default policy for all permissions requested by the app. If specified, this overrides the policy-level default_permission_policy which applies to all apps. It does not override the permission_grants which applies to all apps. */
-  defaultPermissionPolicy?: ApplicationPolicyDefaultPermissionPolicyEnum | (string & {});
+  defaultPermissionPolicy?:
+    | ApplicationPolicyDefaultPermissionPolicyEnum
+    | (string & {})
+    | undefined;
   /** Optional. Roles the app has.Apps having certain roles can be exempted from power and background execution restrictions, suspension and hibernation on Android 14 and above. The user control can also be disallowed for apps with certain roles on Android 11 and above. Refer to the documentation of each RoleType for more details.The app is notified about the roles that are set for it if the app has a notification receiver service with . The app is notified whenever its roles are updated or after the app is installed when it has nonempty list of roles. The app can use this notification to bootstrap itself after the installation. See Integrate with the AMAPI SDK (https://developers.google.com/android/management/sdk-integration) and Manage app roles (https://developers.google.com/android/management/app-roles) guides for more details on the requirements for the service.For the exemptions to be applied and the app to be notified about the roles, the signing key certificate fingerprint of the app on the device must match one of the signing key certificate fingerprints obtained from Play Store or one of the entries in ApplicationPolicy.signingKeyCerts. Otherwise, a NonComplianceDetail with APP_SIGNING_CERT_MISMATCH is reported.There must not be duplicate roles with the same roleType. Multiple apps cannot hold a role with the same roleType. A role with type ROLE_TYPE_UNSPECIFIED is not allowed. */
-  roles?: RoleList;
+  roles?: RoleList | undefined;
   /** Controls the auto-update mode for the app. */
-  autoUpdateMode?: ApplicationPolicyAutoUpdateModeEnum | (string & {});
+  autoUpdateMode?: ApplicationPolicyAutoUpdateModeEnum | (string & {}) | undefined;
   /** The type of installation to perform. */
-  installType?: ApplicationPolicyInstallTypeEnum | (string & {});
+  installType?: ApplicationPolicyInstallTypeEnum | (string & {}) | undefined;
   /** Configuration to enable this app as an extension app, with the capability of interacting with Android Device Policy offline.This field can be set for at most one app. If there is any app with COMPANION_APP role, this field cannot be set.The signing key certificate fingerprint of the app on the device must match one of the entries in ApplicationPolicy.signingKeyCerts or ExtensionConfig.signingKeyFingerprintsSha256 (deprecated) or the signing key certificate fingerprints obtained from Play Store for the app to be able to communicate with Android Device Policy. If the app is not on Play Store and if ApplicationPolicy.signingKeyCerts and ExtensionConfig.signingKeyFingerprintsSha256 (deprecated) are not set, a NonComplianceDetail with INVALID_VALUE is reported. */
-  extensionConfig?: ExtensionConfig;
+  extensionConfig?: ExtensionConfig | undefined;
   /** Optional. The constraints for installing the app. You can specify a maximum of one InstallConstraint. Multiple constraints are rejected. */
-  installConstraint?: InstallConstraintList;
+  installConstraint?: InstallConstraintList | undefined;
   /** Controls whether the app can communicate with itself across a device's work and personal profiles, subject to user consent. */
-  connectedWorkAndPersonalApp?: ApplicationPolicyConnectedWorkAndPersonalAppEnum | (string & {});
+  connectedWorkAndPersonalApp?:
+    | ApplicationPolicyConnectedWorkAndPersonalAppEnum
+    | (string & {})
+    | undefined;
   /** Whether the app is disabled. When disabled, the app data is still preserved. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** List of the app's track IDs that a device belonging to the enterprise can access. If the list contains multiple track IDs, devices receive the latest version among all accessible tracks. If the list contains no track IDs, devices only have access to the app's production track. More details about each track are available in AppTrackInfo. */
-  accessibleTrackIds?: StringList;
+  accessibleTrackIds?: StringList | undefined;
   /** Optional. Specifies whether user control is permitted for the app. User control includes user actions like force-stopping and clearing app data. Certain types of apps have special treatment, see USER_CONTROL_SETTINGS_UNSPECIFIED and USER_CONTROL_ALLOWED for more details. */
-  userControlSettings?: ApplicationPolicyUserControlSettingsEnum | (string & {});
+  userControlSettings?: ApplicationPolicyUserControlSettingsEnum | (string & {}) | undefined;
   /** Optional. Whether the app is allowed to act as a credential provider on Android 14 and above. */
-  credentialProviderPolicy?: ApplicationPolicyCredentialProviderPolicyEnum | (string & {});
+  credentialProviderPolicy?:
+    | ApplicationPolicyCredentialProviderPolicyEnum
+    | (string & {})
+    | undefined;
   /** Optional. Amongst apps with installType set to: FORCE_INSTALLED PREINSTALLEDthis controls the relative priority of installation. A value of 0 (default) means this app has no priority over other apps. For values between 1 and 10,000, a lower value means a higher priority. Values outside of the range 0 to 10,000 inclusive are rejected. */
-  installPriority?: number;
+  installPriority?: number | undefined;
   /** Whether the app is allowed to lock itself in full-screen mode. DEPRECATED. Use InstallType KIOSK or kioskCustomLauncherEnabled to configure a dedicated device. */
-  lockTaskAllowed?: boolean;
+  lockTaskAllowed?: boolean | undefined;
 }
 export type ApplicationPolicyList = Array<ApplicationPolicy>;
 /** Settings controlling the behavior of application reports. */
 export interface ApplicationReportingSettings {
   /** Whether removed apps are included in application reports. */
-  includeRemovedApps?: boolean;
+  includeRemovedApps?: boolean | undefined;
 }
 /** Settings controlling the behavior of status reports. */
 export interface StatusReportingSettings {
   /** Whether system properties reporting is enabled. */
-  systemPropertiesEnabled?: boolean;
+  systemPropertiesEnabled?: boolean | undefined;
   /** Whether network info reporting is enabled. */
-  networkInfoEnabled?: boolean;
+  networkInfoEnabled?: boolean | undefined;
   /** Whether hardware status reporting is enabled. Report data is not available for personally owned devices with work profiles. */
-  hardwareStatusEnabled?: boolean;
+  hardwareStatusEnabled?: boolean | undefined;
   /** Whether software info reporting is enabled. */
-  softwareInfoEnabled?: boolean;
+  softwareInfoEnabled?: boolean | undefined;
   /** Optional. Whether defaultApplicationInfo reporting is enabled. */
-  defaultApplicationInfoReportingEnabled?: boolean;
+  defaultApplicationInfoReportingEnabled?: boolean | undefined;
   /** Whether device settings reporting is enabled. */
-  deviceSettingsEnabled?: boolean;
+  deviceSettingsEnabled?: boolean | undefined;
   /** Whether power management event reporting is enabled. Report data is not available for personally owned devices with work profiles. */
-  powerManagementEventsEnabled?: boolean;
+  powerManagementEventsEnabled?: boolean | undefined;
   /** Whether app reports are enabled. */
-  applicationReportsEnabled?: boolean;
+  applicationReportsEnabled?: boolean | undefined;
   /** Whether displays reporting is enabled. Report data is not available for personally owned devices with work profiles. */
-  displayInfoEnabled?: boolean;
+  displayInfoEnabled?: boolean | undefined;
   /** Application reporting settings. Only applicable if application_reports_enabled is true. */
-  applicationReportingSettings?: ApplicationReportingSettings;
+  applicationReportingSettings?: ApplicationReportingSettings | undefined;
   /** Whether memory event reporting is enabled. */
-  memoryInfoEnabled?: boolean;
+  memoryInfoEnabled?: boolean | undefined;
   /** Whether Common Criteria Mode reporting is enabled. This is supported only on company-owned devices. */
-  commonCriteriaModeEnabled?: boolean;
+  commonCriteriaModeEnabled?: boolean | undefined;
 }
 export type PolicyBackupServiceEnum =
   | "BACKUP_SERVICE_UNSPECIFIED"
@@ -2027,7 +2073,10 @@ export type PersonalCrossDevicePoliciesTaskContinuityHandoffEnum =
 /** Policies controlling cross-device communication in the personal profile. */
 export interface PersonalCrossDevicePolicies {
   /** Optional. Controls the task continuity handoff (https://developer.android.com/partners/android-17/features#handoff) feature for the personal profile on company-owned devices with a work profile. To disable Handoff device-wide on a company-owned device, both crossDevicePolicies.taskContinuityHandoff and this policy should be set to TASK_CONTINUITY_HANDOFF_DISALLOWED. Requires Android 17 QPR1 or higher. */
-  taskContinuityHandoff?: PersonalCrossDevicePoliciesTaskContinuityHandoffEnum | (string & {});
+  taskContinuityHandoff?:
+    | PersonalCrossDevicePoliciesTaskContinuityHandoffEnum
+    | (string & {})
+    | undefined;
 }
 export type PersonalUsagePoliciesPersonalPlayStoreModeEnum =
   | "PLAY_STORE_MODE_UNSPECIFIED"
@@ -2049,31 +2098,34 @@ export type PersonalApplicationPolicyInstallTypeEnum =
 /** Policies for apps in the personal profile of a company-owned device with a work profile. */
 export interface PersonalApplicationPolicy {
   /** The type of installation to perform. */
-  installType?: PersonalApplicationPolicyInstallTypeEnum | (string & {});
+  installType?: PersonalApplicationPolicyInstallTypeEnum | (string & {}) | undefined;
   /** The package name of the application. */
-  packageName?: string;
+  packageName?: string | undefined;
 }
 export type PersonalApplicationPolicyList = Array<PersonalApplicationPolicy>;
 /** Policies controlling personal usage on a company-owned device with a work profile. */
 export interface PersonalUsagePolicies {
   /** Optional. Policies controlling cross-device communication in the personal profile. */
-  crossDevicePolicies?: PersonalCrossDevicePolicies;
+  crossDevicePolicies?: PersonalCrossDevicePolicies | undefined;
   /** Controls how long the work profile can stay off. The minimum duration must be at least 3 days. Other details are as follows: - If the duration is set to 0, the feature is turned off. - If the duration is set to a value smaller than the minimum duration, the feature returns an error. *Note:* If you want to avoid personal profiles being suspended during long periods of off-time, you can temporarily set a large value for this parameter. */
-  maxDaysWithWorkOff?: number;
+  maxDaysWithWorkOff?: number | undefined;
   /** If true, the camera is disabled on the personal profile. */
-  cameraDisabled?: boolean;
+  cameraDisabled?: boolean | undefined;
   /** Used together with personalApplications to control how apps in the personal profile are allowed or blocked. */
-  personalPlayStoreMode?: PersonalUsagePoliciesPersonalPlayStoreModeEnum | (string & {});
+  personalPlayStoreMode?:
+    | PersonalUsagePoliciesPersonalPlayStoreModeEnum
+    | (string & {})
+    | undefined;
   /** Optional. Controls whether a private space is allowed on the device. */
-  privateSpacePolicy?: PersonalUsagePoliciesPrivateSpacePolicyEnum | (string & {});
+  privateSpacePolicy?: PersonalUsagePoliciesPrivateSpacePolicyEnum | (string & {}) | undefined;
   /** If true, screen capture is disabled for all users. This also blocks Circle to Search (https://support.google.com/android/answer/14508957). */
-  screenCaptureDisabled?: boolean;
+  screenCaptureDisabled?: boolean | undefined;
   /** Optional. Whether bluetooth sharing is allowed. */
-  bluetoothSharing?: PersonalUsagePoliciesBluetoothSharingEnum | (string & {});
+  bluetoothSharing?: PersonalUsagePoliciesBluetoothSharingEnum | (string & {}) | undefined;
   /** Account types that can't be managed by the user. */
-  accountTypesWithManagementDisabled?: StringList;
+  accountTypesWithManagementDisabled?: StringList | undefined;
   /** Policy applied to applications in the personal profile. */
-  personalApplications?: PersonalApplicationPolicyList;
+  personalApplications?: PersonalApplicationPolicyList | undefined;
 }
 export type PolicyDefaultPermissionPolicyEnum =
   | "PERMISSION_POLICY_UNSPECIFIED"
@@ -2110,21 +2162,28 @@ export type AdvancedSecurityOverridesGooglePlayProtectVerifyAppsEnum =
 /** Advanced security settings. In most cases, setting these is not needed. */
 export interface AdvancedSecurityOverrides {
   /** Optional. Controls Common Criteria Mode--security standards defined in the Common Criteria for Information Technology Security Evaluation (https://www.commoncriteriaportal.org/) (CC). Enabling Common Criteria Mode increases certain security components on a device, see CommonCriteriaMode for details.Warning: Common Criteria Mode enforces a strict security model typically only required for IT products used in national security systems and other highly sensitive organizations. Standard device use may be affected. Only enabled if required. If Common Criteria Mode is turned off after being enabled previously, all user-configured Wi-Fi networks may be lost and any enterprise-configured Wi-Fi networks that require user input may need to be reconfigured. */
-  commonCriteriaMode?: AdvancedSecurityOverridesCommonCriteriaModeEnum | (string & {});
+  commonCriteriaMode?: AdvancedSecurityOverridesCommonCriteriaModeEnum | (string & {}) | undefined;
   /** Optional. Personal apps that can read work profile notifications using a NotificationListenerService (https://developer.android.com/reference/android/service/notification/NotificationListenerService). By default, no personal apps (aside from system apps) can read work notifications. Each value in the list must be a package name. */
-  personalAppsThatCanReadWorkNotifications?: StringList;
+  personalAppsThatCanReadWorkNotifications?: StringList | undefined;
   /** Optional. Controls whether content protection, which scans for deceptive apps, is enabled. This is supported on Android 15 and above. */
-  contentProtectionPolicy?: AdvancedSecurityOverridesContentProtectionPolicyEnum | (string & {});
+  contentProtectionPolicy?:
+    | AdvancedSecurityOverridesContentProtectionPolicyEnum
+    | (string & {})
+    | undefined;
   /** Optional. The policy for untrusted apps (apps from unknown sources) enforced on the device. Replaces install_unknown_sources_allowed (deprecated). */
-  untrustedAppsPolicy?: AdvancedSecurityOverridesUntrustedAppsPolicyEnum | (string & {});
+  untrustedAppsPolicy?:
+    | AdvancedSecurityOverridesUntrustedAppsPolicyEnum
+    | (string & {})
+    | undefined;
   /** Optional. Controls access to developer settings: developer options and safe boot. Replaces safeBootDisabled (deprecated) and debuggingFeaturesAllowed (deprecated). On personally-owned devices with a work profile, setting this policy will not disable safe boot. In this case, a NonComplianceDetail with MANAGEMENT_MODE is reported. */
-  developerSettings?: AdvancedSecurityOverridesDeveloperSettingsEnum | (string & {});
+  developerSettings?: AdvancedSecurityOverridesDeveloperSettingsEnum | (string & {}) | undefined;
   /** Optional. Controls Memory Tagging Extension (MTE) (https://source.android.com/docs/security/test/memory-safety/arm-mte) on the device. The device needs to be rebooted to apply changes to the MTE policy. On Android 15 and above, a NonComplianceDetail with PENDING is reported if the policy change is pending a device reboot. */
-  mtePolicy?: AdvancedSecurityOverridesMtePolicyEnum | (string & {});
+  mtePolicy?: AdvancedSecurityOverridesMtePolicyEnum | (string & {}) | undefined;
   /** Optional. Whether Google Play Protect verification (https://support.google.com/accounts/answer/2812853) is enforced. Replaces ensureVerifyAppsEnabled (deprecated). */
   googlePlayProtectVerifyApps?:
     | AdvancedSecurityOverridesGooglePlayProtectVerifyAppsEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type BlockActionBlockScopeEnum =
   | "BLOCK_SCOPE_UNSPECIFIED"
@@ -2133,25 +2192,25 @@ export type BlockActionBlockScopeEnum =
 /** An action to block access to apps and data on a fully managed device or in a work profile. This action also triggers a device or work profile to displays a user-facing notification with information (where possible) on how to correct the compliance issue. Note: wipeAction must also be specified. */
 export interface BlockAction {
   /** Number of days the policy is non-compliant before the device or work profile is blocked. To block access immediately, set to 0. blockAfterDays must be less than wipeAfterDays. */
-  blockAfterDays?: number;
+  blockAfterDays?: number | undefined;
   /** Specifies the scope of this BlockAction. Only applicable to devices that are company-owned. */
-  blockScope?: BlockActionBlockScopeEnum | (string & {});
+  blockScope?: BlockActionBlockScopeEnum | (string & {}) | undefined;
 }
 /** An action to reset a company owned device or delete a work profile. Note: blockAction must also be specified. */
 export interface WipeAction {
   /** Number of days the policy is non-compliant before the device or work profile is wiped. wipeAfterDays must be greater than blockAfterDays. */
-  wipeAfterDays?: number;
+  wipeAfterDays?: number | undefined;
   /** Whether the factory-reset protection data is preserved on the device. This setting applies to fully managed devices and work profiles on company-owned devices. */
-  preserveFrp?: boolean;
+  preserveFrp?: boolean | undefined;
 }
 /** A rule that defines the actions to take if a device or work profile is not compliant with the policy specified in settingName. In the case of multiple matching or multiple triggered enforcement rules, a merge will occur with the most severe action being taken. However, all triggered rules are still kept track of: this includes initial trigger time and all associated non-compliance details. In the situation where the most severe enforcement rule is satisfied, the next most appropriate action is applied. */
 export interface PolicyEnforcementRule {
   /** The top-level policy to enforce. For example, applications or passwordPolicies. */
-  settingName?: string;
+  settingName?: string | undefined;
   /** An action to block access to apps and data on a company owned device or in a work profile. This action also triggers a user-facing notification with information (where possible) on how to correct the compliance issue. Note: wipeAction must also be specified. */
-  blockAction?: BlockAction;
+  blockAction?: BlockAction | undefined;
   /** An action to reset a company owned device or delete a work profile. Note: blockAction must also be specified. */
-  wipeAction?: WipeAction;
+  wipeAction?: WipeAction | undefined;
 }
 export type PolicyEnforcementRuleList = Array<PolicyEnforcementRule>;
 export type PolicyCameraAccessEnum =
@@ -2166,9 +2225,9 @@ export type ScreenTimeoutSettingsScreenTimeoutModeEnum =
 /** Controls the screen timeout settings. */
 export interface ScreenTimeoutSettings {
   /** Optional. Controls the screen timeout duration. The screen timeout duration must be greater than 0, otherwise it is rejected. Additionally, it should not be greater than maximumTimeToLock, otherwise the screen timeout is set to maximumTimeToLock and a NonComplianceDetail with INVALID_VALUE reason and SCREEN_TIMEOUT_GREATER_THAN_MAXIMUM_TIME_TO_LOCK specific reason is reported. If the screen timeout is less than a certain lower bound, it is set to the lower bound. The lower bound may vary across devices. If this is set, screenTimeoutMode must be SCREEN_TIMEOUT_ENFORCED. Supported on Android 9 and above on fully managed devices. A NonComplianceDetail with API_LEVEL is reported if the Android version is less than 9. Supported on work profiles on company-owned devices on Android 15 and above. */
-  screenTimeout?: string;
+  screenTimeout?: string | undefined;
   /** Optional. Controls whether the user is allowed to configure the screen timeout. */
-  screenTimeoutMode?: ScreenTimeoutSettingsScreenTimeoutModeEnum | (string & {});
+  screenTimeoutMode?: ScreenTimeoutSettingsScreenTimeoutModeEnum | (string & {}) | undefined;
 }
 export type ScreenBrightnessSettingsScreenBrightnessModeEnum =
   | "SCREEN_BRIGHTNESS_MODE_UNSPECIFIED"
@@ -2178,16 +2237,19 @@ export type ScreenBrightnessSettingsScreenBrightnessModeEnum =
 /** Controls for the screen brightness settings. */
 export interface ScreenBrightnessSettings {
   /** Optional. Controls the screen brightness mode. */
-  screenBrightnessMode?: ScreenBrightnessSettingsScreenBrightnessModeEnum | (string & {});
+  screenBrightnessMode?:
+    | ScreenBrightnessSettingsScreenBrightnessModeEnum
+    | (string & {})
+    | undefined;
   /** Optional. The screen brightness between 1 and 255 where 1 is the lowest and 255 is the highest brightness. A value of 0 (default) means no screen brightness set. Any other value is rejected. screenBrightnessMode must be either BRIGHTNESS_AUTOMATIC or BRIGHTNESS_FIXED to set this. Supported on Android 9 and above on fully managed devices. A NonComplianceDetail with API_LEVEL is reported if the Android version is less than 9. Supported on work profiles on company-owned devices on Android 15 and above. */
-  screenBrightness?: number;
+  screenBrightness?: number | undefined;
 }
 /** Controls for the display settings. */
 export interface DisplaySettings {
   /** Optional. Controls the screen timeout settings. */
-  screenTimeoutSettings?: ScreenTimeoutSettings;
+  screenTimeoutSettings?: ScreenTimeoutSettings | undefined;
   /** Optional. Controls the screen brightness settings. */
-  screenBrightnessSettings?: ScreenBrightnessSettings;
+  screenBrightnessSettings?: ScreenBrightnessSettings | undefined;
 }
 export type PolicyEncryptionPolicyEnum =
   | "ENCRYPTION_POLICY_UNSPECIFIED"
@@ -2210,25 +2272,28 @@ export type CrossDevicePoliciesNearbyAppStreamingEnum =
 /** Policies controlling cross-device communication. */
 export interface CrossDevicePolicies {
   /** Optional. Manages streaming of notifications from apps on the device for fully managed devices or in the work profile for devices with work profiles to nearby devices. This is supported on Android 13 and above. */
-  nearbyNotificationStreaming?: CrossDevicePoliciesNearbyNotificationStreamingEnum | (string & {});
+  nearbyNotificationStreaming?:
+    | CrossDevicePoliciesNearbyNotificationStreamingEnum
+    | (string & {})
+    | undefined;
   /** Optional. Controls the task continuity handoff (https://developer.android.com/partners/android-17/features#handoff) feature. This policy applies to the entire device for fully managed devices, and to the work profile for devices with a work profile. Requires Android 17 QPR1 or higher. */
-  taskContinuityHandoff?: CrossDevicePoliciesTaskContinuityHandoffEnum | (string & {});
+  taskContinuityHandoff?: CrossDevicePoliciesTaskContinuityHandoffEnum | (string & {}) | undefined;
   /** Optional. Manages video streaming of apps on the device for fully managed devices or in the work profile for devices with work profiles to nearby devices. This is supported on Android 13 and above. */
-  nearbyAppStreaming?: CrossDevicePoliciesNearbyAppStreamingEnum | (string & {});
+  nearbyAppStreaming?: CrossDevicePoliciesNearbyAppStreamingEnum | (string & {}) | undefined;
 }
 /** An action to launch an app. */
 export interface LaunchAppAction {
   /** Package name of app to be launched */
-  packageName?: string;
+  packageName?: string | undefined;
 }
 /** An action executed during setup. */
 export interface SetupAction {
   /** Title of this action. */
-  title?: UserFacingMessage;
+  title?: UserFacingMessage | undefined;
   /** An action to launch an app. The app will be launched with an intent containing an extra with key com.google.android.apps.work.clouddpc.EXTRA_LAUNCHED_AS_SETUP_ACTION set to the boolean value true to indicate that this is a setup action flow. If SetupAction references an app, the corresponding installType in the application policy must be set as REQUIRED_FOR_SETUP or said setup will fail. */
-  launchApp?: LaunchAppAction;
+  launchApp?: LaunchAppAction | undefined;
   /** Description of this action. */
-  description?: UserFacingMessage;
+  description?: UserFacingMessage | undefined;
 }
 export type SetupActionList = Array<SetupAction>;
 export type DeviceRadioStateMinimumWifiSecurityLevelEnum =
@@ -2261,17 +2326,23 @@ export type DeviceRadioStateWifiStateEnum =
 /** Controls for device radio settings. */
 export interface DeviceRadioState {
   /** Optional. The minimum required security level of Wi-Fi networks that the device can connect to. */
-  minimumWifiSecurityLevel?: DeviceRadioStateMinimumWifiSecurityLevelEnum | (string & {});
+  minimumWifiSecurityLevel?:
+    | DeviceRadioStateMinimumWifiSecurityLevelEnum
+    | (string & {})
+    | undefined;
   /** Optional. Controls the state of the ultra wideband setting and whether the user can toggle it on or off. */
-  ultraWidebandState?: DeviceRadioStateUltraWidebandStateEnum | (string & {});
+  ultraWidebandState?: DeviceRadioStateUltraWidebandStateEnum | (string & {}) | undefined;
   /** Optional. Controls whether airplane mode can be toggled by the user or not. */
-  airplaneModeState?: DeviceRadioStateAirplaneModeStateEnum | (string & {});
+  airplaneModeState?: DeviceRadioStateAirplaneModeStateEnum | (string & {}) | undefined;
   /** Optional. Controls whether cellular 2G setting can be toggled by the user or not. */
-  cellularTwoGState?: DeviceRadioStateCellularTwoGStateEnum | (string & {});
+  cellularTwoGState?: DeviceRadioStateCellularTwoGStateEnum | (string & {}) | undefined;
   /** Optional. Controls whether the user is allowed to add eSIM profiles. */
-  userInitiatedAddEsimSettings?: DeviceRadioStateUserInitiatedAddEsimSettingsEnum | (string & {});
+  userInitiatedAddEsimSettings?:
+    | DeviceRadioStateUserInitiatedAddEsimSettingsEnum
+    | (string & {})
+    | undefined;
   /** Optional. Controls current state of Wi-Fi and if user can change its state. */
-  wifiState?: DeviceRadioStateWifiStateEnum | (string & {});
+  wifiState?: DeviceRadioStateWifiStateEnum | (string & {}) | undefined;
 }
 export type PolicyAndroidDevicePolicyTracksItemEnum =
   | "APP_TRACK_UNSPECIFIED"
@@ -2287,18 +2358,18 @@ export type PolicyEnterpriseDisplayNameVisibilityEnum =
 /** This feature is not generally available. */
 export interface ContentProviderEndpoint {
   /** This feature is not generally available. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Required. This feature is not generally available. */
-  signingCertsSha256?: StringList;
+  signingCertsSha256?: StringList | undefined;
   /** This feature is not generally available. */
-  uri?: string;
+  uri?: string | undefined;
 }
 /** This feature is not generally available. */
 export interface OncCertificateProvider {
   /** This feature is not generally available. */
-  certificateReferences?: StringList;
+  certificateReferences?: StringList | undefined;
   /** This feature is not generally available. */
-  contentProviderEndpoint?: ContentProviderEndpoint;
+  contentProviderEndpoint?: ContentProviderEndpoint | undefined;
 }
 export type OncCertificateProviderList = Array<OncCertificateProvider>;
 export type PolicyKeyguardDisabledFeaturesItemEnum =
@@ -2348,17 +2419,27 @@ export interface CrossProfilePolicies {
   /** Optional. Whether personal apps can access contacts stored in the work profile.See also exemptions_to_show_work_contacts_in_personal_profile. */
   showWorkContactsInPersonalProfile?:
     | CrossProfilePoliciesShowWorkContactsInPersonalProfileEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. Whether text copied from one profile (personal or work) can be pasted in the other profile. */
-  crossProfileCopyPaste?: CrossProfilePoliciesCrossProfileCopyPasteEnum | (string & {});
+  crossProfileCopyPaste?: CrossProfilePoliciesCrossProfileCopyPasteEnum | (string & {}) | undefined;
   /** Optional. List of apps which are excluded from the ShowWorkContactsInPersonalProfile setting. For this to be set, ShowWorkContactsInPersonalProfile must be set to one of the following values: SHOW_WORK_CONTACTS_IN_PERSONAL_PROFILE_ALLOWED. In this case, these exemptions act as a blocklist. SHOW_WORK_CONTACTS_IN_PERSONAL_PROFILE_DISALLOWED. In this case, these exemptions act as an allowlist. SHOW_WORK_CONTACTS_IN_PERSONAL_PROFILE_DISALLOWED_EXCEPT_SYSTEM. In this case, these exemptions act as an allowlist, in addition to the already allowlisted system apps.Supported on Android 14 and above. A NonComplianceDetail with API_LEVEL is reported if the Android version is less than 14. */
-  exemptionsToShowWorkContactsInPersonalProfile?: PackageNameList;
+  exemptionsToShowWorkContactsInPersonalProfile?: PackageNameList | undefined;
   /** Optional. Controls whether personal profile apps can invoke app functions exposed by apps in the work profile. */
-  crossProfileAppFunctions?: CrossProfilePoliciesCrossProfileAppFunctionsEnum | (string & {});
+  crossProfileAppFunctions?:
+    | CrossProfilePoliciesCrossProfileAppFunctionsEnum
+    | (string & {})
+    | undefined;
   /** Optional. Whether data from one profile (personal or work) can be shared with apps in the other profile. Specifically controls simple data sharing via intents. Management of other cross-profile communication channels, such as contact search, copy/paste, or connected work & personal apps, are configured separately. */
-  crossProfileDataSharing?: CrossProfilePoliciesCrossProfileDataSharingEnum | (string & {});
+  crossProfileDataSharing?:
+    | CrossProfilePoliciesCrossProfileDataSharingEnum
+    | (string & {})
+    | undefined;
   /** Optional. Specifies the default behaviour for work profile widgets. If the policy does not specify work_profile_widgets for a specific application, it will behave according to the value specified here. */
-  workProfileWidgetsDefault?: CrossProfilePoliciesWorkProfileWidgetsDefaultEnum | (string & {});
+  workProfileWidgetsDefault?:
+    | CrossProfilePoliciesWorkProfileWidgetsDefaultEnum
+    | (string & {})
+    | undefined;
 }
 export type PolicyPlayStoreModeEnum = "PLAY_STORE_MODE_UNSPECIFIED" | "WHITELIST" | "BLACKLIST";
 export type PolicyAppAutoUpdatePolicyEnum =
@@ -2380,7 +2461,7 @@ export type DefaultApplicationSettingDefaultApplicationTypeEnum =
 /** Information about the application to be set as the default. */
 export interface DefaultApplication {
   /** Required. The package name that should be set as the default application. The policy is rejected if the package name is invalid. */
-  packageName?: string;
+  packageName?: string | undefined;
 }
 export type DefaultApplicationList = Array<DefaultApplication>;
 export type DefaultApplicationSettingDefaultApplicationScopesItemEnum =
@@ -2394,219 +2475,230 @@ export type DefaultApplicationSettingDefaultApplicationScopesItemEnumList = Arra
 /** The default application setting for a DefaultApplicationType. */
 export interface DefaultApplicationSetting {
   /** Required. The app type to set the default application. */
-  defaultApplicationType?: DefaultApplicationSettingDefaultApplicationTypeEnum | (string & {});
+  defaultApplicationType?:
+    | DefaultApplicationSettingDefaultApplicationTypeEnum
+    | (string & {})
+    | undefined;
   /** Required. The list of applications that can be set as the default app for a given type. This list must not be empty or contain duplicates. The first app in the list that is installed and qualified for the defaultApplicationType (e.g. SMS app for DEFAULT_SMS) is set as the default app. The signing key certificate fingerprint of the app on the device must also match one of the signing key certificate fingerprints obtained from Play Store or one of the entries in ApplicationPolicy.signingKeyCerts in order to be set as the default.If the defaultApplicationScopes contains SCOPE_FULLY_MANAGED or SCOPE_WORK_PROFILE, the app must have an entry in applications with installType set to a value other than BLOCKED.A NonComplianceDetail with APP_NOT_INSTALLED reason and DEFAULT_APPLICATION_SETTING_FAILED_FOR_SCOPE specific reason is reported if none of the apps in the list are installed. A NonComplianceDetail with INVALID_VALUE reason and DEFAULT_APPLICATION_SETTING_FAILED_FOR_SCOPE specific reason is reported if at least one app is installed but the policy fails to apply due to other reasons (e.g. the app is not of the right type).When applying to SCOPE_PERSONAL_PROFILE on a company-owned device with a work profile, only pre-installed system apps can be set as the default. A NonComplianceDetail with INVALID_VALUE reason and DEFAULT_APPLICATION_SETTING_FAILED_FOR_SCOPE specific reason is reported if the policy fails to apply to the personal profile. */
-  defaultApplications?: DefaultApplicationList;
+  defaultApplications?: DefaultApplicationList | undefined;
   /** Required. The scopes to which the policy should be applied. This list must not be empty or contain duplicates.A NonComplianceDetail with MANAGEMENT_MODE reason and DEFAULT_APPLICATION_SETTING_UNSUPPORTED_SCOPES specific reason is reported if none of the specified scopes can be applied to the management mode (e.g. a fully managed device receives a policy with only SCOPE_PERSONAL_PROFILE in the list). */
-  defaultApplicationScopes?: DefaultApplicationSettingDefaultApplicationScopesItemEnumList;
+  defaultApplicationScopes?:
+    | DefaultApplicationSettingDefaultApplicationScopesItemEnumList
+    | undefined;
 }
 export type DefaultApplicationSettingList = Array<DefaultApplicationSetting>;
 /** A policy resource represents a group of settings that govern the behavior of a managed device and the apps installed on it. */
 export interface Policy {
   /** Optional. Settings controlling the behavior of a device in kiosk mode. To enable kiosk mode, set kioskCustomLauncherEnabled to true or specify an app in the policy with installType KIOSK. */
-  kioskCustomization?: KioskCustomization;
+  kioskCustomization?: KioskCustomization | undefined;
   /** A message displayed to the user in the device administators settings screen. */
-  longSupportMessage?: UserFacingMessage;
+  longSupportMessage?: UserFacingMessage | undefined;
   /** The name of the policy in the form enterprises/{enterpriseId}/policies/{policyId}. */
-  name?: string;
+  name?: string | undefined;
   /** The degree of location detection enabled. */
-  locationMode?: PolicyLocationModeEnum | (string & {});
+  locationMode?: PolicyLocationModeEnum | (string & {}) | undefined;
   /** If camera_access is set to any value other than CAMERA_ACCESS_UNSPECIFIED, this has no effect. Otherwise this field controls whether cameras are disabled: If true, all cameras are disabled, otherwise they are available. For fully managed devices this field applies for all apps on the device. For work profiles, this field applies only to apps in the work profile, and the camera access of apps outside the work profile is unaffected. */
-  cameraDisabled?: boolean;
+  cameraDisabled?: boolean | undefined;
   /** Whether user uninstallation of applications is disabled. This prevents apps from being uninstalled, even those removed using applications */
-  uninstallAppsDisabled?: boolean;
+  uninstallAppsDisabled?: boolean | undefined;
   /** Whether removing other users is disabled. */
-  removeUserDisabled?: boolean;
+  removeUserDisabled?: boolean | undefined;
   /** This field has no effect. */
-  blockApplicationsEnabled?: boolean;
+  blockApplicationsEnabled?: boolean | undefined;
   /** Optional. Controls which apps are allowed to act as credential providers on Android 14 and above. These apps store credentials, see this (https://developer.android.com/training/sign-in/passkeys) and this (https://developer.android.com/reference/androidx/credentials/CredentialManager) for details. See also credentialProviderPolicy. */
-  credentialProviderPolicyDefault?: PolicyCredentialProviderPolicyDefaultEnum | (string & {});
+  credentialProviderPolicyDefault?:
+    | PolicyCredentialProviderPolicyDefaultEnum
+    | (string & {})
+    | undefined;
   /** Whether the user mounting physical external media is disabled. */
-  mountPhysicalMediaDisabled?: boolean;
+  mountPhysicalMediaDisabled?: boolean | undefined;
   /** Whether transferring files over USB is disabled. This is supported only on company-owned devices. */
-  usbFileTransferDisabled?: boolean;
+  usbFileTransferDisabled?: boolean | undefined;
   /** Covers controls for device connectivity such as Wi-Fi, USB data access, keyboard/mouse connections, and more. */
-  deviceConnectivityManagement?: DeviceConnectivityManagement;
+  deviceConnectivityManagement?: DeviceConnectivityManagement | undefined;
   /** Optional. Controls the work account setup configuration, such as details of whether a Google authenticated account is required. */
-  workAccountSetupConfig?: WorkAccountSetupConfig;
+  workAccountSetupConfig?: WorkAccountSetupConfig | undefined;
   /** Rules declaring which mitigating actions to take when a device is not compliant with its policy. When the conditions for multiple rules are satisfied, all of the mitigating actions for the rules are taken. There is a maximum limit of 100 rules. Use policy enforcement rules instead. */
-  complianceRules?: ComplianceRuleList;
+  complianceRules?: ComplianceRuleList | undefined;
   /** Password requirements. The field password_requirements.require_password_unlock must not be set. DEPRECATED - Use passwordPolicies.Note:Complexity-based values of PasswordQuality, that is, COMPLEXITY_LOW, COMPLEXITY_MEDIUM, and COMPLEXITY_HIGH, cannot be used here. unified_lock_settings cannot be used here. */
-  passwordRequirements?: PasswordRequirements;
+  passwordRequirements?: PasswordRequirements | undefined;
   /** Whether creating windows besides app windows is disabled. */
-  createWindowsDisabled?: boolean;
+  createWindowsDisabled?: boolean | undefined;
   /** If microphone_access is set to any value other than MICROPHONE_ACCESS_UNSPECIFIED, this has no effect. Otherwise this field controls whether microphones are disabled: If true, all microphones are disabled, otherwise they are available. This is available only on fully managed devices. */
-  unmuteMicrophoneDisabled?: boolean;
+  unmuteMicrophoneDisabled?: boolean | undefined;
   /** Maximum time in milliseconds for user activity until the device locks. A value of 0 means there is no restriction. */
-  maximumTimeToLock?: string;
+  maximumTimeToLock?: string | undefined;
   /** Optional. Controls whether AssistContent (https://developer.android.com/reference/android/app/assist/AssistContent) is allowed to be sent to a privileged app such as an assistant app. AssistContent includes screenshots and information about an app, such as package name. This is supported on Android 15 and above. */
-  assistContentPolicy?: PolicyAssistContentPolicyEnum | (string & {});
+  assistContentPolicy?: PolicyAssistContentPolicyEnum | (string & {}) | undefined;
   /** Whether configuring VPN is disabled. */
-  vpnConfigDisabled?: boolean;
+  vpnConfigDisabled?: boolean | undefined;
   /** Rules for determining apps' access to private keys. See ChoosePrivateKeyRule for details. This must be empty if any application has CERT_SELECTION delegation scope. */
-  choosePrivateKeyRules?: ChoosePrivateKeyRuleList;
+  choosePrivateKeyRules?: ChoosePrivateKeyRuleList | undefined;
   /** Specifies permitted accessibility services. If the field is not set, any accessibility service can be used. If the field is set, only the accessibility services in this list and the system's built-in accessibility service can be used. In particular, if the field is set to empty, only the system's built-in accessibility servicess can be used. This can be set on fully managed devices and on work profiles. When applied to a work profile, this affects both the personal profile and the work profile. */
-  permittedAccessibilityServices?: PackageNameList;
+  permittedAccessibilityServices?: PackageNameList | undefined;
   /** Whether the kiosk custom launcher is enabled. This replaces the home screen with a launcher that locks down the device to the apps installed via the applications setting. Apps appear on a single page in alphabetical order. Use kioskCustomization to further configure the kiosk device behavior. */
-  kioskCustomLauncherEnabled?: boolean;
+  kioskCustomLauncherEnabled?: boolean | undefined;
   /** Whether user installation of apps is disabled. */
-  installAppsDisabled?: boolean;
+  installAppsDisabled?: boolean | undefined;
   /** Controls the use of the microphone and whether the user has access to the microphone access toggle. This applies only on fully managed devices. */
-  microphoneAccess?: PolicyMicrophoneAccessEnum | (string & {});
+  microphoneAccess?: PolicyMicrophoneAccessEnum | (string & {}) | undefined;
   /** This is deprecated. */
-  wifiConfigsLockdownEnabled?: boolean;
+  wifiConfigsLockdownEnabled?: boolean | undefined;
   /** Optional. Configuration of device activity logging. */
-  usageLog?: UsageLog;
+  usageLog?: UsageLog | undefined;
   /** Whether bluetooth is disabled. Prefer this setting over bluetooth_config_disabled because bluetooth_config_disabled can be bypassed by the user. */
-  bluetoothDisabled?: boolean;
+  bluetoothDisabled?: boolean | undefined;
   /** Whether changing the wallpaper is disabled. */
-  setWallpaperDisabled?: boolean;
+  setWallpaperDisabled?: boolean | undefined;
   /** Default intent handler activities.Warning: Do not configure this and default_application_settings for the same intent domain, such as web browsing. Setting both for the same intent domain can lead to unpredictable behavior. */
-  persistentPreferredActivities?: PersistentPreferredActivityList;
+  persistentPreferredActivities?: PersistentPreferredActivityList | undefined;
   /** The minimum allowed Android API level. A NonComplianceDetail with OS_NOT_PERMITTED is reported if the Android API level of the device is lower than this value. */
-  minimumApiLevel?: number;
+  minimumApiLevel?: number | undefined;
   /** Optional. Wipe flags to indicate what data is wiped when a device or profile wipe is triggered due to any reason (for example, non-compliance). This does not apply to the enterprises.devices.delete method. . This list must not have duplicates. */
-  wipeDataFlags?: PolicyWipeDataFlagsItemEnumList;
+  wipeDataFlags?: PolicyWipeDataFlagsItemEnumList | undefined;
   /** Whether app verification is force-enabled. */
-  ensureVerifyAppsEnabled?: boolean;
+  ensureVerifyAppsEnabled?: boolean | undefined;
   /** Account types that can't be managed by the user. */
-  accountTypesWithManagementDisabled?: StringList;
+  accountTypesWithManagementDisabled?: StringList | undefined;
   /** Optional. Controls whether printing is allowed. This is supported on devices running Android 9 and above. . */
-  printingPolicy?: PolicyPrintingPolicyEnum | (string & {});
+  printingPolicy?: PolicyPrintingPolicyEnum | (string & {}) | undefined;
   /** Explicit permission or group grants or denials for all apps. These values override the default_permission_policy. */
-  permissionGrants?: PermissionGrantList;
+  permissionGrants?: PermissionGrantList | undefined;
   /** Optional. The policy for the autofill service. */
-  autofillPolicy?: PolicyAutofillPolicyEnum | (string & {});
+  autofillPolicy?: PolicyAutofillPolicyEnum | (string & {}) | undefined;
   /** Whether USB storage is enabled. Deprecated. */
-  usbMassStorageEnabled?: boolean;
+  usbMassStorageEnabled?: boolean | undefined;
   /** Configuration for an always-on VPN connection. Use with vpn_config_disabled to prevent modification of this setting. */
-  alwaysOnVpnPackage?: AlwaysOnVpnPackage;
+  alwaysOnVpnPackage?: AlwaysOnVpnPackage | undefined;
   /** Network configuration for the device. See configure networks for more information. */
-  openNetworkConfiguration?: DocumentMap;
+  openNetworkConfiguration?: DocumentMap | undefined;
   /** Whether outgoing calls are disabled. */
-  outgoingCallsDisabled?: boolean;
+  outgoingCallsDisabled?: boolean | undefined;
   /** The network-independent global HTTP proxy. Typically proxies should be configured per-network in open_network_configuration. However for unusual configurations like general internal filtering a global HTTP proxy may be useful. If the proxy is not accessible, network access may break. The global proxy is only a recommendation and some apps may ignore it. */
-  recommendedGlobalProxy?: ProxyInfo;
+  recommendedGlobalProxy?: ProxyInfo | undefined;
   /** Optional. Controls whether apps on the device for fully managed devices or in the work profile for devices with work profiles are allowed to expose app functions. */
-  appFunctions?: PolicyAppFunctionsEnum | (string & {});
+  appFunctions?: PolicyAppFunctionsEnum | (string & {}) | undefined;
   /** The battery plugged in modes for which the device stays on. When using this setting, it is recommended to clear maximum_time_to_lock so that the device doesn't lock itself while it stays on. */
-  stayOnPluggedModes?: PolicyStayOnPluggedModesItemEnumList;
+  stayOnPluggedModes?: PolicyStayOnPluggedModesItemEnumList | undefined;
   /** Whether the status bar is disabled. This disables notifications, quick settings, and other screen overlays that allow escape from full-screen mode. DEPRECATED. To disable the status bar on a kiosk device, use InstallType KIOSK or kioskCustomLauncherEnabled. */
-  statusBarDisabled?: boolean;
+  statusBarDisabled?: boolean | undefined;
   /** The system update policy, which controls how OS updates are applied. If the update type is WINDOWED, the update window will automatically apply to Play app updates as well.Note: Google Play system updates (https://source.android.com/docs/core/ota/modular-system) (also called Mainline updates) are automatically downloaded and require a device reboot to be installed. Refer to the mainline section in Manage system updates (https://developer.android.com/work/dpc/system-updates#mainline) for further details. */
-  systemUpdate?: SystemUpdate;
+  systemUpdate?: SystemUpdate | undefined;
   /** Email addresses of device administrators for factory reset protection. When the device is factory reset, it will require one of these admins to log in with the Google account email and password to unlock the device. If no admins are specified, the device won't provide factory reset protection. */
-  frpAdminEmails?: StringList;
+  frpAdminEmails?: StringList | undefined;
   /** Whether sending and receiving SMS messages is disabled. */
-  smsDisabled?: boolean;
+  smsDisabled?: boolean | undefined;
   /** Whether configuring user credentials is disabled. */
-  credentialsConfigDisabled?: boolean;
+  credentialsConfigDisabled?: boolean | undefined;
   /** Policy applied to apps. This can have at most 3,000 elements. */
-  applications?: ApplicationPolicyList;
+  applications?: ApplicationPolicyList | undefined;
   /** The device owner information to be shown on the lock screen. */
-  deviceOwnerLockScreenInfo?: UserFacingMessage;
+  deviceOwnerLockScreenInfo?: UserFacingMessage | undefined;
   /** Status reporting settings */
-  statusReportingSettings?: StatusReportingSettings;
+  statusReportingSettings?: StatusReportingSettings | undefined;
   /** Optional. Controls whether the backup service is disabled. Supported only on fully managed devices running Android 8 and above. */
-  backupService?: PolicyBackupServiceEnum | (string & {});
+  backupService?: PolicyBackupServiceEnum | (string & {}) | undefined;
   /** Whether auto date, time, and time zone are enabled on a company-owned device. If this is set, then autoTimeRequired is ignored. */
-  autoDateAndTimeZone?: PolicyAutoDateAndTimeZoneEnum | (string & {});
+  autoDateAndTimeZone?: PolicyAutoDateAndTimeZoneEnum | (string & {}) | undefined;
   /** Whether the user is allowed to have fun. Controls whether the Easter egg game in Settings is disabled. */
-  funDisabled?: boolean;
+  funDisabled?: boolean | undefined;
   /** Whether adding new users and profiles is disabled. For devices where managementMode is DEVICE_OWNER this field is ignored and the user is never allowed to add or remove users. */
-  addUserDisabled?: boolean;
+  addUserDisabled?: boolean | undefined;
   /** Whether bluetooth contact sharing is disabled. */
-  bluetoothContactSharingDisabled?: boolean;
+  bluetoothContactSharingDisabled?: boolean | undefined;
   /** Whether adjusting the master volume is disabled. Also mutes the device. The setting has effect only on fully managed devices. */
-  adjustVolumeDisabled?: boolean;
+  adjustVolumeDisabled?: boolean | undefined;
   /** If present, only the input methods provided by packages in this list are permitted. If this field is present, but the list is empty, then only system input methods are permitted. */
-  permittedInputMethods?: PackageNameList;
+  permittedInputMethods?: PackageNameList | undefined;
   /** Policies managing personal usage on a company-owned device. */
-  personalUsagePolicies?: PersonalUsagePolicies;
+  personalUsagePolicies?: PersonalUsagePolicies | undefined;
   /** The default permission policy for runtime permission requests. */
-  defaultPermissionPolicy?: PolicyDefaultPermissionPolicyEnum | (string & {});
+  defaultPermissionPolicy?: PolicyDefaultPermissionPolicyEnum | (string & {}) | undefined;
   /** Whether configuring cell broadcast is disabled. */
-  cellBroadcastsConfigDisabled?: boolean;
+  cellBroadcastsConfigDisabled?: boolean | undefined;
   /** Whether screen capture is disabled. This also blocks Circle to Search (https://support.google.com/android/answer/14508957). */
-  screenCaptureDisabled?: boolean;
+  screenCaptureDisabled?: boolean | undefined;
   /** Whether the user is allowed to enable debugging features. */
-  debuggingFeaturesAllowed?: boolean;
+  debuggingFeaturesAllowed?: boolean | undefined;
   /** Whether rebooting the device into safe boot is disabled. */
-  safeBootDisabled?: boolean;
+  safeBootDisabled?: boolean | undefined;
   /** Whether the network escape hatch is enabled. If a network connection can't be made at boot time, the escape hatch prompts the user to temporarily connect to a network in order to refresh the device policy. After applying policy, the temporary network will be forgotten and the device will continue booting. This prevents being unable to connect to a network if there is no suitable network in the last policy and the device boots into an app in lock task mode, or the user is otherwise unable to reach device settings.Note: Setting wifiConfigDisabled to true will override this setting under specific circumstances. Please see wifiConfigDisabled for further details. Setting configureWifi to DISALLOW_CONFIGURING_WIFI will override this setting under specific circumstances. Please see DISALLOW_CONFIGURING_WIFI for further details. */
-  networkEscapeHatchEnabled?: boolean;
+  networkEscapeHatchEnabled?: boolean | undefined;
   /** The version of the policy. This is a read-only field. The version is incremented each time the policy is updated. */
-  version?: string;
+  version?: string | undefined;
   /** Optional. Advanced security settings. In most cases, setting these is not needed. */
-  advancedSecurityOverrides?: AdvancedSecurityOverrides;
+  advancedSecurityOverrides?: AdvancedSecurityOverrides | undefined;
   /** Rules that define the behavior when a particular policy can not be applied on device */
-  policyEnforcementRules?: PolicyEnforcementRuleList;
+  policyEnforcementRules?: PolicyEnforcementRuleList | undefined;
   /** Whether using NFC to beam data from apps is disabled. */
-  outgoingBeamDisabled?: boolean;
+  outgoingBeamDisabled?: boolean | undefined;
   /** A message displayed to the user in the settings screen wherever functionality has been disabled by the admin. If the message is longer than 200 characters it may be truncated. */
-  shortSupportMessage?: UserFacingMessage;
+  shortSupportMessage?: UserFacingMessage | undefined;
   /** Controls the use of the camera and whether the user has access to the camera access toggle. */
-  cameraAccess?: PolicyCameraAccessEnum | (string & {});
+  cameraAccess?: PolicyCameraAccessEnum | (string & {}) | undefined;
   /** Whether adding or removing accounts is disabled. */
-  modifyAccountsDisabled?: boolean;
+  modifyAccountsDisabled?: boolean | undefined;
   /** Whether changing the user icon is disabled. This applies only on devices running Android 7 and above. */
-  setUserIconDisabled?: boolean;
+  setUserIconDisabled?: boolean | undefined;
   /** Optional. Controls for the display settings. */
-  displaySettings?: DisplaySettings;
+  displaySettings?: DisplaySettings | undefined;
   /** Whether encryption is enabled */
-  encryptionPolicy?: PolicyEncryptionPolicyEnum | (string & {});
+  encryptionPolicy?: PolicyEncryptionPolicyEnum | (string & {}) | undefined;
   /** Whether factory resetting from settings is disabled. */
-  factoryResetDisabled?: boolean;
+  factoryResetDisabled?: boolean | undefined;
   /** Optional. Policies controlling cross-device communication. */
-  crossDevicePolicies?: CrossDevicePolicies;
+  crossDevicePolicies?: CrossDevicePolicies | undefined;
   /** Action to take during the setup process. At most one action may be specified. */
-  setupActions?: SetupActionList;
+  setupActions?: SetupActionList | undefined;
   /** This field has no effect. */
-  installUnknownSourcesAllowed?: boolean;
+  installUnknownSourcesAllowed?: boolean | undefined;
   /** Optional. Password requirement policies. Different policies can be set for work profile or fully managed devices by setting the password_scope field in the policy. */
-  passwordPolicies?: PasswordRequirementsList;
+  passwordPolicies?: PasswordRequirementsList | undefined;
   /** Whether location sharing is disabled. */
-  shareLocationDisabled?: boolean;
+  shareLocationDisabled?: boolean | undefined;
   /** Whether auto time is required, which prevents the user from manually setting the date and time. If autoDateAndTimeZone is set, this field is ignored. */
-  autoTimeRequired?: boolean;
+  autoTimeRequired?: boolean | undefined;
   /** Whether configuring Wi-Fi networks is disabled. Supported on fully managed devices and work profiles on company-owned devices. For fully managed devices, setting this to true removes all configured networks and retains only the networks configured using openNetworkConfiguration. For work profiles on company-owned devices, existing configured networks are not affected and the user is not allowed to add, remove, or modify Wi-Fi networks. If configureWifi is set to anything other than CONFIGURE_WIFI_UNSPECIFIED, this setting is ignored. Note: If a network connection can't be made at boot time and configuring Wi-Fi is disabled then network escape hatch will be shown in order to refresh the device policy (see networkEscapeHatchEnabled). */
-  wifiConfigDisabled?: boolean;
+  wifiConfigDisabled?: boolean | undefined;
   /** If true, this disables the Lock Screen (https://source.android.com/docs/core/display/multi_display/lock-screen) for primary and/or secondary displays. This policy is supported only in dedicated device management mode. */
-  keyguardDisabled?: boolean;
+  keyguardDisabled?: boolean | undefined;
   /** Whether configuring bluetooth is disabled. */
-  bluetoothConfigDisabled?: boolean;
+  bluetoothConfigDisabled?: boolean | undefined;
   /** Whether roaming data services are disabled. */
-  dataRoamingDisabled?: boolean;
+  dataRoamingDisabled?: boolean | undefined;
   /** Optional. Covers controls for radio state such as Wi-Fi, bluetooth, and more. */
-  deviceRadioState?: DeviceRadioState;
+  deviceRadioState?: DeviceRadioState | undefined;
   /** Whether resetting network settings is disabled. This applies only on fully managed devices. A NonComplianceDetail with MANAGEMENT_MODE is reported for other management modes. */
-  networkResetDisabled?: boolean;
+  networkResetDisabled?: boolean | undefined;
   /** Flag to skip hints on the first use. Enterprise admin can enable the system recommendation for apps to skip their user tutorial and other introductory hints on first start-up. */
-  skipFirstUseHintsEnabled?: boolean;
+  skipFirstUseHintsEnabled?: boolean | undefined;
   /** Whether configuring mobile networks is disabled. */
-  mobileNetworksConfigDisabled?: boolean;
+  mobileNetworksConfigDisabled?: boolean | undefined;
   /** This setting is not supported. Any value is ignored. */
-  androidDevicePolicyTracks?: PolicyAndroidDevicePolicyTracksItemEnumList;
+  androidDevicePolicyTracks?: PolicyAndroidDevicePolicyTracksItemEnumList | undefined;
   /** Optional. Controls whether the enterpriseDisplayName is visible on the device (e.g. lock screen message on company-owned devices). */
-  enterpriseDisplayNameVisibility?: PolicyEnterpriseDisplayNameVisibilityEnum | (string & {});
+  enterpriseDisplayNameVisibility?:
+    | PolicyEnterpriseDisplayNameVisibilityEnum
+    | (string & {})
+    | undefined;
   /** This feature is not generally available. */
-  oncCertificateProviders?: OncCertificateProviderList;
+  oncCertificateProviders?: OncCertificateProviderList | undefined;
   /** Allows showing UI on a device for a user to choose a private key alias if there are no matching rules in ChoosePrivateKeyRules. For devices below Android P, setting this may leave enterprise keys vulnerable. This value will have no effect if any application has CERT_SELECTION delegation scope. */
-  privateKeySelectionEnabled?: boolean;
+  privateKeySelectionEnabled?: boolean | undefined;
   /** Disabled keyguard customizations, such as widgets. */
-  keyguardDisabledFeatures?: PolicyKeyguardDisabledFeaturesItemEnumList;
+  keyguardDisabledFeatures?: PolicyKeyguardDisabledFeaturesItemEnumList | undefined;
   /** Controls whether preferential network service is enabled on the work profile or on fully managed devices. For example, an organization may have an agreement with a carrier that all of the work data from its employees' devices will be sent via a network service dedicated for enterprise use. An example of a supported preferential network service is the enterprise slice on 5G networks. This policy has no effect if preferentialNetworkServiceSettings or ApplicationPolicy.preferentialNetworkId is set on devices running Android 13 or above. */
-  preferentialNetworkService?: PolicyPreferentialNetworkServiceEnum | (string & {});
+  preferentialNetworkService?: PolicyPreferentialNetworkServiceEnum | (string & {}) | undefined;
   /** Optional. Cross-profile policies applied on the device. */
-  crossProfilePolicies?: CrossProfilePolicies;
+  crossProfilePolicies?: CrossProfilePolicies | undefined;
   /** This mode controls which apps are available to the user in the Play Store and the behavior on the device when apps are removed from the policy. */
-  playStoreMode?: PolicyPlayStoreModeEnum | (string & {});
+  playStoreMode?: PolicyPlayStoreModeEnum | (string & {}) | undefined;
   /** Recommended alternative: autoUpdateMode which is set per app, provides greater flexibility around update frequency.When autoUpdateMode is set to AUTO_UPDATE_POSTPONED or AUTO_UPDATE_HIGH_PRIORITY, this field has no effect.The app auto update policy, which controls when automatic app updates can be applied. */
-  appAutoUpdatePolicy?: PolicyAppAutoUpdatePolicyEnum | (string & {});
+  appAutoUpdatePolicy?: PolicyAppAutoUpdatePolicyEnum | (string & {}) | undefined;
   /** Whether configuring tethering and portable hotspots is disabled. If tetheringSettings is set to anything other than TETHERING_SETTINGS_UNSPECIFIED, this setting is ignored. */
-  tetheringConfigDisabled?: boolean;
+  tetheringConfigDisabled?: boolean | undefined;
   /** Optional. The default application setting for supported types. If the default application is successfully set for at least one app type on a profile, users are prevented from changing any default applications on that profile.Only one DefaultApplicationSetting is allowed for each DefaultApplicationType.Warning: Do not configure this and persistent_preferred_activities for the same intent domain, such as web browsing. Setting both for the same intent domain can lead to unpredictable behavior.See Default application settings (https://developers.google.com/android/management/default-application-settings) guide for more details. */
-  defaultApplicationSettings?: DefaultApplicationSettingList;
+  defaultApplicationSettings?: DefaultApplicationSettingList | undefined;
 }
 export interface GetEnterprisesWebAppsRequest {
   /** The name of the web app in the form enterprises/{enterpriseId}/webApps/{packageName}. */
@@ -2627,38 +2719,38 @@ export type ProvisioningInfoManagementModeEnum =
 /** Information about a device that is available during setup. */
 export interface ProvisioningInfo {
   /** The API level of the Android platform version running on the device. */
-  apiLevel?: number;
+  apiLevel?: number | undefined;
   /** Ownership of the managed device. */
-  ownership?: ProvisioningInfoOwnershipEnum;
+  ownership?: ProvisioningInfoOwnershipEnum | undefined;
   /** The brand of the device. For example, Google. */
-  brand?: string;
+  brand?: string | undefined;
   /** For corporate-owned devices, IMEI number of the GSM device. For example, A1000031212. */
-  imei?: string;
+  imei?: string | undefined;
   /** The model of the device. For example, Asus Nexus 7. */
-  model?: string;
+  model?: string | undefined;
   /** For corporate-owned devices, The device serial number. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** The name of the enterprise in the form enterprises/{enterprise}. */
-  enterprise?: string;
+  enterprise?: string | undefined;
   /** The management mode of the device or profile. */
-  managementMode?: ProvisioningInfoManagementModeEnum;
+  managementMode?: ProvisioningInfoManagementModeEnum | undefined;
   /** For corporate-owned devices, MEID number of the CDMA device. For example, A00000292788E1. */
-  meid?: string;
+  meid?: string | undefined;
   /** The email address of the authenticated user (only present for Google Account provisioning method). */
-  authenticatedUserEmail?: string;
+  authenticatedUserEmail?: string | undefined;
   /** The name of this resource in the form provisioningInfo/{provisioning_info}. */
-  name?: string;
+  name?: string | undefined;
 }
 export type StopLostModeStatusStatusEnum = "STATUS_UNSPECIFIED" | "SUCCESS" | "NOT_IN_LOST_MODE";
 /** Status of the STOP_LOST_MODE command to take the device out of lost mode. */
 export interface StopLostModeStatus {
   /** The status. See StopLostModeStatus. */
-  status?: StopLostModeStatusStatusEnum | (string & {});
+  status?: StopLostModeStatusStatusEnum | (string & {}) | undefined;
 }
 /** Details of the eSIM added or removed. */
 export interface EsimInfo {
   /** Output only. ICC ID of the eSIM. */
-  iccId?: string;
+  iccId?: string | undefined;
 }
 export type InternalErrorDetailsErrorCodeDetailEnum =
   | "ERROR_CODE_DETAIL_UNSPECIFIED"
@@ -2696,13 +2788,13 @@ export type InternalErrorDetailsOperationCodeDetailEnum =
 /** Internal error details if present for the ADD_ESIM or REMOVE_ESIM command. */
 export interface InternalErrorDetails {
   /** Output only. Integer representation of the operation code as specified here (https://developer.android.com/reference/android/telephony/euicc/EuiccManager#EXTRA_EMBEDDED_SUBSCRIPTION_DETAILED_CODE). See operation_code_detail for more details. */
-  operationCode?: string;
+  operationCode?: string | undefined;
   /** Output only. Integer representation of the error code as specified here (https://developer.android.com/reference/android/telephony/euicc/EuiccManager#EXTRA_EMBEDDED_SUBSCRIPTION_DETAILED_CODE). See also, OPERATION_SMDX_SUBJECT_REASON_CODE. See error_code_detail for more details. */
-  errorCode?: string;
+  errorCode?: string | undefined;
   /** Output only. The error code detail corresponding to the error_code. */
-  errorCodeDetail?: InternalErrorDetailsErrorCodeDetailEnum | (string & {});
+  errorCodeDetail?: InternalErrorDetailsErrorCodeDetailEnum | (string & {}) | undefined;
   /** Output only. The operation code detail corresponding to the operation_code. */
-  operationCodeDetail?: InternalErrorDetailsOperationCodeDetailEnum | (string & {});
+  operationCodeDetail?: InternalErrorDetailsOperationCodeDetailEnum | (string & {}) | undefined;
 }
 export type EsimCommandStatusStatusEnum =
   | "STATUS_UNSPECIFIED"
@@ -2717,11 +2809,11 @@ export type EsimCommandStatusStatusEnum =
 /** Status and error details (if present) of an ADD_ESIM or REMOVE_ESIM command. */
 export interface EsimCommandStatus {
   /** Output only. Information about the eSIM added or removed. This is populated only when the eSIM operation status is SUCCESS. */
-  esimInfo?: EsimInfo;
+  esimInfo?: EsimInfo | undefined;
   /** Output only. Details of the error if the status is set to INTERNAL_ERROR. */
-  internalErrorDetails?: InternalErrorDetails;
+  internalErrorDetails?: InternalErrorDetails | undefined;
   /** Output only. Status of an ADD_ESIM or REMOVE_ESIM command. */
-  status?: EsimCommandStatusStatusEnum | (string & {});
+  status?: EsimCommandStatusStatusEnum | (string & {}) | undefined;
 }
 export type CommandErrorCodeEnum =
   | "COMMAND_ERROR_CODE_UNSPECIFIED"
@@ -2747,31 +2839,31 @@ export type PerAppResultClearingResultEnum =
 /** The result of an attempt to clear the data of a single app. */
 export interface PerAppResult {
   /** The result of an attempt to clear the data of a single app. */
-  clearingResult?: PerAppResultClearingResultEnum | (string & {});
+  clearingResult?: PerAppResultClearingResultEnum | (string & {}) | undefined;
 }
 export type PerAppResultMap = { [key: string]: PerAppResult | undefined };
 /** Status of the CLEAR_APP_DATA command to clear the data of specified apps from the device. */
 export interface ClearAppsDataStatus {
   /** The per-app results, a mapping from package names to the respective clearing result. */
-  results?: PerAppResultMap;
+  results?: PerAppResultMap | undefined;
 }
 /** Parameters associated with the START_LOST_MODE command to put the device into lost mode. At least one of the parameters, not including the organization name, must be provided in order for the device to be put into lost mode. */
 export interface StartLostModeParams {
   /** The organization name displayed to the user when the device is in lost mode. */
-  lostOrganization?: UserFacingMessage;
+  lostOrganization?: UserFacingMessage | undefined;
   /** The street address displayed to the user when the device is in lost mode. */
-  lostStreetAddress?: UserFacingMessage;
+  lostStreetAddress?: UserFacingMessage | undefined;
   /** The email address displayed to the user when the device is in lost mode. */
-  lostEmailAddress?: string;
+  lostEmailAddress?: string | undefined;
   /** The message displayed to the user when the device is in lost mode. */
-  lostMessage?: UserFacingMessage;
+  lostMessage?: UserFacingMessage | undefined;
   /** The phone number that will be called when the device is in lost mode and the call owner button is tapped. */
-  lostPhoneNumber?: UserFacingMessage;
+  lostPhoneNumber?: UserFacingMessage | undefined;
 }
 /** Parameters associated with the REMOVE_ESIM command to remove an eSIM profile from the device. */
 export interface RemoveEsimParams {
   /** Required. ICC ID of the eSIM profile to be deleted. */
-  iccId?: string;
+  iccId?: string | undefined;
 }
 export type WipeParamsWipeDataFlagsItemEnum =
   | "WIPE_DATA_FLAG_UNSPECIFIED"
@@ -2784,9 +2876,9 @@ export type WipeParamsWipeDataFlagsItemEnumList = Array<
 /** Parameters associated with the WIPE command to wipe the device. */
 export interface WipeParams {
   /** Optional. Flags to determine what data to wipe. */
-  wipeDataFlags?: WipeParamsWipeDataFlagsItemEnumList;
+  wipeDataFlags?: WipeParamsWipeDataFlagsItemEnumList | undefined;
   /** Optional. A short message displayed to the user before wiping the work profile on personal devices. This has no effect on company owned devices. The maximum message length is 200 characters. */
-  wipeReason?: UserFacingMessage;
+  wipeReason?: UserFacingMessage | undefined;
 }
 /** Parameters associated with the STOP_LOST_MODE command to take the device out of lost mode. */
 export interface StopLostModeParams {}
@@ -2799,12 +2891,12 @@ export type StartLostModeStatusStatusEnum =
 /** Status of the START_LOST_MODE command to put the device into lost mode. */
 export interface StartLostModeStatus {
   /** The status. See StartLostModeStatus. */
-  status?: StartLostModeStatusStatusEnum | (string & {});
+  status?: StartLostModeStatusStatusEnum | (string & {}) | undefined;
 }
 /** Parameters associated with the CLEAR_APP_DATA command to clear the data of specified apps from the device. */
 export interface ClearAppsDataParams {
   /** The package names of the apps whose data will be cleared when the command is executed. */
-  packageNames?: StringList;
+  packageNames?: StringList | undefined;
 }
 export type CommandTypeEnum =
   | "COMMAND_TYPE_UNSPECIFIED"
@@ -2828,20 +2920,20 @@ export type RequestDeviceInfoStatusStatusEnum =
 /** EID information for each eUICC chip. */
 export interface Eid {
   /** Output only. The EID */
-  eid?: string;
+  eid?: string | undefined;
 }
 export type EidList = Array<Eid>;
 /** Information related to the EIDs of the device. */
 export interface EidInfo {
   /** Output only. EID information for each eUICC chip. */
-  eids?: EidList;
+  eids?: EidList | undefined;
 }
 /** Status of the REQUEST_DEVICE_INFO command. */
 export interface RequestDeviceInfoStatus {
   /** Output only. Status of a REQUEST_DEVICE_INFO command. */
-  status?: RequestDeviceInfoStatusStatusEnum | (string & {});
+  status?: RequestDeviceInfoStatusStatusEnum | (string & {}) | undefined;
   /** Information related to the EIDs of the device. */
-  eidInfo?: EidInfo;
+  eidInfo?: EidInfo | undefined;
 }
 export type AddEsimParamsActivationStateEnum =
   | "ACTIVATION_STATE_UNSPECIFIED"
@@ -2850,87 +2942,87 @@ export type AddEsimParamsActivationStateEnum =
 /** Parameters associated with the ADD_ESIM command to add an eSIM profile to the device. */
 export interface AddEsimParams {
   /** Required. The activation state of the eSIM profile once it is downloaded. */
-  activationState?: AddEsimParamsActivationStateEnum | (string & {});
+  activationState?: AddEsimParamsActivationStateEnum | (string & {}) | undefined;
   /** Required. The activation code for the eSIM profile. */
-  activationCode?: string;
+  activationCode?: string | undefined;
 }
 export type RequestDeviceInfoParamsDeviceInfoEnum = "DEVICE_INFO_UNSPECIFIED" | "EID";
 /** Parameters associated with the REQUEST_DEVICE_INFO command to get device related information. */
 export interface RequestDeviceInfoParams {
   /** Required. Type of device information to be requested. */
-  deviceInfo?: RequestDeviceInfoParamsDeviceInfoEnum | (string & {});
+  deviceInfo?: RequestDeviceInfoParamsDeviceInfoEnum | (string & {}) | undefined;
 }
 /** A command. */
 export interface Command {
   /** Output only. Status of the STOP_LOST_MODE command to take the device out of lost mode. See StopLostModeStatus. */
-  stopLostModeStatus?: StopLostModeStatus;
+  stopLostModeStatus?: StopLostModeStatus | undefined;
   /** Output only. Status of an ADD_ESIM or REMOVE_ESIM command. */
-  esimStatus?: EsimCommandStatus;
+  esimStatus?: EsimCommandStatus | undefined;
   /** If the command failed, an error code explaining the failure. This is not set when the command is cancelled by the caller. For reasoning about command errors, prefer fields in the following order (most preferred first): 1. Command-specific fields like clearAppsDataStatus, startLostModeStatus, or similar, if they exist. 2. This field, if set. 3. The generic error field in the Operation that wraps the command. */
-  errorCode?: CommandErrorCodeEnum | (string & {});
+  errorCode?: CommandErrorCodeEnum | (string & {}) | undefined;
   /** For commands of type RESET_PASSWORD, optionally specifies flags. */
-  resetPasswordFlags?: CommandResetPasswordFlagsItemEnumList;
+  resetPasswordFlags?: CommandResetPasswordFlagsItemEnumList | undefined;
   /** Output only. Status of the CLEAR_APP_DATA command to clear the data of specified apps from the device. See ClearAppsDataStatus. */
-  clearAppsDataStatus?: ClearAppsDataStatus;
+  clearAppsDataStatus?: ClearAppsDataStatus | undefined;
   /** The resource name of the user that owns the device in the form enterprises/{enterpriseId}/users/{userId}. This is automatically generated by the server based on the device the command is sent to. */
-  userName?: string;
+  userName?: string | undefined;
   /** The timestamp at which the command was created. The timestamp is automatically generated by the server. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Parameters for the START_LOST_MODE command to put the device into lost mode. See StartLostModeParams. If this is set, then it is suggested that type should not be set. In this case, the server automatically sets it to START_LOST_MODE. It is also acceptable to explicitly set type to START_LOST_MODE. */
-  startLostModeParams?: StartLostModeParams;
+  startLostModeParams?: StartLostModeParams | undefined;
   /** Optional. Parameters for the REMOVE_ESIM command to remove an eSIM profile from the device. If this is set, then it is suggested that type should not be set. In this case, the server automatically sets it to REMOVE_ESIM. It is also acceptable to explicitly set type to REMOVE_ESIM. */
-  removeEsimParams?: RemoveEsimParams;
+  removeEsimParams?: RemoveEsimParams | undefined;
   /** Optional. Parameters for the WIPE command to wipe the device. If this is set, then it is suggested that type should not be set. In this case, the server automatically sets it to WIPE. It is also acceptable to explicitly set type to WIPE. */
-  wipeParams?: WipeParams;
+  wipeParams?: WipeParams | undefined;
   /** For commands of type RESET_PASSWORD, optionally specifies the new password. Note: The new password must be at least 6 characters long if it is numeric in case of Android 14 devices. Else the command will fail with INVALID_VALUE. */
-  newPassword?: string;
+  newPassword?: string | undefined;
   /** Parameters for the STOP_LOST_MODE command to take the device out of lost mode. See StopLostModeParams. If this is set, then it is suggested that type should not be set. In this case, the server automatically sets it to STOP_LOST_MODE. It is also acceptable to explicitly set type to STOP_LOST_MODE. */
-  stopLostModeParams?: StopLostModeParams;
+  stopLostModeParams?: StopLostModeParams | undefined;
   /** The duration for which the command is valid. The command will expire if not executed by the device during this time. The default duration if unspecified is ten minutes. There is no maximum duration. */
-  duration?: string;
+  duration?: string | undefined;
   /** Output only. Status of the START_LOST_MODE command to put the device into lost mode. See StartLostModeStatus. */
-  startLostModeStatus?: StartLostModeStatus;
+  startLostModeStatus?: StartLostModeStatus | undefined;
   /** Parameters for the CLEAR_APP_DATA command to clear the data of specified apps from the device. See ClearAppsDataParams. If this is set, then it is suggested that type should not be set. In this case, the server automatically sets it to CLEAR_APP_DATA. It is also acceptable to explicitly set type to CLEAR_APP_DATA. */
-  clearAppsDataParams?: ClearAppsDataParams;
+  clearAppsDataParams?: ClearAppsDataParams | undefined;
   /** The type of the command. */
-  type?: CommandTypeEnum | (string & {});
+  type?: CommandTypeEnum | (string & {}) | undefined;
   /** Output only. Status of the REQUEST_DEVICE_INFO command. */
-  requestDeviceInfoStatus?: RequestDeviceInfoStatus;
+  requestDeviceInfoStatus?: RequestDeviceInfoStatus | undefined;
   /** Optional. Parameters for the ADD_ESIM command to add an eSIM profile to the device. If this is set, then it is suggested that type should not be set. In this case, the server automatically sets it to ADD_ESIM. It is also acceptable to explicitly set type to ADD_ESIM. */
-  addEsimParams?: AddEsimParams;
+  addEsimParams?: AddEsimParams | undefined;
   /** Optional. Parameters for the REQUEST_DEVICE_INFO command to get device related information. If this is set, then it is suggested that type should not be set. In this case, the server automatically sets it to REQUEST_DEVICE_INFO . It is also acceptable to explicitly set type to REQUEST_DEVICE_INFO. */
-  requestDeviceInfoParams?: RequestDeviceInfoParams;
+  requestDeviceInfoParams?: RequestDeviceInfoParams | undefined;
 }
 export interface IssueCommandEnterprisesDevicesRequest {
   /** The name of the device in the form enterprises/{enterpriseId}/devices/{deviceId}. */
   name: string;
   /** Request body */
-  body?: Command;
+  body?: Command | undefined;
 }
 export type ListEnterprisesViewEnum = "ENTERPRISE_VIEW_UNSPECIFIED" | "BASIC";
 export interface ListEnterprisesRequest {
   /** Specifies which Enterprise fields to return. This method only supports BASIC. */
-  view?: ListEnterprisesViewEnum | (string & {});
+  view?: ListEnterprisesViewEnum | (string & {}) | undefined;
   /** Required. The Cloud project ID of the EMM managing the enterprises. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** A token identifying a page of results returned by the server. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The requested page size. The actual page size may be fixed to a min or max value. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type EnterpriseList = Array<Enterprise>;
 /** Response to a request to list enterprises. */
 export interface ListEnterprisesResponse {
   /** If there are more results, a token to retrieve next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of enterprises. */
-  enterprises?: EnterpriseList;
+  enterprises?: EnterpriseList | undefined;
 }
 export interface ListEnterprisesDevicesRequest {
   /** The requested page size. If unspecified, at most 10 devices will be returned. The maximum value is 100; values above 100 will be coerced to 100. The limits can change over time. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A token identifying a page of results returned by the server. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The name of the enterprise in the form enterprises/{enterpriseId}. */
   parent: string;
 }
@@ -2938,69 +3030,69 @@ export type DeviceList = Array<Device>;
 /** Response to a request to list devices for a given enterprise. */
 export interface ListDevicesResponse {
   /** If there are more results, a token to retrieve next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of devices. */
-  devices?: DeviceList;
+  devices?: DeviceList | undefined;
 }
 export interface ListEnterprisesDevicesOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** When set to true, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field.This can only be true when reading across collections. For example, when parent is set to "projects/example/locations/-".This field is not supported by default and will result in an UNIMPLEMENTED error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets ListOperationsRequest.return_partial_success and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
 }
 export interface ListEnterprisesEnrollmentTokensRequest {
   /** A token identifying a page of results returned by the server. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The name of the enterprise in the form enterprises/{enterpriseId}. */
   parent: string;
   /** The requested page size. The service may return fewer than this value. If unspecified, at most 10 items will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type EnrollmentTokenList = Array<EnrollmentToken>;
 /** Response to a request to list enrollment tokens for a given enterprise. */
 export interface ListEnrollmentTokensResponse {
   /** If there are more results, a token to retrieve next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of enrollment tokens. */
-  enrollmentTokens?: EnrollmentTokenList;
+  enrollmentTokens?: EnrollmentTokenList | undefined;
 }
 export interface ListEnterprisesMigrationTokensRequest {
   /** Required. The enterprise which the migration tokens belong to. Format: enterprises/{enterprise} */
   parent: string;
   /** A page token, received from a previous ListMigrationTokens call. Provide this to retrieve the subsequent page.When paginating, all other parameters provided to ListMigrationTokens must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of migration tokens to return. Fewer migration tokens may be returned. If unspecified, at most 100 migration tokens will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type MigrationTokenList = Array<MigrationToken>;
 /** Response to a request to list migration tokens for a given enterprise. */
 export interface ListMigrationTokensResponse {
   /** A token, which can be sent as page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The migration tokens from the specified enterprise. */
-  migrationTokens?: MigrationTokenList;
+  migrationTokens?: MigrationTokenList | undefined;
 }
 export interface ListEnterprisesPoliciesRequest {
   /** A token identifying a page of results returned by the server. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The requested page size. The actual page size may be fixed to a min or max value. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The name of the enterprise in the form enterprises/{enterpriseId}. */
   parent: string;
 }
@@ -3008,97 +3100,97 @@ export type PolicyList = Array<Policy>;
 /** Response to a request to list policies for a given enterprise. */
 export interface ListPoliciesResponse {
   /** If there are more results, a token to retrieve next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of policies. */
-  policies?: PolicyList;
+  policies?: PolicyList | undefined;
 }
 export interface ListEnterprisesWebAppsRequest {
   /** The requested page size. This is a hint and the actual page size in the response may be different. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The name of the enterprise in the form enterprises/{enterpriseId}. */
   parent: string;
   /** A token identifying a page of results returned by the server. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type WebAppList = Array<WebApp>;
 /** Response to a request to list web apps for a given enterprise. */
 export interface ListWebAppsResponse {
   /** If there are more results, a token to retrieve next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of web apps. */
-  webApps?: WebAppList;
+  webApps?: WebAppList | undefined;
 }
 /** A change to be made to a single ApplicationPolicy object. */
 export interface ApplicationPolicyChange {
   /** The field mask indicating the fields to update. If omitted, all modifiable fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** If ApplicationPolicy.packageName matches an existing ApplicationPolicy object within the Policy being modified, then that object will be updated. Otherwise, it will be added to the end of the Policy.applications. */
-  application?: ApplicationPolicy;
+  application?: ApplicationPolicy | undefined;
 }
 export type ApplicationPolicyChangeList = Array<ApplicationPolicyChange>;
 /** Request to update or create ApplicationPolicy objects in the given Policy. */
 export interface ModifyPolicyApplicationsRequest {
   /** Required. The changes to be made to the ApplicationPolicy objects. There must be at least one ApplicationPolicyChange. */
-  changes?: ApplicationPolicyChangeList;
+  changes?: ApplicationPolicyChangeList | undefined;
 }
 export interface ModifyPolicyApplicationsEnterprisesPoliciesRequest {
   /** Required. The name of the Policy containing the ApplicationPolicy objects to be updated, in the form enterprises/{enterpriseId}/policies/{policyId}. */
   name: string;
   /** Request body */
-  body?: ModifyPolicyApplicationsRequest;
+  body?: ModifyPolicyApplicationsRequest | undefined;
 }
 /** Response to a request to update or create ApplicationPolicy objects in the given policy. */
 export interface ModifyPolicyApplicationsResponse {
   /** The updated policy. */
-  policy?: Policy;
+  policy?: Policy | undefined;
 }
 export interface PatchEnterprisesRequest {
   /** The name of the enterprise in the form enterprises/{enterpriseId}. */
   name: string;
   /** The field mask indicating the fields to update. If not set, all modifiable fields will be modified. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Enterprise;
+  body?: Enterprise | undefined;
 }
 export interface PatchEnterprisesDevicesRequest {
   /** The name of the device in the form enterprises/{enterpriseId}/devices/{deviceId}. */
   name: string;
   /** The field mask indicating the fields to update. If not set, all modifiable fields will be modified. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Device;
+  body?: Device | undefined;
 }
 export interface PatchEnterprisesPoliciesRequest {
   /** The field mask indicating the fields to update. If not set, all modifiable fields will be modified. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** The name of the policy in the form enterprises/{enterpriseId}/policies/{policyId}. */
   name: string;
   /** Request body */
-  body?: Policy;
+  body?: Policy | undefined;
 }
 export interface PatchEnterprisesWebAppsRequest {
   /** The field mask indicating the fields to update. If not set, all modifiable fields will be modified. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** The name of the web app in the form enterprises/{enterpriseId}/webApps/{packageName}. */
   name: string;
   /** Request body */
-  body?: WebApp;
+  body?: WebApp | undefined;
 }
 /** Request to remove ApplicationPolicy objects in the given policy. */
 export interface RemovePolicyApplicationsRequest {
   /** Required. Package names to be removed. Entries that are not found are ignored. There must be at least one entry in package_names. */
-  packageNames?: StringList;
+  packageNames?: StringList | undefined;
 }
 export interface RemovePolicyApplicationsEnterprisesPoliciesRequest {
   /** Required. The name of the policy containing the ApplicationPolicy objects to be removed, in the form enterprises/{enterpriseId}/policies/{policyId}. */
   name: string;
   /** Request body */
-  body?: RemovePolicyApplicationsRequest;
+  body?: RemovePolicyApplicationsRequest | undefined;
 }
 /** Response to a request to remove ApplicationPolicy objects in the given policy. */
 export interface RemovePolicyApplicationsResponse {
   /** The updated policy after ApplicationPolicy objects have been removed. */
-  policy?: Policy;
+  policy?: Policy | undefined;
 }
 export type CancelEnterprisesDevicesOperationsError =
   | NotFound

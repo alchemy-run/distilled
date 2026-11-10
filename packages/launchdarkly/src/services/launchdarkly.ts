@@ -88,8 +88,8 @@ export interface AssociateRepositoriesAndProjectsRequest {
 /** List of repository project associations */
 export type InsightsRepositoryProjectCollectionItemsList = Array<InsightsRepositoryProject>;
 export interface Link {
-  href?: string;
-  type?: string;
+  href?: string | undefined;
+  type?: string | undefined;
 }
 /** The location and content type of related resources */
 export type InsightsRepositoryProjectCollectionLinksMap = { [key: string]: Link | undefined };
@@ -99,13 +99,13 @@ export interface InsightsRepositoryProjectCollection {
   /** List of repository project associations */
   items: InsightsRepositoryProjectCollectionItemsList;
   /** The location and content type of related resources */
-  _links?: InsightsRepositoryProjectCollectionLinksMap;
+  _links?: InsightsRepositoryProjectCollectionLinksMap | undefined;
 }
 export interface FlagCopyConfigEnvironment {
   /** The environment key */
   key: string;
   /** Optional flag version. If you include this, the operation only succeeds if the current flag version in the environment matches this version. */
-  currentVersion?: number;
+  currentVersion?: number | undefined;
 }
 export type CopyFeatureFlagRequestIncludedActionsItem =
   | "updateOn"
@@ -141,29 +141,29 @@ export interface CopyFeatureFlagRequest {
   /** The target environment */
   target: FlagCopyConfigEnvironment;
   /** Optional comment */
-  comment?: string;
+  comment?: string | undefined;
   /** Optional list of the flag changes to copy from the source environment to the target environment. You may include either <code>includedActions</code> or <code>excludedActions</code>, but not both. If you include neither, then all flag changes will be copied. */
-  includedActions?: CopyFeatureFlagRequestIncludedActionsList;
+  includedActions?: CopyFeatureFlagRequestIncludedActionsList | undefined;
   /** Optional list of the flag changes NOT to copy from the source environment to the target environment. You may include either <code>includedActions</code> or <code>excludedActions</code>, but not both. If you include neither, then all flag changes will be copied. */
-  excludedActions?: CopyFeatureFlagRequestExcludedActionsList;
+  excludedActions?: CopyFeatureFlagRequestExcludedActionsList | undefined;
 }
 /** Kind of feature flag */
 export type FeatureFlagKind = "boolean" | "multivariate";
 export interface ClientSideAvailability {
-  usingMobileKey?: boolean;
-  usingEnvironmentId?: boolean;
+  usingMobileKey?: boolean | undefined;
+  usingEnvironmentId?: boolean | undefined;
 }
 export interface Variation {
   /** The ID of the variation. Leave empty when you are creating a flag. */
-  _id?: string;
+  _id?: string | undefined;
   /** The value of the variation. For boolean flags, this must be <code>true</code> or <code>false</code>. For multivariate flags, this may be a string, number, or JSON object. */
   value: unknown;
   /** A deterministic hash of the canonicalized variation <code>value</code>. Computed server-side; ignored if supplied in request bodies. */
-  valueHash?: string;
+  valueHash?: string | undefined;
   /** Description of the variation. Defaults to an empty string, but is omitted from the response if not set. */
-  description?: string;
+  description?: string | undefined;
   /** A human-friendly name for the variation. Defaults to an empty string, but is omitted from the response if not set. */
-  name?: string;
+  name?: string | undefined;
 }
 /** An array of possible variations for the flag */
 export type FeatureFlagVariationsList = Array<Variation>;
@@ -179,9 +179,9 @@ export interface MemberSummary {
   /** The member's ID */
   _id: string;
   /** The member's first name */
-  firstName?: string;
+  firstName?: string | undefined;
   /** The member's last name */
-  lastName?: string;
+  lastName?: string | undefined;
   /** The member's base role. If the member has no additional roles, this role will be in effect. */
   role: string;
   /** The member's email address */
@@ -195,7 +195,7 @@ export interface MaintainerTeam {
   /** A human-friendly name for the maintainer team */
   name: string;
   /** The location and content type of related resources */
-  _links?: MaintainerTeamLinksMap;
+  _links?: MaintainerTeamLinksMap | undefined;
 }
 /** Deprecated, use <code>experiments</code> instead */
 export type FeatureFlagGoalIdsList = Array<string>;
@@ -215,16 +215,16 @@ export type AccessDeniedReasonNotActionsList = Array<string>;
 export type AccessDeniedReasonEffect = "allow" | "deny";
 export interface AccessDeniedReason {
   /** Resource specifier strings */
-  resources?: AccessDeniedReasonResourcesList;
+  resources?: AccessDeniedReasonResourcesList | undefined;
   /** Targeted resources are the resources NOT in this list. The <code>resources</code> and <code>notActions</code> fields must be empty to use this field. */
-  notResources?: AccessDeniedReasonNotResourcesList;
+  notResources?: AccessDeniedReasonNotResourcesList | undefined;
   /** Actions to perform on a resource */
-  actions?: AccessDeniedReasonActionsList;
+  actions?: AccessDeniedReasonActionsList | undefined;
   /** Targeted actions are the actions NOT in this list. The <code>actions</code> and <code>notResources</code> fields must be empty to use this field. */
-  notActions?: AccessDeniedReasonNotActionsList;
+  notActions?: AccessDeniedReasonNotActionsList | undefined;
   /** Whether this statement should allow or deny actions on the resources. */
   effect: AccessDeniedReasonEffect;
-  role_name?: string;
+  role_name?: string | undefined;
 }
 export interface AccessDenied {
   action: string;
@@ -243,16 +243,16 @@ export type AccessAllowedReasonNotActionsList = Array<string>;
 export type AccessAllowedReasonEffect = "allow" | "deny";
 export interface AccessAllowedReason {
   /** Resource specifier strings */
-  resources?: AccessAllowedReasonResourcesList;
+  resources?: AccessAllowedReasonResourcesList | undefined;
   /** Targeted resources are the resources NOT in this list. The <code>resources</code> and <code>notActions</code> fields must be empty to use this field. */
-  notResources?: AccessAllowedReasonNotResourcesList;
+  notResources?: AccessAllowedReasonNotResourcesList | undefined;
   /** Actions to perform on a resource */
-  actions?: AccessAllowedReasonActionsList;
+  actions?: AccessAllowedReasonActionsList | undefined;
   /** Targeted actions are the actions NOT in this list. The <code>actions</code> and <code>notResources</code> fields must be empty to use this field. */
-  notActions?: AccessAllowedReasonNotActionsList;
+  notActions?: AccessAllowedReasonNotActionsList | undefined;
   /** Whether this statement should allow or deny actions on the resources. */
   effect: AccessAllowedReasonEffect;
-  role_name?: string;
+  role_name?: string | undefined;
 }
 export interface AccessAllowedRep {
   action: string;
@@ -266,7 +266,7 @@ export interface Access {
 /** Tags for the metric */
 export type MetricListingRepTagsList = Array<string>;
 export interface Modification {
-  date?: string;
+  date?: string | undefined;
 }
 /** For custom and trace metrics, the success criteria */
 export type MetricListingRepSuccessCriteria = "HigherThanBaseline" | "LowerThanBaseline";
@@ -282,13 +282,13 @@ export interface Filter {
   /** Filter type. One of [contextAttribute, eventProperty, group] */
   type: FilterType;
   /** If not a group node, the context attribute name or event property name to filter on */
-  attribute?: string;
+  attribute?: string | undefined;
   /** The function to perform */
   op: string;
   /** The context attribute / event property values or group member nodes */
   values: FilterValuesList;
   /** For context attribute filters, the context kind. */
-  contextKind?: string;
+  contextKind?: string | undefined;
   /** If set, then take the inverse of the operator. 'in' becomes 'not in'. */
   negate: boolean;
 }
@@ -298,59 +298,59 @@ export type MetricListingRepUnitAggregationType = "average" | "sum" | "count_dis
 export type MetricListingRepAnalysisType = "mean" | "percentile";
 export interface MetricEventDefaultRep {
   /** Whether to disable defaulting missing unit events when calculating results. Defaults to false */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** The default value applied to missing unit events. Set to 0 when <code>disabled</code> is false. No other values are currently supported. */
-  value?: number;
+  value?: number | undefined;
 }
 export interface MetricDataSourceRefRep {
   key: string;
-  environmentKey?: string;
-  _name?: string;
-  _integrationKey?: string;
+  environmentKey?: string | undefined;
+  _name?: string | undefined;
+  _integrationKey?: string | undefined;
 }
 export type UrlMatcher = { [key: string]: unknown | undefined };
 export type UrlMatchers = Array<UrlMatcher>;
 export interface MetricDenominatorRep {
   /** The warehouse event column for the denominator */
-  eventName?: string;
+  eventName?: string | undefined;
   /** Whether the denominator aggregates a numeric value */
-  isNumeric?: boolean;
+  isNumeric?: boolean | undefined;
   /** How individual unit values are aggregated for the denominator */
-  unitAggregationType?: string;
+  unitAggregationType?: string | undefined;
   /** The column to count distinct values of; required when unitAggregationType is count_distinct */
-  unitAggregationField?: string;
+  unitAggregationField?: string | undefined;
   /** For a numeric denominator, the column holding the numeric value */
-  valueColumn?: string;
+  valueColumn?: string | undefined;
   /** The data source for the denominator events. Uses 'launchdarkly-hosted' for SDK-tracked events. */
-  dataSource?: MetricDataSourceRefRep;
+  dataSource?: MetricDataSourceRefRep | undefined;
   /** Optional filters to narrow which denominator events are included */
-  filters?: Filter;
+  filters?: Filter | undefined;
   /** Start of the measurement window in milliseconds */
-  windowStartOffset?: number;
+  windowStartOffset?: number | undefined;
   /** End of the measurement window in milliseconds */
-  windowEndOffset?: number;
+  windowEndOffset?: number | undefined;
   /** Lower winsorization percentile in the open interval (0, 100) */
-  winsorLowerPercentile?: number;
+  winsorLowerPercentile?: number | undefined;
   /** Upper winsorization percentile in the open interval (0, 100) */
-  winsorUpperPercentile?: number;
+  winsorUpperPercentile?: number | undefined;
   /** When true, the percentile bound calculation includes imputed zeros */
-  winsorIncludeImputed?: boolean;
+  winsorIncludeImputed?: boolean | undefined;
 }
 export interface MetricListingRep {
   /** The number of experiments using this metric */
-  experimentCount?: number;
+  experimentCount?: number | undefined;
   /** The number of metric groups using this metric */
-  metricGroupCount?: number;
+  metricGroupCount?: number | undefined;
   /** The number of active experiments using this metric */
-  activeExperimentCount?: number;
+  activeExperimentCount?: number | undefined;
   /** The number of active guarded rollouts using this metric */
-  activeGuardedRolloutCount?: number;
+  activeGuardedRolloutCount?: number | undefined;
   /** The ID of this metric */
   _id: string;
   /** The version ID of the metric */
   _versionId: string;
   /** Version of the metric */
-  _version?: number;
+  _version?: number | undefined;
   /** A unique key to reference the metric */
   key: string;
   /** A human-friendly name for the metric */
@@ -358,96 +358,96 @@ export interface MetricListingRep {
   /** The kind of event the metric tracks */
   kind: MetricListingRepKind;
   /** The number of feature flags currently attached to this metric */
-  _attachedFlagCount?: number;
+  _attachedFlagCount?: number | undefined;
   /** The location and content type of related resources */
   _links: MetricListingRepLinksMap;
   /** Details on how to access the metric in the LaunchDarkly UI */
-  _site?: Link;
+  _site?: Link | undefined;
   /** Details on the allowed and denied actions for this metric */
-  _access?: Access;
+  _access?: Access | undefined;
   /** Tags for the metric */
   tags: MetricListingRepTagsList;
   /** Timestamp of when the metric was created */
   _creationDate: number;
-  lastModified?: Modification;
+  lastModified?: Modification | undefined;
   /** The ID of the member who maintains this metric */
-  maintainerId?: string;
+  maintainerId?: string | undefined;
   /** Details on the member who maintains this metric */
-  _maintainer?: MemberSummary;
+  _maintainer?: MemberSummary | undefined;
   /** Description of the metric */
-  description?: string;
+  description?: string | undefined;
   /** The category of the metric */
-  category?: string;
+  category?: string | undefined;
   /** For custom and trace metrics, whether to track numeric changes in value against a baseline (<code>true</code>) or to track a conversion when an end user takes an action (<code>false</code>). */
-  isNumeric?: boolean;
+  isNumeric?: boolean | undefined;
   /** For custom and trace metrics, the success criteria */
-  successCriteria?: MetricListingRepSuccessCriteria;
+  successCriteria?: MetricListingRepSuccessCriteria | undefined;
   /** For numeric custom and trace metrics, the unit of measure */
-  unit?: string;
+  unit?: string | undefined;
   /** For custom metrics, the event key to use in your code */
-  eventKey?: string;
+  eventKey?: string | undefined;
   /** Deprecated, use <code>analysisUnits</code> instead. */
-  randomizationUnits?: MetricListingRepRandomizationUnitsList;
+  randomizationUnits?: MetricListingRepRandomizationUnitsList | undefined;
   /** An array of analysis units allowed for this metric. */
-  analysisUnits?: MetricListingRepAnalysisUnitsList;
+  analysisUnits?: MetricListingRepAnalysisUnitsList | undefined;
   /** The filters narrowing down the audience based on context attributes or event properties. */
-  filters?: Filter;
+  filters?: Filter | undefined;
   /** The method by which multiple unit event values are aggregated */
-  unitAggregationType?: MetricListingRepUnitAggregationType;
+  unitAggregationType?: MetricListingRepUnitAggregationType | undefined;
   /** The method for analyzing metric events */
-  analysisType?: MetricListingRepAnalysisType;
+  analysisType?: MetricListingRepAnalysisType | undefined;
   /** The percentile for the analysis method. An integer denoting the target percentile between 0 and 100. Required when <code>analysisType</code> is <code>percentile</code>. */
-  percentileValue?: number;
-  eventDefault?: MetricEventDefaultRep;
+  percentileValue?: number | undefined;
+  eventDefault?: MetricEventDefaultRep | undefined;
   dataSource: MetricDataSourceRefRep;
   /** Timestamp of most recent data for this metric, at one-hour fidelity */
-  lastSeen?: number;
+  lastSeen?: number | undefined;
   /** Whether the metric version is archived */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Timestamp when the metric version was archived */
-  archivedAt?: number;
+  archivedAt?: number | undefined;
   /** For click metrics, the CSS selectors */
-  selector?: string;
+  selector?: string | undefined;
   /** For click and pageview metrics, the target URLs */
-  urls?: UrlMatchers;
+  urls?: UrlMatchers | undefined;
   /** Not yet implemented - The start of the measurement window, in milliseconds relative to the unit's first exposure to a flag variation */
-  windowStartOffset?: number;
+  windowStartOffset?: number | undefined;
   /** Not yet implemented - The end of the measurement window, in milliseconds relative to the unit's first exposure to a flag variation */
-  windowEndOffset?: number;
+  windowEndOffset?: number | undefined;
   /** Lower winsorization percentile, expressed as a percent in the open interval (0, 100). When both bounds are set, defines a two-sided clamp range. Otherwise lower-only winsorization. */
-  winsorLowerPercentile?: number;
+  winsorLowerPercentile?: number | undefined;
   /** Upper winsorization percentile, expressed as a percent in the open interval (0, 100). When both bounds are set, must be greater than winsorLowerPercentile. */
-  winsorUpperPercentile?: number;
+  winsorUpperPercentile?: number | undefined;
   /** When true, the percentile bound calculation includes imputed zeros. Only meaningful when at least one bound is set and the metric includes units that didn't send events. */
-  winsorIncludeImputed?: boolean;
+  winsorIncludeImputed?: boolean | undefined;
   /** For trace metrics, the trace query to use for the metric. */
-  traceQuery?: string;
+  traceQuery?: string | undefined;
   /** For trace metrics, the location in the trace to use for numeric values. */
-  traceValueLocation?: string;
+  traceValueLocation?: string | undefined;
   /** For count_distinct metrics, the column to count distinct values of */
-  unitAggregationField?: string;
+  unitAggregationField?: string | undefined;
   /** For ratio metrics, the denominator event configuration */
-  denominator?: MetricDenominatorRep;
+  denominator?: MetricDenominatorRep | undefined;
 }
 export type LegacyExperimentRepEnvironmentsList = Array<string>;
 export interface ExperimentEnabledPeriodRep {
-  startDate?: number;
-  stopDate?: number;
+  startDate?: number | undefined;
+  stopDate?: number | undefined;
 }
 export type ExperimentEnvironmentSettingRepEnabledPeriodsList = Array<ExperimentEnabledPeriodRep>;
 export interface ExperimentEnvironmentSettingRep {
-  startDate?: number;
-  stopDate?: number;
-  enabledPeriods?: ExperimentEnvironmentSettingRepEnabledPeriodsList;
+  startDate?: number | undefined;
+  stopDate?: number | undefined;
+  enabledPeriods?: ExperimentEnvironmentSettingRepEnabledPeriodsList | undefined;
 }
 export type LegacyExperimentRepEnvironmentSettingsMap = {
   [key: string]: ExperimentEnvironmentSettingRep | undefined;
 };
 export interface LegacyExperimentRep {
-  metricKey?: string;
-  _metric?: MetricListingRep;
-  environments?: LegacyExperimentRepEnvironmentsList;
-  _environmentSettings?: LegacyExperimentRepEnvironmentSettingsMap;
+  metricKey?: string | undefined;
+  _metric?: MetricListingRep | undefined;
+  environments?: LegacyExperimentRepEnvironmentsList | undefined;
+  _environmentSettings?: LegacyExperimentRepEnvironmentSettingsMap | undefined;
 }
 export type ExperimentInfoRepItemsList = Array<LegacyExperimentRep>;
 export interface ExperimentInfoRep {
@@ -471,17 +471,17 @@ export interface Defaults {
 }
 export interface FlagMigrationSettingsRep {
   /** The context kind targeted by this migration flag. Only applicable for six-stage migrations. */
-  contextKind?: string;
+  contextKind?: string | undefined;
   /** The number of stages for this migration flag */
-  stageCount?: number;
+  stageCount?: number | undefined;
 }
 export interface StaleFlagData {
   /** Whether the flag is ready for code removal */
-  readyForCodeRemoval?: boolean;
+  readyForCodeRemoval?: boolean | undefined;
   /** Whether the flag is ready to be archived */
-  readyToArchive?: boolean;
+  readyToArchive?: boolean | undefined;
   /** If a third-party system helps clean up the flag, the ID from that system */
-  cleanupId?: string;
+  cleanupId?: string | undefined;
 }
 /** A list of the keys for targets that will receive this variation because of individual targeting */
 export type TargetValuesList = Array<string>;
@@ -491,7 +491,7 @@ export interface Target {
   /** The index, from the array of variations for this flag, of the variation to serve this list of targets */
   variation: number;
   /** The context kind of the individual target */
-  contextKind?: string;
+  contextKind?: string | undefined;
 }
 /** An array of the individual targets that will receive a specific variation based on their key. Individual targets with a context kind of 'user' are included here. */
 export type FeatureFlagConfigTargetsList = Array<Target>;
@@ -500,7 +500,7 @@ export type FeatureFlagConfigContextTargetsList = Array<Target>;
 export interface WeightedVariation {
   variation: number;
   weight: number;
-  _untracked?: boolean;
+  _untracked?: boolean | undefined;
 }
 export type RolloutVariationsList = Array<WeightedVariation>;
 export interface ExperimentAllocationRep {
@@ -509,46 +509,46 @@ export interface ExperimentAllocationRep {
 }
 export interface Rollout {
   variations: RolloutVariationsList;
-  experimentAllocation?: ExperimentAllocationRep;
-  seed?: number;
-  bucketBy?: string;
-  contextKind?: string;
+  experimentAllocation?: ExperimentAllocationRep | undefined;
+  seed?: number | undefined;
+  bucketBy?: string | undefined;
+  contextKind?: string | undefined;
 }
 export type ClauseValuesList = Array<unknown>;
 export interface Clause {
-  _id?: string;
+  _id?: string | undefined;
   attribute: string;
   op: string;
   values: ClauseValuesList;
-  contextKind?: string;
+  contextKind?: string | undefined;
   negate: boolean;
 }
 /** An array of clauses used for individual targeting based on attributes */
 export type RuleClausesList = Array<Clause>;
 export interface Rule {
   /** The flag rule ID */
-  _id?: string;
+  _id?: string | undefined;
   /** Whether the rule is disabled */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** The index of the variation, from the array of variations for this flag */
-  variation?: number;
+  variation?: number | undefined;
   /** Details on the percentage rollout, if it exists */
-  rollout?: Rollout;
+  rollout?: Rollout | undefined;
   /** An array of clauses used for individual targeting based on attributes */
   clauses: RuleClausesList;
   /** Whether the SDK sends a detailed event for every evaluation of this rule, instead of only summary counts. Required for Data Export, but doesn't enable Data Export on its own. */
   trackEvents: boolean;
   /** The rule description */
-  description?: string;
-  ref?: string;
+  description?: string | undefined;
+  ref?: string | undefined;
 }
 /** An array of the rules for how to serve a variation to specific targets based on their attributes */
 export type FeatureFlagConfigRulesList = Array<Rule>;
 export interface VariationOrRolloutRep {
   /** The index of the variation, from the array of variations for this flag */
-  variation?: number;
+  variation?: number | undefined;
   /** Details on the percentage rollout, if it exists */
-  rollout?: Rollout;
+  rollout?: Rollout | undefined;
 }
 export interface Prerequisite {
   key: string;
@@ -561,10 +561,10 @@ export interface VariationSummary {
   nullRules: number;
   targets: number;
   contextTargets: number;
-  isFallthrough?: boolean;
-  isOff?: boolean;
-  rollout?: number;
-  bucketBy?: string;
+  isFallthrough?: boolean | undefined;
+  isOff?: boolean | undefined;
+  rollout?: number | undefined;
+  bucketBy?: string | undefined;
 }
 export type AllVariationsSummary = { [key: string]: VariationSummary | undefined };
 export interface FlagSummary {
@@ -575,10 +575,10 @@ export interface FlagSummary {
 }
 export type FlagConfigEvaluationContextKindsList = Array<string>;
 export interface FlagConfigEvaluation {
-  contextKinds?: FlagConfigEvaluationContextKindsList;
+  contextKinds?: FlagConfigEvaluationContextKindsList | undefined;
 }
 export interface FlagConfigMigrationSettingsRep {
-  checkRatio?: number;
+  checkRatio?: number | undefined;
 }
 export interface FeatureFlagConfig {
   /** Whether the flag is on */
@@ -592,34 +592,34 @@ export interface FeatureFlagConfig {
   /** Version of the feature flag */
   version: number;
   /** An array of the individual targets that will receive a specific variation based on their key. Individual targets with a context kind of 'user' are included here. */
-  targets?: FeatureFlagConfigTargetsList;
+  targets?: FeatureFlagConfigTargetsList | undefined;
   /** An array of the individual targets that will receive a specific variation based on their key. Individual targets with context kinds other than 'user' are included here. */
-  contextTargets?: FeatureFlagConfigContextTargetsList;
+  contextTargets?: FeatureFlagConfigContextTargetsList | undefined;
   /** An array of the rules for how to serve a variation to specific targets based on their attributes */
-  rules?: FeatureFlagConfigRulesList;
+  rules?: FeatureFlagConfigRulesList | undefined;
   /** Details on the variation or rollout to serve as part of the flag's default rule */
-  fallthrough?: VariationOrRolloutRep;
+  fallthrough?: VariationOrRolloutRep | undefined;
   /** The ID of the variation to serve when the flag is off */
-  offVariation?: number;
+  offVariation?: number | undefined;
   /** An array of the prerequisite flags and their variations that are required before this flag takes effect */
-  prerequisites?: FeatureFlagConfigPrerequisitesList;
+  prerequisites?: FeatureFlagConfigPrerequisitesList | undefined;
   /** A link to access the flag configuration in the LaunchDarkly UI. The href is an opaque URL; do not parse or rely on its structure. Use resource keys or _links for programmatic navigation. */
   _site: Link;
   /** Details on the allowed and denied actions for this flag */
-  _access?: Access;
+  _access?: Access | undefined;
   /** The environment name */
   _environmentName: string;
   /** Whether the SDK sends a detailed event for every evaluation of this flag, across all rules, instead of only summary counts. Required for Data Export, but doesn't enable Data Export on its own. */
   trackEvents: boolean;
   /** Whether the SDK sends a detailed event for every evaluation of this flag's default rule, instead of only summary counts. Required for Data Export, but doesn't enable Data Export on its own. */
   trackEventsFallthrough: boolean;
-  _debugEventsUntilDate?: number;
+  _debugEventsUntilDate?: number | undefined;
   /** A summary of the prerequisites and variations for this flag */
-  _summary?: FlagSummary;
+  _summary?: FlagSummary | undefined;
   /** Evaluation information for the flag */
-  evaluation?: FlagConfigEvaluation;
+  evaluation?: FlagConfigEvaluation | undefined;
   /** Migration-related settings for the flag configuration */
-  migrationSettings?: FlagConfigMigrationSettingsRep;
+  migrationSettings?: FlagConfigMigrationSettingsRep | undefined;
 }
 /** Details on the environments for this flag. Only returned if the request is filtered by environment, using the <code>filterEnv</code> query parameter. */
 export type FeatureFlagEnvironmentsMap = { [key: string]: FeatureFlagConfig | undefined };
@@ -629,7 +629,7 @@ export interface FeatureFlag {
   /** Kind of feature flag */
   kind: FeatureFlagKind;
   /** Description of the feature flag */
-  description?: string;
+  description?: string | undefined;
   /** A unique key used to reference the flag in your code */
   key: string;
   /** Version of the feature flag */
@@ -637,9 +637,9 @@ export interface FeatureFlag {
   /** Timestamp of flag creation date */
   creationDate: number;
   /** Deprecated, use <code>clientSideAvailability</code>. Whether this flag should be made available to the client-side JavaScript SDK */
-  includeInSnippet?: boolean;
+  includeInSnippet?: boolean | undefined;
   /** Which type of client-side SDKs the feature flag is available to */
-  clientSideAvailability?: ClientSideAvailability;
+  clientSideAvailability?: ClientSideAvailability | undefined;
   /** An array of possible variations for the flag */
   variations: FeatureFlagVariationsList;
   /** Whether the flag is a temporary flag */
@@ -649,15 +649,15 @@ export interface FeatureFlag {
   /** The location and content type of related resources */
   _links: FeatureFlagLinksMap;
   /** Associated maintainerId for the feature flag */
-  maintainerId?: string;
+  maintainerId?: string | undefined;
   /** Associated maintainer member info for the feature flag */
-  _maintainer?: MemberSummary;
+  _maintainer?: MemberSummary | undefined;
   /** The key of the associated team that maintains this feature flag */
-  maintainerTeamKey?: string;
+  maintainerTeamKey?: string | undefined;
   /** Associated maintainer team info for the feature flag */
-  _maintainerTeam?: MaintainerTeam;
+  _maintainerTeam?: MaintainerTeam | undefined;
   /** Deprecated, use <code>experiments</code> instead */
-  goalIds?: FeatureFlagGoalIdsList;
+  goalIds?: FeatureFlagGoalIdsList | undefined;
   /** Experimentation data for the feature flag */
   experiments: ExperimentInfoRep;
   /** Metadata attached to the feature flag, in the form of the property key associated with a name and array of values for the metadata to associate with this flag. Typically used to store data related to an integration. */
@@ -665,20 +665,20 @@ export interface FeatureFlag {
   /** Boolean indicating if the feature flag is archived */
   archived: boolean;
   /** If archived is true, date of archive */
-  archivedDate?: number;
+  archivedDate?: number | undefined;
   /** Boolean indicating if the feature flag is deprecated */
-  deprecated?: boolean;
+  deprecated?: boolean | undefined;
   /** If deprecated is true, date of deprecation */
-  deprecatedDate?: number;
+  deprecatedDate?: number | undefined;
   /** The indices, from the array of variations, for the variations to serve by default when targeting is on and when targeting is off. These variations will be used for this flag in new environments. If omitted, the first and last variation will be used. */
-  defaults?: Defaults;
-  _purpose?: string;
+  defaults?: Defaults | undefined;
+  _purpose?: string | undefined;
   /** Migration-related settings for the flag */
-  migrationSettings?: FlagMigrationSettingsRep;
+  migrationSettings?: FlagMigrationSettingsRep | undefined;
   /** Information about a flag's stale states */
-  stale?: StaleFlagData;
+  stale?: StaleFlagData | undefined;
   /** Details on the environments for this flag. Only returned if the request is filtered by environment, using the <code>filterEnv</code> query parameter. */
-  environments?: FeatureFlagEnvironmentsMap;
+  environments?: FeatureFlagEnvironmentsMap | undefined;
 }
 /** The severity of the announcement */
 export type CreateAnnouncementPublicRequestSeverity = "info" | "warning" | "critical";
@@ -692,7 +692,7 @@ export interface CreateAnnouncementPublicRequest {
   /** The start time of the announcement. This is a Unix timestamp in milliseconds. */
   startTime: number;
   /** The end time of the announcement. This is a Unix timestamp in milliseconds. */
-  endTime?: number;
+  endTime?: number | undefined;
   /** The severity of the announcement */
   severity: CreateAnnouncementPublicRequestSeverity | (string & {});
 }
@@ -712,16 +712,16 @@ export type AnnouncementAccessDeniedReasonNotActionsList = Array<string>;
 export type AnnouncementAccessDeniedReasonEffect = "allow" | "deny";
 export interface AnnouncementAccessDeniedReason {
   /** Resource specifier strings */
-  resources?: AnnouncementAccessDeniedReasonResourcesList;
+  resources?: AnnouncementAccessDeniedReasonResourcesList | undefined;
   /** Targeted resources are the resources NOT in this list. The <code>resources</code> and <code>notActions</code> fields must be empty to use this field. */
-  notResources?: AnnouncementAccessDeniedReasonNotResourcesList;
+  notResources?: AnnouncementAccessDeniedReasonNotResourcesList | undefined;
   /** Actions to perform on a resource */
-  actions?: AnnouncementAccessDeniedReasonActionsList;
+  actions?: AnnouncementAccessDeniedReasonActionsList | undefined;
   /** Targeted actions are the actions NOT in this list. The <code>actions</code> and <code>notResources</code> fields must be empty to use this field. */
-  notActions?: AnnouncementAccessDeniedReasonNotActionsList;
+  notActions?: AnnouncementAccessDeniedReasonNotActionsList | undefined;
   /** Whether this statement should allow or deny actions on the resources. */
   effect: AnnouncementAccessDeniedReasonEffect;
-  role_name?: string;
+  role_name?: string | undefined;
 }
 export interface AnnouncementAccessDenied {
   action: string;
@@ -740,16 +740,16 @@ export type AnnouncementAccessAllowedReasonNotActionsList = Array<string>;
 export type AnnouncementAccessAllowedReasonEffect = "allow" | "deny";
 export interface AnnouncementAccessAllowedReason {
   /** Resource specifier strings */
-  resources?: AnnouncementAccessAllowedReasonResourcesList;
+  resources?: AnnouncementAccessAllowedReasonResourcesList | undefined;
   /** Targeted resources are the resources NOT in this list. The <code>resources</code> and <code>notActions</code> fields must be empty to use this field. */
-  notResources?: AnnouncementAccessAllowedReasonNotResourcesList;
+  notResources?: AnnouncementAccessAllowedReasonNotResourcesList | undefined;
   /** Actions to perform on a resource */
-  actions?: AnnouncementAccessAllowedReasonActionsList;
+  actions?: AnnouncementAccessAllowedReasonActionsList | undefined;
   /** Targeted actions are the actions NOT in this list. The <code>actions</code> and <code>notResources</code> fields must be empty to use this field. */
-  notActions?: AnnouncementAccessAllowedReasonNotActionsList;
+  notActions?: AnnouncementAccessAllowedReasonNotActionsList | undefined;
   /** Whether this statement should allow or deny actions on the resources. */
   effect: AnnouncementAccessAllowedReasonEffect;
-  role_name?: string;
+  role_name?: string | undefined;
 }
 export interface AnnouncementAccessAllowedRep {
   action: string;
@@ -777,12 +777,12 @@ export interface AnnouncementResponse {
   /** The start time of the announcement. This is a Unix timestamp in milliseconds. */
   startTime: number;
   /** The end time of the announcement. This is a Unix timestamp in milliseconds. */
-  endTime?: number;
+  endTime?: number | undefined;
   /** The severity of the announcement */
   severity: AnnouncementResponseSeverity;
   /** The status of the announcement */
   _status: AnnouncementResponseStatus;
-  _access?: AnnouncementAccess;
+  _access?: AnnouncementAccess | undefined;
   _links: AnnouncementResponseLinks;
 }
 export type Instruction = { [key: string]: unknown | undefined };
@@ -796,17 +796,17 @@ export interface CreateApprovalRequestRequest {
   /** String representation of the resource specifier */
   resourceId: string;
   /** Optional comment describing the approval request */
-  comment?: string;
+  comment?: string | undefined;
   /** A brief description of the changes you're requesting */
   description: string;
   /** List of instructions in semantic patch format to be applied to the feature flag. Review the [Update feature flag](https://launchdarkly.com/docs/ld-docs/api/feature-flags/patch-feature-flag) documentation for details on available instructions. */
   instructions: Instructions;
   /** An array of member IDs. These members are notified to review the approval request. */
-  notifyMemberIds?: CreateApprovalRequestRequestNotifyMemberIdsList;
+  notifyMemberIds?: CreateApprovalRequestRequestNotifyMemberIdsList | undefined;
   /** An array of team keys. The members of these teams are notified to review the approval request. */
-  notifyTeamKeys?: CreateApprovalRequestRequestNotifyTeamKeysList;
+  notifyTeamKeys?: CreateApprovalRequestRequestNotifyTeamKeysList | undefined;
   /** Additional approval request fields for third-party integration approval systems. If you are using a third-party integration to manage approval requests, these additional fields will be described in the <code>manifest.json</code> for that integration, at https://github.com/launchdarkly/integration-framework. */
-  integrationConfig?: FormVariableConfig;
+  integrationConfig?: FormVariableConfig | undefined;
 }
 /** Current status of the review of this approval request */
 export type ApprovalRequestResponseReviewStatus = "approved" | "declined" | "pending";
@@ -818,13 +818,13 @@ export interface ReviewResponse {
   /** The type of review action to take */
   kind: ReviewResponseKind;
   /** Timestamp of when the request was created */
-  creationDate?: number;
+  creationDate?: number | undefined;
   /** A comment describing the approval response */
-  comment?: string;
+  comment?: string | undefined;
   /** ID of account member that reviewed request */
-  memberId?: string;
+  memberId?: string | undefined;
   /** ID of account service token that reviewed request */
-  serviceTokenId?: string;
+  serviceTokenId?: string | undefined;
 }
 /** An array of individual reviews of this approval request */
 export type ApprovalRequestResponseAllReviewsList = Array<ReviewResponse>;
@@ -836,9 +836,9 @@ export type ApprovalRequestResponseNotifyTeamKeysList = Array<string>;
 export type ApprovalRequestResponseStatus = "pending" | "completed" | "failed" | "scheduled";
 export interface Conflict2 {
   /** Instruction in semantic patch format to be applied to the feature flag */
-  instruction?: Instruction;
+  instruction?: Instruction | undefined;
   /** Reason why the conflict exists */
-  reason?: string;
+  reason?: string | undefined;
 }
 /** Details on any conflicting approval requests */
 export type ApprovalRequestResponseConflictsList = Array<Conflict2>;
@@ -858,19 +858,19 @@ export interface CopiedFromEnv {
   /** Key of feature flag copied */
   key: string;
   /** Version of feature flag copied */
-  version?: number;
+  version?: number | undefined;
 }
 export interface CustomWorkflowStageMeta {
   /** The zero-based index of the workflow stage */
-  index?: number;
+  index?: number | undefined;
   /** The name of the workflow stage */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CustomWorkflowMeta {
   /** The name of the workflow stage that required this approval request */
-  name?: string;
+  name?: string | undefined;
   /** Details on the stage of the workflow where this approval request is required */
-  stage?: CustomWorkflowStageMeta;
+  stage?: CustomWorkflowStageMeta | undefined;
 }
 export type ApprovalSettingsServiceConfigMap = { [key: string]: unknown | undefined };
 /** Require approval only on flags with the provided tags. Otherwise all flags will require approval. */
@@ -887,14 +887,14 @@ export interface ApprovalSettings {
   /** Allow applying the change as long as at least one person has approved */
   canApplyDeclinedChanges: boolean;
   /** Automatically apply changes that have been approved by all reviewers. This field is only applicable for approval services other than LaunchDarkly. */
-  autoApplyApprovedChanges?: boolean;
+  autoApplyApprovedChanges?: boolean | undefined;
   /** Which service to use for managing approvals */
   serviceKind: string;
   serviceConfig: ApprovalSettingsServiceConfigMap;
   /** Require approval only on flags with the provided tags. Otherwise all flags will require approval. */
   requiredApprovalTags: ApprovalSettingsRequiredApprovalTagsList;
   /** Optional field for integration configuration ID of a custom approval integration. This is an Enterprise-only feature. */
-  serviceKindConfigurationId?: string;
+  serviceKindConfigurationId?: string | undefined;
 }
 export interface ApprovalRequestResponse {
   /** The ID of this approval request */
@@ -906,9 +906,9 @@ export interface ApprovalRequestResponse {
   /** The approval service for this request. May be LaunchDarkly or an external approval service, such as ServiceNow or JIRA. */
   serviceKind: string;
   /** The ID of the member who requested the approval */
-  requestorId?: string;
+  requestorId?: string | undefined;
   /** A human-friendly name for the approval request */
-  description?: string;
+  description?: string | undefined;
   /** Current status of the review of this approval request */
   reviewStatus: ApprovalRequestResponseReviewStatus;
   /** An array of individual reviews of this approval request */
@@ -916,13 +916,13 @@ export interface ApprovalRequestResponse {
   /** An array of member IDs. These members are notified to review the approval request. */
   notifyMemberIds: ApprovalRequestResponseNotifyMemberIdsList;
   /** An array of team keys, if teams were specified when the approval request was created. The members of these teams are listed in <code>notifyMemberIds</code>, resolved when the request was made. Team membership may have changed since then. */
-  notifyTeamKeys?: ApprovalRequestResponseNotifyTeamKeysList;
+  notifyTeamKeys?: ApprovalRequestResponseNotifyTeamKeysList | undefined;
   /** Timestamp of when the approval request was applied */
-  appliedDate?: number;
+  appliedDate?: number | undefined;
   /** The member ID of the member who applied the approval request */
-  appliedByMemberId?: string;
+  appliedByMemberId?: string | undefined;
   /** The service token ID of the service token which applied the approval request */
-  appliedByServiceTokenId?: string;
+  appliedByServiceTokenId?: string | undefined;
   /** Current status of the approval request */
   status: ApprovalRequestResponseStatus;
   /** List of instructions in semantic patch format to be applied to the feature flag */
@@ -932,25 +932,25 @@ export interface ApprovalRequestResponse {
   /** The location and content type of related resources */
   _links: ApprovalRequestResponseLinksMap;
   /** Timestamp for when instructions will be executed */
-  executionDate?: number;
+  executionDate?: number | undefined;
   /** ID of scheduled change to edit or delete */
-  operatingOnId?: string;
+  operatingOnId?: string | undefined;
   /** Details about the object in an external service corresponding to this approval request, such as a ServiceNow change request or a JIRA ticket, if an external approval service is being used */
-  integrationMetadata?: IntegrationMetadata;
+  integrationMetadata?: IntegrationMetadata | undefined;
   /** Details about the source feature flag, if copied */
-  source?: CopiedFromEnv;
+  source?: CopiedFromEnv | undefined;
   /** Details about the custom workflow, if this approval request is part of a custom workflow */
-  customWorkflowMetadata?: CustomWorkflowMeta;
+  customWorkflowMetadata?: CustomWorkflowMeta | undefined;
   /** String representation of a resource */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The settings for this approval */
-  approvalSettings?: ApprovalSettings;
+  approvalSettings?: ApprovalSettings | undefined;
 }
 export interface CreateApprovalRequestApplyRequest {
   /** The approval request ID */
   id: string;
   /** Optional comment about the approval request */
-  comment?: string;
+  comment?: string | undefined;
 }
 /** The type of review for this approval request */
 export type CreateApprovalRequestReviewRequestKind = "approve" | "comment" | "decline";
@@ -958,9 +958,9 @@ export interface CreateApprovalRequestReviewRequest {
   /** The approval request ID */
   id: string;
   /** The type of review for this approval request */
-  kind?: CreateApprovalRequestReviewRequestKind | (string & {});
+  kind?: CreateApprovalRequestReviewRequestKind | (string & {}) | undefined;
   /** Optional comment about the approval request */
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface CreateBigSegmentExportRequest {
   /** The project key */
@@ -979,11 +979,11 @@ export interface CreateBigSegmentImportRequest {
   /** The segment key */
   segmentKey: string;
   /** CSV file containing keys */
-  file?: string;
+  file?: string | undefined;
   /** Import mode. Use either `merge` or `replace` */
-  mode?: string;
+  mode?: string | undefined;
   /** Whether to wait for approvals before processing the import */
-  waitOnApprovals?: boolean;
+  waitOnApprovals?: boolean | undefined;
 }
 export interface CreateBigSegmentImportResponse {}
 /** Tags to associate with the integration */
@@ -996,13 +996,13 @@ export interface CreateBigSegmentStoreIntegrationRequest {
   /** The integration key, either `redis` or `dynamodb` */
   integrationKey: string;
   /** Whether the integration configuration is active. Default value is false. */
-  on?: boolean;
+  on?: boolean | undefined;
   /** The global integration settings, as specified by the <code>formVariables</code> in the <code>manifest.json</code> for this integration. */
   config: FormVariableConfig;
   /** Tags to associate with the integration */
-  tags?: CreateBigSegmentStoreIntegrationRequestTagsList;
+  tags?: CreateBigSegmentStoreIntegrationRequestTagsList | undefined;
   /** Name to identify the integration */
-  name?: string;
+  name?: string | undefined;
 }
 export interface BigSegmentStoreIntegrationLinks {
   self: Link;
@@ -1015,21 +1015,21 @@ export type BigSegmentStoreIntegrationIntegrationKey = "redis" | "dynamodb";
 /** List of tags for this configuration */
 export type BigSegmentStoreIntegrationTagsList = Array<string>;
 export interface StoreIntegrationError {
-  statusCode?: number;
-  message?: string;
-  timestamp?: number;
+  statusCode?: number | undefined;
+  message?: string | undefined;
+  timestamp?: number | undefined;
 }
 export type BigSegmentStoreStatusErrorsList = Array<StoreIntegrationError>;
 export interface BigSegmentStoreStatus {
   /** Whether the persistent store integration is fully synchronized with the LaunchDarkly environment, and the <code>lastSync</code> occurred within a few minutes */
-  available?: boolean;
+  available?: boolean | undefined;
   /** Whether the persistent store integration may not be fully synchronized with the LaunchDarkly environment. <code>true</code> if the integration could be stale. */
-  potentiallyStale?: boolean;
+  potentiallyStale?: boolean | undefined;
   /** Timestamp of when the most recent successful sync occurred between the persistent store integration and the LaunchDarkly environment. */
-  lastSync?: number;
+  lastSync?: number | undefined;
   /** Timestamp of when the most recent synchronization error occurred, if any */
-  lastError?: number;
-  errors?: BigSegmentStoreStatusErrorsList;
+  lastError?: number | undefined;
+  errors?: BigSegmentStoreStatusErrorsList | undefined;
 }
 export interface BigSegmentStoreIntegration {
   /** The location and content type of related resources */
@@ -1053,7 +1053,7 @@ export interface BigSegmentStoreIntegration {
   /** Version of the current configuration */
   version: number;
   /** Details on the allowed and denied actions for this configuration */
-  _access?: Access;
+  _access?: Access | undefined;
   /** Details on the connection status of the persistent store integration */
   _status: BigSegmentStoreStatus;
 }
@@ -1075,32 +1075,32 @@ export interface CreateDeploymentEventRequest {
   /** The application key. This defines the granularity at which you want to view your insights metrics. Typically it is the name of one of the GitHub repositories that you use in this project.<br/><br/>LaunchDarkly automatically creates a new application each time you send a unique application key. */
   applicationKey: string;
   /** The application name. This defines how the application is displayed */
-  applicationName?: string;
+  applicationName?: string | undefined;
   /** The kind of application. Default: <code>server</code> */
-  applicationKind?: CreateDeploymentEventRequestApplicationKind | (string & {});
+  applicationKind?: CreateDeploymentEventRequestApplicationKind | (string & {}) | undefined;
   /** The application version. You can set the application version to any string that includes only letters, numbers, periods (<code>.</code>), hyphens (<code>-</code>), or underscores (<code>_</code>).<br/><br/>We recommend setting the application version to at least the first seven characters of the SHA or to the tag of the GitHub commit for this deployment. */
   version: string;
   /** The version name. This defines how the version is displayed */
-  versionName?: string;
+  versionName?: string | undefined;
   /** The event type */
   eventType: CreateDeploymentEventRequestEventType | (string & {});
   /** The time, in Unix milliseconds, when the event occurred. If not included, the time will default to when the event is processed and stored in LaunchDarkly. */
-  eventTime?: number;
+  eventTime?: number | undefined;
   /** A JSON object containing metadata about the event */
-  eventMetadata?: CreateDeploymentEventRequestEventMetadataMap;
+  eventMetadata?: CreateDeploymentEventRequestEventMetadataMap | undefined;
   /** A JSON object containing metadata about the deployment */
-  deploymentMetadata?: CreateDeploymentEventRequestDeploymentMetadataMap;
+  deploymentMetadata?: CreateDeploymentEventRequestDeploymentMetadataMap | undefined;
 }
 export interface CreateDeploymentEventResponse {}
 export interface MetricInput {
   /** The metric key */
   key: string;
   /** Whether this is a metric group (true) or a metric (false). Defaults to false */
-  isGroup?: boolean;
+  isGroup?: boolean | undefined;
   /** Deprecated, use <code>primarySingleMetricKey</code> and <code>primaryFunnelKey</code>. Whether this is a primary metric (true) or a secondary metric (false) */
-  primary?: boolean;
+  primary?: boolean | undefined;
   /** The analysis unit to use for this metric. If omitted, analysis uses the iteration's randomization unit. */
-  analysisUnit?: string;
+  analysisUnit?: string | undefined;
 }
 export type MetricsInput = Array<MetricInput>;
 export interface TreatmentParameterInput {
@@ -1128,7 +1128,7 @@ export interface FlagInput {
   /** The flag version */
   flagConfigVersion: number;
   /** The ID of the variation to route traffic not part of the experiment analysis to. Defaults to variation ID of baseline treatment, if set. */
-  notInExperimentVariationId?: string;
+  notInExperimentVariationId?: string | undefined;
 }
 export type FlagsInput = { [key: string]: FlagInput | undefined };
 /** The attributes that this iteration's results can be sliced by */
@@ -1137,25 +1137,25 @@ export interface IterationInput {
   /** The expected outcome of this experiment */
   hypothesis: string;
   /** Whether to allow the experiment to reassign traffic to different variations when you increase or decrease the traffic in your experiment audience (true) or keep all traffic assigned to its initial variation (false). Defaults to true. */
-  canReshuffleTraffic?: boolean;
+  canReshuffleTraffic?: boolean | undefined;
   /** Details on the metrics for this experiment */
   metrics: MetricsInput;
   /** The key of the primary metric for this experiment. Either <code>primarySingleMetricKey</code> or <code>primaryFunnelKey</code> must be present. */
-  primarySingleMetricKey?: string;
+  primarySingleMetricKey?: string | undefined;
   /** The key of the primary funnel group for this experiment. Either <code>primarySingleMetricKey</code> or <code>primaryFunnelKey</code> must be present. */
-  primaryFunnelKey?: string;
+  primaryFunnelKey?: string | undefined;
   /** Details on the variations you are testing in the experiment. You establish these variations in feature flags, and then reuse them in experiments. */
   treatments: TreatmentsInput;
   /** Details on the feature flag and targeting rules for this iteration */
   flags: FlagsInput;
   /** The unit of randomization for this iteration. Defaults to user. */
-  randomizationUnit?: string;
+  randomizationUnit?: string | undefined;
   /** The cadence (in milliseconds) to update the allocation. */
-  reallocationFrequencyMillis?: number;
+  reallocationFrequencyMillis?: number | undefined;
   /** The ID of the covariate CSV */
-  covariateId?: string;
+  covariateId?: string | undefined;
   /** The attributes that this iteration's results can be sliced by */
-  attributes?: IterationInputAttributesList;
+  attributes?: IterationInputAttributesList | undefined;
 }
 /** Tags for the experiment */
 export type CreateExperimentRequestTagsList = Array<string>;
@@ -1172,21 +1172,23 @@ export type AnalysisConfigInputMultipleComparisonCorrectionScope =
   | "metrics";
 export interface AnalysisConfigInput {
   /** The threshold for the Probability to Beat Baseline (PBBL) and Probability to Be Best (PBB) comparisons for the Bayesian results analysis approach. */
-  bayesianThreshold?: string;
+  bayesianThreshold?: string | undefined;
   /** The significance threshold for the frequentist results analysis approach. */
-  significanceThreshold?: string;
+  significanceThreshold?: string | undefined;
   /** The test sided direction for the frequentist results analysis approach. */
-  testDirection?: string;
+  testDirection?: string | undefined;
   /** The method to use for multiple comparison correction. */
   multipleComparisonCorrectionMethod?:
     | AnalysisConfigInputMultipleComparisonCorrectionMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The scope of the multiple comparison correction. */
   multipleComparisonCorrectionScope?:
     | AnalysisConfigInputMultipleComparisonCorrectionScope
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Whether sequential testing is enabled for Frequentist analysis */
-  sequentialTestingEnabled?: boolean;
+  sequentialTestingEnabled?: boolean | undefined;
 }
 /** The source of metric data in order to analyze results. Defaults to "launchdarkly" when not provided. */
 export type CreateExperimentRequestDataSource = "launchdarkly" | "snowflake";
@@ -1200,25 +1202,25 @@ export interface CreateExperimentRequest {
   /** The experiment name */
   name: string;
   /** The experiment description */
-  description?: string;
+  description?: string | undefined;
   /** The ID of the member who maintains this experiment */
-  maintainerId?: string;
+  maintainerId?: string | undefined;
   /** The experiment key */
   key: string;
   /** Details on the construction of the initial iteration */
   iteration: IterationInput;
   /** The ID of the holdout */
-  holdoutId?: string;
+  holdoutId?: string | undefined;
   /** Tags for the experiment */
-  tags?: CreateExperimentRequestTagsList;
+  tags?: CreateExperimentRequestTagsList | undefined;
   /** The results analysis approach. */
-  methodology?: CreateExperimentRequestMethodology | (string & {});
+  methodology?: CreateExperimentRequestMethodology | (string & {}) | undefined;
   /** Details of the Analysis Configuration for this experiment */
-  analysisConfig?: AnalysisConfigInput;
+  analysisConfig?: AnalysisConfigInput | undefined;
   /** The source of metric data in order to analyze results. Defaults to "launchdarkly" when not provided. */
-  dataSource?: CreateExperimentRequestDataSource | (string & {});
+  dataSource?: CreateExperimentRequestDataSource | (string & {}) | undefined;
   /** The type of experiment. */
-  type?: CreateExperimentRequestType | (string & {});
+  type?: CreateExperimentRequestType | (string & {}) | undefined;
 }
 /** The results analysis approach. */
 export type ExperimentMethodology = "bayesian" | "frequentist" | "export_only";
@@ -1236,15 +1238,15 @@ export type FlagRepTargetingRuleClausesList = Array<unknown>;
 export type FlagRepLinksMap = { [key: string]: Link | undefined };
 export interface FlagRep {
   /** The targeting rule */
-  targetingRule?: string;
+  targetingRule?: string | undefined;
   /** The rule description */
-  targetingRuleDescription?: string;
+  targetingRuleDescription?: string | undefined;
   /** An array of clauses used for individual targeting based on attributes */
-  targetingRuleClauses?: FlagRepTargetingRuleClausesList;
+  targetingRuleClauses?: FlagRepTargetingRuleClausesList | undefined;
   /** The flag version */
-  flagConfigVersion?: number;
+  flagConfigVersion?: number | undefined;
   /** The ID of the variation to route traffic not part of the experiment analysis to */
-  notInExperimentVariationId?: string;
+  notInExperimentVariationId?: string | undefined;
   /** The location and content type of related resources */
   _links: FlagRepLinksMap;
 }
@@ -1276,29 +1278,29 @@ export interface MetricInGroupRep {
   /** The metric key */
   key: string;
   /** The version ID of the metric */
-  _versionId?: string;
+  _versionId?: string | undefined;
   /** The metric name */
   name: string;
   /** The kind of event the metric tracks */
   kind: MetricInGroupRepKind;
   /** For custom metrics, whether to track numeric changes in value against a baseline (<code>true</code>) or to track a conversion when an end user takes an action (<code>false</code>). */
-  isNumeric?: boolean;
+  isNumeric?: boolean | undefined;
   /** The type of unit aggregation to use for the metric */
-  unitAggregationType?: MetricInGroupRepUnitAggregationType;
+  unitAggregationType?: MetricInGroupRepUnitAggregationType | undefined;
   /** The method for analyzing metric events */
-  analysisType?: MetricInGroupRepAnalysisType;
+  analysisType?: MetricInGroupRepAnalysisType | undefined;
   /** The event key sent with the metric. Only relevant for custom metrics. */
-  eventKey?: string;
+  eventKey?: string | undefined;
   /** The context kind used as the analysis unit for this metric in the experiment iteration */
-  analysisUnit?: string;
+  analysisUnit?: string | undefined;
   /** The location and content type of related resources */
   _links: MetricInGroupRepLinksMap;
   /** Name of the metric when used within the associated metric group. Can be different from the original name of the metric. Required if and only if the metric group is a <code>funnel</code>. */
-  nameInGroup?: string;
+  nameInGroup?: string | undefined;
   /** Deprecated, use <code>analysisUnits</code> instead. */
-  randomizationUnits?: MetricInGroupRepRandomizationUnitsList;
+  randomizationUnits?: MetricInGroupRepRandomizationUnitsList | undefined;
   /** An array of analysis units allowed for this metric. */
-  analysisUnits?: MetricInGroupRepAnalysisUnitsList;
+  analysisUnits?: MetricInGroupRepAnalysisUnitsList | undefined;
 }
 /** An ordered list of the metrics in this metric group */
 export type DependentMetricOrMetricGroupRepMetricsList = Array<MetricInGroupRep>;
@@ -1314,19 +1316,19 @@ export interface DependentMetricOrMetricGroupRep {
   /** If this is a metric, then it represents the kind of event the metric tracks. If this is a metric group, then it represents the group type */
   kind: DependentMetricOrMetricGroupRepKind;
   /** For custom and trace metrics, whether to track numeric changes in value against a baseline (<code>true</code>) or to track a conversion when an end user takes an action (<code>false</code>). */
-  isNumeric?: boolean;
+  isNumeric?: boolean | undefined;
   /** The event key sent with the metric. Only relevant for custom metrics. */
-  eventKey?: string;
+  eventKey?: string | undefined;
   /** The location and content type of related resources */
   _links: DependentMetricOrMetricGroupRepLinksMap;
   /** Whether this is a metric group or a metric */
   isGroup: boolean;
   /** An ordered list of the metrics in this metric group */
-  metrics?: DependentMetricOrMetricGroupRepMetricsList;
+  metrics?: DependentMetricOrMetricGroupRepMetricsList | undefined;
   /** The method for analyzing metric events. Only set for individual metrics, not metric groups. */
-  analysisType?: DependentMetricOrMetricGroupRepAnalysisType;
+  analysisType?: DependentMetricOrMetricGroupRepAnalysisType | undefined;
   /** The context kind chosen as the analysis unit for this metric in the iteration. If null, analysis uses the iteration's randomization unit. */
-  analysisUnit?: string;
+  analysisUnit?: string | undefined;
 }
 /** The kind of event the metric tracks */
 export type MetricV2RepKind = "pageview" | "click" | "custom" | "trace";
@@ -1340,21 +1342,21 @@ export interface MetricV2Rep {
   /** The metric key */
   key: string;
   /** The version ID of the metric */
-  _versionId?: string;
+  _versionId?: string | undefined;
   /** The metric name */
   name: string;
   /** The kind of event the metric tracks */
   kind: MetricV2RepKind;
   /** For custom metrics, whether to track numeric changes in value against a baseline (<code>true</code>) or to track a conversion when an end user takes an action (<code>false</code>). */
-  isNumeric?: boolean;
+  isNumeric?: boolean | undefined;
   /** The type of unit aggregation to use for the metric */
-  unitAggregationType?: MetricV2RepUnitAggregationType;
+  unitAggregationType?: MetricV2RepUnitAggregationType | undefined;
   /** The method for analyzing metric events */
-  analysisType?: MetricV2RepAnalysisType;
+  analysisType?: MetricV2RepAnalysisType | undefined;
   /** The event key sent with the metric. Only relevant for custom metrics. */
-  eventKey?: string;
+  eventKey?: string | undefined;
   /** The context kind used as the analysis unit for this metric in the experiment iteration */
-  analysisUnit?: string;
+  analysisUnit?: string | undefined;
   /** The location and content type of related resources */
   _links: MetricV2RepLinksMap;
 }
@@ -1374,27 +1376,27 @@ export interface DependentMetricGroupRepWithMetrics {
   /** The location and content type of related resources */
   _links: DependentMetricGroupRepWithMetricsLinksMap;
   /** The metrics in the metric group */
-  metrics?: DependentMetricGroupRepWithMetricsMetricsList;
+  metrics?: DependentMetricGroupRepWithMetricsMetricsList | undefined;
 }
 /** The available attribute filters for this iteration */
 export type IterationRepAttributesList = Array<string>;
 export interface ParameterRep {
-  variationId?: string;
-  flagKey?: string;
+  variationId?: string | undefined;
+  flagKey?: string | undefined;
 }
 /** Details on the flag and variation used for this treatment */
 export type TreatmentRepParametersList = Array<ParameterRep>;
 export interface TreatmentRep {
   /** The treatment ID. This is the variation ID from the flag. */
-  _id?: string;
+  _id?: string | undefined;
   /** The treatment name. This is the variation name from the flag. */
   name: string;
   /** The percentage of traffic allocated to this treatment during the iteration */
   allocationPercent: string;
   /** Whether this treatment is the baseline to compare other treatments against */
-  baseline?: boolean;
+  baseline?: boolean | undefined;
   /** Details on the flag and variation used for this treatment */
-  parameters?: TreatmentRepParametersList;
+  parameters?: TreatmentRepParametersList | undefined;
 }
 /** Details on the variations you are testing in the experiment */
 export type IterationRepTreatmentsList = Array<TreatmentRep>;
@@ -1422,7 +1424,7 @@ export interface CovariateInfoRep {
 }
 export interface IterationRep {
   /** The iteration ID */
-  _id?: string;
+  _id?: string | undefined;
   /** The expected outcome of this experiment */
   hypothesis: string;
   /** The status of the iteration: <code>not_started</code>, <code>running</code>, <code>stopped</code> */
@@ -1430,41 +1432,41 @@ export interface IterationRep {
   /** Timestamp of when the iteration was created */
   createdAt: number;
   /** Timestamp of when the iteration started */
-  startedAt?: number;
+  startedAt?: number | undefined;
   /** Timestamp of when the iteration ended */
-  endedAt?: number;
+  endedAt?: number | undefined;
   /** The ID of the treatment chosen when the experiment stopped */
-  winningTreatmentId?: string;
+  winningTreatmentId?: string | undefined;
   /** The reason you stopped the experiment */
-  winningReason?: string;
+  winningReason?: string | undefined;
   /** Whether the experiment may reassign traffic to different variations when the experiment audience changes (true) or must keep all traffic assigned to its initial variation (false). */
-  canReshuffleTraffic?: boolean;
+  canReshuffleTraffic?: boolean | undefined;
   /** Details on the flag used in this experiment */
-  flags?: IterationRepFlagsMap;
+  flags?: IterationRepFlagsMap | undefined;
   /** The cadence (in milliseconds) to update the allocation. Only present for multi-armed bandits. */
-  reallocationFrequencyMillis?: number;
+  reallocationFrequencyMillis?: number | undefined;
   /** The current version that the iteration is on */
-  version?: number;
+  version?: number | undefined;
   /** Deprecated, use <code>primarySingleMetric</code> and <code>primaryFunnel</code> instead. Details on the primary metric for this experiment. */
-  primaryMetric?: DependentMetricOrMetricGroupRep;
+  primaryMetric?: DependentMetricOrMetricGroupRep | undefined;
   /** Details on the primary metric for this experiment */
-  primarySingleMetric?: MetricV2Rep;
+  primarySingleMetric?: MetricV2Rep | undefined;
   /** Details on the primary funnel group for this experiment */
-  primaryFunnel?: DependentMetricGroupRepWithMetrics;
+  primaryFunnel?: DependentMetricGroupRepWithMetrics | undefined;
   /** The unit of randomization for this iteration */
-  randomizationUnit?: string;
+  randomizationUnit?: string | undefined;
   /** The available attribute filters for this iteration */
-  attributes?: IterationRepAttributesList;
+  attributes?: IterationRepAttributesList | undefined;
   /** Details on the variations you are testing in the experiment */
-  treatments?: IterationRepTreatmentsList;
+  treatments?: IterationRepTreatmentsList | undefined;
   /** Deprecated, use <code>metrics</code> instead. Details on the secondary metrics for this experiment. */
-  secondaryMetrics?: IterationRepSecondaryMetricsList;
+  secondaryMetrics?: IterationRepSecondaryMetricsList | undefined;
   /** Details on the metrics for this experiment */
-  metrics?: IterationRepMetricsList;
+  metrics?: IterationRepMetricsList | undefined;
   /** Snapshot of the layer state on iteration stop, if part of a layer. Otherwise omitted. */
-  layerSnapshot?: LayerSnapshotRep;
+  layerSnapshot?: LayerSnapshotRep | undefined;
   /** Details of the covariate file for stratified sampling */
-  covariateInfo?: CovariateInfoRep;
+  covariateInfo?: CovariateInfoRep | undefined;
 }
 /** Details on the previous iterations for this experiment. */
 export type ExperimentPreviousIterationsList = Array<IterationRep>;
@@ -1479,17 +1481,21 @@ export type AnalysisConfigRepMultipleComparisonCorrectionScope =
   | "metrics";
 export interface AnalysisConfigRep {
   /** The threshold for the Probability to Beat Baseline (PBBL) and Probability to Be Best (PBB) comparisons for the Bayesian results analysis approach. Value should be between 0-100 inclusive. */
-  bayesianThreshold?: string;
+  bayesianThreshold?: string | undefined;
   /** The significance threshold for the frequentist results analysis approach. Value should be between 0.0-1.0 inclusive. */
-  significanceThreshold?: string;
+  significanceThreshold?: string | undefined;
   /** The test sided direction for the frequentist results analysis approach. */
-  testDirection?: string;
+  testDirection?: string | undefined;
   /** The method for multiple comparison correction. */
-  multipleComparisonCorrectionMethod?: AnalysisConfigRepMultipleComparisonCorrectionMethod;
+  multipleComparisonCorrectionMethod?:
+    | AnalysisConfigRepMultipleComparisonCorrectionMethod
+    | undefined;
   /** The scope for multiple comparison correction. */
-  multipleComparisonCorrectionScope?: AnalysisConfigRepMultipleComparisonCorrectionScope;
+  multipleComparisonCorrectionScope?:
+    | AnalysisConfigRepMultipleComparisonCorrectionScope
+    | undefined;
   /** Whether sequential testing is enabled for Frequentist analysis */
-  sequentialTestingEnabled?: boolean;
+  sequentialTestingEnabled?: boolean | undefined;
 }
 export type MutableFieldsByStatusRepNotStartedValueList = Array<string>;
 export type MutableFieldsByStatusRepNotStartedMap = {
@@ -1504,50 +1510,50 @@ export type MutableFieldsByStatusRepStoppedMap = {
   [key: string]: MutableFieldsByStatusRepStoppedValueList | undefined;
 };
 export interface MutableFieldsByStatusRep {
-  not_started?: MutableFieldsByStatusRepNotStartedMap;
-  running?: MutableFieldsByStatusRepRunningMap;
-  stopped?: MutableFieldsByStatusRepStoppedMap;
+  not_started?: MutableFieldsByStatusRepNotStartedMap | undefined;
+  running?: MutableFieldsByStatusRepRunningMap | undefined;
+  stopped?: MutableFieldsByStatusRepStoppedMap | undefined;
 }
 export interface Experiment {
   /** The experiment ID */
-  _id?: string;
+  _id?: string | undefined;
   /** The experiment key */
   key: string;
   /** The experiment name */
   name: string;
   /** The experiment description */
-  description?: string;
+  description?: string | undefined;
   /** The ID of the member who maintains this experiment. */
   _maintainerId: string;
   /** Timestamp of when the experiment was created */
   _creationDate: number;
   environmentKey: string;
   /** The results analysis approach. */
-  methodology?: ExperimentMethodology;
+  methodology?: ExperimentMethodology | undefined;
   /** The source of metric data in order to analyze results. Defaults to "launchdarkly" when not provided. */
-  dataSource?: ExperimentDataSource;
+  dataSource?: ExperimentDataSource | undefined;
   /** Timestamp of when the experiment was archived */
-  archivedDate?: number;
+  archivedDate?: number | undefined;
   /** Tags for the experiment */
-  tags?: ExperimentTagsList;
+  tags?: ExperimentTagsList | undefined;
   /** The location and content type of related resources */
   _links: ExperimentLinksMap;
   /** The holdout ID */
-  holdoutId?: string;
+  holdoutId?: string | undefined;
   /** Details on the current iteration */
-  currentIteration?: IterationRep;
+  currentIteration?: IterationRep | undefined;
   /** The experiment type */
-  type?: string;
+  type?: string | undefined;
   /** Details on the allowed and denied actions for this experiment */
-  _access?: Access;
+  _access?: Access | undefined;
   /** Details on the current iteration. This iteration may be already started, or may still be a draft. */
-  draftIteration?: IterationRep;
+  draftIteration?: IterationRep | undefined;
   /** Details on the previous iterations for this experiment. */
-  previousIterations?: ExperimentPreviousIterationsList;
+  previousIterations?: ExperimentPreviousIterationsList | undefined;
   /** Details of the Analysis Configuration for this experiment. */
-  analysisConfig?: AnalysisConfigRep;
+  analysisConfig?: AnalysisConfigRep | undefined;
   /** Fields that can be changed for each iteration status. */
-  mutableFieldsByStatus?: MutableFieldsByStatusRep;
+  mutableFieldsByStatus?: MutableFieldsByStatusRep | undefined;
 }
 /** Tags to associate with the configuration */
 export type CreateFlagImportConfigurationRequestTagsList = Array<string>;
@@ -1559,9 +1565,9 @@ export interface CreateFlagImportConfigurationRequest {
   /** The global configuration settings, as specified by the <code>formVariables</code> in the <code>manifest.json</code> for this configuration. */
   config: FormVariableConfig;
   /** Tags to associate with the configuration */
-  tags?: CreateFlagImportConfigurationRequestTagsList;
+  tags?: CreateFlagImportConfigurationRequestTagsList | undefined;
   /** Name to identify the configuration */
-  name?: string;
+  name?: string | undefined;
 }
 export interface FlagImportIntegrationLinks {
   self: Link;
@@ -1575,20 +1581,20 @@ export type FlagImportIntegrationTagsList = Array<string>;
 /** The current status of the import integrations related import job */
 export type FlagImportStatusStatus = "complete" | "importing" | "pending" | "failed" | "partial";
 export interface StatusResponse {
-  integrationId?: string;
-  message?: string;
-  statusCode?: number;
-  timestamp?: number;
+  integrationId?: string | undefined;
+  message?: string | undefined;
+  statusCode?: number | undefined;
+  timestamp?: number | undefined;
 }
 export type FlagImportStatusErrorsList = Array<StatusResponse>;
 export interface FlagImportStatus {
   /** The current status of the import integrations related import job */
-  status?: FlagImportStatusStatus;
+  status?: FlagImportStatusStatus | undefined;
   /** Timestamp of when the most recent successful import occurred. */
-  lastImport?: number;
+  lastImport?: number | undefined;
   /** Timestamp of when the most recent import error occurred, if any */
-  lastError?: number;
-  errors?: FlagImportStatusErrorsList;
+  lastError?: number | undefined;
+  errors?: FlagImportStatusErrorsList | undefined;
 }
 export interface FlagImportIntegration {
   /** The location and content type of related resources */
@@ -1608,7 +1614,7 @@ export interface FlagImportIntegration {
   /** Version of the current configuration */
   version: number;
   /** Details on the allowed and denied actions for this configuration */
-  _access?: Access;
+  _access?: Access | undefined;
   /** Details on the status of the import job */
   _status: FlagImportStatus;
 }
@@ -1620,27 +1626,27 @@ export interface CreateFlagLinkRequest {
   /** The feature flag key */
   featureFlagKey: string;
   /** The flag link key */
-  key?: string;
+  key?: string | undefined;
   /** The integration key for an integration whose <code>manifest.json</code> includes the <code>flagLink</code> capability, if this is a flag link for an existing integration. Do not include for URL flag links. */
-  integrationKey?: string;
+  integrationKey?: string | undefined;
   /** The time, in Unix milliseconds, to mark this flag link as associated with the external URL. If omitted, defaults to the creation time of this flag link. */
-  timestamp?: number;
+  timestamp?: number | undefined;
   /** The URL for the external resource you are linking the flag to */
-  deepLink?: string;
+  deepLink?: string | undefined;
   /** The title of the flag link */
-  title?: string;
+  title?: string | undefined;
   /** The description of the flag link */
-  description?: string;
+  description?: string | undefined;
   /** The metadata required by this integration in order to create a flag link, if this is a flag link for an existing integration. Defined in the integration's <code>manifest.json</code> file under <code>flagLink</code>. */
-  metadata?: CreateFlagLinkRequestMetadataMap;
+  metadata?: CreateFlagLinkRequestMetadataMap | undefined;
 }
 /** The location and content type of related resources */
 export type FlagLinkRepLinksMap = { [key: string]: Link | undefined };
 export interface TimestampRep {
-  milliseconds?: number;
-  seconds?: number;
-  rfc3339?: string;
-  simple?: string;
+  milliseconds?: number | undefined;
+  seconds?: number | undefined;
+  rfc3339?: string | undefined;
+  simple?: string | undefined;
 }
 /** The metadata required by this integration in order to create a flag link, if this is a flag link for an existing integration. Defined in the integration's <code>manifest.json</code> file under <code>flagLink</code>. */
 export type FlagLinkRepMetadataMap = { [key: string]: string | undefined };
@@ -1648,16 +1654,16 @@ export type FlagLinkMemberLinksMap = { [key: string]: Link | undefined };
 export interface FlagLinkMember {
   _links: FlagLinkMemberLinksMap;
   _id: string;
-  firstName?: string;
-  lastName?: string;
+  firstName?: string | undefined;
+  lastName?: string | undefined;
 }
 export interface FlagLinkRep {
   /** The location and content type of related resources */
   _links: FlagLinkRepLinksMap;
   /** The flag link key */
-  _key?: string;
+  _key?: string | undefined;
   /** The integration key for an integration whose <code>manifest.json</code> includes the <code>flagLink</code> capability, if this is a flag link for an existing integration */
-  _integrationKey?: string;
+  _integrationKey?: string | undefined;
   /** The ID of this flag link */
   _id: string;
   /** The URL for the external resource the flag is linked to */
@@ -1665,15 +1671,15 @@ export interface FlagLinkRep {
   /** The time to mark this flag link as associated with the external URL. Defaults to the creation time of the flag link, but can be set to another time during creation. */
   _timestamp: TimestampRep;
   /** The title of the flag link */
-  title?: string;
+  title?: string | undefined;
   /** The description of the flag link */
-  description?: string;
+  description?: string | undefined;
   /** The metadata required by this integration in order to create a flag link, if this is a flag link for an existing integration. Defined in the integration's <code>manifest.json</code> file under <code>flagLink</code>. */
-  _metadata?: FlagLinkRepMetadataMap;
+  _metadata?: FlagLinkRepMetadataMap | undefined;
   /** Timestamp of when the flag link was created */
   _createdAt: number;
   /** Details on the member associated with this flag link */
-  _member?: FlagLinkMember;
+  _member?: FlagLinkMember | undefined;
 }
 /** The application keys to associate with the insight group. If not provided, the insight group will include data from all applications. */
 export type CreateInsightGroupRequestApplicationKeysList = Array<string>;
@@ -1687,7 +1693,7 @@ export interface CreateInsightGroupRequest {
   /** The environmentKey to be associated with the insight group */
   environmentKey: string;
   /** The application keys to associate with the insight group. If not provided, the insight group will include data from all applications. */
-  applicationKeys?: CreateInsightGroupRequestApplicationKeysList;
+  applicationKeys?: CreateInsightGroupRequestApplicationKeysList | undefined;
 }
 /** The location and content type of related resources */
 export type EnvironmentLinksMap = { [key: string]: Link | undefined };
@@ -1716,7 +1722,7 @@ export interface Environment {
   defaultTtl: number;
   /** Ensures that one end user of the client-side SDK cannot inspect the variations for another end user */
   secureMode: boolean;
-  _access?: Access;
+  _access?: Access | undefined;
   /** The initial value of trackEvents for flags created in this environment. Does not affect existing flags. Required for Data Export, but doesn't enable Data Export on its own. */
   defaultTrackEvents: boolean;
   /** Whether members who modify flags and segments through the LaunchDarkly user interface are required to add a comment */
@@ -1726,9 +1732,9 @@ export interface Environment {
   /** A list of tags for this environment */
   tags: EnvironmentTagsList;
   /** Details about the approval settings for flags in this environment */
-  approvalSettings?: ApprovalSettings;
+  approvalSettings?: ApprovalSettings | undefined;
   /** Details about the approval settings for other resources in this environment, organized by resource kind (for example, "aiconfig" and "segment") */
-  resourceApprovalSettings?: EnvironmentResourceApprovalSettingsMap;
+  resourceApprovalSettings?: EnvironmentResourceApprovalSettingsMap | undefined;
   /** Whether the environment is critical */
   critical: boolean;
 }
@@ -1744,14 +1750,14 @@ export interface InsightsMetricScore {
   /** The score for the metric */
   score: number;
   /** The keys of the metrics that were aggregated to calculate this score */
-  aggregateOf?: InsightsMetricScoreAggregateOfList;
-  diffVsLastPeriod?: number;
+  aggregateOf?: InsightsMetricScoreAggregateOfList | undefined;
+  diffVsLastPeriod?: number | undefined;
   /** The indicator for the score */
   indicator: string;
   /** The indicator range for the score */
   indicatorRange: InsightsMetricIndicatorRange;
   /** The score for the metric in the last period */
-  lastPeriod?: InsightsMetricScore;
+  lastPeriod?: InsightsMetricScore | undefined;
 }
 export interface InsightGroupScores {
   /** The overall score for the insight group */
@@ -1775,7 +1781,7 @@ export interface InsightGroupScores {
   /** The efficiency score for the insight group */
   efficiency: InsightsMetricScore;
   /** The creation ratio score for the insight group */
-  creationRatio?: InsightsMetricScore;
+  creationRatio?: InsightsMetricScore | undefined;
 }
 export interface InsightPeriod {
   /** The start time of the period */
@@ -1793,11 +1799,11 @@ export interface InsightGroupCollectionScoreMetadata {
 export type InsightGroupApplicationKeysList = Array<string>;
 export interface InsightGroup {
   /** Expanded details about the environment */
-  environment?: Environment;
+  environment?: Environment | undefined;
   /** The scores for the insight group */
-  scores?: InsightGroupScores;
+  scores?: InsightGroupScores | undefined;
   /** Metadata about the insight scores, when expanded */
-  scoreMetadata?: InsightGroupCollectionScoreMetadata;
+  scoreMetadata?: InsightGroupCollectionScoreMetadata | undefined;
   /** The insight group key */
   key: string;
   /** The insight group name */
@@ -1807,7 +1813,7 @@ export interface InsightGroup {
   /** The environment key */
   environmentKey: string;
   /** The application keys */
-  applicationKeys?: InsightGroupApplicationKeysList;
+  applicationKeys?: InsightGroupApplicationKeysList | undefined;
   /** The time the insight group was created */
   createdAt: number;
 }
@@ -1819,48 +1825,48 @@ export type CreateIntegrationConfigurationRequestConfigValuesMap = {
 };
 export type FormVariableAllowedValuesList = Array<string>;
 export interface HeaderItems {
-  name?: string;
-  value?: string;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export type EndpointHeadersList = Array<HeaderItems>;
 export interface HMACSignature {
-  headerName?: string;
-  hmacSecretFormVariableKey?: string;
+  headerName?: string | undefined;
+  hmacSecretFormVariableKey?: string | undefined;
 }
 export interface Endpoint {
-  headers?: EndpointHeadersList;
-  hmacSignature?: HMACSignature;
-  method?: string;
-  url?: string;
+  headers?: EndpointHeadersList | undefined;
+  hmacSignature?: HMACSignature | undefined;
+  method?: string | undefined;
+  url?: string | undefined;
 }
 export interface OptionsArray {
-  label?: string;
-  value?: string;
+  label?: string | undefined;
+  value?: string | undefined;
 }
 export interface DynamicOptionsParser {
-  optionsItems?: OptionsArray;
-  optionsPath?: string;
+  optionsItems?: OptionsArray | undefined;
+  optionsPath?: string | undefined;
 }
 export interface DynamicOptions {
-  endpoint?: Endpoint;
-  parser?: DynamicOptionsParser;
+  endpoint?: Endpoint | undefined;
+  parser?: DynamicOptionsParser | undefined;
 }
 export interface FormVariable {
-  key?: string;
-  name?: string;
-  type?: string;
-  description?: string;
-  placeholder?: string;
-  isOptional?: boolean;
-  defaultValue?: unknown;
-  allowedValues?: FormVariableAllowedValuesList;
-  dynamicOptions?: DynamicOptions;
+  key?: string | undefined;
+  name?: string | undefined;
+  type?: string | undefined;
+  description?: string | undefined;
+  placeholder?: string | undefined;
+  isOptional?: boolean | undefined;
+  defaultValue?: unknown | undefined;
+  allowedValues?: FormVariableAllowedValuesList | undefined;
+  dynamicOptions?: DynamicOptions | undefined;
 }
 /** The additional form variables for the approvals capability */
 export type ApprovalsCapabilityConfigAdditionalFormVariablesList = Array<FormVariable>;
 export interface ApprovalsCapabilityConfig {
   /** The additional form variables for the approvals capability */
-  additionalFormVariables?: ApprovalsCapabilityConfigAdditionalFormVariablesList;
+  additionalFormVariables?: ApprovalsCapabilityConfigAdditionalFormVariablesList | undefined;
 }
 /** Resource specifier strings */
 export type StatementPostResourcesList = Array<string>;
@@ -1874,26 +1880,26 @@ export type StatementPostNotActionsList = Array<string>;
 export type StatementPostEffect = "allow" | "deny";
 export interface StatementPost {
   /** Resource specifier strings */
-  resources?: StatementPostResourcesList;
+  resources?: StatementPostResourcesList | undefined;
   /** Targeted resources are the resources NOT in this list. The <code>resources</code> field must be empty to use this field. */
-  notResources?: StatementPostNotResourcesList;
+  notResources?: StatementPostNotResourcesList | undefined;
   /** Actions to perform on a resource */
-  actions?: StatementPostActionsList;
+  actions?: StatementPostActionsList | undefined;
   /** Targeted actions are the actions NOT in this list. The <code>actions</code> field must be empty to use this field. */
-  notActions?: StatementPostNotActionsList;
+  notActions?: StatementPostNotActionsList | undefined;
   /** Whether this statement should allow or deny actions on the resources. */
   effect: StatementPostEffect | (string & {});
 }
 export type StatementPostList = Array<StatementPost>;
 export interface AuditLogEventsHookCapabilityConfigPost {
   /** The set of resources you wish to subscribe to audit log notifications for. */
-  statements?: StatementPostList;
+  statements?: StatementPostList | undefined;
 }
 export interface CapabilityConfigPost {
   /** The approvals capability configuration for this integration */
-  approvals?: ApprovalsCapabilityConfig;
+  approvals?: ApprovalsCapabilityConfig | undefined;
   /** The audit log events hook capability configuration for the integration */
-  auditLogEventsHook?: AuditLogEventsHookCapabilityConfigPost;
+  auditLogEventsHook?: AuditLogEventsHookCapabilityConfigPost | undefined;
 }
 export interface CreateIntegrationConfigurationRequest {
   /** The integration key */
@@ -1901,13 +1907,13 @@ export interface CreateIntegrationConfigurationRequest {
   /** The name of the integration configuration */
   name: string;
   /** Whether the integration configuration is enabled. If omitted, defaults to true */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Tags for the integration */
-  tags?: CreateIntegrationConfigurationRequestTagsList;
+  tags?: CreateIntegrationConfigurationRequestTagsList | undefined;
   /** The unique set of fields required to configure the integration. Refer to the <code>formVariables</code> field in the corresponding <code>manifest.json</code> at https://github.com/launchdarkly/integration-framework/tree/main/integrations for a full list of fields for the integration you wish to configure. */
   configValues: CreateIntegrationConfigurationRequestConfigValuesMap;
   /** The capability configuration for the integration */
-  capabilityConfig?: CapabilityConfigPost;
+  capabilityConfig?: CapabilityConfigPost | undefined;
 }
 /** The location and content type of related resources */
 export type IntegrationConfigurationsRepLinksMap = { [key: string]: Link | undefined };
@@ -1927,13 +1933,13 @@ export type StatementNotActionsList = Array<string>;
 export type StatementEffect = "allow" | "deny";
 export interface Statement {
   /** Resource specifier strings */
-  resources?: StatementResourcesList;
+  resources?: StatementResourcesList | undefined;
   /** Targeted resources are the resources NOT in this list. The <code>resources</code> and <code>notActions</code> fields must be empty to use this field. */
-  notResources?: StatementNotResourcesList;
+  notResources?: StatementNotResourcesList | undefined;
   /** Actions to perform on a resource */
-  actions?: StatementActionsList;
+  actions?: StatementActionsList | undefined;
   /** Targeted actions are the actions NOT in this list. The <code>actions</code> and <code>notResources</code> fields must be empty to use this field. */
-  notActions?: StatementNotActionsList;
+  notActions?: StatementNotActionsList | undefined;
   /** Whether this statement should allow or deny actions on the resources. */
   effect: StatementEffect | (string & {});
 }
@@ -1941,13 +1947,13 @@ export interface Statement {
 export type AuditLogEventsHookCapabilityConfigRepStatementsList = Array<Statement>;
 export interface AuditLogEventsHookCapabilityConfigRep {
   /** The set of resources you wish to subscribe to audit log notifications for. */
-  statements?: AuditLogEventsHookCapabilityConfigRepStatementsList;
+  statements?: AuditLogEventsHookCapabilityConfigRepStatementsList | undefined;
 }
 export interface CapabilityConfigRep {
   /** The approvals capability configuration for this integration */
-  approvals?: ApprovalsCapabilityConfig;
+  approvals?: ApprovalsCapabilityConfig | undefined;
   /** The audit log events hook capability configuration for the integration */
-  auditLogEventsHook?: AuditLogEventsHookCapabilityConfigRep;
+  auditLogEventsHook?: AuditLogEventsHookCapabilityConfigRep | undefined;
 }
 /** SQL setup scripts (4 parts) for Redshift native Experimentation setup. Present on setup endpoint responses and, rehydrated from the persisted config, on active (finalized) Redshift native Experimentation configurations. */
 export type IntegrationConfigurationsRepRedshiftSetupScriptsList = Array<string>;
@@ -1959,29 +1965,29 @@ export interface IntegrationConfigurationsRep {
   /** A human-friendly name for the integration */
   name: string;
   /** The time the integration configuration was created */
-  _createdAt?: number;
+  _createdAt?: number | undefined;
   /** The type of integration */
-  _integrationKey?: string;
+  _integrationKey?: string | undefined;
   /** An array of tags for this integration */
-  tags?: IntegrationConfigurationsRepTagsList;
+  tags?: IntegrationConfigurationsRepTagsList | undefined;
   /** Whether the integration is currently active */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Details on the allowed and denied actions for this integration configuration */
-  _access?: Access;
+  _access?: Access | undefined;
   /** Details on configuration for an integration of this type. Refer to the <code>formVariables</code> field in the corresponding <code>manifest.json</code> for a full list of fields for each integration. */
-  configValues?: IntegrationConfigurationsRepConfigValuesMap;
+  configValues?: IntegrationConfigurationsRepConfigValuesMap | undefined;
   /** The capability configuration for the integration */
-  capabilityConfig?: CapabilityConfigRep;
+  capabilityConfig?: CapabilityConfigRep | undefined;
   /** Consolidated SQL script for Snowflake Warehouse Native Experimentation setup. Present only for setup endpoint responses. */
-  snowflakeSetupScript?: string;
+  snowflakeSetupScript?: string | undefined;
   /** SQL setup scripts (4 parts) for Redshift native Experimentation setup. Present on setup endpoint responses and, rehydrated from the persisted config, on active (finalized) Redshift native Experimentation configurations. */
-  redshiftSetupScripts?: IntegrationConfigurationsRepRedshiftSetupScriptsList;
+  redshiftSetupScripts?: IntegrationConfigurationsRepRedshiftSetupScriptsList | undefined;
   /** IAM permissions policy JSON for the customer's Redshift IAM role. Present only for setup endpoint responses. */
-  redshiftIAMPermissionsPolicy?: string;
+  redshiftIAMPermissionsPolicy?: string | undefined;
   /** IAM trust policy JSON for the customer's Redshift IAM role. Present only for setup endpoint responses. */
-  redshiftIAMTrustPolicy?: string;
+  redshiftIAMTrustPolicy?: string | undefined;
   /** The ID of the member who maintains this integration configuration. Defaults to the member who created it. */
-  _maintainerId?: string;
+  _maintainerId?: string | undefined;
 }
 /** Tags to associate with the integration */
 export type CreateIntegrationDeliveryConfigurationRequestTagsList = Array<string>;
@@ -1993,13 +1999,13 @@ export interface CreateIntegrationDeliveryConfigurationRequest {
   /** The integration key */
   integrationKey: string;
   /** Whether the integration configuration is active. Default value is false. */
-  on?: boolean;
+  on?: boolean | undefined;
   /** The global integration settings, as specified by the <code>formVariables</code> in the <code>manifest.json</code> for this integration. */
   config: FormVariableConfig;
   /** Tags to associate with the integration */
-  tags?: CreateIntegrationDeliveryConfigurationRequestTagsList;
+  tags?: CreateIntegrationDeliveryConfigurationRequestTagsList | undefined;
   /** Name to identify the integration */
-  name?: string;
+  name?: string | undefined;
 }
 export type IntegrationDeliveryConfigurationLinks = BigSegmentStoreIntegrationLinks;
 /** List of tags for this configuration */
@@ -2026,19 +2032,19 @@ export interface IntegrationDeliveryConfiguration {
   /** Version of the current configuration */
   version: number;
   /** Details on the allowed and denied actions for this configuration */
-  _access?: Access;
+  _access?: Access | undefined;
 }
 export interface CreateIpAllowlistEntryRequest {
   ipAddress: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface IpAllowlistEntryResponse {
   /** Unique identifier for the allowlist entry */
   _id: string;
   /** IP address or CIDR block */
   ipAddress: string;
-  description?: string;
-  _createdByMemberId?: string;
+  description?: string | undefined;
+  _createdByMemberId?: string | undefined;
   _createdAt: number;
   _updatedAt: number;
 }
@@ -2078,9 +2084,9 @@ export interface LayerRep {
   /** The date and time when the layer was created */
   createdAt: number;
   /** The unit of randomization for the layer */
-  randomizationUnit?: string;
+  randomizationUnit?: string | undefined;
   /** The layer configurations for each requested environment */
-  environments?: LayerRepEnvironmentsMap;
+  environments?: LayerRepEnvironmentsMap | undefined;
 }
 /** The member's initial role, if you are using a base role for the initial role */
 export type NewMemberFormRole = "reader" | "writer" | "admin" | "no_access";
@@ -2094,19 +2100,19 @@ export interface NewMemberForm {
   /** The member's email */
   email: string;
   /** The member's password */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The member's first name */
-  firstName?: string;
+  firstName?: string | undefined;
   /** The member's last name */
-  lastName?: string;
+  lastName?: string | undefined;
   /** The member's initial role, if you are using a base role for the initial role */
-  role?: NewMemberFormRole | (string & {});
+  role?: NewMemberFormRole | (string & {}) | undefined;
   /** An array of the member's initial roles, if you are using custom roles or preset roles provided by LaunchDarkly */
-  customRoles?: NewMemberFormCustomRolesList;
+  customRoles?: NewMemberFormCustomRolesList | undefined;
   /** An array of the member's teams */
-  teamKeys?: NewMemberFormTeamKeysList;
+  teamKeys?: NewMemberFormTeamKeysList | undefined;
   /** An object of role attributes for the member */
-  roleAttributes?: RoleAttributeMap;
+  roleAttributes?: RoleAttributeMap | undefined;
 }
 export type NewMemberFormListPost = Array<NewMemberForm>;
 export interface CreateMemberRequest {
@@ -2120,7 +2126,7 @@ export type MemberCustomRolesList = Array<string>;
 export type MemberExcludedDashboardsList = Array<string>;
 export interface LastSeenMetadata {
   /** The ID of the token used in the member's last session */
-  tokenId?: string;
+  tokenId?: string | undefined;
 }
 /** A list of keys of the custom roles this team has access to */
 export type MemberTeamSummaryRepCustomRoleKeysList = Array<string>;
@@ -2130,7 +2136,7 @@ export interface MemberTeamSummaryRep {
   customRoleKeys: MemberTeamSummaryRepCustomRoleKeysList;
   /** The team key */
   key: string;
-  _links?: MemberTeamSummaryRepLinksMap;
+  _links?: MemberTeamSummaryRepLinksMap | undefined;
   /** The team name */
   name: string;
 }
@@ -2140,9 +2146,9 @@ export type MemberTeamsList = Array<MemberTeamSummaryRep>;
 export type MemberPermissionGrantSummaryRepActionsList = Array<string>;
 export interface MemberPermissionGrantSummaryRep {
   /** The name of the group of related actions to allow. A permission grant may have either an <code>actionSet</code> or a list of <code>actions</code> but not both at the same time. */
-  actionSet?: string;
+  actionSet?: string | undefined;
   /** A list of actions to allow. A permission grant may have either an <code>actionSet</code> or a list of <code>actions</code> but not both at the same time. */
-  actions?: MemberPermissionGrantSummaryRepActionsList;
+  actions?: MemberPermissionGrantSummaryRepActionsList | undefined;
   /** The resource for which the actions are allowed */
   resource: string;
 }
@@ -2156,9 +2162,9 @@ export interface Member {
   /** The member's ID */
   _id: string;
   /** The member's first name */
-  firstName?: string;
+  firstName?: string | undefined;
   /** The member's last name */
-  lastName?: string;
+  lastName?: string | undefined;
   /** The member's base role. If the member has no additional roles, this role will be in effect. */
   role: string;
   /** The member's email address */
@@ -2168,35 +2174,35 @@ export interface Member {
   /** Whether the member's email address has been verified */
   _verified: boolean;
   /** The member's email address before it has been verified, for accounts where email verification is required */
-  _pendingEmail?: string;
+  _pendingEmail?: string | undefined;
   /** The set of additional roles, besides the base role, assigned to the member */
   customRoles: MemberCustomRolesList;
   /** Whether multi-factor authentication is enabled for this member */
   mfa: string;
   /** Default dashboards that the member has chosen to ignore */
-  excludedDashboards?: MemberExcludedDashboardsList;
+  excludedDashboards?: MemberExcludedDashboardsList | undefined;
   /** The member's last session date (as Unix milliseconds since epoch) */
   _lastSeen: number;
   /** Additional metadata associated with the member's last session, for example, whether a token was used */
-  _lastSeenMetadata?: LastSeenMetadata;
+  _lastSeenMetadata?: LastSeenMetadata | undefined;
   /** Details on the member account in an external source, if this member is provisioned externally */
-  _integrationMetadata?: IntegrationMetadata;
+  _integrationMetadata?: IntegrationMetadata | undefined;
   /** Details on the teams this member is assigned to */
-  teams?: MemberTeamsList;
+  teams?: MemberTeamsList | undefined;
   /** A list of permission grants. Permission grants allow a member to have access to a specific action, without having to create or update a custom role. */
-  permissionGrants?: MemberPermissionGrantsList;
+  permissionGrants?: MemberPermissionGrantsList | undefined;
   /** Timestamp of when the member was created */
   creationDate: number;
   /** A list of OAuth providers */
-  oauthProviders?: MemberOauthProvidersList;
+  oauthProviders?: MemberOauthProvidersList | undefined;
   /** Whether the member has a password set (basic auth). False for OAuth-only or SCIM-provisioned members without a password. */
-  hasPassword?: boolean;
+  hasPassword?: boolean | undefined;
   /** Version of the current configuration */
-  version?: number;
+  version?: number | undefined;
   /** The role attributes for the member */
-  roleAttributes?: RoleAttributeMap;
-  mfaEnforced?: boolean;
-  mfaGracePeriodExpiresAt?: number;
+  roleAttributes?: RoleAttributeMap | undefined;
+  mfaEnforced?: boolean | undefined;
+  mfaGracePeriodExpiresAt?: number | undefined;
 }
 /** An array of members */
 export type MembersItemsList = Array<Member>;
@@ -2208,7 +2214,7 @@ export interface Members {
   /** The location and content type of related resources */
   _links: MembersLinksMap;
   /** The number of members returned */
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 /** List of team keys */
 export type CreateMemberTeamRequestTeamKeysList = Array<string>;
@@ -2240,7 +2246,7 @@ export interface CreateMetricGroupRequest {
   /** The type of the metric group */
   kind: CreateMetricGroupRequestKind | (string & {});
   /** Description of the metric group */
-  description?: string;
+  description?: string | undefined;
   /** The ID of the member who maintains this metric group */
   maintainerId: string;
   /** Tags for the metric group */
@@ -2262,9 +2268,9 @@ export interface MaintainerRep {
   /** The type of the maintainer */
   kind: MaintainerRepKind;
   /** Details on the member who maintains this resource */
-  _member?: MemberSummary;
+  _member?: MemberSummary | undefined;
   /** Details on the team that maintains this resource */
-  _team?: MemberTeamSummaryRep;
+  _team?: MemberTeamSummaryRep | undefined;
 }
 /** An ordered list of the metrics in this metric group */
 export type MetricGroupRepMetricsList = Array<MetricInGroupRep>;
@@ -2282,7 +2288,7 @@ export interface DependentExperimentRep {
   /** Timestamp of when the experiment was created */
   creationDate: number;
   /** Timestamp of when the experiment was archived */
-  archivedDate?: number;
+  archivedDate?: number | undefined;
   /** The location and content type of related resources */
   _links: DependentExperimentRepLinksMap;
 }
@@ -2297,11 +2303,11 @@ export interface MetricGroupRep {
   /** The type of the metric group */
   kind: MetricGroupRepKind;
   /** Description of the metric group */
-  description?: string;
+  description?: string | undefined;
   /** The location and content type of related resources */
   _links: MetricGroupRepLinksMap;
   /** Details on the allowed and denied actions for this metric group */
-  _access?: Access;
+  _access?: Access | undefined;
   /** Tags for the metric group */
   tags: MetricGroupRepTagsList;
   /** Timestamp of when the metric group was created */
@@ -2315,21 +2321,21 @@ export interface MetricGroupRep {
   /** The version of this metric group */
   _version: number;
   /** Experiments that use this metric group. Only included if specified in the <code>expand</code> query parameter in a <code>getMetricGroup</code> request. */
-  experiments?: DependentExperimentListRep;
+  experiments?: DependentExperimentListRep | undefined;
   /** The number of experiments using this metric group */
-  experimentCount?: number;
+  experimentCount?: number | undefined;
   /** The number of active experiments using this metric group */
-  activeExperimentCount?: number;
+  activeExperimentCount?: number | undefined;
   /** The number of active guarded rollouts using this metric group */
-  activeGuardedRolloutCount?: number;
+  activeGuardedRolloutCount?: number | undefined;
 }
 export interface CreateOAuth2ClientRequest {
   /** The name of your new LaunchDarkly OAuth 2.0 client. */
-  name?: string;
+  name?: string | undefined;
   /** The redirect URI for your new OAuth 2.0 application. This should be an absolute URL conforming with the standard HTTPS protocol. */
-  redirectUri?: string;
+  redirectUri?: string | undefined;
   /** Description of your OAuth 2.0 client. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The location and content type of related resources */
 export type ClientLinksMap = { [key: string]: Link | undefined };
@@ -2339,13 +2345,13 @@ export interface Client {
   /** Client name */
   name: string;
   /** Client description */
-  description?: string;
+  description?: string | undefined;
   /** The account ID the client is registered under */
   _accountId: string;
   /** The client's unique ID */
   _clientId: string;
   /** The client secret. This will only be shown upon creation. */
-  _clientSecret?: string;
+  _clientSecret?: string | undefined;
   /** The client's redirect URI */
   redirectUri: string;
   /** Timestamp of client creation date */
@@ -2363,9 +2369,9 @@ export type CreateProjectRequestTagsList = Array<string>;
 export type EnvironmentPostTagsList = Array<string>;
 export interface SourceEnv {
   /** The key of the source environment to clone from */
-  key?: string;
+  key?: string | undefined;
   /** (Optional) The version number of the source environment to clone from. Used for optimistic locking */
-  version?: number;
+  version?: number | undefined;
 }
 export interface EnvironmentPost {
   /** A human-friendly name for the new environment */
@@ -2375,21 +2381,21 @@ export interface EnvironmentPost {
   /** A color to indicate this environment in the UI */
   color: string;
   /** The default time (in minutes) that the PHP SDK can cache feature flag rules locally */
-  defaultTtl?: number;
+  defaultTtl?: number | undefined;
   /** Ensures that one end user of the client-side SDK cannot inspect the variations for another end user */
-  secureMode?: boolean;
+  secureMode?: boolean | undefined;
   /** The initial value of trackEvents for flags created in this environment. Does not affect existing flags. Required for Data Export, but doesn't enable Data Export on its own. */
-  defaultTrackEvents?: boolean;
+  defaultTrackEvents?: boolean | undefined;
   /** Requires confirmation for all flag and segment changes via the UI in this environment */
-  confirmChanges?: boolean;
+  confirmChanges?: boolean | undefined;
   /** Requires comments for all flag and segment changes via the UI in this environment */
-  requireComments?: boolean;
+  requireComments?: boolean | undefined;
   /** Tags to apply to the new environment */
-  tags?: EnvironmentPostTagsList;
+  tags?: EnvironmentPostTagsList | undefined;
   /** Indicates that the new environment created will be cloned from the provided source environment */
-  source?: SourceEnv;
+  source?: SourceEnv | undefined;
   /** Whether the environment is critical */
-  critical?: boolean;
+  critical?: boolean | undefined;
 }
 /** Creates the provided environments for this project. If omitted default environments will be created instead. */
 export type CreateProjectRequestEnvironmentsList = Array<EnvironmentPost>;
@@ -2402,9 +2408,9 @@ export type NamingConventionCase =
   | "constantCase";
 export interface NamingConvention {
   /** The casing convention to enforce for new flag keys in this project */
-  case?: NamingConventionCase | (string & {});
+  case?: NamingConventionCase | (string & {}) | undefined;
   /** The prefix to enforce for new flag keys in this project */
-  prefix?: string;
+  prefix?: string | undefined;
 }
 export interface CreateProjectRequest {
   /** A human-friendly name for the project. */
@@ -2412,15 +2418,15 @@ export interface CreateProjectRequest {
   /** A unique key used to reference the project in your code. */
   key: string;
   /** Whether or not flags created in this project are made available to the client-side JavaScript SDK by default. */
-  includeInSnippetByDefault?: boolean;
+  includeInSnippetByDefault?: boolean | undefined;
   /** Controls which client-side SDKs can use new flags by default. */
-  defaultClientSideAvailability?: DefaultClientSideAvailabilityPost;
+  defaultClientSideAvailability?: DefaultClientSideAvailabilityPost | undefined;
   /** Tags for the project */
-  tags?: CreateProjectRequestTagsList;
+  tags?: CreateProjectRequestTagsList | undefined;
   /** Creates the provided environments for this project. If omitted default environments will be created instead. */
-  environments?: CreateProjectRequestEnvironmentsList;
+  environments?: CreateProjectRequestEnvironmentsList | undefined;
   /** The flag key convention for this project. Omit this field if you don't want to enforce any conventions for flag keys. */
-  namingConvention?: NamingConvention;
+  namingConvention?: NamingConvention | undefined;
 }
 /** The location and content type of related resources */
 export type ProjectRepLinksMap = { [key: string]: Link | undefined };
@@ -2438,15 +2444,15 @@ export interface ProjectRep {
   /** Whether or not flags created in this project are made available to the client-side JavaScript SDK by default */
   includeInSnippetByDefault: boolean;
   /** Describes which client-side SDKs can use new flags by default */
-  defaultClientSideAvailability?: ClientSideAvailability;
+  defaultClientSideAvailability?: ClientSideAvailability | undefined;
   /** A human-friendly name for the project */
   name: string;
   /** Details on the allowed and denied actions for this project */
-  _access?: Access;
+  _access?: Access | undefined;
   /** A list of tags for the project */
   tags: ProjectRepTagsList;
   /** The key of the default release pipeline for this project */
-  defaultReleasePipelineKey?: string;
+  defaultReleasePipelineKey?: string | undefined;
   /** A list of environments for the project */
   environments: ProjectRepEnvironmentsList;
 }
@@ -2456,7 +2462,7 @@ export interface CreateReleaseForFlagRequest {
   /** The flag key */
   flagKey: string;
   /** The variation id to release to across all phases */
-  releaseVariationId?: string;
+  releaseVariationId?: string | undefined;
   /** The key of the release pipeline to attach the flag to */
   releasePipelineKey: string;
 }
@@ -2464,20 +2470,20 @@ export interface CreateReleaseForFlagRequest {
 export type ReleaseLinksMap = { [key: string]: Link | undefined };
 export type TokenSummaryLinksMap = { [key: string]: Link | undefined };
 export interface TokenSummary {
-  _links?: TokenSummaryLinksMap;
-  _id?: string;
+  _links?: TokenSummaryLinksMap | undefined;
+  _id?: string | undefined;
   /** The name of the token */
-  name?: string;
+  name?: string | undefined;
   /** The last few characters of the token */
-  ending?: string;
+  ending?: string | undefined;
   /** Whether this is a service token */
-  serviceToken?: boolean;
+  serviceToken?: boolean | undefined;
 }
 export interface CompletedBy {
   /** The LaunchDarkly member who marked this phase as complete */
-  member?: MemberSummary;
+  member?: MemberSummary | undefined;
   /** The service token used to mark this phase as complete */
-  token?: TokenSummary;
+  token?: TokenSummary | undefined;
 }
 /** The location and content type of related resources */
 export type ReleaseAudienceLinksMap = { [key: string]: Link | undefined };
@@ -2505,7 +2511,7 @@ export interface ReleaseGuardianConfiguration {
   /** Whether or not to roll back on regression */
   rollbackOnRegression: boolean;
   /** The randomization unit for the measured rollout */
-  randomizationUnit?: string;
+  randomizationUnit?: string | undefined;
 }
 export interface AudienceConfiguration {
   /** The release strategy */
@@ -2513,11 +2519,11 @@ export interface AudienceConfiguration {
   /** Whether or not the audience requires approval */
   requireApproval: boolean;
   /** An array of member IDs. These members are notified to review the approval request. */
-  notifyMemberIds?: AudienceConfigurationNotifyMemberIdsList;
+  notifyMemberIds?: AudienceConfigurationNotifyMemberIdsList | undefined;
   /** An array of team keys. The members of these teams are notified to review the approval request. */
-  notifyTeamKeys?: AudienceConfigurationNotifyTeamKeysList;
+  notifyTeamKeys?: AudienceConfigurationNotifyTeamKeysList | undefined;
   /** The configuration for the release guardian. */
-  releaseGuardianConfiguration?: ReleaseGuardianConfiguration;
+  releaseGuardianConfiguration?: ReleaseGuardianConfiguration | undefined;
 }
 /** A list of segment keys */
 export type ReleaseAudienceSegmentKeysList = Array<string>;
@@ -2527,19 +2533,19 @@ export interface ReleaseAudience {
   /** The audience ID */
   _id: string;
   /** The location and content type of related resources */
-  _links?: ReleaseAudienceLinksMap;
+  _links?: ReleaseAudienceLinksMap | undefined;
   /** Details about the environment. If the environment is deleted, this field will be omitted. */
-  environment?: EnvironmentSummary;
+  environment?: EnvironmentSummary | undefined;
   /** The release phase name */
   name: string;
   /** The audience configuration */
-  configuration?: AudienceConfiguration;
+  configuration?: AudienceConfiguration | undefined;
   /** A list of segment keys */
-  segmentKeys?: ReleaseAudienceSegmentKeysList;
+  segmentKeys?: ReleaseAudienceSegmentKeysList | undefined;
   /** The audience status */
-  status?: string;
+  status?: string | undefined;
   /** The rules IDs added or updated by this audience */
-  _ruleIds?: ReleaseAudienceRuleIdsList;
+  _ruleIds?: ReleaseAudienceRuleIdsList | undefined;
 }
 /** A logical grouping of one or more environments that share attributes for rolling out changes */
 export type PipelineReleasePhaseAudiencesList = Array<ReleaseAudience>;
@@ -2553,25 +2559,25 @@ export interface PipelineReleasePhase {
   /** Timestamp of when the release phase was created */
   _creationDate: number;
   /** Timestamp of when the release phase was completed */
-  _completionDate?: number;
+  _completionDate?: number | undefined;
   /** Details about how this phase was marked as complete */
-  _completedBy?: CompletedBy;
+  _completedBy?: CompletedBy | undefined;
   /** A logical grouping of one or more environments that share attributes for rolling out changes */
   _audiences: PipelineReleasePhaseAudiencesList;
   /** Status of the phase */
-  status?: string;
+  status?: string | undefined;
   /** Whether or not this phase has started */
-  started?: boolean;
+  started?: boolean | undefined;
   /** Timestamp of when the release phase was started */
-  _startedDate?: number;
+  _startedDate?: number | undefined;
   /** The phase configuration */
-  configuration?: unknown;
+  configuration?: unknown | undefined;
 }
 /** An ordered list of the release pipeline phases */
 export type ReleasePhasesList = Array<PipelineReleasePhase>;
 export interface Release {
   /** The location and content type of related resources */
-  _links?: ReleaseLinksMap;
+  _links?: ReleaseLinksMap | undefined;
   /** The release pipeline name */
   name: string;
   /** The release pipeline key */
@@ -2583,9 +2589,9 @@ export interface Release {
   /** The release version */
   _version: number;
   /** The chosen release variation ID to use across all phases of a release */
-  _releaseVariationId?: string;
+  _releaseVariationId?: string | undefined;
   /** Timestamp of when the release was canceled */
-  _canceledAt?: number;
+  _canceledAt?: number | undefined;
 }
 /** An array of tags for this subscription. */
 export type CreateSubscriptionRequestTagsList = Array<string>;
@@ -2597,17 +2603,17 @@ export interface CreateSubscriptionRequest {
   /** A human-friendly name for your audit log subscription. */
   name: string;
   /** The set of resources you wish to subscribe to audit log notifications for. */
-  statements?: StatementPostList;
+  statements?: StatementPostList | undefined;
   /** Whether or not you want your subscription to actively send events. */
-  on?: boolean;
+  on?: boolean | undefined;
   /** An array of tags for this subscription. */
-  tags?: CreateSubscriptionRequestTagsList;
+  tags?: CreateSubscriptionRequestTagsList | undefined;
   /** The unique set of fields required to configure an audit log subscription integration of this type. Refer to the <code>formVariables</code> field in the corresponding <code>manifest.json</code> at https://github.com/launchdarkly/integration-framework/tree/main/integrations for a full list of fields for the integration you wish to configure. */
   config: CreateSubscriptionRequestConfigMap;
   /** Slack webhook receiver URL. Only necessary for legacy Slack webhook integrations. */
-  url?: string;
+  url?: string | undefined;
   /** Datadog API key. Only necessary for legacy Datadog webhook integrations. */
-  apiKey?: string | Redacted.Redacted<string>;
+  apiKey?: string | Redacted.Redacted<string> | undefined;
 }
 /** The location and content type of related resources */
 export type IntegrationLinksMap = { [key: string]: Link | undefined };
@@ -2618,43 +2624,43 @@ export type IntegrationStatementsList = Array<Statement>;
 /** An array of tags for this integration */
 export type IntegrationTagsList = Array<string>;
 export interface IntegrationStatusRep {
-  statusCode?: number;
-  responseBody?: string;
-  timestamp?: number;
+  statusCode?: number | undefined;
+  responseBody?: string | undefined;
+  timestamp?: number | undefined;
 }
 export type IntegrationSubscriptionStatusRepErrorsList = Array<IntegrationStatusRep>;
 export interface IntegrationSubscriptionStatusRep {
-  successCount?: number;
-  lastSuccess?: number;
-  lastError?: number;
-  errorCount?: number;
-  errors?: IntegrationSubscriptionStatusRepErrorsList;
+  successCount?: number | undefined;
+  lastSuccess?: number | undefined;
+  lastError?: number | undefined;
+  errorCount?: number | undefined;
+  errors?: IntegrationSubscriptionStatusRepErrorsList | undefined;
 }
 export interface Integration {
   /** The location and content type of related resources */
-  _links?: IntegrationLinksMap;
+  _links?: IntegrationLinksMap | undefined;
   /** The ID for this integration audit log subscription */
-  _id?: string;
+  _id?: string | undefined;
   /** The type of integration */
-  kind?: string;
+  kind?: string | undefined;
   /** A human-friendly name for the integration */
-  name?: string;
+  name?: string | undefined;
   /** Details on configuration for an integration of this type. Refer to the <code>formVariables</code> field in the corresponding <code>manifest.json</code> for a full list of fields for each integration. */
-  config?: IntegrationConfigMap;
+  config?: IntegrationConfigMap | undefined;
   /** Represents a Custom role policy, defining a resource kinds filter the integration audit log subscription responds to. */
-  statements?: IntegrationStatementsList;
+  statements?: IntegrationStatementsList | undefined;
   /** Whether the integration is currently active */
-  on?: boolean;
+  on?: boolean | undefined;
   /** An array of tags for this integration */
-  tags?: IntegrationTagsList;
+  tags?: IntegrationTagsList | undefined;
   /** Details on the allowed and denied actions for this subscription */
-  _access?: Access;
+  _access?: Access | undefined;
   /** Details on the most recent successes and errors for this integration */
-  _status?: IntegrationSubscriptionStatusRep;
+  _status?: IntegrationSubscriptionStatusRep | undefined;
   /** Slack webhook receiver URL. Only used for legacy Slack webhook integrations. */
-  url?: string;
+  url?: string | undefined;
   /** Datadog API key. Only used for legacy Datadog webhook integrations. */
-  apiKey?: string | Redacted.Redacted<string>;
+  apiKey?: string | Redacted.Redacted<string> | undefined;
 }
 /** List of custom role keys the team will access */
 export type CreateTeamRequestCustomRoleKeysList = Array<string>;
@@ -2668,31 +2674,31 @@ export type PermissionGrantInputActionsList = Array<string>;
 export type PermissionGrantInputMemberIDsList = Array<string>;
 export interface PermissionGrantInput {
   /** A group of related actions to allow. Specify either <code>actionSet</code> or <code>actions</code>. Use <code>maintainTeam</code> to add team maintainers. */
-  actionSet?: PermissionGrantInputActionSet | (string & {});
+  actionSet?: PermissionGrantInputActionSet | (string & {}) | undefined;
   /** A list of actions to allow. Specify either <code>actionSet</code> or <code>actions</code>. To learn more, read [Role actions](https://launchdarkly.com/docs/ld-docs/home/account/role-actions). */
-  actions?: PermissionGrantInputActionsList;
+  actions?: PermissionGrantInputActionsList | undefined;
   /** A list of member IDs who receive the permission grant. */
-  memberIDs?: PermissionGrantInputMemberIDsList;
+  memberIDs?: PermissionGrantInputMemberIDsList | undefined;
 }
 /** A list of permission grants. Permission grants allow access to a specific action, without having to create or update a custom role. */
 export type CreateTeamRequestPermissionGrantsList = Array<PermissionGrantInput>;
 export interface CreateTeamRequest {
   /** A comma-separated list of properties that can reveal additional information in the response. Supported fields are explained above. */
-  expand?: string;
+  expand?: string | undefined;
   /** List of custom role keys the team will access */
-  customRoleKeys?: CreateTeamRequestCustomRoleKeysList;
+  customRoleKeys?: CreateTeamRequestCustomRoleKeysList | undefined;
   /** A description of the team */
-  description?: string;
+  description?: string | undefined;
   /** The team key */
   key: string;
   /** A list of member IDs who belong to the team */
-  memberIDs?: CreateTeamRequestMemberIDsList;
+  memberIDs?: CreateTeamRequestMemberIDsList | undefined;
   /** A human-friendly name for the team */
   name: string;
   /** A list of permission grants. Permission grants allow access to a specific action, without having to create or update a custom role. */
-  permissionGrants?: CreateTeamRequestPermissionGrantsList;
+  permissionGrants?: CreateTeamRequestPermissionGrantsList | undefined;
   /** A map of role attributes for the team */
-  roleAttributes?: RoleAttributeMap;
+  roleAttributes?: RoleAttributeMap | undefined;
 }
 /** The location and content type of related resources */
 export type TeamLinksMap = { [key: string]: Link | undefined };
@@ -2711,19 +2717,19 @@ export interface ProjectSummary {
 /** Details on each project where team members have write privileges on at least one resource type (e.g. flags) */
 export type TeamProjectsItemsList = Array<ProjectSummary>;
 export interface TeamProjects {
-  totalCount?: number;
+  totalCount?: number | undefined;
   /** Details on each project where team members have write privileges on at least one resource type (e.g. flags) */
-  items?: TeamProjectsItemsList;
+  items?: TeamProjectsItemsList | undefined;
 }
 export interface TeamCustomRole {
   /** The key of the custom role */
-  key?: string;
+  key?: string | undefined;
   /** The name of the custom role */
-  name?: string;
+  name?: string | undefined;
   /** Details on the projects where team members have write privileges on at least one resource type (e.g. flags) */
-  projects?: TeamProjects;
+  projects?: TeamProjects | undefined;
   /** Timestamp of when the custom role was assigned to this team */
-  appliedOn?: number;
+  appliedOn?: number | undefined;
 }
 /** An array of the custom roles that have been assigned to this team */
 export type TeamCustomRolesItemsList = Array<TeamCustomRole>;
@@ -2731,15 +2737,15 @@ export type TeamCustomRolesItemsList = Array<TeamCustomRole>;
 export type TeamCustomRolesLinksMap = { [key: string]: Link | undefined };
 export interface TeamCustomRoles {
   /** The number of custom roles assigned to this team */
-  totalCount?: number;
+  totalCount?: number | undefined;
   /** An array of the custom roles that have been assigned to this team */
-  items?: TeamCustomRolesItemsList;
+  items?: TeamCustomRolesItemsList | undefined;
   /** The location and content type of related resources */
-  _links?: TeamCustomRolesLinksMap;
+  _links?: TeamCustomRolesLinksMap | undefined;
 }
 export interface TeamMembers {
   /** The total count of members that belong to the team */
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 /** Details on the members that have been assigned as maintainers of the team */
 export type TeamMaintainersItemsList = Array<MemberSummary>;
@@ -2747,51 +2753,51 @@ export type TeamMaintainersItemsList = Array<MemberSummary>;
 export type TeamMaintainersLinksMap = { [key: string]: Link | undefined };
 export interface TeamMaintainers {
   /** The number of maintainers of the team */
-  totalCount?: number;
+  totalCount?: number | undefined;
   /** Details on the members that have been assigned as maintainers of the team */
-  items?: TeamMaintainersItemsList;
+  items?: TeamMaintainersItemsList | undefined;
   /** The location and content type of related resources */
-  _links?: TeamMaintainersLinksMap;
+  _links?: TeamMaintainersLinksMap | undefined;
 }
 export interface Team {
   /** A description of the team */
-  description?: string;
+  description?: string | undefined;
   /** The team key */
-  key?: string;
+  key?: string | undefined;
   /** A human-friendly name for the team */
-  name?: string;
+  name?: string | undefined;
   /** Details on the allowed and denied actions for this team */
-  _access?: Access;
+  _access?: Access | undefined;
   /** Timestamp of when the team was created */
-  _creationDate?: number;
+  _creationDate?: number | undefined;
   /** The location and content type of related resources */
-  _links?: TeamLinksMap;
+  _links?: TeamLinksMap | undefined;
   /** Timestamp of when the team was most recently updated */
-  _lastModified?: number;
+  _lastModified?: number | undefined;
   /** The team version */
-  _version?: number;
+  _version?: number | undefined;
   /** Whether the team has been synced with an external identity provider (IdP). Team sync is available to customers on an Enterprise plan. */
-  _idpSynced?: boolean;
+  _idpSynced?: boolean | undefined;
   /** A map of role attributes for the team */
-  roleAttributes?: RoleAttributeMap;
+  roleAttributes?: RoleAttributeMap | undefined;
   /** Paginated list of the custom roles assigned to this team. Only included if specified in the <code>expand</code> query parameter. */
-  roles?: TeamCustomRoles;
+  roles?: TeamCustomRoles | undefined;
   /** Details on the total count of members that belong to the team. Only included if specified in the <code>expand</code> query parameter. */
-  members?: TeamMembers;
+  members?: TeamMembers | undefined;
   /** Paginated list of the projects that the team has any write access to. Only included if specified in the <code>expand</code> query parameter. */
-  projects?: TeamProjects;
+  projects?: TeamProjects | undefined;
   /** Paginated list of the maintainers assigned to this team. Only included if specified in the <code>expand</code> query parameter. */
-  maintainers?: TeamMaintainers;
+  maintainers?: TeamMaintainers | undefined;
 }
 export interface CreateTeamMemberRequest {
   /** The team key */
   teamKey: string;
   /** CSV file containing email addresses */
-  file?: string;
+  file?: string | undefined;
 }
 export interface MemberImportItem {
   /** An error message, including CSV line number, if the <code>status</code> is <code>error</code> */
-  message?: string;
+  message?: string | undefined;
   /** Whether this member can be successfully imported (<code>success</code>) or not (<code>error</code>). Even if the status is <code>success</code>, members are only added to a team on a <code>201</code> response. */
   status: string;
   /** The email address for the member requested to be added to this team. May be blank or an error, such as 'invalid email format', if the email address cannot be found or parsed. */
@@ -2801,7 +2807,7 @@ export interface MemberImportItem {
 export type TeamImportsRepItemsList = Array<MemberImportItem>;
 export interface TeamImportsRep {
   /** An array of details about the members requested to be added to this team */
-  items?: TeamImportsRepItemsList;
+  items?: TeamImportsRepItemsList | undefined;
 }
 /** Base role for the token */
 export type CreateTokenRequestRole = "reader" | "writer" | "admin";
@@ -2811,19 +2817,19 @@ export type CreateTokenRequestCustomRoleIdsList = Array<string>;
 export type CreateTokenRequestInlineRoleList = Array<StatementPost>;
 export interface CreateTokenRequest {
   /** A human-friendly name for the access token */
-  name?: string;
+  name?: string | undefined;
   /** A description for the access token */
-  description?: string;
+  description?: string | undefined;
   /** Base role for the token */
-  role?: CreateTokenRequestRole | (string & {});
+  role?: CreateTokenRequestRole | (string & {}) | undefined;
   /** A list of custom role IDs to use as access limits for the access token */
-  customRoleIds?: CreateTokenRequestCustomRoleIdsList;
+  customRoleIds?: CreateTokenRequestCustomRoleIdsList | undefined;
   /** A JSON array of statements represented as JSON objects with three attributes: effect, resources, actions. May be used in place of a role. */
-  inlineRole?: CreateTokenRequestInlineRoleList;
+  inlineRole?: CreateTokenRequestInlineRoleList | undefined;
   /** Whether the token is a service token */
-  serviceToken?: boolean;
+  serviceToken?: boolean | undefined;
   /** The default API version for this token */
-  defaultApiVersion?: number;
+  defaultApiVersion?: number | undefined;
 }
 /** A list of custom role IDs to use as access limits for the access token */
 export type TokenCustomRoleIdsList = Array<string>;
@@ -2839,33 +2845,33 @@ export interface Token {
   /** The ID of the member who created the access token */
   memberId: string;
   /** Details on the member who created the access token */
-  _member?: MemberSummary;
+  _member?: MemberSummary | undefined;
   /** A human-friendly name for the access token */
-  name?: string;
+  name?: string | undefined;
   /** A description for the access token */
-  description?: string;
+  description?: string | undefined;
   /** Timestamp of when the access token was created */
   creationDate: number;
   /** Timestamp of the last modification of the access token */
   lastModified: number;
   /** A list of custom role IDs to use as access limits for the access token */
-  customRoleIds?: TokenCustomRoleIdsList;
+  customRoleIds?: TokenCustomRoleIdsList | undefined;
   /** An array of policy statements, with three attributes: effect, resources, actions. May be used in place of a role. */
-  inlineRole?: TokenInlineRoleList;
+  inlineRole?: TokenInlineRoleList | undefined;
   /** Base role for the token */
-  role?: string;
+  role?: string | undefined;
   /** The token value. When creating or resetting, contains the entire token value. Otherwise, contains the last four characters. */
-  token?: string;
+  token?: string | undefined;
   /** Whether this is a service token or a personal token */
-  serviceToken?: boolean;
+  serviceToken?: boolean | undefined;
   /** The location and content type of related resources */
   _links: TokenLinksMap;
   /** The default API version for this token */
-  defaultApiVersion?: number;
+  defaultApiVersion?: number | undefined;
   /** Timestamp of when the access token was last used */
-  lastUsed?: number;
+  lastUsed?: number | undefined;
   /** Timestamp of when the access token expires. Omitted when the token has no expiry. */
-  expiry?: number;
+  expiry?: number | undefined;
 }
 /** The action to perform when triggering. This should be an array with a single object that looks like <code>{"kind": "flag_action"}</code>. Supported flag actions are <code>turnFlagOn</code> and <code>turnFlagOff</code>. */
 export type CreateTriggerWorkflowRequestInstructionsList = Array<Instruction>;
@@ -2877,9 +2883,9 @@ export interface CreateTriggerWorkflowRequest {
   /** The environment key */
   environmentKey: string;
   /** Optional comment describing the trigger */
-  comment?: string;
+  comment?: string | undefined;
   /** The action to perform when triggering. This should be an array with a single object that looks like <code>{"kind": "flag_action"}</code>. Supported flag actions are <code>turnFlagOn</code> and <code>turnFlagOff</code>. */
-  instructions?: CreateTriggerWorkflowRequestInstructionsList;
+  instructions?: CreateTriggerWorkflowRequestInstructionsList | undefined;
   /** The unique identifier of the integration for your trigger. Use <code>generic-trigger</code> for integrations not explicitly supported. */
   integrationKey: string;
 }
@@ -2889,9 +2895,9 @@ export type TriggerWorkflowRepStatus = "active" | "inactive" | "failed";
 export type RecentTriggerBodyJsonBodyMap = { [key: string]: unknown | undefined };
 export interface RecentTriggerBody {
   /** Timestamp of the incoming trigger webhook */
-  timestamp?: number;
+  timestamp?: number | undefined;
   /** The marshalled JSON request body for the incoming trigger webhook. If this is empty or contains invalid JSON, the timestamp is recorded but this field will be empty. */
-  jsonBody?: RecentTriggerBodyJsonBodyMap;
+  jsonBody?: RecentTriggerBodyJsonBodyMap | undefined;
 }
 /** Details on recent flag trigger requests. */
 export type TriggerWorkflowRepRecentTriggerBodiesList = Array<RecentTriggerBody>;
@@ -2899,35 +2905,35 @@ export type TriggerWorkflowRepRecentTriggerBodiesList = Array<RecentTriggerBody>
 export type TriggerWorkflowRepLinksMap = { [key: string]: Link | undefined };
 export interface TriggerWorkflowRep {
   /** The ID of this flag trigger */
-  _id?: string;
+  _id?: string | undefined;
   /** The flag trigger version */
-  _version?: number;
+  _version?: number | undefined;
   /** Timestamp of when the flag trigger was created */
-  _creationDate?: number;
+  _creationDate?: number | undefined;
   /** The ID of the flag trigger maintainer */
-  _maintainerId?: string;
+  _maintainerId?: string | undefined;
   /** Details on the member who maintains this flag trigger */
-  _maintainer?: MemberSummary;
+  _maintainer?: MemberSummary | undefined;
   /** Whether the flag trigger is currently enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The trigger state: active, inactive, or failed */
-  _status?: TriggerWorkflowRepStatus;
+  _status?: TriggerWorkflowRepStatus | undefined;
   /** Timestamp of when the trigger most recently entered failed state */
-  _lastFailedAt?: number;
+  _lastFailedAt?: number | undefined;
   /** The unique identifier of the integration for your trigger */
-  _integrationKey?: string;
+  _integrationKey?: string | undefined;
   /** Details on the action to perform when triggering */
-  instructions?: Instructions;
+  instructions?: Instructions | undefined;
   /** Timestamp of when the trigger was most recently executed */
-  _lastTriggeredAt?: number;
+  _lastTriggeredAt?: number | undefined;
   /** Details on recent flag trigger requests. */
-  _recentTriggerBodies?: TriggerWorkflowRepRecentTriggerBodiesList;
+  _recentTriggerBodies?: TriggerWorkflowRepRecentTriggerBodiesList | undefined;
   /** Number of times the trigger has been executed */
-  _triggerCount?: number;
+  _triggerCount?: number | undefined;
   /** The unguessable URL for this flag trigger */
-  triggerURL?: string;
+  triggerURL?: string | undefined;
   /** The location and content type of related resources */
-  _links?: TriggerWorkflowRepLinksMap;
+  _links?: TriggerWorkflowRepLinksMap | undefined;
 }
 /** Tags associated with this view */
 export type CreateViewRequestTagsList = Array<string>;
@@ -2938,13 +2944,13 @@ export interface CreateViewRequest {
   /** Human-readable name for the view */
   name: string;
   /** Optional detailed description of the view */
-  description?: string;
+  description?: string | undefined;
   /** Member ID of the maintainer for this view. Only one of `maintainerId` or `maintainerTeamKey` can be specified. */
-  maintainerId?: string;
+  maintainerId?: string | undefined;
   /** Key of the maintainer team for this view. Only one of `maintainerId` or `maintainerTeamKey` can be specified. */
-  maintainerTeamKey?: string;
+  maintainerTeamKey?: string | undefined;
   /** Tags associated with this view */
-  tags?: CreateViewRequestTagsList;
+  tags?: CreateViewRequestTagsList | undefined;
 }
 /** Resource specifier strings */
 export type ViewsAccessDeniedReasonResourcesList = Array<string>;
@@ -2958,16 +2964,16 @@ export type ViewsAccessDeniedReasonNotActionsList = Array<string>;
 export type ViewsAccessDeniedReasonEffect = "allow" | "deny";
 export interface ViewsAccessDeniedReason {
   /** Resource specifier strings */
-  resources?: ViewsAccessDeniedReasonResourcesList;
+  resources?: ViewsAccessDeniedReasonResourcesList | undefined;
   /** Targeted resources are the resources NOT in this list. The <code>resources</code> and <code>notActions</code> fields must be empty to use this field. */
-  notResources?: ViewsAccessDeniedReasonNotResourcesList;
+  notResources?: ViewsAccessDeniedReasonNotResourcesList | undefined;
   /** Actions to perform on a resource */
-  actions?: ViewsAccessDeniedReasonActionsList;
+  actions?: ViewsAccessDeniedReasonActionsList | undefined;
   /** Targeted actions are the actions NOT in this list. The <code>actions</code> and <code>notResources</code> fields must be empty to use this field. */
-  notActions?: ViewsAccessDeniedReasonNotActionsList;
+  notActions?: ViewsAccessDeniedReasonNotActionsList | undefined;
   /** Whether this statement should allow or deny actions on the resources. */
   effect: ViewsAccessDeniedReasonEffect;
-  role_name?: string;
+  role_name?: string | undefined;
 }
 export interface ViewsAccessDenied {
   action: string;
@@ -2986,16 +2992,16 @@ export type ViewsAccessAllowedReasonNotActionsList = Array<string>;
 export type ViewsAccessAllowedReasonEffect = "allow" | "deny";
 export interface ViewsAccessAllowedReason {
   /** Resource specifier strings */
-  resources?: ViewsAccessAllowedReasonResourcesList;
+  resources?: ViewsAccessAllowedReasonResourcesList | undefined;
   /** Targeted resources are the resources NOT in this list. The <code>resources</code> and <code>notActions</code> fields must be empty to use this field. */
-  notResources?: ViewsAccessAllowedReasonNotResourcesList;
+  notResources?: ViewsAccessAllowedReasonNotResourcesList | undefined;
   /** Actions to perform on a resource */
-  actions?: ViewsAccessAllowedReasonActionsList;
+  actions?: ViewsAccessAllowedReasonActionsList | undefined;
   /** Targeted actions are the actions NOT in this list. The <code>actions</code> and <code>notResources</code> fields must be empty to use this field. */
-  notActions?: ViewsAccessAllowedReasonNotActionsList;
+  notActions?: ViewsAccessAllowedReasonNotActionsList | undefined;
   /** Whether this statement should allow or deny actions on the resources. */
   effect: ViewsAccessAllowedReasonEffect;
-  role_name?: string;
+  role_name?: string | undefined;
 }
 export interface ViewsAccessAllowedRep {
   action: string;
@@ -3021,8 +3027,8 @@ export interface ViewsMaintainerMember {
   id: string;
   email: string;
   role: string;
-  firstName?: string;
-  lastName?: string;
+  firstName?: string | undefined;
+  lastName?: string | undefined;
 }
 export interface ViewsMaintainerTeam {
   id: string;
@@ -3032,8 +3038,8 @@ export interface ViewsMaintainerTeam {
 export interface Maintainer {
   id: string;
   kind: string;
-  maintainerMember?: ViewsMaintainerMember;
-  maintainerTeam?: ViewsMaintainerTeam;
+  maintainerMember?: ViewsMaintainerMember | undefined;
+  maintainerTeam?: ViewsMaintainerTeam | undefined;
 }
 export interface ViewsSelfLink {
   self: CoreLink;
@@ -3050,7 +3056,7 @@ export interface ExpandedDirectlyLinkedFlags {
 }
 export interface FlagsSummary {
   count: number;
-  linkedFlags?: ExpandedDirectlyLinkedFlags;
+  linkedFlags?: ExpandedDirectlyLinkedFlags | undefined;
 }
 export interface ExpandedDirectlyLinkedSegment {
   key: string;
@@ -3065,7 +3071,7 @@ export interface ExpandedDirectlyLinkedSegments {
 }
 export interface SegmentsSummary {
   count: number;
-  linkedSegments?: ExpandedDirectlyLinkedSegments;
+  linkedSegments?: ExpandedDirectlyLinkedSegments | undefined;
 }
 export interface MetricsSummary {
   count: number;
@@ -3073,7 +3079,7 @@ export interface MetricsSummary {
 export type AIConfigsSummary = MetricsSummary;
 export interface ResourceSummary {
   flagCount: number;
-  segmentCount?: number;
+  segmentCount?: number | undefined;
   totalCount: number;
 }
 /** Tags for the flag */
@@ -3089,9 +3095,9 @@ export interface ViewsMemberSummary {
   /** The member's ID */
   _id: string;
   /** The member's first name */
-  firstName?: string;
+  firstName?: string | undefined;
   /** The member's last name */
-  lastName?: string;
+  lastName?: string | undefined;
   /** The member's base role. If the member has no additional roles, this role will be in effect. */
   role: string;
   /** The member's email address */
@@ -3105,7 +3111,7 @@ export interface ViewsMemberTeamSummaryRep {
   customRoleKeys: ViewsMemberTeamSummaryRepCustomRoleKeysList;
   /** The team key */
   key: string;
-  _links?: ViewsMemberTeamSummaryRepLinksMap;
+  _links?: ViewsMemberTeamSummaryRepLinksMap | undefined;
   /** The team name */
   name: string;
 }
@@ -3114,8 +3120,8 @@ export interface ExpandedFlagMaintainer {
   key: string;
   /** The type of the maintainer */
   kind: ExpandedFlagMaintainerKind;
-  _member?: ViewsMemberSummary;
-  _team?: ViewsMemberTeamSummaryRep;
+  _member?: ViewsMemberSummary | undefined;
+  _team?: ViewsMemberTeamSummaryRep | undefined;
 }
 /** Flag representation for Views API - contains only fields actually used by the Views service */
 export interface ExpandedFlag {
@@ -3124,21 +3130,21 @@ export interface ExpandedFlag {
   /** A human-friendly name for the flag */
   name: string;
   /** Description of the flag */
-  description?: string;
+  description?: string | undefined;
   /** Creation date in milliseconds */
-  creationDate?: number;
+  creationDate?: number | undefined;
   /** Version of the flag */
-  _version?: number;
+  _version?: number | undefined;
   /** Whether the flag is archived */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Tags for the flag */
-  tags?: ExpandedFlagTagsList;
+  tags?: ExpandedFlagTagsList | undefined;
   /** Whether the flag is temporary */
-  temporary?: boolean;
+  temporary?: boolean | undefined;
   /** Whether to include in snippet */
-  includeInSnippet?: boolean;
-  maintainer?: ExpandedFlagMaintainer;
-  _links?: ParentAndSelfLinks;
+  includeInSnippet?: boolean | undefined;
+  maintainer?: ExpandedFlagMaintainer | undefined;
+  _links?: ParentAndSelfLinks | undefined;
 }
 export type ExpandedLinkedFlagsItemsList = Array<ExpandedFlag>;
 /** Details on linked flags for a view - requires passing the 'allFlags' expand field */
@@ -3155,26 +3161,26 @@ export interface ExpandedSegment {
   /** A human-friendly name for the segment */
   name: string;
   /** Environment ID of the segment */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** Environment key of the segment */
-  environmentKey?: string;
+  environmentKey?: string | undefined;
   /** Description of the segment */
-  description?: string;
+  description?: string | undefined;
   /** Creation date in milliseconds */
-  creationDate?: number;
+  creationDate?: number | undefined;
   /** Last modification date in milliseconds */
-  lastModifiedDate?: number;
+  lastModifiedDate?: number | undefined;
   /** Whether the segment is deleted */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Tags for the segment */
-  tags?: ExpandedSegmentTagsList;
+  tags?: ExpandedSegmentTagsList | undefined;
   /** Whether the segment is unbounded */
-  unbounded?: boolean;
+  unbounded?: boolean | undefined;
   /** Version of the segment */
-  version?: number;
+  version?: number | undefined;
   /** Generation of the segment */
-  generation?: number;
-  _links?: ParentAndSelfLinks;
+  generation?: number | undefined;
+  _links?: ParentAndSelfLinks | undefined;
 }
 export type ExpandedLinkedSegmentsItemsList = Array<ExpandedSegment>;
 /** Details on linked segments for a view - requires passing the 'allSegments' expand field */
@@ -3185,31 +3191,31 @@ export interface ExpandedLinkedSegments {
 /** Metric representation for Views API - contains only fields actually used by the Views service */
 export interface ExpandedMetric {
   /** A unique key used to reference the metric */
-  key?: string;
+  key?: string | undefined;
   /** A human-friendly name for the metric */
-  name?: string;
+  name?: string | undefined;
   /** Creation date in milliseconds */
-  creationDate?: number;
+  creationDate?: number | undefined;
   /** Last modification date in milliseconds */
-  lastModified?: number;
+  lastModified?: number | undefined;
   /** Whether the metric is active */
-  isActive?: boolean;
+  isActive?: boolean | undefined;
   /** Event key for the metric */
-  eventKey?: string;
+  eventKey?: string | undefined;
   /** ID of the metric */
-  _id?: string;
+  _id?: string | undefined;
   /** Version ID of the metric */
-  _versionId?: string;
+  _versionId?: string | undefined;
   /** Kind of the Metric */
-  kind?: string;
+  kind?: string | undefined;
   /** Category of the Metric */
-  category?: string;
+  category?: string | undefined;
   /** Description of the Metric */
-  description?: string;
-  isNumeric?: boolean;
+  description?: string | undefined;
+  isNumeric?: boolean | undefined;
   /** Last seen date in milliseconds */
-  lastSeen?: number;
-  _links?: ParentAndSelfLinks;
+  lastSeen?: number | undefined;
+  _links?: ParentAndSelfLinks | undefined;
 }
 export type ExpandedLinkedMetricsItemsList = Array<ExpandedMetric>;
 export interface ExpandedLinkedMetrics {
@@ -3221,22 +3227,22 @@ export type ExpandedAIConfigTagsList = Array<string>;
 /** AI Config representation for Views API - contains only fields actually used by the Views service */
 export interface ExpandedAIConfig {
   /** A unique key used to reference the AI config */
-  key?: string;
+  key?: string | undefined;
   /** A human-friendly name for the AI config */
-  name?: string;
+  name?: string | undefined;
   /** Tags for the AI config */
-  tags?: ExpandedAIConfigTagsList;
+  tags?: ExpandedAIConfigTagsList | undefined;
   /** Description of the AI config */
-  description?: string;
+  description?: string | undefined;
   /** Version of the AI config */
-  version?: number;
+  version?: number | undefined;
   /** Creation date in milliseconds */
-  createdAt?: number;
+  createdAt?: number | undefined;
   /** Last modification date in milliseconds */
-  updatedAt?: number;
+  updatedAt?: number | undefined;
   /** Key of the flag that this AI config is attached to */
-  flagKey?: string;
-  _links?: ParentAndSelfLinks;
+  flagKey?: string | undefined;
+  _links?: ParentAndSelfLinks | undefined;
 }
 export type ExpandedLinkedAIConfigsItemsList = Array<ExpandedAIConfig>;
 export interface ExpandedLinkedAIConfigs {
@@ -3255,7 +3261,7 @@ export interface ExpandedLinkedResourcesSegments {
 }
 export interface ExpandedLinkedResourcesItems {
   flags: ExpandedLinkedResourcesFlags;
-  segments?: ExpandedLinkedResourcesSegments;
+  segments?: ExpandedLinkedResourcesSegments | undefined;
 }
 /** Details on linked resources for a view - requires passing the 'allResources' expand field */
 export interface ExpandedLinkedResources {
@@ -3263,8 +3269,8 @@ export interface ExpandedLinkedResources {
   totalCount: number;
 }
 export interface View {
-  _access?: ViewsAccess;
-  _links?: ParentAndSelfLinks;
+  _access?: ViewsAccess | undefined;
+  _links?: ParentAndSelfLinks | undefined;
   /** Unique ID of this view */
   id: string;
   /** ID of the account that owns this view */
@@ -3282,45 +3288,45 @@ export interface View {
   /** Whether this view is used to filter SDK payloads */
   _affectsSdkPayload: boolean;
   /** Deprecated compatibility field. Mirrors `_affectsSdkPayload` during rollout. */
-  generateSdkKeys?: boolean;
+  generateSdkKeys?: boolean | undefined;
   /** Version number for tracking changes */
   version: number;
   /** Tags associated with this view */
   tags: ViewTagsList;
   createdAt: number;
   updatedAt: number;
-  deletedAt?: number;
+  deletedAt?: number | undefined;
   /** Whether this view is deleted */
   deleted: boolean;
-  maintainer?: Maintainer;
-  flagsSummary?: FlagsSummary;
-  segmentsSummary?: SegmentsSummary;
-  metricsSummary?: MetricsSummary;
-  aiConfigsSummary?: MetricsSummary;
-  resourceSummary?: ResourceSummary;
-  flagsExpanded?: ExpandedLinkedFlags;
-  segmentsExpanded?: ExpandedLinkedSegments;
-  metricsExpanded?: ExpandedLinkedMetrics;
-  aiConfigsExpanded?: ExpandedLinkedAIConfigs;
-  resourcesExpanded?: ExpandedLinkedResources;
+  maintainer?: Maintainer | undefined;
+  flagsSummary?: FlagsSummary | undefined;
+  segmentsSummary?: SegmentsSummary | undefined;
+  metricsSummary?: MetricsSummary | undefined;
+  aiConfigsSummary?: MetricsSummary | undefined;
+  resourceSummary?: ResourceSummary | undefined;
+  flagsExpanded?: ExpandedLinkedFlags | undefined;
+  segmentsExpanded?: ExpandedLinkedSegments | undefined;
+  metricsExpanded?: ExpandedLinkedMetrics | undefined;
+  aiConfigsExpanded?: ExpandedLinkedAIConfigs | undefined;
+  resourcesExpanded?: ExpandedLinkedResources | undefined;
 }
 /** List of tags for this webhook */
 export type CreateWebhookRequestTagsList = Array<string>;
 export interface CreateWebhookRequest {
   /** A human-readable name for your webhook */
-  name?: string;
+  name?: string | undefined;
   /** The URL of the remote webhook */
   url: string;
   /** If sign is true, and the secret attribute is omitted, LaunchDarkly automatically generates a secret for you. */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Represents a Custom role policy, defining a resource kinds filter the webhook should respond to. */
-  statements?: StatementPostList;
+  statements?: StatementPostList | undefined;
   /** If sign is false, the webhook does not include a signature header, and the secret can be omitted. */
   sign: boolean;
   /** Whether or not this webhook is enabled. */
   on: boolean;
   /** List of tags for this webhook */
-  tags?: CreateWebhookRequestTagsList;
+  tags?: CreateWebhookRequestTagsList | undefined;
 }
 /** The location and content type of related resources */
 export type WebhookLinksMap = { [key: string]: Link | undefined };
@@ -3334,19 +3340,19 @@ export interface Webhook {
   /** The ID of this webhook */
   _id: string;
   /** A human-readable name for this webhook */
-  name?: string;
+  name?: string | undefined;
   /** The URL to which LaunchDarkly sends an HTTP POST payload for this webhook */
   url: string;
   /** The secret for this webhook */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Represents a Custom role policy, defining a resource kinds filter the webhook responds to. */
-  statements?: WebhookStatementsList;
+  statements?: WebhookStatementsList | undefined;
   /** Whether or not this webhook is enabled */
   on: boolean;
   /** List of tags for this webhook */
   tags: WebhookTagsList;
   /** Details on the allowed and denied actions for this webhook */
-  _access?: Access;
+  _access?: Access | undefined;
 }
 /** A list of member IDs for the members to request approval from for this stage */
 export type ConditionInputNotifyMemberIdsList = Array<string>;
@@ -3354,84 +3360,84 @@ export type ConditionInputNotifyMemberIdsList = Array<string>;
 export type ConditionInputNotifyTeamKeysList = Array<string>;
 export interface ConditionInput {
   /** Whether the scheduled execution of the workflow stage is relative or absolute. If relative, the <code>waitDuration</code> and <code>waitDurationUnit</code> specify when the execution occurs. If absolute, the <code>executionDate</code> specifies when the execution occurs. */
-  scheduleKind?: string;
+  scheduleKind?: string | undefined;
   /** For workflow stages whose scheduled execution is absolute, the time, in Unix milliseconds, when the stage should start. */
-  executionDate?: number;
+  executionDate?: number | undefined;
   /** For workflow stages whose scheduled execution is relative, how far in the future the stage should start. */
-  waitDuration?: number;
+  waitDuration?: number | undefined;
   /** For workflow stages whose scheduled execution is relative, the unit of measure for the <code>waitDuration</code>. */
-  waitDurationUnit?: string;
+  waitDurationUnit?: string | undefined;
   /** Whether the workflow stage should be executed immediately */
-  executeNow?: boolean;
+  executeNow?: boolean | undefined;
   /** A description of the approval required for this stage */
-  description?: string;
+  description?: string | undefined;
   /** A list of member IDs for the members to request approval from for this stage */
-  notifyMemberIds?: ConditionInputNotifyMemberIdsList;
+  notifyMemberIds?: ConditionInputNotifyMemberIdsList | undefined;
   /** A list of team keys for the teams to request approval from for this stage */
-  notifyTeamKeys?: ConditionInputNotifyTeamKeysList;
+  notifyTeamKeys?: ConditionInputNotifyTeamKeysList | undefined;
   /** Additional approval request fields for third-party integration approval systems. If you are using a third-party integration to manage approval requests, these additional fields will be described in the <code>manifest.json</code> for that integration, at https://github.com/launchdarkly/integration-framework. */
-  integrationConfig?: FormVariableConfig;
+  integrationConfig?: FormVariableConfig | undefined;
   /** The type of condition to meet before executing this stage of the workflow. Use <code>schedule</code> to schedule a workflow stage. Use <code>ld-approval</code> to add an approval request to a workflow stage. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** An array of conditions for the stage */
 export type StageInputConditionsList = Array<ConditionInput>;
 export interface ActionInput {
   /** An array of instructions for the stage. Each object in the array uses the semantic patch format for updating a feature flag. */
-  instructions?: unknown;
+  instructions?: unknown | undefined;
 }
 export interface StageInput {
   /** The stage name */
-  name?: string;
+  name?: string | undefined;
   /** Whether to execute the conditions in sequence for the given stage */
-  executeConditionsInSequence?: boolean;
+  executeConditionsInSequence?: boolean | undefined;
   /** An array of conditions for the stage */
-  conditions?: StageInputConditionsList;
+  conditions?: StageInputConditionsList | undefined;
   /** An <code>instructions</code> field containing an array of instructions for the stage. Each object in the array uses the semantic patch format for updating a feature flag. */
-  action?: ActionInput;
+  action?: ActionInput | undefined;
 }
 export type CreateWorkflowTemplateRequestStagesList = Array<StageInput>;
 export interface CreateWorkflowTemplateRequest {
   key: string;
-  name?: string;
-  description?: string;
-  workflowId?: string;
-  stages?: CreateWorkflowTemplateRequestStagesList;
-  projectKey?: string;
-  environmentKey?: string;
-  flagKey?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  workflowId?: string | undefined;
+  stages?: CreateWorkflowTemplateRequestStagesList | undefined;
+  projectKey?: string | undefined;
+  environmentKey?: string | undefined;
+  flagKey?: string | undefined;
 }
 export type WorkflowTemplateOutputLinksMap = { [key: string]: Link | undefined };
 export interface ExecutionOutput {
   /** The status of the execution of this workflow stage */
   status: string;
   /** Timestamp of when the workflow was completed. */
-  stopDate?: number;
+  stopDate?: number | undefined;
 }
 export type ConditionOutputNotifyMemberIdsList = Array<string>;
 export interface ReviewOutput {
   _id: string;
   kind: string;
-  creationDate?: number;
-  comment?: string;
-  memberId?: string;
-  serviceTokenId?: string;
+  creationDate?: number | undefined;
+  comment?: string | undefined;
+  memberId?: string | undefined;
+  serviceTokenId?: string | undefined;
 }
 export type ConditionOutputAllReviewsList = Array<ReviewOutput>;
 export interface ConditionOutput {
   _id: string;
-  kind?: string;
+  kind?: string | undefined;
   _execution: ExecutionOutput;
-  scheduleKind?: string;
-  executionDate?: number;
-  waitDuration?: number;
-  waitDurationUnit?: string;
+  scheduleKind?: string | undefined;
+  executionDate?: number | undefined;
+  waitDuration?: number | undefined;
+  waitDurationUnit?: string | undefined;
   description: string;
   notifyMemberIds: ConditionOutputNotifyMemberIdsList;
   allReviews: ConditionOutputAllReviewsList;
   reviewStatus: string;
-  appliedDate?: number;
-  creationConfig?: FormVariableConfig;
+  appliedDate?: number | undefined;
+  creationConfig?: FormVariableConfig | undefined;
 }
 /** An array of conditions for the stage */
 export type StageOutputConditionsList = Array<ConditionOutput>;
@@ -3445,7 +3451,7 @@ export interface StageOutput {
   /** The ID of this stage */
   _id: string;
   /** The stage name */
-  name?: string;
+  name?: string | undefined;
   /** An array of conditions for the stage */
   conditions: StageOutputConditionsList;
   /** The type of instruction, and an array of instructions for the stage. Each object in the array uses the semantic patch format for updating a feature flag. */
@@ -3457,13 +3463,13 @@ export type WorkflowTemplateOutputStagesList = Array<StageOutput>;
 export interface WorkflowTemplateOutput {
   _id: string;
   _key: string;
-  name?: string;
+  name?: string | undefined;
   _creationDate: number;
   _ownerId: string;
   _maintainerId: string;
   _links: WorkflowTemplateOutputLinksMap;
-  description?: string;
-  stages?: WorkflowTemplateOutputStagesList;
+  description?: string | undefined;
+  stages?: WorkflowTemplateOutputStagesList | undefined;
 }
 export interface DeleteAdaptiveTriggerRequest {
   projectKey: string;
@@ -3812,28 +3818,28 @@ export interface EvaluateContextInstanceRequest {
   /** The environment key */
   environmentKey: string;
   /** The number of feature flags to return. Defaults to -1, which returns all flags */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** A comma-separated list of fields to sort by. Fields prefixed by a dash ( - ) sort in descending order */
-  sort?: string;
+  sort?: string | undefined;
   /** A comma-separated list of filters. Each filter is of the form `field operator value`. Supported fields are explained above. */
-  filter?: string;
+  filter?: string | undefined;
   body: ContextInstance;
 }
 export interface ContextInstanceEvaluationReason {
   /** Describes the general reason that LaunchDarkly selected this variation. */
   kind: string;
   /** The positional index of the matching rule if the kind is 'RULE_MATCH'. The index is 0-based. */
-  ruleIndex?: number;
+  ruleIndex?: number | undefined;
   /** The unique identifier of the matching rule if the kind is 'RULE_MATCH'. */
-  ruleID?: string;
+  ruleID?: string | undefined;
   /** The key of the flag that failed if the kind is 'PREREQUISITE_FAILED'. */
-  prerequisiteKey?: string;
+  prerequisiteKey?: string | undefined;
   /** Indicates whether the context was evaluated as part of an experiment. */
-  inExperiment?: boolean;
+  inExperiment?: boolean | undefined;
   /** The specific error type if the kind is 'ERROR'. */
-  errorKind?: string;
+  errorKind?: string | undefined;
 }
 /** The location and content type of related resources */
 export type ContextInstanceEvaluationLinksMap = { [key: string]: Link | undefined };
@@ -3845,7 +3851,7 @@ export interface ContextInstanceEvaluation {
   /** The value of the flag variation that the context receives. If there is no defined default rule, this is null. */
   _value: unknown;
   /** Contains information about why that variation was selected. */
-  reason?: ContextInstanceEvaluationReason;
+  reason?: ContextInstanceEvaluationReason | undefined;
   /** The location and content type of related resources */
   _links: ContextInstanceEvaluationLinksMap;
 }
@@ -3857,7 +3863,7 @@ export interface ContextInstanceEvaluations {
   /** Details on the flag evaluations for this context instance */
   items: ContextInstanceEvaluationsItemsList;
   /** The number of flags */
-  totalCount?: number;
+  totalCount?: number | undefined;
   /** The location and content type of related resources */
   _links: ContextInstanceEvaluationsLinksMap;
 }
@@ -3879,7 +3885,7 @@ export interface AdaptiveTriggerInstruction {
   kind: AdaptiveTriggerInstructionKind | (string & {});
   variationId: string;
   /** The targeting rule this adaptive trigger acts on. Required for updateRuleVariationOrRollout instructions. */
-  ruleId?: string;
+  ruleId?: string | undefined;
 }
 export type AdaptiveTriggerTaskInstructionsList = Array<AdaptiveTriggerInstruction>;
 export interface AdaptiveTriggerTask {
@@ -3912,16 +3918,16 @@ export type AiConfigsAccessDeniedReasonNotActionsList = Array<string>;
 export type AiConfigsAccessDeniedReasonEffect = "allow" | "deny";
 export interface AiConfigsAccessDeniedReason {
   /** Resource specifier strings */
-  resources?: AiConfigsAccessDeniedReasonResourcesList;
+  resources?: AiConfigsAccessDeniedReasonResourcesList | undefined;
   /** Targeted resources are the resources NOT in this list. The <code>resources</code> and <code>notActions</code> fields must be empty to use this field. */
-  notResources?: AiConfigsAccessDeniedReasonNotResourcesList;
+  notResources?: AiConfigsAccessDeniedReasonNotResourcesList | undefined;
   /** Actions to perform on a resource */
-  actions?: AiConfigsAccessDeniedReasonActionsList;
+  actions?: AiConfigsAccessDeniedReasonActionsList | undefined;
   /** Targeted actions are the actions NOT in this list. The <code>actions</code> and <code>notResources</code> fields must be empty to use this field. */
-  notActions?: AiConfigsAccessDeniedReasonNotActionsList;
+  notActions?: AiConfigsAccessDeniedReasonNotActionsList | undefined;
   /** Whether this statement should allow or deny actions on the resources. */
   effect: AiConfigsAccessDeniedReasonEffect;
-  role_name?: string;
+  role_name?: string | undefined;
 }
 export interface AiConfigsAccessDenied {
   action: string;
@@ -3940,16 +3946,16 @@ export type AiConfigsAccessAllowedReasonNotActionsList = Array<string>;
 export type AiConfigsAccessAllowedReasonEffect = "allow" | "deny";
 export interface AiConfigsAccessAllowedReason {
   /** Resource specifier strings */
-  resources?: AiConfigsAccessAllowedReasonResourcesList;
+  resources?: AiConfigsAccessAllowedReasonResourcesList | undefined;
   /** Targeted resources are the resources NOT in this list. The <code>resources</code> and <code>notActions</code> fields must be empty to use this field. */
-  notResources?: AiConfigsAccessAllowedReasonNotResourcesList;
+  notResources?: AiConfigsAccessAllowedReasonNotResourcesList | undefined;
   /** Actions to perform on a resource */
-  actions?: AiConfigsAccessAllowedReasonActionsList;
+  actions?: AiConfigsAccessAllowedReasonActionsList | undefined;
   /** Targeted actions are the actions NOT in this list. The <code>actions</code> and <code>notResources</code> fields must be empty to use this field. */
-  notActions?: AiConfigsAccessAllowedReasonNotActionsList;
+  notActions?: AiConfigsAccessAllowedReasonNotActionsList | undefined;
   /** Whether this statement should allow or deny actions on the resources. */
   effect: AiConfigsAccessAllowedReasonEffect;
-  role_name?: string;
+  role_name?: string | undefined;
 }
 export interface AiConfigsAccessAllowedRep {
   action: string;
@@ -3963,8 +3969,8 @@ export interface AiConfigsAccess {
 export interface MaintainerMember {
   _id: string;
   email: string;
-  firstName?: string;
-  lastName?: string;
+  firstName?: string | undefined;
+  lastName?: string | undefined;
   role: string;
 }
 export interface AiConfigsMaintainerTeam {
@@ -3981,25 +3987,25 @@ export interface AgentGraphEdge {
   /** The config key that is the target of this edge */
   targetConfig: string;
   /** The handoff options from the source config to the target config */
-  handoff?: unknown;
+  handoff?: unknown | undefined;
 }
 /** The edges in the graph */
 export type AgentGraphEdgesList = Array<AgentGraphEdge>;
 /** An agent graph representing a directed graph of configs */
 export interface AgentGraph {
-  _access?: AiConfigsAccess;
-  _site?: CoreLink;
+  _access?: AiConfigsAccess | undefined;
+  _site?: CoreLink | undefined;
   /** A unique key for the agent graph */
   key: string;
   /** A human-readable name for the agent graph */
   name: string;
   /** A description of the agent graph */
-  description?: string;
-  _maintainer?: AgentGraphMaintainer;
+  description?: string | undefined;
+  _maintainer?: AgentGraphMaintainer | undefined;
   /** The config key of the root node */
-  rootConfigKey?: string;
+  rootConfigKey?: string | undefined;
   /** The edges in the graph */
-  edges?: AgentGraphEdgesList;
+  edges?: AgentGraphEdgesList | undefined;
   createdAt: number;
   updatedAt: number;
 }
@@ -4023,8 +4029,8 @@ export type AgentOptimizationJudgesList = Array<AgentOptimizationJudge>;
 export type AgentOptimizationUserInputOptionsList = Array<string>;
 export type AgentOptimizationGroundTruthResponsesList = Array<string>;
 export interface AgentOptimization {
-  _access?: AiConfigsAccess;
-  _links?: ParentAndSelfLinks;
+  _access?: AiConfigsAccess | undefined;
+  _links?: ParentAndSelfLinks | undefined;
   id: string;
   key: string;
   aiConfigKey: string;
@@ -4036,13 +4042,13 @@ export interface AgentOptimization {
   judges: AgentOptimizationJudgesList;
   userInputOptions: AgentOptimizationUserInputOptionsList;
   groundTruthResponses: AgentOptimizationGroundTruthResponsesList;
-  metricKey?: string;
-  tokenLimit?: number;
-  variationKey?: string;
-  label?: string;
-  latencyOptimization?: boolean;
-  tokenOptimization?: boolean;
-  autoCommit?: boolean;
+  metricKey?: string | undefined;
+  tokenLimit?: number | undefined;
+  variationKey?: string | undefined;
+  label?: string | undefined;
+  latencyOptimization?: boolean | undefined;
+  tokenOptimization?: boolean | undefined;
+  autoCommit?: boolean | undefined;
   version: number;
   createdAt: number;
 }
@@ -4054,11 +4060,11 @@ export type AIConfigMaintainer = MaintainerMember | AiConfigsMaintainerTeam;
 export type AgentSkillTagsList = Array<string>;
 export interface AgentSkill {
   key: string;
-  _access?: AiConfigsAccess;
-  _links?: ParentAndSelfLinks;
-  _maintainer?: AIConfigMaintainer;
+  _access?: AiConfigsAccess | undefined;
+  _links?: ParentAndSelfLinks | undefined;
+  _maintainer?: AIConfigMaintainer | undefined;
   name: string;
-  description?: string;
+  description?: string | undefined;
   /** The verbatim SKILL.md content of the agent skill */
   markdown: string;
   tags: AgentSkillTagsList;
@@ -4089,7 +4095,7 @@ export interface VariationTool {
   /** The version of the tool. */
   version: number;
   /** Custom metadata and configuration for application-level use */
-  customParameters?: VariationToolCustomParametersMap;
+  customParameters?: VariationToolCustomParametersMap | undefined;
 }
 export type AIConfigVariationToolsList = Array<VariationTool>;
 export interface VariationSkill {
@@ -4109,36 +4115,36 @@ export interface JudgeAttachment {
 export type JudgeConfigurationJudgesList = Array<JudgeAttachment>;
 export interface JudgeConfiguration {
   /** List of judges for this variation. When updating, this replaces all existing judge attachments, and if empty, removes all judge attachments. */
-  judges?: JudgeConfigurationJudgesList;
+  judges?: JudgeConfigurationJudgesList | undefined;
 }
 export type AIConfigVariationJudgingConfigKeysList = Array<string>;
 export interface AIConfigVariation {
-  _links?: ParentLink;
-  color?: string;
-  comment?: string;
+  _links?: ParentLink | undefined;
+  color?: string | undefined;
+  comment?: string | undefined;
   /** Returns the description for the agent. This is only returned for agent variations. */
-  description?: string;
+  description?: string | undefined;
   /** Returns the instructions for the agent. This is only returned for agent variations. */
-  instructions?: string;
+  instructions?: string | undefined;
   key: string;
   _id: string;
-  messages?: AIConfigVariationMessagesList;
+  messages?: AIConfigVariationMessagesList | undefined;
   model: unknown;
-  modelConfigKey?: string;
+  modelConfigKey?: string | undefined;
   /** The version of the model config that this variation is pinned to, when it references a custom model config. Absent when the variation does not reference a model config, when the variation is not pinned to a specific version, or when custom model config versioning is not enabled for the project. */
-  modelConfigVersion?: number;
+  modelConfigVersion?: number | undefined;
   name: string;
   /** JSON Schema defining the structured output format for the variation. */
-  outputFormat?: AIConfigVariationOutputFormatMap;
+  outputFormat?: AIConfigVariationOutputFormatMap | undefined;
   createdAt: number;
   version: number;
-  state?: string;
-  _archivedAt?: number;
-  _publishedAt?: number;
-  tools?: AIConfigVariationToolsList;
-  skills?: AIConfigVariationSkillsList;
-  judgeConfiguration?: JudgeConfiguration;
-  judgingConfigKeys?: AIConfigVariationJudgingConfigKeysList;
+  state?: string | undefined;
+  _archivedAt?: number | undefined;
+  _publishedAt?: number | undefined;
+  tools?: AIConfigVariationToolsList | undefined;
+  skills?: AIConfigVariationSkillsList | undefined;
+  judgeConfiguration?: JudgeConfiguration | undefined;
+  judgingConfigKeys?: AIConfigVariationJudgingConfigKeysList | undefined;
 }
 export type AIConfigVariationsList = Array<AIConfigVariation>;
 /** List of evaluation metric keys for this config */
@@ -4155,13 +4161,13 @@ export interface AIConfigDependency {
 /** Resources that depend on this config, grouped by type */
 export type AIConfigDependenciesList = Array<AIConfigDependency>;
 export interface AIConfig {
-  _access?: AiConfigsAccess;
-  _links?: ParentAndSelfLinks;
-  _site?: CoreLink;
+  _access?: AiConfigsAccess | undefined;
+  _links?: ParentAndSelfLinks | undefined;
+  _site?: CoreLink | undefined;
   description: string;
   key: string;
-  _maintainer?: AIConfigMaintainer;
-  mode?: AIConfigMode;
+  _maintainer?: AIConfigMaintainer | undefined;
+  mode?: AIConfigMode | undefined;
   name: string;
   tags: AIConfigTagsList;
   version: number;
@@ -4169,13 +4175,13 @@ export interface AIConfig {
   createdAt: number;
   updatedAt: number;
   /** Evaluation metric key for this config */
-  evaluationMetricKey?: string;
+  evaluationMetricKey?: string | undefined;
   /** List of evaluation metric keys for this config */
-  evaluationMetricKeys?: AIConfigEvaluationMetricKeysList;
+  evaluationMetricKeys?: AIConfigEvaluationMetricKeysList | undefined;
   /** Whether the evaluation metric is inverted, meaning a lower value is better if set as true */
-  isInverted?: boolean;
+  isInverted?: boolean | undefined;
   /** Resources that depend on this config, grouped by type */
-  dependencies?: AIConfigDependenciesList;
+  dependencies?: AIConfigDependenciesList | undefined;
 }
 export interface GetAIConfigMetricsRequest {
   projectKey: string;
@@ -4187,36 +4193,36 @@ export interface GetAIConfigMetricsRequest {
   /** An environment key. Only metrics from this environment will be included. */
   env: string;
   /** A context kind. Only metrics from events that include a context of this kind are included. Required if `contextKey` is provided. */
-  contextKind?: string;
+  contextKind?: string | undefined;
   /** A context key. Only metrics from events whose context of the `contextKind` kind has this key are included. Requires `contextKind`. */
-  contextKey?: string;
+  contextKey?: string | undefined;
 }
 export interface Metrics {
-  inputTokens?: number;
-  outputTokens?: number;
-  totalTokens?: number;
+  inputTokens?: number | undefined;
+  outputTokens?: number | undefined;
+  totalTokens?: number | undefined;
   /** Number of attempted generations */
-  generationCount?: number;
+  generationCount?: number | undefined;
   /** Number of successful generations */
-  generationSuccessCount?: number;
+  generationSuccessCount?: number | undefined;
   /** Number of generations with errors */
-  generationErrorCount?: number;
-  thumbsUp?: number;
-  thumbsDown?: number;
-  durationMs?: number;
-  timeToFirstTokenMs?: number;
+  generationErrorCount?: number | undefined;
+  thumbsUp?: number | undefined;
+  thumbsDown?: number | undefined;
+  durationMs?: number | undefined;
+  timeToFirstTokenMs?: number | undefined;
   /** A value between 0 and 1 representing satisfaction rating */
-  satisfactionRating?: number;
+  satisfactionRating?: number | undefined;
   /** Cost of input tokens in USD */
-  inputCost?: number;
+  inputCost?: number | undefined;
   /** Cost of output tokens in USD */
-  outputCost?: number;
+  outputCost?: number | undefined;
   /** Average accuracy judge score (0.0-1.0) */
-  judgeAccuracy?: number;
+  judgeAccuracy?: number | undefined;
   /** Average relevance judge score (0.0-1.0) */
-  judgeRelevance?: number;
+  judgeRelevance?: number | undefined;
   /** Average toxicity judge score (0.0-1.0) */
-  judgeToxicity?: number;
+  judgeToxicity?: number | undefined;
 }
 export interface GetAIConfigMetricsByVariationRequest {
   projectKey: string;
@@ -4228,13 +4234,13 @@ export interface GetAIConfigMetricsByVariationRequest {
   /** An environment key. Only metrics from this environment will be included. */
   env: string;
   /** A context kind. Only metrics from events that include a context of this kind are included. Required if `contextKey` is provided. */
-  contextKind?: string;
+  contextKind?: string | undefined;
   /** A context key. Only metrics from events whose context of the `contextKind` kind has this key are included. Requires `contextKind`. */
-  contextKey?: string;
+  contextKey?: string | undefined;
 }
 export interface MetricByVariation {
-  variationKey?: string;
-  metrics?: Metrics;
+  variationKey?: string | undefined;
+  metrics?: Metrics | undefined;
 }
 export type MetricsByVariation = Array<MetricByVariation>;
 export type GetAIConfigMetricsByVariationResponse = MetricsByVariation;
@@ -4246,31 +4252,31 @@ export interface GetAIConfigQuickStatsRequest {
 export interface QuickStats {
   activeConfigs: number;
   activeExperiments: number;
-  averageSatisfaction7D?: number | null;
-  spendMonthToDate?: number | null;
+  averageSatisfaction7D?: number | null | undefined;
+  spendMonthToDate?: number | null | undefined;
 }
 export interface GetAIConfigsRequest {
   projectKey: string;
   /** A sort to apply to the list of AgentControl configs. */
-  sort?: string;
+  sort?: string | undefined;
   /** The number of resources to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** A filter to apply to the list. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type AiConfigsLink = Link;
 export interface PaginatedLinks {
-  first?: Link;
-  last?: Link;
-  next?: Link;
-  prev?: Link;
+  first?: Link | undefined;
+  last?: Link | undefined;
+  next?: Link | undefined;
+  prev?: Link | undefined;
   self: Link;
 }
 export type AIConfigsItemsList = Array<AIConfig>;
 export interface AIConfigs {
-  _links?: PaginatedLinks;
+  _links?: PaginatedLinks | undefined;
   items: AIConfigsItemsList;
   totalCount: number;
 }
@@ -4296,22 +4302,24 @@ export interface AIConfigTargetingEnvironmentFallthroughRolloutExperimentationAl
   type: string;
 }
 export interface AIConfigTargetingEnvironmentFallthroughRolloutVariation {
-  _untracked?: boolean;
+  _untracked?: boolean | undefined;
   variation: number;
   weight: number;
 }
 export type AIConfigTargetingEnvironmentFallthroughRolloutVariationsList =
   Array<AIConfigTargetingEnvironmentFallthroughRolloutVariation>;
 export interface AIConfigTargetingEnvironmentFallthroughRollout {
-  bucketBy?: string;
+  bucketBy?: string | undefined;
   contextKind: string;
-  experimentAllocation?: AIConfigTargetingEnvironmentFallthroughRolloutExperimentationAllocation;
-  seed?: number;
+  experimentAllocation?:
+    | AIConfigTargetingEnvironmentFallthroughRolloutExperimentationAllocation
+    | undefined;
+  seed?: number | undefined;
   variations: AIConfigTargetingEnvironmentFallthroughRolloutVariationsList;
 }
 export interface AIConfigTargetingEnvironmentFallthrough {
-  variation?: number;
-  rollout?: AIConfigTargetingEnvironmentFallthroughRollout;
+  variation?: number | undefined;
+  rollout?: AIConfigTargetingEnvironmentFallthroughRollout | undefined;
 }
 export type AIConfigTargetingEnvironmentRuleClauseValuesList = Array<unknown>;
 export interface AIConfigTargetingEnvironmentRuleClause {
@@ -4334,7 +4342,7 @@ export interface AIConfigTargetingEnvironment {
   enabled: boolean;
   fallthrough: AIConfigTargetingEnvironmentFallthrough;
   lastModified: number;
-  offVariation?: number;
+  offVariation?: number | undefined;
   rules: AIConfigTargetingEnvironmentRulesList;
   targets: AIConfigTargetingEnvironmentTargetsList;
   trackEvents: boolean;
@@ -4360,9 +4368,9 @@ export interface AiConfigsMemberSummary {
   /** The member's ID */
   _id: string;
   /** The member's first name */
-  firstName?: string;
+  firstName?: string | undefined;
   /** The member's last name */
-  lastName?: string;
+  lastName?: string | undefined;
   /** The member's base role. If the member has no additional roles, this role will be in effect. */
   role: string;
   /** The member's email address */
@@ -4382,12 +4390,12 @@ export interface AiConfigsFilter {
   /** Filter type. One of [contextAttribute, eventProperty, group] */
   type: AiConfigsFilterType;
   /** If not a group node, the context attribute name or event property name to filter on */
-  attribute?: string;
+  attribute?: string | undefined;
   op: string;
   /** The context attribute / event property values or group member nodes */
   values: AiConfigsFilterValuesList;
   /** For context attribute filters, the context kind. */
-  contextKind?: string;
+  contextKind?: string | undefined;
   /** If set, then take the inverse of the operator. 'in' becomes 'not in'. */
   negate: boolean;
 }
@@ -4400,47 +4408,47 @@ export type AiConfigsMetricDataSourceRefRep = MetricDataSourceRefRep;
 export type AiConfigsMetricListingRepUrlsList = Array<UrlMatcher>;
 export interface AiConfigsMetricDenominatorRep {
   /** The warehouse event column for the denominator */
-  eventName?: string;
+  eventName?: string | undefined;
   /** Whether the denominator aggregates a numeric value */
-  isNumeric?: boolean;
+  isNumeric?: boolean | undefined;
   /** How individual unit values are aggregated for the denominator */
-  unitAggregationType?: string;
+  unitAggregationType?: string | undefined;
   /** The column to count distinct values of; required when unitAggregationType is count_distinct */
-  unitAggregationField?: string;
+  unitAggregationField?: string | undefined;
   /** For a numeric denominator, the column holding the numeric value */
-  valueColumn?: string;
-  dataSource?: MetricDataSourceRefRep;
-  filters?: AiConfigsFilter;
+  valueColumn?: string | undefined;
+  dataSource?: MetricDataSourceRefRep | undefined;
+  filters?: AiConfigsFilter | undefined;
   /** Start of the measurement window in milliseconds */
-  windowStartOffset?: number;
+  windowStartOffset?: number | undefined;
   /** End of the measurement window in milliseconds */
-  windowEndOffset?: number;
+  windowEndOffset?: number | undefined;
   /** Lower winsorization percentile in the open interval (0, 100) */
-  winsorLowerPercentile?: number;
+  winsorLowerPercentile?: number | undefined;
   /** Upper winsorization percentile in the open interval (0, 100) */
-  winsorUpperPercentile?: number;
+  winsorUpperPercentile?: number | undefined;
   /** When true, the percentile bound calculation includes imputed zeros */
-  winsorIncludeImputed?: boolean;
+  winsorIncludeImputed?: boolean | undefined;
 }
 export interface AiConfigsMetricListingRep {
   /** The number of experiments using this metric */
-  experimentCount?: number;
+  experimentCount?: number | undefined;
   /** The number of metric groups using this metric */
-  metricGroupCount?: number;
+  metricGroupCount?: number | undefined;
   /** The number of guarded rollouts using this metric */
-  guardedRolloutCount?: number;
+  guardedRolloutCount?: number | undefined;
   /** The number of release policies using this metric */
-  releasePolicyCount?: number;
+  releasePolicyCount?: number | undefined;
   /** The number of active experiments using this metric */
-  activeExperimentCount?: number;
+  activeExperimentCount?: number | undefined;
   /** The number of active guarded rollouts using this metric */
-  activeGuardedRolloutCount?: number;
+  activeGuardedRolloutCount?: number | undefined;
   /** The ID of this metric */
   _id: string;
   /** The version ID of the metric */
   _versionId: string;
   /** Version of the metric */
-  _version?: number;
+  _version?: number | undefined;
   /** A unique key to reference the metric */
   key: string;
   /** A human-friendly name for the metric */
@@ -4448,85 +4456,85 @@ export interface AiConfigsMetricListingRep {
   /** The kind of event the metric tracks */
   kind: AiConfigsMetricListingRepKind;
   /** The number of feature flags currently attached to this metric */
-  _attachedFlagCount?: number;
+  _attachedFlagCount?: number | undefined;
   /** The location and content type of related resources */
   _links: AiConfigsMetricListingRepLinksMap;
-  _site?: Link;
-  _access?: AiConfigsAccess;
+  _site?: Link | undefined;
+  _access?: AiConfigsAccess | undefined;
   /** Tags for the metric */
   tags: AiConfigsMetricListingRepTagsList;
   _creationDate: number;
-  lastModified?: Modification;
+  lastModified?: Modification | undefined;
   /** The ID of the member who maintains this metric */
-  maintainerId?: string;
-  _maintainer?: AiConfigsMemberSummary;
+  maintainerId?: string | undefined;
+  _maintainer?: AiConfigsMemberSummary | undefined;
   /** Description of the metric */
-  description?: string;
+  description?: string | undefined;
   /** The category of the metric */
-  category?: string;
+  category?: string | undefined;
   /** For custom and trace metrics, whether to track numeric changes in value against a baseline (<code>true</code>) or to track a conversion when an end user takes an action (<code>false</code>). */
-  isNumeric?: boolean;
+  isNumeric?: boolean | undefined;
   /** For custom and trace metrics, the success criteria */
-  successCriteria?: AiConfigsMetricListingRepSuccessCriteria;
+  successCriteria?: AiConfigsMetricListingRepSuccessCriteria | undefined;
   /** For numeric custom and trace metrics, the unit of measure */
-  unit?: string;
+  unit?: string | undefined;
   /** For custom metrics, the event key to use in your code */
-  eventKey?: string;
+  eventKey?: string | undefined;
   /** Deprecated, use <code>analysisUnits</code> instead. */
-  randomizationUnits?: AiConfigsMetricListingRepRandomizationUnitsList;
+  randomizationUnits?: AiConfigsMetricListingRepRandomizationUnitsList | undefined;
   /** An array of analysis units allowed for this metric. */
-  analysisUnits?: AiConfigsMetricListingRepAnalysisUnitsList;
-  filters?: AiConfigsFilter;
+  analysisUnits?: AiConfigsMetricListingRepAnalysisUnitsList | undefined;
+  filters?: AiConfigsFilter | undefined;
   /** The method by which multiple unit event values are aggregated */
-  unitAggregationType?: AiConfigsMetricListingRepUnitAggregationType;
+  unitAggregationType?: AiConfigsMetricListingRepUnitAggregationType | undefined;
   /** The method for analyzing metric events */
-  analysisType?: AiConfigsMetricListingRepAnalysisType;
+  analysisType?: AiConfigsMetricListingRepAnalysisType | undefined;
   /** The percentile for the analysis method. An integer denoting the target percentile between 0 and 100. Required when <code>analysisType</code> is <code>percentile</code>. */
-  percentileValue?: number;
-  eventDefault?: MetricEventDefaultRep;
+  percentileValue?: number | undefined;
+  eventDefault?: MetricEventDefaultRep | undefined;
   dataSource: MetricDataSourceRefRep;
-  lastSeen?: number;
+  lastSeen?: number | undefined;
   /** Whether the metric version is archived */
-  archived?: boolean;
-  archivedAt?: number;
+  archived?: boolean | undefined;
+  archivedAt?: number | undefined;
   /** For click metrics, the CSS selectors */
-  selector?: string;
-  urls?: AiConfigsMetricListingRepUrlsList;
+  selector?: string | undefined;
+  urls?: AiConfigsMetricListingRepUrlsList | undefined;
   /** Not yet implemented - The start of the measurement window, in milliseconds relative to the unit's first exposure to a flag variation */
-  windowStartOffset?: number;
+  windowStartOffset?: number | undefined;
   /** Not yet implemented - The end of the measurement window, in milliseconds relative to the unit's first exposure to a flag variation */
-  windowEndOffset?: number;
+  windowEndOffset?: number | undefined;
   /** Lower winsorization percentile, expressed as a percent in the open interval (0, 100). When both bounds are set, defines a two-sided clamp range. Otherwise lower-only winsorization. */
-  winsorLowerPercentile?: number;
+  winsorLowerPercentile?: number | undefined;
   /** Upper winsorization percentile, expressed as a percent in the open interval (0, 100). When both bounds are set, must be greater than winsorLowerPercentile. */
-  winsorUpperPercentile?: number;
+  winsorUpperPercentile?: number | undefined;
   /** When true, the percentile bound calculation includes imputed zeros. Only meaningful when at least one bound is set and the metric includes units that didn't send events. */
-  winsorIncludeImputed?: boolean;
+  winsorIncludeImputed?: boolean | undefined;
   /** For trace metrics, the trace query to use for the metric. */
-  traceQuery?: string;
+  traceQuery?: string | undefined;
   /** For trace metrics, the location in the trace to use for numeric values. */
-  traceValueLocation?: string;
+  traceValueLocation?: string | undefined;
   /** For count_distinct metrics, the column to count distinct values of */
-  unitAggregationField?: string;
-  denominator?: AiConfigsMetricDenominatorRep;
+  unitAggregationField?: string | undefined;
+  denominator?: AiConfigsMetricDenominatorRep | undefined;
 }
 export type AiConfigsLegacyExperimentRepEnvironmentsList = Array<string>;
 export type AiConfigsExperimentEnabledPeriodRep = ExperimentEnabledPeriodRep;
 export type AiConfigsExperimentEnvironmentSettingRepEnabledPeriodsList =
   Array<ExperimentEnabledPeriodRep>;
 export interface AiConfigsExperimentEnvironmentSettingRep {
-  startDate?: number;
-  stopDate?: number;
-  enabledPeriods?: AiConfigsExperimentEnvironmentSettingRepEnabledPeriodsList;
+  startDate?: number | undefined;
+  stopDate?: number | undefined;
+  enabledPeriods?: AiConfigsExperimentEnvironmentSettingRepEnabledPeriodsList | undefined;
 }
 export type AiConfigsLegacyExperimentRepEnvironmentSettingsMap = {
   [key: string]: AiConfigsExperimentEnvironmentSettingRep | undefined;
 };
 export interface AiConfigsLegacyExperimentRep {
-  metricKey?: string;
-  _metric?: AiConfigsMetricListingRep;
-  environments?: AiConfigsLegacyExperimentRepEnvironmentsList;
-  _environmentSettings?: AiConfigsLegacyExperimentRepEnvironmentSettingsMap;
+  metricKey?: string | undefined;
+  _metric?: AiConfigsMetricListingRep | undefined;
+  environments?: AiConfigsLegacyExperimentRepEnvironmentsList | undefined;
+  _environmentSettings?: AiConfigsLegacyExperimentRepEnvironmentSettingsMap | undefined;
 }
 export type AiConfigsExperimentInfoRepItemsList = Array<AiConfigsLegacyExperimentRep>;
 export interface AiConfigsExperimentInfoRep {
@@ -4545,7 +4553,7 @@ export type AIConfigTargetingVariationsList = Array<AIConfigTargetingVariation>;
 export interface AIConfigTargeting {
   /** Unix timestamp in milliseconds */
   createdAt: number;
-  defaults?: AIConfigTargetingDefaults;
+  defaults?: AIConfigTargetingDefaults | undefined;
   environments: AIConfigTargetingEnvironmentsMap;
   experiments: AiConfigsExperimentInfoRep;
   key: string;
@@ -4566,25 +4574,25 @@ export interface AIConfigVariationsResponse {
 }
 export interface GetAIRunsUsageRequest {
   /** The series of data returned starts from this timestamp (Unix milliseconds). Defaults to the beginning of the current month. */
-  from?: string;
+  from?: string | undefined;
   /** The series of data returned ends at this timestamp (Unix milliseconds). Defaults to the current time. */
-  to?: string;
+  to?: string | undefined;
   /** A project key to filter results by. Can be specified multiple times, one query parameter per project key. */
-  projectKey?: string;
+  projectKey?: string | undefined;
   /** An environment key to filter results by. If specified, exactly one `projectKey` must be provided. Can be specified multiple times, one query parameter per environment key. */
-  environmentKey?: string;
+  environmentKey?: string | undefined;
   /** An SDK name to filter results by. Can be specified multiple times, one query parameter per SDK name. */
-  sdkName?: string;
+  sdkName?: string | undefined;
   /** An SDK version to filter results by. Can be specified multiple times, one query parameter per SDK version. */
-  sdkVersion?: string;
+  sdkVersion?: string | undefined;
   /** An SDK type to filter results by. Can be specified multiple times, one query parameter per SDK type. */
-  sdkType?: string;
+  sdkType?: string | undefined;
   /** If specified, returns data for each distinct value of the given field. Can be specified multiple times to group data by multiple dimensions, one query parameter per dimension.<br/>Valid values: `projectId`, `environmentId`, `sdkName`, `sdkVersion`, `sdkType`. */
-  groupBy?: string;
+  groupBy?: string | undefined;
   /** Specifies the aggregation method. Defaults to `month_to_date`.<br/>Valid values: `month_to_date`, `incremental`. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Specifies the data granularity. Defaults to `daily`. `monthly` granularity is only supported with the **month_to_date** aggregation type.<br/>Valid values: `daily`, `hourly`, `monthly`. */
-  granularity?: string;
+  granularity?: string | undefined;
 }
 /** The location and content type of related resources */
 export type SeriesListRepLinksMap = { [key: string]: unknown | undefined };
@@ -4609,16 +4617,16 @@ export interface GetAIToolRequest {
 export type AIToolTagsList = Array<string>;
 export interface AITool {
   key: string;
-  _access?: AiConfigsAccess;
-  _links?: ParentAndSelfLinks;
-  _site?: CoreLink;
-  _maintainer?: AIConfigMaintainer;
-  description?: string;
+  _access?: AiConfigsAccess | undefined;
+  _links?: ParentAndSelfLinks | undefined;
+  _site?: CoreLink | undefined;
+  _maintainer?: AIConfigMaintainer | undefined;
+  description?: string | undefined;
   /** JSON Schema defining the tool's parameters for LLM consumption */
   schema: unknown;
   /** Custom metadata and configuration for application-level use (not sent to LLM) */
-  customParameters?: unknown;
-  tags?: AIToolTagsList;
+  customParameters?: unknown | undefined;
+  tags?: AIToolTagsList | undefined;
   version: number;
   createdAt: number;
 }
@@ -4628,40 +4636,40 @@ export interface GetAllHoldoutsRequest {
   /** The environment key */
   environmentKey: string;
   /** The number of holdouts to return in the response. Defaults to 20 */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an `offset` of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface RelatedExperimentRep {
-  key?: string;
-  name?: string;
-  environment?: string;
+  key?: string | undefined;
+  name?: string | undefined;
+  environment?: string | undefined;
 }
 export type SimpleHoldoutRepExperimentsList = Array<RelatedExperimentRep>;
 export interface SimpleHoldoutRep {
-  _id?: string;
-  key?: string;
-  name?: string;
-  status?: string;
-  createdAt?: number;
-  updatedAt?: number;
-  experiments?: SimpleHoldoutRepExperimentsList;
+  _id?: string | undefined;
+  key?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  createdAt?: number | undefined;
+  updatedAt?: number | undefined;
+  experiments?: SimpleHoldoutRepExperimentsList | undefined;
 }
 export type HoldoutsCollectionRepItemsList = Array<SimpleHoldoutRep>;
 /** The location and content type of related resources */
 export type HoldoutsCollectionRepLinksMap = { [key: string]: Link | undefined };
 export interface HoldoutsCollectionRep {
-  items?: HoldoutsCollectionRepItemsList;
+  items?: HoldoutsCollectionRepItemsList | undefined;
   /** The location and content type of related resources */
-  _links?: HoldoutsCollectionRepLinksMap;
+  _links?: HoldoutsCollectionRepLinksMap | undefined;
   /** The total number of holdouts in this project and environment. */
-  total_count?: number;
+  total_count?: number | undefined;
 }
 export interface GetAllIntegrationConfigurationsRequest {
   /** A key that corresponds to the third-party integration you are configuring. For example, `mezmo`. */
   integrationKey: string;
   /** When `true`, includes pending two-step setup drafts that were created using `/setup` but are not yet finalized. Defaults to `false`, which returns only active configurations. */
-  includePending?: boolean;
+  includePending?: boolean | undefined;
 }
 /** An array of integration configurations */
 export type IntegrationConfigurationCollectionRepItemsList = Array<IntegrationConfigurationsRep>;
@@ -4677,23 +4685,23 @@ export interface GetAllReleasePipelinesRequest {
   /** The project key */
   projectKey: string;
   /** A comma-separated list of filters. Each filter is of the form field:value. Read the endpoint description for a full list of available filter fields. */
-  filter?: string;
+  filter?: string | undefined;
   /** The maximum number of items to return. Defaults to 20. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Defaults to 0. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** A list of segment keys */
 export type AudienceSegmentKeysList = Array<string>;
 export interface Audience {
   /** Details about the environment. When the environment has been deleted, this field is omitted. */
-  environment?: EnvironmentSummary;
+  environment?: EnvironmentSummary | undefined;
   /** The release phase name */
   name: string;
   /** The configuration for the audience's rollout. */
-  configuration?: AudienceConfiguration;
+  configuration?: AudienceConfiguration | undefined;
   /** A list of segment keys */
-  segmentKeys?: AudienceSegmentKeysList;
+  segmentKeys?: AudienceSegmentKeysList | undefined;
 }
 export type Audiences = Array<Audience>;
 export interface Phase {
@@ -4704,7 +4712,7 @@ export interface Phase {
   /** The release phase name */
   name: string;
   /** The configuration for the phase's rollout. */
-  configuration?: unknown;
+  configuration?: unknown | undefined;
 }
 /** An ordered list of the release pipeline phases. Each phase is a logical grouping of one or more environments that share attributes for rolling out changes. */
 export type ReleasePipelinePhasesList = Array<Phase>;
@@ -4714,7 +4722,7 @@ export interface ReleasePipeline {
   /** Timestamp of when the release pipeline was created */
   createdAt: string;
   /** The release pipeline description */
-  description?: string;
+  description?: string | undefined;
   /** The release pipeline key */
   key: string;
   /** The release pipeline name */
@@ -4722,15 +4730,15 @@ export interface ReleasePipeline {
   /** An ordered list of the release pipeline phases. Each phase is a logical grouping of one or more environments that share attributes for rolling out changes. */
   phases: ReleasePipelinePhasesList;
   /** A list of the release pipeline's tags */
-  tags?: ReleasePipelineTagsList;
+  tags?: ReleasePipelineTagsList | undefined;
   /** The release pipeline version */
-  _version?: number;
+  _version?: number | undefined;
   /** Details on the allowed and denied actions for this release pipeline */
-  _access?: Access;
+  _access?: Access | undefined;
   /** Whether this release pipeline is the default pipeline for the project */
-  isProjectDefault?: boolean;
+  isProjectDefault?: boolean | undefined;
   /** Whether this release pipeline is a legacy pipeline */
-  _isLegacy?: boolean;
+  _isLegacy?: boolean | undefined;
 }
 /** An array of release pipelines */
 export type ReleasePipelineCollectionItemsList = Array<ReleasePipeline>;
@@ -4746,11 +4754,11 @@ export interface GetAllReleaseProgressionsForReleasePipelineRequest {
   /** The pipeline key */
   pipelineKey: string;
   /** Accepts filter by `status` and `activePhaseId`. `status` can take a value of `completed` or `active`. `activePhaseId` takes a UUID and will filter results down to releases active on the specified phase. Providing `status equals completed` along with an `activePhaseId` filter will return an error as they are disjoint sets of data. The combination of `status equals active` and `activePhaseId` will return the same results as `activePhaseId` alone. */
-  filter?: string;
+  filter?: string | undefined;
   /** The maximum number of items to return. Defaults to 20. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Defaults to 0. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** The location and content type of related resources */
 export type ReleaseProgressionLinksMap = { [key: string]: Link | undefined };
@@ -4758,13 +4766,13 @@ export interface ReleaseProgression {
   /** Timestamp of when the release was created */
   _createdAt: number;
   /** Timestamp of when the release was completed */
-  _completedAt?: number;
+  _completedAt?: number | undefined;
   /** The flag key */
   flagKey: string;
   /** The ID of the currently active release phase */
-  activePhaseId?: string;
+  activePhaseId?: string | undefined;
   /** The status of the currently active release phase, for example, whether it is ready to start or has started */
-  activePhaseStatus?: string;
+  activePhaseStatus?: string | undefined;
   /** The location and content type of related resources */
   _links: ReleaseProgressionLinksMap;
 }
@@ -4810,11 +4818,11 @@ export interface Webhooks {
 export type GetAnnouncementsPublicRequestStatus = "active" | "inactive" | "scheduled";
 export interface GetAnnouncementsPublicRequest {
   /** Filter announcements by status. */
-  status?: GetAnnouncementsPublicRequestStatus | (string & {});
+  status?: GetAnnouncementsPublicRequestStatus | (string & {}) | undefined;
   /** The number of announcements to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type GetAnnouncementsPublic200ResponseItemsList = Array<AnnouncementResponse>;
 export type AnnouncementPaginatedLinks = PaginatedLinks;
@@ -4826,7 +4834,7 @@ export interface GetApplicationRequest {
   /** The application key */
   applicationKey: string;
   /** A comma-separated list of properties that can reveal additional information in the response. Options: `flags`. */
-  expand?: string;
+  expand?: string | undefined;
 }
 export type FlagListingRepLinksMap = { [key: string]: Link | undefined };
 export interface FlagListingRep {
@@ -4834,8 +4842,8 @@ export interface FlagListingRep {
   name: string;
   /** The flag key */
   key: string;
-  _links?: FlagListingRepLinksMap;
-  _site?: Link;
+  _links?: FlagListingRepLinksMap | undefined;
+  _site?: Link | undefined;
 }
 /** A list of the flags that have been evaluated by the application */
 export type ApplicationFlagCollectionRepItemsList = Array<FlagListingRep>;
@@ -4843,11 +4851,11 @@ export type ApplicationFlagCollectionRepItemsList = Array<FlagListingRep>;
 export type ApplicationFlagCollectionRepLinksMap = { [key: string]: Link | undefined };
 export interface ApplicationFlagCollectionRep {
   /** A list of the flags that have been evaluated by the application */
-  items?: ApplicationFlagCollectionRepItemsList;
+  items?: ApplicationFlagCollectionRepItemsList | undefined;
   /** The number of flags that have been evaluated by the application */
-  totalCount?: number;
+  totalCount?: number | undefined;
   /** The location and content type of related resources */
-  _links?: ApplicationFlagCollectionRepLinksMap;
+  _links?: ApplicationFlagCollectionRepLinksMap | undefined;
 }
 /** The location and content type of related resources */
 export type ApplicationRepLinksMap = { [key: string]: Link | undefined };
@@ -4855,45 +4863,45 @@ export type ApplicationRepLinksMap = { [key: string]: Link | undefined };
 export type ApplicationRepKind = "browser" | "mobile" | "server";
 export interface ApplicationMaintainerRep {
   /** Details on the member who maintains this resource */
-  member?: MemberSummary;
+  member?: MemberSummary | undefined;
   /** Details on the team that maintains this resource */
-  team?: MemberTeamSummaryRep;
+  team?: MemberTeamSummaryRep | undefined;
 }
 export interface ApplicationRep {
   /** Details about the flags that have been evaluated by the application */
-  flags?: ApplicationFlagCollectionRep;
+  flags?: ApplicationFlagCollectionRep | undefined;
   /** Details on the allowed and denied actions for this application */
-  _access?: Access;
+  _access?: Access | undefined;
   /** The location and content type of related resources */
-  _links?: ApplicationRepLinksMap;
+  _links?: ApplicationRepLinksMap | undefined;
   /** Version of the application */
-  _version?: number;
+  _version?: number | undefined;
   /** Whether the application was automatically created because it was included in a context when a LaunchDarkly SDK evaluated a feature flag, or was created through the LaunchDarkly UI or REST API. */
   autoAdded: boolean;
   /** Timestamp of when the application version was created */
-  creationDate?: number;
+  creationDate?: number | undefined;
   /** The application description */
-  description?: string;
+  description?: string | undefined;
   /** The unique identifier of this application */
   key: string;
   /** To distinguish the kind of application */
   kind: ApplicationRepKind;
   /** Associated maintainer member or team info for the application */
-  _maintainer?: ApplicationMaintainerRep;
+  _maintainer?: ApplicationMaintainerRep | undefined;
   /** The name of the application */
   name: string;
 }
 export interface GetApplicationsRequest {
   /** Accepts filter by `key`, `name`, `kind`, and `autoAdded`. To learn more about the filter syntax, read [Filtering applications and application versions](https://launchdarkly.com/docs/api/applications-beta#filtering-applications-and-application-versions). */
-  filter?: string;
+  filter?: string | undefined;
   /** The number of applications to return. Defaults to 10. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** Accepts sorting order and fields. Fields can be comma separated. Possible fields are `creationDate`, `name`. Examples: `sort=name` sort by names ascending, `sort=-name,creationDate` sort by names descending and creationDate ascending. */
-  sort?: string;
+  sort?: string | undefined;
   /** A comma-separated list of properties that can reveal additional information in the response. Options: `flags`. */
-  expand?: string;
+  expand?: string | undefined;
 }
 /** The location and content type of related resources */
 export type ApplicationCollectionRepLinksMap = { [key: string]: Link | undefined };
@@ -4901,23 +4909,23 @@ export type ApplicationCollectionRepLinksMap = { [key: string]: Link | undefined
 export type ApplicationCollectionRepItemsList = Array<ApplicationRep>;
 export interface ApplicationCollectionRep {
   /** The location and content type of related resources */
-  _links?: ApplicationCollectionRepLinksMap;
+  _links?: ApplicationCollectionRepLinksMap | undefined;
   /** A list of applications */
-  items?: ApplicationCollectionRepItemsList;
+  items?: ApplicationCollectionRepItemsList | undefined;
   /** The number of applications */
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 export interface GetApplicationVersionsRequest {
   /** The application key */
   applicationKey: string;
   /** Accepts filter by `key`, `name`, `supported`, and `autoAdded`. To learn more about the filter syntax, read [Filtering applications and application versions](https://launchdarkly.com/docs/api/applications-beta#filtering-applications-and-application-versions). */
-  filter?: string;
+  filter?: string | undefined;
   /** The number of versions to return. Defaults to 50. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** Accepts sorting order and fields. Fields can be comma separated. Possible fields are `creationDate`, `name`. Examples: `sort=name` sort by names ascending, `sort=-name,creationDate` sort by names descending and creationDate ascending. */
-  sort?: string;
+  sort?: string | undefined;
 }
 /** The location and content type of related resources */
 export type ApplicationVersionsCollectionRepLinksMap = { [key: string]: Link | undefined };
@@ -4925,31 +4933,31 @@ export type ApplicationVersionsCollectionRepLinksMap = { [key: string]: Link | u
 export type ApplicationVersionRepLinksMap = { [key: string]: Link | undefined };
 export interface ApplicationVersionRep {
   /** Details on the allowed and denied actions for this application version */
-  _access?: Access;
+  _access?: Access | undefined;
   /** The location and content type of related resources */
-  _links?: ApplicationVersionRepLinksMap;
+  _links?: ApplicationVersionRepLinksMap | undefined;
   /** Version of the application version */
-  _version?: number;
+  _version?: number | undefined;
   /** Whether the application version was automatically created, because it was included in a context when a LaunchDarkly SDK evaluated a feature flag, or if the application version was created through the LaunchDarkly UI or REST API. */
   autoAdded: boolean;
   /** Timestamp of when the application version was created */
-  creationDate?: number;
+  creationDate?: number | undefined;
   /** The unique identifier of this application version */
   key: string;
   /** The name of this version */
   name: string;
   /** Whether this version is supported. Only applicable if the application <code>kind</code> is <code>mobile</code>. */
-  supported?: boolean;
+  supported?: boolean | undefined;
 }
 /** A list of the versions for this application */
 export type ApplicationVersionsCollectionRepItemsList = Array<ApplicationVersionRep>;
 export interface ApplicationVersionsCollectionRep {
   /** The location and content type of related resources */
-  _links?: ApplicationVersionsCollectionRepLinksMap;
+  _links?: ApplicationVersionsCollectionRepLinksMap | undefined;
   /** A list of the versions for this application */
-  items?: ApplicationVersionsCollectionRepItemsList;
+  items?: ApplicationVersionsCollectionRepItemsList | undefined;
   /** The number of versions for this application */
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 export interface GetApprovalForFlagRequest {
   /** The project key */
@@ -4989,9 +4997,9 @@ export interface FlagConfigApprovalRequestResponse {
   /** The approval service for this request. May be LaunchDarkly or an external approval service, such as ServiceNow or JIRA. */
   serviceKind: string;
   /** The ID of the member who requested the approval */
-  requestorId?: string;
+  requestorId?: string | undefined;
   /** A human-friendly name for the approval request */
-  description?: string;
+  description?: string | undefined;
   /** Current status of the review of this approval request */
   reviewStatus: FlagConfigApprovalRequestResponseReviewStatus;
   /** An array of individual reviews of this approval request */
@@ -4999,13 +5007,13 @@ export interface FlagConfigApprovalRequestResponse {
   /** An array of member IDs. These members are notified to review the approval request. */
   notifyMemberIds: FlagConfigApprovalRequestResponseNotifyMemberIdsList;
   /** An array of team keys, if teams were specified when the approval request was created. The members of these teams are listed in <code>notifyMemberIds</code>, resolved when the request was made. Team membership may have changed since then. */
-  notifyTeamKeys?: FlagConfigApprovalRequestResponseNotifyTeamKeysList;
+  notifyTeamKeys?: FlagConfigApprovalRequestResponseNotifyTeamKeysList | undefined;
   /** Timestamp of when the approval request was applied */
-  appliedDate?: number;
+  appliedDate?: number | undefined;
   /** The member ID of the member who applied the approval request */
-  appliedByMemberId?: string;
+  appliedByMemberId?: string | undefined;
   /** The service token ID of the service token which applied the approval request */
-  appliedByServiceTokenId?: string;
+  appliedByServiceTokenId?: string | undefined;
   /** Current status of the approval request */
   status: FlagConfigApprovalRequestResponseStatus;
   /** List of instructions in semantic patch format to be applied to the feature flag */
@@ -5015,21 +5023,21 @@ export interface FlagConfigApprovalRequestResponse {
   /** The location and content type of related resources */
   _links: FlagConfigApprovalRequestResponseLinksMap;
   /** Timestamp for when instructions will be executed */
-  executionDate?: number;
+  executionDate?: number | undefined;
   /** ID of scheduled change to edit or delete */
-  operatingOnId?: string;
+  operatingOnId?: string | undefined;
   /** Details about the object in an external service corresponding to this approval request, such as a ServiceNow change request or a JIRA ticket, if an external approval service is being used */
-  integrationMetadata?: IntegrationMetadata;
+  integrationMetadata?: IntegrationMetadata | undefined;
   /** Details about the source feature flag, if copied */
-  source?: CopiedFromEnv;
+  source?: CopiedFromEnv | undefined;
   /** Details about the custom workflow, if this approval request is part of a custom workflow */
-  customWorkflowMetadata?: CustomWorkflowMeta;
+  customWorkflowMetadata?: CustomWorkflowMeta | undefined;
 }
 export interface GetApprovalRequestRequest {
   /** The approval request ID */
   id: string;
   /** A comma-separated list of fields to expand in the response. Supported fields are explained above. */
-  expand?: string;
+  expand?: string | undefined;
 }
 /** Current status of the review of this approval request */
 export type ExpandableApprovalRequestResponseReviewStatus = "approved" | "declined" | "pending";
@@ -5059,9 +5067,9 @@ export type EnvironmentsLinksMap = { [key: string]: Link | undefined };
 export type EnvironmentsItemsList = Array<Environment>;
 export interface Environments {
   /** The location and content type of related resources */
-  _links?: EnvironmentsLinksMap;
+  _links?: EnvironmentsLinksMap | undefined;
   /** The number of environments returned */
-  totalCount?: number;
+  totalCount?: number | undefined;
   /** An array of environments */
   items: EnvironmentsItemsList;
 }
@@ -5075,17 +5083,17 @@ export interface Project {
   /** Whether or not flags created in this project are made available to the client-side JavaScript SDK by default */
   includeInSnippetByDefault: boolean;
   /** Describes which client-side SDKs can use new flags by default */
-  defaultClientSideAvailability?: ClientSideAvailability;
+  defaultClientSideAvailability?: ClientSideAvailability | undefined;
   /** A human-friendly name for the project */
   name: string;
   /** Details on the allowed and denied actions for this project */
-  _access?: Access;
+  _access?: Access | undefined;
   /** A list of tags for the project */
   tags: ProjectTagsList;
   /** The key of the default release pipeline for this project */
-  defaultReleasePipelineKey?: string;
+  defaultReleasePipelineKey?: string | undefined;
   /** A paginated list of environments for the project. By default this field is omitted unless expanded by the client. */
-  environments?: Environments;
+  environments?: Environments | undefined;
 }
 /** List of environments the approval impacts */
 export type ExpandableApprovalRequestResponseEnvironmentsList = Array<Environment>;
@@ -5103,7 +5111,7 @@ export interface ExpandedFlagRep {
   /** Kind of feature flag */
   kind: ExpandedFlagRepKind;
   /** Description of the feature flag */
-  description?: string;
+  description?: string | undefined;
   /** A unique key used to reference the flag in your code */
   key: string;
   /** Version of the feature flag */
@@ -5111,9 +5119,9 @@ export interface ExpandedFlagRep {
   /** Timestamp of flag creation date */
   creationDate: number;
   /** Deprecated, use <code>clientSideAvailability</code>. Whether this flag should be made available to the client-side JavaScript SDK */
-  includeInSnippet?: boolean;
+  includeInSnippet?: boolean | undefined;
   /** Which type of client-side SDKs the feature flag is available to */
-  clientSideAvailability?: ClientSideAvailability;
+  clientSideAvailability?: ClientSideAvailability | undefined;
   /** An array of possible variations for the flag */
   variations: ExpandedFlagRepVariationsList;
   /** Whether the flag is a temporary flag */
@@ -5123,17 +5131,17 @@ export interface ExpandedFlagRep {
   /** The location and content type of related resources */
   _links: ExpandedFlagRepLinksMap;
   /** The ID of the member who maintains the flag */
-  maintainerId?: string;
+  maintainerId?: string | undefined;
   /** Details on the member who maintains this feature flag */
-  _maintainer?: MemberSummary;
+  _maintainer?: MemberSummary | undefined;
   /** Metadata attached to the feature flag, in the form of the property key associated with a name and array of values for the metadata to associate with this flag. Typically used to store data related to an integration. */
   customProperties: CustomProperties;
   /** Boolean indicating if the feature flag is archived */
   archived: boolean;
   /** If archived is true, date of archive */
-  archivedDate?: number;
+  archivedDate?: number | undefined;
   /** The indices, from the array of variations, for the variations to serve by default when targeting is on and when targeting is off. These variations will be used for this flag in new environments. If omitted, the first and last variation will be used. */
-  defaults?: Defaults;
+  defaults?: Defaults | undefined;
 }
 export interface AIConfigRep {
   /** The key of the AI Config */
@@ -5146,7 +5154,7 @@ export interface ExpandedExperimentRep {
   key: string;
   /** The name of the experiment */
   name: string;
-  _access?: Access;
+  _access?: Access | undefined;
 }
 /** Tags for the segment. Defaults to an empty array. */
 export type UserSegmentTagsList = Array<string>;
@@ -5156,8 +5164,8 @@ export type UserSegmentIncludedList = Array<string>;
 export type UserSegmentExcludedList = Array<string>;
 export type SegmentTargetValuesList = Array<string>;
 export interface SegmentTarget {
-  values?: SegmentTargetValuesList;
-  contextKind?: string;
+  values?: SegmentTargetValuesList | undefined;
+  contextKind?: string | undefined;
 }
 export type UserSegmentIncludedContextsList = Array<SegmentTarget>;
 export type UserSegmentExcludedContextsList = Array<SegmentTarget>;
@@ -5165,31 +5173,31 @@ export type UserSegmentExcludedContextsList = Array<SegmentTarget>;
 export type UserSegmentLinksMap = { [key: string]: Link | undefined };
 export type UserSegmentRuleClausesList = Array<Clause>;
 export interface UserSegmentRule {
-  _id?: string;
+  _id?: string | undefined;
   clauses: UserSegmentRuleClausesList;
-  weight?: number;
-  rolloutContextKind?: string;
-  bucketBy?: string;
-  description?: string;
+  weight?: number | undefined;
+  rolloutContextKind?: string | undefined;
+  bucketBy?: string | undefined;
+  description?: string | undefined;
 }
 /** An array of the targeting rules for this segment. */
 export type UserSegmentRulesList = Array<UserSegmentRule>;
 /** A list of flags targeting this segment. Only included when getting a single segment, using the <code>getSegment</code> endpoint. */
 export type UserSegmentFlagsList = Array<FlagListingRep>;
 export interface SegmentMetadata {
-  envId?: string;
-  segmentId?: string;
-  version?: number;
-  includedCount?: number;
-  excludedCount?: number;
-  lastModified?: number;
-  deleted?: boolean;
+  envId?: string | undefined;
+  segmentId?: string | undefined;
+  version?: number | undefined;
+  includedCount?: number | undefined;
+  excludedCount?: number | undefined;
+  lastModified?: number | undefined;
+  deleted?: boolean | undefined;
 }
 export interface UserSegment {
   /** A human-friendly name for the segment. */
   name: string;
   /** A description of the segment's purpose. Defaults to <code>null</code> and is omitted in the response if not provided. */
-  description?: string;
+  description?: string | undefined;
   /** Tags for the segment. Defaults to an empty array. */
   tags: UserSegmentTagsList;
   /** Timestamp of when the segment was created */
@@ -5199,11 +5207,11 @@ export interface UserSegment {
   /** A unique key used to reference the segment */
   key: string;
   /** An array of keys for included targets. Included individual targets are always segment members, regardless of segment rules. For list-based segments over 15,000 entries, also called big segments, this array is either empty or omitted. */
-  included?: UserSegmentIncludedList;
+  included?: UserSegmentIncludedList | undefined;
   /** An array of keys for excluded targets. Segment rules bypass individual excluded targets, so they will never be included based on rules. Excluded targets may still be included explicitly. This value is omitted for list-based segments over 15,000 entries, also called big segments. */
-  excluded?: UserSegmentExcludedList;
-  includedContexts?: UserSegmentIncludedContextsList;
-  excludedContexts?: UserSegmentExcludedContextsList;
+  excluded?: UserSegmentExcludedList | undefined;
+  includedContexts?: UserSegmentIncludedContextsList | undefined;
+  excludedContexts?: UserSegmentExcludedContextsList | undefined;
   /** The location and content type of related resources */
   _links: UserSegmentLinksMap;
   /** An array of the targeting rules for this segment. */
@@ -5212,31 +5220,31 @@ export interface UserSegment {
   version: number;
   /** Whether the segment has been deleted */
   deleted: boolean;
-  _access?: Access;
+  _access?: Access | undefined;
   /** A list of flags targeting this segment. Only included when getting a single segment, using the <code>getSegment</code> endpoint. */
-  _flags?: UserSegmentFlagsList;
+  _flags?: UserSegmentFlagsList | undefined;
   /** Whether this is a standard segment (<code>false</code>) or a big segment (<code>true</code>). Standard segments include rule-based segments and smaller list-based segments. Big segments include larger list-based segments and synced segments. If omitted, the segment is a standard segment. */
-  unbounded?: boolean;
+  unbounded?: boolean | undefined;
   /** For big segments, the targeted context kind. */
-  unboundedContextKind?: string;
+  unboundedContextKind?: string | undefined;
   /** For big segments, how many times this segment has been created. */
   generation: number;
   /** Details on the external data store backing this segment. Only applies to big segments. */
-  _unboundedMetadata?: SegmentMetadata;
+  _unboundedMetadata?: SegmentMetadata | undefined;
   /** The external data store backing this segment. Only applies to synced segments. */
-  _external?: string;
+  _external?: string | undefined;
   /** The URL for the external data store backing this segment. Only applies to synced segments. */
-  _externalLink?: string;
+  _externalLink?: string | undefined;
   /** Whether an import is currently in progress for the specified segment. Only applies to big segments. */
-  _importInProgress?: boolean;
+  _importInProgress?: boolean | undefined;
 }
 export interface ExpandedResourceRep {
   /** The type of resource */
   kind: string;
-  aiConfig?: AIConfigRep;
-  experiment?: ExpandedExperimentRep;
-  flag?: ExpandedFlagRep;
-  segment?: UserSegment;
+  aiConfig?: AIConfigRep | undefined;
+  experiment?: ExpandedExperimentRep | undefined;
+  flag?: ExpandedFlagRep | undefined;
+  segment?: UserSegment | undefined;
 }
 export interface ExpandableApprovalRequestResponse {
   /** The ID of this approval request */
@@ -5248,9 +5256,9 @@ export interface ExpandableApprovalRequestResponse {
   /** The approval service for this request. May be LaunchDarkly or an external approval service, such as ServiceNow or JIRA. */
   serviceKind: string;
   /** The ID of the member who requested the approval */
-  requestorId?: string;
+  requestorId?: string | undefined;
   /** A human-friendly name for the approval request */
-  description?: string;
+  description?: string | undefined;
   /** Current status of the review of this approval request */
   reviewStatus: ExpandableApprovalRequestResponseReviewStatus;
   /** An array of individual reviews of this approval request */
@@ -5258,13 +5266,13 @@ export interface ExpandableApprovalRequestResponse {
   /** An array of member IDs. These members are notified to review the approval request. */
   notifyMemberIds: ExpandableApprovalRequestResponseNotifyMemberIdsList;
   /** An array of team keys, if teams were specified when the approval request was created. The members of these teams are listed in <code>notifyMemberIds</code>, resolved when the request was made. Team membership may have changed since then. */
-  notifyTeamKeys?: ExpandableApprovalRequestResponseNotifyTeamKeysList;
+  notifyTeamKeys?: ExpandableApprovalRequestResponseNotifyTeamKeysList | undefined;
   /** Timestamp of when the approval request was applied */
-  appliedDate?: number;
+  appliedDate?: number | undefined;
   /** The member ID of the member who applied the approval request */
-  appliedByMemberId?: string;
+  appliedByMemberId?: string | undefined;
   /** The service token ID of the service token which applied the approval request */
-  appliedByServiceTokenId?: string;
+  appliedByServiceTokenId?: string | undefined;
   /** Current status of the approval request */
   status: ExpandableApprovalRequestResponseStatus;
   /** List of instructions in semantic patch format to be applied to the feature flag */
@@ -5274,37 +5282,37 @@ export interface ExpandableApprovalRequestResponse {
   /** The location and content type of related resources */
   _links: ExpandableApprovalRequestResponseLinksMap;
   /** Timestamp for when instructions will be executed */
-  executionDate?: number;
+  executionDate?: number | undefined;
   /** ID of scheduled change to edit or delete */
-  operatingOnId?: string;
+  operatingOnId?: string | undefined;
   /** Details about the object in an external service corresponding to this approval request, such as a ServiceNow change request or a JIRA ticket, if an external approval service is being used */
-  integrationMetadata?: IntegrationMetadata;
+  integrationMetadata?: IntegrationMetadata | undefined;
   /** Details about the source feature flag, if copied */
-  source?: CopiedFromEnv;
+  source?: CopiedFromEnv | undefined;
   /** Details about the custom workflow, if this approval request is part of a custom workflow */
-  customWorkflowMetadata?: CustomWorkflowMeta;
+  customWorkflowMetadata?: CustomWorkflowMeta | undefined;
   /** String representation of a resource */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The settings for this approval */
-  approvalSettings?: ApprovalSettings;
+  approvalSettings?: ApprovalSettings | undefined;
   /** Project the approval request belongs to */
-  project?: Project;
+  project?: Project | undefined;
   /** List of environments the approval impacts */
-  environments?: ExpandableApprovalRequestResponseEnvironmentsList;
+  environments?: ExpandableApprovalRequestResponseEnvironmentsList | undefined;
   /** Flag the approval request belongs to */
-  flag?: ExpandedFlagRep;
+  flag?: ExpandedFlagRep | undefined;
   /** Resource the approval request belongs to */
-  resource?: ExpandedResourceRep;
+  resource?: ExpandedResourceRep | undefined;
 }
 export interface GetApprovalRequestsRequest {
   /** A comma-separated list of filters. Each filter is of the form `field operator value`. Supported fields are explained above. */
-  filter?: string;
+  filter?: string | undefined;
   /** A comma-separated list of fields to expand in the response. Supported fields are explained above. */
-  expand?: string;
+  expand?: string | undefined;
   /** The number of approvals to return. Defaults to 20. Maximum limit is 200. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** An array of approval requests */
 export type ExpandableApprovalRequestsResponseItemsList = Array<ExpandableApprovalRequestResponse>;
@@ -5321,11 +5329,11 @@ export interface ExpandableApprovalRequestsResponse {
 export interface GetApprovalRequestSettingsRequest {
   projectKey: string;
   /** An environment key filter to apply to the approval request settings. */
-  environmentKey?: string;
+  environmentKey?: string | undefined;
   /** A resource kind filter to apply to the approval request settings. */
-  resourceKind?: string;
+  resourceKind?: string | undefined;
   /** A comma-separated list of fields to expand in the response. Options include 'default' and 'strict'. */
-  expand?: string;
+  expand?: string | undefined;
 }
 /** Arbitrary service-specific configuration */
 export type ApprovalRequestSettingServiceConfigMap = { [key: string]: unknown | undefined };
@@ -5344,7 +5352,7 @@ export interface ApprovalRequestSetting {
   /** Allow applying the change as long as at least one person has approved */
   canApplyDeclinedChanges: boolean;
   /** Automatically apply changes that have been approved by all reviewers. This field is only applicable for approval services other than LaunchDarkly. */
-  autoApplyApprovedChanges?: boolean | null;
+  autoApplyApprovedChanges?: boolean | null | undefined;
   /** Which service to use for managing approvals */
   serviceKind: string;
   /** Arbitrary service-specific configuration */
@@ -5352,7 +5360,7 @@ export interface ApprovalRequestSetting {
   /** Require approval only on flags with the provided tags. Otherwise all flags will require approval. */
   requiredApprovalTags: ApprovalRequestSettingRequiredApprovalTagsList;
   /** Optional integration configuration ID of a custom approval integration. This is an Enterprise-only feature. */
-  serviceKindConfigurationId?: string | null;
+  serviceKindConfigurationId?: string | null | undefined;
 }
 /** Environment-specific overrides. */
 export type ApprovalRequestSettingWithEnvsEnvironmentsMap = {
@@ -5360,9 +5368,9 @@ export type ApprovalRequestSettingWithEnvsEnvironmentsMap = {
 };
 export interface ApprovalRequestSettingWithEnvs {
   /** Environment-specific overrides. */
-  environments?: ApprovalRequestSettingWithEnvsEnvironmentsMap;
-  _default?: ApprovalRequestSetting;
-  _strict?: ApprovalRequestSetting;
+  environments?: ApprovalRequestSettingWithEnvsEnvironmentsMap | undefined;
+  _default?: ApprovalRequestSetting | undefined;
+  _strict?: ApprovalRequestSetting | undefined;
 }
 export type ApprovalRequestSettings = { [key: string]: ApprovalRequestSettingWithEnvs | undefined };
 export type GetApprovalRequestSettingsResponse = ApprovalRequestSettings;
@@ -5386,25 +5394,25 @@ export interface FlagConfigApprovalRequestsResponse {
 }
 export interface GetAuditLogEntriesRequest {
   /** A timestamp filter, expressed as a Unix epoch time in milliseconds. All entries this returns occurred before the timestamp. */
-  before?: number;
+  before?: number | undefined;
   /** A timestamp filter, expressed as a Unix epoch time in milliseconds. All entries this returns occurred after the timestamp. */
-  after?: number;
+  after?: number | undefined;
   /** Text to search for. You can search for the full or partial name of the resource. */
-  q?: string;
+  q?: string | undefined;
   /** A limit on the number of audit log entries that return. Set between 1 and 20. The default is 10. */
-  limit?: number;
+  limit?: number | undefined;
   /** A resource specifier that lets you filter audit log listings by resource */
-  spec?: string;
+  spec?: string | undefined;
   /** A member ID that lets you filter audit log listings by the member who made the change. Repeat the parameter to filter by multiple members. */
-  member?: string;
+  member?: string | undefined;
   /** An access token ID that lets you filter audit log listings by the token that made the change. Repeat the parameter to filter by multiple tokens. */
-  token?: string;
+  token?: string | undefined;
 }
 /** The location and content type of related resources */
 export type AuditLogEntryListingRepLinksMap = { [key: string]: Link | undefined };
 export interface ResourceAccess {
-  action?: string;
-  resource?: string;
+  action?: string | undefined;
+  resource?: string | undefined;
 }
 /** Details on the actions performed and resources acted on in this audit log entry */
 export type AuditLogEntryListingRepAccessesList = Array<ResourceAccess>;
@@ -5415,57 +5423,57 @@ export type RelatedExperiment = RelatedFlag;
 export type RelatedAIConfig = RelatedFlag;
 export type SubjectDataRepLinksMap = { [key: string]: Link | undefined };
 export interface SubjectDataRep {
-  _links?: SubjectDataRepLinksMap;
+  _links?: SubjectDataRepLinksMap | undefined;
   /** The subject's name */
-  name?: string;
+  name?: string | undefined;
   /** The subject's avatar */
-  avatarUrl?: string;
+  avatarUrl?: string | undefined;
 }
 export type MemberDataRepLinksMap = { [key: string]: Link | undefined };
 export interface MemberDataRep {
-  _links?: MemberDataRepLinksMap;
+  _links?: MemberDataRepLinksMap | undefined;
   /** The member ID */
-  _id?: string;
+  _id?: string | undefined;
   /** The member email */
-  email?: string;
+  email?: string | undefined;
   /** The member first name */
-  firstName?: string;
+  firstName?: string | undefined;
   /** The member last name */
-  lastName?: string;
+  lastName?: string | undefined;
 }
 export type AuthorizedAppDataRepLinksMap = { [key: string]: Link | undefined };
 export interface AuthorizedAppDataRep {
-  _links?: AuthorizedAppDataRepLinksMap;
+  _links?: AuthorizedAppDataRepLinksMap | undefined;
   /** The ID of the authorized application */
-  _id?: string;
+  _id?: string | undefined;
   /** Whether the application is authorized through SCIM */
-  isScim?: boolean;
+  isScim?: boolean | undefined;
   /** The authorized application name */
-  name?: string;
+  name?: string | undefined;
   /** The icon for this authorized application, if it has one */
-  iconUrl?: string;
+  iconUrl?: string | undefined;
   /** The name of the maintainer for this authorized application */
-  maintainerName?: string;
+  maintainerName?: string | undefined;
   /** Whether this application acted on behalf of the member in this entry. When true, the member and the application are co-authors of the change rather than the member acting alone. Omitted for applications that act on their own. */
-  isAgent?: boolean;
+  isAgent?: boolean | undefined;
 }
 export type TargetResourceRepLinksMap = { [key: string]: Link | undefined };
 /** The resource specifier */
 export type TargetResourceRepResourcesList = Array<string>;
 export interface TargetResourceRep {
-  _links?: TargetResourceRepLinksMap;
+  _links?: TargetResourceRepLinksMap | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The resource specifier */
-  resources?: TargetResourceRepResourcesList;
+  resources?: TargetResourceRepResourcesList | undefined;
 }
 export type ParentResourceRepLinksMap = { [key: string]: Link | undefined };
 export interface ParentResourceRep {
-  _links?: ParentResourceRepLinksMap;
+  _links?: ParentResourceRepLinksMap | undefined;
   /** The name of the parent resource */
-  name?: string;
+  name?: string | undefined;
   /** The parent's resource specifier */
-  resource?: string;
+  resource?: string | undefined;
 }
 export interface AuditLogEntryListingRep {
   /** The location and content type of related resources */
@@ -5487,28 +5495,28 @@ export interface AuditLogEntryListingRep {
   /** Shorter version of the change recorded in the audit log entry */
   shortDescription: string;
   /** Optional comment for the audit log entry */
-  comment?: string;
+  comment?: string | undefined;
   /** Flag that this audit log entry updated as a side effect */
-  relatedFlag?: RelatedFlag;
+  relatedFlag?: RelatedFlag | undefined;
   /** Experiment that this audit log entry was updated as a side effect of */
-  relatedExperiment?: RelatedFlag;
+  relatedExperiment?: RelatedFlag | undefined;
   /** AgentControl config that this audit log entry updated as a side effect */
-  relatedAIConfig?: RelatedFlag;
+  relatedAIConfig?: RelatedFlag | undefined;
   /** Details of the subject who initiated the action described in the audit log entry */
-  subject?: SubjectDataRep;
+  subject?: SubjectDataRep | undefined;
   /** Details of the member who initiated the action described in the audit log entry */
-  member?: MemberDataRep;
+  member?: MemberDataRep | undefined;
   /** Details of the access token that initiated the action described in the audit log entry */
-  token?: TokenSummary;
+  token?: TokenSummary | undefined;
   /** Details of the authorized application that initiated the action described in the audit log entry */
-  app?: AuthorizedAppDataRep;
+  app?: AuthorizedAppDataRep | undefined;
   /** The action and resource recorded in this audit log entry */
-  titleVerb?: string;
+  titleVerb?: string | undefined;
   /** A description of what occurred, in the format <code>member</code> <code>titleVerb</code> <code>target</code> */
-  title?: string;
+  title?: string | undefined;
   /** Details of the resource acted upon in this audit log entry */
-  target?: TargetResourceRep;
-  parent?: ParentResourceRep;
+  target?: TargetResourceRep | undefined;
+  parent?: ParentResourceRep | undefined;
 }
 /** An array of audit log entries */
 export type AuditLogEntryListingRepCollectionItemsList = Array<AuditLogEntryListingRep>;
@@ -5549,39 +5557,39 @@ export interface AuditLogEntryRep {
   /** Shorter version of the change recorded in the audit log entry */
   shortDescription: string;
   /** Optional comment for the audit log entry */
-  comment?: string;
+  comment?: string | undefined;
   /** Flag that this audit log entry updated as a side effect */
-  relatedFlag?: RelatedFlag;
+  relatedFlag?: RelatedFlag | undefined;
   /** Experiment that this audit log entry was updated as a side effect of */
-  relatedExperiment?: RelatedFlag;
+  relatedExperiment?: RelatedFlag | undefined;
   /** AgentControl config that this audit log entry updated as a side effect */
-  relatedAIConfig?: RelatedFlag;
+  relatedAIConfig?: RelatedFlag | undefined;
   /** Details of the subject who initiated the action described in the audit log entry */
-  subject?: SubjectDataRep;
+  subject?: SubjectDataRep | undefined;
   /** Details of the member who initiated the action described in the audit log entry */
-  member?: MemberDataRep;
+  member?: MemberDataRep | undefined;
   /** Details of the access token that initiated the action described in the audit log entry */
-  token?: TokenSummary;
+  token?: TokenSummary | undefined;
   /** Details of the authorized application that initiated the action described in the audit log entry */
-  app?: AuthorizedAppDataRep;
+  app?: AuthorizedAppDataRep | undefined;
   /** The action and resource recorded in this audit log entry */
-  titleVerb?: string;
+  titleVerb?: string | undefined;
   /** A description of what occurred, in the format <code>member</code> <code>titleVerb</code> <code>target</code> */
-  title?: string;
+  title?: string | undefined;
   /** Details of the resource acted upon in this audit log entry */
-  target?: TargetResourceRep;
-  parent?: ParentResourceRep;
+  target?: TargetResourceRep | undefined;
+  parent?: ParentResourceRep | undefined;
   /** If the audit log entry has been updated, this is the JSON patch body that was used in the request to update the entity */
-  delta?: unknown;
+  delta?: unknown | undefined;
   /** A JSON representation of the external trigger for this audit log entry, if any */
-  triggerBody?: unknown;
+  triggerBody?: unknown | undefined;
   /** A JSON representation of the merge information for this audit log entry, if any */
-  merge?: unknown;
+  merge?: unknown | undefined;
   /** If the audit log entry has been updated, this is a JSON representation of the previous version of the entity */
-  previousVersion?: unknown;
+  previousVersion?: unknown | undefined;
   /** If the audit log entry has been updated, this is a JSON representation of the current version of the entity */
-  currentVersion?: unknown;
-  subentries?: AuditLogEntryRepSubentriesList;
+  currentVersion?: unknown | undefined;
+  subentries?: AuditLogEntryRepSubentriesList | undefined;
 }
 export interface GetBigSegmentExportRequest {
   /** The project key */
@@ -5595,9 +5603,9 @@ export interface GetBigSegmentExportRequest {
 }
 export interface InitiatorRep {
   /** The name of the member who initiated the export */
-  name?: string;
+  name?: string | undefined;
   /** The email address of the member who initiated the export */
-  email?: string;
+  email?: string | undefined;
 }
 /** The location and content type of related resources, including the location of the exported file */
 export type ExportLinksMap = { [key: string]: Link | undefined };
@@ -5639,9 +5647,9 @@ export type ImportStatus =
   | "stopped";
 export interface FileRep {
   /** The imported file name, including the extension */
-  filename?: string;
+  filename?: string | undefined;
   /** The imported file status */
-  status?: string;
+  status?: string | undefined;
 }
 /** The imported files and their status */
 export type ImportFilesList = Array<FileRep>;
@@ -5659,7 +5667,7 @@ export interface Import {
   /** The import status */
   status: ImportStatus;
   /** The imported files and their status */
-  files?: ImportFilesList;
+  files?: ImportFilesList | undefined;
   /** The location and content type of related resources */
   _links: ImportLinksMap;
 }
@@ -5676,7 +5684,7 @@ export interface GetBigSegmentStoreIntegrationRequest {
 export interface GetBigSegmentStoreIntegrationsRequest {}
 export interface BigSegmentStoreIntegrationCollectionLinks {
   self: Link;
-  parent?: Link;
+  parent?: Link | undefined;
 }
 /** An array of persistent store integration configurations */
 export type BigSegmentStoreIntegrationCollectionItemsList = Array<BigSegmentStoreIntegration>;
@@ -5692,9 +5700,9 @@ export interface GetBranchRequest {
   /** The url-encoded branch name */
   branch: string;
   /** Filter results to a specific project */
-  projKey?: string;
+  projKey?: string | undefined;
   /** Filter results to a specific flag key */
-  flagKey?: string;
+  flagKey?: string | undefined;
 }
 /** An array of flag key aliases */
 export type HunkRepAliasesList = Array<string>;
@@ -5702,20 +5710,20 @@ export interface HunkRep {
   /** Line number of beginning of code reference hunk */
   startingLineNumber: number;
   /** Contextual lines of code that include the referenced feature flag */
-  lines?: string;
+  lines?: string | undefined;
   /** The project key */
-  projKey?: string;
+  projKey?: string | undefined;
   /** The feature flag key */
-  flagKey?: string;
+  flagKey?: string | undefined;
   /** An array of flag key aliases */
-  aliases?: HunkRepAliasesList;
+  aliases?: HunkRepAliasesList | undefined;
 }
 export type ReferenceRepHunksList = Array<HunkRep>;
 export interface ReferenceRep {
   /** File path of the reference */
   path: string;
   /** Programming language used in the file */
-  hint?: string;
+  hint?: string | undefined;
   hunks: ReferenceRepHunksList;
 }
 /** An array of flag references found on the branch */
@@ -5728,11 +5736,11 @@ export interface BranchRep {
   /** An ID representing the branch HEAD. For example, a commit SHA. */
   head: string;
   /** An optional ID used to prevent older data from overwriting newer data */
-  updateSequenceId?: number;
+  updateSequenceId?: number | undefined;
   /** A timestamp indicating when the branch was last synced */
   syncTime: number;
   /** An array of flag references found on the branch */
-  references?: BranchRepReferencesList;
+  references?: BranchRepReferencesList | undefined;
   /** The location and content type of related resources */
   _links: BranchRepLinksMap;
 }
@@ -5753,19 +5761,19 @@ export interface BranchCollectionRep {
 export interface GetCallerIdentityRequest {}
 export type CallerIdentityRepScopesList = Array<string>;
 export interface CallerIdentityRep {
-  accountId?: string;
-  environmentId?: string;
-  projectId?: string;
-  environmentName?: string;
-  projectName?: string;
-  authKind?: string;
-  tokenKind?: string;
-  clientId?: string;
-  tokenName?: string;
-  tokenId?: string;
-  memberId?: string;
-  serviceToken?: boolean;
-  scopes?: CallerIdentityRepScopesList;
+  accountId?: string | undefined;
+  environmentId?: string | undefined;
+  projectId?: string | undefined;
+  environmentName?: string | undefined;
+  projectName?: string | undefined;
+  authKind?: string | undefined;
+  tokenKind?: string | undefined;
+  clientId?: string | undefined;
+  tokenName?: string | undefined;
+  tokenId?: string | undefined;
+  memberId?: string | undefined;
+  serviceToken?: boolean | undefined;
+  scopes?: CallerIdentityRepScopesList | undefined;
 }
 export interface GetContextAttributeNamesRequest {
   /** The project key */
@@ -5773,9 +5781,9 @@ export interface GetContextAttributeNamesRequest {
   /** The environment key */
   environmentKey: string;
   /** A comma-separated list of context filters. This endpoint only accepts `kind` filters, with the `equals` operator, and `name` filters, with the `startsWith` operator. To learn more about the filter syntax, read [Filtering contexts](https://launchdarkly.com/docs/ld-docs/api/contexts#filtering-contexts). */
-  filter?: string;
+  filter?: string | undefined;
   /** Specifies the maximum number of items in the collection to return (max: 100, default: 100) */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface ContextAttributeName {
   /** A context attribute's name. */
@@ -5783,7 +5791,7 @@ export interface ContextAttributeName {
   /** A relative estimate of the number of contexts seen recently that have an attribute with the associated name. */
   weight: number;
   /** Whether or not the attribute has one or more redacted values. */
-  redacted?: boolean;
+  redacted?: boolean | undefined;
 }
 /** A collection of context attribute names. */
 export type ContextAttributeNamesNamesList = Array<ContextAttributeName>;
@@ -5807,9 +5815,9 @@ export interface GetContextAttributeValuesRequest {
   /** The attribute name */
   attributeName: string;
   /** A comma-separated list of context filters. This endpoint requires a `kind` filter, with the `equals` operator, and also accepts a `value` filter, with the `startsWith` operator. To learn more about the filter syntax, read [Filtering contexts](https://launchdarkly.com/docs/ld-docs/api/contexts#filtering-contexts). */
-  filter?: string;
+  filter?: string | undefined;
   /** Specifies the maximum number of items in the collection to return (max: 100, default: 50) */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface ContextAttributeValue {
   /** A value for a context attribute. */
@@ -5872,7 +5880,7 @@ export interface GetContextKindsByProjectKeyRequest {
   /** The project key */
   projectKey: string;
   /** A comma-separated list of properties that can reveal additional information in the response. Options: `environmentObservations`. */
-  expand?: string;
+  expand?: string | undefined;
 }
 export interface ContextKindEnvironmentObservation {
   /** The environment key */
@@ -5898,17 +5906,17 @@ export interface ContextKindRep {
   /** Timestamp of when the context kind was most recently changed */
   lastModified: number;
   /** Timestamp of when a context of this context kind was most recently evaluated */
-  lastSeen?: number;
+  lastSeen?: number | undefined;
   /** Recent environment observations retained from flag evaluations. This is not a complete historical record. */
-  environmentObservations?: ContextKindRepEnvironmentObservationsList;
+  environmentObservations?: ContextKindRepEnvironmentObservationsList | undefined;
   /** How the context kind was created */
   createdFrom: string;
   /** Alias for archived. */
-  hideInTargeting?: boolean;
+  hideInTargeting?: boolean | undefined;
   /** Whether the context kind is archived. Archived context kinds are unavailable for targeting. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** The location and content type of related resources */
-  _links?: ContextKindRepLinksMap;
+  _links?: ContextKindRepLinksMap | undefined;
 }
 /** An array of context kinds */
 export type ContextKindsCollectionRepItemsList = Array<ContextKindRep>;
@@ -5930,15 +5938,15 @@ export interface GetContextsRequest {
   /** The context key */
   key: string;
   /** Specifies the maximum number of items in the collection to return (max: 50, default: 20) */
-  limit?: number;
+  limit?: number | undefined;
   /** An opaque cursor that identifies the next page of results. You can use this for pagination, however, we recommend using the `next` link we provide instead. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
   /** Deprecated. This endpoint does not support sorting. Requests that include this parameter are rejected with a `400` response, so omit it. Results are always sorted by context kind and key. */
-  sort?: string;
+  sort?: string | undefined;
   /** A comma-separated list of context filters. This endpoint only accepts an `applicationId` filter. To learn more about the filter syntax, read [Filtering contexts](https://launchdarkly.com/docs/ld-docs/api/contexts#filtering-contexts). */
-  filter?: string;
+  filter?: string | undefined;
   /** Specifies whether to include or omit the total count of matching contexts. Defaults to true. */
-  includeTotalCount?: boolean;
+  includeTotalCount?: boolean | undefined;
 }
 /** The location and content type of related resources */
 export type ContextsLinksMap = { [key: string]: Link | undefined };
@@ -5946,99 +5954,99 @@ export type ContextsLinksMap = { [key: string]: Link | undefined };
 export type ContextRecordLinksMap = { [key: string]: Link | undefined };
 export interface ContextRecord {
   /** Timestamp of the last time an evaluation occurred for this context */
-  lastSeen?: string;
+  lastSeen?: string | undefined;
   /** An identifier representing the application where the LaunchDarkly SDK is running. Populated when you get contexts by kind and key. Empty in search results, which return each context's most recently reported data. */
-  applicationId?: string;
+  applicationId?: string | undefined;
   /** The context, including its kind and attributes */
   context: unknown;
   /** The location and content type of related resources */
-  _links?: ContextRecordLinksMap;
+  _links?: ContextRecordLinksMap | undefined;
   /** Details on the allowed and denied actions for this context instance */
-  _access?: Access;
+  _access?: Access | undefined;
   /** Deprecated. This value is always 1. */
-  associatedContexts?: number;
+  associatedContexts?: number | undefined;
 }
 /** A collection of contexts. Can include multiple versions of contexts that have the same <code>kind</code> and <code>key</code>, but different <code>applicationId</code>s. */
 export type ContextsItemsList = Array<ContextRecord>;
 export interface Contexts {
   /** The location and content type of related resources */
-  _links?: ContextsLinksMap;
+  _links?: ContextsLinksMap | undefined;
   /** The number of matching contexts. This value is approximate and may be omitted if it is unavailable. */
-  totalCount?: number;
+  totalCount?: number | undefined;
   /** The environment ID where the context was evaluated */
   _environmentId: string;
   /** An obfuscated string that references the last context on the previous page of results. You can use this for pagination, however, we recommend using the <code>next</code> link instead. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
   /** A collection of contexts. Can include multiple versions of contexts that have the same <code>kind</code> and <code>key</code>, but different <code>applicationId</code>s. */
   items: ContextsItemsList;
 }
 export interface GetContextsClientsideUsageRequest {
   /** The series of data returned starts from this timestamp (Unix milliseconds). Defaults to the beginning of the current month. */
-  from?: string;
+  from?: string | undefined;
   /** The series of data returned ends at this timestamp (Unix milliseconds). Defaults to the current time. */
-  to?: string;
+  to?: string | undefined;
   /** A project key to filter results by. Can be specified multiple times, one query parameter per project key. */
-  projectKey?: string;
+  projectKey?: string | undefined;
   /** An environment key to filter results by. If specified, exactly one `projectKey` must be provided. Can be specified multiple times, one query parameter per environment key. */
-  environmentKey?: string;
+  environmentKey?: string | undefined;
   /** A context kind to filter results by. Can be specified multiple times, one query parameter per context kind. */
-  contextKind?: string;
+  contextKind?: string | undefined;
   /** An SDK name to filter results by. Can be specified multiple times, one query parameter per SDK name. */
-  sdkName?: string;
+  sdkName?: string | undefined;
   /** An anonymous value to filter results by. Can be specified multiple times, one query parameter per anonymous value.<br/>Valid values: `true`, `false`. */
-  anonymous?: string;
+  anonymous?: string | undefined;
   /** If specified, returns data for each distinct value of the given field. `contextKind` is always included as a grouping dimension. Can be specified multiple times to group data by multiple dimensions, one query parameter per dimension.<br/>Valid values: `projectId`, `environmentId`, `sdkName`, `sdkAppId`, `anonymousV2`. */
-  groupBy?: string;
+  groupBy?: string | undefined;
   /** Specifies the aggregation method. Defaults to `month_to_date`.<br/>Valid values: `month_to_date`, `incremental`, `rolling_30d`. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Specifies the data granularity. Defaults to `daily`. Valid values depend on `aggregationType`: **month_to_date** supports `daily` and `monthly`; **incremental** and **rolling_30d** support `daily` only. */
-  granularity?: string;
+  granularity?: string | undefined;
 }
 export interface GetContextsServersideUsageRequest {
   /** The series of data returned starts from this timestamp (Unix seconds). Defaults to the beginning of the current month. */
-  from?: string;
+  from?: string | undefined;
   /** The series of data returned ends at this timestamp (Unix seconds). Defaults to the current time. */
-  to?: string;
+  to?: string | undefined;
   /** A project key to filter results by. Can be specified multiple times, one query parameter per project key. */
-  projectKey?: string;
+  projectKey?: string | undefined;
   /** An environment key to filter results by. If specified, exactly one `projectKey` must be provided. Can be specified multiple times, one query parameter per environment key. */
-  environmentKey?: string;
+  environmentKey?: string | undefined;
   /** A context kind to filter results by. Can be specified multiple times, one query parameter per context kind. */
-  contextKind?: string;
+  contextKind?: string | undefined;
   /** An SDK name to filter results by. Can be specified multiple times, one query parameter per SDK name. */
-  sdkName?: string;
+  sdkName?: string | undefined;
   /** An anonymous value to filter results by. Can be specified multiple times, one query parameter per anonymous value.<br/>Valid values: `true`, `false`. */
-  anonymous?: string;
+  anonymous?: string | undefined;
   /** If specified, returns data for each distinct value of the given field. `contextKind` is always included as a grouping dimension. Can be specified multiple times to group data by multiple dimensions, one query parameter per dimension.<br/>Valid values: `projectId`, `environmentId`, `sdkName`, `sdkAppId`, `anonymousV2`. */
-  groupBy?: string;
+  groupBy?: string | undefined;
   /** Specifies the aggregation method. Defaults to `month_to_date`.<br/>Valid values: `month_to_date`, `incremental`, `rolling_30d`. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Specifies the data granularity. Defaults to `daily`. Valid values depend on `aggregationType`: **month_to_date** supports `daily` and `monthly`; **incremental** and **rolling_30d** support `daily` only. */
-  granularity?: string;
+  granularity?: string | undefined;
 }
 export interface GetContextsTotalUsageRequest {
   /** The series of data returned starts from this timestamp (Unix milliseconds). Defaults to the beginning of the current month. */
-  from?: string;
+  from?: string | undefined;
   /** The series of data returned ends at this timestamp (Unix milliseconds). Defaults to the current time. */
-  to?: string;
+  to?: string | undefined;
   /** A project key to filter results by. Can be specified multiple times, one query parameter per project key. */
-  projectKey?: string;
+  projectKey?: string | undefined;
   /** An environment key to filter results by. If specified, exactly one `projectKey` must be provided. Can be specified multiple times, one query parameter per environment key. */
-  environmentKey?: string;
+  environmentKey?: string | undefined;
   /** A context kind to filter results by. Can be specified multiple times, one query parameter per context kind. */
-  contextKind?: string;
+  contextKind?: string | undefined;
   /** An SDK name to filter results by. Can be specified multiple times, one query parameter per SDK name. */
-  sdkName?: string;
+  sdkName?: string | undefined;
   /** An SDK type to filter results by. Can be specified multiple times, one query parameter per SDK type. */
-  sdkType?: string;
+  sdkType?: string | undefined;
   /** An anonymous value to filter results by. Can be specified multiple times, one query parameter per anonymous value.<br/>Valid values: `true`, `false`. */
-  anonymous?: string;
+  anonymous?: string | undefined;
   /** If specified, returns data for each distinct value of the given field. `contextKind` is always included as a grouping dimension. Can be specified multiple times to group data by multiple dimensions, one query parameter per dimension.<br/>Valid values: `projectId`, `environmentId`, `sdkName`, `sdkType`, `sdkAppId`, `anonymousV2`. */
-  groupBy?: string;
+  groupBy?: string | undefined;
   /** Specifies the aggregation method. Defaults to `month_to_date`.<br/>Valid values: `month_to_date`, `incremental`, `rolling_30d`. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Specifies the data granularity. Defaults to `daily`. Valid values depend on `aggregationType`: **month_to_date** supports `daily` and `monthly`; **incremental** and **rolling_30d** support `daily` only. */
-  granularity?: string;
+  granularity?: string | undefined;
 }
 export interface GetCustomRoleRequest {
   /** The custom role key or ID */
@@ -6050,9 +6058,9 @@ export type CustomRoleLinksMap = { [key: string]: Link | undefined };
 export type CustomRolePolicyList = Array<Statement>;
 export interface AssignedToRep {
   /** The number of individual members this role is assigned to */
-  membersCount?: number;
+  membersCount?: number | undefined;
   /** The number of teams this role is assigned to */
-  teamsCount?: number;
+  teamsCount?: number | undefined;
 }
 /** If created from a preset, the read-only statements copied from the preset */
 export type CustomRolePresetStatementsList = Array<Statement>;
@@ -6062,9 +6070,9 @@ export interface CustomRole {
   /** The location and content type of related resources */
   _links: CustomRoleLinksMap;
   /** Details on the allowed and denied actions for this custom role */
-  _access?: Access;
+  _access?: Access | undefined;
   /** The description of the custom role */
-  description?: string;
+  description?: string | undefined;
   /** The key of the custom role */
   key: string;
   /** The name of the custom role */
@@ -6072,21 +6080,21 @@ export interface CustomRole {
   /** An array of the policies that comprise this custom role */
   policy: CustomRolePolicyList;
   /** Base permissions to use for this role. Defaults to no_access (older roles defaulted to reader). Recommended to set this to no_access in all cases. */
-  basePermissions?: string;
+  basePermissions?: string | undefined;
   /** The category of resources this role is intended to manage. Can be <code>organization</code>, <code>project</code>, or <code>any</code>. Once set, this field cannot be changed. */
-  resourceCategory?: string;
+  resourceCategory?: string | undefined;
   /** The number of teams and members this role is assigned to */
-  assignedTo?: AssignedToRep;
+  assignedTo?: AssignedToRep | undefined;
   /** If created from a preset, the preset bundle version */
-  _presetBundleVersion?: number;
+  _presetBundleVersion?: number | undefined;
   /** If created from a preset, the read-only statements copied from the preset */
-  _presetStatements?: CustomRolePresetStatementsList;
+  _presetStatements?: CustomRolePresetStatementsList | undefined;
 }
 export interface GetCustomRolesRequest {
   /** The maximum number of custom roles to return. Defaults to 20. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Defaults to 0. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** The location and content type of related resources */
 export type CustomRolesLinksMap = { [key: string]: Link | undefined };
@@ -6094,11 +6102,11 @@ export type CustomRolesLinksMap = { [key: string]: Link | undefined };
 export type CustomRolesItemsList = Array<CustomRole>;
 export interface CustomRoles {
   /** The location and content type of related resources */
-  _links?: CustomRolesLinksMap;
+  _links?: CustomRolesLinksMap | undefined;
   /** An array of custom roles */
   items: CustomRolesItemsList;
   /** The total number of custom roles */
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 export interface GetCustomWorkflowRequest {
   /** The project key */
@@ -6141,33 +6149,33 @@ export type RuleClauseOp =
   | "semVerGreaterThan";
 export interface RuleClause {
   /** The attribute the rule applies to, for example, last name or email address */
-  attribute?: string;
+  attribute?: string | undefined;
   /** The operator to apply to the given attribute */
-  op?: RuleClauseOp;
+  op?: RuleClauseOp | undefined;
   /** Whether the operator should be negated */
-  negate?: boolean;
+  negate?: boolean | undefined;
 }
 export interface ParameterDefault {
   /** The default value for the given parameter */
-  value?: unknown;
+  value?: unknown | undefined;
   /** Variation value for boolean flags. Not applicable for non-boolean flags. */
-  booleanVariationValue?: boolean;
+  booleanVariationValue?: boolean | undefined;
   /** Metadata related to add rule instructions */
-  ruleClause?: RuleClause;
+  ruleClause?: RuleClause | undefined;
 }
 export interface WorkflowTemplateParameter {
   /** The ID of the condition or instruction referenced by this parameter */
-  _id?: string;
+  _id?: string | undefined;
   /** The path of the property to parameterize, relative to its parent condition or instruction */
-  path?: string;
+  path?: string | undefined;
   /** The default value of the parameter and other relevant metadata */
-  default?: ParameterDefault;
+  default?: ParameterDefault | undefined;
   /** Whether the default value is valid for the target flag and environment */
-  valid?: boolean;
+  valid?: boolean | undefined;
 }
 export type WorkflowTemplateMetadataParametersList = Array<WorkflowTemplateParameter>;
 export interface WorkflowTemplateMetadata {
-  parameters?: WorkflowTemplateMetadataParametersList;
+  parameters?: WorkflowTemplateMetadataParametersList | undefined;
 }
 export interface CustomWorkflowOutput {
   /** The ID of the workflow */
@@ -6185,37 +6193,37 @@ export interface CustomWorkflowOutput {
   /** The name of the workflow */
   name: string;
   /** A brief description of the workflow */
-  description?: string;
+  description?: string | undefined;
   /** The kind of workflow */
-  kind?: string;
+  kind?: string | undefined;
   /** The stages that make up the workflow. Each stage contains conditions and actions. */
-  stages?: CustomWorkflowOutputStagesList;
+  stages?: CustomWorkflowOutputStagesList | undefined;
   /** The current execution status of the workflow */
   _execution: ExecutionOutput;
   /** For workflows being created from a workflow template, this value holds any parameters that could potentially be incompatible with the current project, environment, or flag */
-  meta?: WorkflowTemplateMetadata;
+  meta?: WorkflowTemplateMetadata | undefined;
   /** For workflows being created from a workflow template, this value is the template's key */
-  templateKey?: string;
+  templateKey?: string | undefined;
 }
 export interface GetDataExportEventsUsageRequest {
   /** The series of data returned starts from this timestamp (Unix milliseconds). Defaults to the beginning of the current month. */
-  from?: string;
+  from?: string | undefined;
   /** The series of data returned ends at this timestamp (Unix milliseconds). Defaults to the current time. */
-  to?: string;
+  to?: string | undefined;
   /** A project key to filter results by. Without `groupBy=projectId`, filters to the project's current environments so retained pre-materialization usage remains visible. Can be specified multiple times, one query parameter per project key. */
-  projectKey?: string;
+  projectKey?: string | undefined;
   /** An environment key to filter results by. If specified, exactly one `projectKey` must be provided. Can be specified multiple times, one query parameter per environment key. */
-  environmentKey?: string;
+  environmentKey?: string | undefined;
   /** An event kind to filter results by. Can be specified multiple times, one query parameter per event kind. */
-  eventKind?: string;
+  eventKind?: string | undefined;
   /** A Streaming configuration kind to filter results by. Values preserve raw product identity; `snowflake` is legacy Streaming Snowflake and is distinct from Warehouse `snowflake-v2`. Can be specified multiple times.<br/>Valid values: `kinesis`, `google-pubsub`, `mparticle`, `segment`, `azure-event-hubs`, `snowflake`, `unknown`. */
-  destinationKind?: string;
+  destinationKind?: string | undefined;
   /** If specified, returns data for each distinct value of the given field. Can be specified multiple times to group data by multiple dimensions, one query parameter per dimension. `projectId` requires one or more explicit `projectKey` filters and is capped at 100 selected projects. `destinationId` returns one series per streaming destination with `destinationName` metadata, plus `destinationViewable` when the destination is in the current configuration. The destination's own kind is added as `destinationKind` only when you can view the destination. A kind requested with `groupBy=destinationKind` is returned unchanged. A destination ID absent from the current configuration is named `Unknown historical destination`. Destinations you cannot view are reported together in one `Unknown destination` series with `destinationId` `hidden` and `destinationViewable` `false`, one per combination of the other requested dimensions, such as `destinationKind`. Usage without a destination ID is one series with an empty `destinationId` named `Unattributed`.<br/>Valid values: `projectId`, `environmentId`, `eventKind`, `destinationKind`, `destinationId`. */
-  groupBy?: string;
+  groupBy?: string | undefined;
   /** Specifies the aggregation method. Defaults to `month_to_date`.<br/>Valid values: `month_to_date`, `incremental`. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Specifies the data granularity. Defaults to `daily`. `monthly` granularity is only supported with the **month_to_date** aggregation type.<br/>Valid values: `daily`, `hourly`, `monthly`. */
-  granularity?: string;
+  granularity?: string | undefined;
 }
 /** The location and content type of related resources */
 export type DataExportSeriesListRepLinksMap = { [key: string]: unknown | undefined };
@@ -6231,9 +6239,9 @@ export interface DataExportSeriesListRep {
   /** An array of data points with timestamps. Each element of the array is an object with a 'time' field, whose value is the timestamp, and one or more key fields. If there are multiple key fields, they are labeled '0', '1', and so on, and are explained in the <code>metadata</code>. */
   series: DataExportSeriesListRepSeriesList;
   /** The end of the latest hour written by this source's usage pipeline, as an RFC 3339 UTC timestamp. It is measured across all accounts, not only yours, and usage after this time is not counted yet. Omitted when the watermark is unavailable. */
-  dataThrough?: string;
+  dataThrough?: string | undefined;
   /** Whether this source's usage pipeline is late: it wrote every hour of the 24 hours ending at <code>dataThrough</code>, and more than three hours have passed since <code>dataThrough</code>. Always <code>false</code> for a source with gaps in those 24 hours, where gaps usually mean no usage rather than a stalled pipeline. Omitted when <code>dataThrough</code> is omitted. */
-  delayed?: boolean;
+  delayed?: boolean | undefined;
 }
 export type GetDataExportProjectRankingRequestProjectKeyList = Array<string>;
 export interface GetDataExportProjectRankingRequest {
@@ -6242,17 +6250,17 @@ export interface GetDataExportProjectRankingRequest {
   /** Exclusive UTC range end in Unix milliseconds. */
   to: number;
   /** The source scope. Only `streaming` is supported. */
-  source?: string;
+  source?: string | undefined;
   /** The ranking dimension. Only `project` is supported. */
-  dimension?: string;
+  dimension?: string | undefined;
   /** A canonical project key to include. Can be specified multiple times, with at most 100 unique explicit selections; duplicates do not consume the limit. When omitted, all account projects with usage in the requested range are ranked. */
-  projectKey?: GetDataExportProjectRankingRequestProjectKeyList;
+  projectKey?: GetDataExportProjectRankingRequestProjectKeyList | undefined;
   /** A case-insensitive substring matched against canonical project keys before querying usage. Project names are not searched. */
-  search?: string;
+  search?: string | undefined;
   /** An opaque cursor returned by a previous response. Cursors are bound to the account and ranking inputs. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of ranked projects to return. This bounds response rows and look-ahead, not the account-wide candidate universe. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface DataExportProjectRankComponentsRep {
   /** Successful Streaming transfers attributed to this project in the requested range. */
@@ -6279,7 +6287,7 @@ export interface DataExportProjectRankingPageRep {
   /** The number of matching projects with usage. */
   totalCount: number;
   /** An opaque cursor for the next page. */
-  nextCursor?: string;
+  nextCursor?: string | undefined;
 }
 /** The included usage source. */
 export type DataExportProjectRankingScopeRepSource = "streaming";
@@ -6312,7 +6320,7 @@ export interface GetDependentFlagsRequest {
 export type DependentFlagEnvironmentLinksMap = { [key: string]: Link | undefined };
 export interface DependentFlagEnvironment {
   /** The environment name */
-  name?: string;
+  name?: string | undefined;
   /** The environment key */
   key: string;
   /** The location and content type of related resources */
@@ -6324,7 +6332,7 @@ export interface DependentFlagEnvironment {
 export type MultiEnvironmentDependentFlagEnvironmentsList = Array<DependentFlagEnvironment>;
 export interface MultiEnvironmentDependentFlag {
   /** The flag name */
-  name?: string;
+  name?: string | undefined;
   /** The flag key */
   key: string;
   /** A list of environments in which the dependent flag appears */
@@ -6354,7 +6362,7 @@ export interface GetDependentFlagsByEnvRequest {
 export type DependentFlagLinksMap = { [key: string]: Link | undefined };
 export interface DependentFlag {
   /** The flag name */
-  name?: string;
+  name?: string | undefined;
   /** The flag key */
   key: string;
   /** The location and content type of related resources */
@@ -6378,7 +6386,7 @@ export interface GetDeploymentRequest {
   /** The deployment ID */
   deploymentID: string;
   /** Expand properties in response. Options: `pullRequests`, `flagReferences` */
-  expand?: string;
+  expand?: string | undefined;
 }
 /** The metadata associated with the deployment */
 export type DeploymentRepMetadataMap = { [key: string]: unknown | undefined };
@@ -6392,7 +6400,7 @@ export interface DeploymentCollectionRep {
   /** A list of deployments */
   items: DeploymentCollectionRepItemsList;
   /** The location and content type of related resources */
-  _links?: DeploymentCollectionRepLinksMap;
+  _links?: DeploymentCollectionRepLinksMap | undefined;
 }
 export interface FlagReferenceRep {
   /** The project key */
@@ -6416,19 +6424,19 @@ export interface PullRequestLeadTimeRep {
   /** The coding duration in milliseconds */
   codingDurationMs: number;
   /** The review duration in milliseconds */
-  reviewDurationMs?: number;
+  reviewDurationMs?: number | undefined;
   /** The max wait duration between merge time and deploy start time in milliseconds */
-  maxWaitDurationMs?: number;
+  maxWaitDurationMs?: number | undefined;
   /** The average wait duration between merge time and deploy start time in milliseconds */
-  avgWaitDurationMs?: number;
+  avgWaitDurationMs?: number | undefined;
   /** The max deploy duration in milliseconds */
-  maxDeployDurationMs?: number;
+  maxDeployDurationMs?: number | undefined;
   /** The average deploy duration in milliseconds */
-  avgDeployDurationMs?: number;
+  avgDeployDurationMs?: number | undefined;
   /** The max total lead time in milliseconds */
-  maxTotalLeadTimeMs?: number;
+  maxTotalLeadTimeMs?: number | undefined;
   /** The average total lead time in milliseconds */
-  avgTotalLeadTimeMs?: number;
+  avgTotalLeadTimeMs?: number | undefined;
 }
 export interface PullRequestRep {
   /** The pull request internal ID */
@@ -6444,9 +6452,9 @@ export interface PullRequestRep {
   /** The pull request create time */
   createTime: number;
   /** The pull request merge time */
-  mergeTime?: number;
+  mergeTime?: number | undefined;
   /** The pull request merge commit key */
-  mergeCommitKey?: string;
+  mergeCommitKey?: string | undefined;
   /** The pull request base commit key */
   baseCommitKey: string;
   /** The pull request head commit key */
@@ -6460,11 +6468,11 @@ export interface PullRequestRep {
   /** The pull request URL */
   url: string;
   /** A list of deployments associated with the pull request */
-  deployments?: DeploymentCollectionRep;
+  deployments?: DeploymentCollectionRep | undefined;
   /** A list of flag references associated with the pull request */
-  flagReferences?: FlagReferenceCollectionRep;
+  flagReferences?: FlagReferenceCollectionRep | undefined;
   /** The lead time for the pull request in a given environment */
-  leadTime?: PullRequestLeadTimeRep;
+  leadTime?: PullRequestLeadTimeRep | undefined;
 }
 /** A list of pull requests */
 export type PullRequestCollectionRepItemsList = Array<PullRequestRep>;
@@ -6476,19 +6484,19 @@ export interface PullRequestCollectionRep {
   /** A list of pull requests */
   items: PullRequestCollectionRepItemsList;
   /** The location and content type of related resources */
-  _links?: PullRequestCollectionRepLinksMap;
+  _links?: PullRequestCollectionRepLinksMap | undefined;
 }
 export interface LeadTimeStagesRep {
   /** The coding duration in milliseconds */
   codingDurationMs: number;
   /** The review duration in milliseconds */
-  reviewDurationMs?: number;
+  reviewDurationMs?: number | undefined;
   /** The wait duration between merge time and deploy start time in milliseconds */
-  waitDurationMs?: number;
+  waitDurationMs?: number | undefined;
   /** The deploy duration in milliseconds */
-  deployDurationMs?: number;
+  deployDurationMs?: number | undefined;
   /** The total lead time in milliseconds */
-  totalLeadTimeMs?: number;
+  totalLeadTimeMs?: number | undefined;
 }
 export interface DeploymentRep {
   /** The deployment ID */
@@ -6500,9 +6508,9 @@ export interface DeploymentRep {
   /** The time the deployment started */
   startedAt: number;
   /** The time the deployment ended */
-  endedAt?: number;
+  endedAt?: number | undefined;
   /** The duration of the deployment in milliseconds */
-  durationMs?: number;
+  durationMs?: number | undefined;
   /** The status of the deployment */
   status: string;
   /** The kind of deployment */
@@ -6510,7 +6518,7 @@ export interface DeploymentRep {
   /** Whether the deployment is active */
   active: boolean;
   /** The metadata associated with the deployment */
-  metadata?: DeploymentRepMetadataMap;
+  metadata?: DeploymentRepMetadataMap | undefined;
   /** Whether the deployment is archived */
   archived: boolean;
   /** The environment key */
@@ -6526,31 +6534,31 @@ export interface DeploymentRep {
   /** The total lead time from first commit to deployment end in milliseconds */
   leadTime: number;
   /** The pull requests contained in the deployment */
-  pullRequests?: PullRequestCollectionRep;
+  pullRequests?: PullRequestCollectionRep | undefined;
   /** The flag references contained in the deployment */
-  flagReferences?: FlagReferenceCollectionRep;
+  flagReferences?: FlagReferenceCollectionRep | undefined;
   /** The lead time stages for the deployment */
-  leadTimeStages?: LeadTimeStagesRep;
+  leadTimeStages?: LeadTimeStagesRep | undefined;
 }
 export interface GetDeploymentFrequencyChartRequest {
   /** The project key */
-  projectKey?: string;
+  projectKey?: string | undefined;
   /** The environment key */
-  environmentKey?: string;
+  environmentKey?: string | undefined;
   /** Comma separated list of application keys */
-  applicationKey?: string;
+  applicationKey?: string | undefined;
   /** Unix timestamp in milliseconds. Default value is 7 days ago. */
-  from?: string;
+  from?: string | undefined;
   /** Unix timestamp in milliseconds. Default value is now. */
-  to?: string;
+  to?: string | undefined;
   /** Specify type of bucket. Options: `rolling`, `hour`, `day`. Default: `rolling`. */
-  bucketType?: string;
+  bucketType?: string | undefined;
   /** Duration of intervals for x-axis in milliseconds. Default value is one day (`86400000` milliseconds). */
-  bucketMs?: number;
+  bucketMs?: number | undefined;
   /** Options: `application`, `kind` */
-  groupBy?: string;
+  groupBy?: string | undefined;
   /** Options: `metrics` */
-  expand?: string;
+  expand?: string | undefined;
 }
 export type InsightsChartMetadataCustomValues = { [key: string]: unknown | undefined };
 export interface InsightsMetricTierDefinition {
@@ -6582,9 +6590,9 @@ export interface InsightsChartMetadata {
   /** Metadata values */
   summary: InsightsChartMetadataCustomValues;
   /** Name of the chart */
-  name?: string;
+  name?: string | undefined;
   /** Metrics for the given chart data, included when expanded */
-  metrics?: InsightsChartMetrics;
+  metrics?: InsightsChartMetrics | undefined;
   /** X-axis metadata */
   xAxis: InsightsChartSeriesMetadataAxis;
   /** Y-axis metadata */
@@ -6602,9 +6610,9 @@ export interface InsightsChartSeriesMetadata {
   /** Name of the series */
   name: string;
   /** Aggregate count of the series values */
-  count?: number;
+  count?: number | undefined;
   /** Bounds for the series data */
-  bounds?: InsightsChartSeriesMetadataBoundsList;
+  bounds?: InsightsChartSeriesMetadataBoundsList | undefined;
 }
 /** Additional values for the data point */
 export type InsightsChartSeriesDataPointValuesMap = { [key: string]: unknown | undefined };
@@ -6614,7 +6622,7 @@ export interface InsightsChartSeriesDataPoint {
   /** Y-axis value */
   y: number;
   /** Additional values for the data point */
-  values?: InsightsChartSeriesDataPointValuesMap;
+  values?: InsightsChartSeriesDataPointValuesMap | undefined;
 }
 /** Data points for the series */
 export type InsightsChartSeriesDataList = Array<InsightsChartSeriesDataPoint>;
@@ -6638,23 +6646,23 @@ export interface GetDeploymentsRequest {
   /** The environment key */
   environmentKey: string;
   /** Comma separated list of application keys */
-  applicationKey?: string;
+  applicationKey?: string | undefined;
   /** The number of deployments to return. Default is 20. Maximum allowed is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Expand properties in response. Options: `pullRequests`, `flagReferences` */
-  expand?: string;
+  expand?: string | undefined;
   /** Unix timestamp in milliseconds. Default value is 7 days ago. */
-  from?: number;
+  from?: number | undefined;
   /** Unix timestamp in milliseconds. Default value is now. */
-  to?: number;
+  to?: number | undefined;
   /** Identifier used for pagination */
-  after?: string;
+  after?: string | undefined;
   /** Identifier used for pagination */
-  before?: string;
+  before?: string | undefined;
   /** The deployment kind */
-  kind?: string;
+  kind?: string | undefined;
   /** The deployment status */
-  status?: string;
+  status?: string | undefined;
 }
 export interface GetDestinationRequest {
   /** The project key */
@@ -6679,32 +6687,32 @@ export type DestinationKind =
   | "redshift";
 export interface RedshiftDataExportCompletedArtifactsRep {
   /** The SQL setup script originally run against the Redshift cluster, rehydrated from the destination's persisted custom names. */
-  sqlSetupScript?: string;
+  sqlSetupScript?: string | undefined;
   /** The auto-generated S3 staging bucket name. */
-  s3BucketName?: string;
+  s3BucketName?: string | undefined;
 }
 export interface Destination {
   /** The ID of this Data Export destination */
-  _id?: string;
+  _id?: string | undefined;
   /** The location and content type of related resources */
-  _links?: DestinationLinksMap;
+  _links?: DestinationLinksMap | undefined;
   /** A human-readable name for your Data Export destination */
-  name?: string;
+  name?: string | undefined;
   /** The type of Data Export destination */
-  kind?: DestinationKind;
-  version?: number;
+  kind?: DestinationKind | undefined;
+  version?: number | undefined;
   /** An object with the configuration parameters required for the destination type */
-  config?: unknown;
+  config?: unknown | undefined;
   /** Whether the export is on, that is, the status of the integration */
-  on?: boolean;
+  on?: boolean | undefined;
   /** Timestamp of when the Data Export destination was created (as Unix milliseconds since epoch) */
-  createdAt?: number;
+  createdAt?: number | undefined;
   /** The ID of the member who maintains this Data Export destination */
-  maintainerId?: string;
+  maintainerId?: string | undefined;
   /** Details on the allowed and denied actions for this Data Export destination */
-  _access?: Access;
+  _access?: Access | undefined;
   /** For completed Redshift Data Export destinations, the SQL setup script and S3 staging bucket name rehydrated from the persisted config. Omitted otherwise. */
-  completedArtifacts?: RedshiftDataExportCompletedArtifactsRep;
+  completedArtifacts?: RedshiftDataExportCompletedArtifactsRep | undefined;
 }
 export interface GetDestinationsRequest {}
 /** The location and content type of related resources */
@@ -6713,9 +6721,9 @@ export type DestinationsLinksMap = { [key: string]: Link | undefined };
 export type DestinationsItemsList = Array<Destination>;
 export interface Destinations {
   /** The location and content type of related resources */
-  _links?: DestinationsLinksMap;
+  _links?: DestinationsLinksMap | undefined;
   /** An array of Data Export destinations */
-  items?: DestinationsItemsList;
+  items?: DestinationsItemsList | undefined;
 }
 export interface GetEnvironmentRequest {
   /** The project key */
@@ -6727,13 +6735,13 @@ export interface GetEnvironmentsByProjectRequest {
   /** The project key */
   projectKey: string;
   /** The number of environments to return in the response. Defaults to 20. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. This is for use with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** A comma-separated list of filters. Each filter is of the form `field:value`. */
-  filter?: string;
+  filter?: string | undefined;
   /** A comma-separated list of fields to sort by. Fields prefixed by a dash ( - ) sort in descending order. */
-  sort?: string;
+  sort?: string | undefined;
 }
 export interface GetEvaluationsUsageRequest {
   /** The project key */
@@ -6743,19 +6751,19 @@ export interface GetEvaluationsUsageRequest {
   /** The feature flag key */
   featureFlagKey: string;
   /** The series of data returned starts from this timestamp. Defaults to 30 days ago. */
-  from?: string;
+  from?: string | undefined;
   /** The series of data returned ends at this timestamp. Defaults to the current time. */
-  to?: string;
+  to?: string | undefined;
   /** The timezone to use for breaks between days when returning daily data. */
-  tz?: string;
+  tz?: string | undefined;
 }
 export interface GetEventsUsageRequest {
   /** The type of event to retrieve. Must be either `received` or `published`. */
   type: string;
   /** The series of data returned starts from this timestamp. Defaults to 24 hours ago. */
-  from?: string;
+  from?: string | undefined;
   /** The series of data returned ends at this timestamp. Defaults to the current time. */
-  to?: string;
+  to?: string | undefined;
 }
 export interface GetExperimentRequest {
   /** The project key */
@@ -6765,45 +6773,45 @@ export interface GetExperimentRequest {
   /** The experiment key */
   experimentKey: string;
   /** A comma-separated list of properties that can reveal additional information in the response. Supported fields are explained above. */
-  expand?: string;
+  expand?: string | undefined;
 }
 export interface GetExperimentationEventsUsageRequest {
   /** The series of data returned starts from this timestamp (Unix milliseconds). Defaults to the beginning of the current month. */
-  from?: string;
+  from?: string | undefined;
   /** The series of data returned ends at this timestamp (Unix milliseconds). Defaults to the current time. */
-  to?: string;
+  to?: string | undefined;
   /** A project key to filter results by. Without `environmentKey`, filters to the project's current environments. Can be specified multiple times, one query parameter per project key. */
-  projectKey?: string;
+  projectKey?: string | undefined;
   /** An environment key to filter results by. If specified, exactly one `projectKey` must be provided. Can be specified multiple times, one query parameter per environment key. */
-  environmentKey?: string;
+  environmentKey?: string | undefined;
   /** An event key to filter results by. Can be specified multiple times, one query parameter per event key. */
-  eventKey?: string;
+  eventKey?: string | undefined;
   /** An event kind to filter results by. Can be specified multiple times, one query parameter per event kind. */
-  eventKind?: string;
+  eventKind?: string | undefined;
   /** If specified, returns data for each distinct value of the given field. Can be specified multiple times to group data by multiple dimensions, one query parameter per dimension.<br/>Valid values: `environmentId`, `eventKey`, `eventKind`. */
-  groupBy?: string;
+  groupBy?: string | undefined;
   /** Specifies the aggregation method. Defaults to `month_to_date`.<br/>Valid values: `month_to_date`, `incremental`. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Specifies the data granularity. Defaults to `daily`. `monthly` granularity is only supported with the **month_to_date** aggregation type.<br/>Valid values: `daily`, `hourly`, `monthly`. */
-  granularity?: string;
+  granularity?: string | undefined;
 }
 export interface GetExperimentationKeysUsageRequest {
   /** The series of data returned starts from this timestamp (Unix milliseconds). Defaults to the beginning of the current month. */
-  from?: string;
+  from?: string | undefined;
   /** The series of data returned ends at this timestamp (Unix milliseconds). Defaults to the current time. */
-  to?: string;
+  to?: string | undefined;
   /** A project key to filter results by. Without `environmentKey`, filters by project, including projects that currently have no environments. Can be specified multiple times, one query parameter per project key. */
-  projectKey?: string;
+  projectKey?: string | undefined;
   /** An environment key to filter results by. If specified, exactly one `projectKey` must be provided. Can be specified multiple times, one query parameter per environment key. */
-  environmentKey?: string;
+  environmentKey?: string | undefined;
   /** An experiment ID to filter results by. Can be specified multiple times, one query parameter per experiment ID. */
-  experimentId?: string;
+  experimentId?: string | undefined;
   /** If specified, returns data for each distinct value of the given field. Can be specified multiple times to group data by multiple dimensions, one query parameter per dimension.<br/>Valid values: `projectId`, `environmentId`, `experimentId`. */
-  groupBy?: string;
+  groupBy?: string | undefined;
   /** Specifies the aggregation method. Defaults to `month_to_date`.<br/>Valid values: `month_to_date`, `incremental`. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Specifies the data granularity. Defaults to `daily`. `monthly` granularity is only supported with the **month_to_date** aggregation type.<br/>Valid values: `daily`, `hourly`, `monthly`. */
-  granularity?: string;
+  granularity?: string | undefined;
 }
 export interface GetExperimentationSettingsRequest {
   /** The project key */
@@ -6811,12 +6819,12 @@ export interface GetExperimentationSettingsRequest {
 }
 export interface RandomizationUnitRep {
   /** The unit of randomization. Defaults to user. */
-  randomizationUnit?: string;
+  randomizationUnit?: string | undefined;
   /** Whether this randomization unit is the default for experiments */
-  default?: boolean;
-  _hidden?: boolean;
+  default?: boolean | undefined;
+  _hidden?: boolean | undefined;
   /** The display name for the randomization unit, displayed in the LaunchDarkly user interface. */
-  _displayName?: string;
+  _displayName?: string | undefined;
 }
 /** An array of the randomization units in this project */
 export type RandomizationSettingsRepRandomizationUnitsList = Array<RandomizationUnitRep>;
@@ -6824,15 +6832,15 @@ export type RandomizationSettingsRepRandomizationUnitsList = Array<Randomization
 export type RandomizationSettingsRepLinksMap = { [key: string]: Link | undefined };
 export interface RandomizationSettingsRep {
   /** The project ID */
-  _projectId?: string;
+  _projectId?: string | undefined;
   /** The project key */
-  _projectKey?: string;
+  _projectKey?: string | undefined;
   /** An array of the randomization units in this project */
-  randomizationUnits?: RandomizationSettingsRepRandomizationUnitsList;
+  randomizationUnits?: RandomizationSettingsRepRandomizationUnitsList | undefined;
   /** Timestamp of when the experiment was created */
-  _creationDate?: number;
+  _creationDate?: number | undefined;
   /** The location and content type of related resources */
-  _links?: RandomizationSettingsRepLinksMap;
+  _links?: RandomizationSettingsRepLinksMap | undefined;
 }
 export interface GetExperimentsRequest {
   /** The project key */
@@ -6840,15 +6848,15 @@ export interface GetExperimentsRequest {
   /** The environment key */
   environmentKey: string;
   /** The maximum number of experiments to return. Defaults to 20. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** A comma-separated list of filters. Each filter is of the form `field:value`. Supported fields are explained above. */
-  filter?: string;
+  filter?: string | undefined;
   /** A comma-separated list of properties that can reveal additional information in the response. Supported fields are explained above. */
-  expand?: string;
+  expand?: string | undefined;
   /** A comma-separated list of experiment archived states. Supports `archived`, `active`, or both. Defaults to `active` experiments. */
-  lifecycleState?: string;
+  lifecycleState?: string | undefined;
 }
 /** An array of experiments */
 export type ExperimentCollectionRepItemsList = Array<Experiment>;
@@ -6858,23 +6866,23 @@ export interface ExperimentCollectionRep {
   /** An array of experiments */
   items: ExperimentCollectionRepItemsList;
   /** The total number of experiments in this project and environment. Does not include legacy experiments. */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The location and content type of related resources */
-  _links?: ExperimentCollectionRepLinksMap;
+  _links?: ExperimentCollectionRepLinksMap | undefined;
 }
 export interface GetExperimentsAnyEnvRequest {
   /** The project key */
   projectKey: string;
   /** The maximum number of experiments to return. Defaults to 20. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** A comma-separated list of filters. Each filter is of the form `field:value`. Supported fields are explained above. */
-  filter?: string;
+  filter?: string | undefined;
   /** A comma-separated list of properties that can reveal additional information in the response. Supported fields are explained above. */
-  expand?: string;
+  expand?: string | undefined;
   /** A comma-separated list of experiment archived states. Supports `archived`, `active`, or both. Defaults to `active` experiments. */
-  lifecycleState?: string;
+  lifecycleState?: string | undefined;
 }
 export interface GetExpiringContextTargetsRequest {
   /** The project key */
@@ -6886,15 +6894,15 @@ export interface GetExpiringContextTargetsRequest {
 }
 export interface ResourceId {
   /** The environment key */
-  environmentKey?: string;
+  environmentKey?: string | undefined;
   /** Deprecated, use <code>key</code> instead */
-  flagKey?: string;
+  flagKey?: string | undefined;
   /** The key of the flag or segment */
-  key?: string;
+  key?: string | undefined;
   /** The type of resource, <code>flag</code> or <code>segment</code> */
-  kind?: string;
+  kind?: string | undefined;
   /** The project key */
-  projectKey?: string;
+  projectKey?: string | undefined;
 }
 export interface ExpiringTarget {
   /** The ID of this expiring target */
@@ -6908,9 +6916,9 @@ export interface ExpiringTarget {
   /** A unique key used to represent the context to be removed */
   contextKey: string;
   /** A segment's target type, <code>included</code> or <code>excluded</code>. Included when expiring targets are updated on a segment. */
-  targetType?: string;
+  targetType?: string | undefined;
   /** A unique ID used to represent the flag variation. Included when expiring targets are updated on a feature flag. */
-  variationId?: string;
+  variationId?: string | undefined;
   /** Details on the segment or flag this expiring target belongs to, its environment, and its project */
   _resourceId: ResourceId;
 }
@@ -6922,7 +6930,7 @@ export interface ExpiringTargetGetResponse {
   /** A list of expiring targets */
   items: ExpiringTargetGetResponseItemsList;
   /** The location and content type of related resources */
-  _links?: ExpiringTargetGetResponseLinksMap;
+  _links?: ExpiringTargetGetResponseLinksMap | undefined;
 }
 export interface GetExpiringTargetsForSegmentRequest {
   /** The project key */
@@ -6941,11 +6949,11 @@ export interface GetExpiringUserTargetsRequest {
   environmentKey: string;
 }
 export interface ResourceIDResponse {
-  kind?: string;
-  projectKey?: string;
-  environmentKey?: string;
-  flagKey?: string;
-  key?: string;
+  kind?: string | undefined;
+  projectKey?: string | undefined;
+  environmentKey?: string | undefined;
+  flagKey?: string | undefined;
+  key?: string | undefined;
 }
 export interface ExpiringUserTargetItem {
   /** The ID of this expiring user target */
@@ -6957,9 +6965,9 @@ export interface ExpiringUserTargetItem {
   /** A unique key used to represent the user */
   userKey: string;
   /** A segment's target type. Included when expiring user targets are updated on a segment. */
-  targetType?: string;
+  targetType?: string | undefined;
   /** A unique key used to represent the flag variation. Included when expiring user targets are updated on a feature flag. */
-  variationId?: string;
+  variationId?: string | undefined;
   /** Details on the resource from which the user is expiring */
   _resourceId: ResourceIDResponse;
 }
@@ -6971,7 +6979,7 @@ export interface ExpiringUserTargetGetResponse {
   /** An array of expiring user targets */
   items: ExpiringUserTargetGetResponseItemsList;
   /** The location and content type of related resources */
-  _links?: ExpiringUserTargetGetResponseLinksMap;
+  _links?: ExpiringUserTargetGetResponseLinksMap | undefined;
 }
 export interface GetExpiringUserTargetsForSegmentRequest {
   /** The project key */
@@ -6983,17 +6991,17 @@ export interface GetExpiringUserTargetsForSegmentRequest {
 }
 export interface GetExtinctionsRequest {
   /** Filter results to a specific repository */
-  repoName?: string;
+  repoName?: string | undefined;
   /** Filter results to a specific branch. By default, only the default branch will be queried for extinctions. */
-  branchName?: string;
+  branchName?: string | undefined;
   /** Filter results to a specific project */
-  projKey?: string;
+  projKey?: string | undefined;
   /** Filter results to a specific flag key */
-  flagKey?: string;
+  flagKey?: string | undefined;
   /** Filter results to a specific timeframe based on commit time, expressed as a Unix epoch time in milliseconds. Must be used with `to`. */
-  from?: number;
+  from?: number | undefined;
   /** Filter results to a specific timeframe based on commit time, expressed as a Unix epoch time in milliseconds. Must be used with `from`. */
-  to?: number;
+  to?: number | undefined;
 }
 /** The location and content type of related resources */
 export type ExtinctionCollectionRepLinksMap = { [key: string]: Link | undefined };
@@ -7026,33 +7034,33 @@ export interface GetFeatureFlagRequest {
   /** The feature flag key */
   featureFlagKey: string;
   /** Filter configurations by environment */
-  env?: string;
+  env?: string | undefined;
   /** A comma-separated list of fields to expand in the response. Supported fields are explained above. */
-  expand?: string;
+  expand?: string | undefined;
 }
 export interface GetFeatureFlagsRequest {
   /** The project key */
   projectKey: string;
   /** Filter configurations by environment */
-  env?: string;
+  env?: string | undefined;
   /** Filter feature flags by tag */
-  tag?: string;
+  tag?: string | undefined;
   /** The number of feature flags to return. Defaults to 20. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** Deprecated, use `filter=archived:true` instead. A boolean to filter the list to archived flags. When this is absent, only unarchived flags will be returned */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** By default, flags do _not_ include their lists of prerequisites, targets, or rules for each environment. Set `summary=0` and include the `env` query parameter to include these fields for each flag returned. */
-  summary?: boolean;
+  summary?: boolean | undefined;
   /** A comma-separated list of filters. Each filter is of the form field:value. Read the endpoint description for a full list of available filter fields. */
-  filter?: string;
+  filter?: string | undefined;
   /** A comma-separated list of fields to sort by. Fields prefixed by a dash ( - ) sort in descending order. Read the endpoint description for a full list of available sort fields. */
-  sort?: string;
+  sort?: string | undefined;
   /** Deprecated, unavailable in API version `20240415`. A boolean to filter results by only flags that have differences between environments. */
-  compare?: boolean;
+  compare?: boolean | undefined;
   /** A comma-separated list of fields to expand in the response. Supported fields are explained above. */
-  expand?: string;
+  expand?: string | undefined;
 }
 /** An array of feature flags */
 export type FeatureFlagsItemsList = Array<FeatureFlag>;
@@ -7064,9 +7072,9 @@ export interface FeatureFlags {
   /** The location and content type of related resources */
   _links: FeatureFlagsLinksMap;
   /** The total number of flags */
-  totalCount?: number;
+  totalCount?: number | undefined;
   /** The number of flags that have differences between environments. Only shown when query parameter <code>compare</code> is <code>true</code>. */
-  totalCountWithDifferences?: number;
+  totalCountWithDifferences?: number | undefined;
 }
 export interface GetFeatureFlagScheduledChangeRequest {
   /** The project key */
@@ -7088,7 +7096,7 @@ export interface FeatureFlagScheduledChange {
   /** The ID of the scheduled change maintainer */
   _maintainerId: string;
   /** The ID of the service token that created or updated this scheduled change */
-  _maintainerServiceTokenId?: string;
+  _maintainerServiceTokenId?: string | undefined;
   /** Version of the scheduled change */
   _version: number;
   /** When the scheduled changes should be executed */
@@ -7096,9 +7104,9 @@ export interface FeatureFlagScheduledChange {
   /** The actions to perform on the execution date for these scheduled changes */
   instructions: Instructions;
   /** Details on any conflicting scheduled changes */
-  conflicts?: unknown;
+  conflicts?: unknown | undefined;
   /** The location and content type of related resources */
-  _links?: FeatureFlagScheduledChangeLinksMap;
+  _links?: FeatureFlagScheduledChangeLinksMap | undefined;
 }
 export interface GetFeatureFlagStatusRequest {
   /** The project key */
@@ -7115,9 +7123,9 @@ export interface FlagStatusRep {
   /** Status of the flag */
   name: FlagStatusRepName;
   /** Timestamp of last time flag was requested */
-  lastRequested?: string;
+  lastRequested?: string | undefined;
   /** Default value seen from code */
-  default?: unknown;
+  default?: unknown | undefined;
   _links: FlagStatusRepLinksMap;
 }
 export interface GetFeatureFlagStatusAcrossEnvironmentsRequest {
@@ -7126,7 +7134,7 @@ export interface GetFeatureFlagStatusAcrossEnvironmentsRequest {
   /** The feature flag key */
   featureFlagKey: string;
   /** Optional environment filter */
-  env?: string;
+  env?: string | undefined;
 }
 /** Status of the flag */
 export type FeatureFlagStatusName = "new" | "inactive" | "active" | "launched";
@@ -7134,9 +7142,9 @@ export interface FeatureFlagStatus {
   /** Status of the flag */
   name: FeatureFlagStatusName;
   /** Timestamp of last time flag was requested */
-  lastRequested?: string;
+  lastRequested?: string | undefined;
   /** Default value seen from code */
-  default?: unknown;
+  default?: unknown | undefined;
 }
 /** Flag status for environment. */
 export type FeatureFlagStatusAcrossEnvironmentsEnvironmentsMap = {
@@ -7160,7 +7168,7 @@ export type FeatureFlagStatusesLinksMap = { [key: string]: Link | undefined };
 export type FeatureFlagStatusesItemsList = Array<FlagStatusRep>;
 export interface FeatureFlagStatuses {
   _links: FeatureFlagStatusesLinksMap;
-  items?: FeatureFlagStatusesItemsList;
+  items?: FeatureFlagStatusesItemsList | undefined;
 }
 export interface GetFlagConfigScheduledChangesRequest {
   /** The project key */
@@ -7178,7 +7186,7 @@ export interface FeatureFlagScheduledChanges {
   /** Array of scheduled changes */
   items: FeatureFlagScheduledChangesItemsList;
   /** The location and content type of related resources */
-  _links?: FeatureFlagScheduledChangesLinksMap;
+  _links?: FeatureFlagScheduledChangesLinksMap | undefined;
 }
 export interface GetFlagDefaultsByProjectRequest {
   /** The project key */
@@ -7190,31 +7198,31 @@ export type FlagDefaultsRepLinksMap = { [key: string]: Link | undefined };
 export type FlagDefaultsRepTagsList = Array<string>;
 export interface BooleanDefaults {
   /** The display name for the true variation, displayed in the LaunchDarkly user interface */
-  trueDisplayName?: string;
+  trueDisplayName?: string | undefined;
   /** The display name for the false variation, displayed in the LaunchDarkly user interface */
-  falseDisplayName?: string;
+  falseDisplayName?: string | undefined;
   /** The description for the true variation */
-  trueDescription?: string;
+  trueDescription?: string | undefined;
   /** The description for the false variation */
-  falseDescription?: string;
+  falseDescription?: string | undefined;
   /** The variation index of the flag variation to use for the default targeting behavior when a flag's targeting is on and the target did not match any rules */
-  onVariation?: number;
+  onVariation?: number | undefined;
   /** The variation index of the flag variation to use for the default targeting behavior when a flag's targeting is off */
-  offVariation?: number;
+  offVariation?: number | undefined;
 }
 export interface FlagDefaultsRep {
   /** The location and content type of related resources */
-  _links?: FlagDefaultsRepLinksMap;
+  _links?: FlagDefaultsRepLinksMap | undefined;
   /** A unique key for the flag default */
-  key?: string;
+  key?: string | undefined;
   /** A list of default tags for each flag */
-  tags?: FlagDefaultsRepTagsList;
+  tags?: FlagDefaultsRepTagsList | undefined;
   /** Whether the flag should be temporary by default */
-  temporary?: boolean;
+  temporary?: boolean | undefined;
   /** Which client-side SDK types can use this flag by default. Set <code>usingMobileKey</code> to make the flag available for mobile SDKs. Set <code>usingEnvironmentId</code> to make the flag available for client-side SDKs. */
-  defaultClientSideAvailability?: ClientSideAvailability;
+  defaultClientSideAvailability?: ClientSideAvailability | undefined;
   /** Defaults for boolean flags within this project */
-  booleanDefaults?: BooleanDefaults;
+  booleanDefaults?: BooleanDefaults | undefined;
 }
 export interface GetFlagEventsRequest {
   /** The project key */
@@ -7222,27 +7230,27 @@ export interface GetFlagEventsRequest {
   /** The environment key */
   environmentKey: string;
   /** Comma separated list of application keys */
-  applicationKey?: string;
+  applicationKey?: string | undefined;
   /** Filter events by flag key */
-  query?: string;
+  query?: string | undefined;
   /** Filter events by impact size. A small impact created a less than 20% change in the proportion of end users receiving one or more flag variations. A medium impact created between a 20%-80% change. A large impact created a more than 80% change. Options: `none`, `small`, `medium`, `large` */
-  impactSize?: string;
+  impactSize?: string | undefined;
   /** Filter events to those associated with an experiment (`true`) or without an experiment (`false`) */
-  hasExperiments?: boolean;
+  hasExperiments?: boolean | undefined;
   /** Filter to include or exclude global events. Default value is `include`. Options: `include`, `exclude` */
-  global?: string;
+  global?: string | undefined;
   /** Expand properties in response. Options: `experiments` */
-  expand?: string;
+  expand?: string | undefined;
   /** The number of deployments to return. Default is 20. Maximum allowed is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Unix timestamp in milliseconds. Default value is 7 days ago. */
-  from?: number;
+  from?: number | undefined;
   /** Unix timestamp in milliseconds. Default value is now. */
-  to?: number;
+  to?: number | undefined;
   /** Identifier used for pagination */
-  after?: string;
+  after?: string | undefined;
   /** Identifier used for pagination */
-  before?: string;
+  before?: string | undefined;
 }
 export interface FlagEventMemberRep {
   /** The member ID */
@@ -7260,27 +7268,27 @@ export type FlagEventRepActionsList = Array<string>;
 export type FlagEventImpactRepSize = "none" | "small" | "medium" | "large";
 export interface VariationEvalSummary {
   /** The variation value */
-  value?: unknown;
+  value?: unknown | undefined;
   /** The number of evaluations in the ten minutes before the flag event */
-  before?: number;
+  before?: number | undefined;
   /** The number of evaluations in the ten minutes after the flag event */
-  after?: number;
+  after?: number | undefined;
 }
 /** A list of variation evaluations */
 export type EvaluationsSummaryVariationsList = Array<VariationEvalSummary>;
 export interface EvaluationsSummary {
   /** A list of variation evaluations */
-  variations?: EvaluationsSummaryVariationsList;
+  variations?: EvaluationsSummaryVariationsList | undefined;
 }
 export interface FlagEventImpactRep {
   /** The size of the flag event impact. Sizes are defined as: none (0%), small (0-20%), medium (20-80%), large (>80%) */
-  size?: FlagEventImpactRepSize;
+  size?: FlagEventImpactRepSize | undefined;
   /** The percentage of the flag event impact */
-  percentage?: number;
+  percentage?: number | undefined;
   /** The reason for the flag event impact */
-  reason?: string;
+  reason?: string | undefined;
   /** A summary of the change in variation evaluations after the flag event */
-  evaluationsSummary?: EvaluationsSummary;
+  evaluationsSummary?: EvaluationsSummary | undefined;
 }
 /** The location and content type of related resources */
 export type FlagEventExperimentIterationLinksMap = { [key: string]: Link | undefined };
@@ -7292,9 +7300,9 @@ export interface FlagEventExperimentIteration {
   /** Timestamp of when the iteration started */
   startedAt: number;
   /** Timestamp of when the iteration ended */
-  endedAt?: number;
+  endedAt?: number | undefined;
   /** The location and content type of related resources */
-  _links?: FlagEventExperimentIterationLinksMap;
+  _links?: FlagEventExperimentIterationLinksMap | undefined;
 }
 /** The location and content type of related resources */
 export type FlagEventExperimentLinksMap = { [key: string]: Link | undefined };
@@ -7306,7 +7314,7 @@ export interface FlagEventExperiment {
   /** The experiment iteration */
   iteration: FlagEventExperimentIteration;
   /** The location and content type of related resources */
-  _links?: FlagEventExperimentLinksMap;
+  _links?: FlagEventExperimentLinksMap | undefined;
 }
 /** A list of experiments */
 export type FlagEventExperimentCollectionItemsList = Array<FlagEventExperiment>;
@@ -7324,9 +7332,9 @@ export interface FlagEventRep {
   /** The project key */
   projectKey: string;
   /** The environment ID */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** The environment key */
-  environmentKey?: string;
+  environmentKey?: string | undefined;
   /** The flag key */
   flagKey: string;
   /** The event type */
@@ -7336,15 +7344,15 @@ export interface FlagEventRep {
   /** The event description */
   description: string;
   /** The audit log entry ID */
-  auditLogEntryId?: string;
+  auditLogEntryId?: string | undefined;
   /** The member data */
-  member?: FlagEventMemberRep;
+  member?: FlagEventMemberRep | undefined;
   /** The resource actions */
-  actions?: FlagEventRepActionsList;
+  actions?: FlagEventRepActionsList | undefined;
   /** The flag event evaluation impact */
   impact: FlagEventImpactRep;
   /** A list of experiment iterations related to the flag event */
-  experiments?: FlagEventExperimentCollection;
+  experiments?: FlagEventExperimentCollection | undefined;
 }
 /** A list of flag events */
 export type FlagEventCollectionRepItemsList = Array<FlagEventRep>;
@@ -7356,7 +7364,7 @@ export interface FlagEventCollectionRep {
   /** A list of flag events */
   items: FlagEventCollectionRepItemsList;
   /** The location and content type of related resources */
-  _links?: FlagEventCollectionRepLinksMap;
+  _links?: FlagEventCollectionRepLinksMap | undefined;
 }
 export interface GetFlagFollowersRequest {
   /** The project key */
@@ -7376,9 +7384,9 @@ export interface FollowFlagMember {
   /** The member's ID */
   _id: string;
   /** The member's first name */
-  firstName?: string;
+  firstName?: string | undefined;
   /** The member's last name */
-  lastName?: string;
+  lastName?: string | undefined;
   /** The member's base role. If the member has no additional roles, this role will be in effect. */
   role: string;
   /** The member's email address */
@@ -7432,7 +7440,7 @@ export interface GetFlagStatusChartRequest {
   /** The environment key */
   environmentKey: string;
   /** Comma separated list of application keys */
-  applicationKey?: string;
+  applicationKey?: string | undefined;
 }
 export interface GetFollowersByProjEnvRequest {
   /** The project key */
@@ -7446,9 +7454,9 @@ export type FlagFollowersByProjEnvGetRepLinksMap = { [key: string]: Link | undef
 export type FollowersPerFlagFollowersList = Array<FollowFlagMember>;
 export interface FollowersPerFlag {
   /** The flag key */
-  flagKey?: string;
+  flagKey?: string | undefined;
   /** A list of members who are following this flag */
-  followers?: FollowersPerFlagFollowersList;
+  followers?: FollowersPerFlagFollowersList | undefined;
 }
 /** An array of flags and their followers */
 export type FlagFollowersByProjEnvGetRepItemsList = Array<FollowersPerFlag>;
@@ -7456,7 +7464,7 @@ export interface FlagFollowersByProjEnvGetRep {
   /** The location and content type of related resources */
   _links: FlagFollowersByProjEnvGetRepLinksMap;
   /** An array of flags and their followers */
-  items?: FlagFollowersByProjEnvGetRepItemsList;
+  items?: FlagFollowersByProjEnvGetRepItemsList | undefined;
 }
 export interface GetHoldoutRequest {
   /** The project key */
@@ -7466,22 +7474,22 @@ export interface GetHoldoutRequest {
   /** The holdout experiment key */
   holdoutKey: string;
   /** A comma-separated list of properties that can reveal additional information in the response. Supported fields are explained above. Holdout experiment expansion fields have no prefix. Related experiment expansion fields have `rel-` as a prefix. */
-  expand?: string;
+  expand?: string | undefined;
 }
 export type HoldoutDetailRepStatus = "created" | "enabled" | "running" | "ended";
 export type HoldoutDetailRepRelatedExperimentsList = Array<Experiment>;
 export interface HoldoutDetailRep {
   _id: string;
   status: HoldoutDetailRepStatus;
-  description?: string;
+  description?: string | undefined;
   /** The percentage of traffic allocated to this holdout. */
   holdoutAmount: string;
   /** Indicates if the holdout experiment is running and if any related experiments are running. */
-  isDirty?: boolean;
+  isDirty?: boolean | undefined;
   createdAt: number;
   updatedAt: number;
   baseExperiment: Experiment;
-  relatedExperiments?: HoldoutDetailRepRelatedExperimentsList;
+  relatedExperiments?: HoldoutDetailRepRelatedExperimentsList | undefined;
 }
 export interface GetHoldoutByIdRequest {
   /** The project key */
@@ -7496,31 +7504,31 @@ export type HoldoutRepExperimentsList = Array<RelatedExperimentRep>;
 export interface HoldoutRep {
   _id: string;
   status: HoldoutRepStatus;
-  description?: string;
+  description?: string | undefined;
   /** The percentage of traffic allocated to this holdout. */
   holdoutAmount: string;
   createdAt: number;
   updatedAt: number;
   baseExperiment: Experiment;
-  experiments?: HoldoutRepExperimentsList;
+  experiments?: HoldoutRepExperimentsList | undefined;
 }
 export interface GetInsightGroupRequest {
   /** The insight group key */
   insightGroupKey: string;
   /** Options: `scores`, `environment` */
-  expand?: string;
+  expand?: string | undefined;
 }
 export interface GetInsightGroupsRequest {
   /** The number of insight groups to return. Default is 20. Must be between 1 and 20 inclusive. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** Sort flag list by field. Prefix field with <code>-</code> to sort in descending order. Allowed fields: name */
-  sort?: string;
+  sort?: string | undefined;
   /** Filter list of insights groups by name. */
-  query?: string;
+  query?: string | undefined;
   /** Options: `scores`, `environment`, `metadata` */
-  expand?: string;
+  expand?: string | undefined;
 }
 /** A list of insight groups */
 export type InsightGroupCollectionItemsList = Array<InsightGroup>;
@@ -7551,22 +7559,22 @@ export interface InsightGroupCollection {
   /** A list of insight groups */
   items: InsightGroupCollectionItemsList;
   /** The location and content type of related resources */
-  _links?: InsightGroupCollectionLinksMap;
+  _links?: InsightGroupCollectionLinksMap | undefined;
   /** Metadata about the insight groups */
-  metadata?: InsightGroupCollectionMetadata;
+  metadata?: InsightGroupCollectionMetadata | undefined;
   /** Metadata about the insight scores, when expanded */
-  scoreMetadata?: InsightGroupCollectionScoreMetadata;
+  scoreMetadata?: InsightGroupCollectionScoreMetadata | undefined;
 }
 export interface GetInsightsRepositoriesRequest {
   /** Expand properties in response. Options: `projects` */
-  expand?: string;
+  expand?: string | undefined;
 }
 export type ProjectSummaryCollectionItemsList = Array<ProjectSummary>;
 export type ProjectSummaryCollectionLinksMap = { [key: string]: Link | undefined };
 export interface ProjectSummaryCollection {
   totalCount: number;
   items: ProjectSummaryCollectionItemsList;
-  _links?: ProjectSummaryCollectionLinksMap;
+  _links?: ProjectSummaryCollectionLinksMap | undefined;
 }
 export interface InsightsRepository {
   /** The repository ID */
@@ -7581,7 +7589,7 @@ export interface InsightsRepository {
   url: string;
   /** The repository main branch */
   mainBranch: string;
-  projects?: ProjectSummaryCollection;
+  projects?: ProjectSummaryCollection | undefined;
 }
 /** List of repositories */
 export type InsightsRepositoryCollectionItemsList = Array<InsightsRepository>;
@@ -7593,7 +7601,7 @@ export interface InsightsRepositoryCollection {
   /** List of repositories */
   items: InsightsRepositoryCollectionItemsList;
   /** The location and content type of related resources */
-  _links?: InsightsRepositoryCollectionLinksMap;
+  _links?: InsightsRepositoryCollectionLinksMap | undefined;
 }
 export interface GetInsightsScoresRequest {
   /** The project key */
@@ -7601,7 +7609,7 @@ export interface GetInsightsScoresRequest {
   /** The environment key */
   environmentKey: string;
   /** Comma separated list of application keys */
-  applicationKey?: string;
+  applicationKey?: string | undefined;
 }
 /** The location and content type of related resources */
 export type InsightScoresLinksMap = { [key: string]: Link | undefined };
@@ -7613,7 +7621,7 @@ export interface InsightScores {
   /** The scores for the insight groups */
   scores: InsightGroupScores;
   /** The location and content type of related resources */
-  _links?: InsightScoresLinksMap;
+  _links?: InsightScoresLinksMap | undefined;
 }
 export interface GetIntegrationConfigurationRequest {
   /** Integration configuration ID */
@@ -7649,20 +7657,20 @@ export interface GetIntegrationDeliveryConfigurationByIdRequest {
 export interface GetIntegrationDeliveryConfigurationsRequest {}
 export interface GetIpAllowlistRequest {
   /** A case-insensitive substring to filter entries by. Matches against the IP address or CIDR block and the description. */
-  search?: string;
+  search?: string | undefined;
   /** The number of entries to return. Defaults to 20. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** The number of entries to skip. Used for pagination. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type IPAllowlistSelfLink = ViewsSelfLink;
 export type IpAllowlistResponseEntriesList = Array<IpAllowlistEntryResponse>;
 export interface IpAllowlistResponse {
-  _links?: ViewsSelfLink;
+  _links?: ViewsSelfLink | undefined;
   sessionAllowlistEnabled: boolean;
   apiTokenAllowlistEnabled: boolean;
   /** The total number of entries matching the query, before pagination. */
-  totalCount?: number;
+  totalCount?: number | undefined;
   entries: IpAllowlistResponseEntriesList;
 }
 export interface GetIpsRequest {}
@@ -7680,7 +7688,7 @@ export interface GetLayersRequest {
   /** The project key */
   projectKey: string;
   /** A comma-separated list of filters. This endpoint only accepts filtering by `experimentKey`. The filter returns layers which include that experiment for the selected environment(s). For example: `filter=reservations.experimentKey contains expKey`. */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** The layers in the project */
 export type LayerCollectionRepItemsList = Array<LayerRep>;
@@ -7698,21 +7706,21 @@ export interface GetLeadTimeChartRequest {
   /** The project key */
   projectKey: string;
   /** The environment key */
-  environmentKey?: string;
+  environmentKey?: string | undefined;
   /** Comma separated list of application keys */
-  applicationKey?: string;
+  applicationKey?: string | undefined;
   /** Unix timestamp in milliseconds. Default value is 7 days ago. */
-  from?: number;
+  from?: number | undefined;
   /** Unix timestamp in milliseconds. Default value is now. */
-  to?: number;
+  to?: number | undefined;
   /** Specify type of bucket. Options: `rolling`, `hour`, `day`. Default: `rolling`. */
-  bucketType?: string;
+  bucketType?: string | undefined;
   /** Duration of intervals for x-axis in milliseconds. Default value is one day (`86400000` milliseconds). */
-  bucketMs?: number;
+  bucketMs?: number | undefined;
   /** Options: `application`, `stage`. Default: `stage`. */
-  groupBy?: string;
+  groupBy?: string | undefined;
   /** Options: `metrics`, `percentiles`. */
-  expand?: string;
+  expand?: string | undefined;
 }
 export type GetLinkedResourcesRequestResourceType = "flags" | "segments" | "aiConfigs";
 export type GetLinkedResourcesRequestSort = "linkedAt" | "name";
@@ -7725,42 +7733,42 @@ export interface GetLinkedResourcesRequest {
   viewKey: string;
   resourceType: GetLinkedResourcesRequestResourceType | (string & {});
   /** The number of views to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** Field to sort by. Default field is `linkedAt`, default order is ascending. */
-  sort?: GetLinkedResourcesRequestSort | (string & {});
+  sort?: GetLinkedResourcesRequestSort | (string & {}) | undefined;
   /** Case-insensitive search query for linked resources. Matches resource key and, when expanded, resource name. */
-  query?: string;
+  query?: string | undefined;
   /** Optional resource filter expression for linked resources. - Supported for `flags` and `segments` resource types. - Uses the same syntax as link/unlink and list endpoints. - For `segments`, `environmentId` is required when `filter` is provided. */
-  filter?: string;
+  filter?: string | undefined;
   /** A comma-separated list of fields to expand. */
-  expand?: GetLinkedResourcesRequestExpandList;
+  expand?: GetLinkedResourcesRequestExpandList | undefined;
 }
 export type ViewsPaginatedLinks = PaginatedLinks;
 export type ViewLinkedResourceResourceType = "flag" | "segment" | "aiConfig";
 export interface ViewLinkedResourceDetails {
-  view?: View;
-  flag?: ExpandedFlag;
-  segment?: ExpandedSegment;
-  aiConfig?: ExpandedAIConfig;
-  metric?: ExpandedMetric;
+  view?: View | undefined;
+  flag?: ExpandedFlag | undefined;
+  segment?: ExpandedSegment | undefined;
+  aiConfig?: ExpandedAIConfig | undefined;
+  metric?: ExpandedMetric | undefined;
 }
 export interface ViewLinkedResource {
   _links: ParentAndSelfLinks;
   /** Key of the resource (flag or segment) */
   resourceKey: string;
   /** Environment ID of the resource (only present for segments) */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** Environment Key of the resource (only present for segments) */
-  environmentKey?: string;
+  environmentKey?: string | undefined;
   resourceType: ViewLinkedResourceResourceType;
   linkedAt: number;
-  resourceDetails?: ViewLinkedResourceDetails;
+  resourceDetails?: ViewLinkedResourceDetails | undefined;
 }
 export type ViewLinkedResourcesItemsList = Array<ViewLinkedResource>;
 export interface ViewLinkedResources {
-  _links?: PaginatedLinks;
+  _links?: PaginatedLinks | undefined;
   items: ViewLinkedResourcesItemsList;
   totalCount: number;
 }
@@ -7770,45 +7778,45 @@ export interface GetLinkedViewsRequest {
   resourceType: GetLinkedViewsRequestResourceType | (string & {});
   resourceKey: string;
   /** Environment ID. Required when resourceType is 'segments' */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** The number of views to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type ViewsItemsList = Array<View>;
 export interface Views {
-  _links?: PaginatedLinks;
+  _links?: PaginatedLinks | undefined;
   items: ViewsItemsList;
   totalCount: number;
 }
 export interface GetMAUClientsideUsageRequest {
   /** The series of data returned starts from this timestamp (Unix milliseconds). Defaults to the beginning of the current month. */
-  from?: string;
+  from?: string | undefined;
   /** The series of data returned ends at this timestamp (Unix milliseconds). Defaults to the current time. */
-  to?: string;
+  to?: string | undefined;
   /** A project key to filter results by. Can be specified multiple times, one query parameter per project key. */
-  projectKey?: string;
+  projectKey?: string | undefined;
   /** An environment key to filter results by. If specified, exactly one `projectKey` must be provided. Can be specified multiple times, one query parameter per environment key. */
-  environmentKey?: string;
+  environmentKey?: string | undefined;
   /** An SDK name to filter results by. Can be specified multiple times, one query parameter per SDK name. */
-  sdkName?: string;
+  sdkName?: string | undefined;
   /** An anonymous value to filter results by. Can be specified multiple times, one query parameter per anonymous value.<br/>Valid values: `true`, `false`. */
-  anonymous?: string;
+  anonymous?: string | undefined;
   /** If specified, returns data for each distinct value of the given field. Can be specified multiple times to group data by multiple dimensions, one query parameter per dimension.<br/>Valid values: `projectId`, `environmentId`, `sdkName`, `sdkAppId`, `anonymousV2`. */
-  groupBy?: string;
+  groupBy?: string | undefined;
   /** Specifies the aggregation method. Defaults to `month_to_date`.<br/>Valid values: `month_to_date`, `incremental`, `rolling_30d`. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Specifies the data granularity. Defaults to `daily`. Valid values depend on `aggregationType`: **month_to_date** supports `daily` and `monthly`; **incremental** and **rolling_30d** support `daily` only. */
-  granularity?: string;
+  granularity?: string | undefined;
 }
 export interface GetMauSdksByTypeRequest {
   /** The data returned starts from this timestamp. Defaults to seven days ago. The timestamp is in Unix milliseconds, for example, 1656694800000. */
-  from?: string;
+  from?: string | undefined;
   /** The data returned ends at this timestamp. Defaults to the current time. The timestamp is in Unix milliseconds, for example, 1657904400000. */
-  to?: string;
+  to?: string | undefined;
   /** The type of SDK with monthly active users (MAU) to list. Must be either `client` or `server`. */
-  sdktype?: string;
+  sdktype?: string | undefined;
 }
 /** The location and content type of related resources */
 export type SdkListRepLinksMap = { [key: string]: unknown | undefined };
@@ -7822,43 +7830,43 @@ export interface SdkListRep {
 }
 export interface GetMAUTotalUsageRequest {
   /** The series of data returned starts from this timestamp (Unix milliseconds). Defaults to the beginning of the current month. */
-  from?: string;
+  from?: string | undefined;
   /** The series of data returned ends at this timestamp (Unix milliseconds). Defaults to the current time. */
-  to?: string;
+  to?: string | undefined;
   /** A project key to filter results by. Can be specified multiple times, one query parameter per project key. */
-  projectKey?: string;
+  projectKey?: string | undefined;
   /** An environment key to filter results by. If specified, exactly one `projectKey` must be provided. Can be specified multiple times, one query parameter per environment key. */
-  environmentKey?: string;
+  environmentKey?: string | undefined;
   /** An SDK name to filter results by. Can be specified multiple times, one query parameter per SDK name. */
-  sdkName?: string;
+  sdkName?: string | undefined;
   /** An SDK type to filter results by. Can be specified multiple times, one query parameter per SDK type. */
-  sdkType?: string;
+  sdkType?: string | undefined;
   /** An anonymous value to filter results by. Can be specified multiple times, one query parameter per anonymous value.<br/>Valid values: `true`, `false`. */
-  anonymous?: string;
+  anonymous?: string | undefined;
   /** If specified, returns data for each distinct value of the given field. Can be specified multiple times to group data by multiple dimensions, one query parameter per dimension.<br/>Valid values: `projectId`, `environmentId`, `sdkName`, `sdkType`, `sdkAppId`, `anonymousV2`. */
-  groupBy?: string;
+  groupBy?: string | undefined;
   /** Specifies the aggregation method. Defaults to `month_to_date`.<br/>Valid values: `month_to_date`, `incremental`, `rolling_30d`. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Specifies the data granularity. Defaults to `daily`. Valid values depend on `aggregationType`: **month_to_date** supports `daily` and `monthly`; **incremental** and **rolling_30d** support `daily` only. */
-  granularity?: string;
+  granularity?: string | undefined;
 }
 export interface GetMemberRequest {
   /** The member ID */
   id: string;
   /** A comma-separated list of properties that can reveal additional information in the response. */
-  expand?: string;
+  expand?: string | undefined;
 }
 export interface GetMembersRequest {
   /** The number of members to return in the response. Defaults to 20. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. This is for use with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** A comma-separated list of filters. Each filter is of the form `field:value`. Supported fields are explained above. */
-  filter?: string;
+  filter?: string | undefined;
   /** A comma-separated list of properties that can reveal additional information in the response. */
-  expand?: string;
+  expand?: string | undefined;
   /** A comma-separated list of fields to sort by. Fields prefixed by a dash ( - ) sort in descending order. */
-  sort?: string;
+  sort?: string | undefined;
 }
 export interface GetMetricRequest {
   /** The project key */
@@ -7866,9 +7874,9 @@ export interface GetMetricRequest {
   /** The metric key */
   metricKey: string;
   /** A comma-separated list of properties that can reveal additional information in the response. Supported fields are `experiments`, `experimentCount`, `metricGroups`, `metricGroupCount`, `eventSources`, `guardedRollouts`, `guardedRolloutCount`, `lastUsedInExperiment`, and `lastUsedInGuardedRollout`. */
-  expand?: string;
+  expand?: string | undefined;
   /** The specific version ID of the metric */
-  versionId?: string;
+  versionId?: string | undefined;
 }
 /** The kind of event the metric tracks */
 export type MetricRepKind = "pageview" | "click" | "custom" | "trace";
@@ -7912,7 +7920,7 @@ export interface DependentReleasePhaseRep {
   /** The guarded rollout flag name */
   flagName: string;
   /** The guarded rollout flag purpose */
-  flagPurpose?: string;
+  flagPurpose?: string | undefined;
   /** The guarded rollout environment key */
   environmentKey: string;
   /** The guarded rollout environment name */
@@ -7928,19 +7936,19 @@ export interface DependentReleasePhaseRep {
 export type MetricRepAttachedFeaturesList = Array<FlagListingRep>;
 export interface MetricRep {
   /** The number of experiments using this metric */
-  experimentCount?: number;
+  experimentCount?: number | undefined;
   /** The number of metric groups using this metric */
-  metricGroupCount?: number;
+  metricGroupCount?: number | undefined;
   /** The number of active experiments using this metric */
-  activeExperimentCount?: number;
+  activeExperimentCount?: number | undefined;
   /** The number of active guarded rollouts using this metric */
-  activeGuardedRolloutCount?: number;
+  activeGuardedRolloutCount?: number | undefined;
   /** The ID of this metric */
   _id: string;
   /** The version ID of the metric */
   _versionId: string;
   /** Version of the metric */
-  _version?: number;
+  _version?: number | undefined;
   /** A unique key to reference the metric */
   key: string;
   /** A human-friendly name for the metric */
@@ -7948,88 +7956,88 @@ export interface MetricRep {
   /** The kind of event the metric tracks */
   kind: MetricRepKind;
   /** The number of feature flags currently attached to this metric */
-  _attachedFlagCount?: number;
+  _attachedFlagCount?: number | undefined;
   /** The location and content type of related resources */
   _links: MetricRepLinksMap;
   /** Details on how to access the metric in the LaunchDarkly UI */
-  _site?: Link;
+  _site?: Link | undefined;
   /** Details on the allowed and denied actions for this metric */
-  _access?: Access;
+  _access?: Access | undefined;
   /** Tags for the metric */
   tags: MetricRepTagsList;
   /** Timestamp of when the metric was created */
   _creationDate: number;
-  lastModified?: Modification;
+  lastModified?: Modification | undefined;
   /** The ID of the member who maintains this metric */
-  maintainerId?: string;
+  maintainerId?: string | undefined;
   /** Details on the member who maintains this metric */
-  _maintainer?: MemberSummary;
+  _maintainer?: MemberSummary | undefined;
   /** Description of the metric */
-  description?: string;
+  description?: string | undefined;
   /** The category of the metric */
-  category?: string;
+  category?: string | undefined;
   /** For custom and trace metrics, whether to track numeric changes in value against a baseline (<code>true</code>) or to track a conversion when an end user takes an action (<code>false</code>). */
-  isNumeric?: boolean;
+  isNumeric?: boolean | undefined;
   /** For custom and trace metrics, the success criteria */
-  successCriteria?: MetricRepSuccessCriteria;
+  successCriteria?: MetricRepSuccessCriteria | undefined;
   /** For numeric custom and trace metrics, the unit of measure */
-  unit?: string;
+  unit?: string | undefined;
   /** For custom metrics, the event key to use in your code */
-  eventKey?: string;
+  eventKey?: string | undefined;
   /** Deprecated, use <code>analysisUnits</code> instead. */
-  randomizationUnits?: MetricRepRandomizationUnitsList;
+  randomizationUnits?: MetricRepRandomizationUnitsList | undefined;
   /** An array of analysis units allowed for this metric. */
-  analysisUnits?: MetricRepAnalysisUnitsList;
+  analysisUnits?: MetricRepAnalysisUnitsList | undefined;
   /** The filters narrowing down the audience based on context attributes or event properties. */
-  filters?: Filter;
+  filters?: Filter | undefined;
   /** The method by which multiple unit event values are aggregated */
-  unitAggregationType?: MetricRepUnitAggregationType;
+  unitAggregationType?: MetricRepUnitAggregationType | undefined;
   /** The method for analyzing metric events */
-  analysisType?: MetricRepAnalysisType;
+  analysisType?: MetricRepAnalysisType | undefined;
   /** The percentile for the analysis method. An integer denoting the target percentile between 0 and 100. Required when <code>analysisType</code> is <code>percentile</code>. */
-  percentileValue?: number;
-  eventDefault?: MetricEventDefaultRep;
+  percentileValue?: number | undefined;
+  eventDefault?: MetricEventDefaultRep | undefined;
   dataSource: MetricDataSourceRefRep;
   /** Timestamp of most recent data for this metric, at one-hour fidelity */
-  lastSeen?: number;
+  lastSeen?: number | undefined;
   /** Whether the metric version is archived */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Timestamp when the metric version was archived */
-  archivedAt?: number;
+  archivedAt?: number | undefined;
   /** For click metrics, the CSS selectors */
-  selector?: string;
+  selector?: string | undefined;
   /** For click and pageview metrics, the target URLs */
-  urls?: UrlMatchers;
+  urls?: UrlMatchers | undefined;
   /** Not yet implemented - The start of the measurement window, in milliseconds relative to the unit's first exposure to a flag variation */
-  windowStartOffset?: number;
+  windowStartOffset?: number | undefined;
   /** Not yet implemented - The end of the measurement window, in milliseconds relative to the unit's first exposure to a flag variation */
-  windowEndOffset?: number;
+  windowEndOffset?: number | undefined;
   /** Lower winsorization percentile, expressed as a percent in the open interval (0, 100). When both bounds are set, defines a two-sided clamp range. Otherwise lower-only winsorization. */
-  winsorLowerPercentile?: number;
+  winsorLowerPercentile?: number | undefined;
   /** Upper winsorization percentile, expressed as a percent in the open interval (0, 100). When both bounds are set, must be greater than winsorLowerPercentile. */
-  winsorUpperPercentile?: number;
+  winsorUpperPercentile?: number | undefined;
   /** When true, the percentile bound calculation includes imputed zeros. Only meaningful when at least one bound is set and the metric includes units that didn't send events. */
-  winsorIncludeImputed?: boolean;
+  winsorIncludeImputed?: boolean | undefined;
   /** For trace metrics, the trace query to use for the metric. */
-  traceQuery?: string;
+  traceQuery?: string | undefined;
   /** For trace metrics, the location in the trace to use for numeric values. */
-  traceValueLocation?: string;
+  traceValueLocation?: string | undefined;
   /** For count_distinct metrics, the column to count distinct values of */
-  unitAggregationField?: string;
+  unitAggregationField?: string | undefined;
   /** For ratio metrics, the denominator event configuration */
-  denominator?: MetricDenominatorRep;
+  denominator?: MetricDenominatorRep | undefined;
   /** Experiments that use this metric, including those using a metric group that contains this metric */
-  experiments?: DependentExperimentListRep;
+  experiments?: DependentExperimentListRep | undefined;
   /** Metric groups that use this metric */
-  metricGroups?: MetricRepMetricGroupsList;
+  metricGroups?: MetricRepMetricGroupsList | undefined;
   /** The most recent experiment that used this metric */
-  lastUsedInExperiment?: DependentExperimentRep;
+  lastUsedInExperiment?: DependentExperimentRep | undefined;
   /** The most recent guarded rollout that used this metric */
-  lastUsedInGuardedRollout?: DependentReleasePhaseRep;
+  lastUsedInGuardedRollout?: DependentReleasePhaseRep | undefined;
   /** Whether the metric is active */
-  isActive?: boolean;
+  isActive?: boolean | undefined;
   /** Details on the flags attached to this metric */
-  _attachedFeatures?: MetricRepAttachedFeaturesList;
+  _attachedFeatures?: MetricRepAttachedFeaturesList | undefined;
 }
 export interface GetMetricGroupRequest {
   /** The project key */
@@ -8037,21 +8045,21 @@ export interface GetMetricGroupRequest {
   /** The metric group key */
   metricGroupKey: string;
   /** A comma-separated list of properties that can reveal additional information in the response. */
-  expand?: string;
+  expand?: string | undefined;
 }
 export interface GetMetricGroupsRequest {
   /** The project key */
   projectKey: string;
   /** Accepts filter by `experimentStatus`, `query`, `kind`, `hasConnections`, `maintainerIds`, and `maintainerTeamKey`. Example: `filter=experimentStatus equals 'running' and query equals 'test'`. */
-  filter?: string;
+  filter?: string | undefined;
   /** A comma-separated list of fields to sort by. Fields prefixed by a dash ( - ) sort in descending order. Read the endpoint description for a full list of available sort fields. */
-  sort?: string;
+  sort?: string | undefined;
   /** This parameter is reserved for future use and is not currently supported on this endpoint. */
-  expand?: string;
+  expand?: string | undefined;
   /** The number of metric groups to return in the response. Defaults to 20. Maximum limit is 50. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and returns the next `limit` items. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** An array of metric groups */
 export type MetricGroupCollectionRepItemsList = Array<MetricGroupRep>;
@@ -8061,22 +8069,22 @@ export interface MetricGroupCollectionRep {
   /** An array of metric groups */
   items: MetricGroupCollectionRepItemsList;
   /** The location and content type of related resources */
-  _links?: MetricGroupCollectionRepLinksMap;
-  totalCount?: number;
+  _links?: MetricGroupCollectionRepLinksMap | undefined;
+  totalCount?: number | undefined;
 }
 export interface GetMetricsRequest {
   /** The project key */
   projectKey: string;
   /** A comma-separated list of properties that can reveal additional information in the response. */
-  expand?: string;
+  expand?: string | undefined;
   /** The number of metrics to return in the response. Defaults to 20. Maximum limit is 50. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and returns the next `limit` items. */
-  offset?: number;
+  offset?: number | undefined;
   /** A field to sort the items by. Prefix field by a dash ( - ) to sort in descending order. This endpoint supports sorting by `createdAt` or `name`. */
-  sort?: string;
+  sort?: string | undefined;
   /** A comma-separated list of filters. This endpoint accepts filtering by `query`, `tags`, `eventKind`, `isNumeric`, `unitAggregationType`, `hasConnections`, `maintainerIds`, `maintainerTeamKey`, `view`, `dataSourceKeys`, `metricUsedIn`, `eventKeys`, and `versionIds`. To learn more about the filter syntax, read the 'Filtering metrics' section above. */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** An array of metrics */
 export type MetricCollectionRepItemsList = Array<MetricListingRep>;
@@ -8084,21 +8092,21 @@ export type MetricCollectionRepItemsList = Array<MetricListingRep>;
 export type MetricCollectionRepLinksMap = { [key: string]: Link | undefined };
 export interface MetricCollectionRep {
   /** An array of metrics */
-  items?: MetricCollectionRepItemsList;
+  items?: MetricCollectionRepItemsList | undefined;
   /** The location and content type of related resources */
-  _links?: MetricCollectionRepLinksMap;
-  totalCount?: number;
+  _links?: MetricCollectionRepLinksMap | undefined;
+  totalCount?: number | undefined;
 }
 export interface GetModelConfigRequest {
   projectKey: string;
   modelConfigKey: string;
   /** Specific model config version to return. Omit to return the latest version. */
-  version?: number;
+  version?: number | undefined;
 }
 export type ModelConfigTagsList = Array<string>;
 export interface ModelConfig {
-  _access?: AiConfigsAccess;
-  _maintainer?: AIConfigMaintainer;
+  _access?: AiConfigsAccess | undefined;
+  _maintainer?: AIConfigMaintainer | undefined;
   /** Human-readable name of the model */
   name: string;
   /** Unique key for the model */
@@ -8106,25 +8114,25 @@ export interface ModelConfig {
   /** Identifier for the model, for use with third party providers */
   id: string;
   /** Icon for the model */
-  icon?: string;
+  icon?: string | undefined;
   /** Provider for the model */
-  provider?: string;
+  provider?: string | undefined;
   /** Whether the model is global */
   global: boolean;
-  params?: unknown;
-  customParams?: unknown;
+  params?: unknown | undefined;
+  customParams?: unknown | undefined;
   tags: ModelConfigTagsList;
   version: number;
   /** Cost per input token in USD */
-  costPerInputToken?: number;
+  costPerInputToken?: number | undefined;
   /** Cost per output token in USD */
-  costPerOutputToken?: number;
+  costPerOutputToken?: number | undefined;
   /** Cost per cached input token in USD */
-  costPerCachedInputToken?: number;
+  costPerCachedInputToken?: number | undefined;
   /** Whether the model is restricted */
   isRestricted: boolean;
   /** Number of distinct AgentControl configs that reference this model */
-  usedInCount?: number;
+  usedInCount?: number | undefined;
 }
 export interface GetOAuthClientByIdRequest {
   /** The client ID */
@@ -8143,63 +8151,63 @@ export interface ClientCollection {
 }
 export interface GetObservabilityErrorsUsageRequest {
   /** The series of data returned starts from this timestamp (Unix seconds). Defaults to the beginning of the current month. */
-  from?: string;
+  from?: string | undefined;
   /** The series of data returned ends at this timestamp (Unix seconds). Defaults to the current time. */
-  to?: string;
+  to?: string | undefined;
   /** A project key to filter results by. Can be specified multiple times, one query parameter per project key. */
-  projectKey?: string;
+  projectKey?: string | undefined;
   /** Specifies the data granularity. Defaults to `daily`. Valid values depend on `aggregationType`: **month_to_date** supports `daily` and `monthly`; **incremental** and **rolling_30d** support `daily` only. */
-  granularity?: string;
+  granularity?: string | undefined;
   /** Specifies the aggregation method. Defaults to `month_to_date`.<br/>Valid values: `month_to_date`, `incremental`, `rolling_30d`. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
 }
 export interface GetObservabilityLogsUsageRequest {
   /** The series of data returned starts from this timestamp (Unix seconds). Defaults to the beginning of the current month. */
-  from?: string;
+  from?: string | undefined;
   /** The series of data returned ends at this timestamp (Unix seconds). Defaults to the current time. */
-  to?: string;
+  to?: string | undefined;
   /** A project key to filter results by. Can be specified multiple times, one query parameter per project key. */
-  projectKey?: string;
+  projectKey?: string | undefined;
   /** Specifies the data granularity. Defaults to `daily`. Valid values depend on `aggregationType`: **month_to_date** supports `daily` and `monthly`; **incremental** and **rolling_30d** support `daily` only. */
-  granularity?: string;
+  granularity?: string | undefined;
   /** Specifies the aggregation method. Defaults to `month_to_date`.<br/>Valid values: `month_to_date`, `incremental`, `rolling_30d`. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
 }
 export interface GetObservabilityMetricsUsageRequest {
   /** The series of data returned starts from this timestamp (Unix seconds). Defaults to the beginning of the current month. */
-  from?: string;
+  from?: string | undefined;
   /** The series of data returned ends at this timestamp (Unix seconds). Defaults to the current time. */
-  to?: string;
+  to?: string | undefined;
   /** A project key to filter results by. Can be specified multiple times, one query parameter per project key. */
-  projectKey?: string;
+  projectKey?: string | undefined;
   /** Specifies the data granularity. Defaults to `daily`. Valid values depend on `aggregationType`: **month_to_date** supports `hourly`, `daily`, and `monthly`; **average** supports `hourly`, `daily`, and `monthly`. */
-  granularity?: string;
+  granularity?: string | undefined;
   /** Specifies the aggregation method. Defaults to `month_to_date`.<br/>Valid values: `month_to_date`, `average`. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
 }
 export interface GetObservabilitySessionsUsageRequest {
   /** The series of data returned starts from this timestamp (Unix seconds). Defaults to the beginning of the current month. */
-  from?: string;
+  from?: string | undefined;
   /** The series of data returned ends at this timestamp (Unix seconds). Defaults to the current time. */
-  to?: string;
+  to?: string | undefined;
   /** A project key to filter results by. Can be specified multiple times, one query parameter per project key. */
-  projectKey?: string;
+  projectKey?: string | undefined;
   /** Specifies the data granularity. Defaults to `daily`. Valid values depend on `aggregationType`: **month_to_date** supports `daily` and `monthly`; **incremental** and **rolling_30d** support `daily` only. */
-  granularity?: string;
+  granularity?: string | undefined;
   /** Specifies the aggregation method. Defaults to `month_to_date`.<br/>Valid values: `month_to_date`, `incremental`, `rolling_30d`. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
 }
 export interface GetObservabilityTracesUsageRequest {
   /** The series of data returned starts from this timestamp (Unix seconds). Defaults to the beginning of the current month. */
-  from?: string;
+  from?: string | undefined;
   /** The series of data returned ends at this timestamp (Unix seconds). Defaults to the current time. */
-  to?: string;
+  to?: string | undefined;
   /** A project key to filter results by. Can be specified multiple times, one query parameter per project key. */
-  projectKey?: string;
+  projectKey?: string | undefined;
   /** Specifies the data granularity. Defaults to `daily`. Valid values depend on `aggregationType`: **month_to_date** supports `daily` and `monthly`; **incremental** and **rolling_30d** support `daily` only. */
-  granularity?: string;
+  granularity?: string | undefined;
   /** Specifies the aggregation method. Defaults to `month_to_date`.<br/>Valid values: `month_to_date`, `incremental`, `rolling_30d`. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
 }
 export interface GetOpenapiSpecRequest {}
 export interface GetOpenapiSpecResponse {}
@@ -8207,19 +8215,19 @@ export interface GetProjectRequest {
   /** The project key. */
   projectKey: string;
   /** A comma-separated list of properties that can reveal additional information in the response. */
-  expand?: string;
+  expand?: string | undefined;
 }
 export interface GetProjectsRequest {
   /** The number of projects to return in the response. Defaults to 20. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and returns the next `limit` items. */
-  offset?: number;
+  offset?: number | undefined;
   /** A comma-separated list of filters. Each filter is constructed as `field:value`. */
-  filter?: string;
+  filter?: string | undefined;
   /** A comma-separated list of fields to sort by. Fields prefixed by a dash ( - ) sort in descending order. */
-  sort?: string;
+  sort?: string | undefined;
   /** A comma-separated list of properties that can reveal additional information in the response. */
-  expand?: string;
+  expand?: string | undefined;
 }
 /** A link to this resource. */
 export type ProjectsLinksMap = { [key: string]: Link | undefined };
@@ -8230,21 +8238,21 @@ export interface Projects {
   _links: ProjectsLinksMap;
   /** List of projects. */
   items: ProjectsItemsList;
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 export type GetProjectSdkKeysRequestSort = "createdAt" | "-createdAt" | "environmentKey";
 export interface GetProjectSdkKeysRequest {
   projectKey: string;
   /** A queryfilter expression to apply to the list of SDK keys. Supports the following fields and operators: `kind` (`equals`, `anyOf`; values: "sdk", "mobile"), `active` (`equals`, `anyOf`; values: `true`, `false`), `environmentKey` (`equals`, `anyOf`; values: environment keys), `viewKey` (`equals`, `anyOf`; values: view key strings -- returns only SDK keys linked to the specified view(s)), `name` (`equals` only; returns SDK keys whose name or key contains the value, matched case-insensitively). Example: `kind anyOf ["sdk","mobile"], environmentKey anyOf ["production","test"], viewKey equals my-view, name equals "production"`. */
-  filter?: string;
+  filter?: string | undefined;
   /** The number of SDK keys to return. Defaults to 20. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** The number of SDK keys to skip. Used for pagination. */
-  offset?: number;
+  offset?: number | undefined;
   /** A comma-separated list of fields to expand in the response. Supported fields: `environmentSummary`, `viewSummaries`. */
-  expand?: string;
+  expand?: string | undefined;
   /** A sort to apply to the list of SDK keys. Supported fields: `createdAt` and `environmentKey`. Prefix `createdAt` with `-` to sort in descending order (for example, `-createdAt`). `environmentKey` orders keys by environment key ascending, then by creation time ascending within each environment, so each page is environment-contiguous. */
-  sort?: GetProjectSdkKeysRequestSort | (string & {});
+  sort?: GetProjectSdkKeysRequestSort | (string & {}) | undefined;
 }
 export type SdkKeysSelfLink = ViewsSelfLink;
 /** The kind of SDK key. Can be either "sdk" (server-side) or "mobile" (mobile). */
@@ -8268,7 +8276,7 @@ export interface ViewResourceSummary {
   segmentCount: number;
 }
 export interface ViewSummary {
-  _links?: ParentAndSelfLinks;
+  _links?: ParentAndSelfLinks | undefined;
   /** The key of the view. */
   key: string;
   /** The human-readable name of the view. */
@@ -8278,32 +8286,32 @@ export interface ViewSummary {
 /** Summaries of views associated with the SDK key. */
 export type SdkKeyListItemViewSummariesList = Array<ViewSummary>;
 export interface SdkKeyListItem {
-  _links?: ParentAndSelfLinks;
+  _links?: ParentAndSelfLinks | undefined;
   kind: SdkKeyKind;
   /** The user-defined identifying key of the SDK key. This is used solely to identify an SDK key and is distinct from the value field, which is the actual SDK key value. */
   key: string;
   /** The human-readable name of the SDK key. */
   name: string;
   /** The optional description of the SDK key. */
-  description?: string;
-  expiry?: number;
+  description?: string | undefined;
+  expiry?: number | undefined;
   /** The string value of the SDK key. Use this when configuring your SDK. */
   value: string;
   /** Indicates if this SDK key is the system-defined default for the environment. There may also be an expiring default SDK key for the environment (not possible with mobile keys). */
   isDefault: boolean;
   /** The ID of the member who created the SDK key. This field is immutable. */
-  _createdByMemberId?: string;
+  _createdByMemberId?: string | undefined;
   _createdAt: number;
   _updatedAt: number;
   /** The auto-incremented version number of the SDK key. */
   _version: number;
-  environmentSummary?: SdkKeysEnvironmentSummary;
+  environmentSummary?: SdkKeysEnvironmentSummary | undefined;
   /** Summaries of views associated with the SDK key. */
-  viewSummaries?: SdkKeyListItemViewSummariesList;
+  viewSummaries?: SdkKeyListItemViewSummariesList | undefined;
 }
 export type SdkKeysItemsList = Array<SdkKeyListItem>;
 export interface SdkKeys {
-  _links?: ViewsSelfLink;
+  _links?: ViewsSelfLink | undefined;
   items: SdkKeysItemsList;
   /** The total number of SDK keys matching the query, before pagination. */
   totalCount: number;
@@ -8315,12 +8323,12 @@ export interface GetPromptSnippetRequest {
 export type PromptSnippetTagsList = Array<string>;
 export interface PromptSnippet {
   key: string;
-  _access?: AiConfigsAccess;
-  _links?: ParentAndSelfLinks;
-  _site?: CoreLink;
-  _maintainer?: AIConfigMaintainer;
+  _access?: AiConfigsAccess | undefined;
+  _links?: ParentAndSelfLinks | undefined;
+  _site?: CoreLink | undefined;
+  _maintainer?: AIConfigMaintainer | undefined;
   name: string;
-  description?: string;
+  description?: string | undefined;
   /** The text content of the prompt snippet */
   text: string;
   tags: PromptSnippetTagsList;
@@ -8331,27 +8339,27 @@ export interface GetPullRequestsRequest {
   /** The project key */
   projectKey: string;
   /** Required if you are using the <code>sort</code> parameter's <code>leadTime</code> option to sort pull requests. */
-  environmentKey?: string;
+  environmentKey?: string | undefined;
   /** Filter the results to pull requests deployed to a comma separated list of applications */
-  applicationKey?: string;
+  applicationKey?: string | undefined;
   /** Filter results to pull requests with the given status. Options: `open`, `merged`, `closed`, `deployed`. */
-  status?: string;
+  status?: string | undefined;
   /** Filter list of pull requests by title or author */
-  query?: string;
+  query?: string | undefined;
   /** The number of pull requests to return. Default is 20. Maximum allowed is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Expand properties in response. Options: `deployments`, `flagReferences`, `leadTime`. */
-  expand?: string;
+  expand?: string | undefined;
   /** Sort results. Requires the `environmentKey` to be set. Options: `leadTime` (asc) and `-leadTime` (desc). When query option is excluded, default sort is by created or merged date. */
-  sort?: string;
+  sort?: string | undefined;
   /** Unix timestamp in milliseconds. Default value is 7 days ago. */
-  from?: string;
+  from?: string | undefined;
   /** Unix timestamp in milliseconds. Default value is now. */
-  to?: string;
+  to?: string | undefined;
   /** Identifier used for pagination */
-  after?: string;
+  after?: string | undefined;
   /** Identifier used for pagination */
-  before?: string;
+  before?: string | undefined;
 }
 export interface GetRelayProxyConfigRequest {
   /** The relay auto config id */
@@ -8363,15 +8371,15 @@ export interface RelayAutoConfigRep {
   /** The ID of the Relay Proxy configuration */
   _id: string;
   /** Details on the member who created this Relay Proxy configuration */
-  _creator?: MemberSummary;
+  _creator?: MemberSummary | undefined;
   /** Details on the allowed and denied actions for this Relay Proxy configuration */
-  _access?: Access;
+  _access?: Access | undefined;
   /** A human-friendly name for the Relay Proxy configuration */
   name: string;
   /** A description of what environments and projects the Relay Proxy should include or exclude */
   policy: RelayAutoConfigRepPolicyList;
   /** The Relay Proxy configuration key */
-  fullKey?: string;
+  fullKey?: string | undefined;
   /** The last few characters of the Relay Proxy configuration key, displayed in the LaunchDarkly UI */
   displayKey: string;
   /** Timestamp of when the Relay Proxy configuration was created */
@@ -8398,23 +8406,23 @@ export interface GetReleaseFrequencyChartRequest {
   /** The environment key */
   environmentKey: string;
   /** Comma separated list of application keys */
-  applicationKey?: string;
+  applicationKey?: string | undefined;
   /** Filter events to those associated with an experiment (`true`) or without an experiment (`false`) */
-  hasExperiments?: boolean;
+  hasExperiments?: boolean | undefined;
   /** Filter to include or exclude global events. Default value is `include`. Options: `include`, `exclude` */
-  global?: string;
+  global?: string | undefined;
   /** Property to group results by. Options: `impact` */
-  groupBy?: string;
+  groupBy?: string | undefined;
   /** Unix timestamp in milliseconds. Default value is 7 days ago. */
-  from?: string;
+  from?: string | undefined;
   /** Unix timestamp in milliseconds. Default value is now. */
-  to?: string;
+  to?: string | undefined;
   /** Specify type of bucket. Options: `rolling`, `hour`, `day`. Default: `rolling`. */
-  bucketType?: string;
+  bucketType?: string | undefined;
   /** Duration of intervals for x-axis in milliseconds. Default value is one day (`86400000` milliseconds). */
-  bucketMs?: number;
+  bucketMs?: number | undefined;
   /** Options: `metrics` */
-  expand?: string;
+  expand?: string | undefined;
 }
 export interface GetReleasePipelineByKeyRequest {
   /** The project key */
@@ -8426,7 +8434,7 @@ export interface GetReleasePoliciesRequest {
   /** The project key */
   projectKey: string;
   /** When true, exclude the default release policy from the response. When false or omitted, include the default policy if an environment filter is present. */
-  excludeDefault?: boolean;
+  excludeDefault?: boolean | undefined;
 }
 /** Resource specifier strings */
 export type ReleasePoliciesAccessDeniedReasonResourcesList = Array<string>;
@@ -8440,16 +8448,16 @@ export type ReleasePoliciesAccessDeniedReasonNotActionsList = Array<string>;
 export type ReleasePoliciesAccessDeniedReasonEffect = "allow" | "deny";
 export interface ReleasePoliciesAccessDeniedReason {
   /** Resource specifier strings */
-  resources?: ReleasePoliciesAccessDeniedReasonResourcesList;
+  resources?: ReleasePoliciesAccessDeniedReasonResourcesList | undefined;
   /** Targeted resources are the resources NOT in this list. The <code>resources</code> and <code>notActions</code> fields must be empty to use this field. */
-  notResources?: ReleasePoliciesAccessDeniedReasonNotResourcesList;
+  notResources?: ReleasePoliciesAccessDeniedReasonNotResourcesList | undefined;
   /** Actions to perform on a resource */
-  actions?: ReleasePoliciesAccessDeniedReasonActionsList;
+  actions?: ReleasePoliciesAccessDeniedReasonActionsList | undefined;
   /** Targeted actions are the actions NOT in this list. The <code>actions</code> and <code>notResources</code> fields must be empty to use this field. */
-  notActions?: ReleasePoliciesAccessDeniedReasonNotActionsList;
+  notActions?: ReleasePoliciesAccessDeniedReasonNotActionsList | undefined;
   /** Whether this statement should allow or deny actions on the resources. */
   effect: ReleasePoliciesAccessDeniedReasonEffect;
-  role_name?: string;
+  role_name?: string | undefined;
 }
 export interface ReleasePoliciesAccessDenied {
   action: string;
@@ -8468,16 +8476,16 @@ export type ReleasePoliciesAccessAllowedReasonNotActionsList = Array<string>;
 export type ReleasePoliciesAccessAllowedReasonEffect = "allow" | "deny";
 export interface ReleasePoliciesAccessAllowedReason {
   /** Resource specifier strings */
-  resources?: ReleasePoliciesAccessAllowedReasonResourcesList;
+  resources?: ReleasePoliciesAccessAllowedReasonResourcesList | undefined;
   /** Targeted resources are the resources NOT in this list. The <code>resources</code> and <code>notActions</code> fields must be empty to use this field. */
-  notResources?: ReleasePoliciesAccessAllowedReasonNotResourcesList;
+  notResources?: ReleasePoliciesAccessAllowedReasonNotResourcesList | undefined;
   /** Actions to perform on a resource */
-  actions?: ReleasePoliciesAccessAllowedReasonActionsList;
+  actions?: ReleasePoliciesAccessAllowedReasonActionsList | undefined;
   /** Targeted actions are the actions NOT in this list. The <code>actions</code> and <code>notResources</code> fields must be empty to use this field. */
-  notActions?: ReleasePoliciesAccessAllowedReasonNotActionsList;
+  notActions?: ReleasePoliciesAccessAllowedReasonNotActionsList | undefined;
   /** Whether this statement should allow or deny actions on the resources. */
   effect: ReleasePoliciesAccessAllowedReasonEffect;
-  role_name?: string;
+  role_name?: string | undefined;
 }
 export interface ReleasePoliciesAccessAllowedRep {
   action: string;
@@ -8494,9 +8502,9 @@ export type ReleasePolicyScopeEnvironmentKeysList = Array<string>;
 export type ReleasePolicyScopeFlagTagKeysList = Array<string>;
 export interface ReleasePolicyScope {
   /** List of environment keys this policy applies to */
-  environmentKeys?: ReleasePolicyScopeEnvironmentKeysList;
+  environmentKeys?: ReleasePolicyScopeEnvironmentKeysList | undefined;
   /** List of flag tag keys this policy applies to */
-  flagTagKeys?: ReleasePolicyScopeFlagTagKeysList;
+  flagTagKeys?: ReleasePolicyScopeFlagTagKeysList | undefined;
 }
 /** The release method for this policy */
 export type ReleaseMethod = "guarded-release" | "immediate-release" | "progressive-release";
@@ -8513,37 +8521,37 @@ export type GuardedReleaseConfigStagesList = Array<ReleasePolicyStage>;
 /** Configuration for guarded releases */
 export interface GuardedReleaseConfig {
   /** Context kind key to use as the randomization unit for the rollout */
-  rolloutContextKindKey?: string;
+  rolloutContextKindKey?: string | undefined;
   /** The minimum number of samples required to make a decision */
-  minSampleSize?: number;
+  minSampleSize?: number | undefined;
   /** Whether to roll back on regression */
-  rollbackOnRegression?: boolean;
+  rollbackOnRegression?: boolean | undefined;
   /** List of metric keys */
-  metricKeys?: GuardedReleaseConfigMetricKeysList;
+  metricKeys?: GuardedReleaseConfigMetricKeysList | undefined;
   /** List of metric group keys */
-  metricGroupKeys?: GuardedReleaseConfigMetricGroupKeysList;
+  metricGroupKeys?: GuardedReleaseConfigMetricGroupKeysList | undefined;
   /** List of stages */
-  stages?: GuardedReleaseConfigStagesList;
+  stages?: GuardedReleaseConfigStagesList | undefined;
 }
 /** List of stages */
 export type ProgressiveReleaseConfigStagesList = Array<ReleasePolicyStage>;
 /** Configuration for progressive releases */
 export interface ProgressiveReleaseConfig {
   /** Context kind key to use as the randomization unit for the rollout */
-  rolloutContextKindKey?: string;
+  rolloutContextKindKey?: string | undefined;
   /** List of stages */
-  stages?: ProgressiveReleaseConfigStagesList;
+  stages?: ProgressiveReleaseConfigStagesList | undefined;
 }
 export interface ReleasePolicy {
-  _access?: ReleasePoliciesAccess;
+  _access?: ReleasePoliciesAccess | undefined;
   /** The unique identifier of the release policy */
   _id: string;
-  scope?: ReleasePolicyScope;
+  scope?: ReleasePolicyScope | undefined;
   /** The rank/priority of the release policy */
   rank: number;
   releaseMethod: ReleaseMethod;
-  guardedReleaseConfig?: GuardedReleaseConfig;
-  progressiveReleaseConfig?: ProgressiveReleaseConfig;
+  guardedReleaseConfig?: GuardedReleaseConfig | undefined;
+  progressiveReleaseConfig?: ProgressiveReleaseConfig | undefined;
   /** The name of the release policy */
   name: string;
   /** The human-readable key of the release policy */
@@ -8565,13 +8573,13 @@ export interface GetReleasePolicyRequest {
 }
 export interface GetRepositoriesRequest {
   /** If set to any value, the endpoint returns repositories with associated branch data */
-  withBranches?: string;
+  withBranches?: string | undefined;
   /** If set to any value, the endpoint returns repositories with associated branch data, as well as code references for the default git branch */
-  withReferencesForDefaultBranch?: string;
+  withReferencesForDefaultBranch?: string | undefined;
   /** A LaunchDarkly project key. If provided, this filters code reference results to the specified project. */
-  projKey?: string;
+  projKey?: string | undefined;
   /** If set to any value, the endpoint returns repositories with associated branch data, as well as code references for the default git branch */
-  flagKey?: string;
+  flagKey?: string | undefined;
 }
 export type RepositoryCollectionRepLinksMap = { [key: string]: Link | undefined };
 /** The type of repository */
@@ -8583,11 +8591,11 @@ export interface RepositoryRep {
   /** The repository name */
   name: string;
   /** A URL to access the repository */
-  sourceLink?: string;
+  sourceLink?: string | undefined;
   /** A template for constructing a valid URL to view the commit */
-  commitUrlTemplate?: string;
+  commitUrlTemplate?: string | undefined;
   /** A template for constructing a valid URL to view the hunk */
-  hunkUrlTemplate?: string;
+  hunkUrlTemplate?: string | undefined;
   /** The type of repository */
   type: RepositoryRepType;
   /** The repository's default branch */
@@ -8597,9 +8605,9 @@ export interface RepositoryRep {
   /** The version of the repository's saved information */
   version: number;
   /** An array of the repository's branches that have been scanned for code references */
-  branches?: RepositoryRepBranchesList;
+  branches?: RepositoryRepBranchesList | undefined;
   _links: RepositoryRepLinksMap;
-  _access?: Access;
+  _access?: Access | undefined;
 }
 /** An array of repositories */
 export type RepositoryCollectionRepItemsList = Array<RepositoryRep>;
@@ -8622,45 +8630,45 @@ export interface GetRootStatisticRequest {}
 export type StatisticsRootProjectsList = Array<Link>;
 export interface StatisticsRoot {
   /** The location and content type of all projects that have code references */
-  projects?: StatisticsRootProjectsList;
+  projects?: StatisticsRootProjectsList | undefined;
   /** The location and content type for accessing this resource */
-  self?: Link;
+  self?: Link | undefined;
 }
 export interface GetSdkAllVersionsRequest {
   /** Filter to a specific environment ID. */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** Filter to a specific project ID. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Filter to a specific SDK name. */
-  sdkName?: string;
+  sdkName?: string | undefined;
   /** Filter to a specific SDK type (for example, 'server', 'browser', 'mobile'). */
-  sdkType?: string;
+  sdkType?: string | undefined;
   /** Filter to a specific SDK application ID. */
-  sdkAppId?: string;
+  sdkAppId?: string | undefined;
   /** Filter to a specific connection type (for example, 'direct', 'proxy'). */
-  connectionType?: string;
+  connectionType?: string | undefined;
 }
 export interface SdkVersionDetailsRep {
-  name?: string;
-  version?: string;
-  type?: string;
-  projectId?: string;
-  projectKey?: string;
-  projectName?: string;
-  environmentId?: string;
-  environmentKey?: string;
-  environmentName?: string;
-  applicationId?: string;
-  ldLatestVersion?: string;
+  name?: string | undefined;
+  version?: string | undefined;
+  type?: string | undefined;
+  projectId?: string | undefined;
+  projectKey?: string | undefined;
+  projectName?: string | undefined;
+  environmentId?: string | undefined;
+  environmentKey?: string | undefined;
+  environmentName?: string | undefined;
+  applicationId?: string | undefined;
+  ldLatestVersion?: string | undefined;
   /** The end of life (EOL) status of the SDK version. Possible values are: <br/>- <code>EolAllClear</code>: the SDK version is current<br/>- <code>EolNear</code>: the SDK version is approaching EOL<br/>- <code>EolPast</code>: the SDK version is past EOL<br/>- <code>MajorVersionAvailable</code>: a new major version is available but the current version is not near EOL<br/>- <code>EolUnknown</code>: the EOL status cannot be determined. */
-  eolStatus?: string;
-  latestReleaseUrl?: string;
-  connectionType?: string;
-  relayVersion?: string;
+  eolStatus?: string | undefined;
+  latestReleaseUrl?: string | undefined;
+  connectionType?: string | undefined;
+  relayVersion?: string | undefined;
   /** The end of life status of the Relay Proxy version. Only present when the SDK connects through a Relay Proxy. Uses the same values as <code>eolStatus</code>. */
-  relayEolStatus?: string;
-  relayLatestVersion?: string;
-  relayLatestReleaseUrl?: string;
+  relayEolStatus?: string | undefined;
+  relayLatestVersion?: string | undefined;
+  relayLatestReleaseUrl?: string | undefined;
 }
 export type GetSdkAllVersionsResponseBodyList = Array<SdkVersionDetailsRep>;
 export type GetSdkAllVersionsResponse = GetSdkAllVersionsResponseBodyList;
@@ -8671,21 +8679,21 @@ export interface GetSdkKeyByKeyRequest {
   sdkKeyKey: string;
 }
 export interface SdkKey {
-  _links?: ParentAndSelfLinks;
+  _links?: ParentAndSelfLinks | undefined;
   kind: SdkKeyKind;
   /** The user-defined identifying key of the SDK key. This is used solely to identify an SDK key and is distinct from the value field, which is the actual SDK key value. */
   key: string;
   /** The human-readable name of the SDK key. */
   name: string;
   /** The optional description of the SDK key. */
-  description?: string;
-  expiry?: number;
+  description?: string | undefined;
+  expiry?: number | undefined;
   /** The string value of the SDK key. Use this when configuring your SDK. */
   value: string;
   /** Indicates if this SDK key is the system-defined default for the environment. There may also be an expiring default SDK key for the environment (not possible with mobile keys). */
   isDefault: boolean;
   /** The ID of the member who created the SDK key. This field is immutable. */
-  _createdByMemberId?: string;
+  _createdByMemberId?: string | undefined;
   _createdAt: number;
   _updatedAt: number;
   /** The auto-incremented version number of the SDK key. */
@@ -8696,17 +8704,17 @@ export interface GetSdkKeysRequest {
   projectKey: string;
   environmentKey: string;
   /** A filter to apply to the list of SDK keys. Supports the following fields and operators: `kind` (equals "sdk" or "mobile"), `active` (equals true or false). Format: `field:value`. Example: `kind:sdk`. */
-  filter?: string;
+  filter?: string | undefined;
   /** The number of SDK keys to return. Defaults to 20. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** The number of SDK keys to skip. Used for pagination. */
-  offset?: number;
+  offset?: number | undefined;
   /** A sort to apply to the list of SDK keys. Supported field: `createdAt`. Prefix the field with `-` to sort in descending order (for example, `-createdAt`). */
-  sort?: GetSdkKeysRequestSort | (string & {});
+  sort?: GetSdkKeysRequestSort | (string & {}) | undefined;
 }
 export type SdkKeysForGetSdkKeysItemsList = Array<SdkKey>;
 export interface SdkKeysForGetSdkKeys {
-  _links?: ViewsSelfLink;
+  _links?: ViewsSelfLink | undefined;
   items: SdkKeysForGetSdkKeysItemsList;
   /** The total number of SDK keys matching the query, before pagination. */
   totalCount: number;
@@ -8756,13 +8764,13 @@ export interface GetSegmentsRequest {
   /** The environment key */
   environmentKey: string;
   /** The number of segments to return. Defaults to 20. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** Accepts sorting order and fields. Fields can be comma separated. Possible fields are 'creationDate', 'name', 'lastModified'. Example: `sort=name` sort by names ascending or `sort=-name,creationDate` sort by names descending and creationDate ascending. */
-  sort?: string;
+  sort?: string | undefined;
   /** Accepts filter by `excludedKeys`, `external`, `includedKeys`, `query`, `tags`, `unbounded`, `view`. To learn more about the filter syntax, read the 'Filtering segments' section above. */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** An array of segments */
 export type UserSegmentsItemsList = Array<UserSegment>;
@@ -8774,35 +8782,35 @@ export interface UserSegments {
   /** The location and content type of related resources */
   _links: UserSegmentsLinksMap;
   /** The total number of segments */
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 export interface GetServiceConnectionsUsageRequest {
   /** The series of data returned starts from this timestamp (Unix milliseconds). Defaults to the beginning of the current month. */
-  from?: string;
+  from?: string | undefined;
   /** The series of data returned ends at this timestamp (Unix milliseconds). Defaults to the current time. */
-  to?: string;
+  to?: string | undefined;
   /** A project key to filter results by. Can be specified multiple times, one query parameter per project key. */
-  projectKey?: string;
+  projectKey?: string | undefined;
   /** An environment key to filter results by. If specified, exactly one `projectKey` must be provided. Can be specified multiple times, one query parameter per environment key. */
-  environmentKey?: string;
+  environmentKey?: string | undefined;
   /** A connection type to filter results by. Can be specified multiple times, one query parameter per connection type. */
-  connectionType?: string;
+  connectionType?: string | undefined;
   /** A relay version to filter results by. Can be specified multiple times, one query parameter per relay version. */
-  relayVersion?: string;
+  relayVersion?: string | undefined;
   /** An SDK name to filter results by. Can be specified multiple times, one query parameter per SDK name. */
-  sdkName?: string;
+  sdkName?: string | undefined;
   /** An SDK version to filter results by. Can be specified multiple times, one query parameter per SDK version. */
-  sdkVersion?: string;
+  sdkVersion?: string | undefined;
   /** Deprecated. This endpoint reports server-side connections only, so `server` is the only value that returns data and omitting the parameter is equivalent. Any other value returns an empty series. To report client-side connections, use `GET /api/v2/usage/streams/{source}`. */
-  sdkType?: string;
+  sdkType?: string | undefined;
   /** An SDK app ID to filter results by. Can be specified multiple times, one query parameter per SDK app ID. */
-  sdkAppId?: string;
+  sdkAppId?: string | undefined;
   /** If specified, returns data for each distinct value of the given field. Can be specified multiple times to group data by multiple dimensions, one query parameter per dimension.<br/>Valid values: `projectId`, `environmentId`, `connectionType`, `relayVersion`, `sdkName`, `sdkVersion`, `sdkAppId`.<br/>`sdkType` is no longer offered: this endpoint reports server-side connections only, so grouping by it returns a single group. It is still accepted, for compatibility. */
-  groupBy?: string;
+  groupBy?: string | undefined;
   /** Specifies the aggregation method. Defaults to `month_to_date`.<br/>Valid values: `month_to_date`, `incremental`. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Specifies the data granularity. Defaults to `daily`. `monthly` granularity is only supported with the **month_to_date** aggregation type.<br/>Valid values: `daily`, `hourly`, `monthly`. */
-  granularity?: string;
+  granularity?: string | undefined;
 }
 /** The location and content type of related resources */
 export type SeriesListRepFloatLinksMap = { [key: string]: unknown | undefined };
@@ -8821,7 +8829,7 @@ export interface SeriesListRepFloat {
   /** An array of data points with timestamps. Each element of the array is an object with a 'time' field, whose value is the timestamp, and one or more key fields. If there are multiple key fields, they are labeled '0', '1', and so on, and are explained in the <code>metadata</code>. */
   series: SeriesListRepFloatSeriesList;
   /** Cumulative projected usage by day for the full billing period, when available. Each element matches the structure of <code>series</code>: an object with a 'time' field and a '0' value field. The projected (non-actual) portion begins where the actual <code>series</code> ends. */
-  projectedSeries?: SeriesListRepFloatProjectedSeriesList;
+  projectedSeries?: SeriesListRepFloatProjectedSeriesList | undefined;
 }
 export interface GetStaleFlagsChartRequest {
   /** The project key */
@@ -8829,21 +8837,21 @@ export interface GetStaleFlagsChartRequest {
   /** The environment key */
   environmentKey: string;
   /** Comma separated list of application keys */
-  applicationKey?: string;
+  applicationKey?: string | undefined;
   /** Property to group results by. Options: `maintainer` */
-  groupBy?: string;
+  groupBy?: string | undefined;
   /** Comma-separated list of individual maintainers to filter results. */
-  maintainerId?: string;
+  maintainerId?: string | undefined;
   /** Comma-separated list of team maintainer keys to filter results. */
-  maintainerTeamKey?: string;
+  maintainerTeamKey?: string | undefined;
   /** Options: `metrics` */
-  expand?: string;
+  expand?: string | undefined;
 }
 export interface GetStatisticsRequest {
   /** The project key */
   projectKey: string;
   /** Filter results to a specific flag key */
-  flagKey?: string;
+  flagKey?: string | undefined;
 }
 /** The type of repository */
 export type StatisticRepType = "bitbucket" | "custom" | "github" | "gitlab";
@@ -8869,7 +8877,7 @@ export interface StatisticRep {
   /** The location and content type of related resources */
   _links: StatisticRepLinksMap;
   /** The timestamp of the latest commit in the repository including the flag */
-  latestCommitTime?: number;
+  latestCommitTime?: number | undefined;
 }
 export type StatisticCollectionRepFlagsValueList = Array<StatisticRep>;
 /** A map of flag keys to a list of code reference statistics for each code repository in which the flag key appears */
@@ -8888,25 +8896,25 @@ export interface GetStreamUsageRequest {
   /** The source of streaming connections to describe. Must be either `client` or `server`. */
   source: string;
   /** The series of data returned starts from this timestamp. Defaults to 30 days ago. */
-  from?: string;
+  from?: string | undefined;
   /** The series of data returned ends at this timestamp. Defaults to the current time. */
-  to?: string;
+  to?: string | undefined;
   /** The timezone to use for breaks between days when returning daily data. */
-  tz?: string;
+  tz?: string | undefined;
 }
 export interface GetStreamUsageBySdkVersionRequest {
   /** The source of streaming connections to describe. Must be either `client` or `server`. */
   source: string;
   /** The series of data returned starts from this timestamp. Defaults to 24 hours ago. */
-  from?: string;
+  from?: string | undefined;
   /** The series of data returned ends at this timestamp. Defaults to the current time. */
-  to?: string;
+  to?: string | undefined;
   /** The timezone to use for breaks between days when returning daily data. */
-  tz?: string;
+  tz?: string | undefined;
   /** If included, this filters the returned series to only those that match this SDK name. */
-  sdk?: string;
+  sdk?: string | undefined;
   /** If included, this filters the returned series to only those that match this SDK version. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface GetStreamUsageSdkversionRequest {
   /** The source of streaming connections to describe. Must be either `client` or `server`. */
@@ -8941,24 +8949,24 @@ export interface GetSubscriptionsRequest {
 export type IntegrationsLinksMap = { [key: string]: Link | undefined };
 export type IntegrationsItemsList = Array<Integration>;
 export interface Integrations {
-  _links?: IntegrationsLinksMap;
-  items?: IntegrationsItemsList;
-  key?: string;
+  _links?: IntegrationsLinksMap | undefined;
+  items?: IntegrationsItemsList | undefined;
+  key?: string | undefined;
 }
 export type GetTagsRequestKindList = Array<string>;
 export interface GetTagsRequest {
   /** Fetch tags associated with the specified resource type. Options are `flag`, `project`, `environment`, `segment`, `metric`, `metric-data-source`, `aiconfig`, and `view`. Returns all types by default. */
-  kind?: GetTagsRequestKindList;
+  kind?: GetTagsRequestKindList | undefined;
   /** Return tags with the specified prefix */
-  pre?: string;
+  pre?: string | undefined;
   /** Whether or not to return archived flags */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** The number of tags to return. Maximum is 1000. */
-  limit?: number;
+  limit?: number | undefined;
   /** The index of the first tag to return. Default is 0. */
-  offset?: number;
+  offset?: number | undefined;
   /** The time to retrieve tags as of. Default is the current time. */
-  asOf?: string;
+  asOf?: string | undefined;
 }
 /** List of tags */
 export type TagsCollectionItemsList = Array<string>;
@@ -8969,41 +8977,41 @@ export interface TagsCollection {
   items: TagsCollectionItemsList;
   _links: TagsCollectionLinksMap;
   /** The total number of tags */
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 export interface GetTeamRequest {
   /** The team key. */
   teamKey: string;
   /** A comma-separated list of properties that can reveal additional information in the response. */
-  expand?: string;
+  expand?: string | undefined;
 }
 export interface GetTeamMaintainersRequest {
   /** The team key */
   teamKey: string;
   /** The number of maintainers to return in the response. Defaults to 20. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. This is for use with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface GetTeamRolesRequest {
   /** The team key */
   teamKey: string;
   /** The number of roles to return in the response. Defaults to 20. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. This is for use with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface GetTeamsRequest {
   /** The number of teams to return in the response. Defaults to 20. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and returns the next `limit` items. */
-  offset?: number;
+  offset?: number | undefined;
   /** A comma-separated list of filters. Each filter is constructed as `field:value`. */
-  filter?: string;
+  filter?: string | undefined;
   /** A comma-separated list of fields to sort by. Fields are sorted in ascending order by default. Prefix a field with `-` to sort in descending order. Supported fields: `name`, `memberCount`. */
-  sort?: string;
+  sort?: string | undefined;
   /** A comma-separated list of properties that can reveal additional information in the response. */
-  expand?: string;
+  expand?: string | undefined;
 }
 /** An array of teams */
 export type TeamsItemsList = Array<Team>;
@@ -9013,9 +9021,9 @@ export interface Teams {
   /** An array of teams */
   items: TeamsItemsList;
   /** The location and content type of related resources */
-  _links?: TeamsLinksMap;
+  _links?: TeamsLinksMap | undefined;
   /** The number of teams */
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 export interface GetTokenRequest {
   /** The ID of the access token */
@@ -9023,21 +9031,21 @@ export interface GetTokenRequest {
 }
 export interface GetTokensRequest {
   /** If set to true, and the authentication access token has the 'Admin' role, personal access tokens for all members will be retrieved. */
-  showAll?: boolean;
+  showAll?: boolean | undefined;
   /** The number of access tokens to return in the response. Defaults to 25. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. This is for use with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** An array of access tokens */
 export type TokensItemsList = Array<Token>;
 export type TokensLinksMap = { [key: string]: Link | undefined };
 export interface Tokens {
   /** An array of access tokens */
-  items?: TokensItemsList;
-  _links?: TokensLinksMap;
+  items?: TokensItemsList | undefined;
+  _links?: TokensLinksMap | undefined;
   /** The number of access tokens returned */
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 export interface GetTriggerWorkflowByIdRequest {
   /** The project key */
@@ -9063,21 +9071,21 @@ export type TriggerWorkflowCollectionRepItemsList = Array<TriggerWorkflowRep>;
 export type TriggerWorkflowCollectionRepLinksMap = { [key: string]: Link | undefined };
 export interface TriggerWorkflowCollectionRep {
   /** An array of flag triggers */
-  items?: TriggerWorkflowCollectionRepItemsList;
+  items?: TriggerWorkflowCollectionRepItemsList | undefined;
   /** The location and content type of related resources */
-  _links?: TriggerWorkflowCollectionRepLinksMap;
+  _links?: TriggerWorkflowCollectionRepLinksMap | undefined;
 }
 export interface GetVegaAIUsageRequest {
   /** The series of data returned starts from this timestamp (Unix seconds). Defaults to the beginning of the current month. */
-  from?: string;
+  from?: string | undefined;
   /** The series of data returned ends at this timestamp (Unix seconds). Defaults to the current time. */
-  to?: string;
+  to?: string | undefined;
   /** A project key to filter results by. Can be specified multiple times, one query parameter per project key. */
-  projectKey?: string;
+  projectKey?: string | undefined;
   /** Specifies the data granularity. Defaults to `daily`. Valid values depend on `aggregationType`: **month_to_date** supports `daily` and `monthly`; **incremental** and **rolling_30d** support `daily` only. */
-  granularity?: string;
+  granularity?: string | undefined;
   /** Specifies the aggregation method. Defaults to `month_to_date`.<br/>Valid values: `month_to_date`, `incremental`, `rolling_30d`. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
 }
 export interface GetVersionsRequest {}
 /** A list of all valid API versions. To learn more about our versioning, read [Versioning](https://launchdarkly.com/docs/api#versioning). */
@@ -9090,7 +9098,7 @@ export interface VersionsRep {
   /** The version of the API currently in use. Typically this is the API version specified for your access token. If you add the <code>LD-API-Version: beta</code> header to your request, this will be equal to the <code>latestVersion</code>. */
   currentVersion: number;
   /** Whether the version of the API currently is use is a beta version. This is always <code>true</code> if you add the <code>LD-API-Version: beta</code> header to your request. */
-  beta?: boolean;
+  beta?: boolean | undefined;
 }
 export type GetViewRequestSort = "key" | "name" | "updatedAt";
 export type GetViewRequestExpandItem =
@@ -9110,15 +9118,15 @@ export interface GetViewRequest {
   projectKey: string;
   viewKey: string;
   /** A sort to apply to the list of views. */
-  sort?: GetViewRequestSort | (string & {});
+  sort?: GetViewRequestSort | (string & {}) | undefined;
   /** The number of views to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** A filter to apply to the list of views. Supports the following fields and operators: `name` (equals, notEquals, startsWith, contains, anyOf), `key` (equals, notEquals, startsWith, contains, anyOf), `tag` (equals, anyOf), `maintainerId` (equals, anyOf), `isPayloadView` (equals). */
-  filter?: string;
+  filter?: string | undefined;
   /** A comma-separated list of fields to expand. */
-  expand?: GetViewRequestExpandList;
+  expand?: GetViewRequestExpandList | undefined;
 }
 export type GetViewsRequestSort = "key" | "name" | "updatedAt";
 export type GetViewsRequestExpandItem =
@@ -9131,35 +9139,35 @@ export type GetViewsRequestExpandList = Array<GetViewsRequestExpandItem | (strin
 export interface GetViewsRequest {
   projectKey: string;
   /** A sort to apply to the list of views. */
-  sort?: GetViewsRequestSort | (string & {});
+  sort?: GetViewsRequestSort | (string & {}) | undefined;
   /** The number of views to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** A filter to apply to the list of views. Supports the following fields and operators: `name` (equals, notEquals, startsWith, contains, anyOf), `key` (equals, notEquals, startsWith, contains, anyOf), `tag` (equals, anyOf), `maintainerId` (equals, anyOf), `isPayloadView` (equals). */
-  filter?: string;
+  filter?: string | undefined;
   /** A comma-separated list of fields to expand. */
-  expand?: GetViewsRequestExpandList;
+  expand?: GetViewsRequestExpandList | undefined;
 }
 export interface GetWarehouseExportUsageRequest {
   /** The series of data returned starts from this timestamp (Unix milliseconds). Defaults to the beginning of the current month. */
-  from?: string;
+  from?: string | undefined;
   /** The series of data returned ends at this timestamp (Unix milliseconds). Defaults to the current time. */
-  to?: string;
+  to?: string | undefined;
   /** A project key to filter results by. Can be specified multiple times, one query parameter per project key. */
-  projectKey?: string;
+  projectKey?: string | undefined;
   /** An environment key to filter results by. If specified, exactly one `projectKey` must be provided. Can be specified multiple times, one query parameter per environment key. */
-  environmentKey?: string;
+  environmentKey?: string | undefined;
   /** A Warehouse configuration kind to filter results by. Cannot be combined with `destination`. Can be specified multiple times.<br/>Valid values: `snowflake-v2`, `databricks`, `bigquery`, `redshift`, `clickhouse`, `s3`. */
-  destinationKind?: string;
+  destinationKind?: string | undefined;
   /** A Warehouse configuration kind to filter results by. Cannot be combined with `destinationKind`. Existing behavior is unchanged. Can be specified multiple times.<br/>Valid values: `snowflake-v2`, `databricks`, `bigquery`, `redshift`, `clickhouse`. */
-  destination?: string;
+  destination?: string | undefined;
   /** If specified, returns data for each distinct value of the given field. Can be specified multiple times.<br/>Valid values: `projectId`, `environmentId`, `destination`, `destinationKind`, `destinationId`. `destination` and `destinationKind` return the same raw Warehouse configuration kinds. `destinationId` returns one series per warehouse destination with `destinationName` metadata. When a current destination you can view matches, its `destinationId` is the LaunchDarkly destination ID, with `destinationViewable`. Otherwise, it is the warehouse provider's destination ID, named `Unknown destination`. The destination's own kind is added as `destinationKind` only when you can view the destination. A kind requested with `groupBy=destinationKind` is returned unchanged. Destinations you cannot view are reported together in one `Unknown destination` series with `destinationId` `hidden` and `destinationViewable` `false`, one per combination of the other requested dimensions, such as `destinationKind`. Usage without a destination ID is one series with an empty `destinationId` named `Unattributed`. */
-  groupBy?: string;
+  groupBy?: string | undefined;
   /** Specifies the aggregation method. Defaults to `month_to_date`.<br/>Valid values: `month_to_date`, `incremental`. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Specifies the data granularity. Defaults to `daily`. `monthly` granularity is only supported with the **month_to_date** aggregation type.<br/>Valid values: `daily`, `hourly`, `monthly`. */
-  granularity?: string;
+  granularity?: string | undefined;
 }
 export interface GetWebhookRequest {
   /** The ID of the webhook */
@@ -9173,13 +9181,13 @@ export interface GetWorkflowsRequest {
   /** The environment key */
   environmentKey: string;
   /** Filter results by workflow status. Valid status filters are `active`, `completed`, and `failed`. */
-  status?: string;
+  status?: string | undefined;
   /** A field to sort the items by. Prefix field by a dash ( - ) to sort in descending order. This endpoint supports sorting by `creationDate` or `stopDate`. */
-  sort?: string;
+  sort?: string | undefined;
   /** The maximum number of workflows to return. Defaults to 20. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Defaults to 0. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** An array of workflows */
 export type CustomWorkflowsListingOutputItemsList = Array<CustomWorkflowOutput>;
@@ -9195,9 +9203,9 @@ export interface CustomWorkflowsListingOutput {
 }
 export interface GetWorkflowTemplatesRequest {
   /** Whether the entire template object or just a summary should be returned */
-  summary?: boolean;
+  summary?: boolean | undefined;
   /** The substring in either the name or description of a template */
-  search?: string;
+  search?: string | undefined;
 }
 export type WorkflowTemplatesListingOutputRepItemsList = Array<WorkflowTemplateOutput>;
 export interface WorkflowTemplatesListingOutputRep {
@@ -9210,9 +9218,9 @@ export interface ViewLinkRequestKeys {
   /** Keys of the resources (flags, segments) to link/unlink */
   keys: ViewLinkRequestKeysKeysList;
   /** Optional filter string to determine which resources should be linked. Resources only need to match either the filter or explicitly-listed keys to be linked (union). Uses the same syntax as list endpoints: flags use comma-separated field:value filters, segments use queryfilter syntax. Supported filters by resource type: - flags: query, tags, maintainerId, maintainerTeamKey, type, status, state, staleState, sdkAvailability, targeting, hasExperiment, hasDataExport, evaluated, creationDate, contextKindTargeted, contextKindsEvaluated, filterEnv, segmentTargeted, codeReferences.min, codeReferences.max, excludeSettings, releasePipeline, applicationEvaluated, purpose, guardedRollout, view, key, name, archived, followerId - segments (queryfilter): query, tags, keys, excludedKeys, unbounded, external, view, type Some filters are only available when the corresponding feature is enabled on your account. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional comment for the link/unlink operation */
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface ViewLinkRequestSegmentIdentifier {
   environmentId: string;
@@ -9225,19 +9233,19 @@ export interface ViewLinkRequestSegmentIdentifiers {
   /** Identifiers of the segments to link/unlink (environmentId and segmentKey) */
   segmentIdentifiers: ViewLinkRequestSegmentIdentifiersSegmentIdentifiersList;
   /** Optional filter string to determine which resources should be linked. Resources only need to match either the filter or explicitly-listed keys to be linked (union). Uses the same queryfilter syntax as the segments list endpoint. Supported filters for segments: query, tags, keys, excludedKeys, unbounded, external, view, type */
-  filter?: string;
+  filter?: string | undefined;
   /** Required when using filter for segment resources. Specifies which environment to query for segments matching the filter. Ignored when only using explicit segmentIdentifiers (since each identifier contains its own environmentId). */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** Optional comment for the link/unlink operation */
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface ViewLinkRequestFilter {
   /** Filter string to match resources for linking. Uses the same syntax as list endpoints: flags use comma-separated field:value filters, segments use queryfilter syntax. Supported filters by resource type: - flags: query, tags, maintainerId, maintainerTeamKey, type, status, state, staleState, sdkAvailability, targeting, hasExperiment, hasDataExport, evaluated, creationDate, contextKindTargeted, contextKindsEvaluated, filterEnv, segmentTargeted, codeReferences.min, codeReferences.max, excludeSettings, releasePipeline, applicationEvaluated, purpose, guardedRollout, view, key, name, archived, followerId - segments (queryfilter): query, tags, keys, excludedKeys, unbounded, external, view, type Some filters are only available when the corresponding feature is enabled on your account. */
   filter: string;
   /** Required when using filter for segment resources. Specifies which environment to query for segments matching the filter. Ignored for flag resources (flags are global across environments). */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** Optional comment for the link/unlink operation */
-  comment?: string;
+  comment?: string | undefined;
 }
 export type ViewLinkRequest =
   | ViewLinkRequestKeys
@@ -9255,7 +9263,7 @@ export interface FailedResourceLink {
   /** The key of the resource that failed to link. */
   resourceKey: string;
   /** Environment ID of the resource (only present for segments) */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** The type of the resource that failed to link. */
   resourceType: FailedResourceLinkResourceType;
   /** The reason why linking this resource failed. */
@@ -9268,9 +9276,9 @@ export interface LinkResourceSuccessResponse {
   successCount: number;
   /** The number of resources that failed to link. */
   failureCount: number;
-  linkedResources?: ViewLinkedResources;
+  linkedResources?: ViewLinkedResources | undefined;
   /** Details of resources that failed to link. */
-  failedResources?: LinkResourceSuccessResponseFailedResourcesList;
+  failedResources?: LinkResourceSuccessResponseFailedResourcesList | undefined;
 }
 export interface ListAdaptiveTriggersRequest {
   projectKey: string;
@@ -9278,31 +9286,31 @@ export interface ListAdaptiveTriggersRequest {
   resourceKind: AdaptiveTriggerResourceKind | (string & {});
   resourceKey: string;
   /** The number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type ExperimentationLink = Link;
 export type AdaptiveTriggersPaginatedLinks = PaginatedLinks;
 export type AdaptiveTriggersItemsList = Array<AdaptiveTrigger>;
 export interface AdaptiveTriggers {
-  _links?: PaginatedLinks;
+  _links?: PaginatedLinks | undefined;
   items: AdaptiveTriggersItemsList;
   totalCount: number;
 }
 export interface ListAgentGraphsRequest {
   projectKey: string;
   /** The number of resources to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** A filter to apply to the list. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type AgentGraphsItemsList = Array<AgentGraph>;
 /** A collection of agent graphs */
 export interface AgentGraphs {
-  _links?: PaginatedLinks;
+  _links?: PaginatedLinks | undefined;
   items: AgentGraphsItemsList;
   totalCount: number;
 }
@@ -9310,9 +9318,9 @@ export interface ListAgentOptimizationResultsRequest {
   projectKey: string;
   optimizationKey: string;
   /** The number of resources to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type AgentOptimizationResultStatus = "RUNNING" | "PASSED" | "FAILED" | "ERRORED";
 export type AgentOptimizationResultActivity =
@@ -9329,8 +9337,8 @@ export type AgentOptimizationResultGenerationTokensMap = { [key: string]: unknow
 export type AgentOptimizationResultEvaluationTokensMap = { [key: string]: unknown | undefined };
 export type AgentOptimizationResultEvaluationLatenciesMap = { [key: string]: unknown | undefined };
 export interface AgentOptimizationResult {
-  _access?: AiConfigsAccess;
-  _links?: ParentAndSelfLinks;
+  _access?: AiConfigsAccess | undefined;
+  _links?: ParentAndSelfLinks | undefined;
   id: string;
   runId: string;
   agentOptimizationId: string;
@@ -9339,25 +9347,25 @@ export interface AgentOptimizationResult {
   activity: AgentOptimizationResultActivity;
   iteration: number;
   instructions: string;
-  parameters?: AgentOptimizationResultParametersMap;
+  parameters?: AgentOptimizationResultParametersMap | undefined;
   userInput: string;
-  completionResponse?: string;
-  variation?: AgentOptimizationResultVariationMap;
-  scores?: AgentOptimizationResultScoresMap;
-  generationTokens?: AgentOptimizationResultGenerationTokensMap;
-  evaluationTokens?: AgentOptimizationResultEvaluationTokensMap;
-  generationLatency?: number;
-  evaluationLatencies?: AgentOptimizationResultEvaluationLatenciesMap;
-  completedAt?: number;
-  createdVariationKey?: string;
+  completionResponse?: string | undefined;
+  variation?: AgentOptimizationResultVariationMap | undefined;
+  scores?: AgentOptimizationResultScoresMap | undefined;
+  generationTokens?: AgentOptimizationResultGenerationTokensMap | undefined;
+  evaluationTokens?: AgentOptimizationResultEvaluationTokensMap | undefined;
+  generationLatency?: number | undefined;
+  evaluationLatencies?: AgentOptimizationResultEvaluationLatenciesMap | undefined;
+  completedAt?: number | undefined;
+  createdVariationKey?: string | undefined;
   createdAt: number;
   updatedAt: number;
 }
 export type AgentOptimizationResultsItemsList = Array<AgentOptimizationResult>;
 export interface AgentOptimizationResults {
-  _links?: PaginatedLinks;
+  _links?: PaginatedLinks | undefined;
   items: AgentOptimizationResultsItemsList;
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 export interface ListAgentOptimizationResultsByRunIdRequest {
   projectKey: string;
@@ -9368,9 +9376,9 @@ export interface ListAgentOptimizationRunsRequest {
   projectKey: string;
   optimizationKey: string;
   /** The number of resources to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface AgentOptimizationRun {
   runId: string;
@@ -9380,26 +9388,26 @@ export interface AgentOptimizationRun {
   status: AgentOptimizationResultStatus;
   activity: AgentOptimizationResultActivity;
   createdAt: number;
-  completedAt?: number | null;
+  completedAt?: number | null | undefined;
 }
 export type AgentOptimizationRunsItemsList = Array<AgentOptimizationRun>;
 export interface AgentOptimizationRuns {
-  _links?: PaginatedLinks;
+  _links?: PaginatedLinks | undefined;
   items: AgentOptimizationRunsItemsList;
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 export interface ListAgentOptimizationsRequest {
   projectKey: string;
   /** The number of resources to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** A filter to apply to the list. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type AgentOptimizationsItemsList = Array<AgentOptimization>;
 export interface AgentOptimizations {
-  _links?: PaginatedLinks;
+  _links?: PaginatedLinks | undefined;
   items: AgentOptimizationsItemsList;
   totalCount: number;
 }
@@ -9407,9 +9415,9 @@ export interface ListAgentSkillReferencesRequest {
   projectKey: string;
   skillKey: string;
   /** The number of resources to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** A usage of an agent skill in a specific config variation. */
 export interface AgentSkillReference {
@@ -9428,7 +9436,7 @@ export interface AgentSkillReference {
 }
 export type AgentSkillReferencesItemsList = Array<AgentSkillReference>;
 export interface AgentSkillReferences {
-  _links?: PaginatedLinks;
+  _links?: PaginatedLinks | undefined;
   /** The key of the agent skill. */
   resourceKey: string;
   /** The type of the resource being referenced. */
@@ -9440,15 +9448,15 @@ export interface AgentSkillReferences {
 export interface ListAgentSkillsRequest {
   projectKey: string;
   /** The number of resources to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** A filter to apply to the list. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type AgentSkillsItemsList = Array<AgentSkill>;
 export interface AgentSkills {
-  _links?: PaginatedLinks;
+  _links?: PaginatedLinks | undefined;
   items: AgentSkillsItemsList;
   totalCount: number;
 }
@@ -9456,17 +9464,17 @@ export interface ListAgentSkillVersionsRequest {
   projectKey: string;
   skillKey: string;
   /** The number of resources to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface ListAIToolReferencesRequest {
   projectKey: string;
   toolKey: string;
   /** The number of resources to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** A usage of an AI tool in a specific AgentControl config variation. */
 export interface ToolReference {
@@ -9485,7 +9493,7 @@ export interface ToolReference {
 }
 export type ToolReferencesItemsList = Array<ToolReference>;
 export interface ToolReferences {
-  _links?: PaginatedLinks;
+  _links?: PaginatedLinks | undefined;
   /** The key of the AI tool. */
   resourceKey: string;
   /** The type of the resource being referenced. */
@@ -9497,17 +9505,17 @@ export interface ToolReferences {
 export interface ListAIToolsRequest {
   projectKey: string;
   /** A sort to apply to the list of AgentControl configs. */
-  sort?: string;
+  sort?: string | undefined;
   /** The number of resources to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** A filter to apply to the list. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type AIToolsItemsList = Array<AITool>;
 export interface AITools {
-  _links?: PaginatedLinks;
+  _links?: PaginatedLinks | undefined;
   items: AIToolsItemsList;
   totalCount: number;
 }
@@ -9515,28 +9523,28 @@ export interface ListAIToolVersionsRequest {
   projectKey: string;
   toolKey: string;
   /** A sort to apply to the list of AgentControl configs. */
-  sort?: string;
+  sort?: string | undefined;
   /** The number of resources to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface ListAllAgentOptimizationResultsRequest {
   projectKey: string;
   optimizationKey: string;
   /** The number of resources to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface ListModelConfigsRequest {
   projectKey: string;
   /** Whether to return only restricted models */
-  restricted?: boolean;
+  restricted?: boolean | undefined;
   /** A sort to apply to the list of AgentControl configs. */
-  sort?: string;
+  sort?: string | undefined;
   /** A filter to apply to the list. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type ListModelConfigsResponseBodyList = Array<ModelConfig>;
 export type ListModelConfigsResponse = ListModelConfigsResponseBodyList;
@@ -9544,13 +9552,13 @@ export interface ListModelConfigVersionsRequest {
   projectKey: string;
   modelConfigKey: string;
   /** The number of resources to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type ModelConfigsItemsList = Array<ModelConfig>;
 export interface ModelConfigs {
-  _links?: PaginatedLinks;
+  _links?: PaginatedLinks | undefined;
   items: ModelConfigsItemsList;
   totalCount: number;
 }
@@ -9558,9 +9566,9 @@ export interface ListPromptSnippetReferencesRequest {
   projectKey: string;
   snippetKey: string;
   /** The number of resources to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** A usage of a prompt snippet in a specific config variation. */
 export interface SnippetReference {
@@ -9579,7 +9587,7 @@ export interface SnippetReference {
 }
 export type SnippetReferencesItemsList = Array<SnippetReference>;
 export interface SnippetReferences {
-  _links?: PaginatedLinks;
+  _links?: PaginatedLinks | undefined;
   /** The key of the prompt snippet. */
   resourceKey: string;
   /** The type of the resource being referenced. */
@@ -9591,15 +9599,15 @@ export interface SnippetReferences {
 export interface ListPromptSnippetsRequest {
   projectKey: string;
   /** The number of resources to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** A filter to apply to the list. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type PromptSnippetsItemsList = Array<PromptSnippet>;
 export interface PromptSnippets {
-  _links?: PaginatedLinks;
+  _links?: PaginatedLinks | undefined;
   items: PromptSnippetsItemsList;
   totalCount: number;
 }
@@ -9607,16 +9615,16 @@ export interface ListPromptSnippetVersionsRequest {
   projectKey: string;
   snippetKey: string;
   /** The number of resources to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Where to start in the list. Use this with pagination. For example, an offset of 10 skips the first ten items and then returns the next items in the list, up to the query `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface PatchAdaptiveTriggerRequest {
   projectKey: string;
   environmentKey: string;
   triggerID: string;
-  name?: string;
-  task?: AdaptiveTriggerTask;
+  name?: string | undefined;
+  task?: AdaptiveTriggerTask | undefined;
 }
 /** The edges in the graph. If present, rootConfigKey must also be present. Replaces all existing edges. */
 export type PatchAgentGraphRequestEdgesList = Array<AgentGraphEdge>;
@@ -9624,17 +9632,17 @@ export interface PatchAgentGraphRequest {
   projectKey: string;
   graphKey: string;
   /** A human-readable name for the agent graph */
-  name?: string;
+  name?: string | undefined;
   /** A description of the agent graph */
-  description?: string;
+  description?: string | undefined;
   /** The ID of the member who maintains this agent graph. Pass an empty string to remove maintainer. */
-  maintainerId?: string;
+  maintainerId?: string | undefined;
   /** The key of the team that maintains this agent graph. Pass an empty string to remove maintainer. */
-  maintainerTeamKey?: string;
+  maintainerTeamKey?: string | undefined;
   /** The config key of the root node. If present, edges must also be present. */
-  rootConfigKey?: string;
+  rootConfigKey?: string | undefined;
   /** The edges in the graph. If present, rootConfigKey must also be present. Replaces all existing edges. */
-  edges?: PatchAgentGraphRequestEdgesList;
+  edges?: PatchAgentGraphRequestEdgesList | undefined;
 }
 export type PatchAgentOptimizationRequestModelChoicesList = Array<string>;
 export type PatchAgentOptimizationRequestVariableChoicesItemMap = {
@@ -9650,21 +9658,21 @@ export type PatchAgentOptimizationRequestGroundTruthResponsesList = Array<string
 export interface PatchAgentOptimizationRequest {
   projectKey: string;
   optimizationKey: string;
-  maxAttempts?: number;
-  modelChoices?: PatchAgentOptimizationRequestModelChoicesList;
-  judgeModel?: string;
-  variableChoices?: PatchAgentOptimizationRequestVariableChoicesList;
-  acceptanceStatements?: PatchAgentOptimizationRequestAcceptanceStatementsList;
-  judges?: PatchAgentOptimizationRequestJudgesList;
-  userInputOptions?: PatchAgentOptimizationRequestUserInputOptionsList;
-  groundTruthResponses?: PatchAgentOptimizationRequestGroundTruthResponsesList;
-  metricKey?: string;
-  tokenLimit?: number;
-  variationKey?: string;
-  label?: string;
-  latencyOptimization?: boolean;
-  tokenOptimization?: boolean;
-  autoCommit?: boolean;
+  maxAttempts?: number | undefined;
+  modelChoices?: PatchAgentOptimizationRequestModelChoicesList | undefined;
+  judgeModel?: string | undefined;
+  variableChoices?: PatchAgentOptimizationRequestVariableChoicesList | undefined;
+  acceptanceStatements?: PatchAgentOptimizationRequestAcceptanceStatementsList | undefined;
+  judges?: PatchAgentOptimizationRequestJudgesList | undefined;
+  userInputOptions?: PatchAgentOptimizationRequestUserInputOptionsList | undefined;
+  groundTruthResponses?: PatchAgentOptimizationRequestGroundTruthResponsesList | undefined;
+  metricKey?: string | undefined;
+  tokenLimit?: number | undefined;
+  variationKey?: string | undefined;
+  label?: string | undefined;
+  latencyOptimization?: boolean | undefined;
+  tokenOptimization?: boolean | undefined;
+  autoCommit?: boolean | undefined;
 }
 export type PatchAgentOptimizationResultRequestVariationMap = {
   [key: string]: unknown | undefined;
@@ -9683,44 +9691,44 @@ export interface PatchAgentOptimizationResultRequest {
   projectKey: string;
   optimizationKey: string;
   resultId: string;
-  status?: AgentOptimizationResultStatus | (string & {});
-  activity?: AgentOptimizationResultActivity | (string & {});
-  completionResponse?: string;
-  variation?: PatchAgentOptimizationResultRequestVariationMap;
-  scores?: PatchAgentOptimizationResultRequestScoresMap;
-  generationTokens?: PatchAgentOptimizationResultRequestGenerationTokensMap;
-  evaluationTokens?: PatchAgentOptimizationResultRequestEvaluationTokensMap;
-  generationLatency?: number;
-  evaluationLatencies?: PatchAgentOptimizationResultRequestEvaluationLatenciesMap;
-  createdVariationKey?: string;
+  status?: AgentOptimizationResultStatus | (string & {}) | undefined;
+  activity?: AgentOptimizationResultActivity | (string & {}) | undefined;
+  completionResponse?: string | undefined;
+  variation?: PatchAgentOptimizationResultRequestVariationMap | undefined;
+  scores?: PatchAgentOptimizationResultRequestScoresMap | undefined;
+  generationTokens?: PatchAgentOptimizationResultRequestGenerationTokensMap | undefined;
+  evaluationTokens?: PatchAgentOptimizationResultRequestEvaluationTokensMap | undefined;
+  generationLatency?: number | undefined;
+  evaluationLatencies?: PatchAgentOptimizationResultRequestEvaluationLatenciesMap | undefined;
+  createdVariationKey?: string | undefined;
 }
 export type PatchAgentSkillRequestTagsList = Array<string>;
 export interface PatchAgentSkillRequest {
   projectKey: string;
   skillKey: string;
-  name?: string;
-  description?: string;
+  name?: string | undefined;
+  description?: string | undefined;
   /** The verbatim SKILL.md content of the agent skill */
-  markdown?: string;
-  maintainerId?: string;
-  maintainerTeamKey?: string;
-  tags?: PatchAgentSkillRequestTagsList;
+  markdown?: string | undefined;
+  maintainerId?: string | undefined;
+  maintainerTeamKey?: string | undefined;
+  tags?: PatchAgentSkillRequestTagsList | undefined;
 }
 export type PatchAIConfigRequestTagsList = Array<string>;
 export interface PatchAIConfigRequest {
   projectKey: string;
   configKey: string;
   /** Key of the variation this config serves by default */
-  defaultVariationKey?: string;
-  description?: string;
-  maintainerId?: string;
-  maintainerTeamKey?: string;
-  name?: string;
-  tags?: PatchAIConfigRequestTagsList;
+  defaultVariationKey?: string | undefined;
+  description?: string | undefined;
+  maintainerId?: string | undefined;
+  maintainerTeamKey?: string | undefined;
+  name?: string | undefined;
+  tags?: PatchAIConfigRequestTagsList | undefined;
   /** Evaluation metric key for this config */
-  evaluationMetricKey?: string;
+  evaluationMetricKey?: string | undefined;
   /** Whether the evaluation metric is inverted, meaning a lower value is better if set as true */
-  isInverted?: boolean;
+  isInverted?: boolean | undefined;
 }
 export type PatchAIConfigTargetingRequestInstructionsItemMap = {
   [key: string]: unknown | undefined;
@@ -9730,7 +9738,7 @@ export type PatchAIConfigTargetingRequestInstructionsList =
 export interface PatchAIConfigTargetingRequest {
   projectKey: string;
   configKey: string;
-  comment?: string;
+  comment?: string | undefined;
   environmentKey: string;
   instructions: PatchAIConfigTargetingRequestInstructionsList;
 }
@@ -9760,42 +9768,42 @@ export interface PatchAIConfigVariationRequest {
   configKey: string;
   variationKey: string;
   /** Human-readable description of what this patch changes */
-  comment?: string;
+  comment?: string | undefined;
   /** Description for agent when the config is in agent mode. */
-  description?: string;
+  description?: string | undefined;
   /** Instructions for agent when the config is in agent mode. */
-  instructions?: string;
-  messages?: PatchAIConfigVariationRequestMessagesList;
-  model?: unknown;
-  modelConfigKey?: string;
+  instructions?: string | undefined;
+  messages?: PatchAIConfigVariationRequestMessagesList | undefined;
+  model?: unknown | undefined;
+  modelConfigKey?: string | undefined;
   /** The exact model config version to set this variation to. Requires modelConfigKey to be set (either in this patch or already on the variation), and the version must exist for that model config. When omitted, the variation keeps the version it is currently set to, unless the patch changes modelConfigKey, in which case the variation records the new model config's current (latest) version. */
-  modelConfigVersion?: number;
-  name?: string;
+  modelConfigVersion?: number | undefined;
+  name?: string | undefined;
   /** JSON Schema defining the structured output format for the variation. */
-  outputFormat?: PatchAIConfigVariationRequestOutputFormatMap;
-  published?: boolean;
+  outputFormat?: PatchAIConfigVariationRequestOutputFormatMap | undefined;
+  published?: boolean | undefined;
   /** One of 'archived', 'published' */
-  state?: string;
+  state?: string | undefined;
   /** List of tools to use for this variation. The latest version of the tool will be used. */
-  tools?: PatchAIConfigVariationRequestToolsList;
+  tools?: PatchAIConfigVariationRequestToolsList | undefined;
   /** List of tool keys to use for this variation. The latest version of the tool will be used. */
-  toolKeys?: PatchAIConfigVariationRequestToolKeysList;
+  toolKeys?: PatchAIConfigVariationRequestToolKeysList | undefined;
   /** List of agent skills to attach to this variation. Replaces the current attachments. */
-  skills?: PatchAIConfigVariationRequestSkillsList;
-  judgeConfiguration?: JudgeConfiguration;
+  skills?: PatchAIConfigVariationRequestSkillsList | undefined;
+  judgeConfiguration?: JudgeConfiguration | undefined;
 }
 export type PatchAIToolRequestTagsList = Array<string>;
 export interface PatchAIToolRequest {
   projectKey: string;
   toolKey: string;
-  maintainerId?: string;
-  maintainerTeamKey?: string;
-  description?: string;
+  maintainerId?: string | undefined;
+  maintainerTeamKey?: string | undefined;
+  description?: string | undefined;
   /** JSON Schema defining the tool's parameters for LLM consumption */
-  schema?: unknown;
+  schema?: unknown | undefined;
   /** Custom metadata and configuration for application-level use (not sent to LLM) */
-  customParameters?: unknown;
-  tags?: PatchAIToolRequestTagsList;
+  customParameters?: unknown | undefined;
+  tags?: PatchAIToolRequestTagsList | undefined;
 }
 /** Require approval only on flags with the provided tags. Otherwise all flags will require approval. */
 export type PatchApprovalRequestSettingsRequestRequiredApprovalTagsList = Array<string>;
@@ -9806,27 +9814,27 @@ export type PatchApprovalRequestSettingsRequestServiceConfigMap = {
 export interface PatchApprovalRequestSettingsRequest {
   projectKey: string;
   /** Automatically apply changes that have been approved by all reviewers. This field is only applicable for approval services other than LaunchDarkly. */
-  autoApplyApprovedChanges?: boolean | null;
+  autoApplyApprovedChanges?: boolean | null | undefined;
   /** Whether to skip approvals for pending changes */
-  bypassApprovalsForPendingChanges?: boolean;
+  bypassApprovalsForPendingChanges?: boolean | undefined;
   /** Allow applying the change as long as at least one person has approved */
-  canApplyDeclinedChanges?: boolean;
+  canApplyDeclinedChanges?: boolean | undefined;
   /** Allow someone who makes an approval request to apply their own change */
-  canReviewOwnRequest?: boolean;
+  canReviewOwnRequest?: boolean | undefined;
   environmentKey: string;
   /** Sets the amount of approvals required before a member can apply a change. The minimum is one and the maximum is five. */
-  minNumApprovals?: number;
+  minNumApprovals?: number | undefined;
   /** If approvals are required for this environment */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Require approval only on flags with the provided tags. Otherwise all flags will require approval. */
-  requiredApprovalTags?: PatchApprovalRequestSettingsRequestRequiredApprovalTagsList;
+  requiredApprovalTags?: PatchApprovalRequestSettingsRequestRequiredApprovalTagsList | undefined;
   resourceKind: string;
   /** Arbitrary service-specific configuration */
-  serviceConfig?: PatchApprovalRequestSettingsRequestServiceConfigMap;
+  serviceConfig?: PatchApprovalRequestSettingsRequestServiceConfigMap | undefined;
   /** Which service to use for managing approvals */
-  serviceKind?: string;
+  serviceKind?: string | undefined;
   /** Optional integration configuration ID of a custom approval integration. This is an Enterprise-only feature. */
-  serviceKindConfigurationId?: string | null;
+  serviceKindConfigurationId?: string | null | undefined;
 }
 export type PatchApprovalRequestSettingsResponse = ApprovalRequestSettings;
 export interface PatchOperation {
@@ -9835,7 +9843,7 @@ export interface PatchOperation {
   /** A JSON Pointer string specifying the part of the document to operate on */
   path: string;
   /** A JSON value used in "add", "replace", and "test" operations */
-  value?: unknown;
+  value?: unknown | undefined;
 }
 export type JSONPatch = Array<PatchOperation>;
 export interface PatchBigSegmentStoreIntegrationRequest {
@@ -9855,7 +9863,7 @@ export interface PatchCustomRoleRequest {
   /** A JSON patch representation of the change to make */
   patch: JSONPatch;
   /** Optional comment */
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface PatchEnvironmentRequest {
   /** The project key */
@@ -9872,7 +9880,7 @@ export interface PatchExperimentRequest {
   /** The experiment key */
   experimentKey: string;
   /** Optional comment describing the update */
-  comment?: string;
+  comment?: string | undefined;
   /** The instructions to perform when updating. This should be an array with objects that look like <code>{"kind": "update_action"}</code>. Some instructions also require a <code>value</code> field in the array element. */
   instructions: Instructions;
 }
@@ -9886,7 +9894,7 @@ export interface PatchExpiringTargetsRequest {
   /** The environment key */
   environmentKey: string;
   /** Optional comment describing the change */
-  comment?: string;
+  comment?: string | undefined;
   /** The instructions to perform when updating */
   instructions: PatchExpiringTargetsRequestInstructionsList;
 }
@@ -9905,11 +9913,11 @@ export interface ExpiringTargetPatchResponse {
   /** A list of the results from each instruction */
   items: ExpiringTargetPatchResponseItemsList;
   /** The location and content type of related resources */
-  _links?: ExpiringTargetPatchResponseLinksMap;
-  totalInstructions?: number;
-  successfulInstructions?: number;
-  failedInstructions?: number;
-  errors?: ExpiringTargetPatchResponseErrorsList;
+  _links?: ExpiringTargetPatchResponseLinksMap | undefined;
+  totalInstructions?: number | undefined;
+  successfulInstructions?: number | undefined;
+  failedInstructions?: number | undefined;
+  errors?: ExpiringTargetPatchResponseErrorsList | undefined;
 }
 /** The type of change to make to the context's removal date from this segment */
 export type PatchSegmentExpiringTargetInstructionKind =
@@ -9928,9 +9936,9 @@ export interface PatchSegmentExpiringTargetInstruction {
   /** The segment's target type */
   targetType: PatchSegmentExpiringTargetInstructionTargetType | (string & {});
   /** The time, in Unix milliseconds, when the context should be removed from this segment. Required if <code>kind</code> is <code>addExpiringTarget</code> or <code>updateExpiringTarget</code>. */
-  value?: number;
+  value?: number | undefined;
   /** The version of the expiring target to update. Optional and only used if <code>kind</code> is <code>updateExpiringTarget</code>. If included, update will fail if version doesn't match current version of the expiring target. */
-  version?: number;
+  version?: number | undefined;
 }
 /** Semantic patch instructions for the desired changes to the resource */
 export type PatchExpiringTargetsForSegmentRequestInstructionsList =
@@ -9943,7 +9951,7 @@ export interface PatchExpiringTargetsForSegmentRequest {
   /** The environment key */
   environmentKey: string;
   /** Optional description of changes */
-  comment?: string;
+  comment?: string | undefined;
   /** Semantic patch instructions for the desired changes to the resource */
   instructions: PatchExpiringTargetsForSegmentRequestInstructionsList;
 }
@@ -9957,7 +9965,7 @@ export interface PatchExpiringUserTargetsRequest {
   /** The environment key */
   environmentKey: string;
   /** Optional comment describing the change */
-  comment?: string;
+  comment?: string | undefined;
   /** The instructions to perform when updating */
   instructions: PatchExpiringUserTargetsRequestInstructionsList;
 }
@@ -9971,15 +9979,15 @@ export interface ExpiringUserTargetPatchResponse {
   /** An array of expiring user targets */
   items: ExpiringUserTargetPatchResponseItemsList;
   /** The location and content type of related resources */
-  _links?: ExpiringUserTargetPatchResponseLinksMap;
+  _links?: ExpiringUserTargetPatchResponseLinksMap | undefined;
   /** The total count of instructions sent in the PATCH request */
-  totalInstructions?: number;
+  totalInstructions?: number | undefined;
   /** The total count of successful instructions sent in the PATCH request */
-  successfulInstructions?: number;
+  successfulInstructions?: number | undefined;
   /** The total count of the failed instructions sent in the PATCH request */
-  failedInstructions?: number;
+  failedInstructions?: number | undefined;
   /** An array of error messages for the failed instructions */
-  errors?: ExpiringUserTargetPatchResponseErrorsList;
+  errors?: ExpiringUserTargetPatchResponseErrorsList | undefined;
 }
 /** The type of change to make to the user's removal date from this segment */
 export type PatchSegmentInstructionKind =
@@ -9996,9 +10004,9 @@ export interface PatchSegmentInstruction {
   /** The segment's target type */
   targetType: PatchSegmentInstructionTargetType | (string & {});
   /** The time, in Unix milliseconds, when the user should be removed from this segment. Required if <code>kind</code> is <code>addExpireUserTargetDate</code> or <code>updateExpireUserTargetDate</code>. */
-  value?: number;
+  value?: number | undefined;
   /** The version of the segment to update. Required if <code>kind</code> is <code>updateExpireUserTargetDate</code>. */
-  version?: number;
+  version?: number | undefined;
 }
 /** Semantic patch instructions for the desired changes to the resource */
 export type PatchExpiringUserTargetsForSegmentRequestInstructionsList =
@@ -10011,7 +10019,7 @@ export interface PatchExpiringUserTargetsForSegmentRequest {
   /** The environment key */
   environmentKey: string;
   /** Optional description of changes */
-  comment?: string;
+  comment?: string | undefined;
   /** Semantic patch instructions for the desired changes to the resource */
   instructions: PatchExpiringUserTargetsForSegmentRequestInstructionsList;
 }
@@ -10021,13 +10029,13 @@ export interface PatchFeatureFlagRequest {
   /** The feature flag key. The key identifies the flag in your code. */
   featureFlagKey: string;
   /** If true, the patch will be applied even if it causes a pending scheduled change or approval request to fail. */
-  ignoreConflicts?: boolean;
+  ignoreConflicts?: boolean | undefined;
   /** If true, the patch will be validated but not persisted. Returns a preview of the flag after the patch is applied. */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
   /** A JSON patch representation of the change to make */
   patch: JSONPatch;
   /** Optional comment */
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface PatchFlagConfigApprovalRequestRequest {
   /** The project key */
@@ -10049,9 +10057,9 @@ export interface PatchFlagConfigScheduledChangeRequest {
   /** The scheduled change ID */
   id: string;
   /** Whether to succeed (`true`) or fail (`false`) when these new instructions conflict with existing scheduled changes */
-  ignoreConflicts?: boolean;
+  ignoreConflicts?: boolean | undefined;
   /** Optional comment describing the update to the scheduled changes */
-  comment?: string;
+  comment?: string | undefined;
   /** The instructions to perform when updating. This should be an array with objects that look like <code>{"kind": "update_action"}</code>. Some instructions also require a <code>value</code> field in the array element. */
   instructions: Instructions;
 }
@@ -10086,7 +10094,7 @@ export interface DefaultClientSideAvailability {
 }
 export interface UpsertPayloadRep {
   /** The location and content type of related resources */
-  _links?: UpsertPayloadRepLinksMap;
+  _links?: UpsertPayloadRepLinksMap | undefined;
   /** A list of default tags for each flag */
   tags: UpsertPayloadRepTagsList;
   /** Whether the flag should be temporary by default */
@@ -10112,7 +10120,7 @@ export interface PatchHoldoutRequest {
   /** The holdout key */
   holdoutKey: string;
   /** Optional comment describing the update */
-  comment?: string;
+  comment?: string | undefined;
   /** The instructions to perform when updating. This should be an array with objects that look like <code>{"kind": "update_action"}</code>. Some instructions also require a <code>value</code> field in the array element. */
   instructions: Instructions;
 }
@@ -10134,9 +10142,9 @@ export interface PatchIntegrationDeliveryConfigurationRequest {
 }
 export interface PatchIpAllowlistConfigRequest {
   /** Enable or disable session allowlist */
-  sessionAllowlistEnabled?: boolean;
+  sessionAllowlistEnabled?: boolean | undefined;
   /** Enable or disable API token allowlist */
-  apiTokenAllowlistEnabled?: boolean;
+  apiTokenAllowlistEnabled?: boolean | undefined;
 }
 export interface PatchIpAllowlistEntryRequest {
   /** Unique identifier for the allowlist entry */
@@ -10162,22 +10170,22 @@ export interface PatchModelConfigRequest {
   projectKey: string;
   modelConfigKey: string;
   /** Immutable provider model identifier. To use a different model identifier, create a new model config. */
-  id?: string;
+  id?: string | undefined;
   /** Immutable model provider. To use a different provider, create a new model config. */
-  provider?: string;
+  provider?: string | undefined;
   /** Human-readable name of the model */
-  name?: string;
+  name?: string | undefined;
   /** Cost per input token in USD */
-  costPerInputToken?: number;
+  costPerInputToken?: number | undefined;
   /** Cost per output token in USD */
-  costPerOutputToken?: number;
+  costPerOutputToken?: number | undefined;
   /** Cost per cached input token in USD */
-  costPerCachedInputToken?: number;
-  params?: unknown;
-  customParams?: unknown;
-  tags?: PatchModelConfigRequestTagsList;
-  maintainerId?: string;
-  maintainerTeamKey?: string;
+  costPerCachedInputToken?: number | undefined;
+  params?: unknown | undefined;
+  customParams?: unknown | undefined;
+  tags?: PatchModelConfigRequestTagsList | undefined;
+  maintainerId?: string | undefined;
+  maintainerTeamKey?: string | undefined;
 }
 export interface PatchOAuthClientRequest {
   /** The client ID */
@@ -10188,13 +10196,13 @@ export type PatchPromptSnippetRequestTagsList = Array<string>;
 export interface PatchPromptSnippetRequest {
   projectKey: string;
   snippetKey: string;
-  name?: string;
-  description?: string;
+  name?: string | undefined;
+  description?: string | undefined;
   /** The text content of the prompt snippet */
-  text?: string;
-  maintainerId?: string;
-  maintainerTeamKey?: string;
-  tags?: PatchPromptSnippetRequestTagsList;
+  text?: string | undefined;
+  maintainerId?: string | undefined;
+  maintainerTeamKey?: string | undefined;
+  tags?: PatchPromptSnippetRequestTagsList | undefined;
 }
 export interface PatchRelayAutoConfigRequest {
   /** The relay auto config id */
@@ -10202,7 +10210,7 @@ export interface PatchRelayAutoConfigRequest {
   /** A JSON patch representation of the change to make */
   patch: JSONPatch;
   /** Optional comment */
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface PatchReleaseByFlagKeyRequest {
   /** The project key */
@@ -10222,12 +10230,12 @@ export interface PatchSdkKeyByKeyRequest {
   /** The user-defined identifying key of the SDK key. This is used solely to identify an SDK key and is distinct from the value field, which is the actual SDK key value. */
   sdkKeyKey: string;
   /** The version of the SDK key for optimistic locking. If provided, the update will only succeed if the current version matches. */
-  version?: number;
+  version?: number | undefined;
   /** (Optional)The human-readable name of the SDK key. */
-  name?: string;
+  name?: string | undefined;
   /** (Optional) The description of the SDK key. */
-  description?: string;
-  expiry?: number;
+  description?: string | undefined;
+  expiry?: number | undefined;
 }
 /** The instructions to perform when updating. This should be an array with objects that look like <code>{"kind": "trigger_action"}</code>. */
 export type PatchTriggerWorkflowRequestInstructionsList = Array<Instruction>;
@@ -10241,9 +10249,9 @@ export interface PatchTriggerWorkflowRequest {
   /** The flag trigger ID */
   id: string;
   /** Optional comment describing the update */
-  comment?: string;
+  comment?: string | undefined;
   /** The instructions to perform when updating. This should be an array with objects that look like <code>{"kind": "trigger_action"}</code>. */
-  instructions?: PatchTriggerWorkflowRequestInstructionsList;
+  instructions?: PatchTriggerWorkflowRequestInstructionsList | undefined;
 }
 export interface PostAdaptiveTriggerRequest {
   projectKey: string;
@@ -10265,15 +10273,15 @@ export interface PostAgentGraphRequest {
   /** A human-readable name for the agent graph */
   name: string;
   /** A description of the agent graph */
-  description?: string;
+  description?: string | undefined;
   /** The ID of the member who maintains this agent graph */
-  maintainerId?: string;
+  maintainerId?: string | undefined;
   /** The key of the team that maintains this agent graph */
-  maintainerTeamKey?: string;
+  maintainerTeamKey?: string | undefined;
   /** The config key of the root node. A missing root implies a newly created graph with metadata only. */
-  rootConfigKey?: string;
+  rootConfigKey?: string | undefined;
   /** The edges in the graph. If edges or rootConfigKey is present, both must be present. */
-  edges?: PostAgentGraphRequestEdgesList;
+  edges?: PostAgentGraphRequestEdgesList | undefined;
 }
 export type PostAgentOptimizationRequestModelChoicesList = Array<string>;
 export type PostAgentOptimizationRequestVariableChoicesItemMap = {
@@ -10291,20 +10299,20 @@ export interface PostAgentOptimizationRequest {
   key: string;
   aiConfigKey: string;
   maxAttempts: number;
-  modelChoices?: PostAgentOptimizationRequestModelChoicesList;
+  modelChoices?: PostAgentOptimizationRequestModelChoicesList | undefined;
   judgeModel: string;
-  variableChoices?: PostAgentOptimizationRequestVariableChoicesList;
-  acceptanceStatements?: PostAgentOptimizationRequestAcceptanceStatementsList;
-  judges?: PostAgentOptimizationRequestJudgesList;
-  userInputOptions?: PostAgentOptimizationRequestUserInputOptionsList;
-  groundTruthResponses?: PostAgentOptimizationRequestGroundTruthResponsesList;
-  metricKey?: string;
-  tokenLimit?: number;
-  variationKey?: string;
-  label?: string;
-  latencyOptimization?: boolean;
-  tokenOptimization?: boolean;
-  autoCommit?: boolean;
+  variableChoices?: PostAgentOptimizationRequestVariableChoicesList | undefined;
+  acceptanceStatements?: PostAgentOptimizationRequestAcceptanceStatementsList | undefined;
+  judges?: PostAgentOptimizationRequestJudgesList | undefined;
+  userInputOptions?: PostAgentOptimizationRequestUserInputOptionsList | undefined;
+  groundTruthResponses?: PostAgentOptimizationRequestGroundTruthResponsesList | undefined;
+  metricKey?: string | undefined;
+  tokenLimit?: number | undefined;
+  variationKey?: string | undefined;
+  label?: string | undefined;
+  latencyOptimization?: boolean | undefined;
+  tokenOptimization?: boolean | undefined;
+  autoCommit?: boolean | undefined;
 }
 export type PostAgentOptimizationResultRequestParametersMap = {
   [key: string]: unknown | undefined;
@@ -10317,19 +10325,19 @@ export interface PostAgentOptimizationResultRequest {
   iteration: number;
   instructions: string;
   userInput: string;
-  parameters?: PostAgentOptimizationResultRequestParametersMap;
+  parameters?: PostAgentOptimizationResultRequestParametersMap | undefined;
 }
 export type PostAgentSkillRequestTagsList = Array<string>;
 export interface PostAgentSkillRequest {
   projectKey: string;
   key: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   /** The verbatim SKILL.md content of the agent skill */
   markdown: string;
-  maintainerId?: string;
-  maintainerTeamKey?: string;
-  tags?: PostAgentSkillRequestTagsList;
+  maintainerId?: string | undefined;
+  maintainerTeamKey?: string | undefined;
+  tags?: PostAgentSkillRequestTagsList | undefined;
 }
 export type PostAIConfigRequestMode = "agent" | "completion" | "judge";
 export type PostAIConfigRequestTagsList = Array<string>;
@@ -10345,43 +10353,43 @@ export type AIConfigVariationPostToolKeysList = Array<string>;
 export type AIConfigVariationPostSkillsList = Array<VariationSkillPost>;
 export interface AIConfigVariationPost {
   /** Human-readable description of this variation */
-  comment?: string;
+  comment?: string | undefined;
   /** Returns the description for the agent. This is only returned for agent variations. */
-  description?: string;
+  description?: string | undefined;
   /** Returns the instructions for the agent. This is only returned for agent variations. */
-  instructions?: string;
+  instructions?: string | undefined;
   key: string;
-  messages?: AIConfigVariationPostMessagesList;
-  model?: unknown;
+  messages?: AIConfigVariationPostMessagesList | undefined;
+  model?: unknown | undefined;
   name: string;
-  modelConfigKey?: string;
+  modelConfigKey?: string | undefined;
   /** The exact model config version to set this variation to. Requires modelConfigKey to be set, and the version must exist for that model config. When omitted, the variation records the model config's current (latest) version. */
-  modelConfigVersion?: number;
+  modelConfigVersion?: number | undefined;
   /** JSON Schema defining the structured output format for the variation. */
-  outputFormat?: AIConfigVariationPostOutputFormatMap;
+  outputFormat?: AIConfigVariationPostOutputFormatMap | undefined;
   /** List of tools to use for this variation. The latest version of the tool will be used. */
-  tools?: AIConfigVariationPostToolsList;
+  tools?: AIConfigVariationPostToolsList | undefined;
   /** List of tool keys to use for this variation. The latest version of the tool will be used. */
-  toolKeys?: AIConfigVariationPostToolKeysList;
+  toolKeys?: AIConfigVariationPostToolKeysList | undefined;
   /** List of agent skills to attach to this variation. */
-  skills?: AIConfigVariationPostSkillsList;
-  judgeConfiguration?: JudgeConfiguration;
+  skills?: AIConfigVariationPostSkillsList | undefined;
+  judgeConfiguration?: JudgeConfiguration | undefined;
 }
 export interface PostAIConfigRequest {
   projectKey: string;
-  description?: string;
+  description?: string | undefined;
   key: string;
-  maintainerId?: string;
-  maintainerTeamKey?: string;
-  mode?: PostAIConfigRequestMode | (string & {});
+  maintainerId?: string | undefined;
+  maintainerTeamKey?: string | undefined;
+  mode?: PostAIConfigRequestMode | (string & {}) | undefined;
   name: string;
-  tags?: PostAIConfigRequestTagsList;
-  viewKeys?: PostAIConfigRequestViewKeysList;
-  defaultVariation?: AIConfigVariationPost;
+  tags?: PostAIConfigRequestTagsList | undefined;
+  viewKeys?: PostAIConfigRequestViewKeysList | undefined;
+  defaultVariation?: AIConfigVariationPost | undefined;
   /** Evaluation metric key for this config */
-  evaluationMetricKey?: string;
+  evaluationMetricKey?: string | undefined;
   /** Whether the evaluation metric is inverted, meaning a lower value is better if set as true */
-  isInverted?: boolean;
+  isInverted?: boolean | undefined;
 }
 export type PostAIConfigVariationRequestMessagesList = Array<Message>;
 /** JSON Schema defining the structured output format for the variation. */
@@ -10396,40 +10404,40 @@ export interface PostAIConfigVariationRequest {
   projectKey: string;
   configKey: string;
   /** Human-readable description of this variation */
-  comment?: string;
+  comment?: string | undefined;
   /** Returns the description for the agent. This is only returned for agent variations. */
-  description?: string;
+  description?: string | undefined;
   /** Returns the instructions for the agent. This is only returned for agent variations. */
-  instructions?: string;
+  instructions?: string | undefined;
   key: string;
-  messages?: PostAIConfigVariationRequestMessagesList;
-  model?: unknown;
+  messages?: PostAIConfigVariationRequestMessagesList | undefined;
+  model?: unknown | undefined;
   name: string;
-  modelConfigKey?: string;
+  modelConfigKey?: string | undefined;
   /** The exact model config version to set this variation to. Requires modelConfigKey to be set, and the version must exist for that model config. When omitted, the variation records the model config's current (latest) version. */
-  modelConfigVersion?: number;
+  modelConfigVersion?: number | undefined;
   /** JSON Schema defining the structured output format for the variation. */
-  outputFormat?: PostAIConfigVariationRequestOutputFormatMap;
+  outputFormat?: PostAIConfigVariationRequestOutputFormatMap | undefined;
   /** List of tools to use for this variation. The latest version of the tool will be used. */
-  tools?: PostAIConfigVariationRequestToolsList;
+  tools?: PostAIConfigVariationRequestToolsList | undefined;
   /** List of tool keys to use for this variation. The latest version of the tool will be used. */
-  toolKeys?: PostAIConfigVariationRequestToolKeysList;
+  toolKeys?: PostAIConfigVariationRequestToolKeysList | undefined;
   /** List of agent skills to attach to this variation. */
-  skills?: PostAIConfigVariationRequestSkillsList;
-  judgeConfiguration?: JudgeConfiguration;
+  skills?: PostAIConfigVariationRequestSkillsList | undefined;
+  judgeConfiguration?: JudgeConfiguration | undefined;
 }
 export type PostAIToolRequestTagsList = Array<string>;
 export interface PostAIToolRequest {
   projectKey: string;
   key: string;
-  maintainerId?: string;
-  maintainerTeamKey?: string;
-  description?: string;
+  maintainerId?: string | undefined;
+  maintainerTeamKey?: string | undefined;
+  description?: string | undefined;
   /** JSON Schema defining the tool's parameters for LLM consumption */
   schema: unknown;
   /** Custom metadata and configuration for application-level use (not sent to LLM) */
-  customParameters?: unknown;
-  tags?: PostAIToolRequestTagsList;
+  customParameters?: unknown | undefined;
+  tags?: PostAIToolRequestTagsList | undefined;
 }
 export interface PostApprovalRequestApplyForFlagRequest {
   /** The project key */
@@ -10441,7 +10449,7 @@ export interface PostApprovalRequestApplyForFlagRequest {
   /** The feature flag approval request ID */
   id: string;
   /** Optional comment about the approval request */
-  comment?: string;
+  comment?: string | undefined;
 }
 /** An array of member IDs. These members are notified to review the approval request. */
 export type PostApprovalRequestForFlagRequestNotifyMemberIdsList = Array<string>;
@@ -10455,21 +10463,21 @@ export interface PostApprovalRequestForFlagRequest {
   /** The environment key */
   environmentKey: string;
   /** Optional comment describing the approval request */
-  comment?: string;
+  comment?: string | undefined;
   /** A brief description of the changes you're requesting */
   description: string;
   /** List of instructions in semantic patch format to be applied to the feature flag. Review the [Update feature flag](https://launchdarkly.com/docs/ld-docs/api/feature-flags/patch-feature-flag) documentation for details on available instructions. */
   instructions: Instructions;
   /** An array of member IDs. These members are notified to review the approval request. */
-  notifyMemberIds?: PostApprovalRequestForFlagRequestNotifyMemberIdsList;
+  notifyMemberIds?: PostApprovalRequestForFlagRequestNotifyMemberIdsList | undefined;
   /** An array of team keys. The members of these teams are notified to review the approval request. */
-  notifyTeamKeys?: PostApprovalRequestForFlagRequestNotifyTeamKeysList;
+  notifyTeamKeys?: PostApprovalRequestForFlagRequestNotifyTeamKeysList | undefined;
   /** Timestamp for when instructions will be executed */
-  executionDate?: number;
+  executionDate?: number | undefined;
   /** The ID of a scheduled change. Include this if your <code>instructions</code> include editing or deleting a scheduled change. */
-  operatingOnId?: string;
+  operatingOnId?: string | undefined;
   /** Additional approval request fields for third-party integration approval systems. If you are using a third-party integration to manage approval requests, these additional fields will be described in the <code>manifest.json</code> for that integration, at https://github.com/launchdarkly/integration-framework. */
-  integrationConfig?: FormVariableConfig;
+  integrationConfig?: FormVariableConfig | undefined;
 }
 /** The type of review for this approval request */
 export type PostApprovalRequestReviewForFlagRequestKind = "approve" | "comment" | "decline";
@@ -10483,36 +10491,36 @@ export interface PostApprovalRequestReviewForFlagRequest {
   /** The feature flag approval request ID */
   id: string;
   /** The type of review for this approval request */
-  kind?: PostApprovalRequestReviewForFlagRequestKind | (string & {});
+  kind?: PostApprovalRequestReviewForFlagRequestKind | (string & {}) | undefined;
   /** Optional comment about the approval request */
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface PostAuditLogEntriesRequest {
   /** A timestamp filter, expressed as a Unix epoch time in milliseconds. All entries returned occurred before the timestamp. */
-  before?: number;
+  before?: number | undefined;
   /** A timestamp filter, expressed as a Unix epoch time in milliseconds. All entries returned occurred after the timestamp. */
-  after?: number;
+  after?: number | undefined;
   /** Text to search for. You can search for the full or partial name of the resource. */
-  q?: string;
+  q?: string | undefined;
   /** A limit on the number of audit log entries that return. Set between 1 and 20. The default is 10. */
-  limit?: number;
+  limit?: number | undefined;
   /** A member ID that lets you filter audit log listings by the member who made the change. Repeat the parameter to filter by multiple members. */
-  member?: string;
+  member?: string | undefined;
   /** An access token ID that lets you filter audit log listings by the token that made the change. Repeat the parameter to filter by multiple tokens. */
-  token?: string;
-  body?: StatementPostList;
+  token?: string | undefined;
+  body?: StatementPostList | undefined;
 }
 export interface PostAuditLogEntryCountsRequest {
   /** A timestamp filter, expressed as a Unix epoch time in milliseconds. Defaults to now. */
-  before?: number;
+  before?: number | undefined;
   /** A timestamp filter, expressed as a Unix epoch time in milliseconds. Required. */
   after: number;
   /** Number of time buckets to divide the range into. Default 50, max 500. */
-  buckets?: number;
+  buckets?: number | undefined;
   /** A member ID that lets you filter counts to changes made by that member. Repeat the parameter to filter by multiple members. */
-  member?: string;
+  member?: string | undefined;
   /** An access token ID that lets you filter counts to changes made by that token. Repeat the parameter to filter by multiple tokens. */
-  token?: string;
+  token?: string | undefined;
   body: StatementPostList;
 }
 export interface CountBucket {
@@ -10532,7 +10540,7 @@ export interface PostCompleteWarehouseDestinationSetupRequest {
   envKey: string;
   /** The destination kind (snowflake-v2, bigquery, clickhouse, redshift, databricks) */
   kind: string;
-  publicKey?: string;
+  publicKey?: string | undefined;
 }
 export interface PostCustomRoleRequest {
   /** A human-friendly name for the custom role */
@@ -10540,13 +10548,13 @@ export interface PostCustomRoleRequest {
   /** The custom role key */
   key: string;
   /** Description of custom role */
-  description?: string;
+  description?: string | undefined;
   /** Resource statements for custom role */
   policy: StatementPostList;
   /** Base permissions to use for this role. Defaults to no_access (older roles defaulted to reader). Recommended to set this to no_access in all cases. */
-  basePermissions?: string;
+  basePermissions?: string | undefined;
   /** The category of resources this role is intended to manage. Can be <code>organization</code>, <code>project</code>, or <code>any</code>. This field is immutable. */
-  resourceCategory?: string;
+  resourceCategory?: string | undefined;
 }
 export interface PostDisableAdaptiveTriggerRequest {
   projectKey: string;
@@ -10572,21 +10580,21 @@ export interface PostEnvironmentRequest {
   /** A color to indicate this environment in the UI */
   color: string;
   /** The default time (in minutes) that the PHP SDK can cache feature flag rules locally */
-  defaultTtl?: number;
+  defaultTtl?: number | undefined;
   /** Ensures that one end user of the client-side SDK cannot inspect the variations for another end user */
-  secureMode?: boolean;
+  secureMode?: boolean | undefined;
   /** The initial value of trackEvents for flags created in this environment. Does not affect existing flags. Required for Data Export, but doesn't enable Data Export on its own. */
-  defaultTrackEvents?: boolean;
+  defaultTrackEvents?: boolean | undefined;
   /** Requires confirmation for all flag and segment changes via the UI in this environment */
-  confirmChanges?: boolean;
+  confirmChanges?: boolean | undefined;
   /** Requires comments for all flag and segment changes via the UI in this environment */
-  requireComments?: boolean;
+  requireComments?: boolean | undefined;
   /** Tags to apply to the new environment */
-  tags?: PostEnvironmentRequestTagsList;
+  tags?: PostEnvironmentRequestTagsList | undefined;
   /** Indicates that the new environment created will be cloned from the provided source environment */
-  source?: SourceEnv;
+  source?: SourceEnv | undefined;
   /** Whether the environment is critical */
-  critical?: boolean;
+  critical?: boolean | undefined;
 }
 export type ExtinctionListPost = Array<Extinction>;
 export interface PostExtinctionRequest {
@@ -10611,7 +10619,7 @@ export type PostFeatureFlagRequestTagsList = Array<string>;
 export type PostFeatureFlagRequestPurpose = "migration" | "holdout";
 export interface MigrationSettingsPost {
   /** Context kind for a migration with 6 stages, where data is being moved */
-  contextKind?: string;
+  contextKind?: string | undefined;
   stageCount: number;
 }
 export interface FlagPrerequisitePost {
@@ -10626,39 +10634,39 @@ export interface PostFeatureFlagRequest {
   /** The project key */
   projectKey: string;
   /** The key of the feature flag to be cloned. The key identifies the flag in your code. For example, setting `clone=flagKey` copies the full targeting configuration for all environments, including `on/off` state, from the original flag to the new flag. */
-  clone?: string;
+  clone?: string | undefined;
   /** A human-friendly name for the feature flag */
   name: string;
   /** A unique key used to reference the flag in your code */
   key: string;
   /** Description of the feature flag. Defaults to an empty string. */
-  description?: string;
+  description?: string | undefined;
   /** Deprecated, use <code>clientSideAvailability</code>. Whether this flag should be made available to the client-side JavaScript SDK. Defaults to <code>false</code>. */
-  includeInSnippet?: boolean;
+  includeInSnippet?: boolean | undefined;
   /** Which type of client-side SDKs the feature flag is available to */
-  clientSideAvailability?: ClientSideAvailabilityPost;
+  clientSideAvailability?: ClientSideAvailabilityPost | undefined;
   /** An array of possible variations for the flag. The variation values must be unique. If omitted, two boolean variations of <code>true</code> and <code>false</code> will be used. */
-  variations?: PostFeatureFlagRequestVariationsList;
+  variations?: PostFeatureFlagRequestVariationsList | undefined;
   /** Whether the flag is a temporary flag. Defaults to <code>true</code>. */
-  temporary?: boolean;
+  temporary?: boolean | undefined;
   /** Tags for the feature flag. Defaults to an empty array. */
-  tags?: PostFeatureFlagRequestTagsList;
+  tags?: PostFeatureFlagRequestTagsList | undefined;
   /** Metadata attached to the feature flag, in the form of the property key associated with a name and array of values for the metadata to associate with this flag. Typically used to store data related to an integration. */
-  customProperties?: CustomProperties;
+  customProperties?: CustomProperties | undefined;
   /** The indices, from the array of variations, for the variations to serve by default when targeting is on and when targeting is off. These variations will be used for this flag in new environments. If omitted, the first and last variation will be used. */
-  defaults?: Defaults;
+  defaults?: Defaults | undefined;
   /** Purpose of the flag */
-  purpose?: PostFeatureFlagRequestPurpose | (string & {});
+  purpose?: PostFeatureFlagRequestPurpose | (string & {}) | undefined;
   /** Settings relevant to flags where <code>purpose</code> is <code>migration</code> */
-  migrationSettings?: MigrationSettingsPost;
+  migrationSettings?: MigrationSettingsPost | undefined;
   /** The ID of the member who maintains this feature flag */
-  maintainerId?: string;
+  maintainerId?: string | undefined;
   /** The key of the team that maintains this feature flag */
-  maintainerTeamKey?: string;
+  maintainerTeamKey?: string | undefined;
   /** Initial set of prerequisite flags for all environments */
-  initialPrerequisites?: PostFeatureFlagRequestInitialPrerequisitesList;
+  initialPrerequisites?: PostFeatureFlagRequestInitialPrerequisitesList | undefined;
   /** Whether to automatically turn the flag on across all environments at creation. Defaults to <code>false</code>. */
-  isFlagOn?: boolean;
+  isFlagOn?: boolean | undefined;
 }
 export interface PostFlagConfigScheduledChangesRequest {
   /** The project key */
@@ -10668,9 +10676,9 @@ export interface PostFlagConfigScheduledChangesRequest {
   /** The environment key */
   environmentKey: string;
   /** Whether to succeed (`true`) or fail (`false`) when these instructions conflict with existing scheduled changes */
-  ignoreConflicts?: boolean;
+  ignoreConflicts?: boolean | undefined;
   /** Optional comment describing the scheduled changes */
-  comment?: string;
+  comment?: string | undefined;
   /** When the scheduled changes should be executed */
   executionDate: number;
   /** The actions to perform on the execution date for these scheduled changes. This should be an array with a single object that looks like <code>{"kind": "scheduled_action"}</code>. Supported scheduled actions include any semantic patch instructions available when updating a feature flag. */
@@ -10684,7 +10692,7 @@ export interface SourceFlag {
   /** The environment key for the source environment */
   key: string;
   /** The version of the source flag from which to copy */
-  version?: number;
+  version?: number | undefined;
 }
 export type PostFlagCopyConfigApprovalRequestRequestIncludedActionsItem =
   | "updateOn"
@@ -10716,19 +10724,19 @@ export interface PostFlagCopyConfigApprovalRequestRequest {
   /** The environment key for the target environment */
   environmentKey: string;
   /** Optional comment describing the approval request */
-  comment?: string;
+  comment?: string | undefined;
   /** A brief description of your changes */
   description: string;
   /** An array of member IDs. These members are notified to review the approval request. */
-  notifyMemberIds?: PostFlagCopyConfigApprovalRequestRequestNotifyMemberIdsList;
+  notifyMemberIds?: PostFlagCopyConfigApprovalRequestRequestNotifyMemberIdsList | undefined;
   /** An array of team keys. The members of these teams are notified to review the approval request. */
-  notifyTeamKeys?: PostFlagCopyConfigApprovalRequestRequestNotifyTeamKeysList;
+  notifyTeamKeys?: PostFlagCopyConfigApprovalRequestRequestNotifyTeamKeysList | undefined;
   /** The flag to copy */
   source: SourceFlag;
   /** Optional list of the flag changes to copy from the source environment to the target environment. You may include either <code>includedActions</code> or <code>excludedActions</code>, but not both. If neither are included, then all flag changes will be copied. */
-  includedActions?: PostFlagCopyConfigApprovalRequestRequestIncludedActionsList;
+  includedActions?: PostFlagCopyConfigApprovalRequestRequestIncludedActionsList | undefined;
   /** Optional list of the flag changes NOT to copy from the source environment to the target environment. You may include either <code>includedActions</code> or <code>excludedActions</code>, but not both. If neither are included, then all flag changes will be copied. */
-  excludedActions?: PostFlagCopyConfigApprovalRequestRequestExcludedActionsList;
+  excludedActions?: PostFlagCopyConfigApprovalRequestRequestExcludedActionsList | undefined;
 }
 export interface PostGenerateProjectEnvWarehouseDestinationKeyPairRequest {
   /** The project key */
@@ -10738,9 +10746,9 @@ export interface PostGenerateProjectEnvWarehouseDestinationKeyPairRequest {
 }
 export interface GenerateWarehouseDestinationKeyPairPostRep {
   /** The public key used by LaunchDarkly */
-  public_key?: string;
+  public_key?: string | undefined;
   /** The public key to assign in your Snowflake worksheet */
-  public_key_pkcs8?: string;
+  public_key_pkcs8?: string | undefined;
 }
 export interface PostGenerateTrustPolicyRequest {
   /** The project key */
@@ -10752,25 +10760,25 @@ export interface PostGenerateTrustPolicyRequest {
 export type TrustPolicyStatementActionList = Array<string>;
 export interface TrustPolicyStatement {
   /** The effect of trust policy statement */
-  Effect?: string;
+  Effect?: string | undefined;
   /** The action of trust policy statement */
-  Action?: TrustPolicyStatementActionList;
+  Action?: TrustPolicyStatementActionList | undefined;
   /** The principal of trust policy statement */
-  Principal?: unknown;
+  Principal?: unknown | undefined;
   /** The condition of trust policy statement */
-  Condition?: unknown;
+  Condition?: unknown | undefined;
 }
 /** The statements of the trust policy */
 export type TrustPolicyDetailsStatementList = Array<TrustPolicyStatement>;
 export interface TrustPolicyDetails {
   /** The version of the trust policy */
-  Version?: string;
+  Version?: string | undefined;
   /** The statements of the trust policy */
-  Statement?: TrustPolicyDetailsStatementList;
+  Statement?: TrustPolicyDetailsStatementList | undefined;
 }
 export interface GenerateTrustPolicyPostRep {
   /** The AWS trust policy */
-  awsTrustPolicy?: TrustPolicyDetails;
+  awsTrustPolicy?: TrustPolicyDetails | undefined;
 }
 export interface PostGenerateWarehouseDestinationKeyPairRequest {}
 export interface PostGenerateWarehouseDestinationSetupScriptRequest {
@@ -10780,39 +10788,39 @@ export interface PostGenerateWarehouseDestinationSetupScriptRequest {
   envKey: string;
   /** The destination kind (snowflake-v2, redshift, clickhouse) */
   kind: string;
-  name?: string;
-  snowflakeHostAddress?: string;
-  databaseName?: string;
-  warehouseName?: string;
-  roleName?: string;
-  schemaName?: string;
-  userName?: string;
-  includeNetworkPolicy?: boolean;
-  clusterIdentifier?: string;
-  clusterRegion?: string;
-  clusterAwsAccountId?: string;
-  endpoint?: string;
-  clickHouseDatabaseName?: string;
-  clickHouseUserName?: string;
-  clickHouseS3BucketName?: string;
-  clickHouseIncludeHostRestriction?: boolean;
-  clickHouseServiceRoleArn?: string;
-  clickHousePassword?: string | Redacted.Redacted<string>;
-  s3BucketName?: string;
+  name?: string | undefined;
+  snowflakeHostAddress?: string | undefined;
+  databaseName?: string | undefined;
+  warehouseName?: string | undefined;
+  roleName?: string | undefined;
+  schemaName?: string | undefined;
+  userName?: string | undefined;
+  includeNetworkPolicy?: boolean | undefined;
+  clusterIdentifier?: string | undefined;
+  clusterRegion?: string | undefined;
+  clusterAwsAccountId?: string | undefined;
+  endpoint?: string | undefined;
+  clickHouseDatabaseName?: string | undefined;
+  clickHouseUserName?: string | undefined;
+  clickHouseS3BucketName?: string | undefined;
+  clickHouseIncludeHostRestriction?: boolean | undefined;
+  clickHouseServiceRoleArn?: string | undefined;
+  clickHousePassword?: string | Redacted.Redacted<string> | undefined;
+  s3BucketName?: string | undefined;
 }
 export interface WarehouseDestinationSetupScriptRep {
   /** The SQL setup script to run in your data warehouse */
-  script?: string;
+  script?: string | undefined;
   /** The RSA public key (Snowflake only) to store as the destination public_key */
-  publicKey?: string;
+  publicKey?: string | undefined;
   /** The PKCS8 RSA public key (Snowflake only) */
-  publicKeyPkcs8?: string;
+  publicKeyPkcs8?: string | undefined;
   /** For Redshift, present only when clusterIdentifier, clusterRegion, and clusterAwsAccountId are supplied in the request body. */
-  redshiftIAMPermissionsPolicy?: string;
+  redshiftIAMPermissionsPolicy?: string | undefined;
   /** For Redshift, present only when clusterIdentifier, clusterRegion, and clusterAwsAccountId are supplied in the request body. */
-  redshiftIAMTrustPolicy?: string;
+  redshiftIAMTrustPolicy?: string | undefined;
   /** The auto-generated S3 staging bucket name (ClickHouse and Redshift) */
-  s3BucketName?: string;
+  s3BucketName?: string | undefined;
 }
 /** The attributes that the holdout iteration's results can be sliced by */
 export type PostHoldoutRequestAttributesList = Array<string>;
@@ -10824,34 +10832,34 @@ export interface PostHoldoutRequest {
   /** The environment key */
   environmentKey: string;
   /** A human-friendly name for the holdout */
-  name?: string;
+  name?: string | undefined;
   /** A key that identifies the holdout */
-  key?: string;
+  key?: string | undefined;
   /** Description of the holdout */
-  description?: string;
+  description?: string | undefined;
   /** The chosen randomization unit for the holdout base experiment */
-  randomizationunit?: string;
+  randomizationunit?: string | undefined;
   /** The attributes that the holdout iteration's results can be sliced by */
-  attributes?: PostHoldoutRequestAttributesList;
+  attributes?: PostHoldoutRequestAttributesList | undefined;
   /** Audience allocation for the holdout */
-  holdoutamount?: string;
+  holdoutamount?: string | undefined;
   /** The key of the primary metric for this holdout */
-  primarymetrickey?: string;
+  primarymetrickey?: string | undefined;
   /** Details on the metrics for this experiment */
-  metrics?: PostHoldoutRequestMetricsList;
+  metrics?: PostHoldoutRequestMetricsList | undefined;
   /** The key of the flag that the holdout is dependent on */
-  prerequisiteflagkey?: string;
+  prerequisiteflagkey?: string | undefined;
   /** Maintainer id */
-  maintainerId?: string;
+  maintainerId?: string | undefined;
 }
 /** The kind of event your metric will track */
 export type PostMetricRequestKind = "pageview" | "click" | "custom" | "trace";
 export type UrlPostKind = "exact" | "canonical" | "substring" | "regex";
 export interface UrlPost {
-  kind?: UrlPostKind | (string & {});
-  url?: string;
-  substring?: string;
-  pattern?: string;
+  kind?: UrlPostKind | (string & {}) | undefined;
+  url?: string | undefined;
+  substring?: string | undefined;
+  pattern?: string | undefined;
 }
 /** One or more target URLs. Required for click and pageview metrics only. */
 export type PostMetricRequestUrlsList = Array<UrlPost>;
@@ -10871,41 +10879,41 @@ export interface EventFilter {
   /** Filter type. One of [contextAttribute, eventProperty, group] */
   type: string;
   /** If not a group node, the context attribute name or event property name to filter on */
-  attribute?: string;
+  attribute?: string | undefined;
   /** The function to perform */
   op: string;
   /** The context attribute / event property values or group member nodes. Numeric values must not exceed 14 decimal places. */
   values: EventFilterValuesList;
   /** For context attribute filters, the context kind. */
-  contextKind?: string;
+  contextKind?: string | undefined;
   /** If set, then take the inverse of the operator. 'in' becomes 'not in'. */
   negate: boolean;
 }
 export interface DenominatorPost {
   /** The warehouse event column for the denominator. Required. */
-  eventName?: string;
+  eventName?: string | undefined;
   /** Whether the denominator aggregates a numeric value */
-  isNumeric?: boolean;
+  isNumeric?: boolean | undefined;
   /** Warehouse data source for the denominator events. Omit or use 'launchdarkly-hosted' for SDK-tracked events. */
-  dataSource?: MetricDataSourceRefRep;
+  dataSource?: MetricDataSourceRefRep | undefined;
   /** How individual unit values are aggregated. One of: average, sum, count_distinct */
-  unitAggregationType?: string;
+  unitAggregationType?: string | undefined;
   /** The warehouse column to use for counting distinct values. Required when the unitAggregationType is count_distinct. */
-  unitAggregationField?: string;
+  unitAggregationField?: string | undefined;
   /** For a numeric denominator, the column holding the numeric value. Overrides the value column mapped on the denominator data source. */
-  valueColumn?: string;
+  valueColumn?: string | undefined;
   /** Optional filters to narrow which denominator events are included */
-  filters?: EventFilter;
+  filters?: EventFilter | undefined;
   /** Start of the measurement window in milliseconds */
-  windowStartOffset?: number;
+  windowStartOffset?: number | undefined;
   /** End of the measurement window in milliseconds */
-  windowEndOffset?: number;
+  windowEndOffset?: number | undefined;
   /** Lower winsorization percentile in the open interval (0, 100) */
-  winsorLowerPercentile?: number;
+  winsorLowerPercentile?: number | undefined;
   /** Upper winsorization percentile in the open interval (0, 100) */
-  winsorUpperPercentile?: number;
+  winsorUpperPercentile?: number | undefined;
   /** When true, includes imputed zeros in the percentile bound calculation */
-  winsorIncludeImputed?: boolean;
+  winsorIncludeImputed?: boolean | undefined;
 }
 export interface PostMetricRequest {
   /** The project key */
@@ -10913,61 +10921,61 @@ export interface PostMetricRequest {
   /** A unique key to reference the metric */
   key: string;
   /** A human-friendly name for the metric */
-  name?: string;
+  name?: string | undefined;
   /** Description of the metric */
-  description?: string;
+  description?: string | undefined;
   /** The kind of event your metric will track */
   kind: PostMetricRequestKind | (string & {});
   /** One or more CSS selectors. Required for click metrics only. */
-  selector?: string;
+  selector?: string | undefined;
   /** One or more target URLs. Required for click and pageview metrics only. */
-  urls?: PostMetricRequestUrlsList;
+  urls?: PostMetricRequestUrlsList | undefined;
   /** Whether to track numeric changes in value against a baseline (<code>true</code>) or to track a conversion when an end user takes an action (<code>false</code>). Required for custom and trace metrics only. */
-  isNumeric?: boolean;
+  isNumeric?: boolean | undefined;
   /** The unit of measure. Applicable for numeric custom and trace metrics only. */
-  unit?: string;
+  unit?: string | undefined;
   /** The event key to use in your code. Required for custom conversion/binary and custom numeric metrics only. */
-  eventKey?: string;
+  eventKey?: string | undefined;
   /** Success criteria. Required for custom and trace numeric metrics, optional for custom and trace conversion metrics. */
-  successCriteria?: PostMetricRequestSuccessCriteria | (string & {});
+  successCriteria?: PostMetricRequestSuccessCriteria | (string & {}) | undefined;
   /** Tags for the metric */
-  tags?: PostMetricRequestTagsList;
+  tags?: PostMetricRequestTagsList | undefined;
   /** Deprecated, use <code>analysisUnits</code> instead. */
-  randomizationUnits?: PostMetricRequestRandomizationUnitsList;
+  randomizationUnits?: PostMetricRequestRandomizationUnitsList | undefined;
   /** An array of analysis units allowed for this metric. */
-  analysisUnits?: PostMetricRequestAnalysisUnitsList;
+  analysisUnits?: PostMetricRequestAnalysisUnitsList | undefined;
   /** The ID of the member who maintains this metric */
-  maintainerId?: string;
+  maintainerId?: string | undefined;
   /** The method by which multiple unit event values are aggregated */
-  unitAggregationType?: PostMetricRequestUnitAggregationType | (string & {});
+  unitAggregationType?: PostMetricRequestUnitAggregationType | (string & {}) | undefined;
   /** The method for analyzing metric events */
-  analysisType?: string;
+  analysisType?: string | undefined;
   /** The percentile for the analysis method. An integer denoting the target percentile between 0 and 100. Required when <code>analysisType</code> is <code>percentile</code>. */
-  percentileValue?: number;
-  eventDefault?: MetricEventDefaultRep;
-  dataSource?: MetricDataSourceRefRep;
+  percentileValue?: number | undefined;
+  eventDefault?: MetricEventDefaultRep | undefined;
+  dataSource?: MetricDataSourceRefRep | undefined;
   /** Filters for the metric to exclude certain events from being included. This is only supported for custom metrics. */
-  filters?: EventFilter;
+  filters?: EventFilter | undefined;
   /** Not yet implemented - The start of the measurement window, in milliseconds relative to the unit's first exposure to a flag variation */
-  windowStartOffset?: number;
+  windowStartOffset?: number | undefined;
   /** Not yet implemented - The end of the measurement window, in milliseconds relative to the unit's first exposure to a flag variation */
-  windowEndOffset?: number;
+  windowEndOffset?: number | undefined;
   /** Lower winsorization percentile, expressed as a percent in the open interval (0, 100). When both bounds are set, defines a two-sided clamp range. Otherwise lower-only winsorization. */
-  winsorLowerPercentile?: number;
+  winsorLowerPercentile?: number | undefined;
   /** Upper winsorization percentile, expressed as a percent in the open interval (0, 100). When both bounds are set, must be greater than winsorLowerPercentile. */
-  winsorUpperPercentile?: number;
+  winsorUpperPercentile?: number | undefined;
   /** When true, the percentile bound calculation includes imputed zeros. Only meaningful when at least one bound is set and the metric includes units that didn't send events. */
-  winsorIncludeImputed?: boolean;
+  winsorIncludeImputed?: boolean | undefined;
   /** The trace query to use for the metric. Required for trace metrics. */
-  traceQuery?: string;
+  traceQuery?: string | undefined;
   /** The location in the trace to use for numeric values. Required for numeric trace metrics. */
-  traceValueLocation?: string;
+  traceValueLocation?: string | undefined;
   /** The warehouse column to use for counting distinct values. Required when the unitAggregationType is count_distinct. */
-  unitAggregationField?: string;
+  unitAggregationField?: string | undefined;
   /** For numeric warehouse-native metrics, the column holding the numeric value. Overrides the value column mapped on the data source. */
-  valueColumn?: string;
+  valueColumn?: string | undefined;
   /** For ratio metrics, the denominator event configuration. Only supported for warehouse native custom metrics. */
-  denominator?: DenominatorPost;
+  denominator?: DenominatorPost | undefined;
 }
 export interface PostMigrationSafetyIssuesRequest {
   /** The project key */
@@ -10978,19 +10986,19 @@ export interface PostMigrationSafetyIssuesRequest {
   environmentKey: string;
   /** Semantic patch instructions. The same ones that are valid for flags are valid here. */
   instructions: Instructions;
-  comment?: string;
+  comment?: string | undefined;
 }
 /** A list of the IDs of the rules which are affected by this issue. <code>fallthrough</code> is a sentinel value for the default rule. */
 export type MigrationSafetyIssueRepAffectedRuleIdsList = Array<string>;
 export interface MigrationSafetyIssueRep {
   /** The ID of the rule which caused this issue */
-  causingRuleId?: string;
+  causingRuleId?: string | undefined;
   /** A list of the IDs of the rules which are affected by this issue. <code>fallthrough</code> is a sentinel value for the default rule. */
-  affectedRuleIds?: MigrationSafetyIssueRepAffectedRuleIdsList;
+  affectedRuleIds?: MigrationSafetyIssueRepAffectedRuleIdsList | undefined;
   /** A description of the issue that <code>causingRuleId</code> has caused for <code>affectedRuleIds</code>. */
-  issue?: string;
+  issue?: string | undefined;
   /** Whether the changes caused by <code>causingRuleId</code> bring inconsistency to the old system */
-  oldSystemAffected?: boolean;
+  oldSystemAffected?: boolean | undefined;
 }
 export type PostMigrationSafetyIssuesResponseBodyList = Array<MigrationSafetyIssueRep>;
 export type PostMigrationSafetyIssuesResponse = PostMigrationSafetyIssuesResponseBodyList;
@@ -11003,33 +11011,33 @@ export interface PostModelConfigRequest {
   key: string;
   /** Identifier for the model, for use with third party providers */
   id: string;
-  maintainerId?: string;
-  maintainerTeamKey?: string;
+  maintainerId?: string | undefined;
+  maintainerTeamKey?: string | undefined;
   /** Icon for the model */
-  icon?: string;
+  icon?: string | undefined;
   /** Provider for the model */
-  provider?: string;
-  params?: unknown;
-  customParams?: unknown;
-  tags?: PostModelConfigRequestTagsList;
+  provider?: string | undefined;
+  params?: unknown | undefined;
+  customParams?: unknown | undefined;
+  tags?: PostModelConfigRequestTagsList | undefined;
   /** Cost per input token in USD */
-  costPerInputToken?: number;
+  costPerInputToken?: number | undefined;
   /** Cost per output token in USD */
-  costPerOutputToken?: number;
+  costPerOutputToken?: number | undefined;
   /** Cost per cached input token in USD */
-  costPerCachedInputToken?: number;
+  costPerCachedInputToken?: number | undefined;
 }
 export type PostPromptSnippetRequestTagsList = Array<string>;
 export interface PostPromptSnippetRequest {
   projectKey: string;
   key: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   /** The text content of the prompt snippet */
   text: string;
-  maintainerId?: string;
-  maintainerTeamKey?: string;
-  tags?: PostPromptSnippetRequestTagsList;
+  maintainerId?: string | undefined;
+  maintainerTeamKey?: string | undefined;
+  tags?: PostPromptSnippetRequestTagsList | undefined;
 }
 /** A description of what environments and projects the Relay Proxy should include or exclude. To learn more, read [Write an inline policy](https://launchdarkly.com/docs/sdk/relay-proxy/automatic-configuration#write-an-inline-policy). */
 export type PostRelayAutoConfigRequestPolicyList = Array<Statement>;
@@ -11047,9 +11055,9 @@ export interface AudiencePost {
   /** The audience name */
   name: string;
   /** Segments targeted by this audience. */
-  segmentKeys?: AudiencePostSegmentKeysList;
+  segmentKeys?: AudiencePostSegmentKeysList | undefined;
   /** The configuration for the audience's rollout. */
-  configuration?: AudienceConfiguration;
+  configuration?: AudienceConfiguration | undefined;
 }
 /** An ordered list of the audiences for this release phase. Each audience corresponds to a LaunchDarkly environment. */
 export type CreatePhaseInputAudiencesList = Array<AudiencePost>;
@@ -11059,7 +11067,7 @@ export interface CreatePhaseInput {
   /** The release phase name */
   name: string;
   /** The configuration for the phase's rollout. */
-  configuration?: unknown;
+  configuration?: unknown | undefined;
 }
 /** A logical grouping of one or more environments that share attributes for rolling out changes */
 export type PostReleasePipelineRequestPhasesList = Array<CreatePhaseInput>;
@@ -11069,7 +11077,7 @@ export interface PostReleasePipelineRequest {
   /** The project key */
   projectKey: string;
   /** The release pipeline description */
-  description?: string;
+  description?: string | undefined;
   /** The unique identifier of this release pipeline */
   key: string;
   /** The name of the release pipeline */
@@ -11077,11 +11085,11 @@ export interface PostReleasePipelineRequest {
   /** A logical grouping of one or more environments that share attributes for rolling out changes */
   phases: PostReleasePipelineRequestPhasesList;
   /** A list of tags for this release pipeline */
-  tags?: PostReleasePipelineRequestTagsList;
+  tags?: PostReleasePipelineRequestTagsList | undefined;
   /** Whether or not the newly created pipeline should be set as the default pipeline for this project */
-  isProjectDefault?: boolean;
+  isProjectDefault?: boolean | undefined;
   /** Whether or not the pipeline is enabled for Release Automation. */
-  isLegacy?: boolean;
+  isLegacy?: boolean | undefined;
 }
 /** Ordered list of release policy keys */
 export type PostReleasePoliciesOrderRequestBodyList = Array<string>;
@@ -11095,10 +11103,10 @@ export type PostReleasePoliciesOrderResponse = PostReleasePoliciesOrderResponseB
 export interface PostReleasePolicyRequest {
   /** The project key */
   projectKey: string;
-  scope?: ReleasePolicyScope;
+  scope?: ReleasePolicyScope | undefined;
   releaseMethod: ReleaseMethod | (string & {});
-  guardedReleaseConfig?: GuardedReleaseConfig;
-  progressiveReleaseConfig?: ProgressiveReleaseConfig;
+  guardedReleaseConfig?: GuardedReleaseConfig | undefined;
+  progressiveReleaseConfig?: ProgressiveReleaseConfig | undefined;
   /** The name of the release policy */
   name: string;
   /** The human-readable key of the release policy */
@@ -11110,15 +11118,15 @@ export interface PostRepositoryRequest {
   /** The repository name */
   name: string;
   /** A URL to access the repository */
-  sourceLink?: string;
+  sourceLink?: string | undefined;
   /** A template for constructing a valid URL to view the commit */
-  commitUrlTemplate?: string;
+  commitUrlTemplate?: string | undefined;
   /** A template for constructing a valid URL to view the hunk */
-  hunkUrlTemplate?: string;
+  hunkUrlTemplate?: string | undefined;
   /** The type of repository. If not specified, the default value is <code>custom</code>. */
-  type?: PostRepositoryRequestType | (string & {});
+  type?: PostRepositoryRequestType | (string & {}) | undefined;
   /** The repository's default branch. If not specified, the default value is <code>main</code>. */
-  defaultBranch?: string;
+  defaultBranch?: string | undefined;
 }
 export type PostRestrictedModelsRequestKeysList = Array<string>;
 export interface PostRestrictedModelsRequest {
@@ -11144,16 +11152,16 @@ export interface PostSdkKeyRequest {
   projectKey: string;
   environmentKey: string;
   /** The kind of SDK key. Can be either "sdk" (server-side) or "mobile" (mobile). Defaults to "sdk" when not explicitly defined. */
-  kind?: PostSdkKeyRequestKind | (string & {});
+  kind?: PostSdkKeyRequestKind | (string & {}) | undefined;
   /** The user-defined key of the SDK key. */
   key: string;
   /** The human-readable name of the SDK key. */
   name: string;
   /** The optional description of the SDK key. */
-  description?: string;
-  expiry?: number;
+  description?: string | undefined;
+  expiry?: number | undefined;
   /** List of view keys to associate with the SDK key. */
-  viewKeys?: PostSdkKeyRequestViewKeysList;
+  viewKeys?: PostSdkKeyRequestViewKeysList | undefined;
 }
 /** A list of the workflow stages */
 export type PostWorkflowRequestStagesList = Array<StageInput>;
@@ -11165,17 +11173,17 @@ export interface PostWorkflowRequest {
   /** The environment key */
   environmentKey: string;
   /** The template key to apply as a starting point for the new workflow */
-  templateKey?: string;
+  templateKey?: string | undefined;
   /** Whether to call the endpoint in dry-run mode */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
   /** The ID of the workflow maintainer. Defaults to the workflow creator. */
-  maintainerId?: string;
+  maintainerId?: string | undefined;
   /** The workflow name */
   name: string;
   /** The workflow description */
-  description?: string;
+  description?: string | undefined;
   /** A list of the workflow stages */
-  stages?: PostWorkflowRequestStagesList;
+  stages?: PostWorkflowRequestStagesList | undefined;
 }
 /** An array of flag references found on the branch */
 export type PutBranchRequestReferencesList = Array<ReferenceRep>;
@@ -11189,13 +11197,13 @@ export interface PutBranchRequest {
   /** An ID representing the branch HEAD. For example, a commit SHA. */
   head: string;
   /** An optional ID used to prevent older data from overwriting newer data. If no sequence ID is included, the newly submitted data will always be saved. */
-  updateSequenceId?: number;
+  updateSequenceId?: number | undefined;
   /** A timestamp indicating when the branch was last synced */
   syncTime: number;
   /** An array of flag references found on the branch */
-  references?: PutBranchRequestReferencesList;
+  references?: PutBranchRequestReferencesList | undefined;
   /** A timestamp of the current commit */
-  commitTime?: number;
+  commitTime?: number | undefined;
 }
 export interface PutBranchResponse {}
 export interface PutContextFlagSettingRequest {
@@ -11210,9 +11218,9 @@ export interface PutContextFlagSettingRequest {
   /** The feature flag key */
   featureFlagKey: string;
   /** The variation value to set for the context. Must match the flag's variation type. */
-  setting?: unknown;
+  setting?: unknown | undefined;
   /** Optional comment describing the change */
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface PutContextFlagSettingResponse {}
 export interface PutContextKindRequest {
@@ -11223,29 +11231,29 @@ export interface PutContextKindRequest {
   /** The context kind name */
   name: string;
   /** The context kind description */
-  description?: string;
+  description?: string | undefined;
   /** Alias for archived. */
-  hideInTargeting?: boolean;
+  hideInTargeting?: boolean | undefined;
   /** Whether the context kind is archived. Archived context kinds are unavailable for targeting. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** The context kind version. If not specified when the context kind is created, defaults to 1. */
-  version?: number;
+  version?: number | undefined;
 }
 /** The location and content type of related resources */
 export type UpsertResponseRepLinksMap = { [key: string]: Link | undefined };
 export interface UpsertResponseRep {
   /** The status of the create or update operation */
-  status?: string;
+  status?: string | undefined;
   /** The location and content type of related resources */
-  _links?: UpsertResponseRepLinksMap;
+  _links?: UpsertResponseRepLinksMap | undefined;
 }
 export interface RandomizationUnitInput {
   /** The unit of randomization. Must match the key of an existing context kind in this project. */
   randomizationUnit: string;
   /** If true, any experiment iterations created within this project will default to using this randomization unit. A project can only have one default randomization unit. */
-  default?: boolean;
+  default?: boolean | undefined;
   /** (deprecated) This field is deprecated and will be removed. Use randomizationUnit instead. */
-  standardRandomizationUnit?: string;
+  standardRandomizationUnit?: string | undefined;
 }
 /** An array of randomization units allowed for this project. */
 export type PutExperimentationSettingsRequestRandomizationUnitsList = Array<RandomizationUnitInput>;
@@ -11289,23 +11297,23 @@ export interface PutReleasePipelineRequest {
   /** The release pipeline key */
   pipelineKey: string;
   /** The release pipeline description */
-  description?: string;
+  description?: string | undefined;
   /** The name of the release pipeline */
   name: string;
   /** A logical grouping of one or more environments that share attributes for rolling out changes */
   phases: PutReleasePipelineRequestPhasesList;
   /** A list of tags for this release pipeline */
-  tags?: PutReleasePipelineRequestTagsList;
+  tags?: PutReleasePipelineRequestTagsList | undefined;
 }
 export interface PutReleasePolicyRequest {
   /** The project key */
   projectKey: string;
   /** The human-readable key of the release policy */
   policyKey: string;
-  scope?: ReleasePolicyScope;
+  scope?: ReleasePolicyScope | undefined;
   releaseMethod: ReleaseMethod | (string & {});
-  guardedReleaseConfig?: GuardedReleaseConfig;
-  progressiveReleaseConfig?: ProgressiveReleaseConfig;
+  guardedReleaseConfig?: GuardedReleaseConfig | undefined;
+  progressiveReleaseConfig?: ProgressiveReleaseConfig | undefined;
   /** The name of the release policy */
   name: string;
 }
@@ -11316,34 +11324,34 @@ export interface PutSdkKeyViewsRequest {
   environmentKey: string;
   sdkKeyKey: string;
   /** A comma-separated list of fields to expand in the response. Supported fields: `viewSummaries`. */
-  expand?: string;
+  expand?: string | undefined;
   /** The complete target list of view keys to associate with this SDK key. An empty array removes all views from the SDK key. */
   viewKeys: PutSdkKeyViewsRequestViewKeysList;
 }
 /** Summaries of views associated with the SDK key. */
 export type PutSdkKeyViewsResponseViewSummariesList = Array<ViewSummary>;
 export interface PutSdkKeyViewsResponse {
-  _links?: ParentAndSelfLinks;
+  _links?: ParentAndSelfLinks | undefined;
   kind: SdkKeyKind;
   /** The user-defined identifying key of the SDK key. This is used solely to identify an SDK key and is distinct from the value field, which is the actual SDK key value. */
   key: string;
   /** The human-readable name of the SDK key. */
   name: string;
   /** The optional description of the SDK key. */
-  description?: string;
-  expiry?: number;
+  description?: string | undefined;
+  expiry?: number | undefined;
   /** The string value of the SDK key. Use this when configuring your SDK. */
   value: string;
   /** Indicates if this SDK key is the system-defined default for the environment. There may also be an expiring default SDK key for the environment (not possible with mobile keys). */
   isDefault: boolean;
   /** The ID of the member who created the SDK key. This field is immutable. */
-  _createdByMemberId?: string;
+  _createdByMemberId?: string | undefined;
   _createdAt: number;
   _updatedAt: number;
   /** The auto-incremented version number of the SDK key. */
   _version: number;
   /** Summaries of views associated with the SDK key. */
-  viewSummaries?: PutSdkKeyViewsResponseViewSummariesList;
+  viewSummaries?: PutSdkKeyViewsResponseViewSummariesList | undefined;
 }
 export interface ResetEnvironmentMobileKeyRequest {
   /** The project key */
@@ -11357,13 +11365,13 @@ export interface ResetEnvironmentSDKKeyRequest {
   /** The environment key */
   environmentKey: string;
   /** The time at which you want the old SDK key to expire, in UNIX milliseconds. By default, the key expires immediately. During the period between this call and the time when the old SDK key expires, both the old SDK key and the new SDK key will work. */
-  expiry?: number;
+  expiry?: number | undefined;
 }
 export interface ResetRelayAutoConfigRequest {
   /** The Relay Proxy configuration ID */
   id: string;
   /** An expiration time for the old Relay Proxy configuration key, expressed as a Unix epoch time in milliseconds. By default, the Relay Proxy configuration will expire immediately. */
-  expiry?: number;
+  expiry?: number | undefined;
 }
 export interface SearchContextsRequest {
   /** The project key */
@@ -11371,15 +11379,15 @@ export interface SearchContextsRequest {
   /** The environment key */
   environmentKey: string;
   /** Specifies the maximum number of items in the collection to return (max: 50, default: 20) */
-  limit?: number;
+  limit?: number | undefined;
   /** An opaque cursor that identifies the next page of results. You can use this for pagination, however, we recommend using the `next` link we provide instead. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
   /** Deprecated. This endpoint does not support sorting. Requests that include this parameter are rejected with a `400` response, so omit it. Results are always sorted by context kind and key. */
-  sort?: string;
+  sort?: string | undefined;
   /** A comma-separated list of context filters. To learn more about the filter syntax, read [Filtering contexts](https://launchdarkly.com/docs/ld-docs/api/contexts#filtering-contexts). */
-  filter?: string;
+  filter?: string | undefined;
   /** Specifies whether to include or omit the total count of matching contexts. Defaults to true. The total count is approximate and may be omitted if it is unavailable. */
-  includeTotalCount?: boolean;
+  includeTotalCount?: boolean | undefined;
 }
 export interface TriggerFlagImportJobRequest {
   /** The project key */
@@ -11405,7 +11413,7 @@ export interface UnlinkResourceSuccessResponse {
   /** The number of resources that failed to unlink. */
   failureCount: number;
   /** Details of resources that failed to unlink. */
-  failedResources?: UnlinkResourceSuccessResponseFailedResourcesList;
+  failedResources?: UnlinkResourceSuccessResponseFailedResourcesList | undefined;
 }
 export type AnnouncementPatchOperation = PatchOperation;
 export type AnnouncementJSONPatch = Array<PatchOperation>;
@@ -11429,15 +11437,15 @@ export interface UpdateApprovalRequestRequest {
   /** The approval ID */
   id: string;
   /** Optional comment describing the update */
-  comment?: string;
+  comment?: string | undefined;
   /** The instructions to perform when updating */
   instructions: Instructions;
 }
 export type SegmentUserListAddList = Array<string>;
 export type SegmentUserListRemoveList = Array<string>;
 export interface SegmentUserList {
-  add?: SegmentUserListAddList;
-  remove?: SegmentUserListRemoveList;
+  add?: SegmentUserListAddList | undefined;
+  remove?: SegmentUserListRemoveList | undefined;
 }
 export interface UpdateBigSegmentContextTargetsRequest {
   /** The project key */
@@ -11446,8 +11454,8 @@ export interface UpdateBigSegmentContextTargetsRequest {
   environmentKey: string;
   /** The segment key */
   segmentKey: string;
-  included?: SegmentUserList;
-  excluded?: SegmentUserList;
+  included?: SegmentUserList | undefined;
+  excluded?: SegmentUserList | undefined;
 }
 export interface UpdateBigSegmentContextTargetsResponse {}
 export interface UpdateBigSegmentTargetsRequest {
@@ -11457,8 +11465,8 @@ export interface UpdateBigSegmentTargetsRequest {
   environmentKey: string;
   /** The segment key */
   segmentKey: string;
-  included?: SegmentUserList;
-  excluded?: SegmentUserList;
+  included?: SegmentUserList | undefined;
+  excluded?: SegmentUserList | undefined;
 }
 export interface UpdateBigSegmentTargetsResponse {}
 export interface UpdateDeploymentRequest {
@@ -11483,13 +11491,13 @@ export interface UpdateDestinationRequest {
   /** The environment key */
   environmentKey: string;
   /** A human-readable name for your Data Export destination */
-  name?: string;
+  name?: string | undefined;
   /** The type of Data Export destination */
-  kind?: UpdateDestinationRequestKind | (string & {});
+  kind?: UpdateDestinationRequestKind | (string & {}) | undefined;
   /** An object with the configuration parameters required for the destination type */
-  config?: unknown;
+  config?: unknown | undefined;
   /** Whether the export is on. Displayed as the integration status in the LaunchDarkly UI. */
-  on?: boolean;
+  on?: boolean | undefined;
 }
 export interface UpdateDestinationByIdRequest {
   /** The project key */
@@ -11520,9 +11528,9 @@ export interface UpdateLayerRequest {
   /** The layer key */
   layerKey: string;
   /** Optional comment describing the update */
-  comment?: string;
+  comment?: string | undefined;
   /** The environment key used for making environment specific updates. For example, updating the reservation of an experiment */
-  environmentKey?: string;
+  environmentKey?: string | undefined;
   /** The instructions to perform when updating. This should be an array with objects that look like <code>{"kind": "update_action"}</code>. Some instructions also require a <code>value</code> field in the array element. */
   instructions: Instructions;
 }
@@ -11533,7 +11541,7 @@ export interface UpdateMemberRequest {
 }
 export interface UpdateMembersRequest {
   /** Optional comment describing the update */
-  comment?: string;
+  comment?: string | undefined;
   /** The instructions to perform when updating. This should be an array with objects that look like <code>{"kind": "update_action"}</code>. Some instructions also require additional parameters as part of this object. */
   instructions: Instructions;
 }
@@ -11544,19 +11552,19 @@ export type BulkEditMembersRepErrorsItemMap = { [key: string]: string | undefine
 export type BulkEditMembersRepErrorsList = Array<BulkEditMembersRepErrorsItemMap>;
 export interface BulkEditMembersRep {
   /** A list of members IDs of the members who were successfully updated. */
-  members?: BulkEditMembersRepMembersList;
+  members?: BulkEditMembersRepMembersList | undefined;
   /** A list of member IDs and errors for the members whose updates failed. */
-  errors?: BulkEditMembersRepErrorsList;
+  errors?: BulkEditMembersRepErrorsList | undefined;
 }
 export interface ReleaseGuardianConfigurationInput {
   /** The monitoring window in milliseconds */
-  monitoringWindowMilliseconds?: number;
+  monitoringWindowMilliseconds?: number | undefined;
   /** The rollout weight */
-  rolloutWeight?: number;
+  rolloutWeight?: number | undefined;
   /** Whether or not to rollback on regression */
-  rollbackOnRegression?: boolean;
+  rollbackOnRegression?: boolean | undefined;
   /** The randomization unit for the measured rollout */
-  randomizationUnit?: string;
+  randomizationUnit?: string | undefined;
 }
 /** An array of member IDs. These members are notified to review the approval request. */
 export type ReleaserAudienceConfigInputNotifyMemberIdsList = Array<string>;
@@ -11564,13 +11572,13 @@ export type ReleaserAudienceConfigInputNotifyMemberIdsList = Array<string>;
 export type ReleaserAudienceConfigInputNotifyTeamKeysList = Array<string>;
 export interface ReleaserAudienceConfigInput {
   /** UUID of the audience. */
-  audienceId?: string;
+  audienceId?: string | undefined;
   /** Optional configuration details for the specified audience. Will default to the release pipeline's audience configuration if omitted. */
-  releaseGuardianConfiguration?: ReleaseGuardianConfigurationInput;
+  releaseGuardianConfiguration?: ReleaseGuardianConfigurationInput | undefined;
   /** An array of member IDs. These members are notified to review the approval request. */
-  notifyMemberIds?: ReleaserAudienceConfigInputNotifyMemberIdsList;
+  notifyMemberIds?: ReleaserAudienceConfigInputNotifyMemberIdsList | undefined;
   /** An array of team keys. The members of these teams are notified to review the approval request. */
-  notifyTeamKeys?: ReleaserAudienceConfigInputNotifyTeamKeysList;
+  notifyTeamKeys?: ReleaserAudienceConfigInputNotifyTeamKeysList | undefined;
 }
 /** Extra configuration for audiences required upon phase initialization. */
 export type UpdatePhaseStatusRequestAudiencesList = Array<ReleaserAudienceConfigInput>;
@@ -11582,9 +11590,9 @@ export interface UpdatePhaseStatusRequest {
   /** The phase ID */
   phaseId: string;
   /** Status of the phase */
-  status?: string;
+  status?: string | undefined;
   /** Extra configuration for audiences required upon phase initialization. */
-  audiences?: UpdatePhaseStatusRequestAudiencesList;
+  audiences?: UpdatePhaseStatusRequestAudiencesList | undefined;
 }
 export interface UpdateProjectRequest {
   /** The project key */
@@ -11603,13 +11611,13 @@ export interface UpdateSegmentRequest {
   /** A unique key used to reference the segment */
   key: string;
   /** A description of the segment's purpose */
-  description?: string;
+  description?: string | undefined;
   /** Tags for the segment */
-  tags?: UpdateSegmentRequestTagsList;
+  tags?: UpdateSegmentRequestTagsList | undefined;
   /** Whether to create a standard segment (<code>false</code>) or a big segment (<code>true</code>). Standard segments include rule-based and smaller list-based segments. Big segments include larger list-based segments and synced segments. Only use a big segment if you need to add more than 15,000 individual targets. */
-  unbounded?: boolean;
+  unbounded?: boolean | undefined;
   /** For big segments, the targeted context kind. */
-  unboundedContextKind?: string;
+  unboundedContextKind?: string | undefined;
 }
 export interface UpdateSegmentBySegmentKeyRequest {
   /** The project key */
@@ -11619,11 +11627,11 @@ export interface UpdateSegmentBySegmentKeyRequest {
   /** The segment key */
   segmentKey: string;
   /** If true, the patch will be validated but not persisted. Returns a preview of the segment after the patch is applied. */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
   /** A JSON patch representation of the change to make */
   patch: JSONPatch;
   /** Optional comment */
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface UpdateSubscriptionRequest {
   /** The integration key */
@@ -11636,15 +11644,15 @@ export interface UpdateTeamRequest {
   /** The team key */
   teamKey: string;
   /** A comma-separated list of properties that can reveal additional information in the response. Supported fields are explained above. */
-  expand?: string;
+  expand?: string | undefined;
   /** Optional comment describing the update */
-  comment?: string;
+  comment?: string | undefined;
   /** The instructions to perform when updating. This should be an array with objects that look like <code>{"kind": "update_action"}</code>. Some instructions also require additional parameters as part of this object. */
   instructions: Instructions;
 }
 export interface UpdateTeamsRequest {
   /** Optional comment describing the update */
-  comment?: string;
+  comment?: string | undefined;
   /** The instructions to perform when updating. This should be an array with objects that look like <code>{"kind": "update_action"}</code>. Some instructions also require additional parameters as part of this object. */
   instructions: Instructions;
 }
@@ -11657,11 +11665,11 @@ export type BulkEditTeamsRepErrorsItemMap = { [key: string]: string | undefined 
 export type BulkEditTeamsRepErrorsList = Array<BulkEditTeamsRepErrorsItemMap>;
 export interface BulkEditTeamsRep {
   /** A list of member IDs of the members who were added to the teams. */
-  memberIDs?: BulkEditTeamsRepMemberIDsList;
+  memberIDs?: BulkEditTeamsRepMemberIDsList | undefined;
   /** A list of team keys of the teams that were successfully updated. */
-  teamKeys?: BulkEditTeamsRepTeamKeysList;
+  teamKeys?: BulkEditTeamsRepTeamKeysList | undefined;
   /** A list of team keys and errors for the teams whose updates failed. */
-  errors?: BulkEditTeamsRepErrorsList;
+  errors?: BulkEditTeamsRepErrorsList | undefined;
 }
 export interface UpdateTokenRequest {
   /** The ID of the access token to update */
@@ -11674,15 +11682,15 @@ export interface UpdateViewRequest {
   projectKey: string;
   viewKey: string;
   /** Human-readable name for the view */
-  name?: string;
+  name?: string | undefined;
   /** Optional detailed description of the view */
-  description?: string;
+  description?: string | undefined;
   /** Member ID of the maintainer for this view. Only one of `maintainerId` or `maintainerTeamKey` can be specified. */
-  maintainerId?: string;
+  maintainerId?: string | undefined;
   /** Key of the maintainer team for this view. Only one of `maintainerId` or `maintainerTeamKey` can be specified. */
-  maintainerTeamKey?: string;
+  maintainerTeamKey?: string | undefined;
   /** Tags associated with this view */
-  tags?: UpdateViewRequestTagsList;
+  tags?: UpdateViewRequestTagsList | undefined;
 }
 export interface UpdateWebhookRequest {
   /** The ID of the webhook to update */
@@ -11701,12 +11709,12 @@ export interface ValidateIntegrationDeliveryConfigurationRequest {
 }
 export interface IntegrationDeliveryConfigurationResponse {
   /** The status code returned by the validation */
-  statusCode?: number;
-  error?: string;
+  statusCode?: number | undefined;
+  error?: string | undefined;
   /** Timestamp of when the validation was performed */
-  timestamp?: number;
+  timestamp?: number | undefined;
   /** JSON response to the validation request */
-  responseBody?: string;
+  responseBody?: string | undefined;
 }
 export type AssociateRepositoriesAndProjectsError =
   | BadRequest

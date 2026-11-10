@@ -96,72 +96,72 @@ export type StringMap = { [key: string]: string | undefined };
 /** A Repository for storing artifacts with a specific format. */
 export interface Repository {
   /** Output only. The time when the repository was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** The name of the repository, for example: `projects/p1/locations/us-central1/repositories/repo1`. For each location in a project, repository names must be unique. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. The format of packages that are stored in the repository. */
-  format?: RepositoryFormatEnum | (string & {});
+  format?: RepositoryFormatEnum | (string & {}) | undefined;
   /** Output only. Whether or not this repository satisfies PZS. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** The Cloud KMS resource name of the customer managed encryption key that's used to encrypt the contents of the Repository. Has the form: `projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key`. This value may not be changed after the Repository has been created. */
-  kmsKeyName?: string;
+  kmsKeyName?: string | undefined;
   /** Output only. The size, in bytes, of all artifact storage in this repository. Repositories that are generally available or in public preview use this to calculate storage costs. */
-  sizeBytes?: string;
+  sizeBytes?: string | undefined;
   /** The user-provided description of the repository. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. The time when the repository was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Whether or not this repository satisfies PZI. */
-  satisfiesPzi?: boolean;
+  satisfiesPzi?: boolean | undefined;
   /** Labels with user-defined metadata. This field may contain up to 64 entries. Label keys and values may be no longer than 63 characters. Label keys must begin with a lowercase letter and may only contain lowercase letters, numeric characters, underscores, and dashes. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export interface CreateProjectsLocationsRepositoriesRequest {
   /** Required. The repository id to use for this repository. */
-  repositoryId?: string;
+  repositoryId?: string | undefined;
   /** Required. The name of the parent resource where the repository will be created. */
   parent: string;
   /** Request body */
-  body?: Repository;
+  body?: Repository | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
 }
 /** Tags point to a version and represent an alternative name that can be used to access the version. */
 export interface Tag {
   /** The name of the tag, for example: "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/tags/tag1". If the package part contains slashes, the slashes are escaped. The tag part can only have characters in [a-zA-Z0-9\-._~:@], anything else must be URL encoded. */
-  name?: string;
+  name?: string | undefined;
   /** The name of the version the tag refers to, for example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/sha256:5243811` If the package or version ID parts contain slashes, the slashes are escaped. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface CreateProjectsLocationsRepositoriesPackagesTagsRequest {
   /** The tag id to use for this repository. */
-  tagId?: string;
+  tagId?: string | undefined;
   /** The name of the parent resource where the tag will be created. */
   parent: string;
   /** Request body */
-  body?: Tag;
+  body?: Tag | undefined;
 }
 export interface DeleteProjectsLocationsRepositoriesRequest {
   /** Required. The name of the repository to delete. */
@@ -179,13 +179,13 @@ export interface DeleteProjectsLocationsRepositoriesPackagesTagsRequest {
 export interface Empty {}
 export interface DeleteProjectsLocationsRepositoriesPackagesVersionsRequest {
   /** By default, a version that is tagged may not be deleted. If force=true, the version and any tags pointing to the version are deleted. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** The name of the version to delete. */
   name: string;
 }
 export interface GetIamPolicyProjectsLocationsRepositoriesRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
 }
@@ -193,32 +193,32 @@ export type StringList = Array<string>;
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
+  description?: string | undefined;
   /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
+  expression?: string | undefined;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
+  location?: string | undefined;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
+  title?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
+  members?: StringList | undefined;
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
+  condition?: Expr | undefined;
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
+  role?: string | undefined;
 }
 export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
+  version?: number | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
+  etag?: string | undefined;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList;
+  bindings?: BindingList | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -227,15 +227,15 @@ export interface GetProjectsLocationsRequest {
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -253,25 +253,25 @@ export type HashTypeEnum = "HASH_TYPE_UNSPECIFIED" | "SHA256" | "MD5" | "DIRSUM_
 /** A hash of file content. */
 export interface Hash {
   /** The hash value. */
-  value?: string;
+  value?: string | undefined;
   /** The algorithm used to compute the hash value. */
-  type?: HashTypeEnum;
+  type?: HashTypeEnum | undefined;
 }
 export type HashList = Array<Hash>;
 /** Files store content that is potentially associated with Packages or Versions. */
 export interface File {
   /** The size of the File in bytes. */
-  sizeBytes?: string;
+  sizeBytes?: string | undefined;
   /** The name of the file, for example: `projects/p1/locations/us-central1/repositories/repo1/files/a%2Fb%2Fc.txt`. If the file ID part contains slashes, they are escaped. */
-  name?: string;
+  name?: string | undefined;
   /** The hashes of the file content. */
-  hashes?: HashList;
+  hashes?: HashList | undefined;
   /** Output only. The time when the File was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The time when the File was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The name of the Package or Version that owns this file, if any. */
-  owner?: string;
+  owner?: string | undefined;
 }
 export interface GetProjectsLocationsRepositoriesPackagesRequest {
   /** Required. The name of the package to retrieve. */
@@ -280,13 +280,13 @@ export interface GetProjectsLocationsRepositoriesPackagesRequest {
 /** Packages are named collections of versions. */
 export interface Package {
   /** The time when the package was last updated. This includes publishing a new version of the package. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** The name of the package, for example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1`. If the package ID part contains slashes, the slashes are escaped. */
-  name?: string;
+  name?: string | undefined;
   /** The display name of the package. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The time when the package was created. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export interface GetProjectsLocationsRepositoriesPackagesTagsRequest {
   /** The name of the tag to retrieve. */
@@ -300,31 +300,31 @@ export interface GetProjectsLocationsRepositoriesPackagesVersionsRequest {
   /** The name of the version to retrieve. */
   name: string;
   /** The view that should be returned in the response. */
-  view?: GetProjectsLocationsRepositoriesPackagesVersionsViewEnum | (string & {});
+  view?: GetProjectsLocationsRepositoriesPackagesVersionsViewEnum | (string & {}) | undefined;
 }
 export type TagList = Array<Tag>;
 /** The body of a version resource. A version resource represents a collection of components, such as files and other data. This may correspond to a version in many package management schemes. */
 export interface Version {
   /** Optional. Description of the version, as specified in its metadata. */
-  description?: string;
+  description?: string | undefined;
   /** The name of the version, for example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/art1`. If the package or version ID parts contain slashes, the slashes are escaped. */
-  name?: string;
+  name?: string | undefined;
   /** The time when the version was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. A list of related tags. Will contain up to 100 tags that reference this version. */
-  relatedTags?: TagList;
+  relatedTags?: TagList | undefined;
   /** The time when the version was created. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
 }
@@ -332,17 +332,17 @@ export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
 }
 export interface ListProjectsLocationsRepositoriesRequest {
   /** The next_page_token value returned from a previous list request, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The field to order the results by. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The maximum number of repositories to return. Maximum page size is 1,000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The name of the parent resource whose repositories will be listed. */
   parent: string;
 }
@@ -350,62 +350,62 @@ export type RepositoryList = Array<Repository>;
 /** The response from listing repositories. */
 export interface ListRepositoriesResponse {
   /** The token to retrieve the next page of repositories, or empty if there are no more repositories to return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The repositories returned. */
-  repositories?: RepositoryList;
+  repositories?: RepositoryList | undefined;
 }
 export interface ListProjectsLocationsRepositoriesFilesRequest {
   /** The next_page_token value returned from a previous list request, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The name of the repository whose files will be listed. For example: "projects/p1/locations/us-central1/repositories/repo1 */
   parent: string;
   /** An expression for filtering the results of the request. Filter rules are case insensitive. The fields eligible for filtering are: * `name` * `owner` * `annotations` Examples of using a filter: To filter the results of your request to files with the name `my_file.txt` in project `my-project` in the `us-central` region, in repository `my-repo`, append the following filter expression to your request: * `name="projects/my-project/locations/us-central1/repositories/my-repo/files/my-file.txt"` You can also use wildcards to match any number of characters before or after the value: * `name="projects/my-project/locations/us-central1/repositories/my-repo/files/my-*"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/files/*file.txt"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/files/*file*"` To filter the results of your request to files owned by the version `1.0` in package `pkg1`, append the following filter expression to your request: * `owner="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/versions/1.0"` To filter the results of your request to files with the annotation key-value pair [`external_link`: `external_link_value`], append the following filter expression to your request: * `"annotations.external_link:external_link_value"` To filter just for a specific annotation key `external_link`, append the following filter expression to your request: * `"annotations.external_link"` If the annotation key or value contains special characters, you can escape them by surrounding the value with backticks. For example, to filter the results of your request to files with the annotation key-value pair [`external.link`:`https://example.com/my-file`], append the following filter expression to your request: * `` "annotations.`external.link`:`https://example.com/my-file`" `` You can also filter with annotations with a wildcard to match any number of characters before or after the value: * `` "annotations.*_link:`*example.com*`" `` */
-  filter?: string;
+  filter?: string | undefined;
   /** The maximum number of files to return. Maximum page size is 1,000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type FileList = Array<File>;
 /** The response from listing files. */
 export interface ListFilesResponse {
   /** The files returned. */
-  files?: FileList;
+  files?: FileList | undefined;
   /** The token to retrieve the next page of files, or empty if there are no more files to return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsRepositoriesPackagesRequest {
   /** Required. The name of the parent resource whose packages will be listed. */
   parent: string;
   /** The maximum number of packages to return. Maximum page size is 1,000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The field to order the results by. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The next_page_token value returned from a previous list request, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type PackageList = Array<Package>;
 /** The response from listing packages. */
 export interface ListPackagesResponse {
   /** The token to retrieve the next page of packages, or empty if there are no more packages to return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The packages returned. */
-  packages?: PackageList;
+  packages?: PackageList | undefined;
 }
 export interface ListProjectsLocationsRepositoriesPackagesTagsRequest {
   /** The maximum number of tags to return. Maximum page size is 1,000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The name of the parent package whose tags will be listed. For example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1`. */
   parent: string;
   /** An expression for filtering the results of the request. Filter rules are case insensitive. The fields eligible for filtering are: * `name` * `version` Examples of using a filter: To filter the results of your request to tags with the name `my-tag` in package `my-package` in repository `my-repo` in project "`y-project` in the us-central region, append the following filter expression to your request: * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/my-tag"` You can also use wildcards to match any number of characters before or after the value: * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/my*"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/*tag"` * `name="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/tags/*tag*"` To filter the results of your request to tags applied to the version `1.0` in package `my-package`, append the following filter expression to your request: * `version="projects/my-project/locations/us-central1/repositories/my-repo/packages/my-package/versions/1.0"` */
-  filter?: string;
+  filter?: string | undefined;
   /** The next_page_token value returned from a previous list request, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** The response from listing tags. */
 export interface ListTagsResponse {
   /** The token to retrieve the next page of tags, or empty if there are no more tags to return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The tags returned. */
-  tags?: TagList;
+  tags?: TagList | undefined;
 }
 export type ListProjectsLocationsRepositoriesPackagesVersionsViewEnum =
   | "VERSION_VIEW_UNSPECIFIED"
@@ -413,66 +413,66 @@ export type ListProjectsLocationsRepositoriesPackagesVersionsViewEnum =
   | "FULL";
 export interface ListProjectsLocationsRepositoriesPackagesVersionsRequest {
   /** The maximum number of versions to return. Maximum page size is 1,000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The name of the parent resource whose versions will be listed. */
   parent: string;
   /** The next_page_token value returned from a previous list request, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The field to order the results by. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The view that should be returned in the response. */
-  view?: ListProjectsLocationsRepositoriesPackagesVersionsViewEnum | (string & {});
+  view?: ListProjectsLocationsRepositoriesPackagesVersionsViewEnum | (string & {}) | undefined;
 }
 export type VersionList = Array<Version>;
 /** The response from listing versions. */
 export interface ListVersionsResponse {
   /** The versions returned. */
-  versions?: VersionList;
+  versions?: VersionList | undefined;
   /** The token to retrieve the next page of versions, or empty if there are no more versions to return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface PatchProjectsLocationsRepositoriesRequest {
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** The name of the repository, for example: `projects/p1/locations/us-central1/repositories/repo1`. For each location in a project, repository names must be unique. */
   name: string;
   /** Request body */
-  body?: Repository;
+  body?: Repository | undefined;
 }
 export interface PatchProjectsLocationsRepositoriesPackagesTagsRequest {
   /** The name of the tag, for example: "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/tags/tag1". If the package part contains slashes, the slashes are escaped. The tag part can only have characters in [a-zA-Z0-9\-._~:@], anything else must be URL encoded. */
   name: string;
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Tag;
+  body?: Tag | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy;
+  policy?: Policy | undefined;
 }
 export interface SetIamPolicyProjectsLocationsRepositoriesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsRepositoriesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export type CreateProjectsLocationsRepositoriesError =
   | NotFound

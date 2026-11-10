@@ -49,30 +49,30 @@ export type DigestConfigState = "Active" | "Disabled";
 /** Advisor Digest configuration entity */
 export interface DigestConfig {
   /** Name of digest configuration. Value is case-insensitive and must be unique within a subscription. */
-  name?: string;
+  name?: string | undefined;
   /** Action group resource id used by digest. */
-  actionGroupResourceId?: string;
+  actionGroupResourceId?: string | undefined;
   /** Frequency that digest will be triggered, in days. Value must be between 7 and 30 days inclusive. */
-  frequency?: number;
+  frequency?: number | undefined;
   /** Categories to send digest for. If categories are not provided, then digest will be sent for all categories. */
-  categories?: DigestConfigCategoriesList;
+  categories?: DigestConfigCategoriesList | undefined;
   /** Language for digest content body. Value must be ISO 639-1 code for one of Azure portal supported languages. Otherwise, it will be converted into one. Default value is English (en). */
-  language?: string;
+  language?: string | undefined;
   /** State of digest configuration. */
-  state?: DigestConfigState | (string & {});
+  state?: DigestConfigState | (string & {}) | undefined;
 }
 /** Advisor digest configuration. Valid only for subscriptions */
 export type ConfigDataPropertiesDigestsList = Array<DigestConfig>;
 /** Configuration data properties */
 export interface ConfigDataProperties {
   /** Exclude the resource from Advisor evaluations. Valid values: False (default) or True. */
-  exclude?: boolean;
+  exclude?: boolean | undefined;
   /** Minimum percentage threshold for Advisor low CPU utilization evaluation. Valid only for subscriptions. Valid values: 5 (default), 10, 15 or 20. */
-  lowCpuThreshold?: ConfigDataPropertiesLowCpuThreshold | (string & {});
+  lowCpuThreshold?: ConfigDataPropertiesLowCpuThreshold | (string & {}) | undefined;
   /** Minimum duration for Advisor low CPU utilization evaluation. Valid only for subscriptions. Valid values: 7 (default), 14, 21, 30, 60 or 90. */
-  duration?: ConfigDataPropertiesDuration | (string & {});
+  duration?: ConfigDataPropertiesDuration | (string & {}) | undefined;
   /** Advisor digest configuration. Valid only for subscriptions */
-  digests?: ConfigDataPropertiesDigestsList;
+  digests?: ConfigDataPropertiesDigestsList | undefined;
 }
 export interface CreateConfigurationInResourceGroupRequest {
   /** The Azure subscription ID. */
@@ -82,7 +82,7 @@ export interface CreateConfigurationInResourceGroupRequest {
   /** Advisor configuration name. Value must be 'default' */
   configurationName: CreateConfigurationInResourceGroupRequestConfigurationName | (string & {});
   /** The Advisor configuration data structure. */
-  properties?: ConfigDataProperties;
+  properties?: ConfigDataProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -91,29 +91,29 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface CreateConfigurationInResourceGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Advisor configuration data structure. */
-  properties?: ConfigDataProperties;
+  properties?: ConfigDataProperties | undefined;
 }
 export type CreateConfigurationInSubscriptionRequestConfigurationName = "default";
 export interface CreateConfigurationInSubscriptionRequest {
@@ -122,26 +122,26 @@ export interface CreateConfigurationInSubscriptionRequest {
   /** Advisor configuration name. Value must be 'default' */
   configurationName: CreateConfigurationInSubscriptionRequestConfigurationName | (string & {});
   /** The Advisor configuration data structure. */
-  properties?: ConfigDataProperties;
+  properties?: ConfigDataProperties | undefined;
 }
 export interface CreateConfigurationInSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Advisor configuration data structure. */
-  properties?: ConfigDataProperties;
+  properties?: ConfigDataProperties | undefined;
 }
 /** The properties of the suppression. */
 export interface SuppressionPropertiesInput {
   /** The GUID of the suppression. */
-  suppressionId?: string;
+  suppressionId?: string | undefined;
   /** The duration for which the suppression is valid. */
-  ttl?: string;
+  ttl?: string | undefined;
 }
 export interface CreateSuppressionRequest {
   /** The fully qualified Azure Resource Manager identifier of the resource to which the recommendation applies. */
@@ -151,28 +151,28 @@ export interface CreateSuppressionRequest {
   /** The name of the suppression. */
   name: string;
   /** The properties of the suppression. */
-  properties?: SuppressionPropertiesInput;
+  properties?: SuppressionPropertiesInput | undefined;
 }
 /** The properties of the suppression. */
 export interface SuppressionProperties {
   /** The GUID of the suppression. */
-  suppressionId?: string;
+  suppressionId?: string | undefined;
   /** The duration for which the suppression is valid. */
-  ttl?: string;
+  ttl?: string | undefined;
   /** Gets or sets the expiration time stamp. */
-  expirationTimeStamp?: string;
+  expirationTimeStamp?: string | undefined;
 }
 export interface CreateSuppressionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the suppression. */
-  properties?: SuppressionProperties;
+  properties?: SuppressionProperties | undefined;
 }
 export interface DeleteSuppressionRequest {
   /** The fully qualified Azure Resource Manager identifier of the resource to which the recommendation applies. */
@@ -189,9 +189,9 @@ export interface GenerateRecommendationRequest {
 }
 export interface GenerateRecommendationResponse {
   /** The URL where the status of the asynchronous operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The amount of delay to use while the status of the operation is checked. The value is expressed in seconds. */
-  retryAfter?: string;
+  retryAfter?: string | undefined;
 }
 export interface GetAdvisorScoreRequest {
   /** The Azure subscription ID. */
@@ -202,17 +202,17 @@ export interface GetAdvisorScoreRequest {
 /** The details of Advisor Score */
 export interface ScoreEntity {
   /** The date score was calculated. */
-  date?: string;
+  date?: string | undefined;
   /** The percentage score. */
-  score?: number;
+  score?: number | undefined;
   /** The consumption units for the score. */
-  consumptionUnits?: number;
+  consumptionUnits?: number | undefined;
   /** The number of impacted resources. */
-  impactedResourceCount?: number;
+  impactedResourceCount?: number | undefined;
   /** The potential percentage increase in overall score at subscription level once all recommendations in this scope are implemented. */
-  potentialScoreIncrease?: number;
+  potentialScoreIncrease?: number | undefined;
   /** The count of impacted categories. */
-  categoryCount?: number;
+  categoryCount?: number | undefined;
 }
 /** The aggregation level of the score. */
 export type TimeSeriesEntityItemAggregationLevel = "week" | "day" | "month";
@@ -221,30 +221,30 @@ export type TimeSeriesEntityItemScoreHistoryList = Array<ScoreEntity>;
 /** The data from different aggregation levels. */
 export interface TimeSeriesEntityItem {
   /** The aggregation level of the score. */
-  aggregationLevel?: TimeSeriesEntityItemAggregationLevel;
+  aggregationLevel?: TimeSeriesEntityItemAggregationLevel | undefined;
   /** The past score data */
-  scoreHistory?: TimeSeriesEntityItemScoreHistoryList;
+  scoreHistory?: TimeSeriesEntityItemScoreHistoryList | undefined;
 }
 /** The historic data at different aggregation levels. */
 export type TimeSeriesEntity = Array<TimeSeriesEntityItem>;
 /** The Advisor score data. */
 export interface GetAdvisorScoreResponseProperties {
   /** The details of latest available score. */
-  lastRefreshedScore?: ScoreEntity;
+  lastRefreshedScore?: ScoreEntity | undefined;
   /** The historic Advisor score data. */
-  timeSeries?: TimeSeriesEntity;
+  timeSeries?: TimeSeriesEntity | undefined;
 }
 export interface GetAdvisorScoreResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Advisor score data. */
-  properties?: GetAdvisorScoreResponseProperties;
+  properties?: GetAdvisorScoreResponseProperties | undefined;
 }
 export interface GetRecommendationRequest {
   /** The fully qualified Azure Resource Manager identifier of the resource to which the recommendation applies. */
@@ -279,9 +279,9 @@ export type RecommendationPropertiesRisk = "Error" | "Warning" | "None";
 /** A summary of the recommendation. */
 export interface ShortDescription {
   /** The issue or opportunity identified by the recommendation and proposed solution. */
-  problem?: string;
+  problem?: string | undefined;
   /** The issue or opportunity identified by the recommendation and proposed solution. */
-  solution?: string;
+  solution?: string | undefined;
 }
 /** The list of snoozed and dismissed rules for the recommendation. */
 export type RecommendationPropertiesSuppressionIdsList = Array<string>;
@@ -292,15 +292,15 @@ export type ResourceMetadataActionMap = { [key: string]: unknown | undefined };
 /** Recommendation resource metadata */
 export interface ResourceMetadata {
   /** Azure resource Id of the assessed resource */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Source from which recommendation is generated */
-  source?: string;
+  source?: string | undefined;
   /** The action to view resource. */
-  action?: ResourceMetadataActionMap;
+  action?: ResourceMetadataActionMap | undefined;
   /** The singular user friendly name of resource type. eg: virtual machine */
-  singular?: string;
+  singular?: string | undefined;
   /** The plural user friendly name of resource type. eg: virtual machines */
-  plural?: string;
+  plural?: string | undefined;
 }
 export type RecommendationPropertiesActionsItemMap = { [key: string]: unknown | undefined };
 /** The list of recommended actions to implement recommendation. */
@@ -314,57 +314,57 @@ export type RecommendationPropertiesExposedMetadataPropertiesMap = {
 /** The properties of the recommendation. */
 export interface RecommendationProperties {
   /** The category of the recommendation. */
-  category?: RecommendationPropertiesCategory;
+  category?: RecommendationPropertiesCategory | undefined;
   /** The sub-category of the recommendation. */
-  control?: RecommendationPropertiesControl;
+  control?: RecommendationPropertiesControl | undefined;
   /** The business impact of the recommendation. */
-  impact?: RecommendationPropertiesImpact;
+  impact?: RecommendationPropertiesImpact | undefined;
   /** The resource type identified by Advisor. */
-  impactedField?: string;
+  impactedField?: string | undefined;
   /** The resource identified by Advisor. */
-  impactedValue?: string;
+  impactedValue?: string | undefined;
   /** The most recent time that Advisor checked the validity of the recommendation. */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The recommendation metadata. */
-  metadata?: RecommendationPropertiesMetadataMap;
+  metadata?: RecommendationPropertiesMetadataMap | undefined;
   /** The recommendation-type GUID. */
-  recommendationTypeId?: string;
+  recommendationTypeId?: string | undefined;
   /** The potential risk of not implementing the recommendation. */
-  risk?: RecommendationPropertiesRisk;
+  risk?: RecommendationPropertiesRisk | undefined;
   /** A summary of the recommendation. */
-  shortDescription?: ShortDescription;
+  shortDescription?: ShortDescription | undefined;
   /** The list of snoozed and dismissed rules for the recommendation. */
-  suppressionIds?: RecommendationPropertiesSuppressionIdsList;
+  suppressionIds?: RecommendationPropertiesSuppressionIdsList | undefined;
   /** Extended properties */
-  extendedProperties?: RecommendationPropertiesExtendedPropertiesMap;
+  extendedProperties?: RecommendationPropertiesExtendedPropertiesMap | undefined;
   /** Metadata of resource that was assessed */
-  resourceMetadata?: ResourceMetadata;
+  resourceMetadata?: ResourceMetadata | undefined;
   /** The detailed description of recommendation. */
-  description?: string;
+  description?: string | undefined;
   /** The label of recommendation. */
-  label?: string;
+  label?: string | undefined;
   /** The link to learn more about recommendation and generation logic. */
-  learnMoreLink?: string;
+  learnMoreLink?: string | undefined;
   /** The potential benefit of implementing recommendation. */
-  potentialBenefits?: string;
+  potentialBenefits?: string | undefined;
   /** The list of recommended actions to implement recommendation. */
-  actions?: RecommendationPropertiesActionsList;
+  actions?: RecommendationPropertiesActionsList | undefined;
   /** The automated way to apply recommendation. */
-  remediation?: RecommendationPropertiesRemediationMap;
+  remediation?: RecommendationPropertiesRemediationMap | undefined;
   /** The recommendation metadata properties exposed to customer to provide additional information. */
-  exposedMetadataProperties?: RecommendationPropertiesExposedMetadataPropertiesMap;
+  exposedMetadataProperties?: RecommendationPropertiesExposedMetadataPropertiesMap | undefined;
 }
 export interface GetRecommendationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the recommendation. */
-  properties?: RecommendationProperties;
+  properties?: RecommendationProperties | undefined;
 }
 export interface GetRecommendationMetadataRequest {
   /** Name of metadata entity. */
@@ -379,33 +379,33 @@ export type MetadataEntityPropertiesApplicableScenariosList =
 /** The metadata supported value detail. */
 export interface MetadataSupportedValueDetail {
   /** The id. */
-  id?: string;
+  id?: string | undefined;
   /** The display name. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** The list of supported values. */
 export type MetadataEntityPropertiesSupportedValuesList = Array<MetadataSupportedValueDetail>;
 /** The metadata entity properties */
 export interface MetadataEntityProperties {
   /** The display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The list of keys on which this entity depends on. */
-  dependsOn?: MetadataEntityPropertiesDependsOnList;
+  dependsOn?: MetadataEntityPropertiesDependsOnList | undefined;
   /** The list of scenarios applicable to this metadata entity. */
-  applicableScenarios?: MetadataEntityPropertiesApplicableScenariosList;
+  applicableScenarios?: MetadataEntityPropertiesApplicableScenariosList | undefined;
   /** The list of supported values. */
-  supportedValues?: MetadataEntityPropertiesSupportedValuesList;
+  supportedValues?: MetadataEntityPropertiesSupportedValuesList | undefined;
 }
 /** The metadata entity contract. */
 export interface MetadataEntity {
   /** The resource Id of the metadata entity. */
-  id?: string;
+  id?: string | undefined;
   /** The type of the metadata entity. */
-  type?: string;
+  type?: string | undefined;
   /** The name of the metadata entity. */
-  name?: string;
+  name?: string | undefined;
   /** The metadata entity properties. */
-  properties?: MetadataEntityProperties;
+  properties?: MetadataEntityProperties | undefined;
 }
 export interface GetSuppressionRequest {
   /** The fully qualified Azure Resource Manager identifier of the resource to which the recommendation applies. */
@@ -417,15 +417,15 @@ export interface GetSuppressionRequest {
 }
 export interface GetSuppressionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the suppression. */
-  properties?: SuppressionProperties;
+  properties?: SuppressionProperties | undefined;
 }
 export interface ListAdvisorScoresRequest {
   /** The Azure subscription ID. */
@@ -436,21 +436,21 @@ export type AdvisorScoreEntityProperties = GetAdvisorScoreResponseProperties;
 /** The details of Advisor score for a single category. */
 export interface AdvisorScoreEntity {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Advisor score data. */
-  properties?: GetAdvisorScoreResponseProperties;
+  properties?: GetAdvisorScoreResponseProperties | undefined;
 }
 /** The list of operations. */
 export type AdvisorScoreResponseValueList = Array<AdvisorScoreEntity>;
 export interface AdvisorScoreResponse {
   /** The list of operations. */
-  value?: AdvisorScoreResponseValueList;
+  value?: AdvisorScoreResponseValueList | undefined;
 }
 export interface ListConfigurationByResourceGroupRequest {
   /** The Azure subscription ID. */
@@ -461,24 +461,24 @@ export interface ListConfigurationByResourceGroupRequest {
 /** The Advisor configuration data structure. */
 export interface ConfigData {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Advisor configuration data structure. */
-  properties?: ConfigDataProperties;
+  properties?: ConfigDataProperties | undefined;
 }
 /** The list of configurations. */
 export type ConfigurationListResultValueList = Array<ConfigData>;
 /** The list of Advisor configurations. */
 export interface ConfigurationListResult {
   /** The list of configurations. */
-  value?: ConfigurationListResultValueList;
+  value?: ConfigurationListResultValueList | undefined;
   /** The link used to get the next page of configurations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConfigurationBySubscriptionRequest {
   /** The Azure subscription ID. */
@@ -488,119 +488,119 @@ export interface ListOperationsRequest {}
 /** The operation supported by Advisor. */
 export interface OperationDisplayInfo {
   /** The description of the operation. */
-  description?: string;
+  description?: string | undefined;
   /** The action that users can perform, based on their permission level. */
-  operation?: string;
+  operation?: string | undefined;
   /** Service provider: Microsoft Advisor. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
 }
 /** The operation supported by Advisor. */
 export interface OperationEntity {
   /** Operation name: {provider}/{resource}/{operation}. */
-  name?: string;
+  name?: string | undefined;
   /** The operation supported by Advisor. */
-  display?: OperationDisplayInfo;
+  display?: OperationDisplayInfo | undefined;
 }
 /** The list of operations. */
 export type OperationEntityListResultValueList = Array<OperationEntity>;
 /** The list of Advisor operations. */
 export interface OperationEntityListResult {
   /** The link used to get the next page of operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of operations. */
-  value?: OperationEntityListResultValueList;
+  value?: OperationEntityListResultValueList | undefined;
 }
 export interface ListRecommendationMetadataRequest {
   /** The filter to apply to the recommendation metadata.<br>Filter can be applied to properties ['[recommendationCategory](#category)', '[recommendationSubCategory](#recommendationSubCategory)', 'RetirementDate'] with operators ['eq', 'and', 'le', 'ge']<br>The filter can also be applied to property ['[TrackingIds]']<br><br>U+26A0 **Note:** `recommendationControl` is a legacy filter property and will be deprecated in the future. Please use `recommendationSubCategory` for filtering recommendation subcategory.<br><br>Valid options for recommendationSubCategory: ['BusinessContinuity', 'DisasterRecovery', 'HighAvailability', 'MonitoringAndAlerting', 'Other', 'Personalized', 'PrioritizedRecommendations', 'Scalability', 'ServiceUpgradeAndRetirement', 'Validation']<br><br>Example:<br>- $filter=recommendationCategory eq 'HighAvailability' and recommendationSubCategory eq 'ServiceUpgradeAndRetirement' and retirementDate ge '2024-01-01' and retirementDate le '2028-01-01'. Filter can be applied on trackingIds as well.<br>- $filter=trackingIds/any(t: t eq 'some-guid')<br><br>U+26A0 **Note:** `trackingIDs` filter can be used for filtering one value at a time. The support to filter multiple values is not currently available. Also the support to add other filters along with `trackingIDs` is not available. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The list of metadata entities. */
 export type MetadataEntityListResultValueList = Array<MetadataEntity>;
 /** The list of metadata entities */
 export interface MetadataEntityListResult {
   /** The list of metadata entities. */
-  value?: MetadataEntityListResultValueList;
+  value?: MetadataEntityListResultValueList | undefined;
   /** The link used to get the next page of metadata. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRecommendationsRequest {
   /** The Azure subscription ID. */
   subscriptionId: string;
   /** The filter to apply to the recommendations.<br>Filter can be applied to properties ['ResourceId', 'ResourceGroup', 'RecommendationTypeGuid', '[Category](#category)', 'SubCategory', 'RetirementDate'] with operators ['eq', 'and', 'or', 'lt', 'gt', 'le', 'ge'].<br>The filter can also be applied to property ['trackingIds'], which uses the collection syntax `trackingIds/any(t: t eq '<trackingId>')`.<br><br>U+26A0 **Note:** `Control` is a legacy filter property and will be deprecated in the future. Please use `SubCategory` for filtering recommendation subcategory.<br><br>U+26A0 **Note:** Each `trackingIds/any(...)` predicate matches a single tracking ID; supplying multiple values inside one predicate is not supported. To match several tracking IDs, combine predicates with `or`. `trackingIds` can also be combined with the other supported filter properties using `and`.<br><br>U+26A0 **Note:** A tracking ID is an Azure Service Health tracking ID, for example 'VN1S-1V8'. It is not a GUID and is not the same value as `RecommendationTypeGuid`. A single tracking ID can map to more than one recommendation type, so a result set filtered by `trackingIds` is not guaranteed to contain a single `RecommendationTypeGuid`. `trackingIds` is a filter-only property and is not returned on the recommendation resource; use the recommendation metadata API to resolve a tracking ID to the recommendation types that carry it.<br><br>Valid options for SubCategory:<br>['BusinessContinuity', 'DisasterRecovery', 'HighAvailability', 'MonitoringAndAlerting', 'Other', 'Personalized', 'PrioritizedRecommendations', 'Scalability', 'ServiceUpgradeAndRetirement', 'Validation']<br><br>Example:<br>- $filter=Category eq 'Cost' and ResourceGroup eq 'MyResourceGroup'<br>-$filter=SubCategory eq 'ServiceUpgradeAndRetirement' and RetirementDate le '2024-01-01' and RetirementDate ge '2028-01-01'. Filter can be applied on trackingIds as well.<br>- $filter=trackingIds/any(t: t eq 'VN1S-1V8')<br>- $filter=ResourceId eq '/subscriptions/{subscriptionId}/resourceGroups/MyResourceGroup/providers/Microsoft.Storage/storageAccounts/mystorage' and trackingIds/any(t: t eq 'VN1S-1V8')<br>- $filter=trackingIds/any(t: t eq 'VN1S-1V8') or trackingIds/any(t: t eq '6TH2-BV8') */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of recommendations per page if a paged version of this API is being used. */
-  _top?: number;
+  _top?: number | undefined;
   /** The page-continuation token to use with a paged version of this API. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Advisor Recommendation. */
 export interface ResourceRecommendationBase {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the recommendation. */
-  properties?: RecommendationProperties;
+  properties?: RecommendationProperties | undefined;
 }
 /** The list of recommendations. */
 export type ResourceRecommendationBaseListResultValueList = Array<ResourceRecommendationBase>;
 /** The list of Advisor recommendations. */
 export interface ResourceRecommendationBaseListResult {
   /** The link used to get the next page of recommendations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of recommendations. */
-  value?: ResourceRecommendationBaseListResultValueList;
+  value?: ResourceRecommendationBaseListResultValueList | undefined;
 }
 export interface ListSuppressionsRequest {
   /** The Azure subscription ID. */
   subscriptionId: string;
   /** The number of suppressions per page if a paged version of this API is being used. */
-  _top?: number;
+  _top?: number | undefined;
   /** The page-continuation token to use with a paged version of this API. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** The details of the snoozed or dismissed rule; for example, the duration, name, and GUID associated with the rule. */
 export interface SuppressionContract {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the suppression. */
-  properties?: SuppressionProperties;
+  properties?: SuppressionProperties | undefined;
 }
 /** The list of suppressions. */
 export type SuppressionContractListResultValueList = Array<SuppressionContract>;
 /** The list of Advisor suppressions. */
 export interface SuppressionContractListResult {
   /** The link used to get the next page of suppressions. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of suppressions. */
-  value?: SuppressionContractListResultValueList;
+  value?: SuppressionContractListResultValueList | undefined;
 }
 /** Type of the prediction. */
 export type PredictionRequestPropertiesPredictionType = "PredictiveRightsizing";
 /** Properties given for the predictor. */
 export interface PredictionRequestProperties {
   /** Type of the prediction. */
-  predictionType?: PredictionRequestPropertiesPredictionType | (string & {});
+  predictionType?: PredictionRequestPropertiesPredictionType | (string & {}) | undefined;
   /** Extended properties are arguments specific for each prediction type. */
-  extendedProperties?: unknown;
+  extendedProperties?: unknown | undefined;
 }
 export interface PredictRequest {
   /** The Azure subscription ID. */
   subscriptionId: string;
   /** Request properties for prediction recommendation. */
-  properties?: PredictionRequestProperties;
+  properties?: PredictionRequestProperties | undefined;
 }
 /** Type of the prediction. */
 export type PredictionResponsePropertiesPredictionType = "PredictiveRightsizing";
@@ -616,24 +616,24 @@ export type PredictionResponsePropertiesImpact = "High" | "Medium" | "Low";
 /** Properties of the prediction */
 export interface PredictionResponseProperties {
   /** Extended properties */
-  extendedProperties?: unknown;
+  extendedProperties?: unknown | undefined;
   /** Type of the prediction. */
-  predictionType?: PredictionResponsePropertiesPredictionType;
+  predictionType?: PredictionResponsePropertiesPredictionType | undefined;
   /** The category of the recommendation. */
-  category?: PredictionResponsePropertiesCategory;
+  category?: PredictionResponsePropertiesCategory | undefined;
   /** The business impact of the recommendation. */
-  impact?: PredictionResponsePropertiesImpact;
+  impact?: PredictionResponsePropertiesImpact | undefined;
   /** The resource type identified by Advisor. */
-  impactedField?: string;
+  impactedField?: string | undefined;
   /** The most recent time that Advisor checked the validity of the recommendation. */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** A summary of the recommendation. */
-  shortDescription?: ShortDescription;
+  shortDescription?: ShortDescription | undefined;
 }
 /** Response used by predictions. */
 export interface PredictionResponse {
   /** The properties of the prediction. */
-  properties?: PredictionResponseProperties;
+  properties?: PredictionResponseProperties | undefined;
 }
 export interface RecommendationsGetGenerateStatusRequest {
   /** The Azure subscription ID. */

@@ -190,7 +190,7 @@ export type ApplicationID = string;
 export type AccountID = string;
 export interface ArchiveApplicationRequest {
   applicationID: string;
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export type ARN = string;
 export type ApplicationName = string;
@@ -200,58 +200,58 @@ export type ApplicationHealthStatus = string;
 export type ApplicationProgressStatus = string;
 export type PositiveInteger = number;
 export interface ApplicationAggregatedStatus {
-  lastUpdateDateTime?: string;
-  healthStatus?: string;
-  progressStatus?: string;
-  totalSourceServers?: number;
+  lastUpdateDateTime?: string | undefined;
+  healthStatus?: string | undefined;
+  progressStatus?: string | undefined;
+  totalSourceServers?: number | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export type TagsMap = { [key: string]: string | undefined };
 export type WaveID = string;
 export interface Application {
-  applicationID?: string;
-  arn?: string;
-  name?: string;
-  description?: string;
-  isArchived?: boolean;
-  applicationAggregatedStatus?: ApplicationAggregatedStatus;
-  creationDateTime?: string;
-  lastModifiedDateTime?: string;
-  tags?: { [key: string]: string | undefined };
-  waveID?: string;
+  applicationID?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  isArchived?: boolean | undefined;
+  applicationAggregatedStatus?: ApplicationAggregatedStatus | undefined;
+  creationDateTime?: string | undefined;
+  lastModifiedDateTime?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  waveID?: string | undefined;
 }
 export interface ArchiveWaveRequest {
   waveID: string;
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export type WaveName = string;
 export type WaveDescription = string;
 export type WaveHealthStatus = string;
 export type WaveProgressStatus = string;
 export interface WaveAggregatedStatus {
-  lastUpdateDateTime?: string;
-  replicationStartedDateTime?: string;
-  healthStatus?: string;
-  progressStatus?: string;
-  totalApplications?: number;
+  lastUpdateDateTime?: string | undefined;
+  replicationStartedDateTime?: string | undefined;
+  healthStatus?: string | undefined;
+  progressStatus?: string | undefined;
+  totalApplications?: number | undefined;
 }
 export interface Wave {
-  waveID?: string;
-  arn?: string;
-  name?: string;
-  description?: string;
-  isArchived?: boolean;
-  waveAggregatedStatus?: WaveAggregatedStatus;
-  creationDateTime?: string;
-  lastModifiedDateTime?: string;
-  tags?: { [key: string]: string | undefined };
+  waveID?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  isArchived?: boolean | undefined;
+  waveAggregatedStatus?: WaveAggregatedStatus | undefined;
+  creationDateTime?: string | undefined;
+  lastModifiedDateTime?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ApplicationIDs = string[];
 export interface AssociateApplicationsRequest {
   waveID: string;
   applicationIDs: string[];
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export interface AssociateApplicationsResponse {}
 export type SourceServerID = string;
@@ -259,7 +259,7 @@ export type AssociateSourceServersRequestSourceServerIDs = string[];
 export interface AssociateSourceServersRequest {
   applicationID: string;
   sourceServerIDs: string[];
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export interface AssociateSourceServersResponse {}
 export type ChangeServerLifeCycleStateSourceServerLifecycleState = string;
@@ -269,7 +269,7 @@ export interface ChangeServerLifeCycleStateSourceServerLifecycle {
 export interface ChangeServerLifeCycleStateRequest {
   sourceServerID: string;
   lifeCycle: ChangeServerLifeCycleStateSourceServerLifecycle;
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export type EC2InstanceID = string;
 export type JobID = string;
@@ -278,136 +278,136 @@ export type LastKnownCheckType = string;
 export type BoundedString = string;
 export type LastKnownCheckStatus = string;
 export interface LastKnownCheck {
-  type?: string;
-  name?: string;
-  status?: string;
-  error?: string;
-  checkedAt?: Date;
+  type?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  error?: string | undefined;
+  checkedAt?: Date | undefined;
 }
 export type LastKnownChecksList = LastKnownCheck[];
 export interface LaunchedInstance {
-  ec2InstanceID?: string;
-  jobID?: string;
-  firstBoot?: string;
-  lastKnownChecks?: LastKnownCheck[];
-  lastKnownFsxChecksStatus?: string;
+  ec2InstanceID?: string | undefined;
+  jobID?: string | undefined;
+  firstBoot?: string | undefined;
+  lastKnownChecks?: LastKnownCheck[] | undefined;
+  lastKnownFsxChecksStatus?: string | undefined;
 }
 export type ISO8601DurationString = string;
 export interface DataReplicationInfoReplicatedDisk {
-  deviceName?: string;
-  totalStorageBytes?: number;
-  replicatedStorageBytes?: number;
-  rescannedStorageBytes?: number;
-  backloggedStorageBytes?: number;
+  deviceName?: string | undefined;
+  totalStorageBytes?: number | undefined;
+  replicatedStorageBytes?: number | undefined;
+  rescannedStorageBytes?: number | undefined;
+  backloggedStorageBytes?: number | undefined;
 }
 export type DataReplicationInfoReplicatedDisks = DataReplicationInfoReplicatedDisk[];
 export type DataReplicationState = string;
 export type DataReplicationInitiationStepName = string;
 export type DataReplicationInitiationStepStatus = string;
 export interface DataReplicationInitiationStep {
-  name?: string;
-  status?: string;
+  name?: string | undefined;
+  status?: string | undefined;
 }
 export type DataReplicationInitiationSteps = DataReplicationInitiationStep[];
 export interface DataReplicationInitiation {
-  startDateTime?: string;
-  nextAttemptDateTime?: string;
-  steps?: DataReplicationInitiationStep[];
+  startDateTime?: string | undefined;
+  nextAttemptDateTime?: string | undefined;
+  steps?: DataReplicationInitiationStep[] | undefined;
 }
 export type DataReplicationErrorString = string;
 export type LargeBoundedString = string;
 export interface DataReplicationError {
-  error?: string;
-  rawError?: string;
+  error?: string | undefined;
+  rawError?: string | undefined;
 }
 export type ReplicatorID = string;
 export interface DataReplicationInfo {
-  lagDuration?: string;
-  etaDateTime?: string;
-  replicatedDisks?: DataReplicationInfoReplicatedDisk[];
-  dataReplicationState?: string;
-  dataReplicationInitiation?: DataReplicationInitiation;
-  dataReplicationError?: DataReplicationError;
-  lastSnapshotDateTime?: string;
-  replicatorId?: string;
+  lagDuration?: string | undefined;
+  etaDateTime?: string | undefined;
+  replicatedDisks?: DataReplicationInfoReplicatedDisk[] | undefined;
+  dataReplicationState?: string | undefined;
+  dataReplicationInitiation?: DataReplicationInitiation | undefined;
+  dataReplicationError?: DataReplicationError | undefined;
+  lastSnapshotDateTime?: string | undefined;
+  replicatorId?: string | undefined;
 }
 export interface LifeCycleLastTestInitiated {
-  apiCallDateTime?: string;
-  jobID?: string;
+  apiCallDateTime?: string | undefined;
+  jobID?: string | undefined;
 }
 export interface LifeCycleLastTestReverted {
-  apiCallDateTime?: string;
+  apiCallDateTime?: string | undefined;
 }
 export interface LifeCycleLastTestFinalized {
-  apiCallDateTime?: string;
+  apiCallDateTime?: string | undefined;
 }
 export interface LifeCycleLastTest {
-  initiated?: LifeCycleLastTestInitiated;
-  reverted?: LifeCycleLastTestReverted;
-  finalized?: LifeCycleLastTestFinalized;
+  initiated?: LifeCycleLastTestInitiated | undefined;
+  reverted?: LifeCycleLastTestReverted | undefined;
+  finalized?: LifeCycleLastTestFinalized | undefined;
 }
 export interface LifeCycleLastCutoverInitiated {
-  apiCallDateTime?: string;
-  jobID?: string;
+  apiCallDateTime?: string | undefined;
+  jobID?: string | undefined;
 }
 export interface LifeCycleLastCutoverReverted {
-  apiCallDateTime?: string;
+  apiCallDateTime?: string | undefined;
 }
 export interface LifeCycleLastCutoverFinalized {
-  apiCallDateTime?: string;
+  apiCallDateTime?: string | undefined;
 }
 export interface LifeCycleLastCutover {
-  initiated?: LifeCycleLastCutoverInitiated;
-  reverted?: LifeCycleLastCutoverReverted;
-  finalized?: LifeCycleLastCutoverFinalized;
+  initiated?: LifeCycleLastCutoverInitiated | undefined;
+  reverted?: LifeCycleLastCutoverReverted | undefined;
+  finalized?: LifeCycleLastCutoverFinalized | undefined;
 }
 export type LifeCycleState = string;
 export interface LifeCycle {
-  addedToServiceDateTime?: string;
-  firstByteDateTime?: string;
-  elapsedReplicationDuration?: string;
-  lastSeenByServiceDateTime?: string;
-  lastTest?: LifeCycleLastTest;
-  lastCutover?: LifeCycleLastCutover;
-  state?: string;
+  addedToServiceDateTime?: string | undefined;
+  firstByteDateTime?: string | undefined;
+  elapsedReplicationDuration?: string | undefined;
+  lastSeenByServiceDateTime?: string | undefined;
+  lastTest?: LifeCycleLastTest | undefined;
+  lastCutover?: LifeCycleLastCutover | undefined;
+  state?: string | undefined;
 }
 export type EC2InstanceType = string;
 export interface IdentificationHints {
-  fqdn?: string;
-  hostname?: string;
-  vmWareUuid?: string;
-  awsInstanceID?: string;
-  vmPath?: string;
+  fqdn?: string | undefined;
+  hostname?: string | undefined;
+  vmWareUuid?: string | undefined;
+  awsInstanceID?: string | undefined;
+  vmPath?: string | undefined;
 }
 export type IPsList = string[];
 export interface NetworkInterface {
-  macAddress?: string;
-  ips?: string[];
-  isPrimary?: boolean;
+  macAddress?: string | undefined;
+  ips?: string[] | undefined;
+  isPrimary?: boolean | undefined;
 }
 export type NetworkInterfaces = NetworkInterface[];
 export interface Disk {
-  deviceName?: string;
-  bytes?: number;
+  deviceName?: string | undefined;
+  bytes?: number | undefined;
 }
 export type Disks = Disk[];
 export interface CPU {
-  cores?: number;
-  modelName?: string;
+  cores?: number | undefined;
+  modelName?: string | undefined;
 }
 export type Cpus = CPU[];
 export interface OS {
-  fullString?: string;
+  fullString?: string | undefined;
 }
 export interface SourceProperties {
-  lastUpdatedDateTime?: string;
-  recommendedInstanceType?: string;
-  identificationHints?: IdentificationHints;
-  networkInterfaces?: NetworkInterface[];
-  disks?: Disk[];
-  cpus?: CPU[];
-  ramBytes?: number;
-  os?: OS;
+  lastUpdatedDateTime?: string | undefined;
+  recommendedInstanceType?: string | undefined;
+  identificationHints?: IdentificationHints | undefined;
+  networkInterfaces?: NetworkInterface[] | undefined;
+  disks?: Disk[] | undefined;
+  cpus?: CPU[] | undefined;
+  ramBytes?: number | undefined;
+  os?: OS | undefined;
 }
 export type ReplicationType = string;
 export type VcenterClientID = string;
@@ -415,30 +415,30 @@ export type UserProvidedId = string;
 export type SecretArn = string;
 export type ConnectorArn = string;
 export interface SourceServerConnectorAction {
-  credentialsSecretArn?: string;
-  connectorArn?: string;
+  credentialsSecretArn?: string | undefined;
+  connectorArn?: string | undefined;
 }
 export interface SourceServer {
-  sourceServerID?: string;
-  arn?: string;
-  isArchived?: boolean;
-  tags?: { [key: string]: string | undefined };
-  launchedInstance?: LaunchedInstance;
-  dataReplicationInfo?: DataReplicationInfo;
-  lifeCycle?: LifeCycle;
-  sourceProperties?: SourceProperties;
-  replicationType?: string;
-  vcenterClientID?: string;
-  applicationID?: string;
-  userProvidedID?: string;
-  fqdnForActionFramework?: string;
-  connectorAction?: SourceServerConnectorAction;
+  sourceServerID?: string | undefined;
+  arn?: string | undefined;
+  isArchived?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  launchedInstance?: LaunchedInstance | undefined;
+  dataReplicationInfo?: DataReplicationInfo | undefined;
+  lifeCycle?: LifeCycle | undefined;
+  sourceProperties?: SourceProperties | undefined;
+  replicationType?: string | undefined;
+  vcenterClientID?: string | undefined;
+  applicationID?: string | undefined;
+  userProvidedID?: string | undefined;
+  fqdnForActionFramework?: string | undefined;
+  connectorAction?: SourceServerConnectorAction | undefined;
 }
 export interface CreateApplicationRequest {
   name: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
-  accountID?: string;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  accountID?: string | undefined;
 }
 export type ConnectorName = string;
 export type SsmInstanceID = string;
@@ -446,24 +446,24 @@ export type S3BucketName = string;
 export type CloudWatchLogGroupName = string;
 export interface ConnectorSsmCommandConfig {
   s3OutputEnabled: boolean;
-  outputS3BucketName?: string;
+  outputS3BucketName?: string | undefined;
   cloudWatchOutputEnabled: boolean;
-  cloudWatchLogGroupName?: string;
+  cloudWatchLogGroupName?: string | undefined;
 }
 export interface CreateConnectorRequest {
   name: string;
   ssmInstanceID: string;
-  tags?: { [key: string]: string | undefined };
-  ssmCommandConfig?: ConnectorSsmCommandConfig;
+  tags?: { [key: string]: string | undefined } | undefined;
+  ssmCommandConfig?: ConnectorSsmCommandConfig | undefined;
 }
 export type ConnectorID = string;
 export interface Connector {
-  connectorID?: string;
-  name?: string;
-  ssmInstanceID?: string;
-  arn?: string;
-  tags?: { [key: string]: string | undefined };
-  ssmCommandConfig?: ConnectorSsmCommandConfig;
+  connectorID?: string | undefined;
+  name?: string | undefined;
+  ssmInstanceID?: string | undefined;
+  arn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  ssmCommandConfig?: ConnectorSsmCommandConfig | undefined;
 }
 export type PostLaunchActionsDeploymentType = string;
 export type S3LogBucketName = string;
@@ -484,23 +484,23 @@ export type SsmDocumentExternalParameters = { [key: string]: SsmExternalParamete
 export interface SsmDocument {
   actionName: string;
   ssmDocumentName: string;
-  timeoutSeconds?: number;
-  mustSucceedForCutover?: boolean;
-  parameters?: { [key: string]: SsmParameterStoreParameter[] | undefined };
-  externalParameters?: { [key: string]: SsmExternalParameter | undefined };
+  timeoutSeconds?: number | undefined;
+  mustSucceedForCutover?: boolean | undefined;
+  parameters?: { [key: string]: SsmParameterStoreParameter[] | undefined } | undefined;
+  externalParameters?: { [key: string]: SsmExternalParameter | undefined } | undefined;
 }
 export type SsmDocuments = SsmDocument[];
 export interface PostLaunchActions {
-  deployment?: string;
-  s3LogBucket?: string;
-  s3OutputKeyPrefix?: string;
-  cloudWatchLogGroupName?: string;
-  ssmDocuments?: SsmDocument[];
+  deployment?: string | undefined;
+  s3LogBucket?: string | undefined;
+  s3OutputKeyPrefix?: string | undefined;
+  cloudWatchLogGroupName?: string | undefined;
+  ssmDocuments?: SsmDocument[] | undefined;
 }
 export type LaunchDisposition = string;
 export type TargetInstanceTypeRightSizingMethod = string;
 export interface Licensing {
-  osByol?: boolean;
+  osByol?: boolean | undefined;
 }
 export type BootMode = string;
 export type VolumeType = string;
@@ -508,53 +508,53 @@ export type Iops = number;
 export type Throughput = number;
 export type VolumeInitializationRate = number;
 export interface LaunchTemplateDiskConf {
-  volumeType?: string;
-  iops?: number;
-  throughput?: number;
-  volumeInitializationRate?: number;
-  deleteOnTermination?: boolean;
+  volumeType?: string | undefined;
+  iops?: number | undefined;
+  throughput?: number | undefined;
+  volumeInitializationRate?: number | undefined;
+  deleteOnTermination?: boolean | undefined;
 }
 export type KmsKeyArn = string;
 export interface CreateLaunchConfigurationTemplateRequest {
-  postLaunchActions?: PostLaunchActions;
-  enableMapAutoTagging?: boolean;
-  mapAutoTaggingMpeID?: string;
-  tags?: { [key: string]: string | undefined };
-  launchDisposition?: string;
-  targetInstanceTypeRightSizingMethod?: string;
-  copyPrivateIp?: boolean;
-  associatePublicIpAddress?: boolean;
-  copyTags?: boolean;
-  licensing?: Licensing;
-  bootMode?: string;
-  smallVolumeMaxSize?: number;
-  smallVolumeConf?: LaunchTemplateDiskConf;
-  largeVolumeConf?: LaunchTemplateDiskConf;
-  enableParametersEncryption?: boolean;
-  parametersEncryptionKey?: string;
+  postLaunchActions?: PostLaunchActions | undefined;
+  enableMapAutoTagging?: boolean | undefined;
+  mapAutoTaggingMpeID?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  launchDisposition?: string | undefined;
+  targetInstanceTypeRightSizingMethod?: string | undefined;
+  copyPrivateIp?: boolean | undefined;
+  associatePublicIpAddress?: boolean | undefined;
+  copyTags?: boolean | undefined;
+  licensing?: Licensing | undefined;
+  bootMode?: string | undefined;
+  smallVolumeMaxSize?: number | undefined;
+  smallVolumeConf?: LaunchTemplateDiskConf | undefined;
+  largeVolumeConf?: LaunchTemplateDiskConf | undefined;
+  enableParametersEncryption?: boolean | undefined;
+  parametersEncryptionKey?: string | undefined;
 }
 export type LaunchConfigurationTemplateID = string;
 export type EC2LaunchConfigurationTemplateID = string;
 export interface LaunchConfigurationTemplate {
   launchConfigurationTemplateID: string;
-  arn?: string;
-  postLaunchActions?: PostLaunchActions;
-  enableMapAutoTagging?: boolean;
-  mapAutoTaggingMpeID?: string;
-  tags?: { [key: string]: string | undefined };
-  ec2LaunchTemplateID?: string;
-  launchDisposition?: string;
-  targetInstanceTypeRightSizingMethod?: string;
-  copyPrivateIp?: boolean;
-  associatePublicIpAddress?: boolean;
-  copyTags?: boolean;
-  licensing?: Licensing;
-  bootMode?: string;
-  smallVolumeMaxSize?: number;
-  smallVolumeConf?: LaunchTemplateDiskConf;
-  largeVolumeConf?: LaunchTemplateDiskConf;
-  enableParametersEncryption?: boolean;
-  parametersEncryptionKey?: string;
+  arn?: string | undefined;
+  postLaunchActions?: PostLaunchActions | undefined;
+  enableMapAutoTagging?: boolean | undefined;
+  mapAutoTaggingMpeID?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  ec2LaunchTemplateID?: string | undefined;
+  launchDisposition?: string | undefined;
+  targetInstanceTypeRightSizingMethod?: string | undefined;
+  copyPrivateIp?: boolean | undefined;
+  associatePublicIpAddress?: boolean | undefined;
+  copyTags?: boolean | undefined;
+  licensing?: Licensing | undefined;
+  bootMode?: string | undefined;
+  smallVolumeMaxSize?: number | undefined;
+  smallVolumeConf?: LaunchTemplateDiskConf | undefined;
+  largeVolumeConf?: LaunchTemplateDiskConf | undefined;
+  enableParametersEncryption?: boolean | undefined;
+  parametersEncryptionKey?: string | undefined;
 }
 export type NetworkMigrationDefinitionName = string;
 export type NetworkMigrationDefinitionDescription = string;
@@ -578,9 +578,9 @@ export type TargetNetworkTopology = string;
 export type Cidr = string;
 export interface TargetNetwork {
   topology: string;
-  inboundCidr?: string;
-  outboundCidr?: string;
-  inspectionCidr?: string;
+  inboundCidr?: string | undefined;
+  outboundCidr?: string | undefined;
+  inspectionCidr?: string | undefined;
 }
 export type TargetDeployment = string;
 export type VpcProvisioningStrategy = string;
@@ -594,32 +594,32 @@ export type ScopeTagValue = string;
 export type ScopeTagsMap = { [key: string]: string | undefined };
 export interface CreateNetworkMigrationDefinitionRequest {
   name: string;
-  description?: string;
-  sourceConfigurations?: SourceConfiguration[];
+  description?: string | undefined;
+  sourceConfigurations?: SourceConfiguration[] | undefined;
   targetS3Configuration: TargetS3Configuration;
   targetNetwork: TargetNetwork;
-  targetDeployment?: string;
-  vpcProvisioningStrategy?: string;
-  cidrMappings?: CidrMapping[];
-  tags?: { [key: string]: string | undefined };
-  scopeTags?: { [key: string]: string | undefined };
+  targetDeployment?: string | undefined;
+  vpcProvisioningStrategy?: string | undefined;
+  cidrMappings?: CidrMapping[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  scopeTags?: { [key: string]: string | undefined } | undefined;
 }
 export type NetworkMigrationDefinitionID = string;
 export interface NetworkMigrationDefinition {
-  arn?: string;
-  networkMigrationDefinitionID?: string;
-  name?: string;
-  description?: string;
-  sourceConfigurations?: SourceConfiguration[];
-  targetS3Configuration?: TargetS3Configuration;
-  targetNetwork?: TargetNetwork;
-  targetDeployment?: string;
-  vpcProvisioningStrategy?: string;
-  cidrMappings?: CidrMapping[];
-  createdAt?: Date;
-  updatedAt?: Date;
-  tags?: { [key: string]: string | undefined };
-  scopeTags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  networkMigrationDefinitionID?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  sourceConfigurations?: SourceConfiguration[] | undefined;
+  targetS3Configuration?: TargetS3Configuration | undefined;
+  targetNetwork?: TargetNetwork | undefined;
+  targetDeployment?: string | undefined;
+  vpcProvisioningStrategy?: string | undefined;
+  cidrMappings?: CidrMapping[] | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  scopeTags?: { [key: string]: string | undefined } | undefined;
 }
 export type SubnetID = string;
 export type SecurityGroupID = string;
@@ -637,7 +637,7 @@ export interface FsxOntapConfiguration {
 }
 export interface StorageConfiguration {
   storageType: string;
-  fsxOntapConfiguration?: FsxOntapConfiguration;
+  fsxOntapConfiguration?: FsxOntapConfiguration | undefined;
 }
 export interface CreateReplicationConfigurationTemplateRequest {
   stagingAreaSubnetId: string;
@@ -647,48 +647,48 @@ export interface CreateReplicationConfigurationTemplateRequest {
   useDedicatedReplicationServer: boolean;
   defaultLargeStagingDiskType: string;
   ebsEncryption: string;
-  ebsEncryptionKeyArn?: string;
+  ebsEncryptionKeyArn?: string | undefined;
   bandwidthThrottling: number;
   dataPlaneRouting: string;
   createPublicIP: boolean;
   stagingAreaTags: { [key: string]: string | undefined };
-  useFipsEndpoint?: boolean;
-  tags?: { [key: string]: string | undefined };
-  internetProtocol?: string;
-  storeSnapshotOnLocalZone?: boolean;
-  storageConfiguration?: StorageConfiguration;
+  useFipsEndpoint?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  internetProtocol?: string | undefined;
+  storeSnapshotOnLocalZone?: boolean | undefined;
+  storageConfiguration?: StorageConfiguration | undefined;
 }
 export type ReplicationConfigurationTemplateID = string;
 export interface ReplicationConfigurationTemplate {
   replicationConfigurationTemplateID: string;
-  arn?: string;
-  stagingAreaSubnetId?: string;
-  associateDefaultSecurityGroup?: boolean;
-  replicationServersSecurityGroupsIDs?: string[];
-  replicationServerInstanceType?: string;
-  useDedicatedReplicationServer?: boolean;
-  defaultLargeStagingDiskType?: string;
-  ebsEncryption?: string;
-  ebsEncryptionKeyArn?: string;
-  bandwidthThrottling?: number;
-  dataPlaneRouting?: string;
-  createPublicIP?: boolean;
-  stagingAreaTags?: { [key: string]: string | undefined };
-  useFipsEndpoint?: boolean;
-  tags?: { [key: string]: string | undefined };
-  internetProtocol?: string;
-  storeSnapshotOnLocalZone?: boolean;
-  storageConfiguration?: StorageConfiguration;
+  arn?: string | undefined;
+  stagingAreaSubnetId?: string | undefined;
+  associateDefaultSecurityGroup?: boolean | undefined;
+  replicationServersSecurityGroupsIDs?: string[] | undefined;
+  replicationServerInstanceType?: string | undefined;
+  useDedicatedReplicationServer?: boolean | undefined;
+  defaultLargeStagingDiskType?: string | undefined;
+  ebsEncryption?: string | undefined;
+  ebsEncryptionKeyArn?: string | undefined;
+  bandwidthThrottling?: number | undefined;
+  dataPlaneRouting?: string | undefined;
+  createPublicIP?: boolean | undefined;
+  stagingAreaTags?: { [key: string]: string | undefined } | undefined;
+  useFipsEndpoint?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  internetProtocol?: string | undefined;
+  storeSnapshotOnLocalZone?: boolean | undefined;
+  storageConfiguration?: StorageConfiguration | undefined;
 }
 export interface CreateWaveRequest {
   name: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
-  accountID?: string;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  accountID?: string | undefined;
 }
 export interface DeleteApplicationRequest {
   applicationID: string;
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export interface DeleteApplicationResponse {}
 export interface DeleteConnectorRequest {
@@ -697,7 +697,7 @@ export interface DeleteConnectorRequest {
 export interface DeleteConnectorResponse {}
 export interface DeleteJobRequest {
   jobID: string;
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export interface DeleteJobResponse {}
 export interface DeleteLaunchConfigurationTemplateRequest {
@@ -714,7 +714,7 @@ export interface DeleteReplicationConfigurationTemplateRequest {
 export interface DeleteReplicationConfigurationTemplateResponse {}
 export interface DeleteSourceServerRequest {
   sourceServerID: string;
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export interface DeleteSourceServerResponse {}
 export interface DeleteVcenterClientRequest {
@@ -723,47 +723,47 @@ export interface DeleteVcenterClientRequest {
 export interface DeleteVcenterClientResponse {}
 export interface DeleteWaveRequest {
   waveID: string;
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export interface DeleteWaveResponse {}
 export type MaxResultsType = number;
 export type PaginationToken = string;
 export interface DescribeJobLogItemsRequest {
   jobID: string;
-  maxResults?: number;
-  nextToken?: string;
-  accountID?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  accountID?: string | undefined;
 }
 export type JobLogEvent = string;
 export interface JobLogEventData {
-  sourceServerID?: string;
-  conversionServerID?: string;
-  targetInstanceID?: string;
-  rawError?: string;
-  attemptCount?: number;
-  maxAttemptsCount?: number;
+  sourceServerID?: string | undefined;
+  conversionServerID?: string | undefined;
+  targetInstanceID?: string | undefined;
+  rawError?: string | undefined;
+  attemptCount?: number | undefined;
+  maxAttemptsCount?: number | undefined;
 }
 export interface JobLog {
-  logDateTime?: string;
-  event?: string;
-  eventData?: JobLogEventData;
+  logDateTime?: string | undefined;
+  event?: string | undefined;
+  eventData?: JobLogEventData | undefined;
 }
 export type JobLogs = JobLog[];
 export interface DescribeJobLogItemsResponse {
-  items?: JobLog[];
-  nextToken?: string;
+  items?: JobLog[] | undefined;
+  nextToken?: string | undefined;
 }
 export type DescribeJobsRequestFiltersJobIDs = string[];
 export interface DescribeJobsRequestFilters {
-  jobIDs?: string[];
-  fromDate?: string;
-  toDate?: string;
+  jobIDs?: string[] | undefined;
+  fromDate?: string | undefined;
+  toDate?: string | undefined;
 }
 export interface DescribeJobsRequest {
-  filters?: DescribeJobsRequestFilters;
-  maxResults?: number;
-  nextToken?: string;
-  accountID?: string;
+  filters?: DescribeJobsRequestFilters | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  accountID?: string | undefined;
 }
 export type JobType = string;
 export type InitiatedBy = string;
@@ -772,142 +772,142 @@ export type LaunchStatus = string;
 export type SsmDocumentType = string;
 export type PostLaunchActionExecutionStatus = string;
 export interface JobPostLaunchActionsLaunchStatus {
-  ssmDocument?: SsmDocument;
-  ssmDocumentType?: string;
-  executionID?: string;
-  executionStatus?: string;
-  failureReason?: string;
+  ssmDocument?: SsmDocument | undefined;
+  ssmDocumentType?: string | undefined;
+  executionID?: string | undefined;
+  executionStatus?: string | undefined;
+  failureReason?: string | undefined;
 }
 export type PostLaunchActionsLaunchStatusList = JobPostLaunchActionsLaunchStatus[];
 export interface PostLaunchActionsStatus {
-  ssmAgentDiscoveryDatetime?: string;
-  postLaunchActionsLaunchStatusList?: JobPostLaunchActionsLaunchStatus[];
+  ssmAgentDiscoveryDatetime?: string | undefined;
+  postLaunchActionsLaunchStatusList?: JobPostLaunchActionsLaunchStatus[] | undefined;
 }
 export interface ParticipatingServer {
   sourceServerID: string;
-  launchStatus?: string;
-  launchedEc2InstanceID?: string;
-  postLaunchActionsStatus?: PostLaunchActionsStatus;
+  launchStatus?: string | undefined;
+  launchedEc2InstanceID?: string | undefined;
+  postLaunchActionsStatus?: PostLaunchActionsStatus | undefined;
 }
 export type ParticipatingServers = ParticipatingServer[];
 export interface Job {
   jobID: string;
-  arn?: string;
-  type?: string;
-  initiatedBy?: string;
-  creationDateTime?: string;
-  endDateTime?: string;
-  status?: string;
-  participatingServers?: ParticipatingServer[];
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  type?: string | undefined;
+  initiatedBy?: string | undefined;
+  creationDateTime?: string | undefined;
+  endDateTime?: string | undefined;
+  status?: string | undefined;
+  participatingServers?: ParticipatingServer[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type JobsList = Job[];
 export interface DescribeJobsResponse {
-  items?: Job[];
-  nextToken?: string;
+  items?: Job[] | undefined;
+  nextToken?: string | undefined;
 }
 export type LaunchConfigurationTemplateIDs = string[];
 export interface DescribeLaunchConfigurationTemplatesRequest {
-  launchConfigurationTemplateIDs?: string[];
-  maxResults?: number;
-  nextToken?: string;
+  launchConfigurationTemplateIDs?: string[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type LaunchConfigurationTemplates = LaunchConfigurationTemplate[];
 export interface DescribeLaunchConfigurationTemplatesResponse {
-  items?: LaunchConfigurationTemplate[];
-  nextToken?: string;
+  items?: LaunchConfigurationTemplate[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ReplicationConfigurationTemplateIDs = string[];
 export interface DescribeReplicationConfigurationTemplatesRequest {
-  replicationConfigurationTemplateIDs?: string[];
-  maxResults?: number;
-  nextToken?: string;
+  replicationConfigurationTemplateIDs?: string[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ReplicationConfigurationTemplates = ReplicationConfigurationTemplate[];
 export interface DescribeReplicationConfigurationTemplatesResponse {
-  items?: ReplicationConfigurationTemplate[];
-  nextToken?: string;
+  items?: ReplicationConfigurationTemplate[] | undefined;
+  nextToken?: string | undefined;
 }
 export type DescribeSourceServersRequestFiltersIDs = string[];
 export type ReplicationTypes = string[];
 export type LifeCycleStates = string[];
 export type DescribeSourceServersRequestApplicationIDs = string[];
 export interface DescribeSourceServersRequestFilters {
-  sourceServerIDs?: string[];
-  isArchived?: boolean;
-  replicationTypes?: string[];
-  lifeCycleStates?: string[];
-  applicationIDs?: string[];
+  sourceServerIDs?: string[] | undefined;
+  isArchived?: boolean | undefined;
+  replicationTypes?: string[] | undefined;
+  lifeCycleStates?: string[] | undefined;
+  applicationIDs?: string[] | undefined;
 }
 export interface DescribeSourceServersRequest {
-  filters?: DescribeSourceServersRequestFilters;
-  maxResults?: number;
-  nextToken?: string;
-  accountID?: string;
+  filters?: DescribeSourceServersRequestFilters | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  accountID?: string | undefined;
 }
 export type SourceServersList = SourceServer[];
 export interface DescribeSourceServersResponse {
-  items?: SourceServer[];
-  nextToken?: string;
+  items?: SourceServer[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeVcenterClientsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface VcenterClient {
-  vcenterClientID?: string;
-  arn?: string;
-  hostname?: string;
-  vcenterUUID?: string;
-  datacenterName?: string;
-  lastSeenDatetime?: string;
-  sourceServerTags?: { [key: string]: string | undefined };
-  tags?: { [key: string]: string | undefined };
+  vcenterClientID?: string | undefined;
+  arn?: string | undefined;
+  hostname?: string | undefined;
+  vcenterUUID?: string | undefined;
+  datacenterName?: string | undefined;
+  lastSeenDatetime?: string | undefined;
+  sourceServerTags?: { [key: string]: string | undefined } | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type VcenterClientList = VcenterClient[];
 export interface DescribeVcenterClientsResponse {
-  items?: VcenterClient[];
-  nextToken?: string;
+  items?: VcenterClient[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DisassociateApplicationsRequest {
   waveID: string;
   applicationIDs: string[];
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export interface DisassociateApplicationsResponse {}
 export type DisassociateSourceServersRequestSourceServerIDs = string[];
 export interface DisassociateSourceServersRequest {
   applicationID: string;
   sourceServerIDs: string[];
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export interface DisassociateSourceServersResponse {}
 export interface DisconnectFromServiceRequest {
   sourceServerID: string;
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export interface FinalizeCutoverRequest {
   sourceServerID: string;
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export interface GetLaunchConfigurationRequest {
   sourceServerID: string;
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export type SmallBoundedString = string;
 export interface LaunchConfiguration {
-  sourceServerID?: string;
-  name?: string;
-  ec2LaunchTemplateID?: string;
-  launchDisposition?: string;
-  targetInstanceTypeRightSizingMethod?: string;
-  copyPrivateIp?: boolean;
-  copyTags?: boolean;
-  licensing?: Licensing;
-  bootMode?: string;
-  postLaunchActions?: PostLaunchActions;
-  enableMapAutoTagging?: boolean;
-  mapAutoTaggingMpeID?: string;
+  sourceServerID?: string | undefined;
+  name?: string | undefined;
+  ec2LaunchTemplateID?: string | undefined;
+  launchDisposition?: string | undefined;
+  targetInstanceTypeRightSizingMethod?: string | undefined;
+  copyPrivateIp?: boolean | undefined;
+  copyTags?: boolean | undefined;
+  licensing?: Licensing | undefined;
+  bootMode?: string | undefined;
+  postLaunchActions?: PostLaunchActions | undefined;
+  enableMapAutoTagging?: boolean | undefined;
+  mapAutoTaggingMpeID?: string | undefined;
 }
 export interface GetNetworkMigrationDefinitionRequest {
   networkMigrationDefinitionID: string;
@@ -929,181 +929,181 @@ export type ConstructPropertyKey = string;
 export type MarshalledResourceDefinition = string;
 export type ConstructProperties = { [key: string]: string | undefined };
 export interface NetworkMigrationMapperSegmentConstruct {
-  constructID?: string;
-  constructType?: string;
-  name?: string;
-  description?: string;
-  logicalID?: string;
-  excluded?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-  properties?: { [key: string]: string | undefined };
+  constructID?: string | undefined;
+  constructType?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  logicalID?: string | undefined;
+  excluded?: boolean | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  properties?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetNetworkMigrationMapperSegmentConstructResponse {
-  construct?: NetworkMigrationMapperSegmentConstruct;
+  construct?: NetworkMigrationMapperSegmentConstruct | undefined;
 }
 export interface GetReplicationConfigurationRequest {
   sourceServerID: string;
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export type ReplicationConfigurationReplicatedDiskStagingDiskType = string;
 export interface ReplicationConfigurationReplicatedDisk {
-  deviceName?: string;
-  isBootDisk?: boolean;
-  stagingDiskType?: string;
-  iops?: number;
-  throughput?: number;
+  deviceName?: string | undefined;
+  isBootDisk?: boolean | undefined;
+  stagingDiskType?: string | undefined;
+  iops?: number | undefined;
+  throughput?: number | undefined;
 }
 export type ReplicationConfigurationReplicatedDisks = ReplicationConfigurationReplicatedDisk[];
 export interface ReplicationConfiguration {
-  sourceServerID?: string;
-  name?: string;
-  stagingAreaSubnetId?: string;
-  associateDefaultSecurityGroup?: boolean;
-  replicationServersSecurityGroupsIDs?: string[];
-  replicationServerInstanceType?: string;
-  useDedicatedReplicationServer?: boolean;
-  defaultLargeStagingDiskType?: string;
-  replicatedDisks?: ReplicationConfigurationReplicatedDisk[];
-  ebsEncryption?: string;
-  ebsEncryptionKeyArn?: string;
-  bandwidthThrottling?: number;
-  dataPlaneRouting?: string;
-  createPublicIP?: boolean;
-  stagingAreaTags?: { [key: string]: string | undefined };
-  useFipsEndpoint?: boolean;
-  internetProtocol?: string;
-  storeSnapshotOnLocalZone?: boolean;
-  storageConfiguration?: StorageConfiguration;
+  sourceServerID?: string | undefined;
+  name?: string | undefined;
+  stagingAreaSubnetId?: string | undefined;
+  associateDefaultSecurityGroup?: boolean | undefined;
+  replicationServersSecurityGroupsIDs?: string[] | undefined;
+  replicationServerInstanceType?: string | undefined;
+  useDedicatedReplicationServer?: boolean | undefined;
+  defaultLargeStagingDiskType?: string | undefined;
+  replicatedDisks?: ReplicationConfigurationReplicatedDisk[] | undefined;
+  ebsEncryption?: string | undefined;
+  ebsEncryptionKeyArn?: string | undefined;
+  bandwidthThrottling?: number | undefined;
+  dataPlaneRouting?: string | undefined;
+  createPublicIP?: boolean | undefined;
+  stagingAreaTags?: { [key: string]: string | undefined } | undefined;
+  useFipsEndpoint?: boolean | undefined;
+  internetProtocol?: string | undefined;
+  storeSnapshotOnLocalZone?: boolean | undefined;
+  storageConfiguration?: StorageConfiguration | undefined;
 }
 export interface InitializeServiceRequest {}
 export interface InitializeServiceResponse {}
 export type ApplicationIDsFilter = string[];
 export type WaveIDsFilter = string[];
 export interface ListApplicationsRequestFilters {
-  applicationIDs?: string[];
-  isArchived?: boolean;
-  waveIDs?: string[];
+  applicationIDs?: string[] | undefined;
+  isArchived?: boolean | undefined;
+  waveIDs?: string[] | undefined;
 }
 export interface ListApplicationsRequest {
-  filters?: ListApplicationsRequestFilters;
-  maxResults?: number;
-  nextToken?: string;
-  accountID?: string;
+  filters?: ListApplicationsRequestFilters | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  accountID?: string | undefined;
 }
 export type ApplicationsList = Application[];
 export interface ListApplicationsResponse {
-  items?: Application[];
-  nextToken?: string;
+  items?: Application[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ConnectorIDsFilter = string[];
 export interface ListConnectorsRequestFilters {
-  connectorIDs?: string[];
+  connectorIDs?: string[] | undefined;
 }
 export interface ListConnectorsRequest {
-  filters?: ListConnectorsRequestFilters;
-  maxResults?: number;
-  nextToken?: string;
+  filters?: ListConnectorsRequestFilters | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ConnectorsList = Connector[];
 export interface ListConnectorsResponse {
-  items?: Connector[];
-  nextToken?: string;
+  items?: Connector[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ExportID = string;
 export interface ListExportErrorsRequest {
   exportID: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ExportErrorData {
-  rawError?: string;
+  rawError?: string | undefined;
 }
 export interface ExportTaskError {
-  errorDateTime?: string;
-  errorData?: ExportErrorData;
+  errorDateTime?: string | undefined;
+  errorData?: ExportErrorData | undefined;
 }
 export type ExportErrors = ExportTaskError[];
 export interface ListExportErrorsResponse {
-  items?: ExportTaskError[];
-  nextToken?: string;
+  items?: ExportTaskError[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListExportsRequestFiltersExportIDs = string[];
 export interface ListExportsRequestFilters {
-  exportIDs?: string[];
+  exportIDs?: string[] | undefined;
 }
 export interface ListExportsRequest {
-  filters?: ListExportsRequestFilters;
-  maxResults?: number;
-  nextToken?: string;
+  filters?: ListExportsRequestFilters | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type S3Key = string;
 export type ExportStatus = string;
 export interface ExportTaskSummary {
-  serversCount?: number;
-  applicationsCount?: number;
-  wavesCount?: number;
+  serversCount?: number | undefined;
+  applicationsCount?: number | undefined;
+  wavesCount?: number | undefined;
 }
 export interface ExportTask {
-  exportID?: string;
-  arn?: string;
-  s3Bucket?: string;
-  s3Key?: string;
-  s3BucketOwner?: string;
-  creationDateTime?: string;
-  endDateTime?: string;
-  status?: string;
-  progressPercentage?: number;
-  summary?: ExportTaskSummary;
-  tags?: { [key: string]: string | undefined };
+  exportID?: string | undefined;
+  arn?: string | undefined;
+  s3Bucket?: string | undefined;
+  s3Key?: string | undefined;
+  s3BucketOwner?: string | undefined;
+  creationDateTime?: string | undefined;
+  endDateTime?: string | undefined;
+  status?: string | undefined;
+  progressPercentage?: number | undefined;
+  summary?: ExportTaskSummary | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ExportsList = ExportTask[];
 export interface ListExportsResponse {
-  items?: ExportTask[];
-  nextToken?: string;
+  items?: ExportTask[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ImportID = string;
 export interface ListImportErrorsRequest {
   importID: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ImportErrorType = string;
 export interface ImportErrorData {
-  sourceServerID?: string;
-  applicationID?: string;
-  waveID?: string;
-  ec2LaunchTemplateID?: string;
-  rowNumber?: number;
-  rawError?: string;
-  accountID?: string;
+  sourceServerID?: string | undefined;
+  applicationID?: string | undefined;
+  waveID?: string | undefined;
+  ec2LaunchTemplateID?: string | undefined;
+  rowNumber?: number | undefined;
+  rawError?: string | undefined;
+  accountID?: string | undefined;
 }
 export interface ImportTaskError {
-  errorDateTime?: string;
-  errorType?: string;
-  errorData?: ImportErrorData;
+  errorDateTime?: string | undefined;
+  errorType?: string | undefined;
+  errorData?: ImportErrorData | undefined;
 }
 export type ImportErrors = ImportTaskError[];
 export interface ListImportErrorsResponse {
-  items?: ImportTaskError[];
-  nextToken?: string;
+  items?: ImportTaskError[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ImportFileEnrichmentJobID = string;
 export type ImportFileEnrichmentsIDsFilter = string[];
 export interface ListImportFileEnrichmentsFilters {
-  jobIDs?: string[];
+  jobIDs?: string[] | undefined;
 }
 export interface ListImportFileEnrichmentsRequest {
-  filters?: ListImportFileEnrichmentsFilters;
-  maxResults?: number;
-  nextToken?: string;
+  filters?: ListImportFileEnrichmentsFilters | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ImportFileEnrichmentStatus = string;
 export type EncryptionAlgorithm = string;
 export type Hash = string;
 export interface Checksum {
-  encryptionAlgorithm?: string;
-  hash?: string;
+  encryptionAlgorithm?: string | undefined;
+  hash?: string | undefined;
 }
 export interface EnrichmentTargetS3Configuration {
   s3Bucket: string;
@@ -1111,449 +1111,449 @@ export interface EnrichmentTargetS3Configuration {
   s3Key: string;
 }
 export interface ImportFileEnrichment {
-  jobID?: string;
-  createdAt?: Date;
-  endedAt?: Date;
-  status?: string;
-  statusDetails?: string;
-  checksum?: Checksum;
-  s3BucketTarget?: EnrichmentTargetS3Configuration;
+  jobID?: string | undefined;
+  createdAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  status?: string | undefined;
+  statusDetails?: string | undefined;
+  checksum?: Checksum | undefined;
+  s3BucketTarget?: EnrichmentTargetS3Configuration | undefined;
 }
 export type ImportFileEnrichmentsList = ImportFileEnrichment[];
 export interface ListImportFileEnrichmentsResponse {
-  items?: ImportFileEnrichment[];
-  nextToken?: string;
+  items?: ImportFileEnrichment[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ImportIDsFilter = string[];
 export interface ListImportsRequestFilters {
-  importIDs?: string[];
+  importIDs?: string[] | undefined;
 }
 export interface ListImportsRequest {
-  filters?: ListImportsRequestFilters;
-  maxResults?: number;
-  nextToken?: string;
+  filters?: ListImportsRequestFilters | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface S3BucketSource {
   s3Bucket: string;
   s3Key: string;
-  s3BucketOwner?: string;
+  s3BucketOwner?: string | undefined;
 }
 export type ImportStatus = string;
 export interface ImportTaskSummaryWaves {
-  createdCount?: number;
-  modifiedCount?: number;
+  createdCount?: number | undefined;
+  modifiedCount?: number | undefined;
 }
 export interface ImportTaskSummaryApplications {
-  createdCount?: number;
-  modifiedCount?: number;
+  createdCount?: number | undefined;
+  modifiedCount?: number | undefined;
 }
 export interface ImportTaskSummaryServers {
-  createdCount?: number;
-  modifiedCount?: number;
+  createdCount?: number | undefined;
+  modifiedCount?: number | undefined;
 }
 export interface ImportTaskSummary {
-  waves?: ImportTaskSummaryWaves;
-  applications?: ImportTaskSummaryApplications;
-  servers?: ImportTaskSummaryServers;
+  waves?: ImportTaskSummaryWaves | undefined;
+  applications?: ImportTaskSummaryApplications | undefined;
+  servers?: ImportTaskSummaryServers | undefined;
 }
 export interface ImportTask {
-  importID?: string;
-  arn?: string;
-  s3BucketSource?: S3BucketSource;
-  creationDateTime?: string;
-  endDateTime?: string;
-  status?: string;
-  progressPercentage?: number;
-  summary?: ImportTaskSummary;
-  tags?: { [key: string]: string | undefined };
+  importID?: string | undefined;
+  arn?: string | undefined;
+  s3BucketSource?: S3BucketSource | undefined;
+  creationDateTime?: string | undefined;
+  endDateTime?: string | undefined;
+  status?: string | undefined;
+  progressPercentage?: number | undefined;
+  summary?: ImportTaskSummary | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ImportList = ImportTask[];
 export interface ListImportsResponse {
-  items?: ImportTask[];
-  nextToken?: string;
+  items?: ImportTask[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListManagedAccountsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ManagedAccount {
-  accountId?: string;
+  accountId?: string | undefined;
 }
 export type ManagedAccounts = ManagedAccount[];
 export interface ListManagedAccountsResponse {
   items: ManagedAccount[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type NetworkMigrationJobID = string;
 export type ListNetworkMigrationAnalysesIDsFilter = string[];
 export interface ListNetworkMigrationAnalysesFilters {
-  jobIDs?: string[];
+  jobIDs?: string[] | undefined;
 }
 export interface ListNetworkMigrationAnalysesRequest {
   networkMigrationExecutionID: string;
   networkMigrationDefinitionID: string;
-  filters?: ListNetworkMigrationAnalysesFilters;
-  maxResults?: number;
-  nextToken?: string;
+  filters?: ListNetworkMigrationAnalysesFilters | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type NetworkMigrationJobStatus = string;
 export interface NetworkMigrationAnalysisJobDetails {
-  jobID?: string;
-  networkMigrationExecutionID?: string;
-  networkMigrationDefinitionID?: string;
-  createdAt?: Date;
-  endedAt?: Date;
-  status?: string;
-  statusDetails?: string;
+  jobID?: string | undefined;
+  networkMigrationExecutionID?: string | undefined;
+  networkMigrationDefinitionID?: string | undefined;
+  createdAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  status?: string | undefined;
+  statusDetails?: string | undefined;
 }
 export type NetworkMigrationAnalysesList = NetworkMigrationAnalysisJobDetails[];
 export interface ListNetworkMigrationAnalysesResponse {
-  items?: NetworkMigrationAnalysisJobDetails[];
-  nextToken?: string;
+  items?: NetworkMigrationAnalysisJobDetails[] | undefined;
+  nextToken?: string | undefined;
 }
 export type VpcID = string;
 export type VpcIDsFilter = string[];
 export interface ListNetworkMigrationAnalysisResultsFilters {
-  vpcIDs?: string[];
+  vpcIDs?: string[] | undefined;
 }
 export interface ListNetworkMigrationAnalysisResultsRequest {
   networkMigrationExecutionID: string;
   networkMigrationDefinitionID: string;
-  filters?: ListNetworkMigrationAnalysisResultsFilters;
-  maxResults?: number;
-  nextToken?: string;
+  filters?: ListNetworkMigrationAnalysisResultsFilters | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type AnalyzerType = string;
 export interface NetworkMigrationAnalysisResultSource {
-  vpcID?: string;
-  subnetID?: string;
+  vpcID?: string | undefined;
+  subnetID?: string | undefined;
 }
 export interface NetworkMigrationAnalysisResultTarget {
-  vpcID?: string;
-  subnetID?: string;
+  vpcID?: string | undefined;
+  subnetID?: string | undefined;
 }
 export type NetworkMigrationAnalysisResultStatus = string;
 export interface NetworkMigrationAnalysisResult {
-  jobID?: string;
-  networkMigrationExecutionID?: string;
-  networkMigrationDefinitionID?: string;
-  analyzerType?: string;
-  source?: NetworkMigrationAnalysisResultSource;
-  target?: NetworkMigrationAnalysisResultTarget;
-  status?: string;
-  analysisResult?: string;
+  jobID?: string | undefined;
+  networkMigrationExecutionID?: string | undefined;
+  networkMigrationDefinitionID?: string | undefined;
+  analyzerType?: string | undefined;
+  source?: NetworkMigrationAnalysisResultSource | undefined;
+  target?: NetworkMigrationAnalysisResultTarget | undefined;
+  status?: string | undefined;
+  analysisResult?: string | undefined;
 }
 export type NetworkMigrationAnalysisResultsList = NetworkMigrationAnalysisResult[];
 export interface ListNetworkMigrationAnalysisResultsResponse {
-  items?: NetworkMigrationAnalysisResult[];
-  nextToken?: string;
+  items?: NetworkMigrationAnalysisResult[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListNetworkMigrationCodeGenerationsIDsFilter = string[];
 export interface ListNetworkMigrationCodeGenerationsFilters {
-  jobIDs?: string[];
+  jobIDs?: string[] | undefined;
 }
 export interface ListNetworkMigrationCodeGenerationsRequest {
   networkMigrationExecutionID: string;
   networkMigrationDefinitionID: string;
-  filters?: ListNetworkMigrationCodeGenerationsFilters;
-  maxResults?: number;
-  nextToken?: string;
+  filters?: ListNetworkMigrationCodeGenerationsFilters | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type CodeGenerationOutputFormatType = string;
 export type CodeGenerationOutputFormatStatus = string;
 export interface CodeGenerationOutputFormatStatusDetails {
-  status?: string;
-  statusDetailList?: string;
+  status?: string | undefined;
+  statusDetailList?: string | undefined;
 }
 export type CodeGenerationOutputFormatStatusDetailsMap = {
   [key: string]: CodeGenerationOutputFormatStatusDetails | undefined;
 };
 export interface NetworkMigrationCodeGenerationJobDetails {
-  jobID?: string;
-  networkMigrationExecutionID?: string;
-  networkMigrationDefinitionID?: string;
-  createdAt?: Date;
-  endedAt?: Date;
-  status?: string;
-  statusDetails?: string;
-  codeGenerationOutputFormatStatusDetailsMap?: {
-    [key: string]: CodeGenerationOutputFormatStatusDetails | undefined;
-  };
+  jobID?: string | undefined;
+  networkMigrationExecutionID?: string | undefined;
+  networkMigrationDefinitionID?: string | undefined;
+  createdAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  status?: string | undefined;
+  statusDetails?: string | undefined;
+  codeGenerationOutputFormatStatusDetailsMap?:
+    | { [key: string]: CodeGenerationOutputFormatStatusDetails | undefined }
+    | undefined;
 }
 export type NetworkMigrationCodeGenerationsList = NetworkMigrationCodeGenerationJobDetails[];
 export interface ListNetworkMigrationCodeGenerationsResponse {
-  items?: NetworkMigrationCodeGenerationJobDetails[];
-  nextToken?: string;
+  items?: NetworkMigrationCodeGenerationJobDetails[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListNetworkMigrationCodeGenerationSegmentsIDsFilter = string[];
 export interface ListNetworkMigrationCodeGenerationSegmentsFilters {
-  segmentIDs?: string[];
+  segmentIDs?: string[] | undefined;
 }
 export interface ListNetworkMigrationCodeGenerationSegmentsRequest {
   networkMigrationExecutionID: string;
   networkMigrationDefinitionID: string;
-  filters?: ListNetworkMigrationCodeGenerationSegmentsFilters;
-  maxResults?: number;
-  nextToken?: string;
+  filters?: ListNetworkMigrationCodeGenerationSegmentsFilters | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type NetworkMigrationCodeGenerationSegmentType = string;
 export type NetworkMigrationCodeGenerationArtifactID = string;
 export type NetworkMigrationCodeGenerationArtifactType = string;
 export type NetworkMigrationCodeGenerationArtifactSubType = string;
 export interface S3Configuration {
-  s3Bucket?: string;
-  s3BucketOwner?: string;
-  s3Key?: string;
+  s3Bucket?: string | undefined;
+  s3BucketOwner?: string | undefined;
+  s3Key?: string | undefined;
 }
 export interface NetworkMigrationCodeGenerationArtifact {
-  artifactID?: string;
-  artifactType?: string;
-  artifactSubType?: string;
-  logicalID?: string;
-  outputS3Configuration?: S3Configuration;
-  checksum?: Checksum;
-  createdAt?: Date;
+  artifactID?: string | undefined;
+  artifactType?: string | undefined;
+  artifactSubType?: string | undefined;
+  logicalID?: string | undefined;
+  outputS3Configuration?: S3Configuration | undefined;
+  checksum?: Checksum | undefined;
+  createdAt?: Date | undefined;
 }
 export type NetworkMigrationCodeGenerationArtifacts = NetworkMigrationCodeGenerationArtifact[];
 export type ReferencedSegmentsList = string[];
 export interface NetworkMigrationCodeGenerationSegment {
-  jobID?: string;
-  networkMigrationExecutionID?: string;
-  networkMigrationDefinitionID?: string;
-  segmentID?: string;
-  segmentType?: string;
-  logicalID?: string;
-  mapperSegmentID?: string;
-  artifacts?: NetworkMigrationCodeGenerationArtifact[];
-  referencedSegments?: string[];
-  createdAt?: Date;
+  jobID?: string | undefined;
+  networkMigrationExecutionID?: string | undefined;
+  networkMigrationDefinitionID?: string | undefined;
+  segmentID?: string | undefined;
+  segmentType?: string | undefined;
+  logicalID?: string | undefined;
+  mapperSegmentID?: string | undefined;
+  artifacts?: NetworkMigrationCodeGenerationArtifact[] | undefined;
+  referencedSegments?: string[] | undefined;
+  createdAt?: Date | undefined;
 }
 export type NetworkMigrationCodeGenerationSegmentsList = NetworkMigrationCodeGenerationSegment[];
 export interface ListNetworkMigrationCodeGenerationSegmentsResponse {
-  items?: NetworkMigrationCodeGenerationSegment[];
-  nextToken?: string;
+  items?: NetworkMigrationCodeGenerationSegment[] | undefined;
+  nextToken?: string | undefined;
 }
 export type NetworkMigrationDefintionsIDsFilter = string[];
 export interface ListNetworkMigrationDefinitionsRequestFilters {
-  networkMigrationDefinitionIDs?: string[];
+  networkMigrationDefinitionIDs?: string[] | undefined;
 }
 export interface ListNetworkMigrationDefinitionsRequest {
-  filters?: ListNetworkMigrationDefinitionsRequestFilters;
-  nextToken?: string;
-  maxResults?: number;
+  filters?: ListNetworkMigrationDefinitionsRequestFilters | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface NetworkMigrationDefinitionSummary {
-  networkMigrationDefinitionID?: string;
-  name?: string;
-  sourceEnvironment?: string;
-  arn?: string;
-  tags?: { [key: string]: string | undefined };
-  scopeTags?: { [key: string]: string | undefined };
+  networkMigrationDefinitionID?: string | undefined;
+  name?: string | undefined;
+  sourceEnvironment?: string | undefined;
+  arn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  scopeTags?: { [key: string]: string | undefined } | undefined;
 }
 export type NetworkMigrationDefinitionSummariesList = NetworkMigrationDefinitionSummary[];
 export interface ListNetworkMigrationDefinitionsResponse {
-  items?: NetworkMigrationDefinitionSummary[];
-  nextToken?: string;
+  items?: NetworkMigrationDefinitionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListNetworkMigrationDeployedStacksRequest {
   networkMigrationExecutionID: string;
   networkMigrationDefinitionID: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type NetworkMigrationDeployedStackStatus = string;
 export type PhysicalID = string;
 export type NetworkMigrationFailedResourceStatus = string;
 export interface NetworkMigrationFailedResourceDetails {
-  logicalID?: string;
-  status?: string;
-  statusReason?: string;
+  logicalID?: string | undefined;
+  status?: string | undefined;
+  statusReason?: string | undefined;
 }
 export type NetworkMigrationFailedResourcesList = NetworkMigrationFailedResourceDetails[];
 export interface NetworkMigrationDeployedStackDetails {
-  status?: string;
-  stackPhysicalID?: string;
-  stackLogicalID?: string;
-  segmentID?: string;
-  targetAccount?: string;
-  failedResources?: NetworkMigrationFailedResourceDetails[];
+  status?: string | undefined;
+  stackPhysicalID?: string | undefined;
+  stackLogicalID?: string | undefined;
+  segmentID?: string | undefined;
+  targetAccount?: string | undefined;
+  failedResources?: NetworkMigrationFailedResourceDetails[] | undefined;
 }
 export type NetworkMigrationDeployedStacksList = NetworkMigrationDeployedStackDetails[];
 export interface ListNetworkMigrationDeployedStacksResponse {
-  items?: NetworkMigrationDeployedStackDetails[];
-  nextToken?: string;
+  items?: NetworkMigrationDeployedStackDetails[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListNetworkMigrationDeployerJobIDsFilters = string[];
 export interface ListNetworkMigrationDeployerJobFilters {
-  jobIDs?: string[];
+  jobIDs?: string[] | undefined;
 }
 export interface ListNetworkMigrationDeploymentsRequest {
   networkMigrationExecutionID: string;
   networkMigrationDefinitionID: string;
-  filters?: ListNetworkMigrationDeployerJobFilters;
-  maxResults?: number;
-  nextToken?: string;
+  filters?: ListNetworkMigrationDeployerJobFilters | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface NetworkMigrationDeployerJobDetails {
-  jobID?: string;
-  networkMigrationExecutionID?: string;
-  networkMigrationDefinitionID?: string;
-  createdAt?: Date;
-  endedAt?: Date;
-  status?: string;
-  statusDetails?: string;
+  jobID?: string | undefined;
+  networkMigrationExecutionID?: string | undefined;
+  networkMigrationDefinitionID?: string | undefined;
+  createdAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  status?: string | undefined;
+  statusDetails?: string | undefined;
 }
 export type NetworkMigrationDeployerJobList = NetworkMigrationDeployerJobDetails[];
 export interface ListNetworkMigrationDeployerJobResponse {
-  items?: NetworkMigrationDeployerJobDetails[];
-  nextToken?: string;
+  items?: NetworkMigrationDeployerJobDetails[] | undefined;
+  nextToken?: string | undefined;
 }
 export type NetworkMigrationExecutionIDsFilter = string[];
 export type ExecutionStatus = string;
 export type NetworkMigrationExecutionStatusesFilter = string[];
 export interface ListNetworkMigrationExecutionRequestFilters {
-  networkMigrationExecutionIDs?: string[];
-  networkMigrationExecutionStatuses?: string[];
+  networkMigrationExecutionIDs?: string[] | undefined;
+  networkMigrationExecutionStatuses?: string[] | undefined;
 }
 export interface ListNetworkMigrationExecutionsRequest {
   networkMigrationDefinitionID: string;
-  filters?: ListNetworkMigrationExecutionRequestFilters;
-  nextToken?: string;
-  maxResults?: number;
+  filters?: ListNetworkMigrationExecutionRequestFilters | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ExecutionStage = string;
 export type ExecutionStageActivity = string;
 export interface NetworkMigrationExecution {
-  networkMigrationDefinitionID?: string;
-  networkMigrationExecutionID?: string;
-  status?: string;
-  stage?: string;
-  activity?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  tags?: { [key: string]: string | undefined };
+  networkMigrationDefinitionID?: string | undefined;
+  networkMigrationExecutionID?: string | undefined;
+  status?: string | undefined;
+  stage?: string | undefined;
+  activity?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type NetworkMigrationExecutionsList = NetworkMigrationExecution[];
 export interface ListNetworkMigrationExecutionsResponse {
-  items?: NetworkMigrationExecution[];
-  nextToken?: string;
+  items?: NetworkMigrationExecution[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListNetworkMigrationMapperSegmentConstructsIDsFilter = string[];
 export type ListNetworkMigrationMapperSegmentConstructTypesFilter = string[];
 export interface ListNetworkMigrationMapperSegmentConstructsFilters {
-  constructIDs?: string[];
-  constructTypes?: string[];
+  constructIDs?: string[] | undefined;
+  constructTypes?: string[] | undefined;
 }
 export interface ListNetworkMigrationMapperSegmentConstructsRequest {
   networkMigrationExecutionID: string;
   networkMigrationDefinitionID: string;
   segmentID: string;
-  filters?: ListNetworkMigrationMapperSegmentConstructsFilters;
-  maxResults?: number;
-  nextToken?: string;
+  filters?: ListNetworkMigrationMapperSegmentConstructsFilters | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type NetworkMigrationMapperSegmentConstructs = NetworkMigrationMapperSegmentConstruct[];
 export interface ListNetworkMigrationMapperSegmentConstructsResponse {
-  items?: NetworkMigrationMapperSegmentConstruct[];
-  nextToken?: string;
+  items?: NetworkMigrationMapperSegmentConstruct[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListNetworkMigrationMapperSegmentsIDsFilter = string[];
 export interface ListNetworkMigrationMapperSegmentsFilters {
-  segmentIDs?: string[];
+  segmentIDs?: string[] | undefined;
 }
 export interface ListNetworkMigrationMapperSegmentsRequest {
   networkMigrationExecutionID: string;
   networkMigrationDefinitionID: string;
-  filters?: ListNetworkMigrationMapperSegmentsFilters;
-  maxResults?: number;
-  nextToken?: string;
+  filters?: ListNetworkMigrationMapperSegmentsFilters | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type NetworkMigrationMapperSegmentType = string;
 export type SegmentName = string;
 export type SegmentDescription = string;
 export interface NetworkMigrationMapperSegment {
-  jobID?: string;
-  networkMigrationExecutionID?: string;
-  networkMigrationDefinitionID?: string;
-  segmentID?: string;
-  segmentType?: string;
-  name?: string;
-  description?: string;
-  logicalID?: string;
-  checksum?: Checksum;
-  outputS3Configuration?: S3Configuration;
-  createdAt?: Date;
-  updatedAt?: Date;
-  scopeTags?: { [key: string]: string | undefined };
-  targetAccount?: string;
-  referencedSegments?: string[];
+  jobID?: string | undefined;
+  networkMigrationExecutionID?: string | undefined;
+  networkMigrationDefinitionID?: string | undefined;
+  segmentID?: string | undefined;
+  segmentType?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  logicalID?: string | undefined;
+  checksum?: Checksum | undefined;
+  outputS3Configuration?: S3Configuration | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  scopeTags?: { [key: string]: string | undefined } | undefined;
+  targetAccount?: string | undefined;
+  referencedSegments?: string[] | undefined;
 }
 export type NetworkMigrationMapperSegmentsList = NetworkMigrationMapperSegment[];
 export interface ListNetworkMigrationMapperSegmentsResponse {
-  items?: NetworkMigrationMapperSegment[];
-  nextToken?: string;
+  items?: NetworkMigrationMapperSegment[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListNetworkMigrationMappingsIDsFilter = string[];
 export interface ListNetworkMigrationMappingsFilters {
-  jobIDs?: string[];
+  jobIDs?: string[] | undefined;
 }
 export interface ListNetworkMigrationMappingsRequest {
   networkMigrationExecutionID: string;
   networkMigrationDefinitionID: string;
-  filters?: ListNetworkMigrationMappingsFilters;
-  maxResults?: number;
-  nextToken?: string;
+  filters?: ListNetworkMigrationMappingsFilters | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface NetworkMigrationMappingJobDetails {
-  jobID?: string;
-  networkMigrationExecutionID?: string;
-  networkMigrationDefinitionID?: string;
-  createdAt?: Date;
-  endedAt?: Date;
-  status?: string;
-  statusDetails?: string;
+  jobID?: string | undefined;
+  networkMigrationExecutionID?: string | undefined;
+  networkMigrationDefinitionID?: string | undefined;
+  createdAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  status?: string | undefined;
+  statusDetails?: string | undefined;
 }
 export type NetworkMigrationMappingsList = NetworkMigrationMappingJobDetails[];
 export interface ListNetworkMigrationMappingsResponse {
-  items?: NetworkMigrationMappingJobDetails[];
-  nextToken?: string;
+  items?: NetworkMigrationMappingJobDetails[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListNetworkMigrationMappingUpdatesIDsFilter = string[];
 export interface ListNetworkMigrationMappingUpdatesFilters {
-  jobIDs?: string[];
+  jobIDs?: string[] | undefined;
 }
 export interface ListNetworkMigrationMappingUpdatesRequest {
   networkMigrationExecutionID: string;
   networkMigrationDefinitionID: string;
-  filters?: ListNetworkMigrationMappingUpdatesFilters;
-  maxResults?: number;
-  nextToken?: string;
+  filters?: ListNetworkMigrationMappingUpdatesFilters | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface NetworkMigrationMappingUpdateJobDetails {
-  jobID?: string;
-  networkMigrationExecutionID?: string;
-  networkMigrationDefinitionID?: string;
-  createdAt?: Date;
-  endedAt?: Date;
-  status?: string;
-  statusDetails?: string;
+  jobID?: string | undefined;
+  networkMigrationExecutionID?: string | undefined;
+  networkMigrationDefinitionID?: string | undefined;
+  createdAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  status?: string | undefined;
+  statusDetails?: string | undefined;
 }
 export type NetworkMigrationMappingUpdatesList = NetworkMigrationMappingUpdateJobDetails[];
 export interface ListNetworkMigrationMappingUpdatesResponse {
-  items?: NetworkMigrationMappingUpdateJobDetails[];
-  nextToken?: string;
+  items?: NetworkMigrationMappingUpdateJobDetails[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ActionID = string;
 export type ActionIDs = string[];
 export interface SourceServerActionsRequestFilters {
-  actionIDs?: string[];
+  actionIDs?: string[] | undefined;
 }
 export interface ListSourceServerActionsRequest {
   sourceServerID: string;
-  filters?: SourceServerActionsRequestFilters;
-  maxResults?: number;
-  nextToken?: string;
-  accountID?: string;
+  filters?: SourceServerActionsRequestFilters | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  accountID?: string | undefined;
 }
 export type ActionName = string;
 export type OrderType = number;
@@ -1561,82 +1561,82 @@ export type DocumentVersion = string;
 export type ActionDescription = string;
 export type ActionCategory = string;
 export interface SourceServerActionDocument {
-  actionID?: string;
-  actionName?: string;
-  documentIdentifier?: string;
-  order?: number;
-  documentVersion?: string;
-  active?: boolean;
-  timeoutSeconds?: number;
-  mustSucceedForCutover?: boolean;
-  parameters?: { [key: string]: SsmParameterStoreParameter[] | undefined };
-  externalParameters?: { [key: string]: SsmExternalParameter | undefined };
-  description?: string;
-  category?: string;
+  actionID?: string | undefined;
+  actionName?: string | undefined;
+  documentIdentifier?: string | undefined;
+  order?: number | undefined;
+  documentVersion?: string | undefined;
+  active?: boolean | undefined;
+  timeoutSeconds?: number | undefined;
+  mustSucceedForCutover?: boolean | undefined;
+  parameters?: { [key: string]: SsmParameterStoreParameter[] | undefined } | undefined;
+  externalParameters?: { [key: string]: SsmExternalParameter | undefined } | undefined;
+  description?: string | undefined;
+  category?: string | undefined;
 }
 export type SourceServerActionDocuments = SourceServerActionDocument[];
 export interface ListSourceServerActionsResponse {
-  items?: SourceServerActionDocument[];
-  nextToken?: string;
+  items?: SourceServerActionDocument[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TemplateActionsRequestFilters {
-  actionIDs?: string[];
+  actionIDs?: string[] | undefined;
 }
 export interface ListTemplateActionsRequest {
   launchConfigurationTemplateID: string;
-  filters?: TemplateActionsRequestFilters;
-  maxResults?: number;
-  nextToken?: string;
+  filters?: TemplateActionsRequestFilters | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type OperatingSystemString = string;
 export interface TemplateActionDocument {
-  actionID?: string;
-  actionName?: string;
-  documentIdentifier?: string;
-  order?: number;
-  documentVersion?: string;
-  active?: boolean;
-  timeoutSeconds?: number;
-  mustSucceedForCutover?: boolean;
-  parameters?: { [key: string]: SsmParameterStoreParameter[] | undefined };
-  operatingSystem?: string;
-  externalParameters?: { [key: string]: SsmExternalParameter | undefined };
-  description?: string;
-  category?: string;
+  actionID?: string | undefined;
+  actionName?: string | undefined;
+  documentIdentifier?: string | undefined;
+  order?: number | undefined;
+  documentVersion?: string | undefined;
+  active?: boolean | undefined;
+  timeoutSeconds?: number | undefined;
+  mustSucceedForCutover?: boolean | undefined;
+  parameters?: { [key: string]: SsmParameterStoreParameter[] | undefined } | undefined;
+  operatingSystem?: string | undefined;
+  externalParameters?: { [key: string]: SsmExternalParameter | undefined } | undefined;
+  description?: string | undefined;
+  category?: string | undefined;
 }
 export type TemplateActionDocuments = TemplateActionDocument[];
 export interface ListTemplateActionsResponse {
-  items?: TemplateActionDocument[];
-  nextToken?: string;
+  items?: TemplateActionDocument[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListWavesRequestFilters {
-  waveIDs?: string[];
-  isArchived?: boolean;
+  waveIDs?: string[] | undefined;
+  isArchived?: boolean | undefined;
 }
 export interface ListWavesRequest {
-  filters?: ListWavesRequestFilters;
-  maxResults?: number;
-  nextToken?: string;
-  accountID?: string;
+  filters?: ListWavesRequestFilters | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  accountID?: string | undefined;
 }
 export type WavesList = Wave[];
 export interface ListWavesResponse {
-  items?: Wave[];
-  nextToken?: string;
+  items?: Wave[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface MarkAsArchivedRequest {
   sourceServerID: string;
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export interface PauseReplicationRequest {
   sourceServerID: string;
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export interface PutSourceServerActionRequest {
   sourceServerID: string;
@@ -1644,15 +1644,15 @@ export interface PutSourceServerActionRequest {
   documentIdentifier: string;
   order: number;
   actionID: string;
-  documentVersion?: string;
-  active?: boolean;
-  timeoutSeconds?: number;
-  mustSucceedForCutover?: boolean;
-  parameters?: { [key: string]: SsmParameterStoreParameter[] | undefined };
-  externalParameters?: { [key: string]: SsmExternalParameter | undefined };
-  description?: string;
-  category?: string;
-  accountID?: string;
+  documentVersion?: string | undefined;
+  active?: boolean | undefined;
+  timeoutSeconds?: number | undefined;
+  mustSucceedForCutover?: boolean | undefined;
+  parameters?: { [key: string]: SsmParameterStoreParameter[] | undefined } | undefined;
+  externalParameters?: { [key: string]: SsmExternalParameter | undefined } | undefined;
+  description?: string | undefined;
+  category?: string | undefined;
+  accountID?: string | undefined;
 }
 export interface PutTemplateActionRequest {
   launchConfigurationTemplateID: string;
@@ -1660,20 +1660,20 @@ export interface PutTemplateActionRequest {
   documentIdentifier: string;
   order: number;
   actionID: string;
-  documentVersion?: string;
-  active?: boolean;
-  timeoutSeconds?: number;
-  mustSucceedForCutover?: boolean;
-  parameters?: { [key: string]: SsmParameterStoreParameter[] | undefined };
-  operatingSystem?: string;
-  externalParameters?: { [key: string]: SsmExternalParameter | undefined };
-  description?: string;
-  category?: string;
+  documentVersion?: string | undefined;
+  active?: boolean | undefined;
+  timeoutSeconds?: number | undefined;
+  mustSucceedForCutover?: boolean | undefined;
+  parameters?: { [key: string]: SsmParameterStoreParameter[] | undefined } | undefined;
+  operatingSystem?: string | undefined;
+  externalParameters?: { [key: string]: SsmExternalParameter | undefined } | undefined;
+  description?: string | undefined;
+  category?: string | undefined;
 }
 export interface RemoveSourceServerActionRequest {
   sourceServerID: string;
   actionID: string;
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export interface RemoveSourceServerActionResponse {}
 export interface RemoveTemplateActionRequest {
@@ -1683,38 +1683,38 @@ export interface RemoveTemplateActionRequest {
 export interface RemoveTemplateActionResponse {}
 export interface ResumeReplicationRequest {
   sourceServerID: string;
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export interface RetryDataReplicationRequest {
   sourceServerID: string;
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export type StartCutoverRequestSourceServerIDs = string[];
 export interface StartCutoverRequest {
   sourceServerIDs: string[];
-  tags?: { [key: string]: string | undefined };
-  accountID?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  accountID?: string | undefined;
 }
 export interface StartCutoverResponse {
-  job?: Job;
+  job?: Job | undefined;
 }
 export interface StartExportRequest {
   s3Bucket: string;
   s3Key: string;
-  s3BucketOwner?: string;
-  tags?: { [key: string]: string | undefined };
+  s3BucketOwner?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartExportResponse {
-  exportTask?: ExportTask;
+  exportTask?: ExportTask | undefined;
 }
 export type ClientIdempotencyToken = string;
 export interface StartImportRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   s3BucketSource: S3BucketSource;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartImportResponse {
-  importTask?: ImportTask;
+  importTask?: ImportTask | undefined;
 }
 export interface EnrichmentSourceS3Configuration {
   s3Bucket: string;
@@ -1723,113 +1723,113 @@ export interface EnrichmentSourceS3Configuration {
 }
 export type IpAssignmentStrategy = string;
 export interface StartImportFileEnrichmentRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   s3BucketSource: EnrichmentSourceS3Configuration;
   s3BucketTarget: EnrichmentTargetS3Configuration;
-  ipAssignmentStrategy?: string;
+  ipAssignmentStrategy?: string | undefined;
 }
 export interface StartImportFileEnrichmentResponse {
-  jobID?: string;
+  jobID?: string | undefined;
 }
 export interface StartNetworkMigrationAnalysisRequest {
   networkMigrationExecutionID: string;
   networkMigrationDefinitionID: string;
 }
 export interface StartNetworkMigrationAnalysisResponse {
-  jobID?: string;
+  jobID?: string | undefined;
 }
 export type CodeGenerationOutputFormatTypes = string[];
 export interface StartNetworkMigrationCodeGenerationRequest {
   networkMigrationExecutionID: string;
   networkMigrationDefinitionID: string;
-  codeGenerationOutputFormatTypes?: string[];
+  codeGenerationOutputFormatTypes?: string[] | undefined;
 }
 export interface StartNetworkMigrationCodeGenerationResponse {
-  jobID?: string;
+  jobID?: string | undefined;
 }
 export interface StartNetworkMigrationDeploymentRequest {
   networkMigrationExecutionID: string;
   networkMigrationDefinitionID: string;
 }
 export interface StartNetworkMigrationDeployerJobResponse {
-  jobID?: string;
+  jobID?: string | undefined;
 }
 export type SecurityGroupMappingStrategy = string;
 export interface StartNetworkMigrationMappingRequest {
   networkMigrationExecutionID: string;
   networkMigrationDefinitionID: string;
-  securityGroupMappingStrategy?: string;
+  securityGroupMappingStrategy?: string | undefined;
 }
 export interface StartNetworkMigrationMappingResponse {
-  jobID?: string;
+  jobID?: string | undefined;
 }
 export interface MergeConstruct {
-  segmentID?: string;
-  constructID?: string;
+  segmentID?: string | undefined;
+  constructID?: string | undefined;
 }
 export type MergeConstructs = MergeConstruct[];
 export interface MergeOperation {
-  mergeConstructs?: MergeConstruct[];
+  mergeConstructs?: MergeConstruct[] | undefined;
 }
 export type CidrBlock = string;
 export interface SplitConstruct {
-  cidrBlock?: string;
+  cidrBlock?: string | undefined;
 }
 export type SplitConstructs = SplitConstruct[];
 export interface SplitOperation {
-  splitConstructs?: SplitConstruct[];
+  splitConstructs?: SplitConstruct[] | undefined;
 }
 export interface DeleteOperation {}
 export interface UpdateOperation {
-  name?: string;
-  excluded?: boolean;
-  properties?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  excluded?: boolean | undefined;
+  properties?: { [key: string]: string | undefined } | undefined;
 }
 export type OperationUnion =
-  | { merge: MergeOperation; split?: never; delete?: never; update?: never }
-  | { merge?: never; split: SplitOperation; delete?: never; update?: never }
-  | { merge?: never; split?: never; delete: DeleteOperation; update?: never }
-  | { merge?: never; split?: never; delete?: never; update: UpdateOperation };
+  | { merge: MergeOperation; split?: undefined; delete?: undefined; update?: undefined }
+  | { merge?: undefined; split: SplitOperation; delete?: undefined; update?: undefined }
+  | { merge?: undefined; split?: undefined; delete: DeleteOperation; update?: undefined }
+  | { merge?: undefined; split?: undefined; delete?: undefined; update: UpdateOperation };
 export interface StartNetworkMigrationMappingUpdateConstruct {
   segmentID: string;
   constructID: string;
   constructType: string;
-  operation?: OperationUnion;
+  operation?: OperationUnion | undefined;
 }
 export type StartNetworkMigrationMappingUpdateConstructs =
   StartNetworkMigrationMappingUpdateConstruct[];
 export interface StartNetworkMigrationMappingUpdateSegment {
   segmentID: string;
-  targetAccount?: string;
-  scopeTags?: { [key: string]: string | undefined };
+  targetAccount?: string | undefined;
+  scopeTags?: { [key: string]: string | undefined } | undefined;
 }
 export type StartNetworkMigrationMappingUpdateSegments =
   StartNetworkMigrationMappingUpdateSegment[];
 export interface StartNetworkMigrationMappingUpdateRequest {
   networkMigrationExecutionID: string;
   networkMigrationDefinitionID: string;
-  constructs?: StartNetworkMigrationMappingUpdateConstruct[];
-  segments?: StartNetworkMigrationMappingUpdateSegment[];
+  constructs?: StartNetworkMigrationMappingUpdateConstruct[] | undefined;
+  segments?: StartNetworkMigrationMappingUpdateSegment[] | undefined;
 }
 export interface StartNetworkMigrationMappingUpdateResponse {
-  jobID?: string;
+  jobID?: string | undefined;
 }
 export interface StartReplicationRequest {
   sourceServerID: string;
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export type StartTestRequestSourceServerIDs = string[];
 export interface StartTestRequest {
   sourceServerIDs: string[];
-  tags?: { [key: string]: string | undefined };
-  accountID?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  accountID?: string | undefined;
 }
 export interface StartTestResponse {
-  job?: Job;
+  job?: Job | undefined;
 }
 export interface StopReplicationRequest {
   sourceServerID: string;
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -1839,19 +1839,19 @@ export interface TagResourceResponse {}
 export type TerminateTargetInstancesRequestSourceServerIDs = string[];
 export interface TerminateTargetInstancesRequest {
   sourceServerIDs: string[];
-  tags?: { [key: string]: string | undefined };
-  accountID?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  accountID?: string | undefined;
 }
 export interface TerminateTargetInstancesResponse {
-  job?: Job;
+  job?: Job | undefined;
 }
 export interface UnarchiveApplicationRequest {
   applicationID: string;
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export interface UnarchiveWaveRequest {
   waveID: string;
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export type TagKeys = string[];
 export interface UntagResourceRequest {
@@ -1861,148 +1861,148 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateApplicationRequest {
   applicationID: string;
-  name?: string;
-  description?: string;
-  accountID?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  accountID?: string | undefined;
 }
 export interface UpdateConnectorRequest {
   connectorID: string;
-  name?: string;
-  ssmCommandConfig?: ConnectorSsmCommandConfig;
+  name?: string | undefined;
+  ssmCommandConfig?: ConnectorSsmCommandConfig | undefined;
 }
 export interface UpdateLaunchConfigurationRequest {
   sourceServerID: string;
-  name?: string;
-  launchDisposition?: string;
-  targetInstanceTypeRightSizingMethod?: string;
-  copyPrivateIp?: boolean;
-  copyTags?: boolean;
-  licensing?: Licensing;
-  bootMode?: string;
-  postLaunchActions?: PostLaunchActions;
-  enableMapAutoTagging?: boolean;
-  mapAutoTaggingMpeID?: string;
-  accountID?: string;
+  name?: string | undefined;
+  launchDisposition?: string | undefined;
+  targetInstanceTypeRightSizingMethod?: string | undefined;
+  copyPrivateIp?: boolean | undefined;
+  copyTags?: boolean | undefined;
+  licensing?: Licensing | undefined;
+  bootMode?: string | undefined;
+  postLaunchActions?: PostLaunchActions | undefined;
+  enableMapAutoTagging?: boolean | undefined;
+  mapAutoTaggingMpeID?: string | undefined;
+  accountID?: string | undefined;
 }
 export interface UpdateLaunchConfigurationTemplateRequest {
   launchConfigurationTemplateID: string;
-  postLaunchActions?: PostLaunchActions;
-  enableMapAutoTagging?: boolean;
-  mapAutoTaggingMpeID?: string;
-  launchDisposition?: string;
-  targetInstanceTypeRightSizingMethod?: string;
-  copyPrivateIp?: boolean;
-  associatePublicIpAddress?: boolean;
-  copyTags?: boolean;
-  licensing?: Licensing;
-  bootMode?: string;
-  smallVolumeMaxSize?: number;
-  smallVolumeConf?: LaunchTemplateDiskConf;
-  largeVolumeConf?: LaunchTemplateDiskConf;
-  enableParametersEncryption?: boolean;
-  parametersEncryptionKey?: string;
+  postLaunchActions?: PostLaunchActions | undefined;
+  enableMapAutoTagging?: boolean | undefined;
+  mapAutoTaggingMpeID?: string | undefined;
+  launchDisposition?: string | undefined;
+  targetInstanceTypeRightSizingMethod?: string | undefined;
+  copyPrivateIp?: boolean | undefined;
+  associatePublicIpAddress?: boolean | undefined;
+  copyTags?: boolean | undefined;
+  licensing?: Licensing | undefined;
+  bootMode?: string | undefined;
+  smallVolumeMaxSize?: number | undefined;
+  smallVolumeConf?: LaunchTemplateDiskConf | undefined;
+  largeVolumeConf?: LaunchTemplateDiskConf | undefined;
+  enableParametersEncryption?: boolean | undefined;
+  parametersEncryptionKey?: string | undefined;
 }
 export interface TargetS3ConfigurationUpdate {
-  s3Bucket?: string;
-  s3BucketOwner?: string;
+  s3Bucket?: string | undefined;
+  s3BucketOwner?: string | undefined;
 }
 export interface TargetNetworkUpdate {
-  topology?: string;
-  inboundCidr?: string;
-  outboundCidr?: string;
-  inspectionCidr?: string;
+  topology?: string | undefined;
+  inboundCidr?: string | undefined;
+  outboundCidr?: string | undefined;
+  inspectionCidr?: string | undefined;
 }
 export interface UpdateNetworkMigrationDefinitionRequest {
   networkMigrationDefinitionID: string;
-  name?: string;
-  description?: string;
-  sourceConfigurations?: SourceConfiguration[];
-  targetS3Configuration?: TargetS3ConfigurationUpdate;
-  targetNetwork?: TargetNetworkUpdate;
-  targetDeployment?: string;
-  vpcProvisioningStrategy?: string;
-  cidrMappings?: CidrMapping[];
-  scopeTags?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  description?: string | undefined;
+  sourceConfigurations?: SourceConfiguration[] | undefined;
+  targetS3Configuration?: TargetS3ConfigurationUpdate | undefined;
+  targetNetwork?: TargetNetworkUpdate | undefined;
+  targetDeployment?: string | undefined;
+  vpcProvisioningStrategy?: string | undefined;
+  cidrMappings?: CidrMapping[] | undefined;
+  scopeTags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateNetworkMigrationMapperSegmentRequest {
   networkMigrationDefinitionID: string;
   networkMigrationExecutionID: string;
   segmentID: string;
-  scopeTags?: { [key: string]: string | undefined };
+  scopeTags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateReplicationConfigurationRequest {
   sourceServerID: string;
-  name?: string;
-  stagingAreaSubnetId?: string;
-  associateDefaultSecurityGroup?: boolean;
-  replicationServersSecurityGroupsIDs?: string[];
-  replicationServerInstanceType?: string;
-  useDedicatedReplicationServer?: boolean;
-  defaultLargeStagingDiskType?: string;
-  replicatedDisks?: ReplicationConfigurationReplicatedDisk[];
-  ebsEncryption?: string;
-  ebsEncryptionKeyArn?: string;
-  bandwidthThrottling?: number;
-  dataPlaneRouting?: string;
-  createPublicIP?: boolean;
-  stagingAreaTags?: { [key: string]: string | undefined };
-  useFipsEndpoint?: boolean;
-  accountID?: string;
-  internetProtocol?: string;
-  storeSnapshotOnLocalZone?: boolean;
-  storageConfiguration?: StorageConfiguration;
+  name?: string | undefined;
+  stagingAreaSubnetId?: string | undefined;
+  associateDefaultSecurityGroup?: boolean | undefined;
+  replicationServersSecurityGroupsIDs?: string[] | undefined;
+  replicationServerInstanceType?: string | undefined;
+  useDedicatedReplicationServer?: boolean | undefined;
+  defaultLargeStagingDiskType?: string | undefined;
+  replicatedDisks?: ReplicationConfigurationReplicatedDisk[] | undefined;
+  ebsEncryption?: string | undefined;
+  ebsEncryptionKeyArn?: string | undefined;
+  bandwidthThrottling?: number | undefined;
+  dataPlaneRouting?: string | undefined;
+  createPublicIP?: boolean | undefined;
+  stagingAreaTags?: { [key: string]: string | undefined } | undefined;
+  useFipsEndpoint?: boolean | undefined;
+  accountID?: string | undefined;
+  internetProtocol?: string | undefined;
+  storeSnapshotOnLocalZone?: boolean | undefined;
+  storageConfiguration?: StorageConfiguration | undefined;
 }
 export interface UpdateReplicationConfigurationTemplateRequest {
   replicationConfigurationTemplateID: string;
-  arn?: string;
-  stagingAreaSubnetId?: string;
-  associateDefaultSecurityGroup?: boolean;
-  replicationServersSecurityGroupsIDs?: string[];
-  replicationServerInstanceType?: string;
-  useDedicatedReplicationServer?: boolean;
-  defaultLargeStagingDiskType?: string;
-  ebsEncryption?: string;
-  ebsEncryptionKeyArn?: string;
-  bandwidthThrottling?: number;
-  dataPlaneRouting?: string;
-  createPublicIP?: boolean;
-  stagingAreaTags?: { [key: string]: string | undefined };
-  useFipsEndpoint?: boolean;
-  internetProtocol?: string;
-  storeSnapshotOnLocalZone?: boolean;
-  storageConfiguration?: StorageConfiguration;
+  arn?: string | undefined;
+  stagingAreaSubnetId?: string | undefined;
+  associateDefaultSecurityGroup?: boolean | undefined;
+  replicationServersSecurityGroupsIDs?: string[] | undefined;
+  replicationServerInstanceType?: string | undefined;
+  useDedicatedReplicationServer?: boolean | undefined;
+  defaultLargeStagingDiskType?: string | undefined;
+  ebsEncryption?: string | undefined;
+  ebsEncryptionKeyArn?: string | undefined;
+  bandwidthThrottling?: number | undefined;
+  dataPlaneRouting?: string | undefined;
+  createPublicIP?: boolean | undefined;
+  stagingAreaTags?: { [key: string]: string | undefined } | undefined;
+  useFipsEndpoint?: boolean | undefined;
+  internetProtocol?: string | undefined;
+  storeSnapshotOnLocalZone?: boolean | undefined;
+  storageConfiguration?: StorageConfiguration | undefined;
 }
 export type FqdnForActionFramework = string;
 export interface UpdateSourceServerRequest {
-  accountID?: string;
+  accountID?: string | undefined;
   sourceServerID: string;
-  connectorAction?: SourceServerConnectorAction;
-  userProvidedID?: string;
-  fqdnForActionFramework?: string;
-  platform?: string;
+  connectorAction?: SourceServerConnectorAction | undefined;
+  userProvidedID?: string | undefined;
+  fqdnForActionFramework?: string | undefined;
+  platform?: string | undefined;
 }
 export interface UpdateSourceServerReplicationTypeRequest {
   sourceServerID: string;
   replicationType: string;
-  accountID?: string;
+  accountID?: string | undefined;
 }
 export interface UpdateWaveRequest {
   waveID: string;
-  name?: string;
-  description?: string;
-  accountID?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  accountID?: string | undefined;
 }
 export interface ErrorDetails {
-  message?: string;
-  code?: string;
-  resourceId?: string;
-  resourceType?: string;
+  message?: string | undefined;
+  code?: string | undefined;
+  resourceId?: string | undefined;
+  resourceType?: string | undefined;
 }
 export type ConflictExceptionErrors = ErrorDetails[];
 export type ValidationExceptionReason = string;
 export interface ValidationExceptionField {
-  name?: string;
-  message?: string;
+  name?: string | undefined;
+  message?: string | undefined;
 }
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export type ArchiveApplicationError =

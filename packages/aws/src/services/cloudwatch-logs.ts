@@ -197,9 +197,9 @@ export type LogGroupName = string;
 export type KmsKeyId = string;
 export type ResourceIdentifier = string;
 export interface AssociateKmsKeyRequest {
-  logGroupName?: string;
+  logGroupName?: string | undefined;
   kmsKeyId: string;
-  resourceIdentifier?: string;
+  resourceIdentifier?: string | undefined;
 }
 export interface AssociateKmsKeyResponse {}
 export type Arn = string;
@@ -207,7 +207,7 @@ export type DataSourceName = string;
 export type DataSourceType = string;
 export interface DataSource {
   name: string;
-  type?: string;
+  type?: string | undefined;
 }
 export interface AssociateSourceToS3TableIntegrationRequest {
   integrationArn: string;
@@ -215,7 +215,7 @@ export interface AssociateSourceToS3TableIntegrationRequest {
 }
 export type S3TableIntegrationSourceIdentifier = string;
 export interface AssociateSourceToS3TableIntegrationResponse {
-  identifier?: string;
+  identifier?: string | undefined;
 }
 export type ExportTaskId = string;
 export interface CancelExportTaskRequest {
@@ -228,15 +228,15 @@ export interface CancelImportTaskRequest {
 }
 export type StoredBytes = number;
 export interface ImportStatistics {
-  bytesImported?: number;
+  bytesImported?: number | undefined;
 }
 export type ImportStatus = "IN_PROGRESS" | "CANCELLED" | "COMPLETED" | "FAILED" | (string & {});
 export interface CancelImportTaskResponse {
-  importId?: string;
-  importStatistics?: ImportStatistics;
-  importStatus?: ImportStatus;
-  creationTime?: number;
-  lastUpdatedTime?: number;
+  importId?: string | undefined;
+  importStatistics?: ImportStatistics | undefined;
+  importStatus?: ImportStatus | undefined;
+  creationTime?: number | undefined;
+  lastUpdatedTime?: number | undefined;
 }
 export type DeliverySourceName = string;
 export type FieldHeader = string;
@@ -244,8 +244,8 @@ export type RecordFields = string[];
 export type FieldDelimiter = string;
 export type DeliverySuffixPath = string;
 export interface S3DeliveryConfiguration {
-  suffixPath?: string;
-  enableHiveCompatiblePath?: boolean;
+  suffixPath?: string | undefined;
+  enableHiveCompatiblePath?: boolean | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -253,57 +253,57 @@ export type Tags = { [key: string]: string | undefined };
 export interface CreateDeliveryRequest {
   deliverySourceName: string;
   deliveryDestinationArn: string;
-  recordFields?: string[];
-  fieldDelimiter?: string;
-  s3DeliveryConfiguration?: S3DeliveryConfiguration;
-  tags?: { [key: string]: string | undefined };
+  recordFields?: string[] | undefined;
+  fieldDelimiter?: string | undefined;
+  s3DeliveryConfiguration?: S3DeliveryConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DeliveryId = string;
 export type DeliveryDestinationType = "S3" | "CWL" | "FH" | "XRAY" | (string & {});
 export interface Delivery {
-  id?: string;
-  arn?: string;
-  deliverySourceName?: string;
-  deliveryDestinationArn?: string;
-  deliveryDestinationType?: DeliveryDestinationType;
-  recordFields?: string[];
-  fieldDelimiter?: string;
-  s3DeliveryConfiguration?: S3DeliveryConfiguration;
-  tags?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  arn?: string | undefined;
+  deliverySourceName?: string | undefined;
+  deliveryDestinationArn?: string | undefined;
+  deliveryDestinationType?: DeliveryDestinationType | undefined;
+  recordFields?: string[] | undefined;
+  fieldDelimiter?: string | undefined;
+  s3DeliveryConfiguration?: S3DeliveryConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDeliveryResponse {
-  delivery?: Delivery;
+  delivery?: Delivery | undefined;
 }
 export type ExportTaskName = string;
 export type LogStreamName = string;
 export type ExportDestinationBucket = string;
 export type ExportDestinationPrefix = string;
 export interface CreateExportTaskRequest {
-  taskName?: string;
+  taskName?: string | undefined;
   logGroupName: string;
-  logStreamNamePrefix?: string;
+  logStreamNamePrefix?: string | undefined;
   from: number;
   to: number;
   destination: string;
-  destinationPrefix?: string;
+  destinationPrefix?: string | undefined;
 }
 export interface CreateExportTaskResponse {
-  taskId?: string;
+  taskId?: string | undefined;
 }
 export type RoleArn = string;
 export interface ImportFilter {
-  startEventTime?: number;
-  endEventTime?: number;
+  startEventTime?: number | undefined;
+  endEventTime?: number | undefined;
 }
 export interface CreateImportTaskRequest {
   importSourceArn: string;
   importRoleArn: string;
-  importFilter?: ImportFilter;
+  importFilter?: ImportFilter | undefined;
 }
 export interface CreateImportTaskResponse {
-  importId?: string;
-  importDestinationArn?: string;
-  creationTime?: number;
+  importId?: string | undefined;
+  importDestinationArn?: string | undefined;
+  creationTime?: number | undefined;
 }
 export type LogGroupArn = string;
 export type LogGroupArnList = string[];
@@ -321,25 +321,25 @@ export type DetectorKmsKeyArn = string;
 export type AnomalyVisibilityTime = number;
 export interface CreateLogAnomalyDetectorRequest {
   logGroupArnList: string[];
-  detectorName?: string;
-  evaluationFrequency?: EvaluationFrequency;
-  filterPattern?: string;
-  kmsKeyId?: string;
-  anomalyVisibilityTime?: number;
-  tags?: { [key: string]: string | undefined };
+  detectorName?: string | undefined;
+  evaluationFrequency?: EvaluationFrequency | undefined;
+  filterPattern?: string | undefined;
+  kmsKeyId?: string | undefined;
+  anomalyVisibilityTime?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AnomalyDetectorArn = string;
 export interface CreateLogAnomalyDetectorResponse {
-  anomalyDetectorArn?: string;
+  anomalyDetectorArn?: string | undefined;
 }
 export type LogGroupClass = "STANDARD" | "INFREQUENT_ACCESS" | "DELIVERY" | (string & {});
 export type DeletionProtectionEnabled = boolean;
 export interface CreateLogGroupRequest {
   logGroupName: string;
-  kmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
-  logGroupClass?: LogGroupClass;
-  deletionProtectionEnabled?: boolean;
+  kmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  logGroupClass?: LogGroupClass | undefined;
+  deletionProtectionEnabled?: boolean | undefined;
 }
 export interface CreateLogGroupResponse {}
 export interface CreateLogStreamRequest {
@@ -353,15 +353,15 @@ export type TableBody = string;
 export type QueryId = string;
 export interface CreateLookupTableRequest {
   lookupTableName: string;
-  description?: string;
-  tableBody?: string;
-  queryId?: string;
-  kmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  tableBody?: string | undefined;
+  queryId?: string | undefined;
+  kmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateLookupTableResponse {
-  lookupTableArn?: string;
-  createdAt?: number;
+  lookupTableArn?: string | undefined;
+  createdAt?: number | undefined;
 }
 export type ScheduledQueryName = string;
 export type ScheduledQueryDescription = string;
@@ -378,41 +378,41 @@ export type AccountId = string;
 export interface S3Configuration {
   destinationIdentifier: string;
   roleArn: string;
-  ownerAccountId?: string;
-  kmsKeyId?: string;
+  ownerAccountId?: string | undefined;
+  kmsKeyId?: string | undefined;
 }
 export interface LookupTableConfiguration {
   tableName: string;
   roleArn: string;
-  description?: string;
-  kmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  kmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DestinationConfiguration {
-  s3Configuration?: S3Configuration;
-  lookupTableConfiguration?: LookupTableConfiguration;
+  s3Configuration?: S3Configuration | undefined;
+  lookupTableConfiguration?: LookupTableConfiguration | undefined;
 }
 export type ScheduledQueryState = "ENABLED" | "DISABLED" | (string & {});
 export interface CreateScheduledQueryRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
   queryLanguage: QueryLanguage;
   queryString: string;
-  logGroupIdentifiers?: string[];
+  logGroupIdentifiers?: string[] | undefined;
   scheduleExpression: string;
-  timezone?: string;
-  startTimeOffset?: number;
-  endTimeOffset?: number;
-  destinationConfiguration?: DestinationConfiguration;
-  scheduleStartTime?: number;
-  scheduleEndTime?: number;
+  timezone?: string | undefined;
+  startTimeOffset?: number | undefined;
+  endTimeOffset?: number | undefined;
+  destinationConfiguration?: DestinationConfiguration | undefined;
+  scheduleStartTime?: number | undefined;
+  scheduleEndTime?: number | undefined;
   executionRoleArn: string;
-  state?: ScheduledQueryState;
-  tags?: { [key: string]: string | undefined };
+  state?: ScheduledQueryState | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateScheduledQueryResponse {
-  scheduledQueryArn?: string;
-  state?: ScheduledQueryState;
+  scheduledQueryArn?: string | undefined;
+  state?: ScheduledQueryState | undefined;
 }
 export type PolicyName = string;
 export type PolicyType =
@@ -461,7 +461,7 @@ export type IntegrationName = string;
 export type Force = boolean;
 export interface DeleteIntegrationRequest {
   integrationName: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteIntegrationResponse {}
 export interface DeleteLogAnomalyDetectorRequest {
@@ -492,13 +492,13 @@ export interface DeleteQueryDefinitionRequest {
 }
 export type Success = boolean;
 export interface DeleteQueryDefinitionResponse {
-  success?: boolean;
+  success?: boolean | undefined;
 }
 export type ExpectedRevisionId = string;
 export interface DeleteResourcePolicyRequest {
-  policyName?: string;
-  resourceArn?: string;
-  expectedRevisionId?: string;
+  policyName?: string | undefined;
+  resourceArn?: string | undefined;
+  expectedRevisionId?: string | undefined;
 }
 export interface DeleteResourcePolicyResponse {}
 export interface DeleteRetentionPolicyRequest {
@@ -518,7 +518,7 @@ export interface DeleteSubscriptionFilterResponse {}
 export type VpcEndpointId = string;
 export interface DeleteSyslogConfigurationRequest {
   logGroupIdentifier: string;
-  vpcEndpointId?: string;
+  vpcEndpointId?: string | undefined;
 }
 export interface DeleteSyslogConfigurationResponse {}
 export interface DeleteTransformerRequest {
@@ -529,26 +529,26 @@ export type AccountIds = string[];
 export type NextToken = string;
 export interface DescribeAccountPoliciesRequest {
   policyType: PolicyType;
-  policyName?: string;
-  accountIdentifiers?: string[];
-  nextToken?: string;
+  policyName?: string | undefined;
+  accountIdentifiers?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type AccountPolicyDocument = string;
 export type Scope = "ALL" | (string & {});
 export type SelectionCriteria = string;
 export interface AccountPolicy {
-  policyName?: string;
-  policyDocument?: string;
-  lastUpdatedTime?: number;
-  policyType?: PolicyType;
-  scope?: Scope;
-  selectionCriteria?: string;
-  accountId?: string;
+  policyName?: string | undefined;
+  policyDocument?: string | undefined;
+  lastUpdatedTime?: number | undefined;
+  policyType?: PolicyType | undefined;
+  scope?: Scope | undefined;
+  selectionCriteria?: string | undefined;
+  accountId?: string | undefined;
 }
 export type AccountPolicies = AccountPolicy[];
 export interface DescribeAccountPoliciesResponse {
-  accountPolicies?: AccountPolicy[];
-  nextToken?: string;
+  accountPolicies?: AccountPolicy[] | undefined;
+  nextToken?: string | undefined;
 }
 export type Service = string;
 export type LogType = string;
@@ -558,21 +558,21 @@ export type ResourceTypes = string[];
 export type DeliveryDestinationTypes = DeliveryDestinationType[];
 export type DescribeLimit = number;
 export interface DescribeConfigurationTemplatesRequest {
-  service?: string;
-  logTypes?: string[];
-  resourceTypes?: string[];
-  deliveryDestinationTypes?: DeliveryDestinationType[];
-  nextToken?: string;
-  limit?: number;
+  service?: string | undefined;
+  logTypes?: string[] | undefined;
+  resourceTypes?: string[] | undefined;
+  deliveryDestinationTypes?: DeliveryDestinationType[] | undefined;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
 }
 export interface ConfigurationTemplateDeliveryConfigValues {
-  recordFields?: string[];
-  fieldDelimiter?: string;
-  s3DeliveryConfiguration?: S3DeliveryConfiguration;
+  recordFields?: string[] | undefined;
+  fieldDelimiter?: string | undefined;
+  s3DeliveryConfiguration?: S3DeliveryConfiguration | undefined;
 }
 export interface RecordField {
-  name?: string;
-  mandatory?: boolean;
+  name?: string | undefined;
+  mandatory?: boolean | undefined;
 }
 export type AllowedFields = RecordField[];
 export type OutputFormat = "json" | "plain" | "w3c" | "raw" | "parquet" | (string & {});
@@ -593,69 +593,69 @@ export interface DeliverySourceConfigurationSchema {
   keyName: string;
   valueType: DeliverySourceConfigurationSchemaValueType;
   defaultValue: string;
-  supportedValues?: string[];
-  minValue?: number;
-  maxValue?: number;
+  supportedValues?: string[] | undefined;
+  minValue?: number | undefined;
+  maxValue?: number | undefined;
 }
 export type DeliverySourceConfigurationSchemas = DeliverySourceConfigurationSchema[];
 export type S3TablesDatasourceName = string;
 export type S3TablesDatasourceType = string;
 export interface S3TablesIntegration {
-  datasourceName?: string;
-  datasourceType?: string;
+  datasourceName?: string | undefined;
+  datasourceType?: string | undefined;
 }
 export interface ConfigurationTemplate {
-  service?: string;
-  logType?: string;
-  resourceType?: string;
-  deliveryDestinationType?: DeliveryDestinationType;
-  defaultDeliveryConfigValues?: ConfigurationTemplateDeliveryConfigValues;
-  allowedFields?: RecordField[];
-  allowedOutputFormats?: OutputFormat[];
-  allowedActionForAllowVendedLogsDeliveryForResource?: string;
-  allowedFieldDelimiters?: string[];
-  allowedSuffixPathFields?: string[];
-  deliverySourceConfiguration?: DeliverySourceConfigurationSchema[];
-  s3TablesIntegration?: S3TablesIntegration;
+  service?: string | undefined;
+  logType?: string | undefined;
+  resourceType?: string | undefined;
+  deliveryDestinationType?: DeliveryDestinationType | undefined;
+  defaultDeliveryConfigValues?: ConfigurationTemplateDeliveryConfigValues | undefined;
+  allowedFields?: RecordField[] | undefined;
+  allowedOutputFormats?: OutputFormat[] | undefined;
+  allowedActionForAllowVendedLogsDeliveryForResource?: string | undefined;
+  allowedFieldDelimiters?: string[] | undefined;
+  allowedSuffixPathFields?: string[] | undefined;
+  deliverySourceConfiguration?: DeliverySourceConfigurationSchema[] | undefined;
+  s3TablesIntegration?: S3TablesIntegration | undefined;
 }
 export type ConfigurationTemplates = ConfigurationTemplate[];
 export interface DescribeConfigurationTemplatesResponse {
-  configurationTemplates?: ConfigurationTemplate[];
-  nextToken?: string;
+  configurationTemplates?: ConfigurationTemplate[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeDeliveriesRequest {
-  nextToken?: string;
-  limit?: number;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
 }
 export type Deliveries = Delivery[];
 export interface DescribeDeliveriesResponse {
-  deliveries?: Delivery[];
-  nextToken?: string;
+  deliveries?: Delivery[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeDeliveryDestinationsRequest {
-  nextToken?: string;
-  limit?: number;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
 }
 export interface DeliveryDestinationConfiguration {
   destinationResourceArn: string;
 }
 export interface DeliveryDestination {
-  name?: string;
-  arn?: string;
-  deliveryDestinationType?: DeliveryDestinationType;
-  outputFormat?: OutputFormat;
-  deliveryDestinationConfiguration?: DeliveryDestinationConfiguration;
-  roleArn?: string;
-  tags?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  arn?: string | undefined;
+  deliveryDestinationType?: DeliveryDestinationType | undefined;
+  outputFormat?: OutputFormat | undefined;
+  deliveryDestinationConfiguration?: DeliveryDestinationConfiguration | undefined;
+  roleArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DeliveryDestinations = DeliveryDestination[];
 export interface DescribeDeliveryDestinationsResponse {
-  deliveryDestinations?: DeliveryDestination[];
-  nextToken?: string;
+  deliveryDestinations?: DeliveryDestination[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeDeliverySourcesRequest {
-  nextToken?: string;
-  limit?: number;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
 }
 export type ResourceArns = string[];
 export type DeliverySourceConfigurationKey = string;
@@ -664,40 +664,40 @@ export type DeliverySourceConfiguration = { [key: string]: string | undefined };
 export type DeliverySourceStatus = "ACTIVE" | "INACTIVE" | (string & {});
 export type DeliverySourceStatusReason = "RESOURCE_DELETED" | (string & {});
 export interface DeliverySource {
-  name?: string;
-  arn?: string;
-  resourceArns?: string[];
-  service?: string;
-  logType?: string;
-  tags?: { [key: string]: string | undefined };
-  deliverySourceConfiguration?: { [key: string]: string | undefined };
-  status?: DeliverySourceStatus;
-  statusReason?: DeliverySourceStatusReason;
+  name?: string | undefined;
+  arn?: string | undefined;
+  resourceArns?: string[] | undefined;
+  service?: string | undefined;
+  logType?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  deliverySourceConfiguration?: { [key: string]: string | undefined } | undefined;
+  status?: DeliverySourceStatus | undefined;
+  statusReason?: DeliverySourceStatusReason | undefined;
 }
 export type DeliverySources = DeliverySource[];
 export interface DescribeDeliverySourcesResponse {
-  deliverySources?: DeliverySource[];
-  nextToken?: string;
+  deliverySources?: DeliverySource[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeDestinationsRequest {
-  DestinationNamePrefix?: string;
-  nextToken?: string;
-  limit?: number;
+  DestinationNamePrefix?: string | undefined;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
 }
 export type TargetArn = string;
 export type AccessPolicy = string;
 export interface Destination {
-  destinationName?: string;
-  targetArn?: string;
-  roleArn?: string;
-  accessPolicy?: string;
-  arn?: string;
-  creationTime?: number;
+  destinationName?: string | undefined;
+  targetArn?: string | undefined;
+  roleArn?: string | undefined;
+  accessPolicy?: string | undefined;
+  arn?: string | undefined;
+  creationTime?: number | undefined;
 }
 export type Destinations = Destination[];
 export interface DescribeDestinationsResponse {
-  destinations?: Destination[];
-  nextToken?: string;
+  destinations?: Destination[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ExportTaskStatusCode =
   | "CANCELLED"
@@ -708,135 +708,135 @@ export type ExportTaskStatusCode =
   | "RUNNING"
   | (string & {});
 export interface DescribeExportTasksRequest {
-  taskId?: string;
-  statusCode?: ExportTaskStatusCode;
-  nextToken?: string;
-  limit?: number;
+  taskId?: string | undefined;
+  statusCode?: ExportTaskStatusCode | undefined;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
 }
 export type ExportTaskStatusMessage = string;
 export interface ExportTaskStatus {
-  code?: ExportTaskStatusCode;
-  message?: string;
+  code?: ExportTaskStatusCode | undefined;
+  message?: string | undefined;
 }
 export interface ExportTaskExecutionInfo {
-  creationTime?: number;
-  completionTime?: number;
+  creationTime?: number | undefined;
+  completionTime?: number | undefined;
 }
 export interface ExportTask {
-  taskId?: string;
-  taskName?: string;
-  logGroupName?: string;
-  from?: number;
-  to?: number;
-  destination?: string;
-  destinationPrefix?: string;
-  status?: ExportTaskStatus;
-  executionInfo?: ExportTaskExecutionInfo;
+  taskId?: string | undefined;
+  taskName?: string | undefined;
+  logGroupName?: string | undefined;
+  from?: number | undefined;
+  to?: number | undefined;
+  destination?: string | undefined;
+  destinationPrefix?: string | undefined;
+  status?: ExportTaskStatus | undefined;
+  executionInfo?: ExportTaskExecutionInfo | undefined;
 }
 export type ExportTasks = ExportTask[];
 export interface DescribeExportTasksResponse {
-  exportTasks?: ExportTask[];
-  nextToken?: string;
+  exportTasks?: ExportTask[] | undefined;
+  nextToken?: string | undefined;
 }
 export type DescribeFieldIndexesLogGroupIdentifiers = string[];
 export type IndexCategory = "DEFAULT" | "CUSTOM" | "AUTO" | "INACTIVE" | (string & {});
 export type IndexCategories = IndexCategory[];
 export interface DescribeFieldIndexesRequest {
   logGroupIdentifiers: string[];
-  indexCategories?: IndexCategory[];
-  nextToken?: string;
+  indexCategories?: IndexCategory[] | undefined;
+  nextToken?: string | undefined;
 }
 export type FieldIndexName = string;
 export type IndexType = "FACET" | "FIELD_INDEX" | (string & {});
 export interface FieldIndex {
-  logGroupIdentifier?: string;
-  fieldIndexName?: string;
-  lastScanTime?: number;
-  firstEventTime?: number;
-  lastEventTime?: number;
-  type?: IndexType;
-  indexCategory?: IndexCategory;
+  logGroupIdentifier?: string | undefined;
+  fieldIndexName?: string | undefined;
+  lastScanTime?: number | undefined;
+  firstEventTime?: number | undefined;
+  lastEventTime?: number | undefined;
+  type?: IndexType | undefined;
+  indexCategory?: IndexCategory | undefined;
 }
 export type FieldIndexes = FieldIndex[];
 export interface DescribeFieldIndexesResponse {
-  fieldIndexes?: FieldIndex[];
-  nextToken?: string;
+  fieldIndexes?: FieldIndex[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ImportStatusList = ImportStatus[];
 export interface DescribeImportTaskBatchesRequest {
   importId: string;
-  batchImportStatus?: ImportStatus[];
-  limit?: number;
-  nextToken?: string;
+  batchImportStatus?: ImportStatus[] | undefined;
+  limit?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type BatchId = string;
 export type ErrorMessage = string;
 export interface ImportBatch {
   batchId: string;
   status: ImportStatus;
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export type ImportBatchList = ImportBatch[];
 export interface DescribeImportTaskBatchesResponse {
-  importSourceArn?: string;
-  importId?: string;
-  importBatches?: ImportBatch[];
-  nextToken?: string;
+  importSourceArn?: string | undefined;
+  importId?: string | undefined;
+  importBatches?: ImportBatch[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeImportTasksRequest {
-  importId?: string;
-  importStatus?: ImportStatus;
-  importSourceArn?: string;
-  limit?: number;
-  nextToken?: string;
+  importId?: string | undefined;
+  importStatus?: ImportStatus | undefined;
+  importSourceArn?: string | undefined;
+  limit?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface Import {
-  importId?: string;
-  importSourceArn?: string;
-  importStatus?: ImportStatus;
-  importDestinationArn?: string;
-  importStatistics?: ImportStatistics;
-  importFilter?: ImportFilter;
-  creationTime?: number;
-  lastUpdatedTime?: number;
-  errorMessage?: string;
+  importId?: string | undefined;
+  importSourceArn?: string | undefined;
+  importStatus?: ImportStatus | undefined;
+  importDestinationArn?: string | undefined;
+  importStatistics?: ImportStatistics | undefined;
+  importFilter?: ImportFilter | undefined;
+  creationTime?: number | undefined;
+  lastUpdatedTime?: number | undefined;
+  errorMessage?: string | undefined;
 }
 export type ImportList = Import[];
 export interface DescribeImportTasksResponse {
-  imports?: Import[];
-  nextToken?: string;
+  imports?: Import[] | undefined;
+  nextToken?: string | undefined;
 }
 export type DescribeIndexPoliciesLogGroupIdentifiers = string[];
 export interface DescribeIndexPoliciesRequest {
   logGroupIdentifiers: string[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type PolicyDocument = string;
 export type IndexSource = "ACCOUNT" | "LOG_GROUP" | (string & {});
 export interface IndexPolicy {
-  logGroupIdentifier?: string;
-  lastUpdateTime?: number;
-  policyDocument?: string;
-  policyName?: string;
-  source?: IndexSource;
+  logGroupIdentifier?: string | undefined;
+  lastUpdateTime?: number | undefined;
+  policyDocument?: string | undefined;
+  policyName?: string | undefined;
+  source?: IndexSource | undefined;
 }
 export type IndexPolicies = IndexPolicy[];
 export interface DescribeIndexPoliciesResponse {
-  indexPolicies?: IndexPolicy[];
-  nextToken?: string;
+  indexPolicies?: IndexPolicy[] | undefined;
+  nextToken?: string | undefined;
 }
 export type LogGroupNamePattern = string;
 export type IncludeLinkedAccounts = boolean;
 export type DescribeLogGroupsLogGroupIdentifiers = string[];
 export interface DescribeLogGroupsRequest {
-  accountIdentifiers?: string[];
-  logGroupNamePrefix?: string;
-  logGroupNamePattern?: string;
-  nextToken?: string;
-  limit?: number;
-  includeLinkedAccounts?: boolean;
-  logGroupClass?: LogGroupClass;
-  logGroupIdentifiers?: string[];
+  accountIdentifiers?: string[] | undefined;
+  logGroupNamePrefix?: string | undefined;
+  logGroupNamePattern?: string | undefined;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
+  includeLinkedAccounts?: boolean | undefined;
+  logGroupClass?: LogGroupClass | undefined;
+  logGroupIdentifiers?: string[] | undefined;
 }
 export type Days = number;
 export type FilterCount = number;
@@ -850,84 +850,84 @@ export type InheritedProperty = "ACCOUNT_DATA_PROTECTION" | (string & {});
 export type InheritedProperties = InheritedProperty[];
 export type BearerTokenAuthenticationEnabled = boolean;
 export interface LogGroup {
-  logGroupName?: string;
-  creationTime?: number;
-  retentionInDays?: number;
-  metricFilterCount?: number;
-  arn?: string;
-  storedBytes?: number;
-  kmsKeyId?: string;
-  dataProtectionStatus?: DataProtectionStatus;
-  inheritedProperties?: InheritedProperty[];
-  logGroupClass?: LogGroupClass;
-  logGroupArn?: string;
-  deletionProtectionEnabled?: boolean;
-  bearerTokenAuthenticationEnabled?: boolean;
+  logGroupName?: string | undefined;
+  creationTime?: number | undefined;
+  retentionInDays?: number | undefined;
+  metricFilterCount?: number | undefined;
+  arn?: string | undefined;
+  storedBytes?: number | undefined;
+  kmsKeyId?: string | undefined;
+  dataProtectionStatus?: DataProtectionStatus | undefined;
+  inheritedProperties?: InheritedProperty[] | undefined;
+  logGroupClass?: LogGroupClass | undefined;
+  logGroupArn?: string | undefined;
+  deletionProtectionEnabled?: boolean | undefined;
+  bearerTokenAuthenticationEnabled?: boolean | undefined;
 }
 export type LogGroups = LogGroup[];
 export interface DescribeLogGroupsResponse {
-  logGroups?: LogGroup[];
-  nextToken?: string;
+  logGroups?: LogGroup[] | undefined;
+  nextToken?: string | undefined;
 }
 export type OrderBy = "LogStreamName" | "LastEventTime" | (string & {});
 export type Descending = boolean;
 export interface DescribeLogStreamsRequest {
-  logGroupName?: string;
-  logGroupIdentifier?: string;
-  logStreamNamePrefix?: string;
-  orderBy?: OrderBy;
-  descending?: boolean;
-  nextToken?: string;
-  limit?: number;
+  logGroupName?: string | undefined;
+  logGroupIdentifier?: string | undefined;
+  logStreamNamePrefix?: string | undefined;
+  orderBy?: OrderBy | undefined;
+  descending?: boolean | undefined;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
 }
 export type SequenceToken = string;
 export interface LogStream {
-  logStreamName?: string;
-  creationTime?: number;
-  firstEventTimestamp?: number;
-  lastEventTimestamp?: number;
-  lastIngestionTime?: number;
-  uploadSequenceToken?: string;
-  arn?: string;
-  storedBytes?: number;
+  logStreamName?: string | undefined;
+  creationTime?: number | undefined;
+  firstEventTimestamp?: number | undefined;
+  lastEventTimestamp?: number | undefined;
+  lastIngestionTime?: number | undefined;
+  uploadSequenceToken?: string | undefined;
+  arn?: string | undefined;
+  storedBytes?: number | undefined;
 }
 export type LogStreams = LogStream[];
 export interface DescribeLogStreamsResponse {
-  logStreams?: LogStream[];
-  nextToken?: string;
+  logStreams?: LogStream[] | undefined;
+  nextToken?: string | undefined;
 }
 export type DescribeLookupTablesMaxResults = number;
 export interface DescribeLookupTablesRequest {
-  lookupTableNamePrefix?: string;
-  maxResults?: number;
-  nextToken?: string;
+  lookupTableNamePrefix?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type TableFields = string[];
 export type RecordsCount = number;
 export interface LookupTable {
-  lookupTableArn?: string;
-  lookupTableName?: string;
-  description?: string;
-  tableFields?: string[];
-  recordsCount?: number;
-  sizeBytes?: number;
-  lastUpdatedTime?: number;
-  kmsKeyId?: string;
+  lookupTableArn?: string | undefined;
+  lookupTableName?: string | undefined;
+  description?: string | undefined;
+  tableFields?: string[] | undefined;
+  recordsCount?: number | undefined;
+  sizeBytes?: number | undefined;
+  lastUpdatedTime?: number | undefined;
+  kmsKeyId?: string | undefined;
 }
 export type LookupTables = LookupTable[];
 export interface DescribeLookupTablesResponse {
-  lookupTables?: LookupTable[];
-  nextToken?: string;
+  lookupTables?: LookupTable[] | undefined;
+  nextToken?: string | undefined;
 }
 export type MetricName = string;
 export type MetricNamespace = string;
 export interface DescribeMetricFiltersRequest {
-  logGroupName?: string;
-  filterNamePrefix?: string;
-  nextToken?: string;
-  limit?: number;
-  metricName?: string;
-  metricNamespace?: string;
+  logGroupName?: string | undefined;
+  filterNamePrefix?: string | undefined;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
+  metricName?: string | undefined;
+  metricNamespace?: string | undefined;
 }
 export type MetricValue = string;
 export type DefaultValue = number;
@@ -967,9 +967,9 @@ export interface MetricTransformation {
   metricName: string;
   metricNamespace: string;
   metricValue: string;
-  defaultValue?: number;
-  dimensions?: { [key: string]: string | undefined };
-  unit?: StandardUnit;
+  defaultValue?: number | undefined;
+  dimensions?: { [key: string]: string | undefined } | undefined;
+  unit?: StandardUnit | undefined;
 }
 export type MetricTransformations = MetricTransformation[];
 export type ApplyOnTransformedLogs = boolean;
@@ -977,19 +977,19 @@ export type FieldSelectionCriteria = string;
 export type SystemField = string;
 export type EmitSystemFields = string[];
 export interface MetricFilter {
-  filterName?: string;
-  filterPattern?: string;
-  metricTransformations?: MetricTransformation[];
-  creationTime?: number;
-  logGroupName?: string;
-  applyOnTransformedLogs?: boolean;
-  fieldSelectionCriteria?: string;
-  emitSystemFieldDimensions?: string[];
+  filterName?: string | undefined;
+  filterPattern?: string | undefined;
+  metricTransformations?: MetricTransformation[] | undefined;
+  creationTime?: number | undefined;
+  logGroupName?: string | undefined;
+  applyOnTransformedLogs?: boolean | undefined;
+  fieldSelectionCriteria?: string | undefined;
+  emitSystemFieldDimensions?: string[] | undefined;
 }
 export type MetricFilters = MetricFilter[];
 export interface DescribeMetricFiltersResponse {
-  metricFilters?: MetricFilter[];
-  nextToken?: string;
+  metricFilters?: MetricFilter[] | undefined;
+  nextToken?: string | undefined;
 }
 export type QueryStatus =
   | "Scheduled"
@@ -1002,38 +1002,38 @@ export type QueryStatus =
   | (string & {});
 export type DescribeQueriesMaxResults = number;
 export interface DescribeQueriesRequest {
-  logGroupName?: string;
-  status?: QueryStatus;
-  maxResults?: number;
-  nextToken?: string;
-  queryLanguage?: QueryLanguage;
+  logGroupName?: string | undefined;
+  status?: QueryStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  queryLanguage?: QueryLanguage | undefined;
 }
 export type QueryDuration = number;
 export type BytesScannedValue = number;
 export type UserIdentity = string;
 export interface QueryInfo {
-  queryLanguage?: QueryLanguage;
-  queryId?: string;
-  queryString?: string;
-  status?: QueryStatus;
-  createTime?: number;
-  logGroupName?: string;
-  queryDuration?: number;
-  bytesScanned?: number;
-  userIdentity?: string;
+  queryLanguage?: QueryLanguage | undefined;
+  queryId?: string | undefined;
+  queryString?: string | undefined;
+  status?: QueryStatus | undefined;
+  createTime?: number | undefined;
+  logGroupName?: string | undefined;
+  queryDuration?: number | undefined;
+  bytesScanned?: number | undefined;
+  userIdentity?: string | undefined;
 }
 export type QueryInfoList = QueryInfo[];
 export interface DescribeQueriesResponse {
-  queries?: QueryInfo[];
-  nextToken?: string;
+  queries?: QueryInfo[] | undefined;
+  nextToken?: string | undefined;
 }
 export type QueryDefinitionName = string;
 export type QueryListMaxResults = number;
 export interface DescribeQueryDefinitionsRequest {
-  queryLanguage?: QueryLanguage;
-  queryDefinitionNamePrefix?: string;
-  maxResults?: number;
-  nextToken?: string;
+  queryLanguage?: QueryLanguage | undefined;
+  queryDefinitionNamePrefix?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type QueryDefinitionString = string;
 export type LogGroupNames = string[];
@@ -1042,79 +1042,79 @@ export type QueryParameterDefaultValue = string;
 export type QueryParameterDescription = string;
 export interface QueryParameter {
   name: string;
-  defaultValue?: string;
-  description?: string;
+  defaultValue?: string | undefined;
+  description?: string | undefined;
 }
 export type QueryParameterList = QueryParameter[];
 export interface QueryDefinition {
-  queryLanguage?: QueryLanguage;
-  queryDefinitionId?: string;
-  name?: string;
-  queryString?: string;
-  lastModified?: number;
-  logGroupNames?: string[];
-  parameters?: QueryParameter[];
+  queryLanguage?: QueryLanguage | undefined;
+  queryDefinitionId?: string | undefined;
+  name?: string | undefined;
+  queryString?: string | undefined;
+  lastModified?: number | undefined;
+  logGroupNames?: string[] | undefined;
+  parameters?: QueryParameter[] | undefined;
 }
 export type QueryDefinitionList = QueryDefinition[];
 export interface DescribeQueryDefinitionsResponse {
-  queryDefinitions?: QueryDefinition[];
-  nextToken?: string;
+  queryDefinitions?: QueryDefinition[] | undefined;
+  nextToken?: string | undefined;
 }
 export type PolicyScope = "ACCOUNT" | "RESOURCE" | (string & {});
 export interface DescribeResourcePoliciesRequest {
-  nextToken?: string;
-  limit?: number;
-  resourceArn?: string;
-  policyScope?: PolicyScope;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
+  resourceArn?: string | undefined;
+  policyScope?: PolicyScope | undefined;
 }
 export interface ResourcePolicy {
-  policyName?: string;
-  policyDocument?: string;
-  lastUpdatedTime?: number;
-  policyScope?: PolicyScope;
-  resourceArn?: string;
-  revisionId?: string;
+  policyName?: string | undefined;
+  policyDocument?: string | undefined;
+  lastUpdatedTime?: number | undefined;
+  policyScope?: PolicyScope | undefined;
+  resourceArn?: string | undefined;
+  revisionId?: string | undefined;
 }
 export type ResourcePolicies = ResourcePolicy[];
 export interface DescribeResourcePoliciesResponse {
-  resourcePolicies?: ResourcePolicy[];
-  nextToken?: string;
+  resourcePolicies?: ResourcePolicy[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeSubscriptionFiltersRequest {
   logGroupName: string;
-  filterNamePrefix?: string;
-  nextToken?: string;
-  limit?: number;
+  filterNamePrefix?: string | undefined;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
 }
 export type DestinationArn = string;
 export type Distribution = "Random" | "ByLogStream" | (string & {});
 export interface SubscriptionFilter {
-  filterName?: string;
-  logGroupName?: string;
-  filterPattern?: string;
-  destinationArn?: string;
-  roleArn?: string;
-  distribution?: Distribution;
-  applyOnTransformedLogs?: boolean;
-  creationTime?: number;
-  fieldSelectionCriteria?: string;
-  emitSystemFields?: string[];
+  filterName?: string | undefined;
+  logGroupName?: string | undefined;
+  filterPattern?: string | undefined;
+  destinationArn?: string | undefined;
+  roleArn?: string | undefined;
+  distribution?: Distribution | undefined;
+  applyOnTransformedLogs?: boolean | undefined;
+  creationTime?: number | undefined;
+  fieldSelectionCriteria?: string | undefined;
+  emitSystemFields?: string[] | undefined;
 }
 export type SubscriptionFilters = SubscriptionFilter[];
 export interface DescribeSubscriptionFiltersResponse {
-  subscriptionFilters?: SubscriptionFilter[];
-  nextToken?: string;
+  subscriptionFilters?: SubscriptionFilter[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DisassociateKmsKeyRequest {
-  logGroupName?: string;
-  resourceIdentifier?: string;
+  logGroupName?: string | undefined;
+  resourceIdentifier?: string | undefined;
 }
 export interface DisassociateKmsKeyResponse {}
 export interface DisassociateSourceFromS3TableIntegrationRequest {
   identifier: string;
 }
 export interface DisassociateSourceFromS3TableIntegrationResponse {
-  identifier?: string;
+  identifier?: string | undefined;
 }
 export type InputLogStreamNames = string[];
 export type EventsLimit = number;
@@ -1122,76 +1122,76 @@ export type StartFromHead = boolean;
 export type Interleaved = boolean;
 export type Unmask = boolean;
 export interface FilterLogEventsRequest {
-  logGroupName?: string;
-  logGroupIdentifier?: string;
-  logStreamNames?: string[];
-  logStreamNamePrefix?: string;
-  startTime?: number;
-  endTime?: number;
-  filterPattern?: string;
-  nextToken?: string;
-  limit?: number;
-  startFromHead?: boolean;
-  interleaved?: boolean;
-  unmask?: boolean;
+  logGroupName?: string | undefined;
+  logGroupIdentifier?: string | undefined;
+  logStreamNames?: string[] | undefined;
+  logStreamNamePrefix?: string | undefined;
+  startTime?: number | undefined;
+  endTime?: number | undefined;
+  filterPattern?: string | undefined;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
+  startFromHead?: boolean | undefined;
+  interleaved?: boolean | undefined;
+  unmask?: boolean | undefined;
 }
 export type EventMessage = string;
 export type EventId = string;
 export interface FilteredLogEvent {
-  logStreamName?: string;
-  timestamp?: number;
-  message?: string;
-  ingestionTime?: number;
-  eventId?: string;
+  logStreamName?: string | undefined;
+  timestamp?: number | undefined;
+  message?: string | undefined;
+  ingestionTime?: number | undefined;
+  eventId?: string | undefined;
 }
 export type FilteredLogEvents = FilteredLogEvent[];
 export type LogStreamSearchedCompletely = boolean;
 export interface SearchedLogStream {
-  logStreamName?: string;
-  searchedCompletely?: boolean;
+  logStreamName?: string | undefined;
+  searchedCompletely?: boolean | undefined;
 }
 export type SearchedLogStreams = SearchedLogStream[];
 export interface FilterLogEventsResponse {
-  events?: FilteredLogEvent[];
-  searchedLogStreams?: SearchedLogStream[];
-  nextToken?: string;
+  events?: FilteredLogEvent[] | undefined;
+  searchedLogStreams?: SearchedLogStream[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetDataProtectionPolicyRequest {
   logGroupIdentifier: string;
 }
 export type DataProtectionPolicyDocument = string;
 export interface GetDataProtectionPolicyResponse {
-  logGroupIdentifier?: string;
-  policyDocument?: string;
-  lastUpdatedTime?: number;
+  logGroupIdentifier?: string | undefined;
+  policyDocument?: string | undefined;
+  lastUpdatedTime?: number | undefined;
 }
 export interface GetDeliveryRequest {
   id: string;
 }
 export interface GetDeliveryResponse {
-  delivery?: Delivery;
+  delivery?: Delivery | undefined;
 }
 export interface GetDeliveryDestinationRequest {
   name: string;
 }
 export interface GetDeliveryDestinationResponse {
-  deliveryDestination?: DeliveryDestination;
+  deliveryDestination?: DeliveryDestination | undefined;
 }
 export interface GetDeliveryDestinationPolicyRequest {
   deliveryDestinationName: string;
 }
 export type DeliveryDestinationPolicy = string;
 export interface Policy {
-  deliveryDestinationPolicy?: string;
+  deliveryDestinationPolicy?: string | undefined;
 }
 export interface GetDeliveryDestinationPolicyResponse {
-  policy?: Policy;
+  policy?: Policy | undefined;
 }
 export interface GetDeliverySourceRequest {
   name: string;
 }
 export interface GetDeliverySourceResponse {
-  deliverySource?: DeliverySource;
+  deliverySource?: DeliverySource | undefined;
 }
 export interface GetIntegrationRequest {
   integrationName: string;
@@ -1202,65 +1202,65 @@ export type OpenSearchDataSourceName = string;
 export type OpenSearchResourceStatusType = "ACTIVE" | "NOT_FOUND" | "ERROR" | (string & {});
 export type IntegrationStatusMessage = string;
 export interface OpenSearchResourceStatus {
-  status?: OpenSearchResourceStatusType;
-  statusMessage?: string;
+  status?: OpenSearchResourceStatusType | undefined;
+  statusMessage?: string | undefined;
 }
 export interface OpenSearchDataSource {
-  dataSourceName?: string;
-  status?: OpenSearchResourceStatus;
+  dataSourceName?: string | undefined;
+  status?: OpenSearchResourceStatus | undefined;
 }
 export type OpenSearchApplicationEndpoint = string;
 export type OpenSearchApplicationId = string;
 export interface OpenSearchApplication {
-  applicationEndpoint?: string;
-  applicationArn?: string;
-  applicationId?: string;
-  status?: OpenSearchResourceStatus;
+  applicationEndpoint?: string | undefined;
+  applicationArn?: string | undefined;
+  applicationId?: string | undefined;
+  status?: OpenSearchResourceStatus | undefined;
 }
 export type OpenSearchCollectionEndpoint = string;
 export interface OpenSearchCollection {
-  collectionEndpoint?: string;
-  collectionArn?: string;
-  status?: OpenSearchResourceStatus;
+  collectionEndpoint?: string | undefined;
+  collectionArn?: string | undefined;
+  status?: OpenSearchResourceStatus | undefined;
 }
 export type OpenSearchWorkspaceId = string;
 export interface OpenSearchWorkspace {
-  workspaceId?: string;
-  status?: OpenSearchResourceStatus;
+  workspaceId?: string | undefined;
+  status?: OpenSearchResourceStatus | undefined;
 }
 export type OpenSearchPolicyName = string;
 export interface OpenSearchEncryptionPolicy {
-  policyName?: string;
-  status?: OpenSearchResourceStatus;
+  policyName?: string | undefined;
+  status?: OpenSearchResourceStatus | undefined;
 }
 export interface OpenSearchNetworkPolicy {
-  policyName?: string;
-  status?: OpenSearchResourceStatus;
+  policyName?: string | undefined;
+  status?: OpenSearchResourceStatus | undefined;
 }
 export interface OpenSearchDataAccessPolicy {
-  policyName?: string;
-  status?: OpenSearchResourceStatus;
+  policyName?: string | undefined;
+  status?: OpenSearchResourceStatus | undefined;
 }
 export interface OpenSearchLifecyclePolicy {
-  policyName?: string;
-  status?: OpenSearchResourceStatus;
+  policyName?: string | undefined;
+  status?: OpenSearchResourceStatus | undefined;
 }
 export interface OpenSearchIntegrationDetails {
-  dataSource?: OpenSearchDataSource;
-  application?: OpenSearchApplication;
-  collection?: OpenSearchCollection;
-  workspace?: OpenSearchWorkspace;
-  encryptionPolicy?: OpenSearchEncryptionPolicy;
-  networkPolicy?: OpenSearchNetworkPolicy;
-  accessPolicy?: OpenSearchDataAccessPolicy;
-  lifecyclePolicy?: OpenSearchLifecyclePolicy;
+  dataSource?: OpenSearchDataSource | undefined;
+  application?: OpenSearchApplication | undefined;
+  collection?: OpenSearchCollection | undefined;
+  workspace?: OpenSearchWorkspace | undefined;
+  encryptionPolicy?: OpenSearchEncryptionPolicy | undefined;
+  networkPolicy?: OpenSearchNetworkPolicy | undefined;
+  accessPolicy?: OpenSearchDataAccessPolicy | undefined;
+  lifecyclePolicy?: OpenSearchLifecyclePolicy | undefined;
 }
 export type IntegrationDetails = { openSearchIntegrationDetails: OpenSearchIntegrationDetails };
 export interface GetIntegrationResponse {
-  integrationName?: string;
-  integrationType?: IntegrationType;
-  integrationStatus?: IntegrationStatus;
-  integrationDetails?: IntegrationDetails;
+  integrationName?: string | undefined;
+  integrationType?: IntegrationType | undefined;
+  integrationStatus?: IntegrationStatus | undefined;
+  integrationDetails?: IntegrationDetails | undefined;
 }
 export interface GetLogAnomalyDetectorRequest {
   anomalyDetectorArn: string;
@@ -1275,37 +1275,37 @@ export type AnomalyDetectorStatus =
   | (string & {});
 export type EpochMillis = number;
 export interface GetLogAnomalyDetectorResponse {
-  detectorName?: string;
-  logGroupArnList?: string[];
-  evaluationFrequency?: EvaluationFrequency;
-  filterPattern?: string;
-  anomalyDetectorStatus?: AnomalyDetectorStatus;
-  kmsKeyId?: string;
-  creationTimeStamp?: number;
-  lastModifiedTimeStamp?: number;
-  anomalyVisibilityTime?: number;
+  detectorName?: string | undefined;
+  logGroupArnList?: string[] | undefined;
+  evaluationFrequency?: EvaluationFrequency | undefined;
+  filterPattern?: string | undefined;
+  anomalyDetectorStatus?: AnomalyDetectorStatus | undefined;
+  kmsKeyId?: string | undefined;
+  creationTimeStamp?: number | undefined;
+  lastModifiedTimeStamp?: number | undefined;
+  anomalyVisibilityTime?: number | undefined;
 }
 export interface GetLogEventsRequest {
-  logGroupName?: string;
-  logGroupIdentifier?: string;
+  logGroupName?: string | undefined;
+  logGroupIdentifier?: string | undefined;
   logStreamName: string;
-  startTime?: number;
-  endTime?: number;
-  nextToken?: string;
-  limit?: number;
-  startFromHead?: boolean;
-  unmask?: boolean;
+  startTime?: number | undefined;
+  endTime?: number | undefined;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
+  startFromHead?: boolean | undefined;
+  unmask?: boolean | undefined;
 }
 export interface OutputLogEvent {
-  timestamp?: number;
-  message?: string;
-  ingestionTime?: number;
+  timestamp?: number | undefined;
+  message?: string | undefined;
+  ingestionTime?: number | undefined;
 }
 export type OutputLogEvents = OutputLogEvent[];
 export interface GetLogEventsResponse {
-  events?: OutputLogEvent[];
-  nextForwardToken?: string;
-  nextBackwardToken?: string;
+  events?: OutputLogEvent[] | undefined;
+  nextForwardToken?: string | undefined;
+  nextBackwardToken?: string | undefined;
 }
 export interface GetLogFieldsRequest {
   dataSourceName: string;
@@ -1314,105 +1314,105 @@ export interface GetLogFieldsRequest {
 export type LogFieldName = string;
 export type DataType = string;
 export interface LogFieldType {
-  type?: string;
-  element?: LogFieldType;
-  fields?: LogFieldsListItem[];
+  type?: string | undefined;
+  element?: LogFieldType | undefined;
+  fields?: LogFieldsListItem[] | undefined;
 }
 export interface LogFieldsListItem {
-  logFieldName?: string;
-  logFieldType?: LogFieldType;
+  logFieldName?: string | undefined;
+  logFieldType?: LogFieldType | undefined;
 }
 export type LogFieldsList = LogFieldsListItem[];
 export interface GetLogFieldsResponse {
-  logFields?: LogFieldsListItem[];
+  logFields?: LogFieldsListItem[] | undefined;
 }
 export interface GetLogGroupFieldsRequest {
-  logGroupName?: string;
-  time?: number;
-  logGroupIdentifier?: string;
+  logGroupName?: string | undefined;
+  time?: number | undefined;
+  logGroupIdentifier?: string | undefined;
 }
 export type Field = string;
 export type Percentage = number;
 export interface LogGroupField {
-  name?: string;
-  percent?: number;
+  name?: string | undefined;
+  percent?: number | undefined;
 }
 export type LogGroupFieldList = LogGroupField[];
 export interface GetLogGroupFieldsResponse {
-  logGroupFields?: LogGroupField[];
+  logGroupFields?: LogGroupField[] | undefined;
 }
 export type LogObjectPointer = string;
 export interface GetLogObjectRequest {
-  unmask?: boolean;
+  unmask?: boolean | undefined;
   logObjectPointer: string;
 }
 export type Data = Uint8Array;
 export interface FieldsData {
-  data?: Uint8Array;
+  data?: Uint8Array | undefined;
 }
 export type Message = string;
 export interface InternalStreamingException {
-  message?: string;
+  message?: string | undefined;
 }
 export type GetLogObjectResponseStream =
-  | { fields: FieldsData; InternalStreamingException?: never }
-  | { fields?: never; InternalStreamingException: InternalStreamingException };
+  | { fields: FieldsData; InternalStreamingException?: undefined }
+  | { fields?: undefined; InternalStreamingException: InternalStreamingException };
 export interface GetLogObjectResponse {
-  fieldStream?: stream.Stream<GetLogObjectResponseStream, Error, never>;
+  fieldStream?: stream.Stream<GetLogObjectResponseStream, Error, never> | undefined;
 }
 export type LogRecordPointer = string;
 export interface GetLogRecordRequest {
   logRecordPointer: string;
-  unmask?: boolean;
+  unmask?: boolean | undefined;
 }
 export type Value = string;
 export type LogRecord = { [key: string]: string | undefined };
 export interface GetLogRecordResponse {
-  logRecord?: { [key: string]: string | undefined };
+  logRecord?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetLookupTableRequest {
   lookupTableArn: string;
 }
 export interface GetLookupTableResponse {
-  lookupTableArn?: string;
-  lookupTableName?: string;
-  description?: string;
-  tableBody?: string;
-  sizeBytes?: number;
-  lastUpdatedTime?: number;
-  kmsKeyId?: string;
+  lookupTableArn?: string | undefined;
+  lookupTableName?: string | undefined;
+  description?: string | undefined;
+  tableBody?: string | undefined;
+  sizeBytes?: number | undefined;
+  lastUpdatedTime?: number | undefined;
+  kmsKeyId?: string | undefined;
 }
 export type GetQueryResultsNextToken = string;
 export type GetQueryResultsMaxItems = number;
 export interface GetQueryResultsRequest {
   queryId: string;
-  nextToken?: string;
-  maxItems?: number;
+  nextToken?: string | undefined;
+  maxItems?: number | undefined;
 }
 export interface ResultField {
-  field?: string;
-  value?: string;
+  field?: string | undefined;
+  value?: string | undefined;
 }
 export type ResultRows = ResultField[];
 export type QueryResults = ResultField[][];
 export type StatsValue = number;
 export interface QueryStatistics {
-  recordsMatched?: number;
-  recordsScanned?: number;
-  estimatedRecordsSkipped?: number;
-  bytesScanned?: number;
-  estimatedBytesSkipped?: number;
-  logGroupsScanned?: number;
-  resultCount?: number;
+  recordsMatched?: number | undefined;
+  recordsScanned?: number | undefined;
+  estimatedRecordsSkipped?: number | undefined;
+  bytesScanned?: number | undefined;
+  estimatedBytesSkipped?: number | undefined;
+  logGroupsScanned?: number | undefined;
+  resultCount?: number | undefined;
 }
 export type EncryptionKey = string;
 export interface GetQueryResultsResponse {
-  queryLanguage?: QueryLanguage;
-  results?: ResultField[][];
-  statistics?: QueryStatistics;
-  status?: QueryStatus;
-  encryptionKey?: string;
-  nextToken?: string;
+  queryLanguage?: QueryLanguage | undefined;
+  results?: ResultField[][] | undefined;
+  statistics?: QueryStatistics | undefined;
+  status?: QueryStatus | undefined;
+  encryptionKey?: string | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetScheduledQueryRequest {
   identifier: string;
@@ -1426,26 +1426,26 @@ export type ExecutionStatus =
   | "Timeout"
   | (string & {});
 export interface GetScheduledQueryResponse {
-  scheduledQueryArn?: string;
-  name?: string;
-  description?: string;
-  queryLanguage?: QueryLanguage;
-  queryString?: string;
-  logGroupIdentifiers?: string[];
-  scheduleExpression?: string;
-  timezone?: string;
-  startTimeOffset?: number;
-  endTimeOffset?: number;
-  destinationConfiguration?: DestinationConfiguration;
-  state?: ScheduledQueryState;
-  scheduleType?: ScheduleType;
-  lastTriggeredTime?: number;
-  lastExecutionStatus?: ExecutionStatus;
-  scheduleStartTime?: number;
-  scheduleEndTime?: number;
-  executionRoleArn?: string;
-  creationTime?: number;
-  lastUpdatedTime?: number;
+  scheduledQueryArn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  queryLanguage?: QueryLanguage | undefined;
+  queryString?: string | undefined;
+  logGroupIdentifiers?: string[] | undefined;
+  scheduleExpression?: string | undefined;
+  timezone?: string | undefined;
+  startTimeOffset?: number | undefined;
+  endTimeOffset?: number | undefined;
+  destinationConfiguration?: DestinationConfiguration | undefined;
+  state?: ScheduledQueryState | undefined;
+  scheduleType?: ScheduleType | undefined;
+  lastTriggeredTime?: number | undefined;
+  lastExecutionStatus?: ExecutionStatus | undefined;
+  scheduleStartTime?: number | undefined;
+  scheduleEndTime?: number | undefined;
+  executionRoleArn?: string | undefined;
+  creationTime?: number | undefined;
+  lastUpdatedTime?: number | undefined;
 }
 export type ExecutionStatusList = ExecutionStatus[];
 export type GetScheduledQueryHistoryMaxResults = number;
@@ -1453,39 +1453,39 @@ export interface GetScheduledQueryHistoryRequest {
   identifier: string;
   startTime: number;
   endTime: number;
-  executionStatuses?: ExecutionStatus[];
-  maxResults?: number;
-  nextToken?: string;
+  executionStatuses?: ExecutionStatus[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ScheduledQueryDestinationType = "S3" | "LOOKUP_TABLE" | (string & {});
 export type ActionStatus = "IN_PROGRESS" | "CLIENT_ERROR" | "FAILED" | "COMPLETE" | (string & {});
 export interface ScheduledQueryDestination {
-  destinationType?: ScheduledQueryDestinationType;
-  destinationIdentifier?: string;
-  status?: ActionStatus;
-  processedIdentifier?: string;
-  errorMessage?: string;
+  destinationType?: ScheduledQueryDestinationType | undefined;
+  destinationIdentifier?: string | undefined;
+  status?: ActionStatus | undefined;
+  processedIdentifier?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export type ScheduledQueryDestinationList = ScheduledQueryDestination[];
 export interface TriggerHistoryRecord {
-  queryId?: string;
-  executionStatus?: ExecutionStatus;
-  triggeredTimestamp?: number;
-  errorMessage?: string;
-  destinations?: ScheduledQueryDestination[];
+  queryId?: string | undefined;
+  executionStatus?: ExecutionStatus | undefined;
+  triggeredTimestamp?: number | undefined;
+  errorMessage?: string | undefined;
+  destinations?: ScheduledQueryDestination[] | undefined;
 }
 export type TriggerHistoryRecordList = TriggerHistoryRecord[];
 export interface GetScheduledQueryHistoryResponse {
-  name?: string;
-  scheduledQueryArn?: string;
-  triggerHistory?: TriggerHistoryRecord[];
-  nextToken?: string;
+  name?: string | undefined;
+  scheduledQueryArn?: string | undefined;
+  triggerHistory?: TriggerHistoryRecord[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetStorageTierPolicyRequest {}
 export type StorageTier = "STANDARD" | "INTELLIGENT_TIERING" | (string & {});
 export interface GetStorageTierPolicyResponse {
-  storageTier?: StorageTier;
-  lastUpdatedTime?: number;
+  storageTier?: StorageTier | undefined;
+  lastUpdatedTime?: number | undefined;
 }
 export interface GetTransformerRequest {
   logGroupIdentifier: string;
@@ -1496,7 +1496,7 @@ export type OverwriteIfExists = boolean;
 export interface AddKeyEntry {
   key: string;
   value: string;
-  overwriteIfExists?: boolean;
+  overwriteIfExists?: boolean | undefined;
 }
 export type AddKeyEntries = AddKeyEntry[];
 export interface AddKeys {
@@ -1507,7 +1507,7 @@ export type Target = string;
 export interface CopyValueEntry {
   source: string;
   target: string;
-  overwriteIfExists?: boolean;
+  overwriteIfExists?: boolean | undefined;
 }
 export type CopyValueEntries = CopyValueEntry[];
 export interface CopyValue {
@@ -1519,11 +1519,11 @@ export type Column = string;
 export type Columns = string[];
 export type DestinationField = string;
 export interface CSV {
-  quoteCharacter?: string;
-  delimiter?: string;
-  columns?: string[];
-  source?: string;
-  destination?: string;
+  quoteCharacter?: string | undefined;
+  delimiter?: string | undefined;
+  columns?: string[] | undefined;
+  source?: string | undefined;
+  destination?: string | undefined;
 }
 export type TargetFormat = string;
 export type MatchPattern = string;
@@ -1534,11 +1534,11 @@ export type Locale = string;
 export interface DateTimeConverter {
   source: string;
   target: string;
-  targetFormat?: string;
+  targetFormat?: string | undefined;
   matchPatterns: string[];
-  sourceTimezone?: string;
-  targetTimezone?: string;
-  locale?: string;
+  sourceTimezone?: string | undefined;
+  targetTimezone?: string | undefined;
+  locale?: string | undefined;
 }
 export type WithKey = string;
 export type DeleteWithKeys = string[];
@@ -1547,7 +1547,7 @@ export interface DeleteKeys {
 }
 export type GrokMatch = string;
 export interface Grok {
-  source?: string;
+  source?: string | undefined;
   match: string;
 }
 export type ValueKey = string;
@@ -1556,10 +1556,10 @@ export type FlattenedElement = "first" | "last" | (string & {});
 export interface ListToMap {
   source: string;
   key: string;
-  valueKey?: string;
-  target?: string;
-  flatten?: boolean;
-  flattenedElement?: FlattenedElement;
+  valueKey?: string | undefined;
+  target?: string | undefined;
+  flatten?: boolean | undefined;
+  flattenedElement?: FlattenedElement | undefined;
 }
 export type LowerCaseStringWithKeys = string[];
 export interface LowerCaseString {
@@ -1568,34 +1568,34 @@ export interface LowerCaseString {
 export interface MoveKeyEntry {
   source: string;
   target: string;
-  overwriteIfExists?: boolean;
+  overwriteIfExists?: boolean | undefined;
 }
 export type MoveKeyEntries = MoveKeyEntry[];
 export interface MoveKeys {
   entries: MoveKeyEntry[];
 }
 export interface ParseCloudfront {
-  source?: string;
+  source?: string | undefined;
 }
 export interface ParseJSON {
-  source?: string;
-  destination?: string;
+  source?: string | undefined;
+  destination?: string | undefined;
 }
 export type ParserFieldDelimiter = string;
 export type KeyValueDelimiter = string;
 export type KeyPrefix = string;
 export type NonMatchValue = string;
 export interface ParseKeyValue {
-  source?: string;
-  destination?: string;
-  fieldDelimiter?: string;
-  keyValueDelimiter?: string;
-  keyPrefix?: string;
-  nonMatchValue?: string;
-  overwriteIfExists?: boolean;
+  source?: string | undefined;
+  destination?: string | undefined;
+  fieldDelimiter?: string | undefined;
+  keyValueDelimiter?: string | undefined;
+  keyPrefix?: string | undefined;
+  nonMatchValue?: string | undefined;
+  overwriteIfExists?: boolean | undefined;
 }
 export interface ParseRoute53 {
-  source?: string;
+  source?: string | undefined;
 }
 export type EventSource =
   | "CloudTrail"
@@ -1607,25 +1607,25 @@ export type EventSource =
 export type OCSFVersion = "V1.1" | "V1.5" | (string & {});
 export type MappingVersion = string;
 export interface ParseToOCSF {
-  source?: string;
+  source?: string | undefined;
   eventSource: EventSource;
   ocsfVersion: OCSFVersion;
-  mappingVersion?: string;
+  mappingVersion?: string | undefined;
 }
 export interface ParsePostgres {
-  source?: string;
+  source?: string | undefined;
 }
 export interface ParseVPC {
-  source?: string;
+  source?: string | undefined;
 }
 export interface ParseWAF {
-  source?: string;
+  source?: string | undefined;
 }
 export type RenameTo = string;
 export interface RenameKeyEntry {
   key: string;
   renameTo: string;
-  overwriteIfExists?: boolean;
+  overwriteIfExists?: boolean | undefined;
 }
 export type RenameKeyEntries = RenameKeyEntry[];
 export interface RenameKeys {
@@ -1669,41 +1669,41 @@ export interface UpperCaseString {
   withKeys: string[];
 }
 export interface Processor {
-  addKeys?: AddKeys;
-  copyValue?: CopyValue;
-  csv?: CSV;
-  dateTimeConverter?: DateTimeConverter;
-  deleteKeys?: DeleteKeys;
-  grok?: Grok;
-  listToMap?: ListToMap;
-  lowerCaseString?: LowerCaseString;
-  moveKeys?: MoveKeys;
-  parseCloudfront?: ParseCloudfront;
-  parseJSON?: ParseJSON;
-  parseKeyValue?: ParseKeyValue;
-  parseRoute53?: ParseRoute53;
-  parseToOCSF?: ParseToOCSF;
-  parsePostgres?: ParsePostgres;
-  parseVPC?: ParseVPC;
-  parseWAF?: ParseWAF;
-  renameKeys?: RenameKeys;
-  splitString?: SplitString;
-  substituteString?: SubstituteString;
-  trimString?: TrimString;
-  typeConverter?: TypeConverter;
-  upperCaseString?: UpperCaseString;
+  addKeys?: AddKeys | undefined;
+  copyValue?: CopyValue | undefined;
+  csv?: CSV | undefined;
+  dateTimeConverter?: DateTimeConverter | undefined;
+  deleteKeys?: DeleteKeys | undefined;
+  grok?: Grok | undefined;
+  listToMap?: ListToMap | undefined;
+  lowerCaseString?: LowerCaseString | undefined;
+  moveKeys?: MoveKeys | undefined;
+  parseCloudfront?: ParseCloudfront | undefined;
+  parseJSON?: ParseJSON | undefined;
+  parseKeyValue?: ParseKeyValue | undefined;
+  parseRoute53?: ParseRoute53 | undefined;
+  parseToOCSF?: ParseToOCSF | undefined;
+  parsePostgres?: ParsePostgres | undefined;
+  parseVPC?: ParseVPC | undefined;
+  parseWAF?: ParseWAF | undefined;
+  renameKeys?: RenameKeys | undefined;
+  splitString?: SplitString | undefined;
+  substituteString?: SubstituteString | undefined;
+  trimString?: TrimString | undefined;
+  typeConverter?: TypeConverter | undefined;
+  upperCaseString?: UpperCaseString | undefined;
 }
 export type Processors = Processor[];
 export interface GetTransformerResponse {
-  logGroupIdentifier?: string;
-  creationTime?: number;
-  lastModifiedTime?: number;
-  transformerConfig?: Processor[];
+  logGroupIdentifier?: string | undefined;
+  creationTime?: number | undefined;
+  lastModifiedTime?: number | undefined;
+  transformerConfig?: Processor[] | undefined;
 }
 export type LogGroupNameRegexPattern = string;
 export interface DataSourceFilter {
   name: string;
-  type?: string;
+  type?: string | undefined;
 }
 export type DataSourceFilters = DataSourceFilter[];
 export type ListAggregateLogGroupSummariesGroupBy =
@@ -1712,39 +1712,39 @@ export type ListAggregateLogGroupSummariesGroupBy =
   | (string & {});
 export type ListLogGroupsRequestLimit = number;
 export interface ListAggregateLogGroupSummariesRequest {
-  accountIdentifiers?: string[];
-  includeLinkedAccounts?: boolean;
-  logGroupClass?: LogGroupClass;
-  logGroupNamePattern?: string;
-  dataSources?: DataSourceFilter[];
+  accountIdentifiers?: string[] | undefined;
+  includeLinkedAccounts?: boolean | undefined;
+  logGroupClass?: LogGroupClass | undefined;
+  logGroupNamePattern?: string | undefined;
+  dataSources?: DataSourceFilter[] | undefined;
   groupBy: ListAggregateLogGroupSummariesGroupBy;
-  nextToken?: string;
-  limit?: number;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
 }
 export type LogGroupCount = number;
 export type GroupingIdentifierKey = string;
 export type GroupingIdentifierValue = string;
 export interface GroupingIdentifier {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type GroupingIdentifiers = GroupingIdentifier[];
 export interface AggregateLogGroupSummary {
-  logGroupCount?: number;
-  groupingIdentifiers?: GroupingIdentifier[];
+  logGroupCount?: number | undefined;
+  groupingIdentifiers?: GroupingIdentifier[] | undefined;
 }
 export type AggregateLogGroupSummaries = AggregateLogGroupSummary[];
 export interface ListAggregateLogGroupSummariesResponse {
-  aggregateLogGroupSummaries?: AggregateLogGroupSummary[];
-  nextToken?: string;
+  aggregateLogGroupSummaries?: AggregateLogGroupSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SuppressionState = "SUPPRESSED" | "UNSUPPRESSED" | (string & {});
 export type ListAnomaliesLimit = number;
 export interface ListAnomaliesRequest {
-  anomalyDetectorArn?: string;
-  suppressionState?: SuppressionState;
-  limit?: number;
-  nextToken?: string;
+  anomalyDetectorArn?: string | undefined;
+  suppressionState?: SuppressionState | undefined;
+  limit?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type AnomalyId = string;
 export type PatternId = string;
@@ -1756,8 +1756,8 @@ export type State = "Active" | "Suppressed" | "Baseline" | (string & {});
 export type Count = number;
 export type Histogram = { [key: string]: number | undefined };
 export interface LogEvent {
-  timestamp?: number;
-  message?: string;
+  timestamp?: number | undefined;
+  message?: string | undefined;
 }
 export type LogSamples = LogEvent[];
 export type DynamicTokenPosition = number;
@@ -1766,11 +1766,11 @@ export type TokenValue = number;
 export type Enumerations = { [key: string]: number | undefined };
 export type InferredTokenName = string;
 export interface PatternToken {
-  dynamicTokenPosition?: number;
-  isDynamic?: boolean;
-  tokenString?: string;
-  enumerations?: { [key: string]: number | undefined };
-  inferredTokenName?: string;
+  dynamicTokenPosition?: number | undefined;
+  isDynamic?: boolean | undefined;
+  tokenString?: string | undefined;
+  enumerations?: { [key: string]: number | undefined } | undefined;
+  inferredTokenName?: string | undefined;
 }
 export type PatternTokens = PatternToken[];
 export interface Anomaly {
@@ -1778,8 +1778,8 @@ export interface Anomaly {
   patternId: string;
   anomalyDetectorArn: string;
   patternString: string;
-  patternRegex?: string;
-  priority?: string;
+  patternRegex?: string | undefined;
+  priority?: string | undefined;
   firstSeen: number;
   lastSeen: number;
   description: string;
@@ -1789,53 +1789,53 @@ export interface Anomaly {
   logSamples: LogEvent[];
   patternTokens: PatternToken[];
   logGroupArnList: string[];
-  suppressed?: boolean;
-  suppressedDate?: number;
-  suppressedUntil?: number;
-  isPatternLevelSuppression?: boolean;
+  suppressed?: boolean | undefined;
+  suppressedDate?: number | undefined;
+  suppressedUntil?: number | undefined;
+  isPatternLevelSuppression?: boolean | undefined;
 }
 export type Anomalies = Anomaly[];
 export interface ListAnomaliesResponse {
-  anomalies?: Anomaly[];
-  nextToken?: string;
+  anomalies?: Anomaly[] | undefined;
+  nextToken?: string | undefined;
 }
 export type IntegrationNamePrefix = string;
 export interface ListIntegrationsRequest {
-  integrationNamePrefix?: string;
-  integrationType?: IntegrationType;
-  integrationStatus?: IntegrationStatus;
+  integrationNamePrefix?: string | undefined;
+  integrationType?: IntegrationType | undefined;
+  integrationStatus?: IntegrationStatus | undefined;
 }
 export interface IntegrationSummary {
-  integrationName?: string;
-  integrationType?: IntegrationType;
-  integrationStatus?: IntegrationStatus;
+  integrationName?: string | undefined;
+  integrationType?: IntegrationType | undefined;
+  integrationStatus?: IntegrationStatus | undefined;
 }
 export type IntegrationSummaries = IntegrationSummary[];
 export interface ListIntegrationsResponse {
-  integrationSummaries?: IntegrationSummary[];
+  integrationSummaries?: IntegrationSummary[] | undefined;
 }
 export type ListLogAnomalyDetectorsLimit = number;
 export interface ListLogAnomalyDetectorsRequest {
-  filterLogGroupArn?: string;
-  limit?: number;
-  nextToken?: string;
+  filterLogGroupArn?: string | undefined;
+  limit?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AnomalyDetector {
-  anomalyDetectorArn?: string;
-  detectorName?: string;
-  logGroupArnList?: string[];
-  evaluationFrequency?: EvaluationFrequency;
-  filterPattern?: string;
-  anomalyDetectorStatus?: AnomalyDetectorStatus;
-  kmsKeyId?: string;
-  creationTimeStamp?: number;
-  lastModifiedTimeStamp?: number;
-  anomalyVisibilityTime?: number;
+  anomalyDetectorArn?: string | undefined;
+  detectorName?: string | undefined;
+  logGroupArnList?: string[] | undefined;
+  evaluationFrequency?: EvaluationFrequency | undefined;
+  filterPattern?: string | undefined;
+  anomalyDetectorStatus?: AnomalyDetectorStatus | undefined;
+  kmsKeyId?: string | undefined;
+  creationTimeStamp?: number | undefined;
+  lastModifiedTimeStamp?: number | undefined;
+  anomalyVisibilityTime?: number | undefined;
 }
 export type AnomalyDetectors = AnomalyDetector[];
 export interface ListLogAnomalyDetectorsResponse {
-  anomalyDetectors?: AnomalyDetector[];
-  nextToken?: string;
+  anomalyDetectors?: AnomalyDetector[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListLimit = number;
 export type FieldIndexNames = string[];
@@ -1844,71 +1844,71 @@ export type TagFilterValue = string;
 export type TagFilterValues = string[];
 export interface TagFilter {
   key: string;
-  values?: string[];
+  values?: string[] | undefined;
 }
 export type TagFilters = TagFilter[];
 export interface ListLogGroupsRequest {
-  logGroupNamePattern?: string;
-  logGroupClass?: LogGroupClass;
-  includeLinkedAccounts?: boolean;
-  accountIdentifiers?: string[];
-  nextToken?: string;
-  limit?: number;
-  dataSources?: DataSourceFilter[];
-  fieldIndexNames?: string[];
-  logGroupTags?: TagFilter[];
+  logGroupNamePattern?: string | undefined;
+  logGroupClass?: LogGroupClass | undefined;
+  includeLinkedAccounts?: boolean | undefined;
+  accountIdentifiers?: string[] | undefined;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
+  dataSources?: DataSourceFilter[] | undefined;
+  fieldIndexNames?: string[] | undefined;
+  logGroupTags?: TagFilter[] | undefined;
 }
 export interface LogGroupSummary {
-  logGroupName?: string;
-  logGroupArn?: string;
-  logGroupClass?: LogGroupClass;
+  logGroupName?: string | undefined;
+  logGroupArn?: string | undefined;
+  logGroupClass?: LogGroupClass | undefined;
 }
 export type LogGroupSummaries = LogGroupSummary[];
 export interface ListLogGroupsResponse {
-  logGroups?: LogGroupSummary[];
-  nextToken?: string;
+  logGroups?: LogGroupSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListLogGroupsForQueryMaxResults = number;
 export interface ListLogGroupsForQueryRequest {
   queryId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type LogGroupIdentifiers = string[];
 export interface ListLogGroupsForQueryResponse {
-  logGroupIdentifiers?: string[];
-  nextToken?: string;
+  logGroupIdentifiers?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListScheduledQueriesMaxResults = number;
 export interface ListScheduledQueriesRequest {
-  maxResults?: number;
-  nextToken?: string;
-  state?: ScheduledQueryState;
-  scheduleType?: ScheduleType;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  state?: ScheduledQueryState | undefined;
+  scheduleType?: ScheduleType | undefined;
 }
 export interface ScheduledQuerySummary {
-  scheduledQueryArn?: string;
-  name?: string;
-  state?: ScheduledQueryState;
-  scheduleType?: ScheduleType;
-  lastTriggeredTime?: number;
-  lastExecutionStatus?: ExecutionStatus;
-  scheduleExpression?: string;
-  timezone?: string;
-  destinationConfiguration?: DestinationConfiguration;
-  creationTime?: number;
-  lastUpdatedTime?: number;
+  scheduledQueryArn?: string | undefined;
+  name?: string | undefined;
+  state?: ScheduledQueryState | undefined;
+  scheduleType?: ScheduleType | undefined;
+  lastTriggeredTime?: number | undefined;
+  lastExecutionStatus?: ExecutionStatus | undefined;
+  scheduleExpression?: string | undefined;
+  timezone?: string | undefined;
+  destinationConfiguration?: DestinationConfiguration | undefined;
+  creationTime?: number | undefined;
+  lastUpdatedTime?: number | undefined;
 }
 export type ScheduledQuerySummaryList = ScheduledQuerySummary[];
 export interface ListScheduledQueriesResponse {
-  nextToken?: string;
-  scheduledQueries?: ScheduledQuerySummary[];
+  nextToken?: string | undefined;
+  scheduledQueries?: ScheduledQuerySummary[] | undefined;
 }
 export type ListSourcesForS3TableIntegrationMaxResults = number;
 export interface ListSourcesForS3TableIntegrationRequest {
   integrationArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type S3TableIntegrationSourceStatus =
   | "ACTIVE"
@@ -1918,59 +1918,59 @@ export type S3TableIntegrationSourceStatus =
   | (string & {});
 export type S3TableIntegrationSourceStatusReason = string;
 export interface S3TableIntegrationSource {
-  identifier?: string;
-  dataSource?: DataSource;
-  status?: S3TableIntegrationSourceStatus;
-  statusReason?: string;
-  createdTimeStamp?: number;
-  parentSourceIdentifier?: string;
+  identifier?: string | undefined;
+  dataSource?: DataSource | undefined;
+  status?: S3TableIntegrationSourceStatus | undefined;
+  statusReason?: string | undefined;
+  createdTimeStamp?: number | undefined;
+  parentSourceIdentifier?: string | undefined;
 }
 export type S3TableIntegrationSources = S3TableIntegrationSource[];
 export interface ListSourcesForS3TableIntegrationResponse {
-  sources?: S3TableIntegrationSource[];
-  nextToken?: string;
+  sources?: S3TableIntegrationSource[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListSyslogConfigurationsMaxResults = number;
 export interface ListSyslogConfigurationsRequest {
-  logGroupIdentifier?: string;
-  vpcEndpointId?: string;
-  nextToken?: string;
-  maxResults?: number;
+  logGroupIdentifier?: string | undefined;
+  vpcEndpointId?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type SyslogSourceType = "VPCE" | (string & {});
 export interface SyslogConfiguration {
-  logGroupArn?: string;
-  sourceType?: SyslogSourceType;
-  vpcEndpointId?: string;
-  createdAt?: number;
+  logGroupArn?: string | undefined;
+  sourceType?: SyslogSourceType | undefined;
+  vpcEndpointId?: string | undefined;
+  createdAt?: number | undefined;
 }
 export type SyslogConfigurations = SyslogConfiguration[];
 export interface ListSyslogConfigurationsResponse {
-  syslogConfigurations?: SyslogConfiguration[];
-  nextToken?: string;
+  syslogConfigurations?: SyslogConfiguration[] | undefined;
+  nextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTagsLogGroupRequest {
   logGroupName: string;
 }
 export interface ListTagsLogGroupResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutAccountPolicyRequest {
   policyName: string;
   policyDocument: string;
   policyType: PolicyType;
-  scope?: Scope;
-  selectionCriteria?: string;
+  scope?: Scope | undefined;
+  selectionCriteria?: string | undefined;
 }
 export interface PutAccountPolicyResponse {
-  accountPolicy?: AccountPolicy;
+  accountPolicy?: AccountPolicy | undefined;
 }
 export interface PutBearerTokenAuthenticationRequest {
   logGroupIdentifier: string;
@@ -1982,52 +1982,52 @@ export interface PutDataProtectionPolicyRequest {
   policyDocument: string;
 }
 export interface PutDataProtectionPolicyResponse {
-  logGroupIdentifier?: string;
-  policyDocument?: string;
-  lastUpdatedTime?: number;
+  logGroupIdentifier?: string | undefined;
+  policyDocument?: string | undefined;
+  lastUpdatedTime?: number | undefined;
 }
 export interface PutDeliveryDestinationRequest {
   name: string;
-  outputFormat?: OutputFormat;
-  deliveryDestinationConfiguration?: DeliveryDestinationConfiguration;
-  deliveryDestinationType?: DeliveryDestinationType;
-  roleArn?: string;
-  tags?: { [key: string]: string | undefined };
+  outputFormat?: OutputFormat | undefined;
+  deliveryDestinationConfiguration?: DeliveryDestinationConfiguration | undefined;
+  deliveryDestinationType?: DeliveryDestinationType | undefined;
+  roleArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutDeliveryDestinationResponse {
-  deliveryDestination?: DeliveryDestination;
+  deliveryDestination?: DeliveryDestination | undefined;
 }
 export interface PutDeliveryDestinationPolicyRequest {
   deliveryDestinationName: string;
   deliveryDestinationPolicy: string;
 }
 export interface PutDeliveryDestinationPolicyResponse {
-  policy?: Policy;
+  policy?: Policy | undefined;
 }
 export interface PutDeliverySourceRequest {
   name: string;
   resourceArn: string;
   logType: string;
-  tags?: { [key: string]: string | undefined };
-  deliverySourceConfiguration?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
+  deliverySourceConfiguration?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutDeliverySourceResponse {
-  deliverySource?: DeliverySource;
+  deliverySource?: DeliverySource | undefined;
 }
 export interface PutDestinationRequest {
   destinationName: string;
   targetArn: string;
   roleArn: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutDestinationResponse {
-  destination?: Destination;
+  destination?: Destination | undefined;
 }
 export type ForceUpdate = boolean;
 export interface PutDestinationPolicyRequest {
   destinationName: string;
   accessPolicy: string;
-  forceUpdate?: boolean;
+  forceUpdate?: boolean | undefined;
 }
 export interface PutDestinationPolicyResponse {}
 export interface PutIndexPolicyRequest {
@@ -2035,15 +2035,15 @@ export interface PutIndexPolicyRequest {
   policyDocument: string;
 }
 export interface PutIndexPolicyResponse {
-  indexPolicy?: IndexPolicy;
+  indexPolicy?: IndexPolicy | undefined;
 }
 export type DashboardViewerPrincipals = string[];
 export type CollectionRetentionDays = number;
 export interface OpenSearchResourceConfig {
-  kmsKeyArn?: string;
+  kmsKeyArn?: string | undefined;
   dataSourceRoleArn: string;
   dashboardViewerPrincipals: string[];
-  applicationArn?: string;
+  applicationArn?: string | undefined;
   retentionDays: number;
 }
 export type ResourceConfig = { openSearchResourceConfig: OpenSearchResourceConfig };
@@ -2053,8 +2053,8 @@ export interface PutIntegrationRequest {
   integrationType: IntegrationType;
 }
 export interface PutIntegrationResponse {
-  integrationName?: string;
-  integrationStatus?: IntegrationStatus;
+  integrationName?: string | undefined;
+  integrationStatus?: IntegrationStatus | undefined;
 }
 export interface InputLogEvent {
   timestamp: number;
@@ -2068,21 +2068,21 @@ export type EntityAttributesKey = string;
 export type EntityAttributesValue = string;
 export type EntityAttributes = { [key: string]: string | undefined };
 export interface Entity {
-  keyAttributes?: { [key: string]: string | undefined };
-  attributes?: { [key: string]: string | undefined };
+  keyAttributes?: { [key: string]: string | undefined } | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutLogEventsRequest {
   logGroupName: string;
   logStreamName: string;
   logEvents: InputLogEvent[];
-  sequenceToken?: string;
-  entity?: Entity;
+  sequenceToken?: string | undefined;
+  entity?: Entity | undefined;
 }
 export type LogEventIndex = number;
 export interface RejectedLogEventsInfo {
-  tooNewLogEventStartIndex?: number;
-  tooOldLogEventEndIndex?: number;
-  expiredLogEventEndIndex?: number;
+  tooNewLogEventStartIndex?: number | undefined;
+  tooOldLogEventEndIndex?: number | undefined;
+  expiredLogEventEndIndex?: number | undefined;
 }
 export type EntityRejectionErrorType =
   | "InvalidEntity"
@@ -2097,9 +2097,9 @@ export interface RejectedEntityInfo {
   errorType: EntityRejectionErrorType;
 }
 export interface PutLogEventsResponse {
-  nextSequenceToken?: string;
-  rejectedLogEventsInfo?: RejectedLogEventsInfo;
-  rejectedEntityInfo?: RejectedEntityInfo;
+  nextSequenceToken?: string | undefined;
+  rejectedLogEventsInfo?: RejectedLogEventsInfo | undefined;
+  rejectedEntityInfo?: RejectedEntityInfo | undefined;
 }
 export interface PutLogGroupDeletionProtectionRequest {
   logGroupIdentifier: string;
@@ -2111,33 +2111,33 @@ export interface PutMetricFilterRequest {
   filterName: string;
   filterPattern: string;
   metricTransformations: MetricTransformation[];
-  applyOnTransformedLogs?: boolean;
-  fieldSelectionCriteria?: string;
-  emitSystemFieldDimensions?: string[];
+  applyOnTransformedLogs?: boolean | undefined;
+  fieldSelectionCriteria?: string | undefined;
+  emitSystemFieldDimensions?: string[] | undefined;
 }
 export interface PutMetricFilterResponse {}
 export type ClientToken = string;
 export interface PutQueryDefinitionRequest {
-  queryLanguage?: QueryLanguage;
+  queryLanguage?: QueryLanguage | undefined;
   name: string;
-  queryDefinitionId?: string;
-  logGroupNames?: string[];
+  queryDefinitionId?: string | undefined;
+  logGroupNames?: string[] | undefined;
   queryString: string;
-  clientToken?: string;
-  parameters?: QueryParameter[];
+  clientToken?: string | undefined;
+  parameters?: QueryParameter[] | undefined;
 }
 export interface PutQueryDefinitionResponse {
-  queryDefinitionId?: string;
+  queryDefinitionId?: string | undefined;
 }
 export interface PutResourcePolicyRequest {
-  policyName?: string;
-  policyDocument?: string;
-  resourceArn?: string;
-  expectedRevisionId?: string;
+  policyName?: string | undefined;
+  policyDocument?: string | undefined;
+  resourceArn?: string | undefined;
+  expectedRevisionId?: string | undefined;
 }
 export interface PutResourcePolicyResponse {
-  resourcePolicy?: ResourcePolicy;
-  revisionId?: string;
+  resourcePolicy?: ResourcePolicy | undefined;
+  revisionId?: string | undefined;
 }
 export interface PutRetentionPolicyRequest {
   logGroupName: string;
@@ -2148,24 +2148,24 @@ export interface PutStorageTierPolicyRequest {
   storageTier: StorageTier;
 }
 export interface PutStorageTierPolicyResponse {
-  storageTier?: StorageTier;
-  lastUpdatedTime?: number;
+  storageTier?: StorageTier | undefined;
+  lastUpdatedTime?: number | undefined;
 }
 export interface PutSubscriptionFilterRequest {
   logGroupName: string;
   filterName: string;
   filterPattern: string;
   destinationArn: string;
-  roleArn?: string;
-  distribution?: Distribution;
-  applyOnTransformedLogs?: boolean;
-  fieldSelectionCriteria?: string;
-  emitSystemFields?: string[];
+  roleArn?: string | undefined;
+  distribution?: Distribution | undefined;
+  applyOnTransformedLogs?: boolean | undefined;
+  fieldSelectionCriteria?: string | undefined;
+  emitSystemFields?: string[] | undefined;
 }
 export interface PutSubscriptionFilterResponse {}
 export interface PutSyslogConfigurationRequest {
   logGroupIdentifier: string;
-  vpcEndpointId?: string;
+  vpcEndpointId?: string | undefined;
 }
 export interface PutSyslogConfigurationResponse {}
 export interface PutTransformerRequest {
@@ -2176,89 +2176,89 @@ export interface PutTransformerResponse {}
 export type StartLiveTailLogGroupIdentifiers = string[];
 export interface StartLiveTailRequest {
   logGroupIdentifiers: string[];
-  logStreamNames?: string[];
-  logStreamNamePrefixes?: string[];
-  logEventFilterPattern?: string;
+  logStreamNames?: string[] | undefined;
+  logStreamNamePrefixes?: string[] | undefined;
+  logEventFilterPattern?: string | undefined;
 }
 export type RequestId = string;
 export type SessionId = string;
 export interface LiveTailSessionStart {
-  requestId?: string;
-  sessionId?: string;
-  logGroupIdentifiers?: string[];
-  logStreamNames?: string[];
-  logStreamNamePrefixes?: string[];
-  logEventFilterPattern?: string;
+  requestId?: string | undefined;
+  sessionId?: string | undefined;
+  logGroupIdentifiers?: string[] | undefined;
+  logStreamNames?: string[] | undefined;
+  logStreamNamePrefixes?: string[] | undefined;
+  logEventFilterPattern?: string | undefined;
 }
 export type IsSampled = boolean;
 export interface LiveTailSessionMetadata {
-  sampled?: boolean;
+  sampled?: boolean | undefined;
 }
 export interface LiveTailSessionLogEvent {
-  logStreamName?: string;
-  logGroupIdentifier?: string;
-  message?: string;
-  timestamp?: number;
-  ingestionTime?: number;
+  logStreamName?: string | undefined;
+  logGroupIdentifier?: string | undefined;
+  message?: string | undefined;
+  timestamp?: number | undefined;
+  ingestionTime?: number | undefined;
 }
 export type LiveTailSessionResults = LiveTailSessionLogEvent[];
 export interface LiveTailSessionUpdate {
-  sessionMetadata?: LiveTailSessionMetadata;
-  sessionResults?: LiveTailSessionLogEvent[];
+  sessionMetadata?: LiveTailSessionMetadata | undefined;
+  sessionResults?: LiveTailSessionLogEvent[] | undefined;
 }
 export interface SessionTimeoutException {
-  message?: string;
+  message?: string | undefined;
 }
 export interface SessionStreamingException {
-  message?: string;
+  message?: string | undefined;
 }
 export type StartLiveTailResponseStream =
   | {
       sessionStart: LiveTailSessionStart;
-      sessionUpdate?: never;
-      SessionTimeoutException?: never;
-      SessionStreamingException?: never;
+      sessionUpdate?: undefined;
+      SessionTimeoutException?: undefined;
+      SessionStreamingException?: undefined;
     }
   | {
-      sessionStart?: never;
+      sessionStart?: undefined;
       sessionUpdate: LiveTailSessionUpdate;
-      SessionTimeoutException?: never;
-      SessionStreamingException?: never;
+      SessionTimeoutException?: undefined;
+      SessionStreamingException?: undefined;
     }
   | {
-      sessionStart?: never;
-      sessionUpdate?: never;
+      sessionStart?: undefined;
+      sessionUpdate?: undefined;
       SessionTimeoutException: SessionTimeoutException;
-      SessionStreamingException?: never;
+      SessionStreamingException?: undefined;
     }
   | {
-      sessionStart?: never;
-      sessionUpdate?: never;
-      SessionTimeoutException?: never;
+      sessionStart?: undefined;
+      sessionUpdate?: undefined;
+      SessionTimeoutException?: undefined;
       SessionStreamingException: SessionStreamingException;
     };
 export interface StartLiveTailResponse {
-  responseStream?: stream.Stream<StartLiveTailResponseStream, Error, never>;
+  responseStream?: stream.Stream<StartLiveTailResponseStream, Error, never> | undefined;
 }
 export type EventsLimitStartQuery = number;
 export interface StartQueryRequest {
-  queryLanguage?: QueryLanguage;
-  logGroupName?: string;
-  logGroupNames?: string[];
-  logGroupIdentifiers?: string[];
+  queryLanguage?: QueryLanguage | undefined;
+  logGroupName?: string | undefined;
+  logGroupNames?: string[] | undefined;
+  logGroupIdentifiers?: string[] | undefined;
   startTime: number;
   endTime: number;
   queryString: string;
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface StartQueryResponse {
-  queryId?: string;
+  queryId?: string | undefined;
 }
 export interface StopQueryRequest {
   queryId: string;
 }
 export interface StopQueryResponse {
-  success?: boolean;
+  success?: boolean | undefined;
 }
 export interface TagLogGroupRequest {
   logGroupName: string;
@@ -2279,13 +2279,13 @@ export type EventNumber = number;
 export type Token = string;
 export type ExtractedValues = { [key: string]: string | undefined };
 export interface MetricFilterMatchRecord {
-  eventNumber?: number;
-  eventMessage?: string;
-  extractedValues?: { [key: string]: string | undefined };
+  eventNumber?: number | undefined;
+  eventMessage?: string | undefined;
+  extractedValues?: { [key: string]: string | undefined } | undefined;
 }
 export type MetricFilterMatches = MetricFilterMatchRecord[];
 export interface TestMetricFilterResponse {
-  matches?: MetricFilterMatchRecord[];
+  matches?: MetricFilterMatchRecord[] | undefined;
 }
 export interface TestTransformerRequest {
   transformerConfig: Processor[];
@@ -2293,13 +2293,13 @@ export interface TestTransformerRequest {
 }
 export type TransformedEventMessage = string;
 export interface TransformedLogRecord {
-  eventNumber?: number;
-  eventMessage?: string;
-  transformedEventMessage?: string;
+  eventNumber?: number | undefined;
+  eventMessage?: string | undefined;
+  transformedEventMessage?: string | undefined;
 }
 export type TransformedLogs = TransformedLogRecord[];
 export interface TestTransformerResponse {
-  transformedLogs?: TransformedLogRecord[];
+  transformedLogs?: TransformedLogRecord[] | undefined;
 }
 export type TagList = string[];
 export interface UntagLogGroupRequest {
@@ -2316,91 +2316,91 @@ export interface UntagResourceResponse {}
 export type SuppressionType = "LIMITED" | "INFINITE" | (string & {});
 export type SuppressionUnit = "SECONDS" | "MINUTES" | "HOURS" | (string & {});
 export interface SuppressionPeriod {
-  value?: number;
-  suppressionUnit?: SuppressionUnit;
+  value?: number | undefined;
+  suppressionUnit?: SuppressionUnit | undefined;
 }
 export type Baseline = boolean;
 export interface UpdateAnomalyRequest {
-  anomalyId?: string;
-  patternId?: string;
+  anomalyId?: string | undefined;
+  patternId?: string | undefined;
   anomalyDetectorArn: string;
-  suppressionType?: SuppressionType;
-  suppressionPeriod?: SuppressionPeriod;
-  baseline?: boolean;
+  suppressionType?: SuppressionType | undefined;
+  suppressionPeriod?: SuppressionPeriod | undefined;
+  baseline?: boolean | undefined;
 }
 export interface UpdateAnomalyResponse {}
 export interface UpdateDeliveryConfigurationRequest {
   id: string;
-  recordFields?: string[];
-  fieldDelimiter?: string;
-  s3DeliveryConfiguration?: S3DeliveryConfiguration;
+  recordFields?: string[] | undefined;
+  fieldDelimiter?: string | undefined;
+  s3DeliveryConfiguration?: S3DeliveryConfiguration | undefined;
 }
 export interface UpdateDeliveryConfigurationResponse {}
 export interface UpdateLogAnomalyDetectorRequest {
   anomalyDetectorArn: string;
-  evaluationFrequency?: EvaluationFrequency;
-  filterPattern?: string;
-  anomalyVisibilityTime?: number;
+  evaluationFrequency?: EvaluationFrequency | undefined;
+  filterPattern?: string | undefined;
+  anomalyVisibilityTime?: number | undefined;
   enabled: boolean;
 }
 export interface UpdateLogAnomalyDetectorResponse {}
 export interface UpdateLookupTableRequest {
   lookupTableArn: string;
-  description?: string;
-  tableBody?: string;
-  queryId?: string;
-  kmsKeyId?: string;
+  description?: string | undefined;
+  tableBody?: string | undefined;
+  queryId?: string | undefined;
+  kmsKeyId?: string | undefined;
 }
 export interface UpdateLookupTableResponse {
-  lookupTableArn?: string;
-  lastUpdatedTime?: number;
+  lookupTableArn?: string | undefined;
+  lastUpdatedTime?: number | undefined;
 }
 export interface UpdateScheduledQueryRequest {
   identifier: string;
-  description?: string;
+  description?: string | undefined;
   queryLanguage: QueryLanguage;
   queryString: string;
-  logGroupIdentifiers?: string[];
+  logGroupIdentifiers?: string[] | undefined;
   scheduleExpression: string;
-  timezone?: string;
-  startTimeOffset?: number;
-  endTimeOffset?: number;
-  destinationConfiguration?: DestinationConfiguration;
-  scheduleStartTime?: number;
-  scheduleEndTime?: number;
+  timezone?: string | undefined;
+  startTimeOffset?: number | undefined;
+  endTimeOffset?: number | undefined;
+  destinationConfiguration?: DestinationConfiguration | undefined;
+  scheduleStartTime?: number | undefined;
+  scheduleEndTime?: number | undefined;
   executionRoleArn: string;
-  state?: ScheduledQueryState;
+  state?: ScheduledQueryState | undefined;
 }
 export interface UpdateScheduledQueryResponse {
-  scheduledQueryArn?: string;
-  name?: string;
-  description?: string;
-  queryLanguage?: QueryLanguage;
-  queryString?: string;
-  logGroupIdentifiers?: string[];
-  scheduleExpression?: string;
-  timezone?: string;
-  startTimeOffset?: number;
-  endTimeOffset?: number;
-  destinationConfiguration?: DestinationConfiguration;
-  state?: ScheduledQueryState;
-  scheduleType?: ScheduleType;
-  lastTriggeredTime?: number;
-  lastExecutionStatus?: ExecutionStatus;
-  scheduleStartTime?: number;
-  scheduleEndTime?: number;
-  executionRoleArn?: string;
-  creationTime?: number;
-  lastUpdatedTime?: number;
+  scheduledQueryArn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  queryLanguage?: QueryLanguage | undefined;
+  queryString?: string | undefined;
+  logGroupIdentifiers?: string[] | undefined;
+  scheduleExpression?: string | undefined;
+  timezone?: string | undefined;
+  startTimeOffset?: number | undefined;
+  endTimeOffset?: number | undefined;
+  destinationConfiguration?: DestinationConfiguration | undefined;
+  state?: ScheduledQueryState | undefined;
+  scheduleType?: ScheduleType | undefined;
+  lastTriggeredTime?: number | undefined;
+  lastExecutionStatus?: ExecutionStatus | undefined;
+  scheduleStartTime?: number | undefined;
+  scheduleEndTime?: number | undefined;
+  executionRoleArn?: string | undefined;
+  creationTime?: number | undefined;
+  lastUpdatedTime?: number | undefined;
 }
 export type QueryCharOffset = number;
 export interface QueryCompileErrorLocation {
-  startCharOffset?: number;
-  endCharOffset?: number;
+  startCharOffset?: number | undefined;
+  endCharOffset?: number | undefined;
 }
 export interface QueryCompileError {
-  location?: QueryCompileErrorLocation;
-  message?: string;
+  location?: QueryCompileErrorLocation | undefined;
+  message?: string | undefined;
 }
 export type AssociateKmsKeyError =
   | InvalidParameterException

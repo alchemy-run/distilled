@@ -78,6 +78,7 @@ const CORE_GROUPS: Record<string, string[]> = {
     "config",
     "pagination",
     "retry",
+    "sdk-error",
     "trait",
     "response-validation",
     "response-validation-strict",
