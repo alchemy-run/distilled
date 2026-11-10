@@ -567,6 +567,12 @@
     },
     {
       "path": "./packages/notion/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/npm/tsconfig.json"
+    },
+    {
+      "path": "./packages/npm/tsconfig.scripts.json"
     }
   ]
 }
